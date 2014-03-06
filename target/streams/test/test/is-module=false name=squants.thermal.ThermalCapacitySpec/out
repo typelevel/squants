@@ -1,9 +1,0 @@
-[0m[[0minfo[0m] [0m[32mThermalCapacitySpec:[0m[0m
-[0m[[0minfo[0m] [0m[32mThermalCapacity and its Units of Measure[0m[0m
-[0m[[0minfo[0m] [0m[32m- should create values using UOM factories[0m[0m
-[0m[[0minfo[0m] [0m[32m- should properly convert to all supported Units of Measure[0m[0m
-[0m[[0minfo[0m] [0m[32m- should return properly formatted strings for all supported Units of Measure[0m[0m
-[0m[[0minfo[0m] [0m[32m- should return Energy when multiplied by Temperature[0m[0m
-[0m[[0minfo[0m] [0m[32mThermalCapacityConversions[0m[0m
-[0m[[0minfo[0m] [0m[32m- should provide aliases for single unit values[0m[0m
-[0m[[0minfo[0m] [0m[32m- should implicit conversion from Double[0m[0m

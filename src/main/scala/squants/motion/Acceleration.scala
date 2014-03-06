@@ -93,7 +93,7 @@ object UsMilesPerHourSquared extends AccelerationUnit {
  */
 object EarthGravities extends AccelerationUnit {
   val changeUnit = MetersPerSecond
-  val change = squants.StandardEarthGravity * Seconds(1)
+  val change = squants.motion.StandardEarthGravity * Seconds(1)
   val timeUnit = Seconds
   val time = Seconds(1)
   val symbol = "g"

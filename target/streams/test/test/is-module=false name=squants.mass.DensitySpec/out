@@ -1,6 +1,0 @@
-[0m[[0minfo[0m] [0m[32mDensitySpec:[0m[0m
-[0m[[0minfo[0m] [0m[32mDensity and its Units of Measure[0m[0m
-[0m[[0minfo[0m] [0m[32m- should create values using UOM factories[0m[0m
-[0m[[0minfo[0m] [0m[32m- should properly convert to all supported Units of Measure[0m[0m
-[0m[[0minfo[0m] [0m[32m- should return properly formatted strings for all supported Units of Measure[0m[0m
-[0m[[0minfo[0m] [0m[32m- should return Mass when multiplied by Volume[0m[0m

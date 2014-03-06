@@ -1,5 +1,0 @@
-[0m[[0minfo[0m] [0m+ Radio.Power = Irradiance * Area: OK, passed 100 tests.[0m
-[0m[[0minfo[0m] [0m+ Radio.RadiantIntensity = Radiance * Area: OK, passed 100 tests.[0m
-[0m[[0minfo[0m] [0m+ Radio.Power = RadiantIntensity * SolidAngle: OK, passed 100 tests.[0m
-[0m[[0minfo[0m] [0m+ Radio.RadiantIntensity = SpectralIntensity * Length: OK, passed 100 tests.[0m
-[0m[[0minfo[0m] [0m+ Radio.Power = SpectralPower * Length: OK, passed 100 tests.[0m

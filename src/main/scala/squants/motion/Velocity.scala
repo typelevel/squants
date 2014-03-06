@@ -58,6 +58,8 @@ trait VelocityUnit extends UnitOfMeasure[Velocity] {
   def unapply(velocity: Velocity) = Some(velocity.to(this))
 }
 
+case class Direction(x: Double, y: Double, z: Double)
+
 object FeetPerSecond extends VelocityUnit {
   val distanceUnit = Feet
   val timeInterval = Seconds(1)

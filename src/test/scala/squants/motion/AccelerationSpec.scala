@@ -35,7 +35,7 @@ class AccelerationSpec extends FlatSpec with Matchers {
     assert(x.toMetersPerSecondSquared == 1)
     assert(x.toFeetPerSecondSquared == Meters(1).toFeet)
     assert(x.toUsMilesPerHourSquared == Meters(1).toUsMiles / (Seconds(1).toHours * Seconds(1).toHours))
-    assert(x.toEarthGravities == 1d / squants.StandardEarthGravity.toMetersPerSecondSquared)
+    assert(x.toEarthGravities == 1d / squants.motion.StandardEarthGravity.toMetersPerSecondSquared)
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
