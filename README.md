@@ -20,8 +20,8 @@ Add squants to your sbt project dependencies
     libraryDependencies += "com.github.garyKeorkunian" %% "squants" % "0.1-SNAPSHOT"
 
 ## Overview
-Squants is a framework of data types and a Domain Specific Language for representing Quantities,
-their Units of Measure, and their Dimensional interactions.
+Squants is a framework of data types and a domain specific language (DSL) for representing Quantities,
+their Units of Measure, and their Dimensional relationships.
 The API supports typesafe dimensional analysis, improved domain models and more.
 All types are immutable and thread-safe.
 
@@ -138,6 +138,10 @@ val yenAmount: Money = rate * someBucks 		// returns JPY(2350)
 ```
 
 ### Money Context
+A MoneyContext can be implicitly declared to define default settings and applicable exchange rates.
+This allows your application to work with a default currency based on an application configuration.
+It also provides support for dynamically updating exchange rates and using those rates for automatic conversions between currencies.
+The technique and frequency chosen for exchange rate updates is completely in control of the application.
 ```scala
 implicit val moneyContext = MoneyContext(defCur, curList, exchangeRates)
 val someMoney = Money(350) // 350 in the default Cur
@@ -250,7 +254,8 @@ Squants currently supports over 120 units of measure
 
 ### Dimensional Analysis
 
-The primary use case for Squants is to produce code that is type safe with in domains that perform dimensional analysis.
+The primary use case for Squants, as described above, is to produce code that is typesafe with in domains
+that perform dimensional analysis.
 ```scala
 val energyPrice: Price[Energy] = 45.25.money / megawattHour
 val energyUsage: Energy = 345.kilowatts * 5.4.hours
