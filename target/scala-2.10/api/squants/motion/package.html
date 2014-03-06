@@ -1,0 +1,1024 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+        <head>
+          <title>motion - squants.motion</title>
+          <meta name="description" content="motion - squants.motion" />
+          <meta name="keywords" content="motion squants.motion" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript">
+         if(top === self) {
+            var url = '../../index.html';
+            var hash = 'squants.motion.package';
+            var anchor = window.location.hash;
+            var anchor_opt = '';
+            if (anchor.length >= 1)
+              anchor_opt = '@' + anchor.substring(1);
+            window.location.href = url + '#' + hash + anchor_opt;
+         }
+   	  </script>
+    
+        </head>
+        <body class="value">
+      <div id="definition">
+        <img src="../../lib/package_big.png" />
+        <p id="owner"><a href="../package.html" class="extype" name="squants">squants</a></p>
+        <h1>motion</h1>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <span class="name">motion</span>
+      </span>
+      </h4>
+      
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"></div><dl class="attributes block"> <dt>Since</dt><dd><p>0.1</p></dd></dl><div class="toggleContainer block">
+          <span class="toggle">Linear Supertypes</span>
+          <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+        </div></div>
+        
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input id="mbrsel-input" type="text" accesskey="/" /></span><span class="post"></span></div>
+        <div id="order">
+              <span class="filtertype">Ordering</span>
+              <ol>
+                
+                <li class="alpha in"><span>Alphabetic</span></li>
+                <li class="inherit out"><span>By inheritance</span></li>
+              </ol>
+            </div>
+        <div id="ancestors">
+                <span class="filtertype">Inherited<br />
+                </span>
+                <ol id="linearization">
+                  <li class="in" name="squants.motion"><span>motion</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                </ol>
+              </div><div id="ancestors">
+            <span class="filtertype"></span>
+            <ol>
+              <li class="hideall out"><span>Hide All</span></li>
+              <li class="showall in"><span>Show all</span></li>
+            </ol>
+            <a href="http://docs.scala-lang.org/overviews/scaladoc/usage.html#members" target="_blank">Learn more about member selection</a>
+          </div>
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        <div id="types" class="types members">
+              <h3>Type Members</h3>
+              <ol><li name="squants.motion.Acceleration" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="AccelerationextendsQuantity[squants.motion.Acceleration]withTimeDerivative[squants.motion.Velocity]withTimeIntegral[squants.motion.Jerk]withProductwithSerializable"></a>
+      <a id="Acceleration:Acceleration"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="Acceleration.html"><span class="name">Acceleration</span></a><span class="params">(<span name="change">change: <a href="Velocity.html" class="extype" name="squants.motion.Velocity">Velocity</a></span>, <span name="time">time: <a href="../package.html#Time=squants.time.Time" class="extmbr" name="squants.Time">Time</a></span>)</span><span class="result"> extends <a href="../Quantity.html" class="extype" name="squants.Quantity">Quantity</a>[<a href="Acceleration.html" class="extype" name="squants.motion.Acceleration">Acceleration</a>] with <a href="../time/TimeDerivative.html" class="extype" name="squants.time.TimeDerivative">TimeDerivative</a>[<a href="Velocity.html" class="extype" name="squants.motion.Velocity">Velocity</a>] with <a href="../time/TimeIntegral.html" class="extype" name="squants.time.TimeIntegral">TimeIntegral</a>[<a href="Jerk.html" class="extype" name="squants.motion.Jerk">Jerk</a>] with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">Represents a quantity of acceleration
+</p>
+    </li><li name="squants.motion.AccelerationUnit" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="AccelerationUnitextendsUnitOfMeasure[squants.motion.Acceleration]"></a>
+      <a id="AccelerationUnit:AccelerationUnit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="AccelerationUnit.html"><span class="name">AccelerationUnit</span></a><span class="result"> extends <a href="../UnitOfMeasure.html" class="extype" name="squants.UnitOfMeasure">UnitOfMeasure</a>[<a href="Acceleration.html" class="extype" name="squants.motion.Acceleration">Acceleration</a>]</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Base trait for units of <a href="Acceleration.html" class="extype" name="squants.motion.Acceleration">squants.motion.Acceleration</a>
+</p>
+    </li><li name="squants.motion.AngularVelocity" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="AngularVelocityextendsQuantity[squants.motion.AngularVelocity]withProductwithSerializable"></a>
+      <a id="AngularVelocity:AngularVelocity"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="AngularVelocity.html"><span class="name">AngularVelocity</span></a><span class="params">(<span name="angle">angle: <a href="../package.html#Angle=squants.space.Angle" class="extmbr" name="squants.Angle">Angle</a></span>, <span name="time">time: <a href="../package.html#Time=squants.time.Time" class="extmbr" name="squants.Time">Time</a></span>)</span><span class="result"> extends <a href="../Quantity.html" class="extype" name="squants.Quantity">Quantity</a>[<a href="AngularVelocity.html" class="extype" name="squants.motion.AngularVelocity">AngularVelocity</a>] with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt"></p>
+    </li><li name="squants.motion.AngularVelocityUnit" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="AngularVelocityUnitextendsUnitOfMeasure[squants.motion.AngularVelocity]"></a>
+      <a id="AngularVelocityUnit:AngularVelocityUnit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="AngularVelocityUnit.html"><span class="name">AngularVelocityUnit</span></a><span class="result"> extends <a href="../UnitOfMeasure.html" class="extype" name="squants.UnitOfMeasure">UnitOfMeasure</a>[<a href="AngularVelocity.html" class="extype" name="squants.motion.AngularVelocity">AngularVelocity</a>]</span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.Direction" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="DirectionextendsProductwithSerializable"></a>
+      <a id="Direction:Direction"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="Direction.html"><span class="name">Direction</span></a><span class="params">(<span name="x">x: <span class="extype" name="scala.Double">Double</span></span>, <span name="y">y: <span class="extype" name="scala.Double">Double</span></span>, <span name="z">z: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.Distance" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="Distance=squants.space.Length"></a>
+      <a id="Distance:Distance"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">Distance</span><span class="result"> = <a href="../space/Length.html" class="extype" name="squants.space.Length">space.Length</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.DistanceUnit" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="DistanceUnit=squants.space.LengthUnit"></a>
+      <a id="DistanceUnit:DistanceUnit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">DistanceUnit</span><span class="result"> = <a href="../space/LengthUnit.html" class="extype" name="squants.space.LengthUnit">LengthUnit</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.Force" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ForceextendsQuantity[squants.motion.Force]withTimeDerivative[squants.motion.Momentum]withTimeIntegral[squants.motion.Yank]withProductwithSerializable"></a>
+      <a id="Force:Force"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="Force.html"><span class="name">Force</span></a><span class="params">(<span name="mass">mass: <a href="../package.html#Mass=squants.mass.Mass" class="extmbr" name="squants.Mass">Mass</a></span>, <span name="acc">acc: <a href="Acceleration.html" class="extype" name="squants.motion.Acceleration">Acceleration</a></span>)</span><span class="result"> extends <a href="../Quantity.html" class="extype" name="squants.Quantity">Quantity</a>[<a href="Force.html" class="extype" name="squants.motion.Force">Force</a>] with <a href="../time/TimeDerivative.html" class="extype" name="squants.time.TimeDerivative">TimeDerivative</a>[<a href="Momentum.html" class="extype" name="squants.motion.Momentum">Momentum</a>] with <a href="../time/TimeIntegral.html" class="extype" name="squants.time.TimeIntegral">TimeIntegral</a>[<a href="Yank.html" class="extype" name="squants.motion.Yank">Yank</a>] with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt"></p>
+    </li><li name="squants.motion.ForceUnit" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ForceUnitextendsUnitOfMeasure[squants.motion.Force]"></a>
+      <a id="ForceUnit:ForceUnit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ForceUnit.html"><span class="name">ForceUnit</span></a><span class="result"> extends <a href="../UnitOfMeasure.html" class="extype" name="squants.UnitOfMeasure">UnitOfMeasure</a>[<a href="Force.html" class="extype" name="squants.motion.Force">Force</a>]</span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.Jerk" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="JerkextendsQuantity[squants.motion.Jerk]withTimeDerivative[squants.motion.Acceleration]withProductwithSerializable"></a>
+      <a id="Jerk:Jerk"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="Jerk.html"><span class="name">Jerk</span></a><span class="params">(<span name="change">change: <a href="Acceleration.html" class="extype" name="squants.motion.Acceleration">Acceleration</a></span>, <span name="time">time: <a href="../package.html#Time=squants.time.Time" class="extmbr" name="squants.Time">Time</a></span>)</span><span class="result"> extends <a href="../Quantity.html" class="extype" name="squants.Quantity">Quantity</a>[<a href="Jerk.html" class="extype" name="squants.motion.Jerk">Jerk</a>] with <a href="../time/TimeDerivative.html" class="extype" name="squants.time.TimeDerivative">TimeDerivative</a>[<a href="Acceleration.html" class="extype" name="squants.motion.Acceleration">Acceleration</a>] with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">Represents the third time derivative of position after Velocity and Acceleration
+</p>
+    </li><li name="squants.motion.JerkUnit" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="JerkUnitextendsUnitOfMeasure[squants.motion.Jerk]"></a>
+      <a id="JerkUnit:JerkUnit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="JerkUnit.html"><span class="name">JerkUnit</span></a><span class="result"> extends <a href="../UnitOfMeasure.html" class="extype" name="squants.UnitOfMeasure">UnitOfMeasure</a>[<a href="Jerk.html" class="extype" name="squants.motion.Jerk">Jerk</a>]</span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.MassFlowRate" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="MassFlowRateextendsQuantity[squants.motion.MassFlowRate]withTimeDerivative[squants.Mass]withProductwithSerializable"></a>
+      <a id="MassFlowRate:MassFlowRate"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="MassFlowRate.html"><span class="name">MassFlowRate</span></a><span class="params">(<span name="mass">mass: <a href="../package.html#Mass=squants.mass.Mass" class="extmbr" name="squants.Mass">Mass</a></span>, <span name="time">time: <a href="../package.html#Time=squants.time.Time" class="extmbr" name="squants.Time">Time</a></span>)</span><span class="result"> extends <a href="../Quantity.html" class="extype" name="squants.Quantity">Quantity</a>[<a href="MassFlowRate.html" class="extype" name="squants.motion.MassFlowRate">MassFlowRate</a>] with <a href="../time/TimeDerivative.html" class="extype" name="squants.time.TimeDerivative">TimeDerivative</a>[<a href="../package.html#Mass=squants.mass.Mass" class="extmbr" name="squants.Mass">Mass</a>] with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt"></p>
+    </li><li name="squants.motion.MassFlowRateUnit" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="MassFlowRateUnitextendsUnitOfMeasure[squants.motion.MassFlowRate]"></a>
+      <a id="MassFlowRateUnit:MassFlowRateUnit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="MassFlowRateUnit.html"><span class="name">MassFlowRateUnit</span></a><span class="result"> extends <a href="../UnitOfMeasure.html" class="extype" name="squants.UnitOfMeasure">UnitOfMeasure</a>[<a href="MassFlowRate.html" class="extype" name="squants.motion.MassFlowRate">MassFlowRate</a>]</span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.Momentum" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="MomentumextendsQuantity[squants.motion.Momentum]withTimeIntegral[squants.motion.Force]withProductwithSerializable"></a>
+      <a id="Momentum:Momentum"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="Momentum.html"><span class="name">Momentum</span></a><span class="params">(<span name="mass">mass: <a href="../package.html#Mass=squants.mass.Mass" class="extmbr" name="squants.Mass">Mass</a></span>, <span name="velocity">velocity: <a href="Velocity.html" class="extype" name="squants.motion.Velocity">Velocity</a></span>)</span><span class="result"> extends <a href="../Quantity.html" class="extype" name="squants.Quantity">Quantity</a>[<a href="Momentum.html" class="extype" name="squants.motion.Momentum">Momentum</a>] with <a href="../time/TimeIntegral.html" class="extype" name="squants.time.TimeIntegral">TimeIntegral</a>[<a href="Force.html" class="extype" name="squants.motion.Force">Force</a>] with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt"></p>
+    </li><li name="squants.motion.MomentumUnit" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="MomentumUnitextendsUnitOfMeasure[squants.motion.Momentum]"></a>
+      <a id="MomentumUnit:MomentumUnit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="MomentumUnit.html"><span class="name">MomentumUnit</span></a><span class="result"> extends <a href="../UnitOfMeasure.html" class="extype" name="squants.UnitOfMeasure">UnitOfMeasure</a>[<a href="Momentum.html" class="extype" name="squants.motion.Momentum">Momentum</a>]</span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.Pressure" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="PressureextendsQuantity[squants.motion.Pressure]withProductwithSerializable"></a>
+      <a id="Pressure:Pressure"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="Pressure.html"><span class="name">Pressure</span></a><span class="params">(<span name="force">force: <a href="Force.html" class="extype" name="squants.motion.Force">Force</a></span>, <span name="area">area: <a href="../package.html#Area=squants.space.Area" class="extmbr" name="squants.Area">Area</a></span>)</span><span class="result"> extends <a href="../Quantity.html" class="extype" name="squants.Quantity">Quantity</a>[<a href="Pressure.html" class="extype" name="squants.motion.Pressure">Pressure</a>] with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt"></p>
+    </li><li name="squants.motion.PressureUnit" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="PressureUnitextendsUnitOfMeasure[squants.motion.Pressure]"></a>
+      <a id="PressureUnit:PressureUnit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="PressureUnit.html"><span class="name">PressureUnit</span></a><span class="result"> extends <a href="../UnitOfMeasure.html" class="extype" name="squants.UnitOfMeasure">UnitOfMeasure</a>[<a href="Pressure.html" class="extype" name="squants.motion.Pressure">Pressure</a>]</span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.Vector" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="VectorextendsAnyRef"></a>
+      <a id="Vector:Vector"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="package$$Vector.html"><span class="name">Vector</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.Velocity" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="VelocityextendsQuantity[squants.motion.Velocity]withTimeDerivative[squants.motion.Distance]withTimeIntegral[squants.motion.Acceleration]withProductwithSerializable"></a>
+      <a id="Velocity:Velocity"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="Velocity.html"><span class="name">Velocity</span></a><span class="params">(<span name="distance">distance: <a href="#Distance=squants.space.Length" class="extmbr" name="squants.motion.Distance">Distance</a></span>, <span name="time">time: <a href="../package.html#Time=squants.time.Time" class="extmbr" name="squants.Time">Time</a></span>, <span name="direction">direction: <span class="extype" name="scala.Option">Option</span>[<a href="Direction.html" class="extype" name="squants.motion.Direction">Direction</a>] = <span class="symbol">scala.None</span></span>)</span><span class="result"> extends <a href="../Quantity.html" class="extype" name="squants.Quantity">Quantity</a>[<a href="Velocity.html" class="extype" name="squants.motion.Velocity">Velocity</a>] with <a href="../time/TimeDerivative.html" class="extype" name="squants.time.TimeDerivative">TimeDerivative</a>[<a href="#Distance=squants.space.Length" class="extmbr" name="squants.motion.Distance">Distance</a>] with <a href="../time/TimeIntegral.html" class="extype" name="squants.time.TimeIntegral">TimeIntegral</a>[<a href="Acceleration.html" class="extype" name="squants.motion.Acceleration">Acceleration</a>] with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">Represents a quantify of Velocity
+</p>
+    </li><li name="squants.motion.VelocityUnit" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="VelocityUnitextendsUnitOfMeasure[squants.motion.Velocity]"></a>
+      <a id="VelocityUnit:VelocityUnit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="VelocityUnit.html"><span class="name">VelocityUnit</span></a><span class="result"> extends <a href="../UnitOfMeasure.html" class="extype" name="squants.UnitOfMeasure">UnitOfMeasure</a>[<a href="Velocity.html" class="extype" name="squants.motion.Velocity">Velocity</a>]</span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.VolumeFlowRate" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="VolumeFlowRateextendsQuantity[squants.motion.VolumeFlowRate]withTimeDerivative[squants.Volume]withProductwithSerializable"></a>
+      <a id="VolumeFlowRate:VolumeFlowRate"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="VolumeFlowRate.html"><span class="name">VolumeFlowRate</span></a><span class="params">(<span name="volume">volume: <a href="../package.html#Volume=squants.space.Volume" class="extmbr" name="squants.Volume">Volume</a></span>, <span name="time">time: <a href="../package.html#Time=squants.time.Time" class="extmbr" name="squants.Time">Time</a></span>)</span><span class="result"> extends <a href="../Quantity.html" class="extype" name="squants.Quantity">Quantity</a>[<a href="VolumeFlowRate.html" class="extype" name="squants.motion.VolumeFlowRate">VolumeFlowRate</a>] with <a href="../time/TimeDerivative.html" class="extype" name="squants.time.TimeDerivative">TimeDerivative</a>[<a href="../package.html#Volume=squants.space.Volume" class="extmbr" name="squants.Volume">Volume</a>] with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt"></p>
+    </li><li name="squants.motion.VolumeFlowRateUnit" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="VolumeFlowRateUnitextendsUnitOfMeasure[squants.motion.VolumeFlowRate]"></a>
+      <a id="VolumeFlowRateUnit:VolumeFlowRateUnit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="VolumeFlowRateUnit.html"><span class="name">VolumeFlowRateUnit</span></a><span class="result"> extends <a href="../UnitOfMeasure.html" class="extype" name="squants.UnitOfMeasure">UnitOfMeasure</a>[<a href="VolumeFlowRate.html" class="extype" name="squants.motion.VolumeFlowRate">VolumeFlowRate</a>]</span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.Yank" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="YankextendsQuantity[squants.motion.Yank]withTimeDerivative[squants.motion.Force]withProductwithSerializable"></a>
+      <a id="Yank:Yank"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="Yank.html"><span class="name">Yank</span></a><span class="params">(<span name="force">force: <a href="Force.html" class="extype" name="squants.motion.Force">Force</a></span>, <span name="time">time: <a href="../package.html#Time=squants.time.Time" class="extmbr" name="squants.Time">Time</a></span>)</span><span class="result"> extends <a href="../Quantity.html" class="extype" name="squants.Quantity">Quantity</a>[<a href="Yank.html" class="extype" name="squants.motion.Yank">Yank</a>] with <a href="../time/TimeDerivative.html" class="extype" name="squants.time.TimeDerivative">TimeDerivative</a>[<a href="Force.html" class="extype" name="squants.motion.Force">Force</a>] with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt"></p>
+    </li><li name="squants.motion.YankUnit" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="YankUnitextendsUnitOfMeasure[squants.motion.Yank]"></a>
+      <a id="YankUnit:YankUnit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="YankUnit.html"><span class="name">YankUnit</span></a><span class="result"> extends <a href="../UnitOfMeasure.html" class="extype" name="squants.UnitOfMeasure">UnitOfMeasure</a>[<a href="Yank.html" class="extype" name="squants.motion.Yank">Yank</a>]</span>
+      </span>
+      </h4>
+      
+    </li></ol>
+            </div>
+
+        
+
+        <div id="values" class="values members">
+              <h3>Value Members</h3>
+              <ol><li name="squants.motion.AccelerationConversions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="AccelerationConversions"></a>
+      <a id="AccelerationConversions:AccelerationConversions"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="AccelerationConversions$.html"><span class="name">AccelerationConversions</span></a>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.Bars" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="Bars"></a>
+      <a id="Bars:Bars"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="Bars$.html"><span class="name">Bars</span></a><span class="result"> extends <a href="PressureUnit.html" class="extype" name="squants.motion.PressureUnit">PressureUnit</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.CubicMetersPerSecond" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="CubicMetersPerSecond"></a>
+      <a id="CubicMetersPerSecond:CubicMetersPerSecond"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="CubicMetersPerSecond$.html"><span class="name">CubicMetersPerSecond</span></a><span class="result"> extends <a href="VolumeFlowRateUnit.html" class="extype" name="squants.motion.VolumeFlowRateUnit">VolumeFlowRateUnit</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.DegreesPerSecond" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="DegreesPerSecond"></a>
+      <a id="DegreesPerSecond:DegreesPerSecond"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="DegreesPerSecond$.html"><span class="name">DegreesPerSecond</span></a><span class="result"> extends <a href="AngularVelocityUnit.html" class="extype" name="squants.motion.AngularVelocityUnit">AngularVelocityUnit</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.package#Down" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="Down:squants.motion.Direction"></a>
+      <a id="Down:Direction"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">lazy val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">Down</span><span class="result">: <a href="Direction.html" class="extype" name="squants.motion.Direction">Direction</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.EarthGravities" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="EarthGravities"></a>
+      <a id="EarthGravities:EarthGravities"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="EarthGravities$.html"><span class="name">EarthGravities</span></a><span class="result"> extends <a href="AccelerationUnit.html" class="extype" name="squants.motion.AccelerationUnit">AccelerationUnit</a></span>
+      </span>
+      </h4>
+      <p class="comment cmt">Represents acceleration in Earth gravities also knows as G-Force, or g's
+</p>
+    </li><li name="squants.motion.package#East" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="East:squants.motion.Direction"></a>
+      <a id="East:Direction"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">lazy val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">East</span><span class="result">: <a href="Direction.html" class="extype" name="squants.motion.Direction">Direction</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.package#EquatorGravity" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="EquatorGravity:squants.motion.Acceleration"></a>
+      <a id="EquatorGravity:Acceleration"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">lazy val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">EquatorGravity</span><span class="result">: <a href="Acceleration.html" class="extype" name="squants.motion.Acceleration">Acceleration</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.FeetPerSecond" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="FeetPerSecond"></a>
+      <a id="FeetPerSecond:FeetPerSecond"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="FeetPerSecond$.html"><span class="name">FeetPerSecond</span></a><span class="result"> extends <a href="VelocityUnit.html" class="extype" name="squants.motion.VelocityUnit">VelocityUnit</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.FeetPerSecondCubed" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="FeetPerSecondCubed"></a>
+      <a id="FeetPerSecondCubed:FeetPerSecondCubed"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="FeetPerSecondCubed$.html"><span class="name">FeetPerSecondCubed</span></a><span class="result"> extends <a href="JerkUnit.html" class="extype" name="squants.motion.JerkUnit">JerkUnit</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.FeetPerSecondSquared" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="FeetPerSecondSquared"></a>
+      <a id="FeetPerSecondSquared:FeetPerSecondSquared"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="FeetPerSecondSquared$.html"><span class="name">FeetPerSecondSquared</span></a><span class="result"> extends <a href="AccelerationUnit.html" class="extype" name="squants.motion.AccelerationUnit">AccelerationUnit</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.ForceConversions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ForceConversions"></a>
+      <a id="ForceConversions:ForceConversions"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="ForceConversions$.html"><span class="name">ForceConversions</span></a>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.GallonsPerDay" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="GallonsPerDay"></a>
+      <a id="GallonsPerDay:GallonsPerDay"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="GallonsPerDay$.html"><span class="name">GallonsPerDay</span></a><span class="result"> extends <a href="VolumeFlowRateUnit.html" class="extype" name="squants.motion.VolumeFlowRateUnit">VolumeFlowRateUnit</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.GallonsPerHour" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="GallonsPerHour"></a>
+      <a id="GallonsPerHour:GallonsPerHour"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="GallonsPerHour$.html"><span class="name">GallonsPerHour</span></a><span class="result"> extends <a href="VolumeFlowRateUnit.html" class="extype" name="squants.motion.VolumeFlowRateUnit">VolumeFlowRateUnit</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.GallonsPerMinute" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="GallonsPerMinute"></a>
+      <a id="GallonsPerMinute:GallonsPerMinute"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="GallonsPerMinute$.html"><span class="name">GallonsPerMinute</span></a><span class="result"> extends <a href="VolumeFlowRateUnit.html" class="extype" name="squants.motion.VolumeFlowRateUnit">VolumeFlowRateUnit</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.GradsPerSecond" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="GradsPerSecond"></a>
+      <a id="GradsPerSecond:GradsPerSecond"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="GradsPerSecond$.html"><span class="name">GradsPerSecond</span></a><span class="result"> extends <a href="AngularVelocityUnit.html" class="extype" name="squants.motion.AngularVelocityUnit">AngularVelocityUnit</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.InternationalMilesPerHour" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="InternationalMilesPerHour"></a>
+      <a id="InternationalMilesPerHour:InternationalMilesPerHour"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="InternationalMilesPerHour$.html"><span class="name">InternationalMilesPerHour</span></a><span class="result"> extends <a href="VelocityUnit.html" class="extype" name="squants.motion.VelocityUnit">VelocityUnit</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.KilogramForce" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="KilogramForce"></a>
+      <a id="KilogramForce:KilogramForce"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="KilogramForce$.html"><span class="name">KilogramForce</span></a><span class="result"> extends <a href="ForceUnit.html" class="extype" name="squants.motion.ForceUnit">ForceUnit</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.KilogramsPerSecond" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="KilogramsPerSecond"></a>
+      <a id="KilogramsPerSecond:KilogramsPerSecond"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="KilogramsPerSecond$.html"><span class="name">KilogramsPerSecond</span></a><span class="result"> extends <a href="MassFlowRateUnit.html" class="extype" name="squants.motion.MassFlowRateUnit">MassFlowRateUnit</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.KilometersPerHour" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="KilometersPerHour"></a>
+      <a id="KilometersPerHour:KilometersPerHour"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="KilometersPerHour$.html"><span class="name">KilometersPerHour</span></a><span class="result"> extends <a href="VelocityUnit.html" class="extype" name="squants.motion.VelocityUnit">VelocityUnit</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.Knots" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="Knots"></a>
+      <a id="Knots:Knots"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="Knots$.html"><span class="name">Knots</span></a><span class="result"> extends <a href="VelocityUnit.html" class="extype" name="squants.motion.VelocityUnit">VelocityUnit</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.MetersPerSecond" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="MetersPerSecond"></a>
+      <a id="MetersPerSecond:MetersPerSecond"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="MetersPerSecond$.html"><span class="name">MetersPerSecond</span></a><span class="result"> extends <a href="VelocityUnit.html" class="extype" name="squants.motion.VelocityUnit">VelocityUnit</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.MetersPerSecondCubed" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="MetersPerSecondCubed"></a>
+      <a id="MetersPerSecondCubed:MetersPerSecondCubed"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="MetersPerSecondCubed$.html"><span class="name">MetersPerSecondCubed</span></a><span class="result"> extends <a href="JerkUnit.html" class="extype" name="squants.motion.JerkUnit">JerkUnit</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.MetersPerSecondSquared" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="MetersPerSecondSquared"></a>
+      <a id="MetersPerSecondSquared:MetersPerSecondSquared"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="MetersPerSecondSquared$.html"><span class="name">MetersPerSecondSquared</span></a><span class="result"> extends <a href="AccelerationUnit.html" class="extype" name="squants.motion.AccelerationUnit">AccelerationUnit</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.MomentumConversions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="MomentumConversions"></a>
+      <a id="MomentumConversions:MomentumConversions"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="MomentumConversions$.html"><span class="name">MomentumConversions</span></a>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.NewtonSeconds" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="NewtonSeconds"></a>
+      <a id="NewtonSeconds:NewtonSeconds"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="NewtonSeconds$.html"><span class="name">NewtonSeconds</span></a><span class="result"> extends <a href="MomentumUnit.html" class="extype" name="squants.motion.MomentumUnit">MomentumUnit</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.Newtons" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="Newtons"></a>
+      <a id="Newtons:Newtons"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="Newtons$.html"><span class="name">Newtons</span></a><span class="result"> extends <a href="ForceUnit.html" class="extype" name="squants.motion.ForceUnit">ForceUnit</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.NewtonsPerSecond" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="NewtonsPerSecond"></a>
+      <a id="NewtonsPerSecond:NewtonsPerSecond"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="NewtonsPerSecond$.html"><span class="name">NewtonsPerSecond</span></a><span class="result"> extends <a href="YankUnit.html" class="extype" name="squants.motion.YankUnit">YankUnit</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.package#North" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="North:squants.motion.Direction"></a>
+      <a id="North:Direction"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">lazy val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">North</span><span class="result">: <a href="Direction.html" class="extype" name="squants.motion.Direction">Direction</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.Pascals" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="Pascals"></a>
+      <a id="Pascals:Pascals"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="Pascals$.html"><span class="name">Pascals</span></a><span class="result"> extends <a href="PressureUnit.html" class="extype" name="squants.motion.PressureUnit">PressureUnit</a> with <a href="../ValueUnit.html" class="extype" name="squants.ValueUnit">ValueUnit</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.package#PoleGravity" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="PoleGravity:squants.motion.Acceleration"></a>
+      <a id="PoleGravity:Acceleration"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">lazy val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">PoleGravity</span><span class="result">: <a href="Acceleration.html" class="extype" name="squants.motion.Acceleration">Acceleration</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.PoundForce" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="PoundForce"></a>
+      <a id="PoundForce:PoundForce"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="PoundForce$.html"><span class="name">PoundForce</span></a><span class="result"> extends <a href="ForceUnit.html" class="extype" name="squants.motion.ForceUnit">ForceUnit</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.PoundsPerSquareInch" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="PoundsPerSquareInch"></a>
+      <a id="PoundsPerSquareInch:PoundsPerSquareInch"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="PoundsPerSquareInch$.html"><span class="name">PoundsPerSquareInch</span></a><span class="result"> extends <a href="PressureUnit.html" class="extype" name="squants.motion.PressureUnit">PressureUnit</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.PressureConversions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="PressureConversions"></a>
+      <a id="PressureConversions:PressureConversions"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="PressureConversions$.html"><span class="name">PressureConversions</span></a>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.RadiansPerSecond" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="RadiansPerSecond"></a>
+      <a id="RadiansPerSecond:RadiansPerSecond"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="RadiansPerSecond$.html"><span class="name">RadiansPerSecond</span></a><span class="result"> extends <a href="AngularVelocityUnit.html" class="extype" name="squants.motion.AngularVelocityUnit">AngularVelocityUnit</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.package#South" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="South:squants.motion.Direction"></a>
+      <a id="South:Direction"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">lazy val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">South</span><span class="result">: <a href="Direction.html" class="extype" name="squants.motion.Direction">Direction</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.package#SpeedOfLight" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="SpeedOfLight:squants.motion.Velocity"></a>
+      <a id="SpeedOfLight:Velocity"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">lazy val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">SpeedOfLight</span><span class="result">: <a href="Velocity.html" class="extype" name="squants.motion.Velocity">Velocity</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.StandardAtmospheres" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="StandardAtmospheres"></a>
+      <a id="StandardAtmospheres:StandardAtmospheres"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="StandardAtmospheres$.html"><span class="name">StandardAtmospheres</span></a><span class="result"> extends <a href="PressureUnit.html" class="extype" name="squants.motion.PressureUnit">PressureUnit</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.package#StandardEarthGravity" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="StandardEarthGravity:squants.motion.Acceleration"></a>
+      <a id="StandardEarthGravity:Acceleration"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">lazy val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">StandardEarthGravity</span><span class="result">: <a href="Acceleration.html" class="extype" name="squants.motion.Acceleration">Acceleration</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.TurnsPerSecond" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="TurnsPerSecond"></a>
+      <a id="TurnsPerSecond:TurnsPerSecond"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="TurnsPerSecond$.html"><span class="name">TurnsPerSecond</span></a><span class="result"> extends <a href="AngularVelocityUnit.html" class="extype" name="squants.motion.AngularVelocityUnit">AngularVelocityUnit</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.package#Up" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="Up:squants.motion.Direction"></a>
+      <a id="Up:Direction"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">lazy val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">Up</span><span class="result">: <a href="Direction.html" class="extype" name="squants.motion.Direction">Direction</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.UsMilesPerHour" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="UsMilesPerHour"></a>
+      <a id="UsMilesPerHour:UsMilesPerHour"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="UsMilesPerHour$.html"><span class="name">UsMilesPerHour</span></a><span class="result"> extends <a href="VelocityUnit.html" class="extype" name="squants.motion.VelocityUnit">VelocityUnit</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.UsMilesPerHourSquared" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="UsMilesPerHourSquared"></a>
+      <a id="UsMilesPerHourSquared:UsMilesPerHourSquared"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="UsMilesPerHourSquared$.html"><span class="name">UsMilesPerHourSquared</span></a><span class="result"> extends <a href="AccelerationUnit.html" class="extype" name="squants.motion.AccelerationUnit">AccelerationUnit</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.VelocityConversions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="VelocityConversions"></a>
+      <a id="VelocityConversions:VelocityConversions"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="VelocityConversions$.html"><span class="name">VelocityConversions</span></a>
+      </span>
+      </h4>
+      
+    </li><li name="squants.motion.package#West" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="West:squants.motion.Direction"></a>
+      <a id="West:Direction"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">lazy val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">West</span><span class="result">: <a href="Direction.html" class="extype" name="squants.motion.Direction">Direction</a></span>
+      </span>
+      </h4>
+      
+    </li></ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        <div class="parent" name="scala.AnyRef">
+              <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
+            </div><div class="parent" name="scala.Any">
+              <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>
+            </div>
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+      <script defer="defer" type="text/javascript" id="jquery-js" src="../../lib/jquery.js"></script><script defer="defer" type="text/javascript" id="jquery-ui-js" src="../../lib/jquery-ui.js"></script><script defer="defer" type="text/javascript" id="tools-tooltip-js" src="../../lib/tools.tooltip.js"></script><script defer="defer" type="text/javascript" id="template-js" src="../../lib/template.js"></script>
+    </body>
+      </html>
