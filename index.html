@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Squants by garyKeorkunian</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Squants</h1>
+        <h2>The Scala API for Quantities, Units of Measure and Dimensional Analysis</h2>
+        <a href="https://github.com/garyKeorkunian/squants" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>Build and install to your local Ivy cache with sbt publish-local (requires sbt 0.13).</p>
+
+<pre><code>git clone https://github.com/garyKeorkunian/squants
+cd squants
+sbt publish-local
+</code></pre>
+
+<p>Add squants to your sbt project dependencies</p>
+
+<pre><code>libraryDependencies += "com.github.garyKeorkunian" %% "squants" % "0.1-SNAPSHOT"
+</code></pre>
+
+<h2>
+<a name="overview" class="anchor" href="#overview"><span class="octicon octicon-link"></span></a>Overview</h2>
+
+<p>Squants is a framework of data types and a Domain Specific Language for representing Quantities,
+their Units of Measure, and their Dimensional interactions.
+The API supports typesafe dimensional analysis, improved domain models and more.
+All types are immutable and thread-safe.</p>
+
+<h2>
+<a name="better-dimensional-analysis" class="anchor" href="#better-dimensional-analysis"><span class="octicon octicon-link"></span></a>Better Dimensional Analysis</h2>
+
+<p><em>The Trouble with Doubles</em></p>
+
+<p>When using a Double to describe Energy (kWh) and Power (kW), it is possible
+to compile a program that adds these two values together.  This is not appropriate as kW and kWh
+measure two different quantities.  The unit kWh is used to measure an amount of Energy used
+or produced.  The unit kW is used to measure Power/Load, the rate at which Energy is being used
+or produced, that is, Power is the first time derivative of Energy; Power = Energy / Time.</p>
+
+<p>Consider the following code</p>
+
+<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">loadKw</span><span class="k">:</span> <span class="kt">Double</span> <span class="o">=</span> <span class="mf">1.2</span>
+<span class="k">val</span> <span class="n">energyMwh</span><span class="k">:</span> <span class="kt">Double</span> <span class="o">=</span> <span class="mf">24.2</span>
+<span class="k">val</span> <span class="n">sumKw</span> <span class="k">=</span> <span class="n">loadKw</span> <span class="o">+</span> <span class="n">energyMwh</span>
+</pre></div>
+
+<p>which not only adds different quantity types (load vs energy), it also fails to convert the scales (Mega vs Kilo).
+Because this code compiles, detection of these errors is pushed further into the development cycle.</p>
+
+<h3>
+<a name="dimensional-types" class="anchor" href="#dimensional-types"><span class="octicon octicon-link"></span></a>Dimensional Types</h3>
+
+<p>The Squants Type Library and DSL helps prevent errors like these by type checking operations at compile time and
+automatically applying scale and type conversions (see below) at run-time.  For example,</p>
+
+<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">load1</span><span class="k">:</span> <span class="kt">Power</span> <span class="o">=</span> <span class="nc">Kilowatts</span><span class="o">(</span><span class="mi">12</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">load2</span><span class="k">:</span> <span class="kt">Power</span> <span class="o">=</span> <span class="nc">Megawatts</span><span class="o">(</span><span class="mf">0.023</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">sum</span> <span class="k">=</span> <span class="n">load1</span> <span class="o">+</span> <span class="n">load2</span>
+<span class="n">assert</span><span class="o">(</span><span class="n">sum</span> <span class="o">==</span> <span class="nc">Kilowatts</span><span class="o">(</span><span class="mi">35</span><span class="o">))</span>
+<span class="n">assert</span><span class="o">(</span><span class="n">sum</span> <span class="o">==</span> <span class="nc">Megawatts</span><span class="o">(</span><span class="mf">0.035</span><span class="o">))</span>
+</pre></div>
+
+<p>is a valid assertion because Kilowatts and Megawatts are both measures of load.  Only the scale is
+different and the framework applies an appropriate conversion.  Also, notice that keeping track of
+the scale within the value name is no longer needed.</p>
+
+<h3>
+<a name="dimensional-type-safety" class="anchor" href="#dimensional-type-safety"><span class="octicon octicon-link"></span></a>Dimensional Type Safety</h3>
+
+<p>The following code highlights the type safety features.</p>
+
+<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">load</span><span class="k">:</span> <span class="kt">Power</span> <span class="o">=</span> <span class="nc">Kilowatts</span><span class="o">(</span><span class="mf">1.2</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">energy</span><span class="k">:</span> <span class="kt">Energy</span> <span class="o">=</span> <span class="nc">KilowattHours</span><span class="o">(</span><span class="mf">23.0</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">sum</span> <span class="k">=</span> <span class="n">load</span> <span class="o">+</span> <span class="n">energy</span> <span class="c1">// Invalid operation - does not compile</span>
+</pre></div>
+
+<p>The invalid expression prevents the code from compiling, catching the error made when using Double above.</p>
+
+<h3>
+<a name="smart-type-conversions" class="anchor" href="#smart-type-conversions"><span class="octicon octicon-link"></span></a>Smart Type Conversions</h3>
+
+<p>Dimensionally smart type conversions are a key feature of Squants.
+Most conversions are implemented by defining relationships between Quantity types using infix operations.</p>
+
+<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">load</span><span class="k">:</span> <span class="kt">Power</span> <span class="o">=</span> <span class="nc">Kilowatts</span><span class="o">(</span><span class="mf">1.2</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">time</span><span class="k">:</span> <span class="kt">Time</span> <span class="o">=</span> <span class="nc">Hours</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">energyUsed</span><span class="k">:</span> <span class="kt">Energy</span> <span class="o">=</span> <span class="n">load</span> <span class="o">*</span> <span class="n">time</span>
+<span class="n">assert</span><span class="o">(</span><span class="n">energyUsed</span> <span class="o">==</span> <span class="nc">KilowattHours</span><span class="o">(</span><span class="mf">2.4</span><span class="o">))</span>
+</pre></div>
+
+<p>This code demonstrates use of the Power.* method, defined as an infix operator that takes a Time
+value and returns an Energy value, conversely</p>
+
+<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">aveLoad</span><span class="k">:</span> <span class="kt">Power</span> <span class="o">=</span> <span class="n">energyUsed</span> <span class="o">/</span> <span class="n">time</span>
+<span class="n">assert</span><span class="o">(</span><span class="n">aveLoad</span> <span class="o">==</span> <span class="nc">Kilowatts</span><span class="o">(</span><span class="mf">1.2</span><span class="o">)</span>
+</pre></div>
+
+<p>demonstrates use of the Energy./ method that takes a Time and returns a Power</p>
+
+<h3>
+<a name="unit-conversions" class="anchor" href="#unit-conversions"><span class="octicon octicon-link"></span></a>Unit Conversions</h3>
+
+<p>If necessary, the value in the desired unit can be extracted with the
+the <code>to</code> method.</p>
+
+<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">load</span><span class="k">:</span> <span class="kt">Power</span> <span class="o">=</span> <span class="nc">Kilowatts</span><span class="o">(</span><span class="mi">1200</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">mw</span><span class="k">:</span> <span class="kt">Double</span> <span class="o">=</span> <span class="n">load</span> <span class="n">to</span> <span class="nc">Kilowatts</span> <span class="c1">// returns 1200.0 (default method)</span>
+<span class="k">val</span> <span class="n">gw</span><span class="k">:</span> <span class="kt">Double</span> <span class="o">=</span> <span class="n">load</span> <span class="n">to</span> <span class="nc">Gigawatts</span> <span class="c1">// returns 0.0012</span>
+<span class="k">val</span> <span class="n">my</span><span class="k">:</span> <span class="kt">Double</span> <span class="o">=</span> <span class="n">load</span> <span class="n">to</span> <span class="nc">MyPowerUnit</span> <span class="c1">// returns ??? Whatever you want</span>
+<span class="k">val</span> <span class="n">kw</span><span class="k">:</span> <span class="kt">Double</span> <span class="o">=</span> <span class="n">load</span> <span class="n">toKilowatts</span> <span class="c1">// returns 1200.0 (convenience method)</span>
+</pre></div>
+
+<p>Strings formatted in the desired unit is also supported</p>
+
+<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">kw</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="n">load</span> <span class="n">toString</span> <span class="nc">Kilowatts</span> <span class="c1">// returns “1200.0 kW”</span>
+<span class="k">val</span> <span class="n">mw</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="n">load</span> <span class="n">toString</span> <span class="nc">Megawatts</span> <span class="c1">// returns “1.2 MW”</span>
+<span class="k">val</span> <span class="n">gw</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="n">load</span> <span class="n">toString</span> <span class="nc">Gigawatts</span> <span class="c1">// returns “0.0012 GW”</span>
+</pre></div>
+
+<h2>
+<a name="market-package" class="anchor" href="#market-package"><span class="octicon octicon-link"></span></a>Market Package</h2>
+
+<p>Market Types are similar but not quite the same as other quantities in the library.
+The primary type, Money, is derived from Quantity, and its Units of Measure are Currencies.
+However, because the conversion multipliers between units can not be predefined, many of the behaviors have been
+overridden and augmented to realize correct behavior.</p>
+
+<h3>
+<a name="money" class="anchor" href="#money"><span class="octicon octicon-link"></span></a>Money</h3>
+
+<p>A Quantity of purchasing power</p>
+
+<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">tenBucks</span><span class="k">:</span> <span class="kt">Money</span> <span class="o">=</span> <span class="nc">USD</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">someYen</span><span class="k">:</span> <span class="kt">Money</span> <span class="o">=</span> <span class="nc">JPY</span><span class="o">(</span><span class="mi">1200</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">goldStash</span><span class="k">:</span> <span class="kt">Money</span> <span class="o">=</span> <span class="nc">XAU</span><span class="o">(</span><span class="mi">50</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">digitalStash</span><span class="k">:</span> <span class="kt">Money</span> <span class="o">=</span> <span class="nc">BTC</span><span class="o">(</span><span class="mi">50</span><span class="o">)</span>
+</pre></div>
+
+<h3>
+<a name="price" class="anchor" href="#price"><span class="octicon octicon-link"></span></a>Price</h3>
+
+<p>A Ratio between Money and another Quantity</p>
+
+<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">threeForADollar</span><span class="k">:</span> <span class="kt">Price</span><span class="o">[</span><span class="kt">Count</span><span class="o">]</span> <span class="k">=</span> <span class="nc">USD</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span> <span class="o">/</span> <span class="nc">Each</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">energyPrice</span><span class="k">:</span> <span class="kt">Price</span><span class="o">[</span><span class="kt">Energy</span><span class="o">]</span> <span class="k">=</span> <span class="nc">USD</span><span class="o">(</span><span class="mf">102.20</span><span class="o">)</span> <span class="o">/</span> <span class="nc">MegawattHours</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">milkPrice</span><span class="k">:</span> <span class="kt">Price</span><span class="o">[</span><span class="kt">Volume</span><span class="o">]</span> <span class="k">=</span> <span class="nc">USD</span><span class="o">(</span><span class="mi">4</span><span class="o">)</span> <span class="o">/</span> <span class="nc">UsGallons</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="n">costForABunch</span><span class="k">:</span> <span class="kt">Money</span> <span class="o">=</span> <span class="n">threeForADollar</span> <span class="o">*</span> <span class="nc">Dozen</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span> <span class="c1">// returns USD(40)</span>
+<span class="k">val</span> <span class="n">energyCost</span><span class="k">:</span> <span class="kt">Money</span> <span class="o">=</span> <span class="n">energyPrice</span> <span class="o">*</span> <span class="nc">MegawattHours</span><span class="o">(</span><span class="mi">4</span><span class="o">)</span> <span class="c1">// returns USD(408.80)</span>
+<span class="k">val</span> <span class="n">milkQuota</span><span class="k">:</span> <span class="kt">Volume</span> <span class="o">=</span> <span class="n">milkPrice</span> <span class="o">*</span> <span class="nc">USD</span><span class="o">(</span><span class="mi">20</span><span class="o">)</span> <span class="c1">// returns UsGallons(5)</span>
+</pre></div>
+
+<h3>
+<a name="fx-support" class="anchor" href="#fx-support"><span class="octicon octicon-link"></span></a>FX Support</h3>
+
+<p>Currency Exchange Rates</p>
+
+<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">rate</span> <span class="k">=</span> <span class="nc">CurrencyExchangeRate</span><span class="o">(</span><span class="nc">USD</span><span class="o">(</span><span class="mi">1</span><span class="o">),</span> <span class="nc">JPY</span><span class="o">(</span><span class="mi">100</span><span class="o">))</span>
+<span class="k">val</span> <span class="n">someYen</span><span class="k">:</span> <span class="kt">Money</span> <span class="o">=</span> <span class="nc">JPY</span><span class="o">(</span><span class="mi">350</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">dollarAmount</span><span class="k">:</span> <span class="kt">Money</span> <span class="o">=</span> <span class="n">rate</span><span class="o">.</span><span class="n">convert</span><span class="o">(</span><span class="n">someYen</span><span class="o">)</span> <span class="c1">// returns USD(3.5)</span>
+<span class="k">val</span> <span class="n">someBucks</span><span class="k">:</span> <span class="kt">Money</span> <span class="o">=</span> <span class="nc">USD</span><span class="o">(</span><span class="mf">23.50</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">yenAmount</span><span class="k">:</span> <span class="kt">Money</span> <span class="o">=</span> <span class="n">rate</span> <span class="o">*</span> <span class="n">someBucks</span>         <span class="c1">// returns JPY(2350)</span>
+</pre></div>
+
+<h3>
+<a name="money-context" class="anchor" href="#money-context"><span class="octicon octicon-link"></span></a>Money Context</h3>
+
+<div class="highlight highlight-scala"><pre><span class="k">implicit</span> <span class="k">val</span> <span class="n">moneyContext</span> <span class="k">=</span> <span class="nc">MoneyContext</span><span class="o">(</span><span class="n">defCur</span><span class="o">,</span> <span class="n">curList</span><span class="o">,</span> <span class="n">exchangeRates</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">someMoney</span> <span class="k">=</span> <span class="nc">Money</span><span class="o">(</span><span class="mi">350</span><span class="o">)</span> <span class="c1">// 350 in the default Cur</span>
+<span class="k">val</span> <span class="n">usdMoney</span><span class="k">:</span> <span class="kt">Money</span> <span class="o">=</span> <span class="n">someMoney</span> <span class="n">in</span> <span class="nc">USD</span>
+<span class="k">val</span> <span class="n">usdDouble</span><span class="k">:</span> <span class="kt">Double</span> <span class="o">=</span> <span class="n">someMoney</span> <span class="n">to</span> <span class="nc">USD</span>
+<span class="k">val</span> <span class="n">yenCost</span><span class="k">:</span> <span class="kt">Money</span> <span class="o">=</span> <span class="o">(</span><span class="n">energyPrice</span> <span class="o">*</span> <span class="nc">MegawattHours</span><span class="o">(</span><span class="mi">5</span><span class="o">))</span> <span class="n">in</span> <span class="nc">JPY</span>
+<span class="k">val</span> <span class="n">northAmericanSales</span><span class="k">:</span> <span class="kt">Money</span> <span class="o">=</span> <span class="o">(</span><span class="nc">CAD</span><span class="o">(</span><span class="mi">275</span><span class="o">)</span> <span class="o">+</span> <span class="nc">USD</span><span class="o">(</span><span class="mi">350</span><span class="o">)</span> <span class="o">+</span> <span class="nc">MXN</span><span class="o">(</span><span class="mi">290</span><span class="o">))</span> <span class="n">in</span> <span class="nc">USD</span>
+</pre></div>
+
+<h2>
+<a name="quantity-ranges" class="anchor" href="#quantity-ranges"><span class="octicon octicon-link"></span></a>Quantity Ranges</h2>
+
+<p>Used to represent a range of Quantity values between an upper and lower bound</p>
+
+<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">load1</span><span class="k">:</span> <span class="kt">Power</span> <span class="o">=</span> <span class="nc">Kilowatts</span><span class="o">(</span><span class="mi">1000</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">load2</span><span class="k">:</span> <span class="kt">Power</span> <span class="o">=</span> <span class="nc">Kilowatts</span><span class="o">(</span><span class="mi">5000</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">range</span><span class="k">:</span> <span class="kt">QuantityRange</span><span class="o">[</span><span class="kt">Power</span><span class="o">]</span> <span class="k">=</span> <span class="nc">QuantityRange</span><span class="o">(</span><span class="n">load1</span><span class="o">,</span> <span class="n">load2</span><span class="o">)</span>
+</pre></div>
+
+<p>Use multiplication and division to create a Seq of ranges from the original</p>
+
+<div class="highlight highlight-scala"><pre><span class="c1">// Create a Seq of 10 sequential ranges starting with the original and each the same size as the original</span>
+<span class="k">val</span> <span class="n">rs1</span> <span class="k">=</span> <span class="n">range</span> <span class="o">*</span> <span class="mi">10</span>
+<span class="c1">// Create a Seq of 10 sequential ranges each 1/10th of the original size</span>
+<span class="k">val</span> <span class="n">rs2</span> <span class="k">=</span> <span class="n">range</span> <span class="o">/</span> <span class="mi">10</span>
+<span class="c1">// Create a Seq of 10 sequential ranges each with a size of 400 kilowatts</span>
+<span class="k">val</span> <span class="n">rs3</span> <span class="k">=</span> <span class="n">range</span> <span class="o">/</span> <span class="nc">Kilowatts</span><span class="o">(</span><span class="mi">400</span><span class="o">)</span>
+</pre></div>
+
+<p>Apply foreach, map and foldLeft/foldRight directly to QuantityRanges with a divisor</p>
+
+<div class="highlight highlight-scala"><pre><span class="c1">// foreach over each of the 400 kilometer ranges within the range</span>
+<span class="n">range</span><span class="o">.</span><span class="n">foreach</span><span class="o">(</span><span class="nc">Kilometers</span><span class="o">(</span><span class="mi">400</span><span class="o">))</span> <span class="o">{</span><span class="n">r</span> <span class="k">=&gt;</span> <span class="o">???}</span>
+<span class="c1">// map over each of 10 even parts of the range</span>
+<span class="n">range</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span> <span class="o">{</span><span class="n">r</span> <span class="k">=&gt;</span> <span class="o">???}</span>
+<span class="c1">// fold over each 10 even parts of the range</span>
+<span class="n">range</span><span class="o">.</span><span class="n">foldLeft</span><span class="o">(</span><span class="mi">10</span><span class="o">)(</span><span class="mi">0</span><span class="o">)</span> <span class="o">{(</span><span class="n">z</span><span class="o">,</span> <span class="n">r</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="o">???}</span>
+</pre></div>
+
+<h2>
+<a name="natural-language-features" class="anchor" href="#natural-language-features"><span class="octicon octicon-link"></span></a>Natural Language Features</h2>
+
+<p>Implicit conversions give the DSL some features that allows client code to express quantities in a more natural way.</p>
+
+<div class="highlight highlight-scala"><pre><span class="c1">// Create Quantities using Unit Of Measure Factory objects (no implicits required)</span>
+<span class="k">val</span> <span class="n">load</span> <span class="k">=</span> <span class="nc">Kilowatts</span><span class="o">(</span><span class="mi">100</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">time</span> <span class="k">=</span> <span class="nc">Hours</span><span class="o">(</span><span class="mf">3.75</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">money</span> <span class="k">=</span> <span class="nc">USD</span><span class="o">(</span><span class="mf">112.50</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">price</span> <span class="k">=</span> <span class="nc">Price</span><span class="o">(</span><span class="n">money</span><span class="o">,</span> <span class="nc">MegawattHours</span><span class="o">(</span><span class="mi">1</span><span class="o">))</span>
+<span class="c1">// Create Quantities using Unit of Measure names and/or symbols (uses implicits)</span>
+<span class="k">val</span> <span class="n">load1</span> <span class="k">=</span> <span class="mi">100</span> <span class="n">kW</span>          <span class="c1">// Simple expressions don’t need dots</span>
+<span class="k">val</span> <span class="n">load2</span> <span class="k">=</span> <span class="mi">100</span> <span class="n">megaWatts</span>
+<span class="k">val</span> <span class="n">time</span> <span class="k">=</span> <span class="mf">3.</span><span class="n">hours</span> <span class="o">+</span> <span class="mf">45.</span><span class="n">minutes</span> <span class="c1">// Compound expressions may need dots</span>
+<span class="c1">// Create Quantities using operations between other Quantities</span>
+<span class="k">val</span> <span class="n">energyUsed</span> <span class="k">=</span> <span class="mf">100.</span><span class="n">kilowatts</span> <span class="o">*</span> <span class="o">(</span><span class="mf">3.</span><span class="n">hours</span> <span class="o">+</span> <span class="mf">45.</span><span class="n">minutes</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">price</span> <span class="k">=</span> <span class="mf">112.50</span><span class="o">.</span><span class="nc">USD</span> <span class="o">/</span> <span class="mf">1.</span><span class="n">megawattHours</span>
+<span class="k">val</span> <span class="n">speed</span> <span class="k">=</span> <span class="mf">55.</span><span class="n">miles</span> <span class="o">/</span> <span class="mf">1.</span><span class="n">hours</span>
+<span class="c1">// Create Quantities using formatted Strings</span>
+<span class="k">val</span> <span class="n">load</span> <span class="k">=</span> <span class="nc">Power</span><span class="o">(</span><span class="s">"40 MW"</span><span class="o">)</span>       <span class="c1">// 40 MW</span>
+</pre></div>
+
+<p>The last conversion is useful for automatically interpreting strings from user input, json marshaller and other sources</p>
+
+<h2>
+<a name="type-hierarchy" class="anchor" href="#type-hierarchy"><span class="octicon octicon-link"></span></a>Type Hierarchy</h2>
+
+<p>The type hierarchy includes two root base traits:  Quantity and UnitOfMeasure</p>
+
+<h3>
+<a name="quantity" class="anchor" href="#quantity"><span class="octicon octicon-link"></span></a>Quantity</h3>
+
+<p>Quantity measures the magnitude or multitude of some thing.  Classes extending Quantity represent the
+various types of quantities that can be measured.  These are our alternatives to just using Double.
+Common 'Base' Quantities include Mass, Temperature, Length, Time, Energy, etc.</p>
+
+<p>Derived Quantities are based on one or more other quantities.  Typical examples include Time Derivatives.</p>
+
+<p>Speed is the 1st Time Derivative of Length (Distance), Acceleration is the 2nd Time Derivative.</p>
+
+<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">distance</span><span class="k">:</span> <span class="kt">Length</span> <span class="o">=</span> <span class="nc">Kilometers</span><span class="o">(</span><span class="mi">100</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">time</span><span class="k">:</span> <span class="kt">Time</span> <span class="o">=</span> <span class="nc">Hours</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">speed</span><span class="k">:</span> <span class="kt">Speed</span> <span class="o">=</span> <span class="n">distance</span> <span class="o">/</span> <span class="n">time</span>
+<span class="n">assert</span><span class="o">(</span><span class="n">speed</span><span class="o">.</span><span class="n">toKilometersPerHour</span> <span class="o">==</span> <span class="mf">50.0</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">acc</span><span class="k">:</span> <span class="kt">Acceleration</span> <span class="o">=</span> <span class="nc">Meters</span><span class="o">(</span><span class="mi">50</span><span class="o">)</span> <span class="o">/</span> <span class="nc">Second</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span> <span class="o">/</span> <span class="nc">Second</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+<span class="n">assert</span><span class="o">(</span><span class="n">acc</span><span class="o">.</span><span class="n">toMetersPerSecondSquared</span> <span class="o">==</span> <span class="mi">50</span><span class="o">)</span>
+</pre></div>
+
+<p>Power is the 1st Time Derivative of Energy, PowerRamp is the 2nd</p>
+
+<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">energy</span><span class="k">:</span> <span class="kt">Energy</span> <span class="o">=</span> <span class="nc">KilowattHours</span><span class="o">(</span><span class="mi">100</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">time</span><span class="k">:</span> <span class="kt">Time</span> <span class="o">=</span> <span class="nc">Hours</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">power</span><span class="k">:</span> <span class="kt">Power</span> <span class="o">=</span> <span class="n">energy</span> <span class="o">/</span> <span class="n">time</span>
+<span class="n">assert</span><span class="o">(</span><span class="n">power</span><span class="o">.</span><span class="n">toKilowatts</span> <span class="o">==</span> <span class="mf">50.0</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">ramp</span><span class="k">:</span> <span class="kt">PowerRamp</span> <span class="o">=</span> <span class="nc">KilowattHours</span><span class="o">(</span><span class="mi">50</span><span class="o">)</span> <span class="o">/</span> <span class="nc">Hours</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span> <span class="o">/</span> <span class="nc">Hours</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+<span class="n">assert</span><span class="o">(</span><span class="n">ramp</span><span class="o">.</span><span class="n">toKilowattsPerHour</span> <span class="o">==</span> <span class="mi">50</span><span class="o">)</span>
+</pre></div>
+
+<p>Squants currently supports over 40 quantity types.</p>
+
+<h3>
+<a name="unit-of-measure" class="anchor" href="#unit-of-measure"><span class="octicon octicon-link"></span></a>Unit of Measure</h3>
+
+<p>UnitOfMeasure is the scale or multiplier in which the Quantity is being measured.</p>
+
+<p>For each Quantity a series of UOM objects implement a base UOM trait typed to that Quantity.
+The UOM objects define the unit symbols and conversion settings.
+Factory methods in each UOM object create instances of the corresponding Quantity.</p>
+
+<p>For example UOM objects extending LengthUnit can be used to create Length quantities</p>
+
+<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">len1</span><span class="k">:</span> <span class="kt">Length</span> <span class="o">=</span> <span class="nc">Inches</span><span class="o">(</span><span class="mi">5</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">len2</span><span class="k">:</span> <span class="kt">Length</span> <span class="o">=</span> <span class="nc">Meters</span><span class="o">(</span><span class="mf">4.3</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">len3</span><span class="k">:</span> <span class="kt">Length</span> <span class="o">=</span> <span class="nc">UsMiles</span><span class="o">(</span><span class="mf">345.2</span><span class="o">)</span>
+</pre></div>
+
+<p>Units of Measure for Time include Milliseconds, Seconds, Minutes, Hours, and Days</p>
+
+<p>Units of Measure for Temperature include Celsius, Kelvin, and Fahrenheit</p>
+
+<p>Units of Measure for Mass include Grams, Kilograms, etc.</p>
+
+<p>Squants currently supports over 120 units of measure</p>
+
+<h2>
+<a name="use-cases" class="anchor" href="#use-cases"><span class="octicon octicon-link"></span></a>Use Cases</h2>
+
+<h3>
+<a name="dimensional-analysis" class="anchor" href="#dimensional-analysis"><span class="octicon octicon-link"></span></a>Dimensional Analysis</h3>
+
+<p>The primary use case for Squants is to produce code that is type safe with in domains that perform dimensional analysis.</p>
+
+<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">energyPrice</span><span class="k">:</span> <span class="kt">Price</span><span class="o">[</span><span class="kt">Energy</span><span class="o">]</span> <span class="k">=</span> <span class="mf">45.25</span><span class="o">.</span><span class="n">money</span> <span class="o">/</span> <span class="n">megawattHour</span>
+<span class="k">val</span> <span class="n">energyUsage</span><span class="k">:</span> <span class="kt">Energy</span> <span class="o">=</span> <span class="mf">345.</span><span class="n">kilowatts</span> <span class="o">*</span> <span class="mf">5.4</span><span class="o">.</span><span class="n">hours</span>
+<span class="k">val</span> <span class="n">energyCost</span><span class="k">:</span> <span class="kt">Money</span> <span class="o">=</span> <span class="n">energyPrice</span> <span class="o">*</span> <span class="n">energyUsage</span>
+
+<span class="k">val</span> <span class="n">dodgeViper</span><span class="k">:</span> <span class="kt">Acceleration</span> <span class="o">=</span> <span class="mf">60.</span><span class="n">miles</span> <span class="o">/</span> <span class="n">hour</span> <span class="o">/</span> <span class="mf">3.9</span><span class="o">.</span><span class="n">seconds</span>
+<span class="k">val</span> <span class="n">speedAfter5Seconds</span><span class="k">:</span> <span class="kt">Velocity</span> <span class="o">=</span> <span class="n">dodgeViper</span> <span class="o">*</span> <span class="mf">5.</span><span class="n">seconds</span>
+<span class="k">val</span> <span class="nc">TimeTo100MPH</span><span class="k">:</span> <span class="kt">Time</span> <span class="o">=</span> <span class="mf">100.</span><span class="n">miles</span> <span class="o">/</span> <span class="n">hour</span> <span class="o">/</span> <span class="n">dodgeViper</span>
+
+<span class="k">val</span> <span class="n">density</span><span class="k">:</span> <span class="kt">Density</span> <span class="o">=</span> <span class="mf">1200.</span><span class="n">kilograms</span> <span class="o">/</span> <span class="n">cubicMeter</span>
+<span class="k">val</span> <span class="n">volFlowRate</span><span class="k">:</span> <span class="kt">VolumeFlowRate</span> <span class="o">=</span> <span class="mf">10.</span><span class="n">gallons</span> <span class="o">/</span> <span class="n">minute</span>
+<span class="k">val</span> <span class="n">flowTime</span><span class="k">:</span> <span class="kt">Time</span> <span class="o">=</span> <span class="mf">30.</span><span class="n">minutes</span>
+<span class="k">val</span> <span class="n">totalMassFlow</span><span class="k">:</span> <span class="kt">Mass</span> <span class="o">=</span> <span class="n">volFlowRate</span> <span class="o">*</span> <span class="n">flowTime</span> <span class="o">*</span> <span class="n">density</span>
+</pre></div>
+
+<h3>
+<a name="domain-modeling" class="anchor" href="#domain-modeling"><span class="octicon octicon-link"></span></a>Domain Modeling</h3>
+
+<p>Another excellent use case for Squants is stronger types for fields in your domain model.
+This is OK ...</p>
+
+<div class="highlight highlight-scala"><pre><span class="k">case</span> <span class="k">class</span> <span class="nc">Generator</span><span class="o">(</span><span class="n">id</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">maxLoadKW</span><span class="k">:</span> <span class="kt">Double</span><span class="o">,</span> <span class="n">rampRateKWph</span><span class="k">:</span> <span class="kt">Double</span><span class="o">,</span>
+<span class="n">operatingCostPerMWh</span><span class="k">:</span> <span class="kt">Double</span><span class="o">,</span> <span class="n">currency</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">maintenanceTimeHours</span><span class="k">:</span> <span class="kt">Double</span><span class="o">)</span>
+<span class="o">...</span>
+<span class="k">val</span> <span class="n">gen1</span> <span class="k">=</span> <span class="nc">Generator</span><span class="o">(</span><span class="s">"Gen1"</span><span class="o">,</span> <span class="mi">5000</span><span class="o">,</span> <span class="mi">7500</span><span class="o">,</span> <span class="mf">75.4</span><span class="o">,</span> <span class="s">"USD"</span><span class="o">,</span> <span class="mf">1.5</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">gen2</span> <span class="k">=</span> <span class="nc">Generator</span><span class="o">(</span><span class="s">"Gen2"</span><span class="o">,</span> <span class="mi">100</span><span class="o">,</span> <span class="mi">250</span><span class="o">,</span> <span class="mf">2944.5</span><span class="o">,</span> <span class="s">"JPY"</span><span class="o">,</span> <span class="mf">0.5</span><span class="o">)</span>
+<span class="n">assetManagementActor</span> <span class="o">!</span> <span class="nc">ManageGenerator</span><span class="o">(</span><span class="n">gen1</span><span class="o">)</span>
+</pre></div>
+
+<p>… but this is much better</p>
+
+<div class="highlight highlight-scala"><pre><span class="k">case</span> <span class="k">class</span> <span class="nc">Generator</span><span class="o">(</span><span class="n">id</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">maxLoad</span><span class="k">:</span> <span class="kt">Power</span><span class="o">,</span> <span class="n">rampRate</span><span class="k">:</span> <span class="kt">PowerRamp</span><span class="o">,</span>
+<span class="n">operatingCost</span><span class="k">:</span> <span class="kt">Price</span><span class="o">[</span><span class="kt">Energy</span><span class="o">],</span> <span class="n">maintenanceTime</span><span class="k">:</span> <span class="kt">Time</span><span class="o">)</span>
+<span class="o">...</span>
+<span class="k">val</span> <span class="n">gen1</span> <span class="k">=</span> <span class="nc">Generator</span><span class="o">(</span><span class="s">"Gen1"</span><span class="o">,</span> <span class="mi">5</span> <span class="nc">MW</span><span class="o">,</span> <span class="mf">7.5</span><span class="o">.</span><span class="nc">MW</span><span class="o">/</span><span class="n">hour</span><span class="o">,</span> <span class="mf">75.4</span><span class="o">.</span><span class="nc">USD</span><span class="o">/</span><span class="nc">MWh</span><span class="o">,</span> <span class="mf">1.5</span> <span class="n">hours</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">gen2</span> <span class="k">=</span> <span class="nc">Generator</span><span class="o">(</span><span class="s">"Gen2"</span><span class="o">,</span> <span class="mi">100</span> <span class="n">kW</span><span class="o">,</span> <span class="mi">250</span> <span class="n">kWph</span><span class="o">,</span> <span class="mf">2944.5</span><span class="o">.</span><span class="nc">JPY</span><span class="o">/</span><span class="nc">MWh</span><span class="o">,</span> <span class="mi">30</span> <span class="n">minutes</span><span class="o">)</span>
+<span class="n">assetManagementActor</span> <span class="o">!</span> <span class="nc">ManageGenerator</span><span class="o">(</span><span class="n">gen1</span><span class="o">)</span>
+</pre></div>
+
+<h3>
+<a name="anticorruption-layers" class="anchor" href="#anticorruption-layers"><span class="octicon octicon-link"></span></a>Anticorruption Layers</h3>
+
+<p>Create wrappers around external services that use basic types to represent quantities.
+Your application code then uses the ACL to communicate with that system thus eliminating the need to deal
+with type and scale conversions in your application logic.</p>
+
+<div class="highlight highlight-scala"><pre><span class="k">class</span> <span class="nc">ScadaServiceAnticorruption</span><span class="o">(</span><span class="k">val</span> <span class="n">service</span><span class="k">:</span> <span class="kt">ScadaService</span><span class="o">)</span> <span class="o">{</span>
+  <span class="c1">// ScadaService returns load as Double representing Megawatts</span>
+  <span class="k">def</span> <span class="n">getLoad</span><span class="k">:</span> <span class="kt">Power</span> <span class="o">=</span> <span class="nc">Megawatts</span><span class="o">(</span><span class="n">service</span><span class="o">.</span><span class="n">getLoad</span><span class="o">(</span><span class="n">meterId</span><span class="o">))</span>
+  <span class="o">}</span>
+  <span class="c1">// ScadaService.sendTempBias requires a Double representing Fahrenheit</span>
+  <span class="k">def</span> <span class="n">sendTempBias</span><span class="o">(</span><span class="n">temp</span><span class="k">:</span> <span class="kt">Temperature</span><span class="o">)</span> <span class="k">=</span>
+    <span class="n">service</span><span class="o">.</span><span class="n">sendTempBias</span><span class="o">(</span><span class="n">temp</span><span class="o">.</span><span class="n">to</span><span class="o">(</span><span class="nc">Fahrenheit</span><span class="o">))</span>
+<span class="o">}</span>
+</pre></div>
+
+<p>Implement the ACL as a trait and mix in to the application's services where needed.</p>
+
+<div class="highlight highlight-scala"><pre><span class="k">trait</span> <span class="nc">WeatherServiceAntiCorruption</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">service</span><span class="k">:</span> <span class="kt">WeatherService</span>
+  <span class="k">def</span> <span class="n">getTemperature</span><span class="k">:</span> <span class="kt">Temperature</span> <span class="o">=</span> <span class="nc">Celsius</span><span class="o">(</span><span class="n">service</span><span class="o">.</span><span class="n">getTemperature</span><span class="o">)</span>
+  <span class="k">def</span> <span class="n">getIrradiance</span><span class="k">:</span> <span class="kt">Irradiance</span> <span class="o">=</span> <span class="nc">WattsPerSquareMeter</span><span class="o">(</span><span class="n">service</span><span class="o">.</span><span class="n">getIrradiance</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+
+<p>Extend the pattern to provide multi-currency support</p>
+
+<div class="highlight highlight-scala"><pre><span class="k">class</span> <span class="nc">MarketServiceAnticorruption</span><span class="o">(</span><span class="k">val</span> <span class="n">service</span><span class="k">:</span> <span class="kt">MarketService</span><span class="o">)</span>
+     <span class="o">(</span><span class="k">implicit</span> <span class="k">val</span> <span class="n">moneyContext</span><span class="k">:</span> <span class="o">=</span> <span class="nc">MoneyContext</span><span class="o">)</span> <span class="o">{</span>
+  <span class="c1">// MarketService.getPrice returns a Double representing $/MegawattHour</span>
+  <span class="k">def</span> <span class="n">getPrice</span><span class="k">:</span> <span class="kt">Price</span><span class="o">[</span><span class="kt">Energy</span><span class="o">]</span> <span class="k">=</span>
+    <span class="o">(</span><span class="nc">USD</span><span class="o">(</span><span class="n">service</span><span class="o">.</span><span class="n">getPrice</span><span class="o">)</span> <span class="n">in</span> <span class="n">moneyContext</span><span class="o">.</span><span class="n">defaultCurrency</span><span class="o">)</span> <span class="o">/</span> <span class="n">megawattHour</span>
+  <span class="c1">// MarketService.sendBid requires a Double representing $/MegawattHour</span>
+  <span class="c1">// and another Double representing the max amount of energy in MegawattHours</span>
+  <span class="k">def</span> <span class="n">sendBid</span><span class="o">(</span><span class="n">bid</span><span class="k">:</span> <span class="kt">Price</span><span class="o">[</span><span class="kt">Energy</span><span class="o">],</span> <span class="n">limit</span><span class="k">:</span> <span class="kt">Energy</span><span class="o">)</span> <span class="k">=</span>
+    <span class="n">service</span><span class="o">.</span><span class="n">sendBid</span><span class="o">((</span><span class="n">bid</span> <span class="o">*</span> <span class="n">megawattHour</span><span class="o">)</span> <span class="n">to</span> <span class="nc">USD</span><span class="o">,</span> <span class="n">limit</span> <span class="n">to</span> <span class="nc">MegawattHours</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+
+<p>Build Anticorruption into Akka routers</p>
+
+<div class="highlight highlight-scala"><pre><span class="c1">// LoadReading message used within the Squant’s enabled application context</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">LoadReading</span><span class="o">(</span><span class="n">meterId</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">time</span><span class="k">:</span> <span class="kt">Long</span><span class="o">,</span> <span class="n">load</span><span class="k">:</span> <span class="kt">Power</span><span class="o">)</span>
+<span class="k">class</span> <span class="nc">ScadaLoadListener</span><span class="o">(</span><span class="n">router</span><span class="k">:</span> <span class="kt">Router</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Actor</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="n">receive</span> <span class="k">=</span> <span class="o">{</span>
+   <span class="c1">// ScadaLoadReading, from an external service, types load as a string</span>
+   <span class="c1">// eg, “10.3 MW”, “345 kW”</span>
+   <span class="k">case</span> <span class="n">msg</span> <span class="k">@</span> <span class="nc">ScadaLoadReading</span><span class="o">(</span><span class="n">meterId</span><span class="o">,</span> <span class="n">time</span><span class="o">,</span> <span class="n">loadString</span><span class="o">)</span> <span class="k">⇒</span>
+    <span class="c1">// This handler converts the string to a Power value and emits the events</span>
+    <span class="c1">// to the routees which are actors within an app context that uses Squants</span>
+    <span class="n">router</span><span class="o">.</span><span class="n">route</span><span class="o">(</span><span class="nc">LoadReading</span><span class="o">(</span><span class="n">meterId</span><span class="o">,</span> <span class="n">time</span><span class="o">,</span> <span class="nc">Power</span><span class="o">(</span><span class="n">loadString</span><span class="o">)),</span> <span class="n">sender</span><span class="o">())</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+<p>... and REST API's with contracts that require basic types</p>
+
+<div class="highlight highlight-scala"><pre><span class="k">trait</span> <span class="nc">LoadRoute</span> <span class="k">extends</span> <span class="nc">HttpService</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="n">repo</span><span class="k">:</span> <span class="kt">LoadRepository</span>
+  <span class="k">val</span> <span class="n">loadRoute</span> <span class="k">=</span> <span class="o">{</span>
+    <span class="n">path</span><span class="o">(</span><span class="s">"meter-reading"</span><span class="o">)</span> <span class="o">{</span>
+      <span class="c1">// REST API contract requires load value and units in different fields</span>
+      <span class="c1">// Units are string values that may be 'kW' or 'MW'</span>
+      <span class="n">post</span> <span class="o">{</span>
+        <span class="n">parameters</span><span class="o">(</span><span class="n">meterId</span><span class="o">,</span> <span class="n">time</span><span class="o">,</span> <span class="n">loadDouble</span><span class="o">,</span> <span class="n">unit</span><span class="o">)</span> <span class="o">{</span> <span class="o">(</span><span class="n">meterId</span><span class="o">,</span> <span class="n">time</span><span class="o">,</span> <span class="n">loadDouble</span><span class="o">,</span> <span class="n">unit</span><span class="o">)</span> <span class="k">=&gt;</span>
+          <span class="n">complete</span> <span class="o">{</span>
+            <span class="k">val</span> <span class="n">load</span> <span class="k">=</span> <span class="n">unit</span> <span class="k">match</span> <span class="o">{</span>
+              <span class="k">case</span> <span class="s">"kW"</span> <span class="k">=&gt;</span> <span class="nc">Kilowatts</span><span class="o">(</span><span class="n">loadDouble</span><span class="o">)</span>
+              <span class="k">case</span> <span class="s">"MW"</span> <span class="k">=&gt;</span> <span class="nc">Megawatts</span><span class="o">(</span><span class="n">loadDouble</span><span class="o">)</span>
+            <span class="o">}</span>
+            <span class="n">repo</span><span class="o">.</span><span class="nc">SaveLoad</span><span class="o">(</span><span class="n">meterId</span><span class="o">,</span> <span class="n">time</span><span class="o">,</span> <span class="n">load</span><span class="o">)</span>
+          <span class="o">}</span>
+        <span class="o">}</span>
+      <span class="o">}</span> <span class="o">~</span>
+      <span class="c1">// REST API contract requires load returned as a number representing megawatts</span>
+      <span class="n">get</span> <span class="o">{</span>
+        <span class="n">parameters</span><span class="o">(</span><span class="n">meterId</span><span class="o">,</span> <span class="n">time</span><span class="o">)</span> <span class="o">{</span> <span class="o">(</span><span class="n">meterId</span><span class="o">,</span> <span class="n">time</span><span class="o">)</span> <span class="k">=&gt;</span>
+          <span class="n">complete</span> <span class="o">{</span>
+            <span class="n">repo</span><span class="o">.</span><span class="nc">GetLoad</span><span class="o">(</span><span class="n">meterId</span><span class="o">,</span> <span class="n">time</span><span class="o">)</span> <span class="n">to</span> <span class="nc">Megawatts</span>
+          <span class="o">}</span>
+        <span class="o">}</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+
+</pre></div>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/garyKeorkunian/squants/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/garyKeorkunian/squants/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/garyKeorkunian/squants"></a> is maintained by <a href="https://github.com/garyKeorkunian">garyKeorkunian</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
