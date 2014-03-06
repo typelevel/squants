@@ -8,7 +8,7 @@
 
 import squants.electro.Coulombs
 import squants.mass.Grams
-import squants.motion.{ Velocity, Acceleration, Direction }
+import squants.motion.{ Acceleration, Direction, Velocity }
 
 /**
  * ==Overview==
@@ -211,23 +211,6 @@ package object squants {
   /* Market Quantities */
   type Money = squants.market.Money
   type Price[A <: Quantity[A]] = squants.market.Price[A]
-
-  /* Known Quantities */
-  lazy val Up = Direction(0, 0, 1)
-  lazy val Down = Direction(0, 0, -1)
-  lazy val North = Direction(0, 1, 0)
-  lazy val South = Direction(0, -1, 0)
-  lazy val East = Direction(1, 0, 0)
-  lazy val West = Direction(-1, 0, 0)
-
-  lazy val SpeedOfLight = Velocity(Meters(299792458), Seconds(1))
-
-  lazy val EquatorGravity = Acceleration(Velocity(Meters(9.7803), Seconds(1), Some(Down)), Seconds(1))
-  lazy val StandardEarthGravity = Acceleration(Velocity(Meters(9.80665), Seconds(1), Some(Down)), Seconds(1))
-  lazy val PoleGravity = Acceleration(Velocity(Meters(9.8322), Seconds(1), Some(Down)), Seconds(1))
-
-  lazy val ElementaryConstant = Coulombs(BigDecimal("1.602176565E-19").toDouble)
-  lazy val GravitationalConstant = ??? // Newtons(6.67E-11) * (m/kg)^2  +- 1.2E-4
 
   /**
    * Provides implicit conversions that allow 'primitive' numbers to lead in * operations

@@ -1,5 +1,0 @@
-[0m[[0minfo[0m] [0m[32mTimeDerivativeSpec:[0m[0m
-[0m[[0minfo[0m] [0m[32mTime Derivatives and Integrals as implemented in Distance and Velocity[0m[0m
-[0m[[0minfo[0m] [0m[32m- should satisfy Derivative = Integral / Time[0m[0m
-[0m[[0minfo[0m] [0m[32m- should satisfy Integral = Derivative * Time[0m[0m
-[0m[[0minfo[0m] [0m[32m- should satisfy Time = Integral / Derivative[0m[0m

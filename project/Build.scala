@@ -2,7 +2,7 @@ import sbt._
 
 object Versions {
   val Squants = "0.1-SNAPSHOT"
-  val Scala = "2.10.2"
+  val Scala = "2.10.3"
   val ScalaTest = "2.0"
   val ScalaCheck = "1.11.3"
 }

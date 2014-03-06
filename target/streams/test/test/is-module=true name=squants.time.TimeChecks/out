@@ -1,5 +1,0 @@
-[0m[[0minfo[0m] [0m+ Time.Milliseconds = Seconds * 1000: OK, passed 100 tests.[0m
-[0m[[0minfo[0m] [0m+ Time.Seconds = Minutes * 60: OK, passed 100 tests.[0m
-[0m[[0minfo[0m] [0m+ Time.Minutes = Hours * 60: OK, passed 100 tests.[0m
-[0m[[0minfo[0m] [0m+ Time.Hours = Days * 24: OK, passed 100 tests.[0m
-[0m[[0minfo[0m] [0m+ Time.Count = Frequency * Time: OK, passed 100 tests.[0m

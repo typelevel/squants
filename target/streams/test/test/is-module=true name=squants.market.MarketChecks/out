@@ -1,5 +1,0 @@
-[0m[[0minfo[0m] [0m+ Market.Money + Money = Money: OK, passed 100 tests.[0m
-[0m[[0minfo[0m] [0m+ Market.Money - Money = Money: OK, passed 100 tests.[0m
-[0m[[0minfo[0m] [0m+ Market.Money * Double = Money: OK, passed 100 tests.[0m
-[0m[[0minfo[0m] [0m+ Market.Money / Double = Money: OK, passed 100 tests.[0m
-[0m[[0minfo[0m] [0m+ Market.Money = ExchangeRate * Money: OK, passed 100 tests.[0m

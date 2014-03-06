@@ -8,6 +8,8 @@
 
 package squants
 
+import squants.electro.Coulombs
+
 /**
  * @author  garyKeorkunian
  * @since   0.1
@@ -15,4 +17,6 @@ package squants
  */
 package object energy {
 
+  /* Known Quantities */
+  lazy val ElementaryConstant = Coulombs(BigDecimal("1.602176565E-19").toDouble)
 }
