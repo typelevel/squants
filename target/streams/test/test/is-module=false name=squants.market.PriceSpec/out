@@ -1,0 +1,13 @@
+[0m[[0minfo[0m] [0m[32mPriceSpec:[0m[0m
+[0m[[0minfo[0m] [0m[32mPrice and its Units of Measure[0m[0m
+[0m[[0minfo[0m] [0m[32m- should create Price objects using the primary constructor[0m[0m
+[0m[[0minfo[0m] [0m[32m- should properly add two like prices[0m[0m
+[0m[[0minfo[0m] [0m[32m- should properly subtract two like prices[0m[0m
+[0m[[0minfo[0m] [0m[32m- should properly multiply by a Double[0m[0m
+[0m[[0minfo[0m] [0m[32m- should properly multiply by a BigDecimal[0m[0m
+[0m[[0minfo[0m] [0m[32m- should properly divide by a Double[0m[0m
+[0m[[0minfo[0m] [0m[32m- should properly divide by a BigDecimal[0m[0m
+[0m[[0minfo[0m] [0m[32m- should properly divide by a like Price[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return Money when multiplied by Quantity[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return Quantity when multiplied by Money[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return properly formatted strings[0m[0m

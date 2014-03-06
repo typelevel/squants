@@ -1,0 +1,41 @@
+/*                                                                      *\
+** Squants                                                              **
+**                                                                      **
+** Scala Quantities and Units of Measure Library and DSL                **
+** (c) 2013-2014, Gary Keorkunian                                       **
+**                                                                      **
+\*                                                                      */
+
+package squants.energy
+
+import squants._
+
+/**
+ * Represents a quantity of energy
+ *
+ * @author  garyKeorkunian
+ * @since   0.1
+ *
+ * @param value value in [[squants.energy.WattHours]]
+ */
+final class EnergyDensity private (val value: Double) extends Quantity[EnergyDensity]
+    with PhysicalQuantity {
+
+  def valueUnit = JoulesPerCubicMeter
+
+  def *(that: Volume): Energy = Joules(toJoulesPerCubicMeter * that.toCubicMeters)
+
+  def toJoulesPerCubicMeter = to(JoulesPerCubicMeter)
+}
+
+object EnergyDensity {
+  private[energy] def apply(value: Double) = new EnergyDensity(value)
+}
+
+trait EnergyDensityUnit extends UnitOfMeasure[EnergyDensity] with UnitMultiplier {
+  def apply(d: Double) = EnergyDensity(convertFrom(d))
+}
+
+object JoulesPerCubicMeter extends EnergyDensityUnit with ValueUnit {
+  val symbol = "j/m³"
+}

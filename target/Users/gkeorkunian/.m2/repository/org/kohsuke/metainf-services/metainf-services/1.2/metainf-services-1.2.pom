@@ -1,0 +1,114 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.kohsuke.metainf-services</groupId>
+  <artifactId>metainf-services</artifactId>
+  <version>1.2</version>  
+  <name>META-INF/services generator</name>
+  <description>Annotation-driven META-INF/services auto-generation</description>
+  <url>http://metainf-srvices.kohsuke.org/</url>
+
+  <scm>
+    <connection>scm:git:git@github.com/kohsuke/${project.artifactId}.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/kohsuke/${project.artifactId}.git</developerConnection>
+    <url>http://${project.artifactId}.kohsuke.org/</url>
+  </scm>
+
+  <distributionManagement>
+    <snapshotRepository>
+      <id>sonatype-nexus-snapshots</id>
+      <name>Sonatype Nexus Snapshots</name>
+      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+    </snapshotRepository>
+    <repository>
+      <id>sonatype-nexus-staging</id>
+      <name>Nexus Release Repository</name>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
+    <site>
+      <id>github-pages</id>
+      <url>gitsite:git@github.com/kohsuke/${project.artifactId}.git</url>
+    </site>
+  </distributionManagement>
+
+  <developers>
+    <developer>
+      <name>Kohsuke Kawaguchi</name>
+      <id>kohsuke</id>
+      <email>kk@kohsuke.org</email>
+    </developer>
+  </developers>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+          <compilerArgument>-proc:none</compilerArgument>
+         </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-release-plugin</artifactId>
+        <configuration>
+          <releaseProfiles>release</releaseProfiles>
+        </configuration>
+      </plugin>
+    </plugins>
+
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.scm</groupId>
+        <artifactId>maven-scm-provider-gitexe</artifactId>
+        <version>1.3</version>
+      </extension>
+      <extension>
+        <groupId>org.apache.maven.scm</groupId>
+        <artifactId>maven-scm-manager-plexus</artifactId>
+        <version>1.3</version>
+      </extension>
+      <extension>
+        <groupId>org.kathrynhuxtable.maven.wagon</groupId>
+        <artifactId>wagon-gitsite</artifactId>
+        <version>0.3.1</version>
+      </extension>
+    </extensions>
+  </build>
+
+  <licenses>
+    <license>
+        <name>MIT license</name>
+        <url>http://www.opensource.org/licenses/mit-license.php</url>
+        <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <repositories>
+    <repository>
+      <id>m.g.o-public</id>
+      <url>http://maven.glassfish.org/content/groups/public/</url>
+    </repository>
+  </repositories>
+
+  <profiles> 
+    <profile> 
+      <id>release</id> 
+      <build> 
+        <plugins> 
+          <plugin> 
+            <artifactId>maven-gpg-plugin</artifactId> 
+            <executions> 
+              <execution> 
+                <id>sign-artifacts</id> 
+                <phase>verify</phase> 
+                <goals> 
+                  <goal>sign</goal> 
+                </goals> 
+              </execution> 
+            </executions> 
+          </plugin> 
+        </plugins> 
+      </build> 
+    </profile> 
+  </profiles> 
+</project>

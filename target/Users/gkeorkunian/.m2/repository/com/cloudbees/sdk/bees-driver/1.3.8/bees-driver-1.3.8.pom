@@ -1,0 +1,41 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.cloudbees.sdk</groupId>
+        <artifactId>bees-cli-parent</artifactId>
+        <version>1.3.8</version>
+    </parent>
+
+    <artifactId>bees-driver</artifactId>
+    <name>CloudBees Main SDK</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>bees-api</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.stax</groupId>
+            <artifactId>stax-appserver-core</artifactId>
+            <version>${run-appserver.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-jdk14</artifactId>
+            <version>1.6.2</version>
+        </dependency>
+    </dependencies>
+
+    <properties>
+      <run-appserver.version>1.3.3</run-appserver.version>
+    </properties>
+</project>

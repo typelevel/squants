@@ -1,0 +1,19 @@
+[0m[[0minfo[0m] [0m[32mMoneyContextSpec:[0m[0m
+[0m[[0minfo[0m] [0m[32mMoneyContext[0m[0m
+[0m[[0minfo[0m] [0m[32m- should initialize with appropriate values[0m[0m
+[0m[[0minfo[0m] [0m[32m- should properly create Money using the default currency with an implicit MoneyContext in scope[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return Some(rate) for a given currency pair for which there is a rate[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return None for a given currency pair for which there is no rate[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return Some(rate) for a given currency pair for which there is a direct rate[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return Some(rate) for a given currency pair for which there is no direct, but an indirect rate[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return None for a given currency pair for which there is no direct or indirect rate[0m[0m
+[0m[[0minfo[0m] [0m[32m- should properly convert Money values between currencies for which there is a direct exchange rate[0m[0m
+[0m[[0minfo[0m] [0m[32m- should properly convert Money values between currencies for which there is only an indirect exchange rate[0m[0m
+[0m[[0minfo[0m] [0m[32m- should properly return the same Money when converting to the same currency[0m[0m
+[0m[[0minfo[0m] [0m[32m- should properly return the same Money when converting to the same currency with an empty context[0m[0m
+[0m[[0minfo[0m] [0m[32m- should throw a NoExchangeRateException when converting between Currencies for which no indirect rate can be determined[0m[0m
+[0m[[0minfo[0m] [0m[32m- should throw a NoExchangeRateException when converting where an indirect rate exists but is not allowed by the context[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return Money in the first currency when adding two Moneys in different currencies[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return Money in the first currency when subtracting two Moneys in different currencies[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return BigDecimal when dividing two Moneys in different currencies[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return Int based on a standard comparison of two Moneys in different currencies[0m[0m

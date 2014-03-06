@@ -1,0 +1,6 @@
+[0m[[0minfo[0m] [0m[32mCurrencyExchangeRateSpec:[0m[0m
+[0m[[0minfo[0m] [0m[32mCurrencyExchangeRate[0m[0m
+[0m[[0minfo[0m] [0m[32m- should create CurrencyExchangeRates using the default factory method[0m[0m
+[0m[[0minfo[0m] [0m[32m- should properly return a Currency Exchange Rate[0m[0m
+[0m[[0minfo[0m] [0m[32m- should properly return a converted Money value[0m[0m
+[0m[[0minfo[0m] [0m[32m- should properly return a string formatted as an FX quote[0m[0m

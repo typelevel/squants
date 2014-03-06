@@ -1,0 +1,12 @@
+[0m[[0minfo[0m] [0m[32mMagneticFluxSpec:[0m[0m
+[0m[[0minfo[0m] [0m[32mMagneticFlux and its Units of Measure[0m[0m
+[0m[[0minfo[0m] [0m[32m- should create values using UOM factories[0m[0m
+[0m[[0minfo[0m] [0m[32m- should properly convert to all supported Units of Measure[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return properly formatted strings for all supported Units of Measure[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return Time when divided by ElectricPotential[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return ElectricPotential when divided by Time[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return MagneticFluxDensity when divided by Area[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return Inductance when divided by ElectricCurrent[0m[0m
+[0m[[0minfo[0m] [0m[32mMagneticFluxConversions[0m[0m
+[0m[[0minfo[0m] [0m[32m- should provide aliases for single unit values[0m[0m
+[0m[[0minfo[0m] [0m[32m- should provide implicit conversion from Double[0m[0m

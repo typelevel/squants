@@ -1,0 +1,6 @@
+[0m[[0minfo[0m] [0m[32mUnitOfMeasureSpec:[0m[0m
+[0m[[0minfo[0m] [0m[32mUnitOfMeasure when extending for an existing Quantity[0m[0m
+[0m[[0minfo[0m] [0m[32m- should create Quantities with the expected values[0m[0m
+[0m[[0minfo[0m] [0m[32m- should convert Quantities to this Unit[0m[0m
+[0m[[0minfo[0m] [0m[32m- should compare Quantities of different units[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return a properly formatted string[0m[0m

@@ -1,0 +1,9 @@
+[0m[[0minfo[0m] [0m+ Motion.Distance = Velocity * Time: OK, passed 100 tests.[0m
+[0m[[0minfo[0m] [0m+ Motion.Velocity = Acceleration * Time: OK, passed 100 tests.[0m
+[0m[[0minfo[0m] [0m+ Motion.Acceleration = Jerk * Time: OK, passed 100 tests.[0m
+[0m[[0minfo[0m] [0m+ Motion.Momentum = Velocity * Mass: OK, passed 100 tests.[0m
+[0m[[0minfo[0m] [0m+ Motion.Force = Acceleration * Mass: OK, passed 100 tests.[0m
+[0m[[0minfo[0m] [0m+ Motion.Momentum = Force * Time: OK, passed 100 tests.[0m
+[0m[[0minfo[0m] [0m+ Motion.Force = Pressure * Area: OK, passed 100 tests.[0m
+[0m[[0minfo[0m] [0m+ Motion.Mass = MassFlowRate * Time: OK, passed 100 tests.[0m
+[0m[[0minfo[0m] [0m+ Motion.Volume = VolumeFlowRate * Time: OK, passed 100 tests.[0m

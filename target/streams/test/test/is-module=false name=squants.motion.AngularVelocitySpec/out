@@ -1,0 +1,5 @@
+[0m[[0minfo[0m] [0m[32mAngularVelocitySpec:[0m[0m
+[0m[[0minfo[0m] [0m[32mAngularVelocity and its Units of Measure[0m[0m
+[0m[[0minfo[0m] [0m[32m- should create values using UOM factories[0m[0m
+[0m[[0minfo[0m] [0m[32m- should properly convert to all supported Units of Measure[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return properly formatted strings for all supported Units of Measure[0m[0m

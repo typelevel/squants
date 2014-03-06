@@ -1,0 +1,9 @@
+[0m[[0minfo[0m] [0m[32mRatioSpec:[0m[0m
+[0m[[0minfo[0m] [0m[32mRatio[0m[0m
+[0m[[0minfo[0m] [0m[32m- should create a ratio with the correct base and counter values[0m[0m
+[0m[[0minfo[0m] [0m[32m- should convert a value of the base type to a value of the counter type[0m[0m
+[0m[[0minfo[0m] [0m[32m- should convert a value of the counter type to a value of the base type[0m[0m
+[0m[[0minfo[0m] [0m[32mLikeRatio[0m[0m
+[0m[[0minfo[0m] [0m[32m- should create a ratio with the correct base, counter and ratio values[0m[0m
+[0m[[0minfo[0m] [0m[32m- should convert a value of the base type to a value of the counter type[0m[0m
+[0m[[0minfo[0m] [0m[32m- should convert a value of the counter type to a value of the base type[0m[0m

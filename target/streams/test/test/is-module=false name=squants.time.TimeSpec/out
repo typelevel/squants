@@ -1,0 +1,15 @@
+[0m[[0minfo[0m] [0m[32mTimeSpec:[0m[0m
+[0m[[0minfo[0m] [0m[32mTime and its Units of Measure[0m[0m
+[0m[[0minfo[0m] [0m[32m- should create values using UOM factories[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return equality for units in different units[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return Time when added to Time[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return Time when subtracted to Time[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return a Double when divided be Time[0m[0m
+[0m[[0minfo[0m] [0m[32m- should properly convert to all supported Units of Measure[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return properly formatted strings for all supported Units of Measure[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return TimeIntegral when multiplied by a TimeDerivative[0m[0m
+[0m[[0minfo[0m] [0m[32mTimeConversions[0m[0m
+[0m[[0minfo[0m] [0m[32m- should provide aliases for single unit values[0m[0m
+[0m[[0minfo[0m] [0m[32m- should provide implicit conversion from Double[0m[0m
+[0m[[0minfo[0m] [0m[32m- should convert a Scala Concurrent Duration to a Time[0m[0m
+[0m[[0minfo[0m] [0m[32m- should convert a Time to a Scala Concurrent Duration[0m[0m

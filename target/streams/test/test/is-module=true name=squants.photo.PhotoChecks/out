@@ -1,0 +1,5 @@
+[0m[[0minfo[0m] [0m+ Photo.Lumens = Lux * SquareMeters: OK, passed 100 tests.[0m
+[0m[[0minfo[0m] [0m+ Photo.LuxSeconds = Lux * Seconds: OK, passed 100 tests.[0m
+[0m[[0minfo[0m] [0m+ Photo.Candelas = CandelasPerSquareMeter * SquareMeters: OK, passed 100 tests.[0m
+[0m[[0minfo[0m] [0m+ Photo.LumenSeconds = Lumens * Seconds: OK, passed 100 tests.[0m
+[0m[[0minfo[0m] [0m+ Photo.Lumens = Candelas * SquaredRadians: OK, passed 100 tests.[0m

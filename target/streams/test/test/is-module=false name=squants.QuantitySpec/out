@@ -1,0 +1,28 @@
+[0m[[0minfo[0m] [0m[32mQuantitySpec:[0m[0m
+[0m[[0minfo[0m] [0m[32mQuantity as implemented in Thingee[0m[0m
+[0m[[0minfo[0m] [0m[32m- should add two like values and result in a like value[0m[0m
+[0m[[0minfo[0m] [0m[32m- should minus two like values and result in a like value[0m[0m
+[0m[[0minfo[0m] [0m[32m- should times by a Double and result in a like value[0m[0m
+[0m[[0minfo[0m] [0m[32m- should divide by a Double and result in a like value[0m[0m
+[0m[[0minfo[0m] [0m[32m- should divide by a like value and result in a Double[0m[0m
+[0m[[0minfo[0m] [0m[32m- should remainder by a Double and result in a like value[0m[0m
+[0m[[0minfo[0m] [0m[32m- should remainder by a like value and result in a Double[0m[0m
+[0m[[0minfo[0m] [0m[32m- should divideAndRemainder by a Double and result in a pair of like values[0m[0m
+[0m[[0minfo[0m] [0m[32m- should divideAndRemainder by a like value and result in a Double and like value[0m[0m
+[0m[[0minfo[0m] [0m[32m- should negate a value and result in a like negative value[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return the absolute value of a Quantity value[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return true on comparing two different values with !=[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return false on comparing two equal values with !=[0m[0m
+[0m[[0minfo[0m] [0m[32m- should compare a like value values and return 1, 0, or -1[0m[0m
+[0m[[0minfo[0m] [0m[32m- should max a like value and return the greater of the two[0m[0m
+[0m[[0minfo[0m] [0m[32m- should min a like value and return the greater of the two[0m[0m
+[0m[[0minfo[0m] [0m[32m- should plusOrMinus a like value and return a QuantityRange[0m[0m
+[0m[[0minfo[0m] [0m[32m- should to a like value and return a QuantityRange[0m[0m
+[0m[[0minfo[0m] [0m[32m- should within a QuantityRange and return a Boolean[0m[0m
+[0m[[0minfo[0m] [0m[32m- should notWithin a QuantityRange and return a Boolean[0m[0m
+[0m[[0minfo[0m] [0m[32m- should to a unit and return a Double[0m[0m
+[0m[[0minfo[0m] [0m[32m- should in a unit and return a like value in that unit[0m[0m
+[0m[[0minfo[0m] [0m[32m- should toString and return a string formatted for the valueUnit[0m[0m
+[0m[[0minfo[0m] [0m[32m- should toString a unit and return a string formatted for the valueUnit[0m[0m
+[0m[[0minfo[0m] [0m[32mSquantifiedDouble[0m[0m
+[0m[[0minfo[0m] [0m[32m- should multiply by a Quantity value and return the product as a like value[0m[0m

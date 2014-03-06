@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ivy-report.xsl"?>
+<ivy-report version="1.0">
+	<info
+		organisation="default"
+		module="ps-type-library-build"
+		revision="0.1-SNAPSHOT"
+		extra-sbtVersion="0.13"
+		extra-scalaVersion="2.10"
+		conf="runtime"
+		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, sources, docs, pom, scala-tool"
+		date="20131225101021"/>
+	<dependencies>
+		<module organisation="default" name="global-plugins">
+			<revision name="0.0" status="integration" pubdate="20131225101021" resolver="inter-project" artresolver="inter-project" extra-sbtVersion="0.13" extra-scalaVersion="2.10" downloaded="false" searched="false" default="false" conf="default(compile), compile" position="0">
+				<metadata-artifact status="failed" details="" size="0" time="0" searched="false"/>
+				<caller organisation="default" name="ps-type-library-build" conf="compile, runtime" rev="0.0" rev-constraint-default="0.0" rev-constraint-dynamic="0.0" callerrev="0.1-SNAPSHOT" extra-sbtVersion="0.13" extra-scalaVersion="2.10"/>
+				<artifacts>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.github.mpeltonen" name="sbt-idea">
+			<revision name="1.5.2" status="release" pubdate="20131013090137" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://your.project.url" extra-sbtVersion="0.13" extra-scalaVersion="2.10" downloaded="false" searched="false" default="false" conf="default(compile), default, compile, runtime, master" position="1">
+				<license name="BSD-style" url="http://www.opensource.org/licenses/BSD-3-Clause"/>
+				<metadata-artifact status="no" details="" size="2986" time="0" location="/Users/gkeorkunian/.ivy2/cache/scala_2.10/sbt_0.13/com.github.mpeltonen/sbt-idea/ivy-1.5.2.xml" searched="false" origin-is-local="false" origin-location="http://repo1.maven.org/maven2/com/github/mpeltonen/sbt-idea_2.10_0.13/1.5.2/sbt-idea-1.5.2.pom"/>
+				<caller organisation="default" name="global-plugins" conf="compile" rev="1.5.2" rev-constraint-default="1.5.2" rev-constraint-dynamic="1.5.2" callerrev="0.0" extra-sbtVersion="0.13" extra-scalaVersion="2.10"/>
+				<artifacts>
+					<artifact name="sbt-idea" type="jar" ext="jar" status="no" details="" size="336778" time="0" location="/Users/gkeorkunian/.ivy2/cache/scala_2.10/sbt_0.13/com.github.mpeltonen/sbt-idea/jars/sbt-idea-1.5.2.jar">
+						<origin-location is-local="false" location="http://repo1.maven.org/maven2/com/github/mpeltonen/sbt-idea_2.10_0.13/1.5.2/sbt-idea-1.5.2.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="commons-io" name="commons-io">
+			<revision name="2.0.1" status="release" pubdate="20101226121931" resolver="public" artresolver="public" homepage="http://commons.apache.org/io/" downloaded="false" searched="false" default="false" conf="compile, master(*), runtime, compile(*), runtime(*), master" position="2">
+				<metadata-artifact status="no" details="" size="6238" time="0" location="/Users/gkeorkunian/.ivy2/cache/commons-io/commons-io/ivy-2.0.1.xml" searched="false" origin-is-local="false" origin-location="http://repo1.maven.org/maven2/commons-io/commons-io/2.0.1/commons-io-2.0.1.pom"/>
+				<caller organisation="com.github.mpeltonen" name="sbt-idea" conf="default, compile, runtime, master" rev="2.0.1" rev-constraint-default="2.0.1" rev-constraint-dynamic="2.0.1" callerrev="1.5.2"/>
+				<artifacts>
+					<artifact name="commons-io" type="jar" ext="jar" status="no" details="" size="159509" time="0" location="/Users/gkeorkunian/.ivy2/cache/commons-io/commons-io/jars/commons-io-2.0.1.jar">
+						<origin-location is-local="false" location="http://repo1.maven.org/maven2/commons-io/commons-io/2.0.1/commons-io-2.0.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.typesafe.sbt" name="sbt-scalariform">
+			<revision name="1.0.1" error="not found" extra-sbtVersion="0.13" extra-scalaVersion="2.10" downloaded="false" searched="false" conf="default(compile)" position="-1">
+				<caller organisation="default" name="ps-type-library-build" conf="compile, runtime" rev="1.0.1" rev-constraint-default="1.0.1" rev-constraint-dynamic="1.0.1" callerrev="0.1-SNAPSHOT" extra-sbtVersion="0.13" extra-scalaVersion="2.10"/>
+				<artifacts>
+				</artifacts>
+			</revision>
+		</module>
+	</dependencies>
+</ivy-report>

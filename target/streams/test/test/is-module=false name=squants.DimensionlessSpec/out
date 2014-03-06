@@ -1,0 +1,10 @@
+[0m[[0minfo[0m] [0m[32mDimensionlessSpec:[0m[0m
+[0m[[0minfo[0m] [0m[32mCount and its Units of Measure[0m[0m
+[0m[[0minfo[0m] [0m[32m- should create values using UOM factories[0m[0m
+[0m[[0minfo[0m] [0m[32m- should properly convert to all supported Units of Measure[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return properly formatted strings for all supported Units of Measure[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return a Frequency when divided by Time[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return a Time when divided by Frequency[0m[0m
+[0m[[0minfo[0m] [0m[32mCountsConversions[0m[0m
+[0m[[0minfo[0m] [0m[32m- should provide aliases for single unit values[0m[0m
+[0m[[0minfo[0m] [0m[32m- should provide implicit conversion from Double[0m[0m

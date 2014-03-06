@@ -1,0 +1,13 @@
+[0m[[0minfo[0m] [0m[32mAreaSpec:[0m[0m
+[0m[[0minfo[0m] [0m[32mArea and its Units of Measure[0m[0m
+[0m[[0minfo[0m] [0m[32m- should create values using UOM factories[0m[0m
+[0m[[0minfo[0m] [0m[32m- should properly convert to all supported Units of Measure[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return properly formatted strings for all supported Units of Measure[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return Volume when multiplied by Length[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return Force when multiplied by Pressure[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return Lumens when multiplied by Illuminance[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return Candelas when multiplied by Luminance[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return Length when divided by Length[0m[0m
+[0m[[0minfo[0m] [0m[32mAreaConversion[0m[0m
+[0m[[0minfo[0m] [0m[32m- should provide aliases for single unit values[0m[0m
+[0m[[0minfo[0m] [0m[32m- should provide implicit conversion from Double[0m[0m

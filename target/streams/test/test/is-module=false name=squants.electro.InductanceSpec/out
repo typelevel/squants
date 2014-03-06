@@ -1,0 +1,9 @@
+[0m[[0minfo[0m] [0m[32mInductanceSpec:[0m[0m
+[0m[[0minfo[0m] [0m[32mInductance and its Units of Measure[0m[0m
+[0m[[0minfo[0m] [0m[32m- should create values using UOM factories[0m[0m
+[0m[[0minfo[0m] [0m[32m- should properly convert to all supported Units of Measure[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return properly formatted strings for all supported Units of Measure[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return MagneticFlux when multiplied by ElectricCurrent[0m[0m
+[0m[[0minfo[0m] [0m[32mInductanceConversions[0m[0m
+[0m[[0minfo[0m] [0m[32m- should provide aliases for single unit values[0m[0m
+[0m[[0minfo[0m] [0m[32m- should provide implicit conversion from Double[0m[0m

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ivy-report.xsl"?>
+<ivy-report version="1.0">
+	<info
+		organisation="com.viridityenergy"
+		module="squants_2.10"
+		revision="0.1"
+		conf="test-internal"
+		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, sources, docs, pom"
+		date="20140303230808"/>
+	<dependencies>
+		<module organisation="org.scalacheck" name="scalacheck_2.10">
+			<revision name="1.11.3" status="release" pubdate="20140121190715" resolver="public" artresolver="public" homepage="http://www.scalacheck.org" downloaded="false" searched="false" default="false" conf="default(compile), default, compile, runtime, master" position="3">
+				<license name="BSD-style" url="http://www.opensource.org/licenses/bsd-license.php"/>
+				<metadata-artifact status="no" details="" size="2659" time="0" location="/Users/gkeorkunian/.ivy2/cache/org.scalacheck/scalacheck_2.10/ivy-1.11.3.xml" searched="false" origin-is-local="false" origin-location="http://repo1.maven.org/maven2/org/scalacheck/scalacheck_2.10/1.11.3/scalacheck_2.10-1.11.3.pom"/>
+				<caller organisation="com.viridityenergy" name="squants_2.10" conf="test-internal, test, optional, compile, provided, runtime" rev="1.11.3" rev-constraint-default="1.11.3" rev-constraint-dynamic="1.11.3" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="scalacheck_2.10" type="jar" ext="jar" status="no" details="" size="873669" time="0" location="/Users/gkeorkunian/.ivy2/cache/org.scalacheck/scalacheck_2.10/jars/scalacheck_2.10-1.11.3.jar">
+						<origin-location is-local="false" location="http://repo1.maven.org/maven2/org/scalacheck/scalacheck_2.10/1.11.3/scalacheck_2.10-1.11.3.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.scalatest" name="scalatest_2.10">
+			<revision name="2.0" status="release" pubdate="20131031121328" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.scalatest.org" downloaded="false" searched="false" default="false" conf="default(compile), default, compile, runtime, master" position="1">
+				<license name="the Apache License, ASL Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
+				<metadata-artifact status="no" details="" size="6568" time="0" location="/Users/gkeorkunian/.ivy2/cache/org.scalatest/scalatest_2.10/ivy-2.0.xml" searched="false" origin-is-local="false" origin-location="http://repo1.maven.org/maven2/org/scalatest/scalatest_2.10/2.0/scalatest_2.10-2.0.pom"/>
+				<caller organisation="com.viridityenergy" name="squants_2.10" conf="test-internal, test, optional, compile, provided, runtime" rev="2.0" rev-constraint-default="2.0" rev-constraint-dynamic="2.0" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="scalatest_2.10" type="jar" ext="jar" status="no" details="" size="7158439" time="0" location="/Users/gkeorkunian/.ivy2/cache/org.scalatest/scalatest_2.10/jars/scalatest_2.10-2.0.jar">
+						<origin-location is-local="false" location="http://repo1.maven.org/maven2/org/scalatest/scalatest_2.10/2.0/scalatest_2.10-2.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.scala-sbt" name="test-interface">
+			<revision name="1.0" status="release" pubdate="20130628184435" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.scala-sbt.org" downloaded="false" searched="false" default="false" conf="compile, master(*), runtime, compile(*), runtime(*), master" position="4">
+				<license name="BSD" url="https://github.com/sbt/test-interface/blob/master/LICENSE"/>
+				<metadata-artifact status="no" details="" size="2589" time="0" location="/Users/gkeorkunian/.ivy2/cache/org.scala-sbt/test-interface/ivy-1.0.xml" searched="false" origin-is-local="false" origin-location="http://repo1.maven.org/maven2/org/scala-sbt/test-interface/1.0/test-interface-1.0.pom"/>
+				<caller organisation="org.scalacheck" name="scalacheck_2.10" conf="default, compile, runtime, master" rev="1.0" rev-constraint-default="1.0" rev-constraint-dynamic="1.0" callerrev="1.11.3"/>
+				<artifacts>
+					<artifact name="test-interface" type="jar" ext="jar" status="no" details="" size="14755" time="0" location="/Users/gkeorkunian/.ivy2/cache/org.scala-sbt/test-interface/jars/test-interface-1.0.jar">
+						<origin-location is-local="false" location="http://repo1.maven.org/maven2/org/scala-sbt/test-interface/1.0/test-interface-1.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.scala-lang" name="scala-reflect">
+			<revision name="2.10.0" status="release" pubdate="20121220022932" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.scala-lang.org/" downloaded="false" searched="false" default="false" conf="compile, master(*), runtime, compile(*), runtime(*), master" position="2">
+				<license name="BSD-like" url="http://www.scala-lang.org/downloads/license.html    "/>
+				<metadata-artifact status="no" details="" size="2552" time="0" location="/Users/gkeorkunian/.ivy2/cache/org.scala-lang/scala-reflect/ivy-2.10.0.xml" searched="false" origin-is-local="false" origin-location="http://repo1.maven.org/maven2/org/scala-lang/scala-reflect/2.10.0/scala-reflect-2.10.0.pom"/>
+				<caller organisation="org.scalatest" name="scalatest_2.10" conf="default, compile, runtime, master" rev="2.10.0" rev-constraint-default="2.10.0" rev-constraint-dynamic="2.10.0" callerrev="2.0"/>
+				<artifacts>
+					<artifact name="scala-reflect" type="jar" ext="jar" status="no" details="" size="3149351" time="0" location="/Users/gkeorkunian/.ivy2/cache/org.scala-lang/scala-reflect/jars/scala-reflect-2.10.0.jar">
+						<origin-location is-local="false" location="http://repo1.maven.org/maven2/org/scala-lang/scala-reflect/2.10.0/scala-reflect-2.10.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.scala-lang" name="scala-library">
+			<revision name="2.10.2" status="release" pubdate="20130606140543" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.scala-lang.org/" downloaded="false" searched="false" default="false" conf="default(compile), default, compile, master(*), compile(*), runtime, runtime(*), master" position="0">
+				<license name="BSD-like" url="http://www.scala-lang.org/downloads/license.html          "/>
+				<metadata-artifact status="no" details="" size="2487" time="0" location="/Users/gkeorkunian/.ivy2/cache/org.scala-lang/scala-library/ivy-2.10.2.xml" searched="false" origin-is-local="false" origin-location="http://repo1.maven.org/maven2/org/scala-lang/scala-library/2.10.2/scala-library-2.10.2.pom"/>
+				<caller organisation="org.scalatest" name="scalatest_2.10" conf="default, compile, runtime, master" rev="2.10.2" rev-constraint-default="2.10.2" rev-constraint-dynamic="2.10.0" callerrev="2.0"/>
+				<caller organisation="com.viridityenergy" name="squants_2.10" conf="test-internal, test, optional, compile, provided, runtime" rev="2.10.2" rev-constraint-default="2.10.2" rev-constraint-dynamic="2.10.2" callerrev="0.1"/>
+				<caller organisation="org.scala-lang" name="scala-reflect" conf="compile, runtime" rev="2.10.2" rev-constraint-default="2.10.2" rev-constraint-dynamic="2.10.0" callerrev="2.10.0"/>
+				<caller organisation="org.scalacheck" name="scalacheck_2.10" conf="default, compile, runtime, master" rev="2.10.2" rev-constraint-default="2.10.2" rev-constraint-dynamic="2.10.3" callerrev="1.11.3"/>
+				<artifacts>
+				</artifacts>
+			</revision>
+		</module>
+	</dependencies>
+</ivy-report>

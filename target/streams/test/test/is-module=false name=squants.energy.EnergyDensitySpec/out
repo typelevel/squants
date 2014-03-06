@@ -1,0 +1,9 @@
+[0m[[0minfo[0m] [0m[32mEnergyDensitySpec:[0m[0m
+[0m[[0minfo[0m] [0m[32mEnergyDensity and its Units of Measure[0m[0m
+[0m[[0minfo[0m] [0m[32m- should create values using UOM factories[0m[0m
+[0m[[0minfo[0m] [0m[32m- should properly convert to all supported Units of Measure[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return properly formatted strings for all supported Units of Measure[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return Energy when multiplied by Volume[0m[0m
+[0m[[0minfo[0m] [0m[32mConversions[0m[0m
+[0m[[0minfo[0m] [0m[33m- should provide aliases for single unit values (pending)[0m[0m
+[0m[[0minfo[0m] [0m[33m- should provide implicit conversion from Double (pending)[0m[0m

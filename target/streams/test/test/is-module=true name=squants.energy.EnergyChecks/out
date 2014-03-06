@@ -1,0 +1,8 @@
+[0m[[0minfo[0m] [0m+ Energy.WattHours = Watts * Hours: OK, passed 100 tests.[0m
+[0m[[0minfo[0m] [0m+ Energy.Watts = WattsPerHour * Hours: OK, passed 100 tests.[0m
+[0m[[0minfo[0m] [0m+ Energy.Watts = Volts * Amps: OK, passed 100 tests.[0m
+[0m[[0minfo[0m] [0m+ Energy.Joules = Newtons * Meters: OK, passed 100 tests.[0m
+[0m[[0minfo[0m] [0m+ Energy.Joules = Kilograms * Grays: OK, passed 100 tests.[0m
+[0m[[0minfo[0m] [0m+ Energy.Joules = CubicMeters * JoulesPerCubicMeter: OK, passed 100 tests.[0m
+[0m[[0minfo[0m] [0m+ Energy.Joules = JoulesPerKelvin * Kelvin: OK, passed 100 tests.[0m
+[0m[[0minfo[0m] [0m+ Energy.Joules = Volt * Coulombs: OK, passed 100 tests.[0m

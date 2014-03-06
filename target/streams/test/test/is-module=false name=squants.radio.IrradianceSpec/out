@@ -1,0 +1,7 @@
+[0m[[0minfo[0m] [0m[32mIrradianceSpec:[0m[0m
+[0m[[0minfo[0m] [0m[32mIrradiance and its Units of Measure[0m[0m
+[0m[[0minfo[0m] [0m[32m- should create values using UOM factories[0m[0m
+[0m[[0minfo[0m] [0m[32m- should properly convert to all supported Units of Measure[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return properly formatted strings for all supported Units of Measure[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return Power when multiplied by Area[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return Area when divided by Power[0m[0m
