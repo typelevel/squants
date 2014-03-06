@@ -4,6 +4,10 @@
 
 [![Build Status](https://travis-ci.org/garyKeorkunian/squants.png?branch=master)](https://travis-ci.org/garyKeorkunian/squants)
 
+Visit the Squants Web Site [here](http:/www.squants.com)
+
+View the API Documentation [here](http://www.squants.com/target/scala-2.10/api/#squants.package)
+
 ## Installation
 Build and install to your local Ivy cache with sbt publish-local (requires sbt 0.13).
 
