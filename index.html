@@ -28,32 +28,39 @@
     <div id="content-wrapper">
       <div class="inner clearfix">
         <section id="main-content">
-          <p><a href="https://travis-ci.org/garyKeorkunian/squants"><img src="https://travis-ci.org/garyKeorkunian/squants.png?branch=master" alt="Build Status"></a></p>
-
-<p>View the API Documentation <a href="http://www.squants.com/target/scala-2.10/api/#squants.package">here</a></p>
-
-<h2>
-<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
-
-<p>Build and install to your local Ivy cache with sbt publish-local (requires sbt 0.13).</p>
-
-<pre><code>git clone https://github.com/garyKeorkunian/squants
-cd squants
-sbt publish-local
-</code></pre>
-
-<p>Add squants to your sbt project dependencies</p>
-
-<pre><code>libraryDependencies += "com.github.garyKeorkunian" %% "squants" % "0.1-SNAPSHOT"
-</code></pre>
-
-<h2>
+          <h2>
 <a name="overview" class="anchor" href="#overview"><span class="octicon octicon-link"></span></a>Overview</h2>
 
 <p>Squants is a framework of data types and a domain specific language (DSL) for representing Quantities,
 their Units of Measure, and their Dimensional relationships.
 The API supports typesafe dimensional analysis, improved domain models and more.
 All types are immutable and thread-safe.</p>
+
+<p><a href="http:/www.squants.com">Website</a>
+|
+<a href="http://www.squants.com/target/scala-2.10/api/#squants.package">API Documentation</a>
+|
+<a href="https://github.com/garyKeorkunian/squants">GitHub</a></p>
+
+<p>Current version: <strong>0.1-SNAPSHOT</strong> (pre-release)</p>
+
+<p><a href="https://travis-ci.org/garyKeorkunian/squants"><img src="https://travis-ci.org/garyKeorkunian/squants.png?branch=master" alt="Build Status"></a></p>
+
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>A public repository is not yet available.
+Build and install to your local Ivy cache with sbt publish-local (requires sbt 0.13).</p>
+
+<pre><code>git clone https://github.com/garyKeorkunian/squants
+cd squants
+sbt publish-local
+</code></pre>
+
+<p>Add Squants to your sbt project dependencies</p>
+
+<pre><code>libraryDependencies += "com.github.garyKeorkunian" %% "squants" % "0.1-SNAPSHOT"
+</code></pre>
 
 <h2>
 <a name="better-dimensional-analysis" class="anchor" href="#better-dimensional-analysis"><span class="octicon octicon-link"></span></a>Better Dimensional Analysis</h2>
@@ -64,7 +71,7 @@ All types are immutable and thread-safe.</p>
 to compile a program that adds these two values together.  This is not appropriate as kW and kWh
 measure two different quantities.  The unit kWh is used to measure an amount of Energy used
 or produced.  The unit kW is used to measure Power/Load, the rate at which Energy is being used
-or produced, that is, Power is the first time derivative of Energy; Power = Energy / Time.</p>
+or produced, that is, Power is the first time derivative of Energy; <em>Power = Energy / Time</em>.</p>
 
 <p>Consider the following code</p>
 
@@ -170,7 +177,9 @@ overridden and augmented to realize correct behavior.</p>
 
 <p>A Ratio between Money and another Quantity</p>
 
-<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">threeForADollar</span><span class="k">:</span> <span class="kt">Price</span><span class="o">[</span><span class="kt">Count</span><span class="o">]</span> <span class="k">=</span> <span class="nc">USD</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span> <span class="o">/</span> <span class="nc">Each</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span>
+<p><em>Price = Money / Quantity</em></p>
+
+<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">threeForADollar</span><span class="k">:</span> <span class="kt">Price</span><span class="o">[</span><span class="kt">Dimensionless</span><span class="o">]</span> <span class="k">=</span> <span class="nc">USD</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span> <span class="o">/</span> <span class="nc">Each</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">energyPrice</span><span class="k">:</span> <span class="kt">Price</span><span class="o">[</span><span class="kt">Energy</span><span class="o">]</span> <span class="k">=</span> <span class="nc">USD</span><span class="o">(</span><span class="mf">102.20</span><span class="o">)</span> <span class="o">/</span> <span class="nc">MegawattHours</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">milkPrice</span><span class="k">:</span> <span class="kt">Price</span><span class="o">[</span><span class="kt">Volume</span><span class="o">]</span> <span class="k">=</span> <span class="nc">USD</span><span class="o">(</span><span class="mi">4</span><span class="o">)</span> <span class="o">/</span> <span class="nc">UsGallons</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
 
