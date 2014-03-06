@@ -2,6 +2,8 @@
 
 #### The Scala API for Quantities, Units of Measure and Dimensional Analysis
 
+[![Build Status](https://travis-ci.org/garyKeorkunian/squants.png?branch=master)](https://travis-ci.org/garyKeorkunian/squants)
+
 ## Installation
 Build and install to your local Ivy cache with sbt publish-local (requires sbt 0.13).
 
