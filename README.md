@@ -1,29 +1,34 @@
 # Squants
 
-#### The Scala API for Quantities, Units of Measure and Dimensional Analysis
-
-[![Build Status](https://travis-ci.org/garyKeorkunian/squants.png?branch=master)](https://travis-ci.org/garyKeorkunian/squants)
-
-Visit the Squants Web Site [here](http:/www.squants.com)
-
-View the API Documentation [here](http://www.squants.com/target/scala-2.10/api/#squants.package)
-
-## Installation
-Build and install to your local Ivy cache with sbt publish-local (requires sbt 0.13).
-
-    git clone https://github.com/garyKeorkunian/squants
-    cd squants
-    sbt publish-local
-
-Add squants to your sbt project dependencies
-
-    libraryDependencies += "com.github.garyKeorkunian" %% "squants" % "0.1-SNAPSHOT"
+**The Scala API for Quantities, Units of Measure and Dimensional Analysis**
 
 ## Overview
 Squants is a framework of data types and a domain specific language (DSL) for representing Quantities,
 their Units of Measure, and their Dimensional relationships.
 The API supports typesafe dimensional analysis, improved domain models and more.
 All types are immutable and thread-safe.
+
+[Website](http:/www.squants.com)
+|
+[API Documentation](http://www.squants.com/target/scala-2.10/api/#squants.package)
+|
+[GitHub](https://github.com/garyKeorkunian/squants)
+
+Current version: **0.1-SNAPSHOT** (pre-release)
+
+[![Build Status](https://travis-ci.org/garyKeorkunian/squants.png?branch=master)](https://travis-ci.org/garyKeorkunian/squants)
+
+## Installation
+A public repository is not yet available.
+Build and install to your local Ivy cache with sbt publish-local (requires sbt 0.13).
+
+    git clone https://github.com/garyKeorkunian/squants
+    cd squants
+    sbt publish-local
+
+Add Squants to your sbt project dependencies
+
+    libraryDependencies += "com.github.garyKeorkunian" %% "squants" % "0.1-SNAPSHOT"
 
 ## Better Dimensional Analysis
 *The Trouble with Doubles*
@@ -32,20 +37,23 @@ When using a Double to describe Energy (kWh) and Power (kW), it is possible
 to compile a program that adds these two values together.  This is not appropriate as kW and kWh
 measure two different quantities.  The unit kWh is used to measure an amount of Energy used
 or produced.  The unit kW is used to measure Power/Load, the rate at which Energy is being used
-or produced, that is, Power is the first time derivative of Energy; Power = Energy / Time.
+or produced, that is, Power is the first time derivative of Energy; *Power = Energy / Time*.
 
 Consider the following code
+
 ```scala
 val loadKw: Double = 1.2
 val energyMwh: Double = 24.2
 val sumKw = loadKw + energyMwh
 ```
+
 which not only adds different quantity types (load vs energy), it also fails to convert the scales (Mega vs Kilo).
 Because this code compiles, detection of these errors is pushed further into the development cycle.
 
 ### Dimensional Types
 The Squants Type Library and DSL helps prevent errors like these by type checking operations at compile time and
 automatically applying scale and type conversions (see below) at run-time.  For example,
+
 ```scala
 val load1: Power = Kilowatts(12)
 val load2: Power = Megawatts(0.023)
@@ -53,12 +61,14 @@ val sum = load1 + load2
 assert(sum == Kilowatts(35))
 assert(sum == Megawatts(0.035))
 ```
+
 is a valid assertion because Kilowatts and Megawatts are both measures of load.  Only the scale is
 different and the framework applies an appropriate conversion.  Also, notice that keeping track of
 the scale within the value name is no longer needed.
 
 ### Dimensional Type Safety
 The following code highlights the type safety features.
+
 ```scala
 val load: Power = Kilowatts(1.2)
 val energy: Energy = KilowattHours(23.0)
@@ -69,6 +79,7 @@ The invalid expression prevents the code from compiling, catching the error made
 ### Smart Type Conversions
 Dimensionally smart type conversions are a key feature of Squants.
 Most conversions are implemented by defining relationships between Quantity types using infix operations.
+
 ```scala
 val load: Power = Kilowatts(1.2)
 val time: Time = Hours(2)
@@ -77,6 +88,7 @@ assert(energyUsed == KilowattHours(2.4))
 ```
 This code demonstrates use of the Power.* method, defined as an infix operator that takes a Time
 value and returns an Energy value, conversely
+
 ```scala
 val aveLoad: Power = energyUsed / time
 assert(aveLoad == Kilowatts(1.2)
@@ -86,6 +98,7 @@ demonstrates use of the Energy./ method that takes a Time and returns a Power
 ### Unit Conversions
 If necessary, the value in the desired unit can be extracted with the
 the `to` method.
+
 ```scala
 val load: Power = Kilowatts(1200)
 val mw: Double = load to Kilowatts // returns 1200.0 (default method)
@@ -94,6 +107,7 @@ val my: Double = load to MyPowerUnit // returns ??? Whatever you want
 val kw: Double = load toKilowatts // returns 1200.0 (convenience method)
 ```
 Strings formatted in the desired unit is also supported
+
 ```scala
 val kw: String = load toString Kilowatts // returns “1200.0 kW”
 val mw: String = load toString Megawatts // returns “1.2 MW”
@@ -108,6 +122,7 @@ overridden and augmented to realize correct behavior.
 
 ### Money
 A Quantity of purchasing power
+
 ```scala
 val tenBucks: Money = USD(10)
 val someYen: Money = JPY(1200)
@@ -117,8 +132,11 @@ val digitalStash: Money = BTC(50)
 
 ### Price
 A Ratio between Money and another Quantity
+
+*Price = Money / Quantity*
+
 ```scala
-val threeForADollar: Price[Count] = USD(1) / Each(3)
+val threeForADollar: Price[Dimensionless] = USD(1) / Each(3)
 val energyPrice: Price[Energy] = USD(102.20) / MegawattHours(1)
 val milkPrice: Price[Volume] = USD(4) / UsGallons(1)
 
@@ -142,6 +160,7 @@ A MoneyContext can be implicitly declared to define default settings and applica
 This allows your application to work with a default currency based on an application configuration.
 It also provides support for dynamically updating exchange rates and using those rates for automatic conversions between currencies.
 The technique and frequency chosen for exchange rate updates is completely in control of the application.
+
 ```scala
 implicit val moneyContext = MoneyContext(defCur, curList, exchangeRates)
 val someMoney = Money(350) // 350 in the default Cur
@@ -153,12 +172,14 @@ val northAmericanSales: Money = (CAD(275) + USD(350) + MXN(290)) in USD
 
 ## Quantity Ranges
 Used to represent a range of Quantity values between an upper and lower bound
+
 ```scala
 val load1: Power = Kilowatts(1000)
 val load2: Power = Kilowatts(5000)
 val range: QuantityRange[Power] = QuantityRange(load1, load2)
 ```
 Use multiplication and division to create a Seq of ranges from the original
+
 ```scala
 // Create a Seq of 10 sequential ranges starting with the original and each the same size as the original
 val rs1 = range * 10
@@ -168,6 +189,7 @@ val rs2 = range / 10
 val rs3 = range / Kilowatts(400)
 ```
 Apply foreach, map and foldLeft/foldRight directly to QuantityRanges with a divisor
+
 ```scala
 // foreach over each of the 400 kilometer ranges within the range
 range.foreach(Kilometers(400)) {r => ???}
@@ -179,6 +201,7 @@ range.foldLeft(10)(0) {(z, r) => ???}
 
 ## Natural Language Features
 Implicit conversions give the DSL some features that allows client code to express quantities in a more natural way.
+
 ```scala
 // Create Quantities using Unit Of Measure Factory objects (no implicits required)
 val load = Kilowatts(100)
@@ -209,6 +232,7 @@ Common 'Base' Quantities include Mass, Temperature, Length, Time, Energy, etc.
 Derived Quantities are based on one or more other quantities.  Typical examples include Time Derivatives.
 
 Speed is the 1st Time Derivative of Length (Distance), Acceleration is the 2nd Time Derivative.
+
 ```scala
 val distance: Length = Kilometers(100)
 val time: Time = Hours(2)
@@ -218,6 +242,7 @@ val acc: Acceleration = Meters(50) / Second(1) / Second(1)
 assert(acc.toMetersPerSecondSquared == 50)
 ```
 Power is the 1st Time Derivative of Energy, PowerRamp is the 2nd
+
 ```scala
 val energy: Energy = KilowattHours(100)
 val time: Time = Hours(2)
@@ -237,6 +262,7 @@ The UOM objects define the unit symbols and conversion settings.
 Factory methods in each UOM object create instances of the corresponding Quantity.
 
 For example UOM objects extending LengthUnit can be used to create Length quantities
+
 ```scala
 val len1: Length = Inches(5)
 val len2: Length = Meters(4.3)
@@ -274,6 +300,7 @@ val totalMassFlow: Mass = volFlowRate * flowTime * density
 ### Domain Modeling
 Another excellent use case for Squants is stronger types for fields in your domain model.
 This is OK ...
+
 ```scala
 case class Generator(id: String, maxLoadKW: Double, rampRateKWph: Double,
 operatingCostPerMWh: Double, currency: String, maintenanceTimeHours: Double)
@@ -297,6 +324,7 @@ assetManagementActor ! ManageGenerator(gen1)
 Create wrappers around external services that use basic types to represent quantities.
 Your application code then uses the ACL to communicate with that system thus eliminating the need to deal
 with type and scale conversions in your application logic.
+
 ```scala
 class ScadaServiceAnticorruption(val service: ScadaService) {
   // ScadaService returns load as Double representing Megawatts
@@ -307,7 +335,9 @@ class ScadaServiceAnticorruption(val service: ScadaService) {
     service.sendTempBias(temp.to(Fahrenheit))
 }
 ```
+
 Implement the ACL as a trait and mix in to the application's services where needed.
+
 ```scala
 trait WeatherServiceAntiCorruption {
   val service: WeatherService
@@ -316,6 +346,7 @@ trait WeatherServiceAntiCorruption {
 }
 ```
 Extend the pattern to provide multi-currency support
+
 ```scala
 class MarketServiceAnticorruption(val service: MarketService)
      (implicit val moneyContext: = MoneyContext) {
@@ -328,7 +359,9 @@ class MarketServiceAnticorruption(val service: MarketService)
     service.sendBid((bid * megawattHour) to USD, limit to MegawattHours)
 }
 ```
+
 Build Anticorruption into Akka routers
+
 ```scala
 // LoadReading message used within the Squant’s enabled application context
 case class LoadReading(meterId: String, time: Long, load: Power)
@@ -343,7 +376,9 @@ class ScadaLoadListener(router: Router) extends Actor {
   }
 }
 ```
+
 ... and REST API's with contracts that require basic types
+
 ```scala
 trait LoadRoute extends HttpService {
   def repo: LoadRepository
