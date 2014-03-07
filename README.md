@@ -8,7 +8,7 @@ their Units of Measure, and their Dimensional relationships.
 The API supports typesafe dimensional analysis, improved domain models and more.
 All types are immutable and thread-safe.
 
-[Website](http:/www.squants.com)
+[Website](http:/www.squants.com/)
 |
 [API Documentation](http://www.squants.com/target/scala-2.10/api/#squants.package)
 |
