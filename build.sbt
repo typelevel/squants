@@ -1,8 +1,12 @@
-organization in ThisBuild := "com.viridityenergy"
+organization in ThisBuild := "com.squants"
 
 name := "Squants"
 
 version in ThisBuild := Versions.Squants
+
+licenses := Seq("Apache 2.0" -> url("http://www.opensource.org/licenses/Apache-2.0"))
+
+homepage := Some(url("http://www.squants.com/"))
 
 scalaVersion in ThisBuild := Versions.Scala
 
@@ -11,6 +15,34 @@ scalacOptions ++= Seq("-feature", "-deprecation")
 libraryDependencies ++= Seq(
   "org.scalatest"      %% "scalatest"   % Versions.ScalaTest       % "test",
   "org.scalacheck"     %% "scalacheck"  % Versions.ScalaCheck      % "test"
+)
+
+publishTo := {
+  val nexus = "https://oss.sonatype.org/"
+  if (isSnapshot.value)
+    Some("snapshots" at nexus + "content/repositories/snapshots")
+  else
+    Some("releases" at nexus + "service/local/staging/deploy/maven2")
+}
+
+publishMavenStyle := true
+
+publishArtifact in Test := false
+
+pomIncludeRepository := { _ => false }
+
+pomExtra := (
+  <scm>
+    <url>git@github.com:garyKeorkunian/squants.git</url>
+    <connection>scm:git:git@github.com:garyKeorkunian/squants.git</connection>
+  </scm>
+  <developers>
+    <developer>
+      <id>garyKeorkunian</id>
+      <name>Gary Keorkunian</name>
+      <url>http://www.linkedin.com/in/garykeorkunian</url>
+    </developer>
+  </developers>
 )
 
 initialCommands in console := """import scala.language.postfixOps,
