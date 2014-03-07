@@ -49,20 +49,13 @@ All types are immutable and thread-safe.</p>
 <h2>
 <a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
 
-<p>A public repository is not yet available.
-Build and install to your local Ivy cache with sbt publish-local (requires sbt 0.13).</p>
+<p>Repository hosting for Squants is provided by Sonatype.
+To use Squants in your SBT project you will need to add the following dependency to your build.</p>
 
-<pre><code>git clone https://github.com/garyKeorkunian/squants
-cd squants
-sbt publish-local
+<pre><code>"com.squants"  %% "squants"  % "0.1-SNAPSHOT"
 </code></pre>
 
-<p>Add Squants to your sbt project dependencies</p>
-
-<pre><code>libraryDependencies += "com.github.garyKeorkunian" %% "squants" % "0.1-SNAPSHOT"
-</code></pre>
-
-<p>Use Squants interactively in the Scala REPL</p>
+<p>To use Squants interactively in the Scala REPL, clone the git repo and run <code>sbt console</code></p>
 
 <pre><code>git clone https://github.com/garyKeorkunian/squants
 cd squants
