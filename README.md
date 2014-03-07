@@ -20,23 +20,16 @@ Current version: **0.1-SNAPSHOT** (pre-release)
 [![Build Status](https://travis-ci.org/garyKeorkunian/squants.png?branch=master)](https://travis-ci.org/garyKeorkunian/squants)
 
 ## Installation
-A public repository is not yet available.
-Build and install to your local Ivy cache with sbt publish-local (requires sbt 0.13).
+Repository hosting for Squants is provided by Sonatype.
+To use Squants in your SBT project you will need to add the following dependency to your build.
 
-    git clone https://github.com/garyKeorkunian/squants
-    cd squants
-    sbt publish-local
+    "com.squants"  %% "squants"  % "0.1-SNAPSHOT"
 
-Add Squants to your sbt project dependencies
-
-    libraryDependencies += "com.github.garyKeorkunian" %% "squants" % "0.1-SNAPSHOT"
-
-Use Squants interactively in the Scala REPL
+To use Squants interactively in the Scala REPL, clone the git repo and run `sbt console`
 
     git clone https://github.com/garyKeorkunian/squants
     cd squants
     sbt console
-
 
 ## Better Dimensional Analysis
 *The Trouble with Doubles*
