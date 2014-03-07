@@ -2,7 +2,6 @@
 
 **The Scala API for Quantities, Units of Measure and Dimensional Analysis**
 
-## Overview
 Squants is a framework of data types and a domain specific language (DSL) for representing Quantities,
 their Units of Measure, and their Dimensional relationships.
 The API supports typesafe dimensional analysis, improved domain models and more.
@@ -13,6 +12,8 @@ All types are immutable and thread-safe.
 [API Documentation](http://www.squants.com/target/scala-2.10/api/#squants.package)
 |
 [GitHub](https://github.com/garyKeorkunian/squants)
+|
+[User Forum](https://groups.google.com/forum/#!forum/squants)
 
 Current version: **0.1-SNAPSHOT** (pre-release)
 
@@ -30,14 +31,27 @@ Add Squants to your sbt project dependencies
 
     libraryDependencies += "com.github.garyKeorkunian" %% "squants" % "0.1-SNAPSHOT"
 
+Use Squants interactively in the Scala REPL
+
+    git clone https://github.com/garyKeorkunian/squants
+    cd squants
+    sbt console
+
+
 ## Better Dimensional Analysis
 *The Trouble with Doubles*
 
-When using a Double to describe Energy (kWh) and Power (kW), it is possible
+When building programs that perform some type of dimensional analysis, developers are quick to declare
+quantities using a basic numeric type, usually Double.  While this may be perfectly satisfactory
+in many situation, it can often lead to semantic and other logic issues.
+
+For example, when using a Double to describe an quantity of Energy (kWh) and Power (kW), it is possible
 to compile a program that adds these two values together.  This is not appropriate as kW and kWh
 measure two different quantities.  The unit kWh is used to measure an amount of Energy used
 or produced.  The unit kW is used to measure Power/Load, the rate at which Energy is being used
-or produced, that is, Power is the first time derivative of Energy; *Power = Energy / Time*.
+or produced, that is, Power is the first time derivative of Energy.
+
+*Power = Energy / Time*
 
 Consider the following code
 
@@ -147,6 +161,7 @@ val milkQuota: Volume = milkPrice * USD(20) // returns UsGallons(5)
 
 ### FX Support
 Currency Exchange Rates
+
 ```scala
 val rate = CurrencyExchangeRate(USD(1), JPY(100))
 val someYen: Money = JPY(350)
@@ -219,6 +234,7 @@ val speed = 55.miles / 1.hours
 // Create Quantities using formatted Strings
 val load = Power("40 MW")		// 40 MW
 ```
+
 The last conversion is useful for automatically interpreting strings from user input, json marshaller and other sources
 
 ## Type Hierarchy
@@ -252,7 +268,7 @@ val ramp: PowerRamp = KilowattHours(50) / Hours(1) / Hours(1)
 assert(ramp.toKilowattsPerHour == 50)
 ```
 
-Squants currently supports over 40 quantity types.
+Squants currently supports over 50 quantity types.
 
 ### Unit of Measure
 UnitOfMeasure is the scale or multiplier in which the Quantity is being measured.
@@ -274,7 +290,7 @@ Units of Measure for Temperature include Celsius, Kelvin, and Fahrenheit
 
 Units of Measure for Mass include Grams, Kilograms, etc.
 
-Squants currently supports over 120 units of measure
+Squants currently supports over 150 units of measure
 
 ## Use Cases
 
@@ -282,6 +298,7 @@ Squants currently supports over 120 units of measure
 
 The primary use case for Squants, as described above, is to produce code that is typesafe with in domains
 that perform dimensional analysis.
+
 ```scala
 val energyPrice: Price[Energy] = 45.25.money / megawattHour
 val energyUsage: Energy = 345.kilowatts * 5.4.hours
@@ -310,6 +327,7 @@ val gen2 = Generator("Gen2", 100, 250, 2944.5, "JPY", 0.5)
 assetManagementActor ! ManageGenerator(gen1)
 ```
 … but this is much better
+
 ```scala
 case class Generator(id: String, maxLoad: Power, rampRate: PowerRamp,
 operatingCost: Price[Energy], maintenanceTime: Time)
@@ -345,6 +363,7 @@ trait WeatherServiceAntiCorruption {
   def getIrradiance: Irradiance = WattsPerSquareMeter(service.getIrradiance)
 }
 ```
+
 Extend the pattern to provide multi-currency support
 
 ```scala
@@ -393,7 +412,7 @@ trait LoadRoute extends HttpService {
               case "kW" => Kilowatts(loadDouble)
               case "MW" => Megawatts(loadDouble)
             }
-            repo.SaveLoad(meterId, time, load)
+            repo.saveLoad(meterId, time, load)
           }
         }
       } ~
@@ -401,12 +420,11 @@ trait LoadRoute extends HttpService {
       get {
         parameters(meterId, time) { (meterId, time) =>
           complete {
-            repo.GetLoad(meterId, time) to Megawatts
+            repo.getLoad(meterId, time) to Megawatts
           }
         }
       }
     }
   }
 }
-
 ```
