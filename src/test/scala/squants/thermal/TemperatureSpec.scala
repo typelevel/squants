@@ -11,6 +11,8 @@ package squants.thermal
 import org.scalatest.{ Matchers, FlatSpec }
 import org.scalacheck.Properties
 import org.scalacheck.Prop._
+import org.json4s.native.Serialization
+import org.json4s.{ ShortTypeHints, DefaultFormats }
 import squants.energy.Joules
 
 /**
@@ -189,6 +191,32 @@ class TemperatureSpec extends FlatSpec with Matchers {
 
   they should "return Energy when multiplied by ThermalCapacity" in {
     assert(Kelvin(1) * JoulesPerKelvin(1) == Joules(1))
+  }
+
+  they should "serialize to and deserialize from Json" in {
+    implicit val formats = DefaultFormats.withBigDecimal + ShortTypeHints(List(classOf[Fahrenheit], classOf[Celsius], classOf[Kelvin]))
+
+    val cel = Celsius(99)
+    val serC = Serialization.write(cel)
+    val cel2 = Serialization.read[Celsius](serC)
+    assert(cel2 == cel)
+
+    val fah = Fahrenheit(100)
+    val serF = Serialization.write(fah)
+    val fah2 = Serialization.read[Fahrenheit](serF)
+    assert(fah2 == fah)
+
+    val kel = Kelvin(101)
+    val serK = Serialization.write(kel)
+    val kel2 = Serialization.read[Kelvin](serK)
+    assert(kel2 == kel)
+
+    val cel3 = Serialization.read[Temperature](serC)
+    assert(cel3 == cel)
+    val fah3 = Serialization.read[Temperature](serF)
+    assert(fah3 == fah)
+    val kel3 = Serialization.read[Temperature](serK)
+    assert(kel3 == kel)
   }
 
   behavior of "TemperatureConversions"

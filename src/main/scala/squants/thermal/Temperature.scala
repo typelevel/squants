@@ -55,7 +55,7 @@ import squants.energy.Joules
  *
  * @param value the value of the temperature
  */
-abstract class Temperature protected (val value: Double)
+sealed abstract class Temperature protected (val value: Double)
     extends Quantity[Temperature] with BaseQuantity {
 
   def baseUnit = Kelvin
@@ -139,9 +139,9 @@ object Temperature {
   }
 }
 
-final class Celsius private (degrees: Double) extends Temperature(degrees) { def valueUnit = Celsius }
-final class Fahrenheit private (degrees: Double) extends Temperature(degrees) { def valueUnit = Fahrenheit }
-final class Kelvin private (degrees: Double) extends Temperature(degrees) { def valueUnit = Kelvin }
+final class Celsius(value: Double) extends Temperature(value) { def valueUnit = Celsius }
+final class Fahrenheit(value: Double) extends Temperature(value) { def valueUnit = Fahrenheit }
+final class Kelvin(value: Double) extends Temperature(value) { def valueUnit = Kelvin }
 
 /**
  * Base trait for units of [[squants.thermal.Temperature]]
@@ -149,7 +149,6 @@ final class Kelvin private (degrees: Double) extends Temperature(degrees) { def 
 sealed trait TemperatureScale extends BaseQuantityUnit[Temperature] with UnitConverter {
   def dimensionSymbol = "Θ"
   def self: TemperatureScale
-  def apply(degrees: Double): Temperature = self(degrees)
 }
 
 object Celsius extends TemperatureScale {
@@ -158,7 +157,7 @@ object Celsius extends TemperatureScale {
   protected def converterFrom = TemperatureConversions.celsiusToKelvinScale
   protected def converterTo = TemperatureConversions.kelvinToCelsiusScale
   def apply(temperature: Temperature): Temperature = temperature.inCelsius
-  override def apply(degrees: Double) = new Celsius(degrees)
+  def apply(degrees: Double) = new Celsius(degrees)
 }
 
 object Fahrenheit extends TemperatureScale {
@@ -167,14 +166,14 @@ object Fahrenheit extends TemperatureScale {
   protected def converterFrom = TemperatureConversions.fahrenheitToKelvinScale
   protected def converterTo = TemperatureConversions.kelvinToFahrenheitScale
   def apply(temperature: Temperature): Temperature = temperature.inFahrenheit
-  override def apply(degrees: Double) = new Fahrenheit(degrees)
+  def apply(degrees: Double) = new Fahrenheit(degrees)
 }
 
 object Kelvin extends TemperatureScale with ValueUnit with BaseUnit {
   val symbol = "°K"
   val self = this
   def apply(temperature: Temperature): Temperature = temperature.inKelvin
-  override def apply(degrees: Double) = new Kelvin(degrees)
+  def apply(degrees: Double) = new Kelvin(degrees)
 }
 
 object TemperatureConversions {

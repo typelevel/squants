@@ -15,7 +15,7 @@ All types are immutable and thread-safe.
 |
 [User Forum](https://groups.google.com/forum/#!forum/squants)
 
-Current version: **0.1-SNAPSHOT** (pre-release)
+Current version: **0.2-SNAPSHOT** (pre-release)
 
 [![Build Status](https://travis-ci.org/garyKeorkunian/squants.png?branch=master)](https://travis-ci.org/garyKeorkunian/squants)
 
@@ -23,7 +23,7 @@ Current version: **0.1-SNAPSHOT** (pre-release)
 Repository hosting for Squants is provided by Sonatype.
 To use Squants in your SBT project you will need to add the following dependency to your build.
 
-    "com.squants"  %% "squants"  % "0.1-SNAPSHOT"
+    "com.squants"  %% "squants"  % "0.2-SNAPSHOT"
 
 To use Squants interactively in the Scala REPL, clone the git repo and run `sbt console`
 

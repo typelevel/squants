@@ -13,8 +13,16 @@ scalaVersion in ThisBuild := Versions.Scala
 scalacOptions ++= Seq("-feature", "-deprecation")
 
 libraryDependencies ++= Seq(
-  "org.scalatest"      %% "scalatest"   % Versions.ScalaTest       % "test",
-  "org.scalacheck"     %% "scalacheck"  % Versions.ScalaCheck      % "test"
+  Dependencies.scalaTest,
+  Dependencies.scalaCheck,
+  Dependencies.json4s
+)
+
+resolvers ++= Seq(
+    Resolvers.typeSafeRepo,
+    Resolvers.sonatypeNexusSnapshots,
+    Resolvers.sonatypeNexusReleases,
+    Resolvers.sonatypeNexusStaging
 )
 
 publishTo := {
