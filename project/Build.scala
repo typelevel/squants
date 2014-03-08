@@ -1,14 +1,24 @@
 import sbt._
 
 object Versions {
-  val Squants = "0.1-SNAPSHOT"
+  val Squants = "0.2-SNAPSHOT"
   val Scala = "2.10.3"
   val ScalaTest = "2.0"
   val ScalaCheck = "1.11.3"
+  val Json4s = "3.3.0-SNAPSHOT"
+}
+
+object Dependencies {
+  val scalaTest = "org.scalatest" %% "scalatest" % Versions.ScalaTest % "test"
+  val scalaCheck = "org.scalacheck" %% "scalacheck" % Versions.ScalaCheck % "test"
+  val json4s = "org.json4s" %% "json4s-native" % Versions.Json4s % "test"
 }
 
 object Resolvers {
   val typeSafeRepo = "Typesafe Repo" at "http://repo.typesafe.com/typesafe/releases/"
+  val sonatypeNexusSnapshots = "Sonatype Nexus Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
+  val sonatypeNexusReleases = "Sonatype Nexus Releases" at "https://oss.sonatype.org/content/repositories/releases"
+  val sonatypeNexusStaging = "Sonatype Nexus Staging" at "https://oss.sonatype.org/service/local/staging/deploy/maven2"
 }
 
 object Compiler {
