@@ -85,12 +85,12 @@ class MassSpec extends FlatSpec with Matchers {
     assert(Kilograms(1) / CubicMeters(1) == KilogramsPerCubicMeter(1))
   }
 
-  it should "serialize to and deserialize from Json" in {
+  it should "serialize to and de-serialize from Json" in {
     implicit val formats = DefaultFormats
     val x = Kilograms(10)
     val ser = Serialization.write(x)
-    val y = Serialization.read[Mass](ser)
-    assert(x == y)
+    val des = Serialization.read[Mass](ser)
+    assert(x == des)
   }
 
   behavior of "MassConversions"

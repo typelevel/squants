@@ -99,4 +99,6 @@ object PowerRampConversions {
   implicit class PowerRampStringConversion(s: String) {
     def toPowerRamp = PowerRamp(s)
   }
+
+  implicit object PowerRampNumeric extends QuantityNumeric[PowerRamp] { val valueUnit = WattsPerHour }
 }

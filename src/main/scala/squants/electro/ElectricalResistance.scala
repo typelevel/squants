@@ -95,4 +95,7 @@ object ElectricalResistanceConversions {
     def megohms = Megohms(d)
     def gigohms = Gigohms(d)
   }
+
+  implicit object ElectricalResistanceNumeric
+    extends QuantityNumeric[ElectricalResistance] { val valueUnit = Ohms }
 }

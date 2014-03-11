@@ -127,4 +127,16 @@ class MoneyContextSpec extends FlatSpec with Matchers {
     assert(moneyContext.compare(USD(1), JPY(200)) == -1)
     assert(moneyContext.compare(USD(1), JPY(100)) == 0)
   }
+
+  it should "return a copy with a new set of rates" in {
+    val newRates = List(
+      CurrencyExchangeRate(EUR(1), USD(1.25)),
+      CurrencyExchangeRate(USD(1), JPY(100)),
+      CurrencyExchangeRate(GBP(1), USD(1.6686)),
+      CurrencyExchangeRate(USD(1), CAD(1.1126)))
+    val newContext = moneyContext.withExchangeRates(newRates)
+    assert(newContext.defaultCurrency == moneyContext.defaultCurrency)
+    assert(newContext.currencies == moneyContext.currencies)
+    assert(newContext.rates == newRates)
+  }
 }

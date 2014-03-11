@@ -19,6 +19,8 @@ import squants.time.Hours
  */
 class QuantitySpec extends FlatSpec with Matchers {
 
+  // TODO Implement Specs for Numeric Support
+
   /*
     Create a Quantity with two Units of Measure
    */

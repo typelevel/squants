@@ -154,5 +154,7 @@ object MassConversions {
   implicit class MassStringConversions(val s: String) {
     def toMass = Mass(s)
   }
+
+  implicit object MassNumeric extends QuantityNumeric[Mass] { val valueUnit = Grams }
 }
 

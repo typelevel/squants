@@ -103,5 +103,7 @@ object ElectricChargeConversions {
     def abcoulombs = Abcoulombs(d)
     def ampereHours = AmpereHours(d)
   }
-}
 
+  implicit object ElectricalChargeNumeric
+    extends QuantityNumeric[ElectricCharge] { val valueUnit = Coulombs }
+}

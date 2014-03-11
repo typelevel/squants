@@ -247,7 +247,7 @@ trait QuantityNumeric[A <: Quantity[A]] extends Numeric[A] {
   def valueUnit: UnitOfMeasure[A] with ValueUnit
   def plus(x: A, y: A) = x + y
   def minus(x: A, y: A) = x - y
-  def times(x: A, y: A) = throw new UnsupportedOperationException("Numeric.times not supported for Quantities")
+  def times(x: A, y: A): A = throw new UnsupportedOperationException("Numeric.times not supported for Quantities")
   def negate(x: A) = -x
   def fromInt(x: Int) = valueUnit(x)
   def toInt(x: A) = x.value.toInt

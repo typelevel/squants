@@ -85,4 +85,6 @@ object CapacitanceConversions {
     def millifarads = Millifarads(d)
     def kilofarads = Kilofarads(d)
   }
+
+  implicit object CapacitanceNumeric extends QuantityNumeric[Capacitance] { val valueUnit = Farads }
 }

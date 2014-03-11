@@ -8,7 +8,7 @@
 
 package squants.electro
 
-import squants.{ ValueUnit, UnitMultiplier, UnitOfMeasure, Quantity }
+import squants._
 import squants.space.Length
 
 /**
@@ -45,4 +45,7 @@ object ConductivityConversions {
   implicit class ConductivityConversions(d: Double) {
     def siemensPerMeter = SiemensPerMeter(d)
   }
+
+  implicit object ConductivityNumeric extends QuantityNumeric[Conductivity] { val valueUnit = SiemensPerMeter }
+
 }

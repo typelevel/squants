@@ -87,5 +87,7 @@ object ElectricPotentialConversions {
     def kilovolts = Kilovolts(d)
     def megavolts = Megavolts(d)
   }
+
+  implicit object ElectricPotentialNumeric extends QuantityNumeric[ElectricPotential] { val valueUnit = Volts }
 }
 

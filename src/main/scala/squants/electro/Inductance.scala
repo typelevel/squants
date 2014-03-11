@@ -44,4 +44,6 @@ object InductanceConversions {
   implicit class InductanceConversions(d: Double) {
     def henry = Henry(d)
   }
+
+  implicit object InductanceNumeric extends QuantityNumeric[Inductance] { val valueUnit = Henry }
 }

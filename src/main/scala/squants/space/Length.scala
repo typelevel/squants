@@ -235,5 +235,7 @@ object LengthConversions {
   implicit class LengthStringConversions(s: String) {
     def toLength = Length(s)
   }
+
+  implicit object LengthNumeric extends QuantityNumeric[Length] { val valueUnit = Meters }
 }
 
