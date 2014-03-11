@@ -43,6 +43,10 @@ class DimensionlessSpec extends FlatSpec with Matchers {
     assert(Gross(1).toString(Gross) == "1.0 gr")
   }
 
+  it should "return another Dimensionless  when multiplied by a Dimensionless" in {
+    assert(Each(2) * Dozen(1) == Dozen(2))
+  }
+
   it should "return a Frequency when divided by Time" in {
     assert(Each(60) / Seconds(1) == Hertz(60))
   }
@@ -80,4 +84,6 @@ class DimensionlessSpec extends FlatSpec with Matchers {
     assert(coefficient.thousand == Each(coefficient * 1000))
     assert(coefficient.million == Each(coefficient * 1000000D))
   }
+
+  it should "provide numeric support" is pending
 }

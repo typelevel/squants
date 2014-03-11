@@ -167,4 +167,6 @@ object EnergyConversions {
   implicit class EnergyStringConversions(s: String) {
     def toEnergy = Energy(s)
   }
+
+  implicit object EnergyNumeric extends QuantityNumeric[Energy] { val valueUnit = WattHours }
 }

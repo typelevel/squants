@@ -45,4 +45,6 @@ object ResistivityConversions {
   implicit class ResistivityConversions(d: Double) {
     def ohmMeters = OhmMeters(d)
   }
+
+  implicit object ResistivityNumeric extends QuantityNumeric[Resistivity] { val valueUnit = OhmMeters }
 }

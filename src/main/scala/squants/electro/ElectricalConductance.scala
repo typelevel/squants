@@ -47,4 +47,6 @@ object ElectricalConductanceConversions {
   implicit class ElectricalConductanceConversions(d: Double) {
     def siemens = Siemens(d)
   }
+
+  implicit object ElectricalConductanceNumeric extends QuantityNumeric[ElectricalConductance] { val valueUnit = Siemens }
 }

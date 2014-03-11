@@ -83,4 +83,7 @@ object ElectricCurrentConversions {
     def milliamps = Milliamperes(d)
     def mA = Milliamperes(d)
   }
+
+  implicit object ElectricCurrentNumeric
+    extends QuantityNumeric[ElectricCurrent] { val valueUnit = Amperes }
 }

@@ -147,4 +147,11 @@ case class MoneyContext(
     if (moneyA.amount > convert(moneyB, moneyA.currency).amount) 1
     else if (moneyA.amount < convert(moneyB, moneyA.currency).amount) -1
     else 0
+
+  /**
+   * Create a copy of this context with a new list of rates
+   * @param rates List[CurrencyExchangeRate]
+   * @return
+   */
+  def withExchangeRates(rates: List[CurrencyExchangeRate]) = copy(rates = rates)
 }

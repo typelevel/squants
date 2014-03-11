@@ -10,6 +10,8 @@ package squants.market
 
 import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
+import org.json4s.DefaultFormats
+import org.json4s.native.Serialization
 
 /**
  * @author  garyKeorkunian
@@ -242,6 +244,21 @@ class MoneySpec extends FlatSpec with Matchers {
     assert(orderedList.head == Money(1))
     assert(orderedList.tail.head == Money(10))
     assert(orderedList.tail.tail.head == Money(100))
+  }
+
+  it should "serialize to and de-serialize Currency from Json" in {
+    implicit val formats = DefaultFormats
+    val ser = Serialization.write(USD)
+    val des = Serialization.read[Currency](ser)
+    assert(des == USD)
+  }
+
+  it should "serialize to and de-serialize Money from Json" in {
+    implicit val formats = DefaultFormats.withBigDecimal
+    val x = USD(10)
+    val ser = Serialization.write(x)
+    val des = Serialization.read[Money](ser)
+    assert(x == des)
   }
 
   behavior of "MoneyConversions"

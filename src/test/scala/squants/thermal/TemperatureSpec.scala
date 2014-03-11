@@ -193,23 +193,23 @@ class TemperatureSpec extends FlatSpec with Matchers {
     assert(Kelvin(1) * JoulesPerKelvin(1) == Joules(1))
   }
 
-  they should "serialize to and deserialize from Json" in {
+  they should "serialize to and de-serialize from Json" in {
     implicit val formats = DefaultFormats.withBigDecimal + ShortTypeHints(List(classOf[Fahrenheit], classOf[Celsius], classOf[Kelvin]))
 
     val cel = Celsius(99)
     val serC = Serialization.write(cel)
-    val cel2 = Serialization.read[Celsius](serC)
-    assert(cel2 == cel)
+    val desC = Serialization.read[Celsius](serC)
+    assert(desC == cel)
 
     val fah = Fahrenheit(100)
     val serF = Serialization.write(fah)
-    val fah2 = Serialization.read[Fahrenheit](serF)
-    assert(fah2 == fah)
+    val desF = Serialization.read[Fahrenheit](serF)
+    assert(desF == fah)
 
     val kel = Kelvin(101)
     val serK = Serialization.write(kel)
-    val kel2 = Serialization.read[Kelvin](serK)
-    assert(kel2 == kel)
+    val desK = Serialization.read[Kelvin](serK)
+    assert(desK == kel)
 
     val cel3 = Serialization.read[Temperature](serC)
     assert(cel3 == cel)

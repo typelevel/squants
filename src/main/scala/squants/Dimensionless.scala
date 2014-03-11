@@ -27,6 +27,8 @@ final class Dimensionless private (val value: Double)
 
   def valueUnit = Each
 
+  def *(that: Dimensionless) = Each(toEach * that.toEach)
+  def *(that: Quantity[_]) = that * toEach
   def /(that: Time): Frequency = Frequency(this, that)
   def /(that: Frequency): Time = that.time * (this / that.change)
 
@@ -104,5 +106,10 @@ object DimensionlessConversions {
     def hundred = Each(d * 100)
     def thousand = Each(d * 1000)
     def million = Each(d * 1000000D)
+  }
+
+  implicit object DimensionlessNumeric extends QuantityNumeric[Dimensionless] {
+    val valueUnit = Each
+    override def times(x: Dimensionless, y: Dimensionless) = x * y
   }
 }

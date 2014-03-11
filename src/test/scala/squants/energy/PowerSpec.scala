@@ -100,4 +100,11 @@ class PowerSpec extends FlatSpec with Matchers {
     assert("10.22 GW".toPower.get == Gigawatts(10.22))
     assert("10.22 Btu/hr".toPower.get == BtusPerHour(10.22))
   }
+
+  it should "provide Numeric support in" in {
+    import PowerConversions.PowerNumeric
+
+    val ps = List(Watts(1000), Kilowatts(10), Megawatts(.1))
+    assert(ps.sum == Kilowatts(111))
+  }
 }

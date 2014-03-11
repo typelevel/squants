@@ -223,10 +223,4 @@ package object squants {
   implicit class SquantifiedDouble(d: Double) {
     def *[A <: Quantity[A]](that: A): A = that * d
   }
-
-  // assign to `implicit val num` when Numeric support is required
-  // TODO - create smart implicit that uses the right Numeric automatically
-  val MassNumeric = new {} with QuantityNumeric[Mass] { val valueUnit = Grams }
-  val LengthNumeric = new {} with QuantityNumeric[Length] { val valueUnit = Meters }
 }
-
