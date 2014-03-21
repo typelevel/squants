@@ -78,9 +78,10 @@ class PowerRampSpec extends FlatSpec with Matchers {
   it should "provide implicit conversions from String" in {
     import PowerRampConversions._
 
-    assert("10.22 W/h".toPowerRamp.get == WattsPerHour(10.22))
-    assert("10.22 kW/h".toPowerRamp.get == KilowattsPerHour(10.22))
-    assert("10.22 MW/h".toPowerRamp.get == MegawattsPerHour(10.22))
-    assert("10.22 GW/h".toPowerRamp.get == GigawattsPerHour(10.22))
+    assert("10.22 W/h".toPowerRamp.right.get == WattsPerHour(10.22))
+    assert("10.22 kW/h".toPowerRamp.right.get == KilowattsPerHour(10.22))
+    assert("10.22 MW/h".toPowerRamp.right.get == MegawattsPerHour(10.22))
+    assert("10.22 GW/h".toPowerRamp.right.get == GigawattsPerHour(10.22))
+    assert("10.22 zz".toPowerRamp.left.get == "Unable to parse 10.22 zz as PowerRamp")
   }
 }

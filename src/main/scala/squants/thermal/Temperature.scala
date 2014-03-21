@@ -122,19 +122,19 @@ object Temperature {
     case Celsius    ⇒ Celsius(d)
     case Kelvin     ⇒ Kelvin(d)
   }
-  def apply(s: String): Option[Temperature] = {
+  def apply(s: String): Either[String, Temperature] = {
     val regex = "([-+]?[0-9]*\\.?[0-9]+)[ °]*(f|F|c|C|k|K)".r
     s match {
-      case regex(value, Fahrenheit.symbol) ⇒ Some(Fahrenheit(value.toDouble))
-      case regex(value, "f")               ⇒ Some(Fahrenheit(value.toDouble))
-      case regex(value, "F")               ⇒ Some(Fahrenheit(value.toDouble))
-      case regex(value, Celsius.symbol)    ⇒ Some(Celsius(value.toDouble))
-      case regex(value, "c")               ⇒ Some(Celsius(value.toDouble))
-      case regex(value, "C")               ⇒ Some(Celsius(value.toDouble))
-      case regex(value, Kelvin.symbol)     ⇒ Some(Kelvin(value.toDouble))
-      case regex(value, "k")               ⇒ Some(Kelvin(value.toDouble))
-      case regex(value, "K")               ⇒ Some(Kelvin(value.toDouble))
-      case _                               ⇒ None
+      case regex(value, Fahrenheit.symbol) ⇒ Right(Fahrenheit(value.toDouble))
+      case regex(value, "f")               ⇒ Right(Fahrenheit(value.toDouble))
+      case regex(value, "F")               ⇒ Right(Fahrenheit(value.toDouble))
+      case regex(value, Celsius.symbol)    ⇒ Right(Celsius(value.toDouble))
+      case regex(value, "c")               ⇒ Right(Celsius(value.toDouble))
+      case regex(value, "C")               ⇒ Right(Celsius(value.toDouble))
+      case regex(value, Kelvin.symbol)     ⇒ Right(Kelvin(value.toDouble))
+      case regex(value, "k")               ⇒ Right(Kelvin(value.toDouble))
+      case regex(value, "K")               ⇒ Right(Kelvin(value.toDouble))
+      case _                               ⇒ Left(s"Unable to parse $s as Temperature")
     }
   }
 }

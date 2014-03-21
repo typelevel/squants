@@ -143,12 +143,14 @@ class EnergySpec extends FlatSpec with Matchers {
   it should "provide implicit conversions from String" in {
     import EnergyConversions._
 
-    assert("10.22 Wh".toEnergy.get == WattHours(10.22))
-    assert("10.22 kWh".toEnergy.get == KilowattHours(10.22))
-    assert("10.22 MWh".toEnergy.get == MegawattHours(10.22))
-    assert("10.22 GWh".toEnergy.get == GigawattHours(10.22))
-    assert("10.22 Btu".toEnergy.get == BritishThermalUnits(10.22))
-    assert("10.22 MBtu".toEnergy.get == MBtus(10.22))
-    assert("10.22 MMBtu".toEnergy.get == MMBtus(10.22))
+    assert("10.22 J".toEnergy.right.get == Joules(10.22))
+    assert("10.22 Wh".toEnergy.right.get == WattHours(10.22))
+    assert("10.22 kWh".toEnergy.right.get == KilowattHours(10.22))
+    assert("10.22 MWh".toEnergy.right.get == MegawattHours(10.22))
+    assert("10.22 GWh".toEnergy.right.get == GigawattHours(10.22))
+    assert("10.22 Btu".toEnergy.right.get == BritishThermalUnits(10.22))
+    assert("10.22 MBtu".toEnergy.right.get == MBtus(10.22))
+    assert("10.22 MMBtu".toEnergy.right.get == MMBtus(10.22))
+    assert("10.22 zz".toEnergy.left.get == "Unable to parse 10.22 zz as Energy")
   }
 }

@@ -270,12 +270,13 @@ class TemperatureSpec extends FlatSpec with Matchers {
   they should "provide implicit conversions from String" in {
     import TemperatureConversions._
 
-    assert("10.22°F".toTemperature.get == Fahrenheit(10.22))
-    assert("10.22°K".toTemperature.get == Kelvin(10.22))
-    assert("10.22°C".toTemperature.get == Celsius(10.22))
-    assert("10.22 F".toTemperature.get == Fahrenheit(10.22))
-    assert("10.22 K".toTemperature.get == Kelvin(10.22))
-    assert("10.22 C".toTemperature.get == Celsius(10.22))
+    assert("10.22°F".toTemperature.right.get == Fahrenheit(10.22))
+    assert("10.22°K".toTemperature.right.get == Kelvin(10.22))
+    assert("10.22°C".toTemperature.right.get == Celsius(10.22))
+    assert("10.22 F".toTemperature.right.get == Fahrenheit(10.22))
+    assert("10.22 K".toTemperature.right.get == Kelvin(10.22))
+    assert("10.22 C".toTemperature.right.get == Celsius(10.22))
+    assert("10.22 Z".toTemperature.left.get == "Unable to parse 10.22 Z as Temperature")
   }
 }
 

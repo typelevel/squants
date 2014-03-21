@@ -60,18 +60,18 @@ final class Mass private (val value: Double) extends Quantity[Mass]
  */
 object Mass {
   private[mass] def apply(b: Double) = new Mass(b)
-  def apply(s: String): Option[Mass] = {
+  def apply(s: String): Either[String, Mass] = {
     val regex = "([-+]?[0-9]*\\.?[0-9]+) *(mcg|mg|g|kg|t|tonnes|lb|oz)".r
     s match {
-      case regex(value, Micrograms.symbol) ⇒ Some(Micrograms(value.toDouble))
-      case regex(value, Milligrams.symbol) ⇒ Some(Milligrams(value.toDouble))
-      case regex(value, Grams.symbol)      ⇒ Some(Grams(value.toDouble))
-      case regex(value, Kilograms.symbol)  ⇒ Some(Kilograms(value.toDouble))
-      case regex(value, Tonnes.symbol)     ⇒ Some(Tonnes(value.toDouble))
-      case regex(value, "tonnes")          ⇒ Some(Tonnes(value.toDouble))
-      case regex(value, Pounds.symbol)     ⇒ Some(Pounds(value.toDouble))
-      case regex(value, Ounces.symbol)     ⇒ Some(Ounces(value.toDouble))
-      case _                               ⇒ None
+      case regex(value, Micrograms.symbol) ⇒ Right(Micrograms(value.toDouble))
+      case regex(value, Milligrams.symbol) ⇒ Right(Milligrams(value.toDouble))
+      case regex(value, Grams.symbol)      ⇒ Right(Grams(value.toDouble))
+      case regex(value, Kilograms.symbol)  ⇒ Right(Kilograms(value.toDouble))
+      case regex(value, Tonnes.symbol)     ⇒ Right(Tonnes(value.toDouble))
+      case regex(value, "tonnes")          ⇒ Right(Tonnes(value.toDouble))
+      case regex(value, Pounds.symbol)     ⇒ Right(Pounds(value.toDouble))
+      case regex(value, Ounces.symbol)     ⇒ Right(Ounces(value.toDouble))
+      case _                               ⇒ Left(s"Unable to parse $s as Mass")
     }
   }
 }

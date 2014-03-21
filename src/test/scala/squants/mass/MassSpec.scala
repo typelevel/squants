@@ -126,13 +126,14 @@ class MassSpec extends FlatSpec with Matchers {
   it should "provide implicit conversions from String" in {
     import MassConversions._
 
-    assert("10.45 mcg".toMass.get == Micrograms(10.45))
-    assert("10.45 mg".toMass.get == Milligrams(10.45))
-    assert("10.45 g".toMass.get == Grams(10.45))
-    assert("10.45 kg".toMass.get == Kilograms(10.45))
-    assert("10.45 t".toMass.get == Tonnes(10.45))
-    assert("10.45 tonnes".toMass.get == Tonnes(10.45))
-    assert("10.45 lb".toMass.get == Pounds(10.45))
-    assert("10.45 oz".toMass.get == Ounces(10.45))
+    assert("10.45 mcg".toMass.right.get == Micrograms(10.45))
+    assert("10.45 mg".toMass.right.get == Milligrams(10.45))
+    assert("10.45 g".toMass.right.get == Grams(10.45))
+    assert("10.45 kg".toMass.right.get == Kilograms(10.45))
+    assert("10.45 t".toMass.right.get == Tonnes(10.45))
+    assert("10.45 tonnes".toMass.right.get == Tonnes(10.45))
+    assert("10.45 lb".toMass.right.get == Pounds(10.45))
+    assert("10.45 oz".toMass.right.get == Ounces(10.45))
+    assert("10.45 zz".toMass.left.get == "Unable to parse 10.45 zz as Mass")
   }
 }

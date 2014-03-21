@@ -43,14 +43,14 @@ final class PowerRamp private (val value: Double)
 object PowerRamp {
   private[energy] def apply(value: Double) = new PowerRamp(value)
   def apply(change: Power, time: Time): PowerRamp = apply(change.toWatts / time.toHours)
-  def apply(s: String): Option[PowerRamp] = {
+  def apply(s: String): Either[String, PowerRamp] = {
     val regex = "([-+]?[0-9]*\\.?[0-9]+) *(W/h|kW/h|MW/h|GW/h)".r
     s match {
-      case regex(value, WattsPerHour.symbol)     ⇒ Some(WattsPerHour(value.toDouble))
-      case regex(value, KilowattsPerHour.symbol) ⇒ Some(KilowattsPerHour(value.toDouble))
-      case regex(value, MegawattsPerHour.symbol) ⇒ Some(MegawattsPerHour(value.toDouble))
-      case regex(value, GigawattsPerHour.symbol) ⇒ Some(GigawattsPerHour(value.toDouble))
-      case _                                     ⇒ None
+      case regex(value, WattsPerHour.symbol)     ⇒ Right(WattsPerHour(value.toDouble))
+      case regex(value, KilowattsPerHour.symbol) ⇒ Right(KilowattsPerHour(value.toDouble))
+      case regex(value, MegawattsPerHour.symbol) ⇒ Right(MegawattsPerHour(value.toDouble))
+      case regex(value, GigawattsPerHour.symbol) ⇒ Right(GigawattsPerHour(value.toDouble))
+      case _                                     ⇒ Left(s"Unable to parse $s as PowerRamp")
     }
   }
 }

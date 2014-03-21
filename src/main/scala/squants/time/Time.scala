@@ -52,15 +52,15 @@ object Time {
 
   private[time] def apply(d: Double) = new Time(d)
 
-  def apply(s: String): Option[Time] = {
+  def apply(s: String): Either[String, Time] = {
     val regex = "([-+]?[0-9]*\\.?[0-9]+) *(ms|s|m|h|d)".r
     s match {
-      case regex(value, "ms") ⇒ Some(Milliseconds(value.toDouble))
-      case regex(value, "s")  ⇒ Some(Seconds(value.toDouble))
-      case regex(value, "m")  ⇒ Some(Minutes(value.toDouble))
-      case regex(value, "h")  ⇒ Some(Hours(value.toDouble))
-      case regex(value, "d")  ⇒ Some(Days(value.toDouble))
-      case _                  ⇒ None
+      case regex(value, "ms") ⇒ Right(Milliseconds(value.toDouble))
+      case regex(value, "s")  ⇒ Right(Seconds(value.toDouble))
+      case regex(value, "m")  ⇒ Right(Minutes(value.toDouble))
+      case regex(value, "h")  ⇒ Right(Hours(value.toDouble))
+      case regex(value, "d")  ⇒ Right(Days(value.toDouble))
+      case _                  ⇒ Left(s"Unable to parse $s as Time")
     }
   }
 }
@@ -116,6 +116,10 @@ object TimeConversions {
     def minutes = Minutes(coefficient)
     def hours = Hours(coefficient)
     def days = Days(coefficient)
+  }
+
+  implicit class TimeStringConversions(s: String) {
+    def toTime = Time(s)
   }
 
   implicit def timeToScalaDuration(time: Time) = Duration(time.toString)
