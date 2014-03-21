@@ -108,6 +108,17 @@ class TimeSpec extends FlatSpec with Matchers {
     assert(coefficient.days == Days(coefficient))
   }
 
+  it should "provide implicit conversions from String" in {
+    import TimeConversions._
+
+    assert("10.22 ms".toTime.right.get == Milliseconds(10.22))
+    assert("10.22 s".toTime.right.get == Seconds(10.22))
+    assert("10.22 m".toTime.right.get == Minutes(10.22))
+    assert("10.22 h".toTime.right.get == Hours(10.22))
+    assert("10.22 d".toTime.right.get == Days(10.22))
+    assert("10.22 z".toTime.left.get == "Unable to parse 10.22 z as Time")
+  }
+
   it should "convert a Scala Concurrent Duration to a Time" in {
     import TimeConversions._
 

@@ -44,11 +44,12 @@ class MoneySpec extends FlatSpec with Matchers {
   }
 
   it should "create values from formatted strings" in {
-    assert(Money("500 USD").getOrElse(null) == USD(500))
-    assert(Money("5.50USD").getOrElse(null) == USD(5.5))
-    assert(Money("500 EUR").getOrElse(null) == EUR(500))
-    assert(Money("10000.0 JPY").getOrElse(null) == JPY(10000))
-    assert(Money("23.45 CAD").getOrElse(null) == CAD(23.45))
+    assert(Money("500 USD").right.get == USD(500))
+    assert(Money("5.50USD").right.get == USD(5.5))
+    assert(Money("500 EUR").right.get == EUR(500))
+    assert(Money("10000.0 JPY").right.get == JPY(10000))
+    assert(Money("23.45 CAD").right.get == CAD(23.45))
+    assert(Money("23.45 ZZZ").left.get == "Unable to parse 23.45 ZZZ as Money")
   }
 
   it should "return proper result when comparing like currencies" in {

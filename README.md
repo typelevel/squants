@@ -36,9 +36,9 @@ To use Squants interactively in the Scala REPL, clone the git repo and run `sbt 
 
 When building programs that perform some type of dimensional analysis, developers are quick to declare
 quantities using a basic numeric type, usually Double.  While this may be perfectly satisfactory
-in many situation, it can often lead to semantic and other logic issues.
+in many situations, it can often lead to semantic and other logic issues.
 
-For example, when using a Double to describe an quantity of Energy (kWh) and Power (kW), it is possible
+For example, when using a Double to describe a quantity of Energy (kWh) and Power (kW), it is possible
 to compile a program that adds these two values together.  This is not appropriate as kW and kWh
 measure two different quantities.  The unit kWh is used to measure an amount of Energy used
 or produced.  The unit kW is used to measure Power/Load, the rate at which Energy is being used

@@ -187,16 +187,17 @@ class LengthSpec extends FlatSpec with Matchers {
   it should "provide implicit conversion from String" in {
     import LengthConversions._
 
-    assert("10.33 mm".toLength.get == Millimeters(10.33))
-    assert("10.33 cm".toLength.get == Centimeters(10.33))
-    assert("10.33 m".toLength.get == Meters(10.33))
-    assert("10.33 km".toLength.get == Kilometers(10.33))
-    assert("10.33 in".toLength.get == Inches(10.33))
-    assert("10.33 ft".toLength.get == Feet(10.33))
-    assert("10.33 yd".toLength.get == Yards(10.33))
-    assert("10.33 mi".toLength.get == UsMiles(10.33))
-    assert("10.33 nmi".toLength.get == NauticalMiles(10.33))
-    assert("10.33 au".toLength.get == AstronomicalUnits(10.33))
-    assert("10.33 ly".toLength.get == LightYears(10.33))
+    assert("10.33 mm".toLength.right.get == Millimeters(10.33))
+    assert("10.33 cm".toLength.right.get == Centimeters(10.33))
+    assert("10.33 m".toLength.right.get == Meters(10.33))
+    assert("10.33 km".toLength.right.get == Kilometers(10.33))
+    assert("10.33 in".toLength.right.get == Inches(10.33))
+    assert("10.33 ft".toLength.right.get == Feet(10.33))
+    assert("10.33 yd".toLength.right.get == Yards(10.33))
+    assert("10.33 mi".toLength.right.get == UsMiles(10.33))
+    assert("10.33 nmi".toLength.right.get == NauticalMiles(10.33))
+    assert("10.33 au".toLength.right.get == AstronomicalUnits(10.33))
+    assert("10.33 ly".toLength.right.get == LightYears(10.33))
+    assert("10.33 zz".toLength.left.get == "Unable to parse 10.33 zz as Length")
   }
 }

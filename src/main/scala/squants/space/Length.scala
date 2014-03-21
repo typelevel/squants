@@ -72,21 +72,21 @@ final class Length private (val value: Double) extends Quantity[Length]
  */
 object Length {
   private[space] def apply(b: Double) = new Length(b)
-  def apply(s: String): Option[Length] = {
+  def apply(s: String): Either[String, Length] = {
     val regex = "([-+]?[0-9]*\\.?[0-9]+) *(mm|cm|m|km|in|ft|yd|mi|nmi|au|ly)".r
     s match {
-      case regex(value, Millimeters.symbol)       ⇒ Some(Millimeters(value.toDouble))
-      case regex(value, Centimeters.symbol)       ⇒ Some(Centimeters(value.toDouble))
-      case regex(value, Meters.symbol)            ⇒ Some(Meters(value.toDouble))
-      case regex(value, Kilometers.symbol)        ⇒ Some(Kilometers(value.toDouble))
-      case regex(value, Inches.symbol)            ⇒ Some(Inches(value.toDouble))
-      case regex(value, Feet.symbol)              ⇒ Some(Feet(value.toDouble))
-      case regex(value, Yards.symbol)             ⇒ Some(Yards(value.toDouble))
-      case regex(value, UsMiles.symbol)           ⇒ Some(UsMiles(value.toDouble))
-      case regex(value, NauticalMiles.symbol)     ⇒ Some(NauticalMiles(value.toDouble))
-      case regex(value, AstronomicalUnits.symbol) ⇒ Some(AstronomicalUnits(value.toDouble))
-      case regex(value, LightYears.symbol)        ⇒ Some(LightYears(value.toDouble))
-      case _                                      ⇒ None
+      case regex(value, Millimeters.symbol)       ⇒ Right(Millimeters(value.toDouble))
+      case regex(value, Centimeters.symbol)       ⇒ Right(Centimeters(value.toDouble))
+      case regex(value, Meters.symbol)            ⇒ Right(Meters(value.toDouble))
+      case regex(value, Kilometers.symbol)        ⇒ Right(Kilometers(value.toDouble))
+      case regex(value, Inches.symbol)            ⇒ Right(Inches(value.toDouble))
+      case regex(value, Feet.symbol)              ⇒ Right(Feet(value.toDouble))
+      case regex(value, Yards.symbol)             ⇒ Right(Yards(value.toDouble))
+      case regex(value, UsMiles.symbol)           ⇒ Right(UsMiles(value.toDouble))
+      case regex(value, NauticalMiles.symbol)     ⇒ Right(NauticalMiles(value.toDouble))
+      case regex(value, AstronomicalUnits.symbol) ⇒ Right(AstronomicalUnits(value.toDouble))
+      case regex(value, LightYears.symbol)        ⇒ Right(LightYears(value.toDouble))
+      case _                                      ⇒ Left(s"Unable to parse $s as Length")
     }
   }
 }

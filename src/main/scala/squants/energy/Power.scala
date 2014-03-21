@@ -70,16 +70,16 @@ final class Power private (val value: Double)
 object Power {
   private[energy] def apply(value: Double) = new Power(value)
   def apply(energy: Energy, time: Time): Power = apply(energy.toWattHours / time.toHours)
-  def apply(s: String): Option[Power] = {
+  def apply(s: String): Either[String, Power] = {
     val regex = "([-+]?[0-9]*\\.?[0-9]+) *(mW|W|kW|MW|GW|Btu/hr)".r
     s match {
-      case regex(value, Milliwatts.symbol)  ⇒ Some(Milliwatts(value.toDouble))
-      case regex(value, Watts.symbol)       ⇒ Some(Watts(value.toDouble))
-      case regex(value, Kilowatts.symbol)   ⇒ Some(Kilowatts(value.toDouble))
-      case regex(value, Megawatts.symbol)   ⇒ Some(Megawatts(value.toDouble))
-      case regex(value, Gigawatts.symbol)   ⇒ Some(Gigawatts(value.toDouble))
-      case regex(value, BtusPerHour.symbol) ⇒ Some(BtusPerHour(value.toDouble))
-      case _                                ⇒ None
+      case regex(value, Milliwatts.symbol)  ⇒ Right(Milliwatts(value.toDouble))
+      case regex(value, Watts.symbol)       ⇒ Right(Watts(value.toDouble))
+      case regex(value, Kilowatts.symbol)   ⇒ Right(Kilowatts(value.toDouble))
+      case regex(value, Megawatts.symbol)   ⇒ Right(Megawatts(value.toDouble))
+      case regex(value, Gigawatts.symbol)   ⇒ Right(Gigawatts(value.toDouble))
+      case regex(value, BtusPerHour.symbol) ⇒ Right(BtusPerHour(value.toDouble))
+      case _                                ⇒ Left(s"Unable to parse $s as Power")
     }
   }
 }

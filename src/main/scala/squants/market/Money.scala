@@ -273,11 +273,11 @@ object Money {
   def apply(value: Double, currency: Currency) = new Money(BigDecimal(value))(currency)
   def apply(value: Double, currency: String) = new Money(BigDecimal(value))(defaultCurrencyMap(currency))
 
-  def apply(s: String): Option[Money] = {
+  def apply(s: String): Either[String, Money] = {
     lazy val regex = ("([-+]?[0-9]*\\.?[0-9]+) *(" + defaultCurrencySet.map(_.code).reduceLeft(_ + "|" + _) + ")").r
     s match {
-      case regex(value, currency) ⇒ Some(Money(value.toDouble, defaultCurrencyMap(currency)))
-      case _                      ⇒ None
+      case regex(value, currency) ⇒ Right(Money(value.toDouble, defaultCurrencyMap(currency)))
+      case _                      ⇒ Left(s"Unable to parse $s as Money")
     }
   }
 }

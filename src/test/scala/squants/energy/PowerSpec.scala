@@ -93,12 +93,13 @@ class PowerSpec extends FlatSpec with Matchers {
   it should "provide implicit conversions from String" in {
     import PowerConversions._
 
-    assert("10.22 mW".toPower.get == Milliwatts(10.22))
-    assert("10.22 W".toPower.get == Watts(10.22))
-    assert("10.22 kW".toPower.get == Kilowatts(10.22))
-    assert("10.22 MW".toPower.get == Megawatts(10.22))
-    assert("10.22 GW".toPower.get == Gigawatts(10.22))
-    assert("10.22 Btu/hr".toPower.get == BtusPerHour(10.22))
+    assert("10.22 mW".toPower.right.get == Milliwatts(10.22))
+    assert("10.22 W".toPower.right.get == Watts(10.22))
+    assert("10.22 kW".toPower.right.get == Kilowatts(10.22))
+    assert("10.22 MW".toPower.right.get == Megawatts(10.22))
+    assert("10.22 GW".toPower.right.get == Gigawatts(10.22))
+    assert("10.22 Btu/hr".toPower.right.get == BtusPerHour(10.22))
+    assert("10.22 zz".toPower.left.get == "Unable to parse 10.22 zz as Power")
   }
 
   it should "provide Numeric support in" in {
