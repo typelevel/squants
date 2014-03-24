@@ -141,7 +141,7 @@ trait Quantity[A <: Quantity[A]] extends Any with Ordered[A] with Serializable {
   def compare(that: A) = if (value > that.value) 1 else if (value < that.value) -1 else 0
 
   /**
-   * Returns tha max of this and that Quantity
+   * Returns the max of this and that Quantity
    * @param that Quantity
    * @return Quantity
    */
