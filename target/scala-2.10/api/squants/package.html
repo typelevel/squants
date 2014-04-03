@@ -131,7 +131,20 @@ aveOperatingCost:  Price[Energy], minDailyDowntime: Time)</pre><p>Another use ca
 
         <div id="types" class="types members">
               <h3>Type Members</h3>
-              <ol><li name="squants.Acceleration" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+              <ol><li name="squants.AbstractQuantityNumeric" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="AbstractQuantityNumeric[A&lt;:squants.Quantity[A]]extendsNumeric[A]"></a>
+      <a id="AbstractQuantityNumeric[A&lt;:Quantity[A]]:AbstractQuantityNumeric[A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="AbstractQuantityNumeric.html"><span class="name">AbstractQuantityNumeric</span></a><span class="tparams">[<span name="A">A &lt;: <a href="Quantity.html" class="extype" name="squants.Quantity">Quantity</a>[<span class="extype" name="squants.AbstractQuantityNumeric.A">A</span>]</span>]</span><span class="result"> extends <span class="extype" name="scala.Numeric">Numeric</span>[<span class="extype" name="squants.AbstractQuantityNumeric.A">A</span>]</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Base trait for creating objects to manage quantities as Numeric.</p>
+    </li><li name="squants.Acceleration" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="Acceleration=squants.motion.Acceleration"></a>
       <a id="Acceleration:Acceleration"></a>
       <h4 class="signature">
@@ -486,19 +499,6 @@ aveOperatingCost:  Price[Energy], minDailyDowntime: Time)</pre><p>Another use ca
       </h4>
       <p class="comment cmt">A base trait for measurable quantities
 </p>
-    </li><li name="squants.QuantityNumeric" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="QuantityNumeric[A&lt;:squants.Quantity[A]]extendsNumeric[A]"></a>
-      <a id="QuantityNumeric[A&lt;:Quantity[A]]:QuantityNumeric[A]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">trait</span>
-      </span>
-      <span class="symbol">
-        <a href="QuantityNumeric.html"><span class="name">QuantityNumeric</span></a><span class="tparams">[<span name="A">A &lt;: <a href="Quantity.html" class="extype" name="squants.Quantity">Quantity</a>[<span class="extype" name="squants.QuantityNumeric.A">A</span>]</span>]</span><span class="result"> extends <span class="extype" name="scala.Numeric">Numeric</span>[<span class="extype" name="squants.QuantityNumeric.A">A</span>]</span>
-      </span>
-      </h4>
-      <p class="comment cmt">Base trait for creating objects to manage quantities as Numeric.</p>
     </li><li name="squants.QuantityRange" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="QuantityRange[A&lt;:squants.Quantity[A]]extendsProductwithSerializable"></a>
       <a id="QuantityRange[A&lt;:Quantity[A]]:QuantityRange[A]"></a>
@@ -826,32 +826,6 @@ to an alternative Unit of Measure
       </span>
       <span class="symbol">
         <span class="name">Kilograms</span><span class="result">: <a href="mass/Kilograms$.html" class="extype" name="squants.mass.Kilograms">squants.mass.Kilograms</a>.type</span>
-      </span>
-      </h4>
-      
-    </li><li name="squants.package#LengthNumeric" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="LengthNumeric:squants.QuantityNumeric[squants.package.Length]{valvalueUnit:squants.space.Meters.type}"></a>
-      <a id="LengthNumeric:QuantityNumeric[Length]{valvalueUnit:squants.space.Meters.type}"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">LengthNumeric</span><span class="result">: <a href="QuantityNumeric.html" class="extype" name="squants.QuantityNumeric">QuantityNumeric</a>[<a href="#Length=squants.space.Length" class="extmbr" name="squants.Length">Length</a>] { val valueUnit: squants.space.Meters.type }</span>
-      </span>
-      </h4>
-      
-    </li><li name="squants.package#MassNumeric" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="MassNumeric:squants.QuantityNumeric[squants.package.Mass]{valvalueUnit:squants.mass.Grams.type}"></a>
-      <a id="MassNumeric:QuantityNumeric[Mass]{valvalueUnit:squants.mass.Grams.type}"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">MassNumeric</span><span class="result">: <a href="QuantityNumeric.html" class="extype" name="squants.QuantityNumeric">QuantityNumeric</a>[<a href="#Mass=squants.mass.Mass" class="extmbr" name="squants.Mass">Mass</a>] { val valueUnit: squants.mass.Grams.type }</span>
       </span>
       </h4>
       

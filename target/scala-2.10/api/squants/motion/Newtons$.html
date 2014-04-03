@@ -35,13 +35,13 @@
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <span class="name">Newtons</span><span class="result"> extends <a href="ForceUnit.html" class="extype" name="squants.motion.ForceUnit">ForceUnit</a></span>
+        <span class="name">Newtons</span><span class="result"> extends <a href="ForceUnit.html" class="extype" name="squants.motion.ForceUnit">ForceUnit</a> with <a href="../ValueUnit.html" class="extype" name="squants.ValueUnit">ValueUnit</a></span>
       </span>
       </h4>
       
           <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><a href="ForceUnit.html" class="extype" name="squants.motion.ForceUnit">ForceUnit</a>, <a href="../UnitOfMeasure.html" class="extype" name="squants.UnitOfMeasure">UnitOfMeasure</a>[<a href="Force.html" class="extype" name="squants.motion.Force">Force</a>], <span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><a href="../ValueUnit.html" class="extype" name="squants.ValueUnit">ValueUnit</a>, <a href="../UnitMultiplier.html" class="extype" name="squants.UnitMultiplier">UnitMultiplier</a>, <a href="../UnitConverter.html" class="extype" name="squants.UnitConverter">UnitConverter</a>, <a href="ForceUnit.html" class="extype" name="squants.motion.ForceUnit">ForceUnit</a>, <a href="../UnitOfMeasure.html" class="extype" name="squants.UnitOfMeasure">UnitOfMeasure</a>[<a href="Force.html" class="extype" name="squants.motion.Force">Force</a>], <span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -59,7 +59,7 @@
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="squants.motion.Newtons"><span>Newtons</span></li><li class="in" name="squants.motion.ForceUnit"><span>ForceUnit</span></li><li class="in" name="squants.UnitOfMeasure"><span>UnitOfMeasure</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="squants.motion.Newtons"><span>Newtons</span></li><li class="in" name="squants.ValueUnit"><span>ValueUnit</span></li><li class="in" name="squants.UnitMultiplier"><span>UnitMultiplier</span></li><li class="in" name="squants.UnitConverter"><span>UnitConverter</span></li><li class="in" name="squants.motion.ForceUnit"><span>ForceUnit</span></li><li class="in" name="squants.UnitOfMeasure"><span>UnitOfMeasure</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -222,6 +222,64 @@
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="squants.UnitConverter#convertFrom" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="convertFrom(value:Double):Double"></a>
+      <a id="convertFrom(Double):Double"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">convertFrom</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Applies the converterFrom method to a value
+</p><div class="fullcomment"><div class="comment cmt"><p>Applies the converterFrom method to a value
+</p></div><dl class="paramcmts block"><dt class="param">value</dt><dd class="cmt"><p>Double</p></dd><dt>returns</dt><dd class="cmt"><p>
+</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../UnitConverter.html" class="extype" name="squants.UnitConverter">UnitConverter</a></dd></dl></div>
+    </li><li name="squants.UnitConverter#convertTo" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="convertTo(value:Double):Double"></a>
+      <a id="convertTo(Double):Double"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">convertTo</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Applies the converterTo method to a value</p><div class="fullcomment"><div class="comment cmt"><p>Applies the converterTo method to a value</p></div><dl class="paramcmts block"><dt class="param">value</dt><dd class="cmt"><p>Double</p></dd><dt>returns</dt><dd class="cmt"><p>
+</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../UnitConverter.html" class="extype" name="squants.UnitConverter">UnitConverter</a></dd></dl></div>
+    </li><li name="squants.ValueUnit#converterFrom" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="converterFrom:Double=&gt;Double"></a>
+      <a id="converterFrom:(Double)⇒Double"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">converterFrom</span><span class="result">: (<span class="extype" name="scala.Double">Double</span>) ⇒ <span class="extype" name="scala.Double">Double</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Implements the converterFrom method to just return the underlying value</p><div class="fullcomment"><div class="comment cmt"><p>Implements the converterFrom method to just return the underlying value</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>
+</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../ValueUnit.html" class="extype" name="squants.ValueUnit">ValueUnit</a> → <a href="../UnitMultiplier.html" class="extype" name="squants.UnitMultiplier">UnitMultiplier</a> → <a href="../UnitConverter.html" class="extype" name="squants.UnitConverter">UnitConverter</a></dd></dl></div>
+    </li><li name="squants.ValueUnit#converterTo" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="converterTo:Double=&gt;Double"></a>
+      <a id="converterTo:(Double)⇒Double"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">converterTo</span><span class="result">: (<span class="extype" name="scala.Double">Double</span>) ⇒ <span class="extype" name="scala.Double">Double</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Implements the converterTo method to just return the underlying value</p><div class="fullcomment"><div class="comment cmt"><p>Implements the converterTo method to just return the underlying value</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>
+</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../ValueUnit.html" class="extype" name="squants.ValueUnit">ValueUnit</a> → <a href="../UnitMultiplier.html" class="extype" name="squants.UnitMultiplier">UnitMultiplier</a> → <a href="../UnitConverter.html" class="extype" name="squants.UnitConverter">UnitConverter</a></dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -332,6 +390,19 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="squants.motion.Newtons">Newtons</a> → <a href="ForceUnit.html" class="extype" name="squants.motion.ForceUnit">ForceUnit</a></dd></dl></div>
+    </li><li name="squants.ValueUnit#multiplier" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="multiplier:Double(1.0)"></a>
+      <a id="multiplier:Double(1.0)"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">multiplier</span><span class="result">: Double(1.0)</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Value unit multiplier is always equal to 1</p><div class="fullcomment"><div class="comment cmt"><p>Value unit multiplier is always equal to 1</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../ValueUnit.html" class="extype" name="squants.ValueUnit">ValueUnit</a> → <a href="../UnitMultiplier.html" class="extype" name="squants.UnitMultiplier">UnitMultiplier</a></dd></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>
@@ -477,7 +548,13 @@
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="squants.motion.ForceUnit">
+        <div class="parent" name="squants.ValueUnit">
+              <h3>Inherited from <a href="../ValueUnit.html" class="extype" name="squants.ValueUnit">ValueUnit</a></h3>
+            </div><div class="parent" name="squants.UnitMultiplier">
+              <h3>Inherited from <a href="../UnitMultiplier.html" class="extype" name="squants.UnitMultiplier">UnitMultiplier</a></h3>
+            </div><div class="parent" name="squants.UnitConverter">
+              <h3>Inherited from <a href="../UnitConverter.html" class="extype" name="squants.UnitConverter">UnitConverter</a></h3>
+            </div><div class="parent" name="squants.motion.ForceUnit">
               <h3>Inherited from <a href="ForceUnit.html" class="extype" name="squants.motion.ForceUnit">ForceUnit</a></h3>
             </div><div class="parent" name="squants.UnitOfMeasure">
               <h3>Inherited from <a href="../UnitOfMeasure.html" class="extype" name="squants.UnitOfMeasure">UnitOfMeasure</a>[<a href="Force.html" class="extype" name="squants.motion.Force">Force</a>]</h3>
