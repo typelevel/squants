@@ -97,5 +97,5 @@ object ElectricalResistanceConversions {
   }
 
   implicit object ElectricalResistanceNumeric
-    extends QuantityNumeric[ElectricalResistance] { val valueUnit = Ohms }
+    extends AbstractQuantityNumeric[ElectricalResistance]((Ohms))
 }

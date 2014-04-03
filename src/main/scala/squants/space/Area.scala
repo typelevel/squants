@@ -136,4 +136,6 @@ object AreaConversions {
     def acres = Acres(d)
     def barnes = Barnes(d)
   }
+
+  implicit object AreaNumeric extends AbstractQuantityNumeric[Area](SquareMeters)
 }

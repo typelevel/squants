@@ -7,7 +7,7 @@
 \*                                                                      */
 package squants.photo
 
-import squants.{ ValueUnit, UnitMultiplier, UnitOfMeasure, Quantity }
+import squants._
 import squants.time.{ Seconds, Time, TimeIntegral }
 
 /**
@@ -44,4 +44,6 @@ object LuminousEnergyConversions {
   implicit class LuminousEnergyConversions(d: Double) {
     def lumenSeconds = LumenSeconds(d)
   }
+
+  implicit object LuminousEnergyNumeric extends AbstractQuantityNumeric[LuminousEnergy](LumenSeconds)
 }

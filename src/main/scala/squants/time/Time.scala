@@ -122,6 +122,8 @@ object TimeConversions {
     def toTime = Time(s)
   }
 
+  implicit object TimeNumeric extends AbstractQuantityNumeric[Time](Milliseconds)
+
   implicit def timeToScalaDuration(time: Time) = Duration(time.toString)
   implicit def scalaDurationToTime(duration: Duration) = Milliseconds(duration.toMillis)
 }

@@ -105,5 +105,5 @@ object ElectricChargeConversions {
   }
 
   implicit object ElectricalChargeNumeric
-    extends QuantityNumeric[ElectricCharge] { val valueUnit = Coulombs }
+    extends AbstractQuantityNumeric[ElectricCharge]((Coulombs))
 }

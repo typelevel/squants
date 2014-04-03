@@ -243,8 +243,7 @@ trait DerivedQuantity extends Any { self: Quantity[_] ⇒ }
  *
  * @tparam A Quantity type
  */
-trait QuantityNumeric[A <: Quantity[A]] extends Numeric[A] {
-  def valueUnit: UnitOfMeasure[A] with ValueUnit
+abstract class AbstractQuantityNumeric[A <: Quantity[A]](val valueUnit: UnitOfMeasure[A] with ValueUnit) extends Numeric[A] {
   def plus(x: A, y: A) = x + y
   def minus(x: A, y: A) = x - y
   def times(x: A, y: A): A = throw new UnsupportedOperationException("Numeric.times not supported for Quantities")

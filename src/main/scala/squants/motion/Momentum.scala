@@ -35,7 +35,7 @@ case class Momentum(mass: Mass, velocity: Velocity) extends Quantity[Momentum] w
 trait MomentumUnit extends UnitOfMeasure[Momentum] {
 }
 
-object NewtonSeconds extends MomentumUnit {
+object NewtonSeconds extends MomentumUnit with ValueUnit {
   def apply(d: Double): Momentum = Momentum(Kilograms(d), MetersPerSecond(1))
   val symbol = "Ns"
 }
@@ -46,4 +46,6 @@ object MomentumConversions {
   implicit class MomentumConversions(d: Double) {
     def newtonSeconds = NewtonSeconds(d)
   }
+
+  implicit object MomentumNumeric extends AbstractQuantityNumeric[Momentum](NewtonSeconds)
 }

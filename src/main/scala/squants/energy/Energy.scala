@@ -169,5 +169,5 @@ object EnergyConversions {
     def toEnergy = Energy(s)
   }
 
-  implicit object EnergyNumeric extends QuantityNumeric[Energy] { val valueUnit = WattHours }
+  implicit object EnergyNumeric extends AbstractQuantityNumeric[Energy](WattHours)
 }

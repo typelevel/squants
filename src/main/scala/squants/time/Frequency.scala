@@ -79,4 +79,6 @@ object FrequencyConversions {
     def terahertz = Terahertz(d)
     def rpm = RevolutionsPerMinute(d)
   }
+
+  implicit object FrequencyNumeric extends AbstractQuantityNumeric[Frequency](Hertz)
 }

@@ -19,7 +19,7 @@ import squants._
 final class ChemicalAmount private (val value: Double) extends Quantity[ChemicalAmount]
     with BaseQuantity with PhysicalQuantity {
 
-  def valueUnit = Moles
+  def valueUnit = ChemicalAmount.valueUnit
   def baseUnit = Moles
 
   def /(that: Volume) = ??? // returns SubstanceConcentration
@@ -29,6 +29,8 @@ final class ChemicalAmount private (val value: Double) extends Quantity[Chemical
 }
 
 object ChemicalAmount {
+  // TODO Consider implementing this pattern in all Q's
+  def valueUnit = Moles
   private[mass] def apply(value: Double) = new ChemicalAmount(value)
 }
 
@@ -54,4 +56,6 @@ object ChemicalAmountConversions {
     def moles = Moles(d)
     def poundMoles = PoundMoles(d)
   }
+
+  implicit object ChemicalAmountNumeric extends AbstractQuantityNumeric[ChemicalAmount](ChemicalAmount.valueUnit)
 }

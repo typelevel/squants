@@ -46,6 +46,5 @@ object ConductivityConversions {
     def siemensPerMeter = SiemensPerMeter(d)
   }
 
-  implicit object ConductivityNumeric extends QuantityNumeric[Conductivity] { val valueUnit = SiemensPerMeter }
-
+  implicit object ConductivityNumeric extends AbstractQuantityNumeric[Conductivity]((SiemensPerMeter))
 }

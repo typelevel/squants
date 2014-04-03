@@ -47,4 +47,6 @@ object IlluminanceConversions {
   implicit class IlluminanceConversions(d: Double) {
     def lux = Lux(d)
   }
+
+  implicit object IlluminanceNumeric extends AbstractQuantityNumeric[Illuminance](Lux)
 }
