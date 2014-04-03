@@ -53,5 +53,5 @@ object MagneticFluxDensityConversions {
     def gauss = Gauss(d)
   }
 
-  implicit object MagneticFluxDensistyNumeric extends QuantityNumeric[MagneticFluxDensity] { val valueUnit = Teslas }
+  implicit object MagneticFluxDensistyNumeric extends AbstractQuantityNumeric[MagneticFluxDensity]((Teslas))
 }

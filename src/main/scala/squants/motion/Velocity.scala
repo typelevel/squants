@@ -68,7 +68,7 @@ object FeetPerSecond extends VelocityUnit {
   def apply(fps: Double, direction: Option[Direction]) = Velocity(Feet(fps), Seconds(1), direction)
 }
 
-object MetersPerSecond extends VelocityUnit {
+object MetersPerSecond extends VelocityUnit with ValueUnit {
   val distanceUnit = Meters
   val timeInterval = Seconds(1)
   val timeUnit = Seconds
@@ -115,4 +115,6 @@ object VelocityConversions {
     def mph = UsMilesPerHour(d)
     def knots = Knots(d)
   }
+
+  implicit object VelocityNumeric extends AbstractQuantityNumeric[Velocity](MetersPerSecond)
 }

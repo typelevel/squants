@@ -155,6 +155,6 @@ object MassConversions {
     def toMass = Mass(s)
   }
 
-  implicit object MassNumeric extends QuantityNumeric[Mass] { val valueUnit = Grams }
+  implicit object MassNumeric extends AbstractQuantityNumeric[Mass](Grams)
 }
 

@@ -86,4 +86,6 @@ object PressureConversions {
     def psi = PoundsPerSquareInch(d)
     def atm = StandardAtmospheres(d)
   }
+
+  implicit object PressureNumeric extends AbstractQuantityNumeric[Pressure](Pascals)
 }

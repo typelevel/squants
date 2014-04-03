@@ -49,4 +49,6 @@ object LuminousIntensityConversions {
   implicit class LuminousIntensityConversions(d: Double) {
     def candelas = Candelas(d)
   }
+
+  implicit object LuminousIntensityNumeric extends AbstractQuantityNumeric[LuminousIntensity](Candelas)
 }

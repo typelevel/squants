@@ -56,7 +56,7 @@ trait ForceUnit extends UnitOfMeasure[Force] {
   def apply(value: Double) = Force(massBase * value, accBase)
 }
 
-object Newtons extends ForceUnit {
+object Newtons extends ForceUnit with ValueUnit {
   val massUnit = Kilograms
   val massBase = Kilograms(1)
   val accUnit = MetersPerSecondSquared
@@ -91,5 +91,7 @@ object ForceConversions {
     def poundForce = PoundForce(1)
     def lbf = PoundForce(1)
   }
+
+  implicit object ForceNumeric extends AbstractQuantityNumeric[Force](Newtons)
 }
 

@@ -148,6 +148,6 @@ object PowerConversions {
     def toPower = Power(s)
   }
 
-  implicit object PowerNumeric extends QuantityNumeric[Power] { val valueUnit = Watts }
+  implicit object PowerNumeric extends AbstractQuantityNumeric[Power](Watts)
 }
 

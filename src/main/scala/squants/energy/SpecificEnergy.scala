@@ -45,6 +45,6 @@ object SpecificEnergyConversions {
     def grays = Grays(d)
   }
 
-  implicit object SpecificEnergyNumeric extends QuantityNumeric[SpecificEnergy] { val valueUnit = Grays }
+  implicit object SpecificEnergyNumeric extends AbstractQuantityNumeric[SpecificEnergy](Grays)
 }
 

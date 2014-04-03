@@ -61,13 +61,12 @@ trait AccelerationUnit extends UnitOfMeasure[Acceleration] {
 
 // TODO - How about direction?
 
-object MetersPerSecondSquared extends AccelerationUnit {
+object MetersPerSecondSquared extends AccelerationUnit with ValueUnit {
   val changeUnit = MetersPerSecond
   val change = MetersPerSecond(1)
   val timeUnit = Seconds
   val time = Seconds(1)
   val symbol = "m/s²"
-  //  def apply(d: Double) = Acceleration(Velocity(Meters(d), Seconds(1)), Seconds(1))
 }
 
 object FeetPerSecondSquared extends AccelerationUnit {
@@ -76,7 +75,6 @@ object FeetPerSecondSquared extends AccelerationUnit {
   val timeUnit = Seconds
   val time = Seconds(1)
   val symbol = "ft/s²"
-  //  def apply(d: Double) = Acceleration(Velocity(Feet(d), Seconds(1)), Seconds(1))
 }
 
 object UsMilesPerHourSquared extends AccelerationUnit {
@@ -85,7 +83,6 @@ object UsMilesPerHourSquared extends AccelerationUnit {
   val timeUnit = Hours
   val time = Hours(1)
   val symbol = "mph²"
-  //  def apply(d: Double) = Acceleration(Velocity(UsMiles(d), Hours(1)), Hours(1))
 }
 
 /**
@@ -106,4 +103,6 @@ object AccelerationConversions {
     def mpss = MetersPerSecondSquared(d)
     def fpss = FeetPerSecondSquared(d)
   }
+
+  implicit object AccelerationNumeric extends AbstractQuantityNumeric[Acceleration](MetersPerSecondSquared)
 }

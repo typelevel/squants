@@ -136,4 +136,11 @@ class MassSpec extends FlatSpec with Matchers {
     assert("10.45 oz".toMass.right.get == Ounces(10.45))
     assert("10.45 zz".toMass.left.get == "Unable to parse 10.45 zz as Mass")
   }
+
+  it should "provide Numeric support" in {
+    import MassConversions._
+
+    val ms = List(Grams(1000), Kilograms(10))
+    assert(ms.sum == Kilograms(11))
+  }
 }

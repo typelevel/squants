@@ -8,7 +8,7 @@
 
 package squants.space
 
-import squants.{ ValueUnit, UnitMultiplier, Quantity, UnitOfMeasure }
+import squants._
 
 /**
  * @author  garyKeorkunian
@@ -88,4 +88,6 @@ object AngleConversions {
     def arcminutes = Arcminutes(d)
     def arcseconds = Arcseconds(d)
   }
+
+  implicit object AngleNumeric extends AbstractQuantityNumeric[Angle](Radians)
 }

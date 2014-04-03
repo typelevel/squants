@@ -85,5 +85,5 @@ object ElectricCurrentConversions {
   }
 
   implicit object ElectricCurrentNumeric
-    extends QuantityNumeric[ElectricCurrent] { val valueUnit = Amperes }
+    extends AbstractQuantityNumeric[ElectricCurrent]((Amperes))
 }

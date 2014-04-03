@@ -8,10 +8,11 @@
 
 package squants.space
 
-import squants.{ Power, UnitOfMeasure, Quantity }
+import squants._
 import squants.photo.{ LuminousFlux, Lumens, LuminousIntensity }
 import squants.radio.RadiantIntensity
 import squants.energy.Watts
+import squants.radio.RadiantIntensity
 
 /**
  * @author  garyKeorkunian
@@ -36,7 +37,7 @@ object SolidAngle {
 
 trait SolidAngleUnit extends UnitOfMeasure[SolidAngle]
 
-object SquaredRadians extends SolidAngleUnit {
+object SquaredRadians extends SolidAngleUnit with ValueUnit {
   def apply(d: Double) = SolidAngle(d)
   val symbol = "sr"
 }
@@ -49,5 +50,7 @@ object SolidAngleConversions {
     def squaredRadians = SquaredRadians(d)
     def steradians = SquaredRadians(d)
   }
+
+  implicit object SolidAngleNumeric extends AbstractQuantityNumeric[SolidAngle](SquaredRadians)
 }
 

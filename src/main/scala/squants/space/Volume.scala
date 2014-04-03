@@ -222,4 +222,6 @@ object VolumeConversions {
     def tablespoons = Tablespoons(d)
     def teaspoons = Teaspoons(d)
   }
+
+  implicit object VolumeNumeric extends AbstractQuantityNumeric[Volume](CubicMeters)
 }

@@ -51,5 +51,5 @@ object MagneticFluxConversions {
     def webers = Webers(d)
   }
 
-  implicit object MagneticFluxNumeric extends QuantityNumeric[MagneticFlux] { val valueUnit = Webers }
+  implicit object MagneticFluxNumeric extends AbstractQuantityNumeric[MagneticFlux]((Webers))
 }

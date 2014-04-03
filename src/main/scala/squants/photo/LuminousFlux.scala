@@ -52,4 +52,6 @@ object LuminousFluxConversions {
   implicit class LuminousFluxConversions(d: Double) {
     def lumens = Lumens(d)
   }
+
+  implicit object LuminousFluxNumeric extends AbstractQuantityNumeric[LuminousFlux](Lumens)
 }

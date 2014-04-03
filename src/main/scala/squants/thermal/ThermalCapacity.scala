@@ -8,7 +8,7 @@
 
 package squants.thermal
 
-import squants.{ ValueUnit, UnitMultiplier, UnitOfMeasure, Quantity }
+import squants._
 import squants.energy.{ Energy, Joules }
 
 /**
@@ -48,4 +48,6 @@ object ThermalCapacityConversions {
   implicit class ThermalCapacityConversions(d: Double) {
     def joulesPerKelvin = JoulesPerKelvin(d)
   }
+
+  implicit object ThermalCapacityNumeric extends AbstractQuantityNumeric[ThermalCapacity](JoulesPerKelvin)
 }

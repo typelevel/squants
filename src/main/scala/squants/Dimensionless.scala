@@ -108,8 +108,7 @@ object DimensionlessConversions {
     def million = Each(d * 1000000D)
   }
 
-  implicit object DimensionlessNumeric extends QuantityNumeric[Dimensionless] {
-    val valueUnit = Each
+  implicit object DimensionlessNumeric extends AbstractQuantityNumeric[Dimensionless](Each) {
     override def times(x: Dimensionless, y: Dimensionless) = x * y
   }
 }
