@@ -42,7 +42,7 @@ All types are immutable and thread-safe.</p>
 |
 <a href="https://groups.google.com/forum/#!forum/squants">User Forum</a></p>
 
-<p>Current version: <strong>0.2.1-SNAPSHOT</strong> (pre-release)</p>
+<p>Current version: <strong>0.2.3-SNAPSHOT</strong> (pre-release)</p>
 
 <p><a href="https://travis-ci.org/garyKeorkunian/squants"><img src="https://travis-ci.org/garyKeorkunian/squants.png?branch=master" alt="Build Status"></a></p>
 
@@ -52,7 +52,7 @@ All types are immutable and thread-safe.</p>
 <p>Repository hosting for Squants is provided by Sonatype.
 To use Squants in your SBT project you will need to add the following dependency to your build.</p>
 
-<pre><code>"com.squants"  %% "squants"  % "0.2.1-SNAPSHOT"
+<pre><code>"com.squants"  %% "squants"  % "0.2.3-SNAPSHOT"
 </code></pre>
 
 <p>To use Squants interactively in the Scala REPL, clone the git repo and run <code>sbt console</code></p>
@@ -69,9 +69,9 @@ sbt console
 
 <p>When building programs that perform some type of dimensional analysis, developers are quick to declare
 quantities using a basic numeric type, usually Double.  While this may be perfectly satisfactory
-in many situation, it can often lead to semantic and other logic issues.</p>
+in many situations, it can often lead to semantic and other logic issues.</p>
 
-<p>For example, when using a Double to describe an quantity of Energy (kWh) and Power (kW), it is possible
+<p>For example, when using a Double to describe a quantity of Energy (kWh) and Power (kW), it is possible
 to compile a program that adds these two values together.  This is not appropriate as kW and kWh
 measure two different quantities.  The unit kWh is used to measure an amount of Energy used
 or produced.  The unit kW is used to measure Power/Load, the rate at which Energy is being used
@@ -276,6 +276,17 @@ The technique and frequency chosen for exchange rate updates is completely in co
 
 <p>The last conversion is useful for automatically interpreting strings from user input, json marshaller and other sources</p>
 
+<h3>
+<a name="numeric-support" class="anchor" href="#numeric-support"><span class="octicon octicon-link"></span></a>Numeric Support</h3>
+
+<p>Most Quantities that support implicit conversions also include an implicit Numeric object that can be imported
+to your code where Numeric support is required.  These follow the following pattern:</p>
+
+<div class="highlight highlight-scala"><pre><span class="k">import</span> <span class="nn">MassConversions.MassNumeric</span>
+
+<span class="k">val</span> <span class="n">sum</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="nc">Kilograms</span><span class="o">(</span><span class="mi">100</span><span class="o">),</span> <span class="nc">Grams</span><span class="o">(</span><span class="mi">34510</span><span class="o">)).</span><span class="n">sum</span>
+</pre></div>
+
 <h2>
 <a name="type-hierarchy" class="anchor" href="#type-hierarchy"><span class="octicon octicon-link"></span></a>Type Hierarchy</h2>
 
@@ -470,6 +481,29 @@ with type and scale conversions in your application logic.</p>
   <span class="o">}</span>
 <span class="o">}</span>
 </pre></div>
+
+<h2>
+<a name="roadmap" class="anchor" href="#roadmap"><span class="octicon octicon-link"></span></a>Roadmap</h2>
+
+<p>The following features and improvements are planned for the 1.0 release</p>
+
+<ul>
+<li>JSON Marshalling Support perhaps with a companion project or two for specific bindings (ie, squants-json4s)</li>
+<li>Validate and improve Money and FX Support</li>
+<li>Implement improved Vector Quantity support (Velocity, Acceleration, Force, etc)</li>
+<li>Additional Quantity Types, Units and Dimensional Conversions</li>
+<li>Optimize Performance and / or Conversion Precisions
+
+<ul>
+<li>Using a Double as the underlying value is likely providing the best performance</li>
+<li>Better precision will likely take the form of replacing the underlying Double value with a Generic Type
+so that user code can choose a more precise type such as those provided by the
+<a href="https://github.com/non/spire">Spire</a> project</li>
+</ul>
+</li>
+<li>Enhance documentation and support presence</li>
+<li>Sample Project and a Typesafe Activator Template</li>
+</ul>
       </section>
     </div>
 
