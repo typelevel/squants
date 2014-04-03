@@ -15,7 +15,7 @@ All types are immutable and thread-safe.
 |
 [User Forum](https://groups.google.com/forum/#!forum/squants)
 
-Current version: **0.2.1-SNAPSHOT** (pre-release)
+Current version: **0.2.3-SNAPSHOT** (pre-release)
 
 [![Build Status](https://travis-ci.org/garyKeorkunian/squants.png?branch=master)](https://travis-ci.org/garyKeorkunian/squants)
 
@@ -23,7 +23,7 @@ Current version: **0.2.1-SNAPSHOT** (pre-release)
 Repository hosting for Squants is provided by Sonatype.
 To use Squants in your SBT project you will need to add the following dependency to your build.
 
-    "com.squants"  %% "squants"  % "0.2.1-SNAPSHOT"
+    "com.squants"  %% "squants"  % "0.2.3-SNAPSHOT"
 
 To use Squants interactively in the Scala REPL, clone the git repo and run `sbt console`
 
@@ -230,6 +230,16 @@ val load = Power("40 MW")		// 40 MW
 
 The last conversion is useful for automatically interpreting strings from user input, json marshaller and other sources
 
+### Numeric Support
+Most Quantities that support implicit conversions also include an implicit Numeric object that can be imported
+to your code where Numeric support is required.  These follow the following pattern:
+
+```scala
+import MassConversions.MassNumeric
+
+val sum = List(Kilograms(100), Grams(34510)).sum
+```
+
 ## Type Hierarchy
 The type hierarchy includes two root base traits:  Quantity and UnitOfMeasure
 
@@ -421,3 +431,18 @@ trait LoadRoute extends HttpService {
   }
 }
 ```
+## Roadmap
+
+The following features and improvements are planned for the 1.0 release
+
+* JSON Marshalling Support perhaps with a companion project or two for specific bindings (ie, squants-json4s)
+* Validate and improve Money and FX Support
+* Implement improved Vector Quantity support (Velocity, Acceleration, Force, etc)
+* Additional Quantity Types, Units and Dimensional Conversions
+* Optimize Performance and / or Conversion Precisions
+  * Using a Double as the underlying value is likely providing the best performance
+  * Better precision will likely take the form of replacing the underlying Double value with a Generic Type
+  so that user code can choose a more precise type such as those provided by the
+  [Spire](https://github.com/non/spire) project
+* Enhance documentation and support presence
+* Sample Project and a Typesafe Activator Template
