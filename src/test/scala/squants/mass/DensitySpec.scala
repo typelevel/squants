@@ -11,6 +11,8 @@ package squants.mass
 import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
 import squants.space.CubicMeters
+import org.json4s.DefaultFormats
+import org.json4s.native.Serialization
 
 /**
  * @author  garyKeorkunian
@@ -36,5 +38,13 @@ class DensitySpec extends FlatSpec with Matchers {
 
   it should "return Mass when multiplied by Volume" in {
     assert(KilogramsPerCubicMeter(1) * CubicMeters(1) == Kilograms(1))
+  }
+
+  it should "serialize to and de-serialize from Json" in {
+    implicit val formats = DefaultFormats
+    val x = KilogramsPerCubicMeter(10.22)
+    val ser = Serialization.write(x)
+    val des = Serialization.read[Density](ser)
+    assert(x == des)
   }
 }

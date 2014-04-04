@@ -109,6 +109,14 @@ object DimensionlessConversions {
   }
 
   implicit object DimensionlessNumeric extends AbstractQuantityNumeric[Dimensionless](Each) {
+    /**
+     * Dimensionless quantities support the times operation.
+     * This method overrides the default [[squants.AbstractQuantityNumeric.times]] which thrown an exception
+     *
+     * @param x Dimensionless
+     * @param y Dimensionless
+     * @return
+     */
     override def times(x: Dimensionless, y: Dimensionless) = x * y
   }
 }

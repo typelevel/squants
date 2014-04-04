@@ -13,6 +13,8 @@ import scala.language.postfixOps
 import squants.motion.{ MetersPerSecond, MetersPerSecondCubed, MetersPerSecondSquared }
 import squants.space.Meters
 import scala.concurrent.duration.Duration
+import org.json4s.DefaultFormats
+import org.json4s.native.Serialization
 
 /**
  * @author  garyKeorkunian
@@ -80,6 +82,14 @@ class TimeSpec extends FlatSpec with Matchers {
     assert(Seconds(1) * MetersPerSecond(1) == Meters(1))
     assert(Seconds(1) * MetersPerSecondSquared(1) == MetersPerSecond(1))
     assert(Seconds(1) * MetersPerSecondCubed(1) == MetersPerSecondSquared(1))
+  }
+
+  it should "serialize to and de-serialize from Json" in {
+    implicit val formats = DefaultFormats
+    val x = Seconds(10.22)
+    val ser = Serialization.write(x)
+    val des = Serialization.read[Time](ser)
+    assert(x == des)
   }
 
   behavior of "TimeConversions"

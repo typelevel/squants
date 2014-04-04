@@ -10,6 +10,8 @@ package squants.electro
 
 import org.scalatest.{ Matchers, FlatSpec }
 import squants.space.Meters
+import org.json4s.DefaultFormats
+import org.json4s.native.Serialization
 
 /**
  * @author  garyKeorkunian
@@ -40,6 +42,14 @@ class ResistivitySpec extends FlatSpec with Matchers {
 
   it should "return Length when divided by ElectricalResistance" in {
     assert(OhmMeters(1) / Ohms(1) == Meters(1))
+  }
+
+  it should "serialize to and de-serialize from Json" in {
+    implicit val formats = DefaultFormats
+    val x = OhmMeters(10.22)
+    val ser = Serialization.write(x)
+    val des = Serialization.read[Resistivity](ser)
+    assert(x == des)
   }
 
   behavior of "ResistivityConversions"

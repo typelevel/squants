@@ -11,6 +11,8 @@ package squants.motion
 import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
 import squants.space.Radians
+import org.json4s.DefaultFormats
+import org.json4s.native.Serialization
 
 /**
  * @author  garyKeorkunian
@@ -41,5 +43,13 @@ class AngularVelocitySpec extends FlatSpec with Matchers {
     assert(DegreesPerSecond(1).toString(DegreesPerSecond) == "1.0 °/s")
     assert(GradsPerSecond(1).toString(GradsPerSecond) == "1.0 grad/s")
     assert(TurnsPerSecond(1).toString(TurnsPerSecond) == "1.0 turns/s")
+  }
+
+  it should "serialize to and de-serialize from Json" in {
+    implicit val formats = DefaultFormats
+    val x = RadiansPerSecond(10.22)
+    val ser = Serialization.write(x)
+    val des = Serialization.read[AngularVelocity](ser)
+    assert(x == des)
   }
 }
