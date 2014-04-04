@@ -87,7 +87,7 @@ class MassSpec extends FlatSpec with Matchers {
 
   it should "serialize to and de-serialize from Json" in {
     implicit val formats = DefaultFormats
-    val x = Kilograms(10)
+    val x = Kilograms(10.22)
     val ser = Serialization.write(x)
     val des = Serialization.read[Mass](ser)
     assert(x == des)

@@ -10,6 +10,8 @@ package squants.electro
 
 import org.scalatest.{ Matchers, FlatSpec }
 import squants.space.SquareMeters
+import org.json4s.DefaultFormats
+import org.json4s.native.Serialization
 
 /**
  * @author  garyKeorkunian
@@ -38,6 +40,14 @@ class MagneticFluxDensitySpec extends FlatSpec with Matchers {
 
   it should "return MagneticFlux when multiplied by Area" in {
     assert(Teslas(1) * SquareMeters(1) == Webers(1))
+  }
+
+  it should "serialize to and de-serialize from Json" in {
+    implicit val formats = DefaultFormats
+    val x = Teslas(10.22)
+    val ser = Serialization.write(x)
+    val des = Serialization.read[MagneticFluxDensity](ser)
+    assert(x == des)
   }
 
   behavior of "MagneticFluxDensityConversions"

@@ -237,7 +237,7 @@ trait BaseQuantity extends Any { self: Quantity[_] ⇒
 trait DerivedQuantity extends Any { self: Quantity[_] ⇒ }
 
 /**
- * Base trait for creating objects to manage quantities as Numeric.
+ * Base class for creating objects to manage quantities as Numeric.
  *
  * One limitation is the `times` operation which is not supported by every quantity type
  *
@@ -246,6 +246,18 @@ trait DerivedQuantity extends Any { self: Quantity[_] ⇒ }
 abstract class AbstractQuantityNumeric[A <: Quantity[A]](val valueUnit: UnitOfMeasure[A] with ValueUnit) extends Numeric[A] {
   def plus(x: A, y: A) = x + y
   def minus(x: A, y: A) = x - y
+
+  /**
+   * `times` is not a supported Numeric operation for Quantities.
+   * It is not possible to multiply a dimensional quantity by a like quantity and get another like quantity.
+   *
+   * Applying this class in a way that uses this method will result in an UnsupportedOperationException being thrown.
+   *
+   * @param x Quantity[A]
+   * @param y Quantity[A]
+   * @return
+   * @throws UnsupportedOperationException for most types
+   */
   def times(x: A, y: A): A = throw new UnsupportedOperationException("Numeric.times not supported for Quantities")
   def negate(x: A) = -x
   def fromInt(x: Int) = valueUnit(x)

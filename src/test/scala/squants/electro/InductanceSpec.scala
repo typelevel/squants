@@ -9,6 +9,8 @@
 package squants.electro
 
 import org.scalatest.{ Matchers, FlatSpec }
+import org.json4s.DefaultFormats
+import org.json4s.native.Serialization
 
 /**
  * @author  garyKeorkunian
@@ -34,6 +36,14 @@ class InductanceSpec extends FlatSpec with Matchers {
 
   it should "return MagneticFlux when multiplied by ElectricCurrent" in {
     assert(Henry(1) * Amperes(1) == Webers(1))
+  }
+
+  it should "serialize to and de-serialize from Json" in {
+    implicit val formats = DefaultFormats
+    val x = Henry(10.22)
+    val ser = Serialization.write(x)
+    val des = Serialization.read[Inductance](ser)
+    assert(x == des)
   }
 
   behavior of "InductanceConversions"

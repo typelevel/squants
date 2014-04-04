@@ -12,6 +12,8 @@ import org.scalatest.{ Matchers, FlatSpec }
 import squants.MetricSystem
 import squants.motion.{ Pascals, Newtons }
 import squants.photo.{ Candelas, CandelasPerSquareMeter, Lumens, Lux }
+import org.json4s.DefaultFormats
+import org.json4s.native.Serialization
 
 /**
  * @author  garyKeorkunian
@@ -78,6 +80,14 @@ class AreaSpec extends FlatSpec with Matchers {
 
   it should "return Length when divided by Length" in {
     assert(SquareMeters(1) / Meters(1) == Meters(1))
+  }
+
+  it should "serialize to and de-serialize from Json" in {
+    implicit val formats = DefaultFormats
+    val x = SquareMeters(10.22)
+    val ser = Serialization.write(x)
+    val des = Serialization.read[Area](ser)
+    assert(x == des)
   }
 
   behavior of "AreaConversion"

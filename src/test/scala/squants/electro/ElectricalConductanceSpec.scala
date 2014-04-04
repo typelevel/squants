@@ -10,6 +10,8 @@ package squants.electro
 
 import org.scalatest.{ Matchers, FlatSpec }
 import squants.space.Meters
+import org.json4s.DefaultFormats
+import org.json4s.native.Serialization
 
 /**
  * @author  garyKeorkunian
@@ -43,6 +45,14 @@ class ElectricalConductanceSpec extends FlatSpec with Matchers {
 
   it should "return the inverse value as Ohms" in {
     assert(Siemens(5).inOhms == Ohms(.2))
+  }
+
+  it should "serialize to and de-serialize from Json" in {
+    implicit val formats = DefaultFormats
+    val x = Siemens(10.22)
+    val ser = Serialization.write(x)
+    val des = Serialization.read[ElectricalConductance](ser)
+    assert(x == des)
   }
 
   behavior of "ElectricalConductanceConversions"

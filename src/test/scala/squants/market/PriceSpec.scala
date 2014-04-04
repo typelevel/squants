@@ -86,16 +86,17 @@ class PriceSpec extends FlatSpec with Matchers {
   }
 
   it should "return properly formatted strings" in {
-    val p = Price(Money(10.32, "USD"), Meters(1))
+    val p = Price(Money(10.22, "USD"), Meters(1))
     assert(p.toString == p.money.toString + "/" + p.quantity.toString)
   }
 
   // TODO - Get this working
   it should "serialize to and de-serialize from Json" ignore {
     implicit val formats = DefaultFormats.withBigDecimal + ShortTypeHints(List(classOf[Money], classOf[Mass], classOf[Currency]))
-    val p = USD(10.32) / Kilograms(1)
+    val p = USD(10.22) / Kilograms(1)
     println(p)
     val ser = Serialization.write(p)
+    println(ser)
     val des = Serialization.read[Price[Mass]](ser)
     assert(des == p)
   }

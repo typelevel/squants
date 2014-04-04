@@ -256,7 +256,7 @@ class MoneySpec extends FlatSpec with Matchers {
 
   it should "serialize to and de-serialize Money from Json" in {
     implicit val formats = DefaultFormats.withBigDecimal
-    val x = USD(10)
+    val x = USD(10.22)
     val ser = Serialization.write(x)
     val des = Serialization.read[Money](ser)
     assert(x == des)

@@ -10,6 +10,8 @@ package squants.mass
 
 import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
+import org.json4s.DefaultFormats
+import org.json4s.native.Serialization
 
 /**
  * @author  garyKeorkunian
@@ -34,6 +36,14 @@ class ChemicalAmountSpec extends FlatSpec with Matchers {
   it should "return properly formatted strings for all supported Units of Measure" in {
     assert(Moles(1).toString(Moles) == "1.0 mol")
     assert(PoundMoles(1).toString(PoundMoles) == "1.0 lb-mol")
+  }
+
+  it should "serialize to and de-serialize from Json" in {
+    implicit val formats = DefaultFormats
+    val x = Moles(10.22)
+    val ser = Serialization.write(x)
+    val des = Serialization.read[ChemicalAmount](ser)
+    assert(x == des)
   }
 
   behavior of "ChemicalAmountConversions"

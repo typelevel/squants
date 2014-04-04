@@ -13,6 +13,8 @@ import scala.language.postfixOps
 import squants.space.Meters
 import squants.time.Seconds
 import squants.mass.Kilograms
+import org.json4s.DefaultFormats
+import org.json4s.native.Serialization
 
 /**
  * @author  garyKeorkunian
@@ -59,6 +61,14 @@ class AccelerationSpec extends FlatSpec with Matchers {
 
   it should "return Time when divided by Jerk" in {
     assert(MetersPerSecondSquared(1) / MetersPerSecondCubed(1) == Seconds(1))
+  }
+
+  it should "serialize to and de-serialize from Json" in {
+    implicit val formats = DefaultFormats
+    val x = MetersPerSecondSquared(10.22)
+    val ser = Serialization.write(x)
+    val des = Serialization.read[Acceleration](ser)
+    assert(x == des)
   }
 
   behavior of "VelocityConversions"

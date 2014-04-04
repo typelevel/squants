@@ -11,6 +11,8 @@ package squants.radio
 import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
 import squants.space.Meters
+import org.json4s.DefaultFormats
+import org.json4s.native.Serialization
 
 /**
  * @author  garyKeorkunian
@@ -40,5 +42,13 @@ class SpectralIntensitySpec extends FlatSpec with Matchers {
 
   it should "return Length when divided by RadiantIntensity" in {
     assert(WattsPerSteradianPerMeter(1) / WattsPerSteradian(1) == Meters(1))
+  }
+
+  it should "serialize to and de-serialize from Json" in {
+    implicit val formats = DefaultFormats
+    val x = WattsPerSteradianPerMeter(10.22)
+    val ser = Serialization.write(x)
+    val des = Serialization.read[SpectralIntensity](ser)
+    assert(x == des)
   }
 }

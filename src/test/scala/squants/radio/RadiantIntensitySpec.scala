@@ -12,6 +12,8 @@ import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
 import squants.energy.Watts
 import squants.space.{ SquareMeters, Meters, SquaredRadians }
+import org.json4s.DefaultFormats
+import org.json4s.native.Serialization
 
 /**
  * @author  garyKeorkunian
@@ -49,5 +51,13 @@ class RadiantIntensitySpec extends FlatSpec with Matchers {
 
   it should "Radiance when divided by Area" in {
     assert(WattsPerSteradian(1) / SquareMeters(1) == WattsPerSteradianPerSquareMeter(1))
+  }
+
+  it should "serialize to and de-serialize from Json" in {
+    implicit val formats = DefaultFormats
+    val x = WattsPerSteradian(10.22)
+    val ser = Serialization.write(x)
+    val des = Serialization.read[RadiantIntensity](ser)
+    assert(x == des)
   }
 }

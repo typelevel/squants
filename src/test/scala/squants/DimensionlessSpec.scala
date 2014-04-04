@@ -11,6 +11,8 @@ package squants
 import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
 import squants.time.Hertz
+import org.json4s.DefaultFormats
+import org.json4s.native.Serialization
 
 /**
  * @author  garyKeorkunian
@@ -53,6 +55,14 @@ class DimensionlessSpec extends FlatSpec with Matchers {
 
   it should " return a Time when divided by Frequency" in {
     assert(Each(60) / Hertz(60) == Seconds(1))
+  }
+
+  it should "serialize to and de-serialize from Json" in {
+    implicit val formats = DefaultFormats
+    val x = Each(10.22)
+    val ser = Serialization.write(x)
+    val des = Serialization.read[Dimensionless](ser)
+    assert(x == des)
   }
 
   behavior of "CountsConversions"

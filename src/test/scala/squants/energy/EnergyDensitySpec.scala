@@ -11,6 +11,8 @@ package squants.energy
 import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
 import squants.space.CubicMeters
+import org.json4s.DefaultFormats
+import org.json4s.native.Serialization
 
 /**
  * @author  garyKeorkunian
@@ -38,6 +40,14 @@ class EnergyDensitySpec extends FlatSpec with Matchers {
 
   it should "return Energy when multiplied by Volume" in {
     assert(JoulesPerCubicMeter(1) * CubicMeters(10) == Joules(10))
+  }
+
+  it should "serialize to and de-serialize from Json" in {
+    implicit val formats = DefaultFormats
+    val x = JoulesPerCubicMeter(10.22)
+    val ser = Serialization.write(x)
+    val des = Serialization.read[EnergyDensity](ser)
+    assert(x == des)
   }
 
   behavior of "Conversions"
