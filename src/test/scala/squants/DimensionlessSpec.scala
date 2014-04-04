@@ -95,5 +95,10 @@ class DimensionlessSpec extends FlatSpec with Matchers {
     assert(coefficient.million == Each(coefficient * 1000000D))
   }
 
-  it should "provide numeric support" is pending
+  it should "provide Numeric support" in {
+    import DimensionlessConversions.DimensionlessNumeric
+
+    // The `times` operation is allowed for Dimensionless quantities
+    assert(DimensionlessNumeric.times(Each(10), Dozen(3)) == Dozen(30))
+  }
 }

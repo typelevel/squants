@@ -47,6 +47,8 @@ class QuantitySpec extends FlatSpec with Matchers {
     val multiplier = Thangs.multiplier * MetricSystem.Kilo
   }
 
+  implicit object ThingeeNumeric extends AbstractQuantityNumeric[Thingee](Thangs)
+
   behavior of "Quantity as implemented in Thingee"
 
   it should "add two like values and result in a like value" in {
@@ -242,5 +244,29 @@ class QuantitySpec extends FlatSpec with Matchers {
     val m = 10 * Kilograms(50)
     assert(m.getClass == classOf[Mass])
     assert((m to Kilograms) == 500)
+  }
+
+  behavior of "QuantityNumeric"
+
+  it should "provide Numeric support" in {
+
+    assert(ThingeeNumeric.plus(Thangs(1000), KiloThangs(10)) == KiloThangs(11))
+    assert(ThingeeNumeric.minus(KiloThangs(10), Thangs(1000)) == KiloThangs(9))
+
+    an[UnsupportedOperationException] should be thrownBy ThingeeNumeric.times(Thangs(1), Thangs(2))
+
+    assert(ThingeeNumeric.negate(Thangs(10.22)) == Thangs(-10.22))
+    assert(ThingeeNumeric.fromInt(10) == Thangs(10))
+    assert(ThingeeNumeric.toInt(Thangs(10)) == 10)
+    assert(ThingeeNumeric.toLong(Thangs(10)) == 10L)
+    assert(ThingeeNumeric.toFloat(Thangs(10.22)) == 10.22F)
+    assert(ThingeeNumeric.toDouble(Thangs(10.22)) == 10.22)
+
+    assert(ThingeeNumeric.compare(Thangs(1000), KiloThangs(2)) < 0)
+    assert(ThingeeNumeric.compare(Thangs(2000), KiloThangs(1)) > 0)
+    assert(ThingeeNumeric.compare(Thangs(2000), KiloThangs(2)) == 0)
+
+    val ts = List(Thangs(1000), KiloThangs(10), KiloThangs(100))
+    assert(ts.sum == KiloThangs(111))
   }
 }
