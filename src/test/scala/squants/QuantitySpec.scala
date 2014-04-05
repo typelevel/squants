@@ -19,8 +19,6 @@ import squants.time.Hours
  */
 class QuantitySpec extends FlatSpec with Matchers {
 
-  // TODO Implement Specs for Numeric Support
-
   /*
     Create a Quantity with two Units of Measure
    */
@@ -157,7 +155,7 @@ class QuantitySpec extends FlatSpec with Matchers {
   it should "return true on comparing two different values with !=" in {
     val x = Thangs(1)
     val y = Thangs(2)
-    x should not be (y)
+    x should not be y
   }
 
   it should "return false on comparing two equal values with !=" in {

@@ -64,4 +64,11 @@ class SpecificEnergySpec extends FlatSpec with Matchers {
     val d = 10d
     d.grays should be(SpecificEnergy(d))
   }
+
+  it should "provide Numeric support" in {
+    import SpecificEnergyConversions.SpecificEnergyNumeric
+
+    val ses = List(Grays(100), Grays(10))
+    ses.sum should be(Grays(110))
+  }
 }

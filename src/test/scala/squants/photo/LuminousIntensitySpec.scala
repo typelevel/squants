@@ -70,4 +70,11 @@ class LuminousIntensitySpec extends FlatSpec with Matchers {
     val d = 10d
     d.candelas should be(Candelas(d))
   }
+
+  it should "provide Numeric support" in {
+    import LuminousIntensityConversions.LuminousIntensityNumeric
+
+    val lis = List(Candelas(100), Candelas(1))
+    lis.sum should be(Candelas(101))
+  }
 }

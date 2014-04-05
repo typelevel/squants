@@ -43,7 +43,6 @@ final class Length private (val value: Double) extends Quantity[Length]
   def /(that: Time): Velocity = Velocity(this, that)
   def /(that: Velocity): Time = that.time * (this / that.change)
 
-  // TODO These could be moved to traits (Squarable, Cubable)
   def squared = this * this
   def cubed = this * this * this
 

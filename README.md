@@ -103,8 +103,7 @@ aveLoad should be(Kilowatts(1.2)
 demonstrates use of the Energy./ method that takes a Time and returns a Power
 
 ### Unit Conversions
-If necessary, the value in the desired unit can be extracted with the
-the `to` method.
+If necessary, the value in the desired unit can be extracted with the `to` method.
 
 ```scala
 val load: Power = Kilowatts(1200)
@@ -128,7 +127,8 @@ However, because the conversion multipliers between units can not be predefined,
 overridden and augmented to realize correct behavior.
 
 ### Money
-A Quantity of purchasing power
+A Quantity of purchasing power measured in units we call Currencies.
+Create Money values using standard Currency codes.
 
 ```scala
 val tenBucks: Money = USD(10)
@@ -138,7 +138,9 @@ val digitalStash: Money = BTC(50)
 ```
 
 ### Price
-A Ratio between Money and another Quantity
+A Ratio between Money and another Quantity.
+A Price value must be typed on a Quantity.
+It can be denominated in any defined Currency.
 
 *Price = Money / Quantity*
 
@@ -164,9 +166,9 @@ val yenAmount: Money = rate * someBucks 		// returns JPY(2350)
 ```
 
 ### Money Context
-A MoneyContext can be implicitly declared to define default settings and applicable exchange rates.
-This allows your application to work with a default currency based on an application configuration.
-It also provides support for dynamically updating exchange rates and using those rates for automatic conversions between currencies.
+A MoneyContext can be implicitly declared to define default settings and applicable exchange rates within a context.
+This allows your application to work with a default currency based on an application configuration or other dynamic source.
+It also provides support for updating exchange rates and using those rates for automatic conversions between currencies.
 The technique and frequency chosen for exchange rate updates is completely in control of the application.
 
 ```scala
@@ -210,32 +212,70 @@ range.foldLeft(10)(0) {(z, r) => ???}
 ## Natural Language Features
 Implicit conversions give the DSL some features that allows client code to express quantities in a more natural way.
 
+Create Quantities using Unit Of Measure Factory objects (no implicits required)
+
 ```scala
-// Create Quantities using Unit Of Measure Factory objects (no implicits required)
 val load = Kilowatts(100)
 val time = Hours(3.75)
 val money = USD(112.50)
 val price = Price(money, MegawattHours(1))
-// Create Quantities using Unit of Measure names and/or symbols (uses implicits)
-val load1 = 100 kW 			// Simple expressions don’t need dots
+```
+
+Create Quantities using Unit of Measure names and/or symbols (uses implicits)
+
+```scala
+val load1 = 100 kW 			        // Simple expressions don’t need dots
 val load2 = 100 megaWatts
-val time = 3.hours + 45.minutes // Compound expressions may need dots
-// Create Quantities using operations between other Quantities
+val time = 3.hours + 45.minutes     // Compound expressions may need dots
+```
+
+Create Quantities using operations between other Quantities
+
+```scala
 val energyUsed = 100.kilowatts * (3.hours + 45.minutes)
 val price = 112.50.USD / 1.megawattHours
 val speed = 55.miles / 1.hours
-// Create Quantities using formatted Strings
+```
+
+Create Quantities using formatted Strings
+
+```scala
 val load = Power("40 MW")		// 40 MW
 ```
 
-The last conversion is useful for automatically interpreting strings from user input, json marshaller and other sources
+Use single unit values to simplify expressions
+
+```scala
+// Hours(1) == 1.hours == hour
+val ramp = 100.kilowatts / hour
+val speed = 100.kilometers / hour
+
+// MegawattHours(1) == 1.megawattHours == megawattHour == MWh
+val hi = 100.dollars / MWh
+val low = 40.dollars / megawattHour
+```
+
+Implicit conversion support for using Numbers to lead some expressions
+
+```scala
+val price = 10 / dollar	    // 1 USD / 10 ea
+val freq = 60 / second	    // 60 Hz
+val load = 10 * 4.MW		// 40 MW
+```
+
+Create Quantity Ranges using `to` or `plusOrMinus` (`+-`) operators
+
+```scala
+val range1 = 1000.kW to 5000.kW	    // 1000.kW to 5000.kW
+val range2 = 5000.kW +- 1000.kW     // 4000.kW to 6000.kW
+```
 
 ### Numeric Support
 Most Quantities that support implicit conversions also include an implicit Numeric object that can be imported
 to your code where Numeric support is required.  These follow the following pattern:
 
 ```scala
-import MassConversions.MassNumeric
+import squants.mass.MassConversions.MassNumeric
 
 val sum = List(Kilograms(100), Grams(34510)).sum
 ```

@@ -14,6 +14,7 @@ import squants.motion.{ Pascals, Newtons }
 import squants.photo.{ Candelas, CandelasPerSquareMeter, Lumens, Lux }
 import org.json4s.DefaultFormats
 import org.json4s.native.Serialization
+import squants.mass.{ Kilograms, KilogramsPerSquareMeter }
 
 /**
  * @author  garyKeorkunian
@@ -66,6 +67,10 @@ class AreaSpec extends FlatSpec with Matchers {
     SquareMeters(1) * Meters(1) should be(CubicMeters(1))
   }
 
+  it should "return Mass when multiplied by AreaDensity" in {
+    SquareMeters(1) * KilogramsPerSquareMeter(1) should be(Kilograms(1))
+  }
+
   it should "return Force when multiplied by Pressure" in {
     SquareMeters(1) * Pascals(1) should be(Newtons(1))
   }
@@ -110,7 +115,7 @@ class AreaSpec extends FlatSpec with Matchers {
   it should "provide implicit conversion from Double" in {
     import AreaConversions._
 
-    val d = 10d
+    val d = 10.22d
     d.squareMeters should be(SquareMeters(d))
     d.squareCentimeters should be(SquareCentimeters(d))
     d.squareKilometers should be(SquareKilometers(d))
@@ -121,5 +126,12 @@ class AreaSpec extends FlatSpec with Matchers {
     d.hectares should be(Hectares(d))
     d.acres should be(Acres(d))
     d.barnes should be(Barnes(d))
+  }
+
+  it should "provide Numeric support" in {
+    import AreaConversions.AreaNumeric
+
+    val as = List(SquareMeters(100), SquareMeters(10))
+    as.sum should be(SquareMeters(110))
   }
 }

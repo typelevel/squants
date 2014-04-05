@@ -14,7 +14,7 @@ import squants._
 import squants.time.TimeIntegral
 import squants.motion.{ Momentum, Force, MassFlowRate }
 import squants.energy.{ SpecificEnergy, Joules }
-import squants.space.CubicMeters
+import squants.space.{ SquareMeters, CubicMeters }
 
 /**
  * Represents a quantity of Mass
@@ -37,7 +37,8 @@ final class Mass private (val value: Double) extends Quantity[Mass]
   def /(that: Volume): Density = Density(this, that)
   def /(that: MassFlowRate): Time = that.time * (this / that.change)
   def /(that: Time): MassFlowRate = MassFlowRate(this, that)
-  def /(that: Area) = ??? // Creates AreaDensity
+  def /(that: AreaDensity): Area = SquareMeters(toKilograms / that.toKilogramsPerSquareMeter)
+  def /(that: Area): AreaDensity = KilogramsPerSquareMeter(toKilograms / that.toSquareMeters)
 
   def toMicrograms = to(Micrograms)
   def toMilligrams = to(Milligrams)

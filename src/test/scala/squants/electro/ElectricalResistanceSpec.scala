@@ -100,4 +100,11 @@ class ElectricalResistanceSpec extends FlatSpec with Matchers {
     d.megohms should be(Megohms(d))
     d.gigohms should be(Gigohms(d))
   }
+
+  it should "provide Numeric support" in {
+    import ElectricalResistanceConversions.ElectricalResistanceNumeric
+
+    val ers = List(Ohms(100), Kilohms(1))
+    ers.sum should be(Ohms(1100))
+  }
 }

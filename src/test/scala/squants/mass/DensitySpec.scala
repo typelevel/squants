@@ -47,4 +47,26 @@ class DensitySpec extends FlatSpec with Matchers {
     val des = Serialization.read[Density](ser)
     x should be(des)
   }
+
+  behavior of "DensityConversion"
+
+  it should "provide aliases for single unit values" in {
+    import DensityConversions._
+
+    kilogramPerCubicMeter should be(KilogramsPerCubicMeter(1))
+  }
+
+  it should "provide implicit conversion from Double" in {
+    import DensityConversions._
+
+    val d = 10.22d
+    d.kilogramsPerCubicMeter should be(KilogramsPerCubicMeter(d))
+  }
+
+  it should "provide Numeric support" in {
+    import DensityConversions.DensityNumeric
+
+    val as = List(KilogramsPerCubicMeter(100), KilogramsPerCubicMeter(10))
+    as.sum should be(KilogramsPerCubicMeter(110))
+  }
 }

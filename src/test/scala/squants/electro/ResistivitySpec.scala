@@ -66,4 +66,11 @@ class ResistivitySpec extends FlatSpec with Matchers {
     val d = 10.22
     d.ohmMeters should be(OhmMeters(d))
   }
+
+  it should "provide Numeric support" in {
+    import ResistivityConversions.ResistivityNumeric
+
+    val rs = List(OhmMeters(100), OhmMeters(10))
+    rs.sum should be(OhmMeters(110))
+  }
 }

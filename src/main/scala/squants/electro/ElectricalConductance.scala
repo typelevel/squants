@@ -48,5 +48,5 @@ object ElectricalConductanceConversions {
     def siemens = Siemens(d)
   }
 
-  implicit object ElectricalConductanceNumeric extends AbstractQuantityNumeric[ElectricalConductance]((Siemens))
+  implicit object ElectricalConductanceNumeric extends AbstractQuantityNumeric[ElectricalConductance](Siemens)
 }

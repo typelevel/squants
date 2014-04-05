@@ -46,5 +46,5 @@ object ConductivityConversions {
     def siemensPerMeter = SiemensPerMeter(d)
   }
 
-  implicit object ConductivityNumeric extends AbstractQuantityNumeric[Conductivity]((SiemensPerMeter))
+  implicit object ConductivityNumeric extends AbstractQuantityNumeric[Conductivity](SiemensPerMeter)
 }

@@ -163,4 +163,11 @@ class EnergySpec extends FlatSpec with Matchers {
     "10.22 MMBtu".toEnergy.right.get should be(MMBtus(10.22))
     "10.22 zz".toEnergy.left.get should be("Unable to parse 10.22 zz as Energy")
   }
+
+  it should "provide Numeric support" in {
+    import EnergyConversions.EnergyNumeric
+
+    val es = List(WattHours(100), KilowattHours(1))
+    es.sum should be(KilowattHours(1.1))
+  }
 }

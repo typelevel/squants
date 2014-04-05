@@ -31,7 +31,17 @@ case class MassFlowRate(mass: Mass, time: Time) extends Quantity[MassFlowRate] w
 trait MassFlowRateUnit extends UnitOfMeasure[MassFlowRate] {
 }
 
-object KilogramsPerSecond extends MassFlowRateUnit {
+object KilogramsPerSecond extends MassFlowRateUnit with ValueUnit {
   def apply(d: Double) = MassFlowRate(Kilograms(d), Seconds(1))
   val symbol = "kg/s"
+}
+
+object MassFlowRateConversions {
+  lazy val kilogramPerSecond = KilogramsPerSecond(1)
+
+  implicit class MassFlowRateConversions(val d: Double) {
+    def kilogramsPerSecond = KilogramsPerSecond(d)
+  }
+
+  implicit object MassFlowRateNumeric extends AbstractQuantityNumeric[MassFlowRate](KilogramsPerSecond)
 }

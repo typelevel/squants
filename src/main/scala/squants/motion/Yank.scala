@@ -40,10 +40,20 @@ trait YankUnit extends UnitOfMeasure[Yank] {
   def unapply(yank: Yank) = Some(yank.to(this))
 }
 
-object NewtonsPerSecond extends YankUnit {
+object NewtonsPerSecond extends YankUnit with ValueUnit {
   val forceUnit = Newtons
   val forceBase = Newtons(1)
   val timeUnit = Seconds
   val timeBase = Seconds(1)
   val symbol = "N/s"
+}
+
+object YankConversions {
+  lazy val newtonPerSecond = NewtonsPerSecond(1)
+
+  implicit class YankConversions(val d: Double) {
+    def newtonsPerSecond = NewtonsPerSecond(d)
+  }
+
+  implicit object YankNumeric extends AbstractQuantityNumeric[Yank](NewtonsPerSecond)
 }

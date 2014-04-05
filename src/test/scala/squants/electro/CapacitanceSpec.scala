@@ -86,4 +86,11 @@ class CapacitanceSpec extends FlatSpec with Matchers {
     d.millifarads should be(Millifarads(d))
     d.kilofarads should be(Kilofarads(d))
   }
+
+  it should "provide Numeric support" in {
+    import CapacitanceConversions.CapacitanceNumeric
+
+    val cs = List(Farads(100), Kilofarads(1))
+    cs.sum should be(Kilofarads(1.1))
+  }
 }

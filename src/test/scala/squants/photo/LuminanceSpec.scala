@@ -47,4 +47,26 @@ class LuminanceSpec extends FlatSpec with Matchers {
     val des = Serialization.read[Luminance](ser)
     x should be(des)
   }
+
+  behavior of "LuminanceConversions"
+
+  it should "provide aliases for single unit values" in {
+    import LuminanceConversions._
+
+    candelaPerSquareMeter should be(CandelasPerSquareMeter(1))
+  }
+
+  it should "provide implicit conversion from Double" in {
+    import LuminanceConversions._
+
+    val d = 10d
+    d.candelasPerSquareMeter should be(CandelasPerSquareMeter(d))
+  }
+
+  it should "provide Numeric support" in {
+    import LuminanceConversions.LuminanceNumeric
+
+    val ls = List(CandelasPerSquareMeter(100), CandelasPerSquareMeter(10))
+    ls.sum should be(CandelasPerSquareMeter(110))
+  }
 }

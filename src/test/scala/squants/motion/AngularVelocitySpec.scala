@@ -52,4 +52,32 @@ class AngularVelocitySpec extends FlatSpec with Matchers {
     val des = Serialization.read[AngularVelocity](ser)
     x should be(des)
   }
+
+  behavior of "AngularVelocityConversions"
+
+  it should "provide aliases for single unit values" in {
+    import AngularVelocityConversions._
+
+    radianPerSecond should be(RadiansPerSecond(1))
+    degreePerSecond should be(DegreesPerSecond(1))
+    gradPerSecond should be(GradsPerSecond(1))
+    turnPerSecond should be(TurnsPerSecond(1))
+  }
+
+  it should "provide implicit conversion from Double" in {
+    import AngularVelocityConversions._
+
+    val d = 10.22d
+    d.radiansPerSecond should be(RadiansPerSecond(d))
+    d.degreesPerSecond should be(DegreesPerSecond(d))
+    d.gradsPerSecond should be(GradsPerSecond(d))
+    d.turnsPerSecond should be(TurnsPerSecond(d))
+  }
+
+  it should "provide Numeric support" in {
+    import AngularVelocityConversions.AngularVelocityNumeric
+
+    val avs = List(RadiansPerSecond(100), RadiansPerSecond(10))
+    avs.sum should be(RadiansPerSecond(110))
+  }
 }

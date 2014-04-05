@@ -57,4 +57,32 @@ class VolumeFlowRateSpec extends FlatSpec with Matchers {
     val des = Serialization.read[VolumeFlowRate](ser)
     x should be(des)
   }
+
+  behavior of "VolumeFlowRateConversions"
+
+  it should "provide aliases for single unit values" in {
+    import VolumeFlowRateConversions._
+
+    cubicMeterPerSecond should be(CubicMetersPerSecond(1))
+    gallonPerDay should be(GallonsPerDay(1))
+    gallonPerHour should be(GallonsPerHour(1))
+    gallonPerMinute should be(GallonsPerMinute(1))
+  }
+
+  it should "provide implicit conversion from Double" in {
+    import VolumeFlowRateConversions._
+
+    val d = 10.22d
+    d.cubicMetersPerSecond should be(CubicMetersPerSecond(d))
+    d.gallonsPerDay should be(GallonsPerDay(d))
+    d.gallonsPerHour should be(GallonsPerHour(d))
+    d.gallonsPerMinute should be(GallonsPerMinute(d))
+  }
+
+  it should "provide Numeric support" in {
+    import VolumeFlowRateConversions.VolumeFlowRateNumeric
+
+    val vfrs = List(GallonsPerDay(24), GallonsPerHour(1))
+    vfrs.sum should be(GallonsPerDay(48))
+  }
 }

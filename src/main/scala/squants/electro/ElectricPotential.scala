@@ -88,6 +88,6 @@ object ElectricPotentialConversions {
     def megavolts = Megavolts(d)
   }
 
-  implicit object ElectricPotentialNumeric extends AbstractQuantityNumeric[ElectricPotential]((Volts))
+  implicit object ElectricPotentialNumeric extends AbstractQuantityNumeric[ElectricPotential](Volts)
 }
 

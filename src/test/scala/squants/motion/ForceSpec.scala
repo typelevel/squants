@@ -104,4 +104,11 @@ class ForceSpec extends FlatSpec with Matchers {
     d.poundForce should be(PoundForce(1))
     d.lbf should be(PoundForce(1))
   }
+
+  it should "provide Numeric support" in {
+    import ForceConversions.ForceNumeric
+
+    val fs = List(Newtons(100), Newtons(10))
+    fs.sum should be(Newtons(110))
+  }
 }

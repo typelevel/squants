@@ -101,4 +101,11 @@ class ElectricPotentialSpec extends FlatSpec with Matchers {
     d.kilovolts should be(Kilovolts(d))
     d.megavolts should be(Megavolts(d))
   }
+
+  it should "provide Numeric support" in {
+    import ElectricPotentialConversions.ElectricPotentialNumeric
+
+    val eps = List(Volts(100), Kilovolts(1))
+    eps.sum should be(Volts(1100))
+  }
 }

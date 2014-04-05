@@ -86,4 +86,11 @@ class ElectricCurrentSpec extends FlatSpec with Matchers {
     d.milliamps should be(Milliamperes(d))
     d.mA should be(Milliamperes(d))
   }
+
+  it should "provide Numeric support" in {
+    import ElectricCurrentConversions.ElectricCurrentNumeric
+
+    val ecs = List(Amperes(1), Milliamperes(100))
+    ecs.sum should be(Amperes(1.1))
+  }
 }

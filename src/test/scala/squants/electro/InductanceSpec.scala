@@ -60,4 +60,11 @@ class InductanceSpec extends FlatSpec with Matchers {
     val d = 10d
     d.henry should be(Henry(d))
   }
+
+  it should "provide Numeric support" in {
+    import InductanceConversions.InductanceNumeric
+
+    val is = List(Henry(100), Henry(10))
+    is.sum should be(Henry(110))
+  }
 }

@@ -8,7 +8,7 @@
 
 package squants.mass
 
-import squants.space.CubicMeters
+import squants.space.{ SquareMeters, CubicMeters }
 import org.scalacheck.Properties
 import squants.QuantityChecks
 import org.scalacheck.Prop._
@@ -25,5 +25,12 @@ object MassChecks extends Properties("Mass") with QuantityChecks {
       Kilograms(density * volume) == CubicMeters(volume) * KilogramsPerCubicMeter(density) &&
       KilogramsPerCubicMeter(density) == Kilograms(density * volume) / CubicMeters(volume) &&
       CubicMeters(volume) == Kilograms(density * volume) / KilogramsPerCubicMeter(density)
+  }
+
+  property("Mass = AreaDensity * Area") = forAll(posNum, posNum) { (density: TestData, area: TestData) ⇒
+    Kilograms(density * area) == KilogramsPerSquareMeter(density) * SquareMeters(area) &&
+      Kilograms(density * area) == SquareMeters(area) * KilogramsPerSquareMeter(density) &&
+      KilogramsPerSquareMeter(density) == Kilograms(density * area) / SquareMeters(area) &&
+      SquareMeters(area) == Kilograms(density * area) / KilogramsPerSquareMeter(density)
   }
 }

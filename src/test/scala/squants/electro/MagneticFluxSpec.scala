@@ -74,4 +74,11 @@ class MagneticFluxSpec extends FlatSpec with Matchers {
     val d = 10d
     d.webers should be(Webers(d))
   }
+
+  it should "provide Numeric support" in {
+    import MagneticFluxConversions.MagneticFluxNumeric
+
+    val mfs = List(Webers(100), Webers(10))
+    mfs.sum should be(Webers(110))
+  }
 }

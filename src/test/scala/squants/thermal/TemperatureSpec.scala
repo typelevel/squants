@@ -279,14 +279,3 @@ class TemperatureSpec extends FlatSpec with Matchers {
     "10.22 Z".toTemperature.left.get should be("Unable to parse 10.22 Z as Temperature")
   }
 }
-
-object TemperatureChecks extends Properties("Temperature") {
-
-  property("Celsius to Fahrenheit") = forAll { (a: Double) ⇒
-    Celsius(a).toFahrenheitScale == (a * 9d / 5) + 32d
-  }
-
-  property("Fahrenheit to Celsius ") = forAll { (a: Double) ⇒
-    Fahrenheit(a).toCelsiusScale == (a - 32d) * 5d / 9d
-  }
-}

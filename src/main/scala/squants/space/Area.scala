@@ -20,6 +20,7 @@ import squants.photo.Luminance
 import squants.motion.Pressure
 import squants.radio.Radiance
 import scala.Some
+import squants.mass.AreaDensity
 
 /**
  * @author  garyKeorkunian
@@ -33,6 +34,7 @@ final class Area private (val value: Double)
   def valueUnit = SquareMeters
 
   def *(that: Length): Volume = CubicMeters(toSquareMeters * that.toMeters)
+  def *(that: AreaDensity): Mass = Kilograms(toSquareMeters * that.toKilogramsPerSquareMeter)
   def *(that: Pressure): Force = Newtons(toSquareMeters * that.toPascals)
   def *(that: Illuminance): LuminousFlux = Lumens(toSquareMeters * that.toLux)
   def *(that: Luminance): LuminousIntensity = Candelas(toSquareMeters * that.toCandelasPerSquareMeters)

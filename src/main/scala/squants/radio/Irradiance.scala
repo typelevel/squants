@@ -32,7 +32,17 @@ case class Irradiance(power: Power, area: Area) extends Quantity[Irradiance] {
 
 trait IrradianceUnit extends UnitOfMeasure[Irradiance]
 
-object WattsPerSquareMeter extends IrradianceUnit {
+object WattsPerSquareMeter extends IrradianceUnit with ValueUnit {
   val symbol = Watts.symbol + "/" + SquareMeters.symbol
   def apply(d: Double) = Irradiance(Watts(d), SquareMeters(1))
+}
+
+object IrradianceConversions {
+  lazy val wattPerSquareMeter = WattsPerSquareMeter(1)
+
+  implicit class IrradianceConversions(val d: Double) {
+    def wattsPerSquareMeter = WattsPerSquareMeter(d)
+  }
+
+  implicit object IrradianceNumeric extends AbstractQuantityNumeric[Irradiance](WattsPerSquareMeter)
 }
