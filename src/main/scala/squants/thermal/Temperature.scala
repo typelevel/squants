@@ -9,7 +9,6 @@
 package squants.thermal
 
 import scala.language.implicitConversions
-import scala.Some
 import squants._
 import squants.energy.Joules
 

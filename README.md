@@ -65,8 +65,8 @@ automatically applying scale and type conversions (see below) at run-time.  For 
 val load1: Power = Kilowatts(12)
 val load2: Power = Megawatts(0.023)
 val sum = load1 + load2
-assert(sum == Kilowatts(35))
-assert(sum == Megawatts(0.035))
+sum should be(Kilowatts(35))
+sum should be(Megawatts(0.035))
 ```
 
 is a valid assertion because Kilowatts and Megawatts are both measures of load.  Only the scale is
@@ -91,14 +91,14 @@ Most conversions are implemented by defining relationships between Quantity type
 val load: Power = Kilowatts(1.2)
 val time: Time = Hours(2)
 val energyUsed: Energy = load * time
-assert(energyUsed == KilowattHours(2.4))
+energyUsed should be(KilowattHours(2.4))
 ```
 This code demonstrates use of the Power.* method, defined as an infix operator that takes a Time
 value and returns an Energy value, conversely
 
 ```scala
 val aveLoad: Power = energyUsed / time
-assert(aveLoad == Kilowatts(1.2)
+aveLoad should be(Kilowatts(1.2)
 ```
 demonstrates use of the Energy./ method that takes a Time and returns a Power
 
@@ -256,9 +256,9 @@ Speed is the 1st Time Derivative of Length (Distance), Acceleration is the 2nd T
 val distance: Length = Kilometers(100)
 val time: Time = Hours(2)
 val speed: Speed = distance / time
-assert(speed.toKilometersPerHour == 50.0)
+speed.toKilometersPerHour should be(50.0)
 val acc: Acceleration = Meters(50) / Second(1) / Second(1)
-assert(acc.toMetersPerSecondSquared == 50)
+acc.toMetersPerSecondSquared should be(50)
 ```
 Power is the 1st Time Derivative of Energy, PowerRamp is the 2nd
 
@@ -266,9 +266,9 @@ Power is the 1st Time Derivative of Energy, PowerRamp is the 2nd
 val energy: Energy = KilowattHours(100)
 val time: Time = Hours(2)
 val power: Power = energy / time
-assert(power.toKilowatts == 50.0)
+power.toKilowatts should be(50.0)
 val ramp: PowerRamp = KilowattHours(50) / Hours(1) / Hours(1)
-assert(ramp.toKilowattsPerHour == 50)
+ramp.toKilowattsPerHour should be(50)
 ```
 
 Squants currently supports over 50 quantity types.

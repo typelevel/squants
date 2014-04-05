@@ -24,24 +24,24 @@ class RadianceSpec extends FlatSpec with Matchers {
   behavior of "Radiance and its Units of Measure"
 
   it should "create values using UOM factories" in {
-    assert(WattsPerSteradianPerSquareMeter(1).toWattsPerSteradianPerSquareMeter == 1)
+    WattsPerSteradianPerSquareMeter(1).toWattsPerSteradianPerSquareMeter should be(1)
   }
 
   it should "properly convert to all supported Units of Measure" in {
     val x = WattsPerSteradianPerSquareMeter(1)
-    assert(x.toWattsPerSteradianPerSquareMeter == 1)
+    x.toWattsPerSteradianPerSquareMeter should be(1)
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
-    assert(WattsPerSteradianPerSquareMeter(1).toString == "1.0 W/sr/m²")
+    WattsPerSteradianPerSquareMeter(1).toString should be("1.0 W/sr/m²")
   }
 
   it should "return RadiantIntensity when multiplied by Area" in {
-    assert(WattsPerSteradianPerSquareMeter(1) * SquareMeters(1) == WattsPerSteradian(1))
+    WattsPerSteradianPerSquareMeter(1) * SquareMeters(1) should be(WattsPerSteradian(1))
   }
 
   it should "return Area when divided by RadiantIntensity" in {
-    assert(WattsPerSteradianPerSquareMeter(1) / WattsPerSteradian(1) == SquareMeters(1))
+    WattsPerSteradianPerSquareMeter(1) / WattsPerSteradian(1) should be(SquareMeters(1))
   }
 
   it should "serialize to and de-serialize from Json" in {
@@ -49,6 +49,6 @@ class RadianceSpec extends FlatSpec with Matchers {
     val x = WattsPerSteradianPerSquareMeter(10.22)
     val ser = Serialization.write(x)
     val des = Serialization.read[Radiance](ser)
-    assert(x == des)
+    x should be(des)
   }
 }

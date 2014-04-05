@@ -21,13 +21,13 @@ class CurrencyExchangeRateSpec extends FlatSpec with Matchers {
 
   it should "create CurrencyExchangeRates using the default factory method" in {
     val rate = CurrencyExchangeRate(USD(1), JPY(100))
-    assert(rate.base == USD(1))
-    assert(rate.counter == JPY(100))
+    rate.base should be(USD(1))
+    rate.counter should be(JPY(100))
   }
 
   it should "properly return a Currency Exchange Rate" in {
     val rate = CurrencyExchangeRate(USD(1), JPY(100))
-    assert(rate.rate == 100)
+    rate.rate should be(100)
   }
 
   it should "properly return a converted Money value" in {
@@ -35,26 +35,26 @@ class CurrencyExchangeRateSpec extends FlatSpec with Matchers {
     val rate2 = CurrencyExchangeRate(USD(1), EUR(75))
 
     // using the convert method directly
-    assert(rate1.convert(JPY(100)) == USD(1))
-    assert(rate1.convert(USD(1)) == JPY(100))
-    assert(rate2.convert(EUR(75)) == USD(1))
-    assert(rate2.convert(USD(1)) == EUR(75))
+    rate1.convert(JPY(100)) should be(USD(1))
+    rate1.convert(USD(1)) should be(JPY(100))
+    rate2.convert(EUR(75)) should be(USD(1))
+    rate2.convert(USD(1)) should be(EUR(75))
 
     // using the * operator
-    assert(rate1 * JPY(100) == USD(1))
-    assert(rate1 * USD(1) == JPY(100))
-    assert(rate2 * EUR(75) == USD(1))
-    assert(rate2 * USD(1) == EUR(75))
+    rate1 * JPY(100) should be(USD(1))
+    rate1 * USD(1) should be(JPY(100))
+    rate2 * EUR(75) should be(USD(1))
+    rate2 * USD(1) should be(EUR(75))
 
     // using the methods inherited from Ratio
-    assert(rate1.convertToBase(JPY(100)) == USD(1))
-    assert(rate1.convertToCounter(USD(1)) == JPY(100))
-    assert(rate2.convertToBase(EUR(75)) == USD(1))
-    assert(rate2.convertToCounter(USD(1)) == EUR(75))
+    rate1.convertToBase(JPY(100)) should be(USD(1))
+    rate1.convertToCounter(USD(1)) should be(JPY(100))
+    rate2.convertToBase(EUR(75)) should be(USD(1))
+    rate2.convertToCounter(USD(1)) should be(EUR(75))
   }
 
   it should "properly return a string formatted as an FX quote" in {
     val rate = CurrencyExchangeRate(USD(1), JPY(100))
-    assert(rate.toString == "USD/JPY 100.0")
+    rate.toString should be("USD/JPY 100.0")
   }
 }

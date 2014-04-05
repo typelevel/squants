@@ -10,7 +10,6 @@ package squants.space
 
 import squants._
 import squants.photo.{ LuminousFlux, Lumens, LuminousIntensity }
-import squants.radio.RadiantIntensity
 import squants.energy.Watts
 import squants.radio.RadiantIntensity
 

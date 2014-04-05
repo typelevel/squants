@@ -24,20 +24,20 @@ class LuminanceSpec extends FlatSpec with Matchers {
   behavior of "Luminance and its Units of Measure"
 
   it should "create values using UOM factories" in {
-    assert(CandelasPerSquareMeter(1).toCandelasPerSquareMeters == 1)
+    CandelasPerSquareMeter(1).toCandelasPerSquareMeters should be(1)
   }
 
   it should "properly convert to all supported Units of Measure" in {
     val x = CandelasPerSquareMeter(1)
-    assert(x.toCandelasPerSquareMeters == 1)
+    x.toCandelasPerSquareMeters should be(1)
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
-    assert(CandelasPerSquareMeter(1).toString == "1.0 cd/m²")
+    CandelasPerSquareMeter(1).toString should be("1.0 cd/m²")
   }
 
   it should "return LuminousIntensity when multiplied by Area" in {
-    assert(CandelasPerSquareMeter(1) * SquareMeters(1) == Candelas(1))
+    CandelasPerSquareMeter(1) * SquareMeters(1) should be(Candelas(1))
   }
 
   it should "serialize to and de-serialize from Json" in {
@@ -45,6 +45,6 @@ class LuminanceSpec extends FlatSpec with Matchers {
     val x = CandelasPerSquareMeter(10.22)
     val ser = Serialization.write(x)
     val des = Serialization.read[Luminance](ser)
-    assert(x == des)
+    x should be(des)
   }
 }

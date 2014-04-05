@@ -23,25 +23,25 @@ class ResistivitySpec extends FlatSpec with Matchers {
   behavior of "Resistivity and its Units of Measure"
 
   it should "create values using UOM factories" in {
-    assert(OhmMeters(1).toOhmMeters == 1)
+    OhmMeters(1).toOhmMeters should be(1)
   }
 
   it should "properly convert to all supported Units of Measure" in {
     val x = OhmMeters(10)
-    assert(x.toOhmMeters == 10.0)
-    assert(x.inSiemensPerMeter == SiemensPerMeter(0.1))
+    x.toOhmMeters should be(10.0)
+    x.inSiemensPerMeter should be(SiemensPerMeter(0.1))
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
-    assert(OhmMeters(1).toString(OhmMeters) == "1.0 Ω⋅m")
+    OhmMeters(1).toString(OhmMeters) should be("1.0 Ω⋅m")
   }
 
   it should "return ElectricalResistance when divided by Length" in {
-    assert(OhmMeters(1) / Meters(1) == Ohms(1))
+    OhmMeters(1) / Meters(1) should be(Ohms(1))
   }
 
   it should "return Length when divided by ElectricalResistance" in {
-    assert(OhmMeters(1) / Ohms(1) == Meters(1))
+    OhmMeters(1) / Ohms(1) should be(Meters(1))
   }
 
   it should "serialize to and de-serialize from Json" in {
@@ -49,7 +49,7 @@ class ResistivitySpec extends FlatSpec with Matchers {
     val x = OhmMeters(10.22)
     val ser = Serialization.write(x)
     val des = Serialization.read[Resistivity](ser)
-    assert(x == des)
+    x should be(des)
   }
 
   behavior of "ResistivityConversions"
@@ -57,13 +57,13 @@ class ResistivitySpec extends FlatSpec with Matchers {
   it should "provide aliases for single unit values" in {
     import ResistivityConversions._
 
-    assert(ohmMeter == OhmMeters(1))
+    ohmMeter should be(OhmMeters(1))
   }
 
   it should "provide implicit conversion from Double" in {
     import ResistivityConversions._
 
     val d = 10.22
-    assert(d.ohmMeters == OhmMeters(d))
+    d.ohmMeters should be(OhmMeters(d))
   }
 }

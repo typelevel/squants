@@ -23,23 +23,23 @@ class MagneticFluxDensitySpec extends FlatSpec with Matchers {
   behavior of "MagneticFluxDensity and its Units of Measure"
 
   it should "create values using UOM factories" in {
-    assert(Teslas(1).toTeslas == 1)
-    assert(Gauss(1).toGuass == 1)
+    Teslas(1).toTeslas should be(1)
+    Gauss(1).toGuass should be(1)
   }
 
   it should "properly convert to all supported Units of Measure" in {
     val x = Teslas(1)
-    assert(x.toTeslas == 1)
-    assert(x.toGuass == 10000)
+    x.toTeslas should be(1)
+    x.toGuass should be(10000)
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
-    assert(Teslas(1).toString(Teslas) == "1.0 T")
-    assert(Gauss(1).toString(Gauss) == "1.0 Gs")
+    Teslas(1).toString(Teslas) should be("1.0 T")
+    Gauss(1).toString(Gauss) should be("1.0 Gs")
   }
 
   it should "return MagneticFlux when multiplied by Area" in {
-    assert(Teslas(1) * SquareMeters(1) == Webers(1))
+    Teslas(1) * SquareMeters(1) should be(Webers(1))
   }
 
   it should "serialize to and de-serialize from Json" in {
@@ -47,7 +47,7 @@ class MagneticFluxDensitySpec extends FlatSpec with Matchers {
     val x = Teslas(10.22)
     val ser = Serialization.write(x)
     val des = Serialization.read[MagneticFluxDensity](ser)
-    assert(x == des)
+    x should be(des)
   }
 
   behavior of "MagneticFluxDensityConversions"
@@ -55,15 +55,15 @@ class MagneticFluxDensitySpec extends FlatSpec with Matchers {
   it should "provide aliases for single unit values" in {
     import MagneticFluxDensityConversions._
 
-    assert(tesla == Teslas(1))
-    assert(gauss == Gauss(1))
+    tesla should be(Teslas(1))
+    gauss should be(Gauss(1))
   }
 
   it should "provide implicit conversion from Double" in {
     import MagneticFluxDensityConversions._
 
     val d = 10d
-    assert(d.teslas == Teslas(d))
-    assert(d.gauss == Gauss(d))
+    d.teslas should be(Teslas(d))
+    d.gauss should be(Gauss(d))
   }
 }

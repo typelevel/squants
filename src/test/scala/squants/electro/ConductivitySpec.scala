@@ -23,21 +23,21 @@ class ConductivitySpec extends FlatSpec with Matchers {
   behavior of "Conductivity and its Units of Measure"
 
   it should "create values using UOM factories" in {
-    assert(SiemensPerMeter(1).toSiemensPerMeter == 1)
+    SiemensPerMeter(1).toSiemensPerMeter should be(1)
   }
 
   it should "properly convert to all supported Units of Measure" in {
     val x = SiemensPerMeter(10)
-    assert(x.toSiemensPerMeter == 10.0)
-    assert(x.inOhmMeters == OhmMeters(0.1))
+    x.toSiemensPerMeter should be(10.0)
+    x.inOhmMeters should be(OhmMeters(0.1))
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
-    assert(SiemensPerMeter(1).toString(SiemensPerMeter) == "1.0 S/m")
+    SiemensPerMeter(1).toString(SiemensPerMeter) should be("1.0 S/m")
   }
 
   it should "return ElectricalConductance when multiplied by Length" in {
-    assert(SiemensPerMeter(1) * Meters(1) == Siemens(1))
+    SiemensPerMeter(1) * Meters(1) should be(Siemens(1))
   }
 
   it should "serialize to and de-serialize from Json" in {
@@ -45,7 +45,7 @@ class ConductivitySpec extends FlatSpec with Matchers {
     val x = SiemensPerMeter(10.22)
     val ser = Serialization.write(x)
     val des = Serialization.read[Conductivity](ser)
-    assert(x == des)
+    x should be(des)
   }
 
   behavior of "ConductivityConversions"
@@ -53,13 +53,13 @@ class ConductivitySpec extends FlatSpec with Matchers {
   it should "provide aliases for single unit values" in {
     import ConductivityConversions._
 
-    assert(siemenPerMeter == SiemensPerMeter(1))
+    siemenPerMeter should be(SiemensPerMeter(1))
   }
 
   it should "provide implicit conversion from Double" in {
     import ConductivityConversions._
 
     val d = 10.22
-    assert(d.siemensPerMeter == SiemensPerMeter(d))
+    d.siemensPerMeter should be(SiemensPerMeter(d))
   }
 }

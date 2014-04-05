@@ -24,24 +24,24 @@ class SpectralIntensitySpec extends FlatSpec with Matchers {
   behavior of "SpectralIntensity and its Units of Measure"
 
   it should "create values using UOM factories" in {
-    assert(WattsPerSteradianPerMeter(1).toWattsPerSteradianPerMeter == 1)
+    WattsPerSteradianPerMeter(1).toWattsPerSteradianPerMeter should be(1)
   }
 
   it should "properly convert to all supported Units of Measure" in {
     val x = WattsPerSteradianPerMeter(1)
-    assert(x.toWattsPerSteradianPerMeter == 1)
+    x.toWattsPerSteradianPerMeter should be(1)
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
-    assert(WattsPerSteradianPerMeter(1).toString == "1.0 W/sr/m")
+    WattsPerSteradianPerMeter(1).toString should be("1.0 W/sr/m")
   }
 
   it should "return RadiantIntensity when multiplied by Length" in {
-    assert(WattsPerSteradianPerMeter(1) * Meters(1) == WattsPerSteradian(1))
+    WattsPerSteradianPerMeter(1) * Meters(1) should be(WattsPerSteradian(1))
   }
 
   it should "return Length when divided by RadiantIntensity" in {
-    assert(WattsPerSteradianPerMeter(1) / WattsPerSteradian(1) == Meters(1))
+    WattsPerSteradianPerMeter(1) / WattsPerSteradian(1) should be(Meters(1))
   }
 
   it should "serialize to and de-serialize from Json" in {
@@ -49,6 +49,6 @@ class SpectralIntensitySpec extends FlatSpec with Matchers {
     val x = WattsPerSteradianPerMeter(10.22)
     val ser = Serialization.write(x)
     val des = Serialization.read[SpectralIntensity](ser)
-    assert(x == des)
+    x should be(des)
   }
 }

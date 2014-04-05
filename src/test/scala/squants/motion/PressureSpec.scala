@@ -24,29 +24,29 @@ class PressureSpec extends FlatSpec with Matchers {
   behavior of "Pressure and its Units of Measure"
 
   it should "create values using UOM factories" in {
-    assert(Pascals(10).toPascals == 10)
-    assert(Bars(10).toBars == 10)
-    assert(PoundsPerSquareInch(1).toPoundsPerSquareInch == 1)
-    assert(StandardAtmospheres(1).toStandardAtmospheres == 1)
+    Pascals(10).toPascals should be(10)
+    Bars(10).toBars should be(10)
+    PoundsPerSquareInch(1).toPoundsPerSquareInch should be(1)
+    StandardAtmospheres(1).toStandardAtmospheres should be(1)
   }
 
   it should "properly convert to all supported Units of Measure" in {
     val x = Pascals(1)
-    assert(x.toPascals == 1)
-    assert(x.toBars == .01)
-    assert(x.toPoundsPerSquareInch == Newtons(1).toPoundForce / SquareMeters(1).toSquareInches)
-    assert(x.toStandardAtmospheres == 1d / 101325d)
+    x.toPascals should be(1)
+    x.toBars should be(.01)
+    x.toPoundsPerSquareInch should be(Newtons(1).toPoundForce / SquareMeters(1).toSquareInches)
+    x.toStandardAtmospheres should be(1d / 101325d)
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
-    assert(Pascals(1).toString(Pascals) == "1.0 Pa")
-    assert(Bars(1).toString(Bars) == "1.0 bar")
-    assert(PoundsPerSquareInch(1).toString(PoundsPerSquareInch) == "1.0 psi")
-    assert(StandardAtmospheres(1).toString(StandardAtmospheres) == "1.0 atm")
+    Pascals(1).toString(Pascals) should be("1.0 Pa")
+    Bars(1).toString(Bars) should be("1.0 bar")
+    PoundsPerSquareInch(1).toString(PoundsPerSquareInch) should be("1.0 psi")
+    StandardAtmospheres(1).toString(StandardAtmospheres) should be("1.0 atm")
   }
 
   it should "return Force when multiplied by Area" in {
-    assert(Pascals(1) * SquareMeters(1) == Newtons(1))
+    Pascals(1) * SquareMeters(1) should be(Newtons(1))
   }
 
   it should "serialize to and de-serialize from Json" in {
@@ -54,7 +54,7 @@ class PressureSpec extends FlatSpec with Matchers {
     val x = Pascals(10.22)
     val ser = Serialization.write(x)
     val des = Serialization.read[Pressure](ser)
-    assert(x == des)
+    x should be(des)
   }
 
   behavior of "PressureConversions"
@@ -62,18 +62,18 @@ class PressureSpec extends FlatSpec with Matchers {
   it should "provide aliases for single unit values" in {
     import PressureConversions._
 
-    assert(pascal == Pascals(1))
-    assert(bar == Bars(1))
-    assert(psi == PoundsPerSquareInch(1))
-    assert(atm == StandardAtmospheres(1))
+    pascal should be(Pascals(1))
+    bar should be(Bars(1))
+    psi should be(PoundsPerSquareInch(1))
+    atm should be(StandardAtmospheres(1))
   }
   it should "provide implicit conversion from Double" in {
     import PressureConversions._
 
     val d = 10d
-    assert(d.pascals == Pascals(d))
-    assert(d.bars == Bars(d))
-    assert(d.psi == PoundsPerSquareInch(d))
-    assert(d.atm == StandardAtmospheres(d))
+    d.pascals should be(Pascals(d))
+    d.bars should be(Bars(d))
+    d.psi should be(PoundsPerSquareInch(d))
+    d.atm should be(StandardAtmospheres(d))
   }
 }

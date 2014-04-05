@@ -23,35 +23,35 @@ class CapacitanceSpec extends FlatSpec with Matchers {
   behavior of "Capacitance and its Units of Measure"
 
   it should "create values using UOM factories" in {
-    assert(Farads(1).toFarads == 1)
-    assert(Picofarads(1).toPicofarads == 1)
-    assert(Nanofarads(1).toNanofarads == 1)
-    assert(Microfarads(1).toMicrofarads == 1)
-    assert(Millifarads(1).toMillifarads == 1)
-    assert(Kilofarads(1).toKilofarads == 1)
+    Farads(1).toFarads should be(1)
+    Picofarads(1).toPicofarads should be(1)
+    Nanofarads(1).toNanofarads should be(1)
+    Microfarads(1).toMicrofarads should be(1)
+    Millifarads(1).toMillifarads should be(1)
+    Kilofarads(1).toKilofarads should be(1)
   }
 
   it should "properly convert to all supported Units of Measure" in {
     val x = Farads(1)
-    assert(x.toFarads == 1.0)
-    assert(x.toPicofarads == 1 / MetricSystem.Pico)
-    assert(x.toNanofarads == 1 / MetricSystem.Nano)
-    assert(x.toMicrofarads == 1 / MetricSystem.Micro)
-    assert(x.toMillifarads == 1 / MetricSystem.Milli)
-    assert(x.toKilofarads == 1 / MetricSystem.Kilo)
+    x.toFarads should be(1.0)
+    x.toPicofarads should be(1 / MetricSystem.Pico)
+    x.toNanofarads should be(1 / MetricSystem.Nano)
+    x.toMicrofarads should be(1 / MetricSystem.Micro)
+    x.toMillifarads should be(1 / MetricSystem.Milli)
+    x.toKilofarads should be(1 / MetricSystem.Kilo)
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
-    assert(Farads(1).toString(Farads) == "1.0 F")
-    assert(Picofarads(1).toString(Picofarads) == "1.0 pF")
-    assert(Nanofarads(1).toString(Nanofarads) == "1.0 nF")
-    assert(Microfarads(1).toString(Microfarads) == "1.0 μF")
-    assert(Millifarads(1).toString(Millifarads) == "1.0 mF")
-    assert(Kilofarads(1).toString(Kilofarads) == "1.0 kF")
+    Farads(1).toString(Farads) should be("1.0 F")
+    Picofarads(1).toString(Picofarads) should be("1.0 pF")
+    Nanofarads(1).toString(Nanofarads) should be("1.0 nF")
+    Microfarads(1).toString(Microfarads) should be("1.0 μF")
+    Millifarads(1).toString(Millifarads) should be("1.0 mF")
+    Kilofarads(1).toString(Kilofarads) should be("1.0 kF")
   }
 
   it should "return ElectricalCharge when multiplied by ElectricalPotential" in {
-    assert(Farads(1) * Volts(1) == Coulombs(1))
+    Farads(1) * Volts(1) should be(Coulombs(1))
   }
 
   it should "serialize to and de-serialize from Json" in {
@@ -59,7 +59,7 @@ class CapacitanceSpec extends FlatSpec with Matchers {
     val x = Farads(10.22)
     val ser = Serialization.write(x)
     val des = Serialization.read[Capacitance](ser)
-    assert(x == des)
+    x should be(des)
   }
 
   behavior of "CapacitanceConversions"
@@ -67,23 +67,23 @@ class CapacitanceSpec extends FlatSpec with Matchers {
   it should "provide aliases for single unit values" in {
     import CapacitanceConversions._
 
-    assert(farad == Farads(1))
-    assert(picofarad == Picofarads(1))
-    assert(nanofarad == Nanofarads(1))
-    assert(microfarad == Microfarads(1))
-    assert(millifarad == Millifarads(1))
-    assert(kilofarad == Kilofarads(1))
+    farad should be(Farads(1))
+    picofarad should be(Picofarads(1))
+    nanofarad should be(Nanofarads(1))
+    microfarad should be(Microfarads(1))
+    millifarad should be(Millifarads(1))
+    kilofarad should be(Kilofarads(1))
   }
 
   it should "provide implicit conversion from Double" in {
     import CapacitanceConversions._
 
     val d = 10d
-    assert(d.farads == Farads(d))
-    assert(d.picofarads == Picofarads(d))
-    assert(d.nanofarads == Nanofarads(d))
-    assert(d.microfarads == Microfarads(d))
-    assert(d.millifarads == Millifarads(d))
-    assert(d.kilofarads == Kilofarads(d))
+    d.farads should be(Farads(d))
+    d.picofarads should be(Picofarads(d))
+    d.nanofarads should be(Nanofarads(d))
+    d.microfarads should be(Microfarads(d))
+    d.millifarads should be(Millifarads(d))
+    d.kilofarads should be(Kilofarads(d))
   }
 }

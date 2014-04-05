@@ -24,28 +24,28 @@ class LuminousIntensitySpec extends FlatSpec with Matchers {
   behavior of "LuminousIntensity and its Units of Measure"
 
   it should "create values using UOM factories" in {
-    assert(Candelas(1).toCandelas == 1)
+    Candelas(1).toCandelas should be(1)
   }
 
   it should "properly convert to all supported Units of Measure" in {
     val x = Candelas(1)
-    assert(x.toCandelas == 1)
+    x.toCandelas should be(1)
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
-    assert(Candelas(1).toString(Candelas) == "1.0 cd")
+    Candelas(1).toString(Candelas) should be("1.0 cd")
   }
 
   it should "return LuminousFlux when multiplied by SolidAngle" in {
-    assert(Candelas(1) * SquaredRadians(1) == Lumens(1))
+    Candelas(1) * SquaredRadians(1) should be(Lumens(1))
   }
 
   it should "return Luminance when divided by Area" in {
-    assert(Candelas(1) / SquareMeters(1) == CandelasPerSquareMeter(1))
+    Candelas(1) / SquareMeters(1) should be(CandelasPerSquareMeter(1))
   }
 
   it should "return Area when divided by Luminance" in {
-    assert(Candelas(1) / CandelasPerSquareMeter(1) == SquareMeters(1))
+    Candelas(1) / CandelasPerSquareMeter(1) should be(SquareMeters(1))
   }
 
   it should "serialize to and de-serialize from Json" in {
@@ -53,7 +53,7 @@ class LuminousIntensitySpec extends FlatSpec with Matchers {
     val x = Candelas(10.22)
     val ser = Serialization.write(x)
     val des = Serialization.read[LuminousIntensity](ser)
-    assert(x == des)
+    x should be(des)
   }
 
   behavior of "LuminousIntensityConversions"
@@ -61,13 +61,13 @@ class LuminousIntensitySpec extends FlatSpec with Matchers {
   it should "provide aliases for single unit values" in {
     import LuminousIntensityConversions._
 
-    assert(candela == Candelas(1))
+    candela should be(Candelas(1))
   }
 
   it should "provide implicit conversion from Double" in {
     import LuminousIntensityConversions._
 
     val d = 10d
-    assert(d.candelas == Candelas(d))
+    d.candelas should be(Candelas(d))
   }
 }

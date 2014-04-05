@@ -24,34 +24,34 @@ class FrequencySpec extends FlatSpec with Matchers {
   behavior of "Frequency and its Units of Measure"
 
   it should "create values using UOM factories" in {
-    assert(Hertz(1).toHertz == 1)
-    assert(Kilohertz(1).toKilohertz == 1)
-    assert(Megahertz(1).toMegahertz == 1)
-    assert(Gigahertz(1).toGigahertz == 1)
-    assert(Terahertz(1).toTerahertz == 1)
-    assert(RevolutionsPerMinute(1).toRevolutionsPerMinute == 1)
+    Hertz(1).toHertz should be(1)
+    Kilohertz(1).toKilohertz should be(1)
+    Megahertz(1).toMegahertz should be(1)
+    Gigahertz(1).toGigahertz should be(1)
+    Terahertz(1).toTerahertz should be(1)
+    RevolutionsPerMinute(1).toRevolutionsPerMinute should be(1)
   }
 
   it should "properly convert to all supported Units of Measure" in {
     val x = Hertz(1)
-    assert(x.toHertz == 1)
-    assert(x.toKilohertz == 1 / MetricSystem.Kilo)
-    assert(x.toMegahertz == 1 / MetricSystem.Mega)
-    assert(x.toTerahertz == 1 / MetricSystem.Tera)
-    assert(x.toRevolutionsPerMinute == 60)
+    x.toHertz should be(1)
+    x.toKilohertz should be(1 / MetricSystem.Kilo)
+    x.toMegahertz should be(1 / MetricSystem.Mega)
+    x.toTerahertz should be(1 / MetricSystem.Tera)
+    x.toRevolutionsPerMinute should be(60)
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
-    assert(Hertz(1).toString(Hertz) == "1.0 Hz")
-    assert(Kilohertz(1).toString(Kilohertz) == "1.0 kHz")
-    assert(Megahertz(1).toString(Megahertz) == "1.0 MHz")
-    assert(Gigahertz(1).toString(Gigahertz) == "1.0 GHz")
-    assert(Terahertz(1).toString(Terahertz) == "1.0 THz")
-    assert(RevolutionsPerMinute(1).toString(RevolutionsPerMinute) == "1.0 rpm")
+    Hertz(1).toString(Hertz) should be("1.0 Hz")
+    Kilohertz(1).toString(Kilohertz) should be("1.0 kHz")
+    Megahertz(1).toString(Megahertz) should be("1.0 MHz")
+    Gigahertz(1).toString(Gigahertz) should be("1.0 GHz")
+    Terahertz(1).toString(Terahertz) should be("1.0 THz")
+    RevolutionsPerMinute(1).toString(RevolutionsPerMinute) should be("1.0 rpm")
   }
 
   it should "return Count when multiplied by Time" in {
-    assert(Hertz(1) * Seconds(1) == Each(1))
+    Hertz(1) * Seconds(1) should be(Each(1))
   }
 
   it should "serialize to and de-serialize from Json" in {
@@ -59,7 +59,7 @@ class FrequencySpec extends FlatSpec with Matchers {
     val x = Hertz(10.22)
     val ser = Serialization.write(x)
     val des = Serialization.read[Frequency](ser)
-    assert(x == des)
+    x should be(des)
   }
 
   behavior of "FrequencyConversions"
@@ -68,11 +68,11 @@ class FrequencySpec extends FlatSpec with Matchers {
     import FrequencyConversions._
 
     val d = 10d
-    assert(d.hertz == Hertz(d))
-    assert(d.kilohertz == Kilohertz(d))
-    assert(d.megahertz == Megahertz(d))
-    assert(d.gigahertz == Gigahertz(d))
-    assert(d.terahertz == Terahertz(d))
-    assert(d.rpm == RevolutionsPerMinute(d))
+    d.hertz should be(Hertz(d))
+    d.kilohertz should be(Kilohertz(d))
+    d.megahertz should be(Megahertz(d))
+    d.gigahertz should be(Gigahertz(d))
+    d.terahertz should be(Terahertz(d))
+    d.rpm should be(RevolutionsPerMinute(d))
   }
 }

@@ -17,7 +17,7 @@ import squants.space.SquareMeters
  * @param intensity LuminousIntensity
  * @param area Area
  */
-case class Luminance(intensity: LuminousIntensity, area: Area) extends Quantity[Luminance] with DerivedQuantity {
+case class Luminance(intensity: LuminousIntensity, area: Area) extends Quantity[Luminance] {
   def value = toCandelasPerSquareMeters
   def valueUnit = CandelasPerSquareMeter
 

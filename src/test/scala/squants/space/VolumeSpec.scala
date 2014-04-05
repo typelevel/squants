@@ -27,93 +27,93 @@ class VolumeSpec extends FlatSpec with Matchers {
 
   it should "create values using UOM factories" in {
 
-    assert(CubicMeters(1).toCubicMeters == 1)
-    assert(Litres(1).toLitres == 1)
-    assert(Milliliters(1).toMillilitres == 1)
+    CubicMeters(1).toCubicMeters should be(1)
+    Litres(1).toLitres should be(1)
+    Milliliters(1).toMillilitres should be(1)
 
-    assert(CubicMiles(1).toCubicMiles == 1)
-    assert(CubicYards(1).toCubicYards == 1)
-    assert(CubicFeet(1).toCubicFeet == 1)
-    assert(CubicInches(1).toCubicInches == 1)
+    CubicMiles(1).toCubicMiles should be(1)
+    CubicYards(1).toCubicYards should be(1)
+    CubicFeet(1).toCubicFeet should be(1)
+    CubicInches(1).toCubicInches should be(1)
 
-    assert(UsGallons(1).toUsGallons == 1)
-    assert(UsQuarts(1).toUsQuarts == 1)
-    assert(UsPints(1).toUsPints == 1)
-    assert(UsCups(1).toUsCups == 1)
+    UsGallons(1).toUsGallons should be(1)
+    UsQuarts(1).toUsQuarts should be(1)
+    UsPints(1).toUsPints should be(1)
+    UsCups(1).toUsCups should be(1)
   }
 
   it should "properly convert to all supported Units of Measure" in {
     val x = CubicMeters(1)
-    assert(x.toCubicMeters == 1)
+    x.toCubicMeters should be(1)
 
-    assert(x.toLitres == 1000)
-    assert(x.toMillilitres == 1000000)
+    x.toLitres should be(1000)
+    x.toMillilitres should be(1000000)
 
-    assert(x.toCubicMiles == 1 / math.pow(UsMiles.multiplier, 3))
-    assert(x.toCubicYards == 1 / BigDecimal(Yards.multiplier).pow(3).toDouble)
-    assert(x.toCubicFeet == 1 / BigDecimal(Feet.multiplier).pow(3).toDouble)
-    assert(x.toCubicInches == 1 / math.pow(Inches.multiplier, 3))
+    x.toCubicMiles should be(1 / math.pow(UsMiles.multiplier, 3))
+    x.toCubicYards should be(1 / BigDecimal(Yards.multiplier).pow(3).toDouble)
+    x.toCubicFeet should be(1 / BigDecimal(Feet.multiplier).pow(3).toDouble)
+    x.toCubicInches should be(1 / math.pow(Inches.multiplier, 3))
 
     val litresPerUsGallon = 3.785411784
-    assert(x.toUsGallons == 1000d / litresPerUsGallon)
-    assert(x.toUsQuarts == 4000d / litresPerUsGallon)
-    assert(x.toUsPints == 8000d / litresPerUsGallon)
-    assert(x.toUsCups == 16000d / litresPerUsGallon)
-    assert(x.toFluidOunces == 128000d / litresPerUsGallon)
-    assert(x.toTablespoons == (128000d / litresPerUsGallon) * 2d)
-    assert(x.toTeaspoons == (128000d / litresPerUsGallon) * 6d)
+    x.toUsGallons should be(1000d / litresPerUsGallon)
+    x.toUsQuarts should be(4000d / litresPerUsGallon)
+    x.toUsPints should be(8000d / litresPerUsGallon)
+    x.toUsCups should be(16000d / litresPerUsGallon)
+    x.toFluidOunces should be(128000d / litresPerUsGallon)
+    x.toTablespoons should be((128000d / litresPerUsGallon) * 2d)
+    x.toTeaspoons should be((128000d / litresPerUsGallon) * 6d)
 
     val litresPerUsDryGallon = 4.4048837
-    assert(x.toUsDryGallons == 1000d / litresPerUsDryGallon)
-    assert(x.toUsDryQuarts == 4000d / litresPerUsDryGallon)
-    assert(x.toUsDryPints == 8000d / litresPerUsDryGallon)
-    assert(x.toUsDryCups == 16000d / litresPerUsDryGallon)
+    x.toUsDryGallons should be(1000d / litresPerUsDryGallon)
+    x.toUsDryQuarts should be(4000d / litresPerUsDryGallon)
+    x.toUsDryPints should be(8000d / litresPerUsDryGallon)
+    x.toUsDryCups should be(16000d / litresPerUsDryGallon)
 
     val litresPerImperialGallon = 4.54609
-    assert(x.toImperialGallons == 1000d / litresPerImperialGallon)
-    assert(x.toImperialQuarts == 4000d / litresPerImperialGallon)
-    assert(x.toImperialPints == 8000d / litresPerImperialGallon)
-    assert(x.toImperialCups == 16000d / litresPerImperialGallon)
+    x.toImperialGallons should be(1000d / litresPerImperialGallon)
+    x.toImperialQuarts should be(4000d / litresPerImperialGallon)
+    x.toImperialPints should be(8000d / litresPerImperialGallon)
+    x.toImperialCups should be(16000d / litresPerImperialGallon)
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
-    assert(CubicMeters(1).toString(CubicMeters) == "1.0 m³")
-    assert(Litres(1).toString(Litres) == "1.0 L")
-    assert(Milliliters(1).toString(Milliliters) == "1.0 ml")
+    CubicMeters(1).toString(CubicMeters) should be("1.0 m³")
+    Litres(1).toString(Litres) should be("1.0 L")
+    Milliliters(1).toString(Milliliters) should be("1.0 ml")
 
-    assert(CubicMiles(1).toString(CubicMiles) == "1.0 mi³")
-    assert(CubicYards(1).toString(CubicYards) == "1.0 yd³")
-    assert(CubicFeet(1).toString(CubicFeet) == "1.0 ft³")
-    assert(CubicInches(1).toString(CubicInches) == "1.0 in³")
+    CubicMiles(1).toString(CubicMiles) should be("1.0 mi³")
+    CubicYards(1).toString(CubicYards) should be("1.0 yd³")
+    CubicFeet(1).toString(CubicFeet) should be("1.0 ft³")
+    CubicInches(1).toString(CubicInches) should be("1.0 in³")
 
-    assert(UsGallons(1).toString(UsGallons) == "1.0 gal")
-    assert(UsQuarts(1).toString(UsQuarts) == "1.0 qt")
-    assert(UsPints(1).toString(UsPints) == "1.0 pt")
-    assert(UsCups(1).toString(UsCups) == "1.0 c")
+    UsGallons(1).toString(UsGallons) should be("1.0 gal")
+    UsQuarts(1).toString(UsQuarts) should be("1.0 qt")
+    UsPints(1).toString(UsPints) should be("1.0 pt")
+    UsCups(1).toString(UsCups) should be("1.0 c")
   }
 
   it should "return Mass when multiplied by Density" in {
-    assert(CubicMeters(1) * KilogramsPerCubicMeter(10) == Kilograms(10))
+    CubicMeters(1) * KilogramsPerCubicMeter(10) should be(Kilograms(10))
   }
 
   it should "return Energy when multiplied by EnergyDensity" in {
-    assert(CubicMeters(1) * JoulesPerCubicMeter(10) == Joules(10))
+    CubicMeters(1) * JoulesPerCubicMeter(10) should be(Joules(10))
   }
 
   it should "return Length when divided by Area" in {
-    assert(CubicMeters(1) / SquareMeters(1) == Meters(1))
+    CubicMeters(1) / SquareMeters(1) should be(Meters(1))
   }
 
   it should "return Area when divided by Length" in {
-    assert(CubicMeters(1) / Meters(1) == SquareMeters(1))
+    CubicMeters(1) / Meters(1) should be(SquareMeters(1))
   }
 
   it should "return VolumeFlowRate when divided by Time" in {
-    assert(CubicMeters(1) / Seconds(1) == CubicMetersPerSecond(1))
+    CubicMeters(1) / Seconds(1) should be(CubicMetersPerSecond(1))
   }
 
   it should "return Time when divided by VolumeFlowRate" in {
-    assert(CubicMeters(1) / CubicMetersPerSecond(1) == Seconds(1))
+    CubicMeters(1) / CubicMetersPerSecond(1) should be(Seconds(1))
   }
 
   it should "serialize to and de-serialize from Json" in {
@@ -121,7 +121,7 @@ class VolumeSpec extends FlatSpec with Matchers {
     val x = CubicMeters(10.22)
     val ser = Serialization.write(x)
     val des = Serialization.read[Volume](ser)
-    assert(x == des)
+    x should be(des)
   }
 
   behavior of "VolumeConversions"
@@ -129,22 +129,22 @@ class VolumeSpec extends FlatSpec with Matchers {
   it should "provide aliases for single unit values" in {
     import VolumeConversions._
 
-    assert(cubicMeter == CubicMeters(1))
-    assert(litre == Litres(1))
-    assert(millilitre == Milliliters(1))
+    cubicMeter should be(CubicMeters(1))
+    litre should be(Litres(1))
+    millilitre should be(Milliliters(1))
 
-    assert(cubicMile == CubicMiles(1))
-    assert(cubicYard == CubicYards(1))
-    assert(cubicFoot == CubicFeet(1))
-    assert(cubicInch == CubicInches(1))
+    cubicMile should be(CubicMiles(1))
+    cubicYard should be(CubicYards(1))
+    cubicFoot should be(CubicFeet(1))
+    cubicInch should be(CubicInches(1))
 
-    assert(gallon == UsGallons(1))
-    assert(quart == UsQuarts(1))
-    assert(pint == UsPints(1))
-    assert(cup == UsCups(1))
-    assert(fluidOunce == FluidOunces(1))
-    assert(tablespoon == Tablespoons(1))
-    assert(teaspoon == Teaspoons(1))
+    gallon should be(UsGallons(1))
+    quart should be(UsQuarts(1))
+    pint should be(UsPints(1))
+    cup should be(UsCups(1))
+    fluidOunce should be(FluidOunces(1))
+    tablespoon should be(Tablespoons(1))
+    teaspoon should be(Teaspoons(1))
   }
 
   it should "provide implicit conversion from Double" in {
@@ -152,22 +152,22 @@ class VolumeSpec extends FlatSpec with Matchers {
 
     val d = 10d
 
-    assert(d.cubicMeters == CubicMeters(d))
-    assert(d.cubicMetres == CubicMeters(d))
-    assert(d.litres == Litres(d))
-    assert(d.millilitres == Milliliters(d))
+    d.cubicMeters should be(CubicMeters(d))
+    d.cubicMetres should be(CubicMeters(d))
+    d.litres should be(Litres(d))
+    d.millilitres should be(Milliliters(d))
 
-    assert(d.cubicMiles == CubicMiles(d))
-    assert(d.cubicYards == CubicYards(d))
-    assert(d.cubicFeet == CubicFeet(d))
-    assert(d.cubicInches == CubicInches(d))
+    d.cubicMiles should be(CubicMiles(d))
+    d.cubicYards should be(CubicYards(d))
+    d.cubicFeet should be(CubicFeet(d))
+    d.cubicInches should be(CubicInches(d))
 
-    assert(d.gallons == UsGallons(d))
-    assert(d.quarts == UsQuarts(d))
-    assert(d.pints == UsPints(d))
-    assert(d.cups == UsCups(d))
-    assert(d.fluidOunces == FluidOunces(d))
-    assert(d.tablespoons == Tablespoons(d))
-    assert(d.teaspoons == Teaspoons(d))
+    d.gallons should be(UsGallons(d))
+    d.quarts should be(UsQuarts(d))
+    d.pints should be(UsPints(d))
+    d.cups should be(UsCups(d))
+    d.fluidOunces should be(FluidOunces(d))
+    d.tablespoons should be(Tablespoons(d))
+    d.teaspoons should be(Teaspoons(d))
   }
 }

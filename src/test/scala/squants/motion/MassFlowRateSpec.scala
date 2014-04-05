@@ -25,20 +25,20 @@ class MassFlowRateSpec extends FlatSpec with Matchers {
   behavior of "MassFlowRate and its Units of Measure"
 
   it should "create values using UOM factories" in {
-    assert(KilogramsPerSecond(1).toKilogramsPerSecond == 1)
+    KilogramsPerSecond(1).toKilogramsPerSecond should be(1)
   }
 
   it should "properly convert to all supported Units of Measure" in {
     val x = KilogramsPerSecond(1)
-    assert(x.toKilogramsPerSecond == 1)
+    x.toKilogramsPerSecond should be(1)
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
-    assert(KilogramsPerSecond(1).toString == "1.0 kg/s")
+    KilogramsPerSecond(1).toString should be("1.0 kg/s")
   }
 
   it should "return Mass when multiplied by Time" in {
-    assert(KilogramsPerSecond(1) * Seconds(1) == Kilograms(1))
+    KilogramsPerSecond(1) * Seconds(1) should be(Kilograms(1))
   }
 
   it should "serialize to and de-serialize from Json" in {
@@ -46,6 +46,6 @@ class MassFlowRateSpec extends FlatSpec with Matchers {
     val x = KilogramsPerSecond(10.22)
     val ser = Serialization.write(x)
     val des = Serialization.read[MassFlowRate](ser)
-    assert(x == des)
+    x should be(des)
   }
 }
