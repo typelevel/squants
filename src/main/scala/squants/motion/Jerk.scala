@@ -43,7 +43,7 @@ trait JerkUnit extends UnitOfMeasure[Jerk] {
   def unapply(jerk: Jerk) = Some(jerk.to(this))
 }
 
-object MetersPerSecondCubed extends JerkUnit {
+object MetersPerSecondCubed extends JerkUnit with ValueUnit {
   val changeUnit = MetersPerSecondSquared
   val change = MetersPerSecondSquared(1)
   val timeUnit = Seconds
@@ -56,4 +56,16 @@ object FeetPerSecondCubed extends JerkUnit {
   val timeUnit = Seconds
   val time = Seconds(1)
   val symbol = "ft/s³"
+}
+
+object JerkConversions {
+  lazy val meterPerSecondCubed = MetersPerSecondCubed(1)
+  lazy val footPerSecondCubed = FeetPerSecondCubed(1)
+
+  implicit class JerkConversions(val d: Double) {
+    def metersPerSecondCubed = MetersPerSecondCubed(d)
+    def feetPerSecondCubed = FeetPerSecondCubed(d)
+  }
+
+  implicit object JerkNumeric extends AbstractQuantityNumeric[Jerk](MetersPerSecondCubed)
 }

@@ -36,7 +36,18 @@ case class RadiantIntensity(power: Power, solidAngle: SolidAngle) extends Quanti
 
 trait RadiantIntensityUnit extends UnitOfMeasure[RadiantIntensity]
 
-object WattsPerSteradian extends RadiantIntensityUnit {
+object WattsPerSteradian extends RadiantIntensityUnit with ValueUnit {
   val symbol = Watts.symbol + "/" + SquaredRadians.symbol
   def apply(d: Double) = RadiantIntensity(Watts(d), SquaredRadians(1))
 }
+
+object RadiantIntensityConversions {
+  lazy val wattPerSteradian = WattsPerSteradian(1)
+
+  implicit class RadiantIntensityConversions(val d: Double) {
+    def wattsPerSteradian = WattsPerSteradian(d)
+  }
+
+  implicit object RadiantIntensityNumeric extends AbstractQuantityNumeric[RadiantIntensity](WattsPerSteradian)
+}
+

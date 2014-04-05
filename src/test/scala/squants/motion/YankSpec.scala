@@ -48,4 +48,26 @@ class YankSpec extends FlatSpec with Matchers {
     val des = Serialization.read[Yank](ser)
     x should be(des)
   }
+
+  behavior of "YankConversions"
+
+  it should "provide aliases for single unit values" in {
+    import YankConversions._
+
+    newtonPerSecond should be(NewtonsPerSecond(1))
+  }
+
+  it should "provide implicit conversion from Double" in {
+    import YankConversions._
+
+    val d = 10.22d
+    d.newtonsPerSecond should be(NewtonsPerSecond(d))
+  }
+
+  it should "provide Numeric support" in {
+    import YankConversions.YankNumeric
+
+    val ys = List(NewtonsPerSecond(100), NewtonsPerSecond(10))
+    ys.sum should be(NewtonsPerSecond(110))
+  }
 }

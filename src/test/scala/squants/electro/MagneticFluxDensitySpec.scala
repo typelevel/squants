@@ -66,4 +66,11 @@ class MagneticFluxDensitySpec extends FlatSpec with Matchers {
     d.teslas should be(Teslas(d))
     d.gauss should be(Gauss(d))
   }
+
+  it should "provide Numeric support" in {
+    import MagneticFluxDensityConversions.MagneticFluxDensistyNumeric
+
+    val mfds = List(Teslas(100), Teslas(10))
+    mfds.sum should be(Teslas(110))
+  }
 }

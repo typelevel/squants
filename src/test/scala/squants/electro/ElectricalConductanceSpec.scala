@@ -69,4 +69,11 @@ class ElectricalConductanceSpec extends FlatSpec with Matchers {
     val d = 10d
     d.siemens should be(Siemens(d))
   }
+
+  it should "provide Numeric support" in {
+    import ElectricalConductanceConversions.ElectricalConductanceNumeric
+
+    val ecs = List(Siemens(100), Siemens(10))
+    ecs.sum should be(Siemens(110))
+  }
 }

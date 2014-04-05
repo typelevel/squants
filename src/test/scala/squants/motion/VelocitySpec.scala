@@ -78,6 +78,16 @@ class VelocitySpec extends FlatSpec with Matchers {
 
   behavior of "VelocityConversions"
 
+  it should "provide aliases for single unit values" in {
+    import VelocityConversions._
+
+    meterPerSecond should be(MetersPerSecond(1))
+    footPerSecond should be(FeetPerSecond(1))
+    kilometerPerSecond should be(KilogramsPerSecond(1))
+    milePerHour should be(UsMilesPerHour(1))
+    knot should be(Knots(1))
+  }
+
   it should "provide implicit conversion from Double" in {
     import VelocityConversions._
 
@@ -87,5 +97,12 @@ class VelocitySpec extends FlatSpec with Matchers {
     d.kph should be(KilometersPerHour(d))
     d.mph should be(UsMilesPerHour(d))
     d.knots should be(Knots(d))
+  }
+
+  it should "provide Numeric support" in {
+    import VelocityConversions.VelocityNumeric
+
+    val vs = List(MetersPerSecond(100), MetersPerSecond(1))
+    vs.sum should be(MetersPerSecond(101))
   }
 }

@@ -97,5 +97,5 @@ object ElectricalResistanceConversions {
   }
 
   implicit object ElectricalResistanceNumeric
-    extends AbstractQuantityNumeric[ElectricalResistance]((Ohms))
+    extends AbstractQuantityNumeric[ElectricalResistance](Ohms)
 }

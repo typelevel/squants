@@ -107,4 +107,11 @@ class ElectricChargeSpec extends FlatSpec with Matchers {
     d.abcoulombs should be(Abcoulombs(d))
     d.ampereHours should be(AmpereHours(d))
   }
+
+  it should "provide Numeric support" in {
+    import ElectricChargeConversions.ElectricalChargeNumeric
+
+    val ecs = List(Coulombs(1), Millicoulombs(100))
+    ecs.sum should be(Millicoulombs(1100))
+  }
 }

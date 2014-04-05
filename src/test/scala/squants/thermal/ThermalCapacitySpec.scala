@@ -62,4 +62,11 @@ class ThermalCapacitySpec extends FlatSpec with Matchers {
     val d = 10d
     d.joulesPerKelvin should be(JoulesPerKelvin(d))
   }
+
+  it should "provide Numeric support" in {
+    import ThermalCapacityConversions.ThermalCapacityNumeric
+
+    val tcs = List(JoulesPerKelvin(100), JoulesPerKelvin(1))
+    tcs.sum should be(JoulesPerKelvin(101))
+  }
 }

@@ -105,5 +105,5 @@ object ElectricChargeConversions {
   }
 
   implicit object ElectricalChargeNumeric
-    extends AbstractQuantityNumeric[ElectricCharge]((Coulombs))
+    extends AbstractQuantityNumeric[ElectricCharge](Coulombs)
 }

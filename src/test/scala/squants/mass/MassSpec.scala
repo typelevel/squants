@@ -13,7 +13,7 @@ import scala.language.postfixOps
 import squants.MetricSystem
 import squants.motion._
 import squants.time.Seconds
-import squants.space.CubicMeters
+import squants.space.{ SquareMeters, CubicMeters }
 import org.json4s.DefaultFormats
 import org.json4s.native.Serialization
 
@@ -83,6 +83,14 @@ class MassSpec extends FlatSpec with Matchers {
 
   it should "return Density when divided by Volume" in {
     Kilograms(1) / CubicMeters(1) should be(KilogramsPerCubicMeter(1))
+  }
+
+  it should "return Area when divided by AreaDensity" in {
+    Kilograms(1) / SquareMeters(1) should be(KilogramsPerSquareMeter(1))
+  }
+
+  it should "return AreaDensity when divided by Area" in {
+    Kilograms(1) / KilogramsPerSquareMeter(1) should be(SquareMeters(1))
   }
 
   it should "serialize to and de-serialize from Json" in {

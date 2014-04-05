@@ -50,9 +50,25 @@ class EnergyDensitySpec extends FlatSpec with Matchers {
     x should be(des)
   }
 
-  behavior of "Conversions"
+  behavior of "EnergyDensityConversions"
 
-  it should "provide aliases for single unit values" is pending
+  it should "provide aliases for single unit values" in {
+    import EnergyDensityConversions._
 
-  it should "provide implicit conversion from Double" is pending
+    joulePerCubicMeter should be(JoulesPerCubicMeter(1))
+  }
+
+  it should "provide implicit conversion from Double" in {
+    import EnergyDensityConversions._
+
+    val d = 10.22d
+    d.joulesPerCubicMeter should be(JoulesPerCubicMeter(d))
+  }
+
+  it should "provide Numeric support" in {
+    import EnergyDensityConversions.EnergyDensityNumeric
+
+    val eds = List(JoulesPerCubicMeter(10), JoulesPerCubicMeter(100))
+    eds.sum should be(JoulesPerCubicMeter(110))
+  }
 }

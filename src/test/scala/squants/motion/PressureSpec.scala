@@ -76,4 +76,11 @@ class PressureSpec extends FlatSpec with Matchers {
     d.psi should be(PoundsPerSquareInch(d))
     d.atm should be(StandardAtmospheres(d))
   }
+
+  it should "provide Numeric support" in {
+    import PressureConversions.PressureNumeric
+
+    val ps = List(Pascals(100), Pascals(10))
+    ps.sum should be(Pascals(110))
+  }
 }

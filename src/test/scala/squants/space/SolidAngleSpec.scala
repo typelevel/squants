@@ -62,4 +62,11 @@ class SolidAngleSpec extends FlatSpec with Matchers {
     d.squaredRadians should be(SquaredRadians(d))
     d.steradians should be(SquaredRadians(d))
   }
+
+  it should "provide Numeric support" in {
+    import SolidAngleConversions.SolidAngleNumeric
+
+    val sas = List(SquaredRadians(100), SquaredRadians(1))
+    sas.sum should be(SquaredRadians(101))
+  }
 }

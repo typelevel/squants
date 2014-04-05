@@ -62,4 +62,11 @@ class ConductivitySpec extends FlatSpec with Matchers {
     val d = 10.22
     d.siemensPerMeter should be(SiemensPerMeter(d))
   }
+
+  it should "provide Numeric support" in {
+    import ConductivityConversions.ConductivityNumeric
+
+    val cs = List(SiemensPerMeter(100), SiemensPerMeter(10))
+    cs.sum should be(SiemensPerMeter(110))
+  }
 }

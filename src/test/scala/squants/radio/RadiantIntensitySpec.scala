@@ -60,4 +60,26 @@ class RadiantIntensitySpec extends FlatSpec with Matchers {
     val des = Serialization.read[RadiantIntensity](ser)
     x should be(des)
   }
+
+  behavior of "RadiantIntensityConversions"
+
+  it should "provide aliases for single unit values" in {
+    import RadiantIntensityConversions._
+
+    wattPerSteradian should be(WattsPerSteradian(1))
+  }
+
+  it should "provide implicit conversion from Double" in {
+    import RadiantIntensityConversions._
+
+    val d = 10.22d
+    d.wattsPerSteradian should be(WattsPerSteradian(d))
+  }
+
+  it should "provide Numeric support" in {
+    import RadiantIntensityConversions.RadiantIntensityNumeric
+
+    val rs = List(WattsPerSteradian(10), WattsPerSteradian(100))
+    rs.sum should be(WattsPerSteradian(110))
+  }
 }

@@ -66,4 +66,11 @@ class LuminousEnergySpec extends FlatSpec with Matchers {
     val d = 10d
     d.lumenSeconds should be(LumenSeconds(d))
   }
+
+  it should "provide Numeric support" in {
+    import LuminousEnergyConversions.LuminousEnergyNumeric
+
+    val les = List(LumenSeconds(100), LumenSeconds(1))
+    les.sum should be(LumenSeconds(101))
+  }
 }

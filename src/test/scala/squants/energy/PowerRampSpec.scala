@@ -94,4 +94,11 @@ class PowerRampSpec extends FlatSpec with Matchers {
     "10.22 GW/h".toPowerRamp.right.get should be(GigawattsPerHour(10.22))
     "10.22 zz".toPowerRamp.left.get should be("Unable to parse 10.22 zz as PowerRamp")
   }
+
+  it should "provide Numeric support" in {
+    import PowerRampConversions.PowerRampNumeric
+
+    val prs = List(WattsPerHour(100), KilowattsPerHour(1))
+    prs.sum should be(KilowattsPerHour(1.1))
+  }
 }

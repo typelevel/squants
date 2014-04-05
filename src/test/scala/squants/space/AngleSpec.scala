@@ -97,4 +97,11 @@ class AngleSpec extends FlatSpec with Matchers {
     d.arcminutes should be(Arcminutes(d))
     d.arcseconds should be(Arcseconds(d))
   }
+
+  it should "provide Numeric support" in {
+    import AngleConversions.AngleNumeric
+
+    val as = List(Radians(100), Radians(1))
+    as.sum should be(Radians(101))
+  }
 }

@@ -52,4 +52,26 @@ class IrradianceSpec extends FlatSpec with Matchers {
     val des = Serialization.read[Irradiance](ser)
     x should be(des)
   }
+
+  behavior of "IrradianceConversions"
+
+  it should "provide aliases for single unit values" in {
+    import IrradianceConversions._
+
+    wattPerSquareMeter should be(WattsPerSquareMeter(1))
+  }
+
+  it should "provide implicit conversion from Double" in {
+    import IrradianceConversions._
+
+    val d = 10.22d
+    d.wattsPerSquareMeter should be(WattsPerSquareMeter(d))
+  }
+
+  it should "provide Numeric support" in {
+    import IrradianceConversions.IrradianceNumeric
+
+    val irrs = List(WattsPerSquareMeter(10), WattsPerSquareMeter(100))
+    irrs.sum should be(WattsPerSquareMeter(110))
+  }
 }

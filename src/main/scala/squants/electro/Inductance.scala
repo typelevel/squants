@@ -45,5 +45,5 @@ object InductanceConversions {
     def henry = Henry(d)
   }
 
-  implicit object InductanceNumeric extends AbstractQuantityNumeric[Inductance]((Henry))
+  implicit object InductanceNumeric extends AbstractQuantityNumeric[Inductance](Henry)
 }

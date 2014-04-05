@@ -55,10 +55,18 @@ class IlluminanceSpec extends FlatSpec with Matchers {
 
     lux should be(Lux(1))
   }
+
   it should "provide implicit conversion from Double" in {
     import IlluminanceConversions._
 
     val d = 10d
     d.lux should be(Lux(d))
+  }
+
+  it should "provide Numeric support" in {
+    import IlluminanceConversions.IlluminanceNumeric
+
+    val ls = List(Lux(100), Lux(10))
+    ls.sum should be(Lux(110))
   }
 }

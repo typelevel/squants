@@ -62,4 +62,11 @@ class ChemicalAmountSpec extends FlatSpec with Matchers {
     d.moles should be(Moles(d))
     d.poundMoles should be(PoundMoles(d))
   }
+
+  it should "provide Numeric support" in {
+    import ChemicalAmountConversions.ChemicalAmountNumeric
+
+    val cas = List(Moles(100), Moles(10))
+    cas.sum should be(Moles(110))
+  }
 }

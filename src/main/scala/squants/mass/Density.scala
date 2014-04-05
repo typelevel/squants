@@ -32,7 +32,17 @@ trait DensityUnit extends UnitOfMeasure[Density] {
   def apply(d: Double): Density
 }
 
-object KilogramsPerCubicMeter extends DensityUnit {
+object KilogramsPerCubicMeter extends DensityUnit with ValueUnit {
   def apply(d: Double) = Density(Kilograms(d), CubicMeters(1))
   val symbol = "kg/m³"
+}
+
+object DensityConversions {
+  lazy val kilogramPerCubicMeter = KilogramsPerCubicMeter(1)
+
+  implicit class AreaDensityConversions(val d: Double) {
+    def kilogramsPerCubicMeter = KilogramsPerCubicMeter(d)
+  }
+
+  implicit object DensityNumeric extends AbstractQuantityNumeric[Density](KilogramsPerCubicMeter)
 }

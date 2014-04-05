@@ -39,3 +39,13 @@ trait EnergyDensityUnit extends UnitOfMeasure[EnergyDensity] with UnitMultiplier
 object JoulesPerCubicMeter extends EnergyDensityUnit with ValueUnit {
   val symbol = "j/m³"
 }
+
+object EnergyDensityConversions {
+  lazy val joulePerCubicMeter = JoulesPerCubicMeter(1)
+
+  implicit class EnergyDensityConversions(val d: Double) {
+    def joulesPerCubicMeter = JoulesPerCubicMeter(d)
+  }
+
+  implicit object EnergyDensityNumeric extends AbstractQuantityNumeric[EnergyDensity](JoulesPerCubicMeter)
+}

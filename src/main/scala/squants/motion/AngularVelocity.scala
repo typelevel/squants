@@ -42,7 +42,7 @@ trait AngularVelocityUnit extends UnitOfMeasure[AngularVelocity] {
   def apply(d: Double) = AngularVelocity(angleBase * d, time)
 }
 
-object RadiansPerSecond extends AngularVelocityUnit {
+object RadiansPerSecond extends AngularVelocityUnit with ValueUnit {
   val angleUnit = Radians
   val angleBase = Radians(1)
   val timeUnit = Seconds
@@ -72,4 +72,20 @@ object TurnsPerSecond extends AngularVelocityUnit {
   val timeUnit = Seconds
   val time = Seconds(1)
   val symbol = "turns/s"
+}
+
+object AngularVelocityConversions {
+  lazy val radianPerSecond = RadiansPerSecond(1)
+  lazy val degreePerSecond = DegreesPerSecond(1)
+  lazy val gradPerSecond = GradsPerSecond(1)
+  lazy val turnPerSecond = TurnsPerSecond(1)
+
+  implicit class AngularVelocityConversions(val d: Double) {
+    def radiansPerSecond = RadiansPerSecond(d)
+    def degreesPerSecond = DegreesPerSecond(d)
+    def gradsPerSecond = GradsPerSecond(d)
+    def turnsPerSecond = TurnsPerSecond(d)
+  }
+
+  implicit object AngularVelocityNumeric extends AbstractQuantityNumeric[AngularVelocity](RadiansPerSecond)
 }

@@ -170,4 +170,11 @@ class VolumeSpec extends FlatSpec with Matchers {
     d.tablespoons should be(Tablespoons(d))
     d.teaspoons should be(Teaspoons(d))
   }
+
+  it should "provide Numeric support" in {
+    import VolumeConversions.VolumeNumeric
+
+    val vs = List(CubicMeters(100), CubicMeters(1))
+    vs.sum should be(CubicMeters(101))
+  }
 }

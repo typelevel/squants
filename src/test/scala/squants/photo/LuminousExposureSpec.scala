@@ -54,9 +54,23 @@ class LuminousExposureSpec extends FlatSpec with Matchers {
 
   behavior of "LuminousExposureConversions"
 
-  it should "provide aliases for single unit values" ignore {
+  it should "provide aliases for single unit values" in {
+    import LuminousExposureConversions._
+
+    luxSecond should be(LuxSeconds(1))
   }
 
-  it should "provide implicit conversion from Double" ignore {
+  it should "provide implicit conversion from Double" in {
+    import LuminousExposureConversions._
+
+    val d = 10.22d
+    d.luxSeconds should be(LuxSeconds(d))
+  }
+
+  it should "provide Numeric support" in {
+    import LuminousExposureConversions.LuminousExposureNumeric
+
+    val ls = List(LuxSeconds(10), LuxSeconds(20))
+    ls.sum should be(LuxSeconds(30))
   }
 }

@@ -210,4 +210,11 @@ class LengthSpec extends FlatSpec with Matchers {
     "10.33 ly".toLength.right.get should be(LightYears(10.33))
     "10.33 zz".toLength.left.get should be("Unable to parse 10.33 zz as Length")
   }
+
+  it should "provide Numeric support" in {
+    import LengthConversions.LengthNumeric
+
+    val ls = List(Meters(1000), Kilometers(1))
+    ls.sum should be(Meters(2000))
+  }
 }

@@ -51,4 +51,28 @@ class JerkSpec extends FlatSpec with Matchers {
     val des = Serialization.read[Jerk](ser)
     x should be(des)
   }
+
+  behavior of "JerkConversions"
+
+  it should "provide aliases for single unit values" in {
+    import JerkConversions._
+
+    meterPerSecondCubed should be(MetersPerSecondCubed(1))
+    footPerSecondCubed should be(FeetPerSecondCubed(1))
+  }
+
+  it should "provide implicit conversion from Double" in {
+    import JerkConversions._
+
+    val d = 10.22d
+    d.metersPerSecondCubed should be(MetersPerSecondCubed(d))
+    d.feetPerSecondCubed should be(FeetPerSecondCubed(d))
+  }
+
+  it should "provide Numeric support" in {
+    import JerkConversions.JerkNumeric
+
+    val js = List(MetersPerSecondCubed(100), MetersPerSecondCubed(10))
+    js.sum should be(MetersPerSecondCubed(110))
+  }
 }

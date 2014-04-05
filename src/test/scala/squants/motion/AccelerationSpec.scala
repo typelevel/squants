@@ -80,4 +80,11 @@ class AccelerationSpec extends FlatSpec with Matchers {
     d.mpss should be(MetersPerSecondSquared(d))
     d.fpss should be(FeetPerSecondSquared(d))
   }
+
+  it should "provide Numeric support" in {
+    import AccelerationConversions.AccelerationNumeric
+
+    val as = List(MetersPerSecondSquared(100), MetersPerSecondSquared(10))
+    as.sum should be(MetersPerSecondSquared(110))
+  }
 }

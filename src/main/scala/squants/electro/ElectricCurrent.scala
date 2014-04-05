@@ -85,5 +85,5 @@ object ElectricCurrentConversions {
   }
 
   implicit object ElectricCurrentNumeric
-    extends AbstractQuantityNumeric[ElectricCurrent]((Amperes))
+    extends AbstractQuantityNumeric[ElectricCurrent](Amperes)
 }

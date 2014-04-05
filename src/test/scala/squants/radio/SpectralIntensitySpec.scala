@@ -51,4 +51,26 @@ class SpectralIntensitySpec extends FlatSpec with Matchers {
     val des = Serialization.read[SpectralIntensity](ser)
     x should be(des)
   }
+
+  behavior of "SpectralIntensityConversions"
+
+  it should "provide aliases for single unit values" in {
+    import SpectralIntensityConversions._
+
+    wattPerSteradianPerMeter should be(WattsPerSteradianPerMeter(1))
+  }
+
+  it should "provide implicit conversion from Double" in {
+    import SpectralIntensityConversions._
+
+    val d = 10.22d
+    d.wattsPerSteradianPerMeter should be(WattsPerSteradianPerMeter(d))
+  }
+
+  it should "provide Numeric support" in {
+    import SpectralIntensityConversions.SpectralIntensityNumeric
+
+    val rs = List(WattsPerSteradianPerMeter(10), WattsPerSteradianPerMeter(100))
+    rs.sum should be(WattsPerSteradianPerMeter(110))
+  }
 }

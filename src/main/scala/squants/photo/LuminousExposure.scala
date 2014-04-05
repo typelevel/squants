@@ -40,3 +40,13 @@ trait LuminousExposureUnit extends UnitOfMeasure[LuminousExposure] with UnitMult
 object LuxSeconds extends LuminousExposureUnit with ValueUnit {
   val symbol = "lx⋅s"
 }
+
+object LuminousExposureConversions {
+  lazy val luxSecond = LuxSeconds(1)
+
+  implicit class LuminousExposureConversions(val d: Double) {
+    def luxSeconds = LuxSeconds(d)
+  }
+
+  implicit object LuminousExposureNumeric extends AbstractQuantityNumeric[LuminousExposure](LuxSeconds)
+}

@@ -75,4 +75,11 @@ class MomentumSpec extends FlatSpec with Matchers {
     val d = 10d
     d.newtonSeconds should be(NewtonSeconds(d))
   }
+
+  it should "provide Numeric support" in {
+    import MomentumConversions.MomentumNumeric
+
+    val ms = List(NewtonSeconds(100), NewtonSeconds(10))
+    ms.sum should be(NewtonSeconds(110))
+  }
 }

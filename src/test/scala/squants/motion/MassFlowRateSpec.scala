@@ -48,4 +48,26 @@ class MassFlowRateSpec extends FlatSpec with Matchers {
     val des = Serialization.read[MassFlowRate](ser)
     x should be(des)
   }
+
+  behavior of "MassFlowRateConversions"
+
+  it should "provide aliases for single unit values" in {
+    import MassFlowRateConversions._
+
+    kilogramPerSecond should be(KilogramsPerSecond(1))
+  }
+
+  it should "provide implicit conversion from Double" in {
+    import MassFlowRateConversions._
+
+    val d = 10.22d
+    d.kilogramsPerSecond should be(KilogramsPerSecond(d))
+  }
+
+  it should "provide Numeric support" in {
+    import MassFlowRateConversions.MassFlowRateNumeric
+
+    val mfrs = List(KilogramsPerSecond(100), KilogramsPerSecond(10))
+    mfrs.sum should be(KilogramsPerSecond(110))
+  }
 }

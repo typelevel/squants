@@ -78,4 +78,11 @@ class LuminousFluxSpec extends FlatSpec with Matchers {
     val d = 10d
     d.lumens should be(Lumens(d))
   }
+
+  it should "provide Numeric support" in {
+    import LuminousFluxConversions.LuminousFluxNumeric
+
+    val lfs = List(Lumens(100), Lumens(1))
+    lfs.sum should be(Lumens(101))
+  }
 }

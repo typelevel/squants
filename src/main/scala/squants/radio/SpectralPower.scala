@@ -32,7 +32,18 @@ case class SpectralPower(power: Power, length: Length) extends Quantity[Spectral
 
 trait SpectralPowerUnit extends UnitOfMeasure[SpectralPower]
 
-object WattsPerMeter extends SpectralPowerUnit {
+object WattsPerMeter extends SpectralPowerUnit with ValueUnit {
   val symbol = Watts.symbol + "/" + Meters.symbol
   def apply(d: Double) = SpectralPower(Watts(d), Meters(1))
 }
+
+object SpectralPowerConversions {
+  lazy val wattPerMeter = WattsPerMeter(1)
+
+  implicit class SpectralPowerConversions(val d: Double) {
+    def wattsPerMeter = WattsPerMeter(d)
+  }
+
+  implicit object SpectralPowerNumeric extends AbstractQuantityNumeric[SpectralPower](WattsPerMeter)
+}
+

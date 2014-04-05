@@ -107,6 +107,11 @@ object Knots extends VelocityUnit {
 }
 
 object VelocityConversions {
+  lazy val footPerSecond = FeetPerSecond(1)
+  lazy val meterPerSecond = MetersPerSecond(1)
+  lazy val kilometerPerSecond = KilogramsPerSecond(1)
+  lazy val milePerHour = UsMilesPerHour(1)
+  lazy val knot = Knots(1)
 
   implicit class VelocityConversions(d: Double) {
     def fps = FeetPerSecond(d)

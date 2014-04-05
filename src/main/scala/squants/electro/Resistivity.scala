@@ -46,5 +46,5 @@ object ResistivityConversions {
     def ohmMeters = OhmMeters(d)
   }
 
-  implicit object ResistivityNumeric extends AbstractQuantityNumeric[Resistivity]((OhmMeters))
+  implicit object ResistivityNumeric extends AbstractQuantityNumeric[Resistivity](OhmMeters)
 }
