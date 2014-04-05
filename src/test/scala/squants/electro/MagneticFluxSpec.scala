@@ -24,32 +24,32 @@ class MagneticFluxSpec extends FlatSpec with Matchers {
   behavior of "MagneticFlux and its Units of Measure"
 
   it should "create values using UOM factories" in {
-    assert(Webers(1).toWebers == 1)
+    Webers(1).toWebers should be(1)
   }
 
   it should "properly convert to all supported Units of Measure" in {
     val x = Webers(1)
-    assert(x.toWebers == 1.0)
+    x.toWebers should be(1.0)
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
-    assert(Webers(1).toString(Webers) == "1.0 Wb")
+    Webers(1).toString(Webers) should be("1.0 Wb")
   }
 
   it should "return Time when divided by ElectricPotential" in {
-    assert(Webers(1) / Volts(1) == Seconds(1))
+    Webers(1) / Volts(1) should be(Seconds(1))
   }
 
   it should "return ElectricPotential when divided by Time" in {
-    assert(Webers(1) / Seconds(1) == Volts(1))
+    Webers(1) / Seconds(1) should be(Volts(1))
   }
 
   it should "return MagneticFluxDensity when divided by Area" in {
-    assert(Webers(1) / SquareMeters(1) == Teslas(1))
+    Webers(1) / SquareMeters(1) should be(Teslas(1))
   }
 
   it should "return Inductance when divided by ElectricCurrent" in {
-    assert(Webers(1) / Amperes(1) == Henry(1))
+    Webers(1) / Amperes(1) should be(Henry(1))
   }
 
   it should "serialize to and de-serialize from Json" in {
@@ -57,7 +57,7 @@ class MagneticFluxSpec extends FlatSpec with Matchers {
     val x = Webers(10.22)
     val ser = Serialization.write(x)
     val des = Serialization.read[MagneticFlux](ser)
-    assert(x == des)
+    x should be(des)
   }
 
   behavior of "MagneticFluxConversions"
@@ -65,13 +65,13 @@ class MagneticFluxSpec extends FlatSpec with Matchers {
   it should "provide aliases for single unit values" in {
     import MagneticFluxConversions._
 
-    assert(weber == Webers(1))
+    weber should be(Webers(1))
   }
 
   it should "provide implicit conversion from Double" in {
     import MagneticFluxConversions._
 
     val d = 10d
-    assert(d.webers == Webers(d))
+    d.webers should be(Webers(d))
   }
 }

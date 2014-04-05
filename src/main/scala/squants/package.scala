@@ -6,10 +6,6 @@
 **                                                                      **
 \*                                                                      */
 
-import squants.electro.Coulombs
-import squants.mass.Grams
-import squants.motion.{ Acceleration, Direction, Velocity }
-
 /**
  * ==Overview==
  * Squants (Scala Quantities) provides a framework of data types and a DSL (Domain Specific Language)
@@ -40,7 +36,7 @@ import squants.motion.{ Acceleration, Direction, Velocity }
  *   val load1: Power = Kilowatts(1.2)
  *   val load2: Power = Megawatts(0.023)
  *   val loadSum = load1 + load2
- *   assert(loadSum == Kilowatts(24.2))
+ *   loadSum should be(Kilowatts(24.2))
  * }}}
  * is a valid assertion because Kilowatts and Megawatts are both measures of load.  Only the scale is
  * different and the framework applies an appropriate conversion.  Also, notice that keeping track of
@@ -58,7 +54,7 @@ import squants.motion.{ Acceleration, Direction, Velocity }
  *   val load: Power = Kilowatts(1.2)
  *   val energy: Energy = MegawattsHours(0.023)
  *   val sum = load + energy // <--- INVALID OPERATION, DOES NOT COMPILE
- *   assert(sumKw == Kilowatts(24.2))
+ *   sumKw should be(Kilowatts(24.2))
  * }}}
  * The invalid expression prevents the code from compiling, catching the error made when using Double much earlier.
  *
@@ -68,13 +64,13 @@ import squants.motion.{ Acceleration, Direction, Velocity }
  *   val load: Power = Kilowatts(1.2)
  *   val time: Time = Hours(2)
  *   val energyUsed: Energy = load * time
- *   assert(energyUsed == KilowattHours(2.4))
+ *   energyUsed should be(KilowattHours(2.4))
  * }}}
  * This code demonstrates use of the Power.* method, defined as an infix operator that takes a Time
  * value and returns an Energy value, conversely
  * {{{
  *   val aveLoad: Power = energyUsed / time
- *   assert(aveLoad == Kilowatts(1.2)
+ *   aveLoad should be(Kilowatts(1.2)
  * }}}
  * demonstrates use of the Energy./ method that takes a Time and returns a Power
  *
@@ -90,7 +86,7 @@ import squants.motion.{ Acceleration, Direction, Velocity }
  *   val load = 1.2 kW
  *   val time = 2 hours
  *   val energyUsed = load * time
- *   assert(energyUsed == (2.4 kWh))
+ *   energyUsed should be((2.4 kWh))
  * }}}
  *
  * Many Quantity classes also provide a factory method that takes a quantity expression
@@ -116,10 +112,10 @@ import squants.motion.{ Acceleration, Direction, Velocity }
  *   val distance: Length = Kilometers(100)
  *   val time: Time = Hours(2)
  *   val speed: Speed = distance / time
- *   assert(speed.toKilometersPerHour == 50.0)
+ *   speed.toKilometersPerHour should be(50.0)
  *
  *   val acc: Acceleration = Meters(50) / Second(1) / Second(1)
- *   assert(acc.toMetersPerSecondSquared == 50)
+ *   acc.toMetersPerSecondSquared should be(50)
  * }}}
  *
  * Power is the 1st Time Derivative of Energy, PowerRamp is the 2nd
@@ -215,7 +211,7 @@ package object squants {
   /**
    * Provides implicit conversions that allow 'primitive' numbers to lead in * operations
    * {{{
-   *   assert( 1.5 * Kilometers(10) == Kilometers(15))
+   *    1.5 * Kilometers(10) should be(Kilometers(15))
    * }}}
    *
    * @param d Double

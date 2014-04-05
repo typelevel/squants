@@ -28,101 +28,101 @@ class LengthSpec extends FlatSpec with Matchers {
 
   it should "create values using UOM factories" in {
 
-    assert(Meters(1).toMeters == 1)
-    assert(Microns(1).toMicrons == 1)
-    assert(Millimeters(1).toMillimeters == 1)
-    assert(Centimeters(1).toCentimeters == 1)
-    assert(Decimeters(1).toDecimeters == 1)
-    assert(Decameters(1).toDecameters == 1)
-    assert(Hectometers(1).toHectometers == 1)
-    assert(Kilometers(1).toKilometers == 1)
+    Meters(1).toMeters should be(1)
+    Microns(1).toMicrons should be(1)
+    Millimeters(1).toMillimeters should be(1)
+    Centimeters(1).toCentimeters should be(1)
+    Decimeters(1).toDecimeters should be(1)
+    Decameters(1).toDecameters should be(1)
+    Hectometers(1).toHectometers should be(1)
+    Kilometers(1).toKilometers should be(1)
 
-    assert(Inches(1).toInches == 1)
-    assert(Feet(1).toFeet == 1)
-    assert(Yards(1).toYards == 1)
-    assert(UsMiles(1).toUsMiles == 1)
-    assert(InternationalMiles(1).toInternationalMiles == 1)
-    assert(NauticalMiles(1).toNauticalMiles == 1)
-    assert(AstronomicalUnits(1).toAstronomicalUnits == 1)
-    assert(LightYears(1).toLightYears == 1)
+    Inches(1).toInches should be(1)
+    Feet(1).toFeet should be(1)
+    Yards(1).toYards should be(1)
+    UsMiles(1).toUsMiles should be(1)
+    InternationalMiles(1).toInternationalMiles should be(1)
+    NauticalMiles(1).toNauticalMiles should be(1)
+    AstronomicalUnits(1).toAstronomicalUnits should be(1)
+    LightYears(1).toLightYears should be(1)
   }
 
   it should "properly convert to all supported Units of Measure" in {
     val x = Meters(1)
-    assert(x.toMeters == 1)
-    assert(x.toMicrons == 1 / MetricSystem.Micro)
-    assert(x.toMillimeters == 1 / MetricSystem.Milli)
-    assert(x.toCentimeters == 1 / MetricSystem.Centi)
-    assert(x.toDecimeters == 1 / MetricSystem.Deci)
-    assert(x.toDecameters == 1 / MetricSystem.Deca)
-    assert(x.toHectometers == 1 / MetricSystem.Hecto)
-    assert(x.toKilometers == 1 / MetricSystem.Kilo)
+    x.toMeters should be(1)
+    x.toMicrons should be(1 / MetricSystem.Micro)
+    x.toMillimeters should be(1 / MetricSystem.Milli)
+    x.toCentimeters should be(1 / MetricSystem.Centi)
+    x.toDecimeters should be(1 / MetricSystem.Deci)
+    x.toDecameters should be(1 / MetricSystem.Deca)
+    x.toHectometers should be(1 / MetricSystem.Hecto)
+    x.toKilometers should be(1 / MetricSystem.Kilo)
 
     val metersPerFoot = 0.3048006096
-    assert(x.toInches == 1 / (metersPerFoot / 12))
-    assert(x.toFeet == 1 / metersPerFoot)
-    assert(x.toYards == 1 / (metersPerFoot * 3))
-    assert(x.toUsMiles == 1 / (metersPerFoot * 5280))
-    assert(x.toInternationalMiles == 1 / 1609.344)
-    assert(x.toNauticalMiles == 1 / 1852d)
-    assert(x.toAstronomicalUnits == 1 / 149597870700d)
-    assert(x.toLightYears == 1 / 9460730472580800d)
+    x.toInches should be(1 / (metersPerFoot / 12))
+    x.toFeet should be(1 / metersPerFoot)
+    x.toYards should be(1 / (metersPerFoot * 3))
+    x.toUsMiles should be(1 / (metersPerFoot * 5280))
+    x.toInternationalMiles should be(1 / 1609.344)
+    x.toNauticalMiles should be(1 / 1852d)
+    x.toAstronomicalUnits should be(1 / 149597870700d)
+    x.toLightYears should be(1 / 9460730472580800d)
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
-    assert(Meters(1).toString(Meters) == "1.0 m")
-    assert(Microns(1).toString(Microns) == "1.0 µm")
-    assert(Millimeters(1).toString(Millimeters) == "1.0 mm")
-    assert(Centimeters(1).toString(Centimeters) == "1.0 cm")
-    assert(Decimeters(1).toString(Decimeters) == "1.0 dm")
-    assert(Decameters(1).toString(Decameters) == "1.0 dam")
-    assert(Hectometers(1).toString(Hectometers) == "1.0 hm")
-    assert(Kilometers(1).toString(Kilometers) == "1.0 km")
+    Meters(1).toString(Meters) should be("1.0 m")
+    Microns(1).toString(Microns) should be("1.0 µm")
+    Millimeters(1).toString(Millimeters) should be("1.0 mm")
+    Centimeters(1).toString(Centimeters) should be("1.0 cm")
+    Decimeters(1).toString(Decimeters) should be("1.0 dm")
+    Decameters(1).toString(Decameters) should be("1.0 dam")
+    Hectometers(1).toString(Hectometers) should be("1.0 hm")
+    Kilometers(1).toString(Kilometers) should be("1.0 km")
 
-    assert(Inches(1).toString(Inches) == "1.0 in")
-    assert(Feet(1).toString(Feet) == "1.0 ft")
-    assert(Yards(1).toString(Yards) == "1.0 yd")
-    assert(UsMiles(1).toString(UsMiles) == "1.0 mi")
-    assert(InternationalMiles(1).toString(InternationalMiles) == "1.0 mile")
-    assert(NauticalMiles(1).toString(NauticalMiles) == "1.0 nmi")
-    assert(AstronomicalUnits(1).toString(AstronomicalUnits) == "1.0 au")
-    assert(LightYears(1).toString(LightYears) == "1.0 ly")
+    Inches(1).toString(Inches) should be("1.0 in")
+    Feet(1).toString(Feet) should be("1.0 ft")
+    Yards(1).toString(Yards) should be("1.0 yd")
+    UsMiles(1).toString(UsMiles) should be("1.0 mi")
+    InternationalMiles(1).toString(InternationalMiles) should be("1.0 mile")
+    NauticalMiles(1).toString(NauticalMiles) should be("1.0 nmi")
+    AstronomicalUnits(1).toString(AstronomicalUnits) should be("1.0 au")
+    LightYears(1).toString(LightYears) should be("1.0 ly")
   }
 
   it should "return Area when multiplied by Length" in {
-    assert(Meters(1) * Meters(1) == SquareMeters(1))
+    Meters(1) * Meters(1) should be(SquareMeters(1))
   }
 
   it should "return Volume when multiplied by Area" in {
-    assert(Meters(1) * SquareMeters(1) == CubicMeters(1))
+    Meters(1) * SquareMeters(1) should be(CubicMeters(1))
   }
 
   it should "return Energy when multiplied by Force" in {
-    assert(Meters(1) * Newtons(1) == Joules(1))
+    Meters(1) * Newtons(1) should be(Joules(1))
   }
 
   it should "return ElectricalConductance when multiplied by Conductivity" in {
-    assert(Meters(1) * SiemensPerMeter(1) == Siemens(1))
+    Meters(1) * SiemensPerMeter(1) should be(Siemens(1))
   }
 
   it should "return Resistivity when multiplied by ElectricalResistance" in {
-    assert(Meters(1) * Ohms(1) == OhmMeters(1))
+    Meters(1) * Ohms(1) should be(OhmMeters(1))
   }
 
   it should "return Velocity when divided by Time" in {
-    assert(Meters(1) / Seconds(1) == MetersPerSecond(1))
+    Meters(1) / Seconds(1) should be(MetersPerSecond(1))
   }
 
   it should "return Time when divided by Velocity" in {
-    assert(Meters(1) / MetersPerSecond(1) == Seconds(1))
+    Meters(1) / MetersPerSecond(1) should be(Seconds(1))
   }
 
   it should "return an Area when squared" in {
-    assert(Meters(4).squared == SquareMeters(16))
+    Meters(4).squared should be(SquareMeters(16))
   }
 
   it should "return a Volume when cubed" in {
-    assert(Meters(3).cubed == CubicMeters(27))
+    Meters(3).cubed should be(CubicMeters(27))
   }
 
   it should "serialize to and de-serialize from Json" in {
@@ -130,7 +130,7 @@ class LengthSpec extends FlatSpec with Matchers {
     val x = Meters(10.22)
     val ser = Serialization.write(x)
     val des = Serialization.read[Length](ser)
-    assert(x == des)
+    x should be(des)
   }
 
   behavior of "LengthConversions"
@@ -138,76 +138,76 @@ class LengthSpec extends FlatSpec with Matchers {
   it should "provide aliases for single unit values" in {
     import LengthConversions._
 
-    assert(micron == Microns(1))
-    assert(millimeter == Millimeters(1))
-    assert(millimetre == Millimeters(1))
-    assert(centimeter == Centimeters(1))
-    assert(centimetre == Centimeters(1))
-    assert(decimeter == Decimeters(1))
-    assert(decimetre == Decimeters(1))
-    assert(meter == Meters(1))
-    assert(metre == Meters(1))
-    assert(decameter == Decameters(1))
-    assert(decametre == Decameters(1))
-    assert(hectometer == Hectometers(1))
-    assert(hectometre == Hectometers(1))
-    assert(kilometer == Kilometers(1))
-    assert(kilometre == Kilometers(1))
-    assert(inch == Inches(1))
-    assert(foot == Feet(1))
-    assert(yard == Yards(1))
-    assert(mile == UsMiles(1))
-    assert(nauticalMile == NauticalMiles(1))
-    assert(astronomicalUnit == AstronomicalUnits(1))
-    assert(lightYear == LightYears(1))
+    micron should be(Microns(1))
+    millimeter should be(Millimeters(1))
+    millimetre should be(Millimeters(1))
+    centimeter should be(Centimeters(1))
+    centimetre should be(Centimeters(1))
+    decimeter should be(Decimeters(1))
+    decimetre should be(Decimeters(1))
+    meter should be(Meters(1))
+    metre should be(Meters(1))
+    decameter should be(Decameters(1))
+    decametre should be(Decameters(1))
+    hectometer should be(Hectometers(1))
+    hectometre should be(Hectometers(1))
+    kilometer should be(Kilometers(1))
+    kilometre should be(Kilometers(1))
+    inch should be(Inches(1))
+    foot should be(Feet(1))
+    yard should be(Yards(1))
+    mile should be(UsMiles(1))
+    nauticalMile should be(NauticalMiles(1))
+    astronomicalUnit should be(AstronomicalUnits(1))
+    lightYear should be(LightYears(1))
   }
 
   it should "provide implicit conversion from Double" in {
     import LengthConversions._
 
     val d = 10d
-    assert(d.µm == Microns(d))
-    assert(d.microns == Microns(d))
-    assert(d.mm == Millimeters(d))
-    assert(d.millimeters == Millimeters(d))
-    assert(d.millimetres == Millimeters(d))
-    assert(d.cm == Centimeters(d))
-    assert(d.centimeters == Centimeters(d))
-    assert(d.centimetres == Centimeters(d))
-    assert(d.dm == Decimeters(d))
-    assert(d.meters == Meters(d))
-    assert(d.metres == Meters(d))
-    assert(d.dam == Decameters(d))
-    assert(d.hm == Hectometers(d))
-    assert(d.km == Kilometers(d))
-    assert(d.kilometers == Kilometers(d))
-    assert(d.kilometres == Kilometers(d))
-    assert(d.inches == Inches(d))
-    assert(d.ft == Feet(d))
-    assert(d.feet == Feet(d))
-    assert(d.yd == Yards(d))
-    assert(d.yards == Yards(d))
-    assert(d.miles == UsMiles(d))
-    assert(d.nmi == NauticalMiles(d))
-    assert(d.au == AstronomicalUnits(d))
-    assert(d.ly == LightYears(d))
-    assert(d.lightYears == LightYears(d))
+    d.µm should be(Microns(d))
+    d.microns should be(Microns(d))
+    d.mm should be(Millimeters(d))
+    d.millimeters should be(Millimeters(d))
+    d.millimetres should be(Millimeters(d))
+    d.cm should be(Centimeters(d))
+    d.centimeters should be(Centimeters(d))
+    d.centimetres should be(Centimeters(d))
+    d.dm should be(Decimeters(d))
+    d.meters should be(Meters(d))
+    d.metres should be(Meters(d))
+    d.dam should be(Decameters(d))
+    d.hm should be(Hectometers(d))
+    d.km should be(Kilometers(d))
+    d.kilometers should be(Kilometers(d))
+    d.kilometres should be(Kilometers(d))
+    d.inches should be(Inches(d))
+    d.ft should be(Feet(d))
+    d.feet should be(Feet(d))
+    d.yd should be(Yards(d))
+    d.yards should be(Yards(d))
+    d.miles should be(UsMiles(d))
+    d.nmi should be(NauticalMiles(d))
+    d.au should be(AstronomicalUnits(d))
+    d.ly should be(LightYears(d))
+    d.lightYears should be(LightYears(d))
   }
 
   it should "provide implicit conversion from String" in {
     import LengthConversions._
 
-    assert("10.33 mm".toLength.right.get == Millimeters(10.33))
-    assert("10.33 cm".toLength.right.get == Centimeters(10.33))
-    assert("10.33 m".toLength.right.get == Meters(10.33))
-    assert("10.33 km".toLength.right.get == Kilometers(10.33))
-    assert("10.33 in".toLength.right.get == Inches(10.33))
-    assert("10.33 ft".toLength.right.get == Feet(10.33))
-    assert("10.33 yd".toLength.right.get == Yards(10.33))
-    assert("10.33 mi".toLength.right.get == UsMiles(10.33))
-    assert("10.33 nmi".toLength.right.get == NauticalMiles(10.33))
-    assert("10.33 au".toLength.right.get == AstronomicalUnits(10.33))
-    assert("10.33 ly".toLength.right.get == LightYears(10.33))
-    assert("10.33 zz".toLength.left.get == "Unable to parse 10.33 zz as Length")
+    "10.33 mm".toLength.right.get should be(Millimeters(10.33))
+    "10.33 cm".toLength.right.get should be(Centimeters(10.33))
+    "10.33 m".toLength.right.get should be(Meters(10.33))
+    "10.33 km".toLength.right.get should be(Kilometers(10.33))
+    "10.33 in".toLength.right.get should be(Inches(10.33))
+    "10.33 ft".toLength.right.get should be(Feet(10.33))
+    "10.33 yd".toLength.right.get should be(Yards(10.33))
+    "10.33 mi".toLength.right.get should be(UsMiles(10.33))
+    "10.33 nmi".toLength.right.get should be(NauticalMiles(10.33))
+    "10.33 au".toLength.right.get should be(AstronomicalUnits(10.33))
+    "10.33 ly".toLength.right.get should be(LightYears(10.33))
+    "10.33 zz".toLength.left.get should be("Unable to parse 10.33 zz as Length")
   }
 }

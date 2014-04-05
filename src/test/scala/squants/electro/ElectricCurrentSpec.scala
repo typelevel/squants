@@ -25,35 +25,35 @@ class ElectricCurrentSpec extends FlatSpec with Matchers {
   behavior of "ElectricalCurrent and its Units of Measure"
 
   it should "create values using UOM factories" in {
-    assert(Amperes(1).toAmperes == 1)
-    assert(Milliamperes(1).toMilliamperes == 1)
+    Amperes(1).toAmperes should be(1)
+    Milliamperes(1).toMilliamperes should be(1)
   }
 
   it should "properly convert to all supported Units of Measure" in {
     val x = Amperes(1)
-    assert(x.toAmperes == 1.0)
-    assert(x.toMilliamperes == 1 / MetricSystem.Milli)
+    x.toAmperes should be(1.0)
+    x.toMilliamperes should be(1 / MetricSystem.Milli)
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
-    assert(Amperes(1).toString(Amperes) == "1.0 A")
-    assert(Milliamperes(1).toString(Milliamperes) == "1.0 mA")
+    Amperes(1).toString(Amperes) should be("1.0 A")
+    Milliamperes(1).toString(Milliamperes) should be("1.0 mA")
   }
 
   it should "return ElectricalPotential when multiplied by ElectricalResistance" in {
-    assert(Amperes(1) * Ohms(1) == Volts(1))
+    Amperes(1) * Ohms(1) should be(Volts(1))
   }
 
   it should "return Energy when multiplied by ElectricalPotential" in {
-    assert(Amperes(1) * Volts(1) == Watts(1))
+    Amperes(1) * Volts(1) should be(Watts(1))
   }
 
   it should "return ElectricalConductance when divided by ElectricalPotential" in {
-    assert(Amperes(1) / Volts(1) == Siemens(1))
+    Amperes(1) / Volts(1) should be(Siemens(1))
   }
 
   it should "return ElectricalCharge when multiplied by Time" in {
-    assert(Amperes(1) * Seconds(1) == Coulombs(1))
+    Amperes(1) * Seconds(1) should be(Coulombs(1))
   }
 
   it should "serialize to and de-serialize from Json" in {
@@ -61,7 +61,7 @@ class ElectricCurrentSpec extends FlatSpec with Matchers {
     val x = Amperes(10.22)
     val ser = Serialization.write(x)
     val des = Serialization.read[ElectricCurrent](ser)
-    assert(x == des)
+    x should be(des)
   }
 
   behavior of "ElectricalCurrentConversions"
@@ -69,21 +69,21 @@ class ElectricCurrentSpec extends FlatSpec with Matchers {
   it should "provide aliases for single unit values" in {
     import ElectricCurrentConversions._
 
-    assert(ampere == Amperes(1))
-    assert(amp == Amperes(1))
-    assert(milliampere == Milliamperes(1))
-    assert(milliamp == Milliamperes(1))
+    ampere should be(Amperes(1))
+    amp should be(Amperes(1))
+    milliampere should be(Milliamperes(1))
+    milliamp should be(Milliamperes(1))
   }
 
   it should "provide implicit conversion from Double" in {
     import ElectricCurrentConversions._
 
     val d = 10d
-    assert(d.amperes == Amperes(d))
-    assert(d.amps == Amperes(d))
-    assert(d.A == Amperes(d))
-    assert(d.milliampers == Milliamperes(d))
-    assert(d.milliamps == Milliamperes(d))
-    assert(d.mA == Milliamperes(d))
+    d.amperes should be(Amperes(d))
+    d.amps should be(Amperes(d))
+    d.A should be(Amperes(d))
+    d.milliampers should be(Milliamperes(d))
+    d.milliamps should be(Milliamperes(d))
+    d.mA should be(Milliamperes(d))
   }
 }

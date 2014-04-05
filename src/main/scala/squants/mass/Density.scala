@@ -18,7 +18,7 @@ import squants.space.CubicMeters
  * @param mass Mass
  * @param volume Volume
  */
-case class Density(mass: Mass, volume: Volume) extends Quantity[Density] with DerivedQuantity {
+case class Density(mass: Mass, volume: Volume) extends Quantity[Density] {
 
   def valueUnit = KilogramsPerCubicMeter
   def value = toKilogramsPerCubicMeter

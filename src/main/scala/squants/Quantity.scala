@@ -15,7 +15,7 @@ package squants
  * @since   0.1
  *
  */
-trait Quantity[A <: Quantity[A]] extends Any with Ordered[A] with Serializable { self: A ⇒
+abstract class Quantity[A <: Quantity[A]] extends Ordered[A] with Serializable { self: A ⇒
 
   /**
    * The value of the quantity given the valueUnits
@@ -119,6 +119,24 @@ trait Quantity[A <: Quantity[A]] extends Any with Ordered[A] with Serializable {
   def abs: A = valueUnit(math.abs(value))
 
   /**
+   * Override of equals method
+   *
+   * @param that must be of matching value and unit
+   * @return
+   */
+  override def equals(that: Any) = that match {
+    case x: Quantity[_] ⇒ value == x.value && valueUnit == x.valueUnit
+    case _              ⇒ false
+  }
+
+  /**
+   * Override of hashCode
+   *
+   * @return
+   */
+  override def hashCode() = toString.hashCode()
+
+  /**
    * Returns boolean result of equality between this and that
    * @param that Quantity
    * @return Boolean
@@ -187,7 +205,7 @@ trait Quantity[A <: Quantity[A]] extends Any with Ordered[A] with Serializable {
    * Returns a Double representing the quantity in terms of the supplied unit
    * {{{
    *   val d = Feet(3)
-   *   assert((d to Inches) == 36)
+   *   (d to Inches) should be(36)
    * }}}
    * @param unit UnitOfMeasure[A] with UnitConverter
    * @return Double
@@ -222,19 +240,14 @@ trait Quantity[A <: Quantity[A]] extends Any with Ordered[A] with Serializable {
 /**
  * A base trait for measurable quantities found within physical systems
  */
-trait PhysicalQuantity extends Any { self: Quantity[_] ⇒ }
+trait PhysicalQuantity { self: Quantity[_] ⇒ }
 
 /**
  * Base Quantities are the basic, directly measurable, fundamental quantities: Mass, Length, Time, etc.
  */
-trait BaseQuantity extends Any { self: Quantity[_] ⇒
+trait BaseQuantity { self: Quantity[_] ⇒
   def baseUnit: BaseUnit
 }
-
-/**
- * Derived Quantities are usually based on two more underlying quantities (base or other derived)
- */
-trait DerivedQuantity extends Any { self: Quantity[_] ⇒ }
 
 /**
  * Base class for creating objects to manage quantities as Numeric.

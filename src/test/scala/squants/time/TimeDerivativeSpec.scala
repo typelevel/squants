@@ -22,15 +22,15 @@ class TimeDerivativeSpec extends FlatSpec with Matchers {
   behavior of "Time Derivatives and Integrals as implemented in Distance and Velocity"
 
   it should "satisfy Derivative = Integral / Time" in {
-    assert(UsMilesPerHour(55) == UsMiles(55) / Hours(1))
+    UsMilesPerHour(55) should be(UsMiles(55) / Hours(1))
   }
 
   it should "satisfy Integral = Derivative * Time" in {
-    assert(UsMiles(110) == UsMilesPerHour(55) * Hours(2))
-    assert(UsMiles(110) == Hours(2) * UsMilesPerHour(55))
+    UsMiles(110) should be(UsMilesPerHour(55) * Hours(2))
+    UsMiles(110) should be(Hours(2) * UsMilesPerHour(55))
   }
 
   it should "satisfy Time = Integral / Derivative" in {
-    assert(Hours(2) == UsMiles(110) / UsMilesPerHour(55))
+    Hours(2) should be(UsMiles(110) / UsMilesPerHour(55))
   }
 }

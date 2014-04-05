@@ -26,46 +26,46 @@ class VelocitySpec extends FlatSpec with Matchers {
   behavior of "Velocity and its Units of Measure"
 
   it should "create values using UOM factories" in {
-    assert(MetersPerSecond(1).toMetersPerSeconds == 1)
-    assert(FeetPerSecond(1).toFeetPerSecond == 1)
-    assert(KilometersPerHour(1).toKilometersPerHour == 1)
-    assert(UsMilesPerHour(1).toUsMilesPerHour == 1)
-    assert(InternationalMilesPerHour(1).toInternationalMilesPerHour == 1)
+    MetersPerSecond(1).toMetersPerSeconds should be(1)
+    FeetPerSecond(1).toFeetPerSecond should be(1)
+    KilometersPerHour(1).toKilometersPerHour should be(1)
+    UsMilesPerHour(1).toUsMilesPerHour should be(1)
+    InternationalMilesPerHour(1).toInternationalMilesPerHour should be(1)
   }
 
   it should "properly convert to all supported Units of Measure" in {
     val x = MetersPerSecond(1)
-    assert(x.toMetersPerSeconds == 1)
-    assert(x.toFeetPerSecond == Meters(1).toFeet)
-    assert(x.toKilometersPerHour == Meters(1).toKilometers / Seconds(1).toHours)
-    assert(x.toUsMilesPerHour == Meters(1).toUsMiles / Seconds(1).toHours)
-    assert(x.toInternationalMilesPerHour == Meters(1).toInternationalMiles / Seconds(1).toHours)
-    assert(x.toKnots == Meters(1).toNauticalMiles / Seconds(1).toHours)
+    x.toMetersPerSeconds should be(1)
+    x.toFeetPerSecond should be(Meters(1).toFeet)
+    x.toKilometersPerHour should be(Meters(1).toKilometers / Seconds(1).toHours)
+    x.toUsMilesPerHour should be(Meters(1).toUsMiles / Seconds(1).toHours)
+    x.toInternationalMilesPerHour should be(Meters(1).toInternationalMiles / Seconds(1).toHours)
+    x.toKnots should be(Meters(1).toNauticalMiles / Seconds(1).toHours)
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
-    assert(MetersPerSecond(1).toString(MetersPerSecond) == "1.0 m/s")
-    assert(FeetPerSecond(1).toString(FeetPerSecond) == "1.0 ft/s")
-    assert(KilometersPerHour(1).toString(KilometersPerHour) == "1.0 km/s")
-    assert(UsMilesPerHour(1).toString(UsMilesPerHour) == "1.0 mph")
-    assert(InternationalMilesPerHour(1).toString(InternationalMilesPerHour) == "1.0 mph")
-    assert(Knots(1).toString(Knots) == "1.0 kn")
+    MetersPerSecond(1).toString(MetersPerSecond) should be("1.0 m/s")
+    FeetPerSecond(1).toString(FeetPerSecond) should be("1.0 ft/s")
+    KilometersPerHour(1).toString(KilometersPerHour) should be("1.0 km/s")
+    UsMilesPerHour(1).toString(UsMilesPerHour) should be("1.0 mph")
+    InternationalMilesPerHour(1).toString(InternationalMilesPerHour) should be("1.0 mph")
+    Knots(1).toString(Knots) should be("1.0 kn")
   }
 
   it should "return Distance when multiplied by Time" in {
-    assert(MetersPerSecond(1) * Seconds(1) == Meters(1))
+    MetersPerSecond(1) * Seconds(1) should be(Meters(1))
   }
 
   it should "return Momentum when multiplied by Mass" in {
-    assert(MetersPerSecond(1) * Kilograms(1) == NewtonSeconds(1))
+    MetersPerSecond(1) * Kilograms(1) should be(NewtonSeconds(1))
   }
 
   it should "return Acceleration when divided by Time" in {
-    assert(MetersPerSecond(1) / Seconds(1) == MetersPerSecondSquared(1))
+    MetersPerSecond(1) / Seconds(1) should be(MetersPerSecondSquared(1))
   }
 
   it should "return a dimensionless ration when divided by an Acceleration" in {
-    assert(MetersPerSecond(10) / MetersPerSecond(4) == 2.5)
+    MetersPerSecond(10) / MetersPerSecond(4) should be(2.5)
   }
 
   it should "serialize to and de-serialize from Json" in {
@@ -73,7 +73,7 @@ class VelocitySpec extends FlatSpec with Matchers {
     val x = MetersPerSecond(10.22)
     val ser = Serialization.write(x)
     val des = Serialization.read[Velocity](ser)
-    assert(x == des)
+    x should be(des)
   }
 
   behavior of "VelocityConversions"
@@ -82,10 +82,10 @@ class VelocitySpec extends FlatSpec with Matchers {
     import VelocityConversions._
 
     val d = 10d
-    assert(d.fps == FeetPerSecond(d))
-    assert(d.mps == MetersPerSecond(d))
-    assert(d.kph == KilometersPerHour(d))
-    assert(d.mph == UsMilesPerHour(d))
-    assert(d.knots == Knots(d))
+    d.fps should be(FeetPerSecond(d))
+    d.mps should be(MetersPerSecond(d))
+    d.kph should be(KilometersPerHour(d))
+    d.mph should be(UsMilesPerHour(d))
+    d.knots should be(Knots(d))
   }
 }

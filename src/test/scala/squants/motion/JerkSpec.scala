@@ -25,23 +25,23 @@ class JerkSpec extends FlatSpec with Matchers {
   behavior of "Jerk and its Units of Measure"
 
   it should "create values using UOM factories" in {
-    assert(MetersPerSecondCubed(1).toMetersPerSecondCubed == 1)
-    assert(FeetPerSecondCubed(1).toFeetPerSecondCubed == 1)
+    MetersPerSecondCubed(1).toMetersPerSecondCubed should be(1)
+    FeetPerSecondCubed(1).toFeetPerSecondCubed should be(1)
   }
 
   it should "properly convert to all supported Units of Measure" in {
     val x = MetersPerSecondCubed(1)
-    assert(x.toMetersPerSecondCubed == 1)
-    assert(x.toFeetPerSecondCubed == Meters(1).toFeet)
+    x.toMetersPerSecondCubed should be(1)
+    x.toFeetPerSecondCubed should be(Meters(1).toFeet)
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
-    assert(MetersPerSecondCubed(1).toString(MetersPerSecondCubed) == "1.0 m/s³")
-    assert(FeetPerSecondCubed(1).toString(FeetPerSecondCubed) == "1.0 ft/s³")
+    MetersPerSecondCubed(1).toString(MetersPerSecondCubed) should be("1.0 m/s³")
+    FeetPerSecondCubed(1).toString(FeetPerSecondCubed) should be("1.0 ft/s³")
   }
 
   it should "return Acceleration when multiplied by Time" in {
-    assert(MetersPerSecondCubed(1) * Seconds(1) == MetersPerSecondSquared(1))
+    MetersPerSecondCubed(1) * Seconds(1) should be(MetersPerSecondSquared(1))
   }
 
   it should "serialize to and de-serialize from Json" in {
@@ -49,6 +49,6 @@ class JerkSpec extends FlatSpec with Matchers {
     val x = MetersPerSecondCubed(10.22)
     val ser = Serialization.write(x)
     val des = Serialization.read[Jerk](ser)
-    assert(x == des)
+    x should be(des)
   }
 }

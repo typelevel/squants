@@ -23,18 +23,18 @@ class RatioSpec extends FlatSpec with Matchers {
 
   it should "create a ratio with the correct base and counter values" in {
     val ratio = TestRatio(Kilograms(10), Meters(5))
-    assert(ratio.base == Kilograms(10))
-    assert(ratio.counter == Meters(5))
+    ratio.base should be(Kilograms(10))
+    ratio.counter should be(Meters(5))
   }
 
   it should "convert a value of the base type to a value of the counter type" in {
     val ratio = TestRatio(Kilograms(10), Meters(5))
-    assert(ratio.convertToCounter(Kilograms(25)) == Meters(12.5))
+    ratio.convertToCounter(Kilograms(25)) should be(Meters(12.5))
   }
 
   it should "convert a value of the counter type to a value of the base type" in {
     val ratio = TestRatio(Kilograms(10), Meters(5))
-    assert(ratio.convertToBase(Meters(25)) == Kilograms(50))
+    ratio.convertToBase(Meters(25)) should be(Kilograms(50))
   }
 
   behavior of "LikeRatio"
@@ -43,19 +43,19 @@ class RatioSpec extends FlatSpec with Matchers {
 
   it should "create a ratio with the correct base, counter and ratio values" in {
     val ratio = TestLikeRatio(Kilograms(10), Kilograms(5))
-    assert(ratio.base == Kilograms(10))
-    assert(ratio.counter == Kilograms(5))
-    assert(ratio.ratio == 2)
-    assert(ratio.inverseRatio == .5)
+    ratio.base should be(Kilograms(10))
+    ratio.counter should be(Kilograms(5))
+    ratio.ratio should be(2)
+    ratio.inverseRatio should be(.5)
   }
 
   it should "convert a value of the base type to a value of the counter type" in {
     val ratio = TestLikeRatio(Kilograms(10), Kilograms(5))
-    assert(ratio.convertToCounter(Kilograms(25)) == Kilograms(12.5))
+    ratio.convertToCounter(Kilograms(25)) should be(Kilograms(12.5))
   }
 
   it should "convert a value of the counter type to a value of the base type" in {
     val ratio = TestLikeRatio(Kilograms(10), Kilograms(5))
-    assert(ratio.convertToBase(Kilograms(25)) == Kilograms(50))
+    ratio.convertToBase(Kilograms(25)) should be(Kilograms(50))
   }
 }

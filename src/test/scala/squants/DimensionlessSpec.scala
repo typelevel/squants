@@ -24,37 +24,37 @@ class DimensionlessSpec extends FlatSpec with Matchers {
   behavior of "Count and its Units of Measure"
 
   it should "create values using UOM factories" in {
-    assert(Each(1).toEach == 1)
-    assert(Dozen(1).toDozen == 1)
-    assert(Score(1).toScore == 1)
-    assert(Gross(1).toGross == 1)
+    Each(1).toEach should be(1)
+    Dozen(1).toDozen should be(1)
+    Score(1).toScore should be(1)
+    Gross(1).toGross should be(1)
   }
 
   it should "properly convert to all supported Units of Measure" in {
     val x = Gross(1)
-    assert(x.toEach == 144)
-    assert(x.toDozen == 12)
-    assert(x.toScore == 144d / 20)
-    assert(x.toGross == 1)
+    x.toEach should be(144)
+    x.toDozen should be(12)
+    x.toScore should be(144d / 20)
+    x.toGross should be(1)
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
-    assert(Each(1).toString(Each) == "1.0 ea")
-    assert(Dozen(1).toString(Dozen) == "1.0 dz")
-    assert(Score(1).toString(Score) == "1.0 score")
-    assert(Gross(1).toString(Gross) == "1.0 gr")
+    Each(1).toString(Each) should be("1.0 ea")
+    Dozen(1).toString(Dozen) should be("1.0 dz")
+    Score(1).toString(Score) should be("1.0 score")
+    Gross(1).toString(Gross) should be("1.0 gr")
   }
 
   it should "return another Dimensionless  when multiplied by a Dimensionless" in {
-    assert(Each(2) * Dozen(1) == Dozen(2))
+    Each(2) * Dozen(1) should be(Dozen(2))
   }
 
   it should "return a Frequency when divided by Time" in {
-    assert(Each(60) / Seconds(1) == Hertz(60))
+    Each(60) / Seconds(1) should be(Hertz(60))
   }
 
   it should " return a Time when divided by Frequency" in {
-    assert(Each(60) / Hertz(60) == Seconds(1))
+    Each(60) / Hertz(60) should be(Seconds(1))
   }
 
   it should "serialize to and de-serialize from Json" in {
@@ -62,7 +62,7 @@ class DimensionlessSpec extends FlatSpec with Matchers {
     val x = Each(10.22)
     val ser = Serialization.write(x)
     val des = Serialization.read[Dimensionless](ser)
-    assert(x == des)
+    x should be(des)
   }
 
   behavior of "CountsConversions"
@@ -70,35 +70,35 @@ class DimensionlessSpec extends FlatSpec with Matchers {
   it should "provide aliases for single unit values" in {
     import DimensionlessConversions._
 
-    assert(each == Each(1))
-    assert(dozen == Dozen(1))
-    assert(score == Score(1))
-    assert(gross == Gross(1))
-    assert(hundred == Each(100))
-    assert(thousand == Each(1000))
-    assert(million == Each(1000000))
+    each should be(Each(1))
+    dozen should be(Dozen(1))
+    score should be(Score(1))
+    gross should be(Gross(1))
+    hundred should be(Each(100))
+    thousand should be(Each(1000))
+    million should be(Each(1000000))
   }
 
   it should "provide implicit conversion from Double" in {
     import DimensionlessConversions._
 
     val coefficient = 10d
-    assert(coefficient.each == Each(coefficient))
-    assert(coefficient.ea == Each(coefficient))
-    assert(coefficient.dozen == Dozen(coefficient))
-    assert(coefficient.dz == Dozen(coefficient))
-    assert(coefficient.score == Score(coefficient))
-    assert(coefficient.gross == Gross(coefficient))
-    assert(coefficient.gr == Gross(coefficient))
-    assert(coefficient.hundred == Each(coefficient * 100))
-    assert(coefficient.thousand == Each(coefficient * 1000))
-    assert(coefficient.million == Each(coefficient * 1000000D))
+    coefficient.each should be(Each(coefficient))
+    coefficient.ea should be(Each(coefficient))
+    coefficient.dozen should be(Dozen(coefficient))
+    coefficient.dz should be(Dozen(coefficient))
+    coefficient.score should be(Score(coefficient))
+    coefficient.gross should be(Gross(coefficient))
+    coefficient.gr should be(Gross(coefficient))
+    coefficient.hundred should be(Each(coefficient * 100))
+    coefficient.thousand should be(Each(coefficient * 1000))
+    coefficient.million should be(Each(coefficient * 1000000D))
   }
 
   it should "provide Numeric support" in {
     import DimensionlessConversions.DimensionlessNumeric
 
     // The `times` operation is allowed for Dimensionless quantities
-    assert(DimensionlessNumeric.times(Each(10), Dozen(3)) == Dozen(30))
+    DimensionlessNumeric.times(Each(10), Dozen(3)) should be(Dozen(30))
   }
 }

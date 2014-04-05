@@ -35,60 +35,60 @@ class MoneyContextSpec extends FlatSpec with Matchers {
   behavior of "MoneyContext"
 
   it should "initialize with appropriate values" in {
-    assert(moneyContext.defaultCurrency == defCur)
-    assert(moneyContext.rates == rates)
+    moneyContext.defaultCurrency should be(defCur)
+    moneyContext.rates should be(rates)
   }
 
   it should "properly create Money using the default currency with an implicit MoneyContext in scope" in {
     implicit val moneyContext = MoneyContext(defCur, defaultCurrencySet, rates)
-    assert(Money(10.22) == defCur(10.22))
+    Money(10.22) should be(defCur(10.22))
   }
 
   it should "return Some(rate) for a given currency pair for which there is a rate" in {
-    assert(moneyContext.directRateFor(USD, JPY) == Some(CurrencyExchangeRate(USD(1), JPY(100))))
-    assert(moneyContext.directRateFor(JPY, USD) == Some(CurrencyExchangeRate(USD(1), JPY(100))))
+    moneyContext.directRateFor(USD, JPY) should be(Some(CurrencyExchangeRate(USD(1), JPY(100))))
+    moneyContext.directRateFor(JPY, USD) should be(Some(CurrencyExchangeRate(USD(1), JPY(100))))
   }
 
   it should "return None for a given currency pair for which there is no rate" in {
-    assert(moneyContext.directRateFor(CAD, AUD) == None)
-    assert(moneyContext.directRateFor(EUR, JPY) == None)
+    moneyContext.directRateFor(CAD, AUD) should be(None)
+    moneyContext.directRateFor(EUR, JPY) should be(None)
   }
 
   it should "return Some(rate) for a given currency pair for which there is a direct rate" in {
-    assert(moneyContext.indirectRateFor(USD, JPY) == Some(CurrencyExchangeRate(USD(1), JPY(100))))
-    assert(moneyContext.indirectRateFor(JPY, USD) == Some(CurrencyExchangeRate(USD(1), JPY(100))))
+    moneyContext.indirectRateFor(USD, JPY) should be(Some(CurrencyExchangeRate(USD(1), JPY(100))))
+    moneyContext.indirectRateFor(JPY, USD) should be(Some(CurrencyExchangeRate(USD(1), JPY(100))))
   }
 
   it should "return Some(rate) for a given currency pair for which there is no direct, but an indirect rate" in {
-    assert(moneyContext.indirectRateFor(XAG, XAU).get.rate == CurrencyExchangeRate(XAG(60), XAU(1)).rate)
-    assert(moneyContext.indirectRateFor(EUR, JPY).get.rate == CurrencyExchangeRate(EUR(0.80), JPY(100)).rate)
+    moneyContext.indirectRateFor(XAG, XAU).get.rate should be(CurrencyExchangeRate(XAG(60), XAU(1)).rate)
+    moneyContext.indirectRateFor(EUR, JPY).get.rate should be(CurrencyExchangeRate(EUR(0.80), JPY(100)).rate)
   }
 
   it should "return None for a given currency pair for which there is no direct or indirect rate" in {
-    assert(moneyContext.indirectRateFor(CHF, USD) == None)
-    assert(moneyContext.indirectRateFor(NOK, XAG) == None)
+    moneyContext.indirectRateFor(CHF, USD) should be(None)
+    moneyContext.indirectRateFor(NOK, XAG) should be(None)
   }
 
   it should "properly convert Money values between currencies for which there is a direct exchange rate" in {
-    assert(moneyContext.convert(USD(10), JPY) == JPY(1000.00))
-    assert(moneyContext.convert(JPY(200), USD) == USD(2))
-    assert(moneyContext.convert(XAG(30), USD) == USD(600))
+    moneyContext.convert(USD(10), JPY) should be(JPY(1000.00))
+    moneyContext.convert(JPY(200), USD) should be(USD(2))
+    moneyContext.convert(XAG(30), USD) should be(USD(600))
   }
 
   it should "properly convert Money values between currencies for which there is only an indirect exchange rate" in {
-    assert(moneyContext.convert(XAU(1), XAG) == XAG(60))
-    assert(moneyContext.convert(JPY(100), EUR) == EUR(0.8))
+    moneyContext.convert(XAU(1), XAG) should be(XAG(60))
+    moneyContext.convert(JPY(100), EUR) should be(EUR(0.8))
   }
 
   it should "properly return the same Money when converting to the same currency" in {
-    assert(moneyContext.convert(USD(12.28), USD) == USD(12.28))
-    assert(moneyContext.convert(XAG(12.28), XAG) == XAG(12.28))
+    moneyContext.convert(USD(12.28), USD) should be(USD(12.28))
+    moneyContext.convert(XAG(12.28), XAG) should be(XAG(12.28))
   }
 
   it should "properly return the same Money when converting to the same currency with an empty context" in {
     val context = MoneyContext(defCur, defaultCurrencySet, Nil)
-    assert(context.convert(USD(12.28), USD) == USD(12.28))
-    assert(context.convert(XAG(12.28), XAG) == XAG(12.28))
+    context.convert(USD(12.28), USD) should be(USD(12.28))
+    context.convert(XAG(12.28), XAG) should be(XAG(12.28))
   }
 
   it should "throw a NoExchangeRateException when converting between Currencies for which no indirect rate can be determined" in {
@@ -103,29 +103,29 @@ class MoneyContextSpec extends FlatSpec with Matchers {
   it should "throw a NoExchangeRateException when converting where an indirect rate exists but is not allowed by the context" in {
     val context = MoneyContext(defCur, defaultCurrencySet, rates, allowIndirectConversions = false)
     intercept[NoSuchExchangeRateException] {
-      assert(context.convert(XAU(1), XAG) == XAG(60))
+      context.convert(XAU(1), XAG) should be(XAG(60))
     }
     intercept[NoSuchExchangeRateException] {
-      assert(context.convert(JPY(100), EUR) == EUR(0.8))
+      context.convert(JPY(100), EUR) should be(EUR(0.8))
     }
   }
 
   it should "return Money in the first currency when adding two Moneys in different currencies" in {
-    assert(moneyContext.add(USD(1), JPY(100)) == USD(2))
+    moneyContext.add(USD(1), JPY(100)) should be(USD(2))
   }
 
   it should "return Money in the first currency when subtracting two Moneys in different currencies" in {
-    assert(moneyContext.subtract(USD(2), JPY(100)) == USD(1))
+    moneyContext.subtract(USD(2), JPY(100)) should be(USD(1))
   }
 
   it should "return BigDecimal when dividing two Moneys in different currencies" in {
-    assert(moneyContext.divide(USD(2), JPY(100)) == 2)
+    moneyContext.divide(USD(2), JPY(100)) should be(2)
   }
 
   it should "return Int based on a standard comparison of two Moneys in different currencies" in {
-    assert(moneyContext.compare(USD(2), JPY(100)) == 1)
-    assert(moneyContext.compare(USD(1), JPY(200)) == -1)
-    assert(moneyContext.compare(USD(1), JPY(100)) == 0)
+    moneyContext.compare(USD(2), JPY(100)) should be(1)
+    moneyContext.compare(USD(1), JPY(200)) should be(-1)
+    moneyContext.compare(USD(1), JPY(100)) should be(0)
   }
 
   it should "return a copy with a new set of rates" in {
@@ -135,8 +135,8 @@ class MoneyContextSpec extends FlatSpec with Matchers {
       CurrencyExchangeRate(GBP(1), USD(1.6686)),
       CurrencyExchangeRate(USD(1), CAD(1.1126)))
     val newContext = moneyContext.withExchangeRates(newRates)
-    assert(newContext.defaultCurrency == moneyContext.defaultCurrency)
-    assert(newContext.currencies == moneyContext.currencies)
-    assert(newContext.rates == newRates)
+    newContext.defaultCurrency should be(moneyContext.defaultCurrency)
+    newContext.currencies should be(moneyContext.currencies)
+    newContext.rates should be(newRates)
   }
 }

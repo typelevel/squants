@@ -25,21 +25,21 @@ class EnergyDensitySpec extends FlatSpec with Matchers {
 
   it should "create values using UOM factories" in {
 
-    assert(JoulesPerCubicMeter(1).toJoulesPerCubicMeter == 1)
+    JoulesPerCubicMeter(1).toJoulesPerCubicMeter should be(1)
   }
 
   it should "properly convert to all supported Units of Measure" in {
     val x = JoulesPerCubicMeter(1)
 
-    assert(x.toJoulesPerCubicMeter == 1)
+    x.toJoulesPerCubicMeter should be(1)
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
-    assert(JoulesPerCubicMeter(1).toString(JoulesPerCubicMeter) == "1.0 j/m³")
+    JoulesPerCubicMeter(1).toString(JoulesPerCubicMeter) should be("1.0 j/m³")
   }
 
   it should "return Energy when multiplied by Volume" in {
-    assert(JoulesPerCubicMeter(1) * CubicMeters(10) == Joules(10))
+    JoulesPerCubicMeter(1) * CubicMeters(10) should be(Joules(10))
   }
 
   it should "serialize to and de-serialize from Json" in {
@@ -47,7 +47,7 @@ class EnergyDensitySpec extends FlatSpec with Matchers {
     val x = JoulesPerCubicMeter(10.22)
     val ser = Serialization.write(x)
     val des = Serialization.read[EnergyDensity](ser)
-    assert(x == des)
+    x should be(des)
   }
 
   behavior of "Conversions"

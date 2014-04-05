@@ -26,30 +26,30 @@ class PowerRampSpec extends FlatSpec with Matchers {
 
   it should "create values using UOM factories" in {
 
-    assert(WattsPerHour(1).toWattsPerHour == 1)
-    assert(KilowattsPerHour(1).toKilowattsPerHour == 1)
-    assert(MegawattsPerHour(1).toMegawattsPerHour == 1)
-    assert(GigawattsPerHour(1).toGigawattsPerHour == 1)
+    WattsPerHour(1).toWattsPerHour should be(1)
+    KilowattsPerHour(1).toKilowattsPerHour should be(1)
+    MegawattsPerHour(1).toMegawattsPerHour should be(1)
+    GigawattsPerHour(1).toGigawattsPerHour should be(1)
   }
 
   it should "properly convert to all supported Units of Measure" in {
     val x = WattsPerHour(1)
 
-    assert(x.toWattsPerHour == 1)
-    assert(x.toKilowattsPerHour == 1 / MetricSystem.Kilo)
-    assert(x.toMegawattsPerHour == 1 / MetricSystem.Mega)
-    assert(x.toGigawattsPerHour == 1 / MetricSystem.Giga)
+    x.toWattsPerHour should be(1)
+    x.toKilowattsPerHour should be(1 / MetricSystem.Kilo)
+    x.toMegawattsPerHour should be(1 / MetricSystem.Mega)
+    x.toGigawattsPerHour should be(1 / MetricSystem.Giga)
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
-    assert(WattsPerHour(1).toString(WattsPerHour) == "1.0 W/h")
-    assert(KilowattsPerHour(1).toString(KilowattsPerHour) == "1.0 kW/h")
-    assert(MegawattsPerHour(1).toString(MegawattsPerHour) == "1.0 MW/h")
-    assert(GigawattsPerHour(1).toString(GigawattsPerHour) == "1.0 GW/h")
+    WattsPerHour(1).toString(WattsPerHour) should be("1.0 W/h")
+    KilowattsPerHour(1).toString(KilowattsPerHour) should be("1.0 kW/h")
+    MegawattsPerHour(1).toString(MegawattsPerHour) should be("1.0 MW/h")
+    GigawattsPerHour(1).toString(GigawattsPerHour) should be("1.0 GW/h")
   }
 
   it should "return Power when multiplied by Time" in {
-    assert(WattsPerHour(1) * Hours(1) == Watts(1))
+    WattsPerHour(1) * Hours(1) should be(Watts(1))
   }
 
   it should "serialize to and de-serialize from Json" in {
@@ -57,7 +57,7 @@ class PowerRampSpec extends FlatSpec with Matchers {
     val x = KilowattsPerHour(10.22)
     val ser = Serialization.write(x)
     val des = Serialization.read[PowerRamp](ser)
-    assert(x == des)
+    x should be(des)
   }
 
   behavior of "PowerRampConversions"
@@ -65,33 +65,33 @@ class PowerRampSpec extends FlatSpec with Matchers {
   it should "provide aliases for single unit values" in {
     import PowerRampConversions._
 
-    assert(wattsPerHour == WattsPerHour(1))
-    assert(Wph == WattsPerHour(1))
-    assert(kilowattsPerHour == KilowattsPerHour(1))
-    assert(kWph == KilowattsPerHour(1))
-    assert(megawattsPerHour == MegawattsPerHour(1))
-    assert(MWph == MegawattsPerHour(1))
-    assert(gigawattsPerHour == GigawattsPerHour(1))
-    assert(GWph == GigawattsPerHour(1))
+    wattsPerHour should be(WattsPerHour(1))
+    Wph should be(WattsPerHour(1))
+    kilowattsPerHour should be(KilowattsPerHour(1))
+    kWph should be(KilowattsPerHour(1))
+    megawattsPerHour should be(MegawattsPerHour(1))
+    MWph should be(MegawattsPerHour(1))
+    gigawattsPerHour should be(GigawattsPerHour(1))
+    GWph should be(GigawattsPerHour(1))
   }
 
   it should "provide implicit conversion from Double" in {
     import PowerRampConversions._
 
     val d = 10d
-    assert(d.Wph == WattsPerHour(d))
-    assert(d.kWph == KilowattsPerHour(d))
-    assert(d.MWph == MegawattsPerHour(d))
-    assert(d.GWph == GigawattsPerHour(d))
+    d.Wph should be(WattsPerHour(d))
+    d.kWph should be(KilowattsPerHour(d))
+    d.MWph should be(MegawattsPerHour(d))
+    d.GWph should be(GigawattsPerHour(d))
   }
 
   it should "provide implicit conversions from String" in {
     import PowerRampConversions._
 
-    assert("10.22 W/h".toPowerRamp.right.get == WattsPerHour(10.22))
-    assert("10.22 kW/h".toPowerRamp.right.get == KilowattsPerHour(10.22))
-    assert("10.22 MW/h".toPowerRamp.right.get == MegawattsPerHour(10.22))
-    assert("10.22 GW/h".toPowerRamp.right.get == GigawattsPerHour(10.22))
-    assert("10.22 zz".toPowerRamp.left.get == "Unable to parse 10.22 zz as PowerRamp")
+    "10.22 W/h".toPowerRamp.right.get should be(WattsPerHour(10.22))
+    "10.22 kW/h".toPowerRamp.right.get should be(KilowattsPerHour(10.22))
+    "10.22 MW/h".toPowerRamp.right.get should be(MegawattsPerHour(10.22))
+    "10.22 GW/h".toPowerRamp.right.get should be(GigawattsPerHour(10.22))
+    "10.22 zz".toPowerRamp.left.get should be("Unable to parse 10.22 zz as PowerRamp")
   }
 }

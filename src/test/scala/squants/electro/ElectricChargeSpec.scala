@@ -25,52 +25,52 @@ class ElectricChargeSpec extends FlatSpec with Matchers {
   behavior of "ElectricalCharge and its Units of Measure"
 
   it should "create values using UOM factories" in {
-    assert(Coulombs(1).toCoulombs == 1)
-    assert(Picocoulombs(1).toPicocoulombs == 1)
-    assert(Nanocoulombs(1).toNanocoulombs == 1)
-    assert(Microcoulombs(1).toMicrocoulombs == 1)
-    assert(Millicoulombs(1).toMillcoulombs == 1)
-    assert(Abcoulombs(1).toAbcoulombs == 1)
-    assert(AmpereHours(1).toAmpereHours == 1)
+    Coulombs(1).toCoulombs should be(1)
+    Picocoulombs(1).toPicocoulombs should be(1)
+    Nanocoulombs(1).toNanocoulombs should be(1)
+    Microcoulombs(1).toMicrocoulombs should be(1)
+    Millicoulombs(1).toMillcoulombs should be(1)
+    Abcoulombs(1).toAbcoulombs should be(1)
+    AmpereHours(1).toAmpereHours should be(1)
   }
 
   it should "properly convert to all supported Units of Measure" in {
     val x = Coulombs(1)
-    assert(x.toCoulombs == 1.0)
-    assert(x.toNanocoulombs == 1 / MetricSystem.Nano)
-    assert(x.toMicrocoulombs == 1 / MetricSystem.Micro)
-    assert(x.toMillcoulombs == 1 / MetricSystem.Milli)
-    assert(x.toAbcoulombs == 1 / MetricSystem.Deca)
-    assert(x.toAmpereHours == 1 / Time.SecondsPerHour)
+    x.toCoulombs should be(1.0)
+    x.toNanocoulombs should be(1 / MetricSystem.Nano)
+    x.toMicrocoulombs should be(1 / MetricSystem.Micro)
+    x.toMillcoulombs should be(1 / MetricSystem.Milli)
+    x.toAbcoulombs should be(1 / MetricSystem.Deca)
+    x.toAmpereHours should be(1 / Time.SecondsPerHour)
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
-    assert(Coulombs(1).toString(Coulombs) == "1.0 C")
-    assert(Nanocoulombs(1).toString(Nanocoulombs) == "1.0 nC")
-    assert(Microcoulombs(1).toString(Microcoulombs) == "1.0 µC")
-    assert(Millicoulombs(1).toString(Millicoulombs) == "1.0 mC")
-    assert(Abcoulombs(1).toString(Abcoulombs) == "1.0 aC")
-    assert(AmpereHours(1).toString(AmpereHours) == "1.0 Ah")
+    Coulombs(1).toString(Coulombs) should be("1.0 C")
+    Nanocoulombs(1).toString(Nanocoulombs) should be("1.0 nC")
+    Microcoulombs(1).toString(Microcoulombs) should be("1.0 µC")
+    Millicoulombs(1).toString(Millicoulombs) should be("1.0 mC")
+    Abcoulombs(1).toString(Abcoulombs) should be("1.0 aC")
+    AmpereHours(1).toString(AmpereHours) should be("1.0 Ah")
   }
 
   it should "return Energy when multiplied by ElectricalPotential" in {
-    assert(Coulombs(1) * Volts(1) == Joules(1))
+    Coulombs(1) * Volts(1) should be(Joules(1))
   }
 
   it should "return ElectricalCurrent when divided by Time" in {
-    assert(Coulombs(1) / Seconds(1) == Amperes(1))
+    Coulombs(1) / Seconds(1) should be(Amperes(1))
   }
 
   it should "return Capacitance when divided by ElectricalPotential" in {
-    assert(Coulombs(1) / Volts(1) == Farads(1))
+    Coulombs(1) / Volts(1) should be(Farads(1))
   }
 
   it should "return ElectricalPotential when divided by Capacitance" in {
-    assert(Coulombs(1) / Farads(1) == Volts(1))
+    Coulombs(1) / Farads(1) should be(Volts(1))
   }
 
   it should "return Time when divided by ElectricalCurrent" in {
-    assert(Coulombs(1) / Amperes(1) == Seconds(1))
+    Coulombs(1) / Amperes(1) should be(Seconds(1))
   }
 
   it should "serialize to and de-serialize from Json" in {
@@ -78,7 +78,7 @@ class ElectricChargeSpec extends FlatSpec with Matchers {
     val x = Coulombs(10.22)
     val ser = Serialization.write(x)
     val des = Serialization.read[ElectricCharge](ser)
-    assert(x == des)
+    x should be(des)
   }
 
   behavior of "ElectricalChargeConversions"
@@ -86,25 +86,25 @@ class ElectricChargeSpec extends FlatSpec with Matchers {
   it should "provide aliases for single unit values" in {
     import ElectricChargeConversions._
 
-    assert(coulomb == Coulombs(1))
-    assert(picocoulomb == Picocoulombs(1))
-    assert(nanocoulomb == Nanocoulombs(1))
-    assert(microcoulomb == Microcoulombs(1))
-    assert(millicoulomb == Millicoulombs(1))
-    assert(abcoulomb == Abcoulombs(1))
-    assert(ampereHour == AmpereHours(1))
+    coulomb should be(Coulombs(1))
+    picocoulomb should be(Picocoulombs(1))
+    nanocoulomb should be(Nanocoulombs(1))
+    microcoulomb should be(Microcoulombs(1))
+    millicoulomb should be(Millicoulombs(1))
+    abcoulomb should be(Abcoulombs(1))
+    ampereHour should be(AmpereHours(1))
   }
 
   it should "provide implicit conversion from Double" in {
     import ElectricChargeConversions._
 
     val d = 10d
-    assert(d.coulombs == Coulombs(d))
-    assert(d.picocoulombs == Picocoulombs(d))
-    assert(d.nanocoulombs == Nanocoulombs(d))
-    assert(d.microcoulombs == Microcoulombs(d))
-    assert(d.millicoulombs == Millicoulombs(d))
-    assert(d.abcoulombs == Abcoulombs(d))
-    assert(d.ampereHours == AmpereHours(d))
+    d.coulombs should be(Coulombs(d))
+    d.picocoulombs should be(Picocoulombs(d))
+    d.nanocoulombs should be(Nanocoulombs(d))
+    d.microcoulombs should be(Microcoulombs(d))
+    d.millicoulombs should be(Millicoulombs(d))
+    d.abcoulombs should be(Abcoulombs(d))
+    d.ampereHours should be(AmpereHours(d))
   }
 }

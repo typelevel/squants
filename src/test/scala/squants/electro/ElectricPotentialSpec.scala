@@ -26,48 +26,48 @@ class ElectricPotentialSpec extends FlatSpec with Matchers {
 
   it should "create values using UOM factories" in {
 
-    assert(Volts(1).toVolts == 1)
-    assert(Microvolts(1).toMircovolts == 1)
-    assert(Millivolts(1).toMillivolts == 1)
-    assert(Kilovolts(1).toKilovolts == 1)
-    assert(Megavolts(1).toMegavolts == 1)
+    Volts(1).toVolts should be(1)
+    Microvolts(1).toMircovolts should be(1)
+    Millivolts(1).toMillivolts should be(1)
+    Kilovolts(1).toKilovolts should be(1)
+    Megavolts(1).toMegavolts should be(1)
   }
 
   it should "properly convert to all supported Units of Measure" in {
     val x = Volts(1)
-    assert(x.toVolts == 1.0)
-    assert(x.toMircovolts == 1 / MetricSystem.Micro)
-    assert(x.toMillivolts == 1 / MetricSystem.Milli)
-    assert(x.toKilovolts == 1 / MetricSystem.Kilo)
-    assert(x.toMegavolts == 1 / MetricSystem.Mega)
+    x.toVolts should be(1.0)
+    x.toMircovolts should be(1 / MetricSystem.Micro)
+    x.toMillivolts should be(1 / MetricSystem.Milli)
+    x.toKilovolts should be(1 / MetricSystem.Kilo)
+    x.toMegavolts should be(1 / MetricSystem.Mega)
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
-    assert(Volts(1).toString(Volts) == "1.0 V")
-    assert(Microvolts(1).toString(Microvolts) == "1.0 μV")
-    assert(Millivolts(1).toString(Millivolts) == "1.0 mV")
-    assert(Kilovolts(1).toString(Kilovolts) == "1.0 kV")
-    assert(Megavolts(1).toString(Megavolts) == "1.0 MV")
+    Volts(1).toString(Volts) should be("1.0 V")
+    Microvolts(1).toString(Microvolts) should be("1.0 μV")
+    Millivolts(1).toString(Millivolts) should be("1.0 mV")
+    Kilovolts(1).toString(Kilovolts) should be("1.0 kV")
+    Megavolts(1).toString(Megavolts) should be("1.0 MV")
   }
 
   it should "return ElectricalResistance when multiplied by ElectricalCurrent" in {
-    assert(Volts(1) / Amperes(1) == Ohms(1))
+    Volts(1) / Amperes(1) should be(Ohms(1))
   }
 
   it should "return ElectricalCurrent when multiplied by ElectricalResistance" in {
-    assert(Volts(1) / Ohms(1) == Amperes(1))
+    Volts(1) / Ohms(1) should be(Amperes(1))
   }
 
   it should "return Power when multiplied by ElectricalCurrent" in {
-    assert(Volts(1) * Amperes(1) == Watts(1))
+    Volts(1) * Amperes(1) should be(Watts(1))
   }
 
   it should "return ElectricalCharge when multiplied by Capacitance" in {
-    assert(Volts(1) * Farads(1) == Coulombs(1))
+    Volts(1) * Farads(1) should be(Coulombs(1))
   }
 
   it should "return MagneticFlux when multiplied by Time" in {
-    assert(Volts(1) * Seconds(1) == Webers(1))
+    Volts(1) * Seconds(1) should be(Webers(1))
   }
 
   it should "serialize to and de-serialize from Json" in {
@@ -75,7 +75,7 @@ class ElectricPotentialSpec extends FlatSpec with Matchers {
     val x = Volts(10.22)
     val ser = Serialization.write(x)
     val des = Serialization.read[ElectricPotential](ser)
-    assert(x == des)
+    x should be(des)
   }
 
   behavior of "ElectricalPotentialConversions"
@@ -83,22 +83,22 @@ class ElectricPotentialSpec extends FlatSpec with Matchers {
   it should "provide aliases for single unit values" in {
     import ElectricPotentialConversions._
 
-    assert(volt == Volts(1))
-    assert(microvolt == Microvolts(1))
-    assert(millivolt == Millivolts(1))
-    assert(kilovolt == Kilovolts(1))
-    assert(megavolt == Megavolts(1))
+    volt should be(Volts(1))
+    microvolt should be(Microvolts(1))
+    millivolt should be(Millivolts(1))
+    kilovolt should be(Kilovolts(1))
+    megavolt should be(Megavolts(1))
   }
 
   it should "provide implicit conversion from Double" in {
     import ElectricPotentialConversions._
 
     val d = 10d
-    assert(d.V == Volts(d))
-    assert(d.volts == Volts(d))
-    assert(d.microvolts == Microvolts(d))
-    assert(d.millivolts == Millivolts(d))
-    assert(d.kilovolts == Kilovolts(d))
-    assert(d.megavolts == Megavolts(d))
+    d.V should be(Volts(d))
+    d.volts should be(Volts(d))
+    d.microvolts should be(Microvolts(d))
+    d.millivolts should be(Millivolts(d))
+    d.kilovolts should be(Kilovolts(d))
+    d.megavolts should be(Megavolts(d))
   }
 }

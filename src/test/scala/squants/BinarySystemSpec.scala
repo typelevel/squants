@@ -8,7 +8,7 @@
 
 package squants
 
-import org.scalatest.FlatSpec
+import org.scalatest.{ Matchers, FlatSpec }
 
 /**
  * Singleton defining Metric System multipliers
@@ -17,15 +17,15 @@ import org.scalatest.FlatSpec
  * @since   0.1
  *
  */
-class BinarySystemSpec extends FlatSpec {
+class BinarySystemSpec extends FlatSpec with Matchers {
 
   "The Metric System multipliers" should "convert as expected" in {
     import BinarySystem._
-    assert(Exa == Peta * 1024d)
-    assert(Peta == Tera * 1024d)
-    assert(Tera == Giga * 1024d)
-    assert(Giga == Mega * 1024d)
-    assert(Mega == Kilo * 1024d)
-    assert(Kilo == 1024d)
+    Exa should be(Peta * 1024d)
+    Peta should be(Tera * 1024d)
+    Tera should be(Giga * 1024d)
+    Giga should be(Mega * 1024d)
+    Mega should be(Kilo * 1024d)
+    Kilo should be(1024d)
   }
 }

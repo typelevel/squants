@@ -8,7 +8,7 @@
 
 package squants.time
 
-import squants.{ DerivedQuantity, Quantity }
+import squants.Quantity
 
 /**
  * Represents a rate of change over time of the integral quantity
@@ -18,7 +18,7 @@ import squants.{ DerivedQuantity, Quantity }
  *
  * @tparam A The type of quantity changing
  */
-trait TimeDerivative[A <: Quantity[A] with TimeIntegral[_]] extends Any with DerivedQuantity { self: Quantity[_] ⇒
+trait TimeDerivative[A <: Quantity[A] with TimeIntegral[_]] { self: Quantity[_] ⇒
   def change: A
   def time: Time
 
@@ -39,7 +39,7 @@ trait TimeDerivative[A <: Quantity[A] with TimeIntegral[_]] extends Any with Der
  *
  * @tparam A The Quantity type for the TimeDerivative for which this is the base
  */
-trait TimeIntegral[A <: Quantity[A] with TimeDerivative[_]] extends Any with DerivedQuantity { self: Quantity[_] ⇒
+trait TimeIntegral[A <: Quantity[A] with TimeDerivative[_]] { self: Quantity[_] ⇒
 
   /**
    * Returns the Time Derivative which represents a change of the underlying quantity equal to this

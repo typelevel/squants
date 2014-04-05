@@ -22,47 +22,47 @@ class AngleSpec extends FlatSpec with Matchers {
   behavior of "Angle and its Units of Measure"
 
   it should "create values using UOM factories" in {
-    assert(Radians(1).toRadians == 1)
-    assert(Degrees(1).toDegrees == 1)
-    assert(Gradians(1).toGradians == 1)
-    assert(Turns(1).toTurns == 1)
-    assert(Arcminutes(1).toArcminutes == 1)
-    assert(Arcseconds(1).toArcseconds == 1)
+    Radians(1).toRadians should be(1)
+    Degrees(1).toDegrees should be(1)
+    Gradians(1).toGradians should be(1)
+    Turns(1).toTurns should be(1)
+    Arcminutes(1).toArcminutes should be(1)
+    Arcseconds(1).toArcseconds should be(1)
   }
 
   it should "properly convert to all supported Units of Measure" in {
     val x = Radians(1)
-    assert(x.toRadians == 1d)
-    assert(x.toDegrees == 180d / math.Pi)
-    assert(x.toGradians == 200d / math.Pi)
-    assert(x.toTurns == 1d / (math.Pi * 2d))
-    assert(x.toArcminutes == 1d / (math.Pi / 10800d))
-    assert(x.toArcseconds == 1d / ((math.Pi / 10800d) / 60d))
+    x.toRadians should be(1d)
+    x.toDegrees should be(180d / math.Pi)
+    x.toGradians should be(200d / math.Pi)
+    x.toTurns should be(1d / (math.Pi * 2d))
+    x.toArcminutes should be(1d / (math.Pi / 10800d))
+    x.toArcseconds should be(1d / ((math.Pi / 10800d) / 60d))
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
-    assert(Radians(1).toString(Radians) == "1.0 rad")
-    assert(Degrees(1).toString(Degrees) == "1.0 °")
-    assert(Gradians(1).toString(Gradians) == "1.0 grad")
-    assert(Turns(1).toString(Turns) == "1.0 turns")
-    assert(Arcminutes(1).toString(Arcminutes) == "1.0 amin")
-    assert(Arcseconds(1).toString(Arcseconds) == "1.0 asec")
+    Radians(1).toString(Radians) should be("1.0 rad")
+    Degrees(1).toString(Degrees) should be("1.0 °")
+    Gradians(1).toString(Gradians) should be("1.0 grad")
+    Turns(1).toString(Turns) should be("1.0 turns")
+    Arcminutes(1).toString(Arcminutes) should be("1.0 amin")
+    Arcseconds(1).toString(Arcseconds) should be("1.0 asec")
   }
 
   it should "return the cos of an Angle" in {
-    assert(Radians(1).cos == math.cos(1))
+    Radians(1).cos should be(math.cos(1))
   }
 
   it should "return the sin of an Angle" in {
-    assert(Radians(1).sin == math.sin(1))
+    Radians(1).sin should be(math.sin(1))
   }
 
   it should "return the acos of an Angle" in {
-    assert(Radians(1).acos == math.acos(1))
+    Radians(1).acos should be(math.acos(1))
   }
 
   it should "return the asin of an Angle" in {
-    assert(Radians(1).asin == math.asin(1))
+    Radians(1).asin should be(math.asin(1))
   }
 
   it should "serialize to and de-serialize from Json" in {
@@ -70,7 +70,7 @@ class AngleSpec extends FlatSpec with Matchers {
     val x = Radians(10.22)
     val ser = Serialization.write(x)
     val des = Serialization.read[Angle](ser)
-    assert(x == des)
+    x should be(des)
   }
 
   behavior of "AngleConversion"
@@ -78,23 +78,23 @@ class AngleSpec extends FlatSpec with Matchers {
   it should "provide aliases for single unit values" in {
     import AngleConversions._
 
-    assert(radian == Radians(1))
-    assert(degree == Degrees(1))
-    assert(gradian == Gradians(1))
-    assert(turn == Turns(1))
-    assert(arcminute == Arcminutes(1))
-    assert(arcsecond == Arcseconds(1))
+    radian should be(Radians(1))
+    degree should be(Degrees(1))
+    gradian should be(Gradians(1))
+    turn should be(Turns(1))
+    arcminute should be(Arcminutes(1))
+    arcsecond should be(Arcseconds(1))
   }
 
   it should "provide implicit conversion from Double" in {
     import AngleConversions._
 
     val d = 10d
-    assert(d.radians == Radians(d))
-    assert(d.degrees == Degrees(d))
-    assert(d.gradians == Gradians(d))
-    assert(d.turns == Turns(d))
-    assert(d.arcminutes == Arcminutes(d))
-    assert(d.arcseconds == Arcseconds(d))
+    d.radians should be(Radians(d))
+    d.degrees should be(Degrees(d))
+    d.gradians should be(Gradians(d))
+    d.turns should be(Turns(d))
+    d.arcminutes should be(Arcminutes(d))
+    d.arcseconds should be(Arcseconds(d))
   }
 }

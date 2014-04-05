@@ -23,19 +23,19 @@ class ChemicalAmountSpec extends FlatSpec with Matchers {
   behavior of "ChemicalAmount and its Units of Measure"
 
   it should "create values using UOM factories" in {
-    assert(Moles(1).toMoles == 1)
-    assert(PoundMoles(1).toPoundMoles == 1)
+    Moles(1).toMoles should be(1)
+    PoundMoles(1).toPoundMoles should be(1)
   }
 
   it should "properly convert to all supported Units of Measure" in {
     val x = Moles(1)
-    assert(x.toMoles == 1)
-    assert(x.toPoundMoles == 1d / 453.59237)
+    x.toMoles should be(1)
+    x.toPoundMoles should be(1d / 453.59237)
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
-    assert(Moles(1).toString(Moles) == "1.0 mol")
-    assert(PoundMoles(1).toString(PoundMoles) == "1.0 lb-mol")
+    Moles(1).toString(Moles) should be("1.0 mol")
+    PoundMoles(1).toString(PoundMoles) should be("1.0 lb-mol")
   }
 
   it should "serialize to and de-serialize from Json" in {
@@ -43,7 +43,7 @@ class ChemicalAmountSpec extends FlatSpec with Matchers {
     val x = Moles(10.22)
     val ser = Serialization.write(x)
     val des = Serialization.read[ChemicalAmount](ser)
-    assert(x == des)
+    x should be(des)
   }
 
   behavior of "ChemicalAmountConversions"
@@ -51,15 +51,15 @@ class ChemicalAmountSpec extends FlatSpec with Matchers {
   it should "provide aliases for single unit values" in {
     import ChemicalAmountConversions._
 
-    assert(mole == Moles(1))
-    assert(poundMole == PoundMoles(1))
+    mole should be(Moles(1))
+    poundMole should be(PoundMoles(1))
   }
 
   it should "provide implicit conversion from Double" in {
     import ChemicalAmountConversions._
 
     val d = 10d
-    assert(d.moles == Moles(d))
-    assert(d.poundMoles == PoundMoles(d))
+    d.moles should be(Moles(d))
+    d.poundMoles should be(PoundMoles(d))
   }
 }

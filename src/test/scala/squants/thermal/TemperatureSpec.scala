@@ -25,172 +25,172 @@ class TemperatureSpec extends FlatSpec with Matchers {
   behavior of "Temperature and its Units of Measure"
 
   they should "create values using UOM factories" in {
-    assert(Kelvin(1).toKelvinScale == 1)
-    assert(Fahrenheit(1).toFahrenheitScale == 1)
-    assert(Celsius(1).toCelsiusScale == 1)
-    assert(Kelvin(1).toKelvinDegrees == 1)
-    assert(Fahrenheit(1).toFahrenheitDegrees == 1)
-    assert(Celsius(1).toCelsiusDegrees == 1)
+    Kelvin(1).toKelvinScale should be(1)
+    Fahrenheit(1).toFahrenheitScale should be(1)
+    Celsius(1).toCelsiusScale should be(1)
+    Kelvin(1).toKelvinDegrees should be(1)
+    Fahrenheit(1).toFahrenheitDegrees should be(1)
+    Celsius(1).toCelsiusDegrees should be(1)
   }
 
   they should "properly convert to all supported Units of Measure (Scale)" in {
     val x = Kelvin(0)
-    assert(x.toKelvinScale == 0)
-    assert(x.toFahrenheitScale == -459.67)
-    assert(x.toCelsiusScale == -273.15)
-    assert(x.to(Kelvin) == 0)
-    assert(x.to(Fahrenheit) == -459.67)
-    assert(x.to(Celsius) == -273.15)
+    x.toKelvinScale should be(0)
+    x.toFahrenheitScale should be(-459.67)
+    x.toCelsiusScale should be(-273.15)
+    x.to(Kelvin) should be(0)
+    x.to(Fahrenheit) should be(-459.67)
+    x.to(Celsius) should be(-273.15)
 
     val y = Fahrenheit(32)
-    assert(y.toKelvinScale == 273.15)
-    assert(y.toFahrenheitScale == 32)
-    assert(y.toCelsiusScale == 0)
-    assert(y.to(Kelvin) == 273.15)
-    assert(y.to(Fahrenheit) == 32)
-    assert(y.to(Celsius) == 0)
+    y.toKelvinScale should be(273.15)
+    y.toFahrenheitScale should be(32)
+    y.toCelsiusScale should be(0)
+    y.to(Kelvin) should be(273.15)
+    y.to(Fahrenheit) should be(32)
+    y.to(Celsius) should be(0)
 
     val z = Celsius(100)
-    assert(z.toKelvinScale == 373.15)
-    assert(z.toFahrenheitScale == 212)
-    assert(z.toCelsiusScale == 100)
-    assert(z.to(Kelvin) == 373.15)
-    assert(z.to(Fahrenheit) == 212)
-    assert(z.to(Celsius) == 100)
+    z.toKelvinScale should be(373.15)
+    z.toFahrenheitScale should be(212)
+    z.toCelsiusScale should be(100)
+    z.to(Kelvin) should be(373.15)
+    z.to(Fahrenheit) should be(212)
+    z.to(Celsius) should be(100)
   }
 
   they should "properly convert to all supported Units of Measure (Degrees)" in {
     val x = Kelvin(5)
-    assert(x.toKelvinDegrees == 5)
-    assert(x.toFahrenheitDegrees == 9)
-    assert(x.toCelsiusDegrees == 5)
+    x.toKelvinDegrees should be(5)
+    x.toFahrenheitDegrees should be(9)
+    x.toCelsiusDegrees should be(5)
 
     val y = Fahrenheit(9)
-    assert(y.toKelvinDegrees == 5)
-    assert(y.toFahrenheitDegrees == 9)
-    assert(y.toCelsiusDegrees == 5)
+    y.toKelvinDegrees should be(5)
+    y.toFahrenheitDegrees should be(9)
+    y.toCelsiusDegrees should be(5)
 
-    assert(y.toDegrees(Kelvin) == 5)
-    assert(y.toDegrees(Fahrenheit) == 9)
-    assert(y.toDegrees(Celsius) == 5)
+    y.toDegrees(Kelvin) should be(5)
+    y.toDegrees(Fahrenheit) should be(9)
+    y.toDegrees(Celsius) should be(5)
   }
 
   they should "properly rebox Kelvin to all supported Units of Measure (Scale)" in {
     val x = Kelvin(0)
-    assert(x.inFahrenheit == Fahrenheit(-459.67))
-    assert(x.inCelsius == Celsius(-273.15))
-    assert(x.in(Fahrenheit) == Fahrenheit(-459.67))
-    assert(x.in(Celsius) == Celsius(-273.15))
+    x.inFahrenheit should be(Fahrenheit(-459.67))
+    x.inCelsius should be(Celsius(-273.15))
+    x.in(Fahrenheit) should be(Fahrenheit(-459.67))
+    x.in(Celsius) should be(Celsius(-273.15))
   }
 
   they should "properly rebox Fahrenheit to all supported Units of Measure (Scale)" in {
     val x = Fahrenheit(0)
-    assert((x.inKelvin - Kelvin((5d / 9) * 459.67)).value < 0.000000000001)
-    assert(x.inCelsius == Celsius((5d / 9) * -32))
-    assert((x.in(Kelvin) - Kelvin((5d / 9) * 459.67)).value < 0.000000000001)
-    assert(x.in(Celsius) == Celsius((5d / 9) * -32))
+    (x.inKelvin - Kelvin((5d / 9) * 459.67)).value < 0.000000000001 should be(right = true)
+    x.inCelsius should be(Celsius((5d / 9) * -32))
+    (x.in(Kelvin) - Kelvin((5d / 9) * 459.67)).value < 0.000000000001 should be(right = true)
+    x.in(Celsius) should be(Celsius((5d / 9) * -32))
   }
 
   they should "properly rebox Celsius to all supported Units of Measure (Scale)" in {
     val x = Celsius(0)
-    assert(x.inKelvin == Kelvin(273.15))
-    assert(x.inFahrenheit == Fahrenheit(32))
-    assert(x.in(Kelvin) == Kelvin(273.15))
-    assert(x.in(Fahrenheit) == Fahrenheit(32))
+    x.inKelvin should be(Kelvin(273.15))
+    x.inFahrenheit should be(Fahrenheit(32))
+    x.in(Kelvin) should be(Kelvin(273.15))
+    x.in(Fahrenheit) should be(Fahrenheit(32))
   }
 
   they should "properly plus Temperatures in like scale (Scale + Degrees)" in {
-    assert(Kelvin(10) + Kelvin(20) == Kelvin(30))
-    assert(Fahrenheit(10) + Fahrenheit(20) == Fahrenheit(30))
-    assert(Celsius(10) + Celsius(20) == Celsius(30))
+    Kelvin(10) + Kelvin(20) should be(Kelvin(30))
+    Fahrenheit(10) + Fahrenheit(20) should be(Fahrenheit(30))
+    Celsius(10) + Celsius(20) should be(Celsius(30))
   }
 
   they should "properly minus Temperatures in like scale (Scale + Degrees)" in {
-    assert(Kelvin(30) - Kelvin(20) == Kelvin(10))
-    assert(Fahrenheit(30) - Fahrenheit(20) == Fahrenheit(10))
-    assert(Celsius(30) - Celsius(20) == Celsius(10))
+    Kelvin(30) - Kelvin(20) should be(Kelvin(10))
+    Fahrenheit(30) - Fahrenheit(20) should be(Fahrenheit(10))
+    Celsius(30) - Celsius(20) should be(Celsius(10))
   }
 
   they should "properly plus Temperatures in different scales (Scale + Degrees)" in {
-    assert(Kelvin(10) + Celsius(20) == Kelvin(30))
-    assert(Kelvin(10) + Fahrenheit(18) == Kelvin(20))
+    Kelvin(10) + Celsius(20) should be(Kelvin(30))
+    Kelvin(10) + Fahrenheit(18) should be(Kelvin(20))
 
-    assert(Fahrenheit(10) + Kelvin(20) == Fahrenheit(46))
-    assert(Fahrenheit(10) + Celsius(20) == Fahrenheit(46))
+    Fahrenheit(10) + Kelvin(20) should be(Fahrenheit(46))
+    Fahrenheit(10) + Celsius(20) should be(Fahrenheit(46))
 
-    assert(Celsius(10) + Kelvin(20) == Celsius(30))
-    assert(Celsius(10) + Fahrenheit(36) == Celsius(30))
+    Celsius(10) + Kelvin(20) should be(Celsius(30))
+    Celsius(10) + Fahrenheit(36) should be(Celsius(30))
   }
 
   they should "properly minus Temperatures in different scales (Scale + Degrees)" in {
-    assert(Kelvin(50) - Celsius(20) == Kelvin(30))
-    assert(Kelvin(30) - Fahrenheit(18) == Kelvin(20))
+    Kelvin(50) - Celsius(20) should be(Kelvin(30))
+    Kelvin(30) - Fahrenheit(18) should be(Kelvin(20))
 
-    assert(Fahrenheit(100) - Kelvin(20) == Fahrenheit(64))
-    assert(Fahrenheit(100) - Celsius(20) == Fahrenheit(64))
+    Fahrenheit(100) - Kelvin(20) should be(Fahrenheit(64))
+    Fahrenheit(100) - Celsius(20) should be(Fahrenheit(64))
 
-    assert(Celsius(50) - Kelvin(20) == Celsius(30))
-    assert(Celsius(50) - Fahrenheit(36) == Celsius(30))
+    Celsius(50) - Kelvin(20) should be(Celsius(30))
+    Celsius(50) - Fahrenheit(36) should be(Celsius(30))
   }
 
   they should "properly times Double (Degrees)" in {
-    assert(Kelvin(10) * 5 == Kelvin(50))
-    assert(Fahrenheit(10) * 5 == Fahrenheit(50))
-    assert(Celsius(10) * 5 == Celsius(50))
+    Kelvin(10) * 5 should be(Kelvin(50))
+    Fahrenheit(10) * 5 should be(Fahrenheit(50))
+    Celsius(10) * 5 should be(Celsius(50))
   }
 
   they should "properly divide Double (Degrees)" in {
-    assert(Kelvin(10) / 5 == Kelvin(2))
-    assert(Fahrenheit(10) / 5 == Fahrenheit(2))
-    assert(Celsius(10) / 5 == Celsius(2))
+    Kelvin(10) / 5 should be(Kelvin(2))
+    Fahrenheit(10) / 5 should be(Fahrenheit(2))
+    Celsius(10) / 5 should be(Celsius(2))
   }
 
   they should "compare Temperatures in the like scales (Scales)" in {
-    assert(Kelvin(10).compare(Kelvin(10)) == 0)
-    assert(Kelvin(10).compare(Kelvin(10.1)) == -1)
-    assert(Kelvin(10).compare(Kelvin(9.9)) == 1)
-    assert(Kelvin(10) == Kelvin(10))
-    assert(Kelvin(10) < Kelvin(10.1))
-    assert(Kelvin(10) > Kelvin(9.9))
+    Kelvin(10).compare(Kelvin(10)) should be(0)
+    Kelvin(10).compare(Kelvin(10.1)) should be(-1)
+    Kelvin(10).compare(Kelvin(9.9)) should be(1)
+    Kelvin(10) should be(Kelvin(10))
+    Kelvin(10) < Kelvin(10.1) should be(right = true)
+    Kelvin(10) > Kelvin(9.9) should be(right = true)
 
-    assert(Fahrenheit(10).compare(Fahrenheit(10)) == 0)
-    assert(Fahrenheit(10).compare(Fahrenheit(10.1)) == -1)
-    assert(Fahrenheit(10).compare(Fahrenheit(9.9)) == 1)
-    assert(Fahrenheit(10) == Fahrenheit(10))
-    assert(Fahrenheit(10) < Fahrenheit(10.1))
-    assert(Fahrenheit(10) > Fahrenheit(9.9))
+    Fahrenheit(10).compare(Fahrenheit(10)) should be(0)
+    Fahrenheit(10).compare(Fahrenheit(10.1)) should be(-1)
+    Fahrenheit(10).compare(Fahrenheit(9.9)) should be(1)
+    Fahrenheit(10) should be(Fahrenheit(10))
+    Fahrenheit(10) < Fahrenheit(10.1) should be(right = true)
+    Fahrenheit(10) > Fahrenheit(9.9) should be(right = true)
 
-    assert(Celsius(10).compare(Celsius(10)) == 0)
-    assert(Celsius(10).compare(Celsius(10.1)) == -1)
-    assert(Celsius(10).compare(Celsius(9.9)) == 1)
-    assert(Celsius(10) == Celsius(10))
-    assert(Celsius(10) < Celsius(10.1))
-    assert(Celsius(10) > Celsius(9.9))
+    Celsius(10).compare(Celsius(10)) should be(0)
+    Celsius(10).compare(Celsius(10.1)) should be(-1)
+    Celsius(10).compare(Celsius(9.9)) should be(1)
+    Celsius(10) should be(Celsius(10))
+    Celsius(10) < Celsius(10.1) should be(right = true)
+    Celsius(10) > Celsius(9.9) should be(right = true)
   }
 
   they should "return properly formatted strings for all supported Units of Measure" in {
-    assert(Kelvin(10).toString == "10.0°K")
-    assert(Fahrenheit(10).toString == "10.0°F")
-    assert(Celsius(10).toString == "10.0°C")
+    Kelvin(10).toString should be("10.0°K")
+    Fahrenheit(10).toString should be("10.0°F")
+    Celsius(10).toString should be("10.0°C")
 
     val k = Kelvin(0)
-    assert(k.toString(Kelvin) == "0.0°K")
-    assert(k.toString(Fahrenheit) == "-459.67°F")
-    assert(k.toString(Celsius) == "-273.15°C")
+    k.toString(Kelvin) should be("0.0°K")
+    k.toString(Fahrenheit) should be("-459.67°F")
+    k.toString(Celsius) should be("-273.15°C")
 
     val c = Celsius(0)
-    assert(c.toString(Kelvin) == "273.15°K")
-    assert(c.toString(Fahrenheit) == "32.0°F")
-    assert(c.toString(Celsius) == "0.0°C")
+    c.toString(Kelvin) should be("273.15°K")
+    c.toString(Fahrenheit) should be("32.0°F")
+    c.toString(Celsius) should be("0.0°C")
 
     val f = Fahrenheit(32)
-    assert(f.toString(Kelvin) == "273.15°K")
-    assert(f.toString(Fahrenheit) == "32.0°F")
-    assert(f.toString(Celsius) == "0.0°C")
+    f.toString(Kelvin) should be("273.15°K")
+    f.toString(Fahrenheit) should be("32.0°F")
+    f.toString(Celsius) should be("0.0°C")
   }
 
   they should "return Energy when multiplied by ThermalCapacity" in {
-    assert(Kelvin(1) * JoulesPerKelvin(1) == Joules(1))
+    Kelvin(1) * JoulesPerKelvin(1) should be(Joules(1))
   }
 
   they should "serialize to and de-serialize from Json" in {
@@ -199,24 +199,24 @@ class TemperatureSpec extends FlatSpec with Matchers {
     val cel = Celsius(99)
     val serC = Serialization.write(cel)
     val desC = Serialization.read[Celsius](serC)
-    assert(desC == cel)
+    desC should be(cel)
 
     val fah = Fahrenheit(100)
     val serF = Serialization.write(fah)
     val desF = Serialization.read[Fahrenheit](serF)
-    assert(desF == fah)
+    desF should be(fah)
 
     val kel = Kelvin(101)
     val serK = Serialization.write(kel)
     val desK = Serialization.read[Kelvin](serK)
-    assert(desK == kel)
+    desK should be(kel)
 
     val cel3 = Serialization.read[Temperature](serC)
-    assert(cel3 == cel)
+    cel3 should be(cel)
     val fah3 = Serialization.read[Temperature](serF)
-    assert(fah3 == fah)
+    fah3 should be(fah)
     val kel3 = Serialization.read[Temperature](serK)
-    assert(kel3 == kel)
+    kel3 should be(kel)
   }
 
   behavior of "TemperatureConversions"
@@ -224,59 +224,59 @@ class TemperatureSpec extends FlatSpec with Matchers {
   they should "provide aliases for single unit values" in {
     import TemperatureConversions._
 
-    assert(kelvin == Kelvin(1))
-    assert(celsius == Celsius(1))
-    assert(fahrenheit == Fahrenheit(1))
+    kelvin should be(Kelvin(1))
+    celsius should be(Celsius(1))
+    fahrenheit should be(Fahrenheit(1))
   }
 
   they should "provide proper formulas for conversion between scales" in {
     import TemperatureConversions._
 
-    assert(kelvinToFahrenheitScale(0) == -459.67)
-    assert(fahrenheitToKelvinScale(-459.67) == 0)
-    assert(celsiusToFahrenheitScale(0) == 32)
-    assert(fahrenheitToCelsiusScale(32) == 0)
-    assert(kelvinToCelsiusScale(0) == -273.15)
-    assert(celsiusToKelvinScale(0) == 273.15)
+    kelvinToFahrenheitScale(0) should be(-459.67)
+    fahrenheitToKelvinScale(-459.67) should be(0)
+    celsiusToFahrenheitScale(0) should be(32)
+    fahrenheitToCelsiusScale(32) should be(0)
+    kelvinToCelsiusScale(0) should be(-273.15)
+    celsiusToKelvinScale(0) should be(273.15)
   }
 
   they should "provide proper formulas for conversion between degrees" in {
     import TemperatureConversions._
 
-    assert(kelvinToFahrenheitDegrees(5) == 9)
-    assert(fahrenheitToKelvinDegrees(9) == 5)
-    assert(celsiusToFahrenheitDegrees(5) == 9)
-    assert(fahrenheitToCelsiusDegrees(9) == 5)
-    assert(kelvinToCelsiusDegrees(1) == 1)
-    assert(celsiusToKelvinDegrees(1) == 1)
+    kelvinToFahrenheitDegrees(5) should be(9)
+    fahrenheitToKelvinDegrees(9) should be(5)
+    celsiusToFahrenheitDegrees(5) should be(9)
+    fahrenheitToCelsiusDegrees(9) should be(5)
+    kelvinToCelsiusDegrees(1) should be(1)
+    celsiusToKelvinDegrees(1) should be(1)
   }
 
   they should "provide implicit conversion from Double" in {
     import TemperatureConversions._
 
     val d = 10d
-    assert(d.C == Celsius(d))
-    assert(d.celsius == Celsius(d))
-    assert(d.degreesCelsius == Celsius(d))
-    assert(d.F == Fahrenheit(d))
-    assert(d.Fah == Fahrenheit(d))
-    assert(d.fahrenheit == Fahrenheit(d))
-    assert(d.degreesFahrenheit == Fahrenheit(d))
-    assert(d.K == Kelvin(d))
-    assert(d.kelvin == Kelvin(d))
-    assert(d.degreesKelvin == Kelvin(d))
+    d.C should be(Celsius(d))
+    d.celsius should be(Celsius(d))
+    d.degreesCelsius should be(Celsius(d))
+    d.F should be(Fahrenheit(d))
+    d.Fah should be(Fahrenheit(d))
+    d.fahrenheit should be(Fahrenheit(d))
+    d.degreesFahrenheit should be(Fahrenheit(d))
+    d.K should be(Kelvin(d))
+    d.kelvin should be(Kelvin(d))
+    d.degreesKelvin should be(Kelvin(d))
   }
 
   they should "provide implicit conversions from String" in {
     import TemperatureConversions._
 
-    assert("10.22°F".toTemperature.right.get == Fahrenheit(10.22))
-    assert("10.22°K".toTemperature.right.get == Kelvin(10.22))
-    assert("10.22°C".toTemperature.right.get == Celsius(10.22))
-    assert("10.22 F".toTemperature.right.get == Fahrenheit(10.22))
-    assert("10.22 K".toTemperature.right.get == Kelvin(10.22))
-    assert("10.22 C".toTemperature.right.get == Celsius(10.22))
-    assert("10.22 Z".toTemperature.left.get == "Unable to parse 10.22 Z as Temperature")
+    "10.22°F".toTemperature.right.get should be(Fahrenheit(10.22))
+    "10.22°K".toTemperature.right.get should be(Kelvin(10.22))
+    "10.22°C".toTemperature.right.get should be(Celsius(10.22))
+    "10.22 F".toTemperature.right.get should be(Fahrenheit(10.22))
+    "10.22 K".toTemperature.right.get should be(Kelvin(10.22))
+    "10.22 C".toTemperature.right.get should be(Celsius(10.22))
+    "10.22 Z".toTemperature.left.get should be("Unable to parse 10.22 Z as Temperature")
   }
 }
 

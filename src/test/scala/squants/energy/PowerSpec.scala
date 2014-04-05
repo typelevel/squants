@@ -26,36 +26,36 @@ class PowerSpec extends FlatSpec with Matchers {
 
   it should "create values using UOM factories" in {
 
-    assert(Watts(1).toWatts == 1)
-    assert(Milliwatts(1).toMilliwatts == 1)
-    assert(Kilowatts(1).toKilowatts == 1)
-    assert(Megawatts(1).toMegawatts == 1)
-    assert(Gigawatts(1).toGigawatts == 1)
-    assert(BtusPerHour(1).toBtusPerHour == 1)
+    Watts(1).toWatts should be(1)
+    Milliwatts(1).toMilliwatts should be(1)
+    Kilowatts(1).toKilowatts should be(1)
+    Megawatts(1).toMegawatts should be(1)
+    Gigawatts(1).toGigawatts should be(1)
+    BtusPerHour(1).toBtusPerHour should be(1)
   }
 
   it should "properly convert to all supported Units of Measure" in {
     val x = Watts(1)
 
-    assert(x.toWatts == 1)
-    assert(x.toMilliwatts == 1 / MetricSystem.Milli)
-    assert(x.toKilowatts == 1 / MetricSystem.Kilo)
-    assert(x.toMegawatts == 1 / MetricSystem.Mega)
-    assert(x.toGigawatts == 1 / MetricSystem.Giga)
-    assert(x.toBtusPerHour == 1 / EnergyConversions.btuMultiplier)
+    x.toWatts should be(1)
+    x.toMilliwatts should be(1 / MetricSystem.Milli)
+    x.toKilowatts should be(1 / MetricSystem.Kilo)
+    x.toMegawatts should be(1 / MetricSystem.Mega)
+    x.toGigawatts should be(1 / MetricSystem.Giga)
+    x.toBtusPerHour should be(1 / EnergyConversions.btuMultiplier)
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
-    assert(Watts(1).toString(Watts) == "1.0 W")
-    assert(Milliwatts(1).toString(Milliwatts) == "1.0 mW")
-    assert(Kilowatts(1).toString(Kilowatts) == "1.0 kW")
-    assert(Megawatts(1).toString(Megawatts) == "1.0 MW")
-    assert(Gigawatts(1).toString(Gigawatts) == "1.0 GW")
-    assert(BtusPerHour(1).toString(BtusPerHour) == "1.0 Btu/hr")
+    Watts(1).toString(Watts) should be("1.0 W")
+    Milliwatts(1).toString(Milliwatts) should be("1.0 mW")
+    Kilowatts(1).toString(Kilowatts) should be("1.0 kW")
+    Megawatts(1).toString(Megawatts) should be("1.0 MW")
+    Gigawatts(1).toString(Gigawatts) should be("1.0 GW")
+    BtusPerHour(1).toString(BtusPerHour) should be("1.0 Btu/hr")
   }
 
   it should "return Energy when multiplied by Time" in {
-    assert(Watts(1) * Hours(1) == WattHours(1))
+    Watts(1) * Hours(1) should be(WattHours(1))
   }
 
   it should "serialize to and de-serialize from Json" in {
@@ -63,7 +63,7 @@ class PowerSpec extends FlatSpec with Matchers {
     val x = Kilowatts(10.22)
     val ser = Serialization.write(x)
     val des = Serialization.read[Power](ser)
-    assert(x == des)
+    x should be(des)
   }
 
   behavior of "PowerConversions"
@@ -71,51 +71,51 @@ class PowerSpec extends FlatSpec with Matchers {
   it should "provide aliases for single unit values" in {
     import PowerConversions._
 
-    assert(milliwatt == Milliwatts(1))
-    assert(mW == Milliwatts(1))
-    assert(watt == Watts(1))
-    assert(W == Watts(1))
-    assert(kilowatt == Kilowatts(1))
-    assert(kW == Kilowatts(1))
-    assert(megawatt == Megawatts(1))
-    assert(MW == Megawatts(1))
-    assert(gigawatt == Gigawatts(1))
-    assert(GW == Gigawatts(1))
+    milliwatt should be(Milliwatts(1))
+    mW should be(Milliwatts(1))
+    watt should be(Watts(1))
+    W should be(Watts(1))
+    kilowatt should be(Kilowatts(1))
+    kW should be(Kilowatts(1))
+    megawatt should be(Megawatts(1))
+    MW should be(Megawatts(1))
+    gigawatt should be(Gigawatts(1))
+    GW should be(Gigawatts(1))
   }
 
   it should "provide implicit conversion from Double" in {
     import PowerConversions._
 
     val d = 10d
-    assert(d.mW == Milliwatts(d))
-    assert(d.W == Watts(d))
-    assert(d.kW == Kilowatts(d))
-    assert(d.MW == Megawatts(d))
-    assert(d.GW == Gigawatts(d))
-    assert(d.milliwatts == Milliwatts(d))
-    assert(d.watts == Watts(d))
-    assert(d.kilowatts == Kilowatts(d))
-    assert(d.megawatts == Megawatts(d))
-    assert(d.gigawatts == Gigawatts(d))
-    assert(d.BTUph == BtusPerHour(d))
+    d.mW should be(Milliwatts(d))
+    d.W should be(Watts(d))
+    d.kW should be(Kilowatts(d))
+    d.MW should be(Megawatts(d))
+    d.GW should be(Gigawatts(d))
+    d.milliwatts should be(Milliwatts(d))
+    d.watts should be(Watts(d))
+    d.kilowatts should be(Kilowatts(d))
+    d.megawatts should be(Megawatts(d))
+    d.gigawatts should be(Gigawatts(d))
+    d.BTUph should be(BtusPerHour(d))
   }
 
   it should "provide implicit conversions from String" in {
     import PowerConversions._
 
-    assert("10.22 mW".toPower.right.get == Milliwatts(10.22))
-    assert("10.22 W".toPower.right.get == Watts(10.22))
-    assert("10.22 kW".toPower.right.get == Kilowatts(10.22))
-    assert("10.22 MW".toPower.right.get == Megawatts(10.22))
-    assert("10.22 GW".toPower.right.get == Gigawatts(10.22))
-    assert("10.22 Btu/hr".toPower.right.get == BtusPerHour(10.22))
-    assert("10.22 zz".toPower.left.get == "Unable to parse 10.22 zz as Power")
+    "10.22 mW".toPower.right.get should be(Milliwatts(10.22))
+    "10.22 W".toPower.right.get should be(Watts(10.22))
+    "10.22 kW".toPower.right.get should be(Kilowatts(10.22))
+    "10.22 MW".toPower.right.get should be(Megawatts(10.22))
+    "10.22 GW".toPower.right.get should be(Gigawatts(10.22))
+    "10.22 Btu/hr".toPower.right.get should be(BtusPerHour(10.22))
+    "10.22 zz".toPower.left.get should be("Unable to parse 10.22 zz as Power")
   }
 
   it should "provide Numeric support in" in {
     import PowerConversions.PowerNumeric
 
     val ps = List(Watts(1000), Kilowatts(10), Megawatts(.1))
-    assert(ps.sum == Kilowatts(111))
+    ps.sum should be(Kilowatts(111))
   }
 }
