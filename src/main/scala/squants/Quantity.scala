@@ -141,7 +141,6 @@ abstract class Quantity[A <: Quantity[A]] extends Ordered[A] with Serializable {
    * @param that Quantity
    * @return Boolean
    */
-  // TODO: Improve comparisons for types that use multiple Quantity type classes (ie, Temp)
   def ==(that: A) = value == that.value
 
   /**
@@ -150,6 +149,15 @@ abstract class Quantity[A <: Quantity[A]] extends Ordered[A] with Serializable {
    * @return Boolean
    */
   def !=(that: A) = value != that.value
+
+  /**
+   * Returns boolean result of approximate equality comparison
+   * @param that Quantity
+   * @param tolerance Quantity
+   * @return
+   */
+  def approx(that: A)(implicit tolerance: A) = that within this.plusOrMinus(tolerance)
+  def =~(that: A)(implicit tolerance: A) = approx(that)(tolerance)
 
   /**
    * Implements Ordered.compare

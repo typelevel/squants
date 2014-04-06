@@ -15,7 +15,7 @@ All types are immutable and thread-safe.
 |
 [User Forum](https://groups.google.com/forum/#!forum/squants)
 
-Current version: **0.2.3-SNAPSHOT** (pre-release)
+Current version: **0.2.4-SNAPSHOT** (pre-release)
 
 [![Build Status](https://travis-ci.org/garyKeorkunian/squants.png?branch=master)](https://travis-ci.org/garyKeorkunian/squants)
 
@@ -23,7 +23,7 @@ Current version: **0.2.3-SNAPSHOT** (pre-release)
 Repository hosting for Squants is provided by Sonatype.
 To use Squants in your SBT project you will need to add the following dependency to your build.
 
-    "com.squants"  %% "squants"  % "0.2.3-SNAPSHOT"
+    "com.squants"  %% "squants"  % "0.2.4-SNAPSHOT"
 
 To use Squants interactively in the Scala REPL, clone the git repo and run `sbt console`
 
@@ -118,6 +118,17 @@ Strings formatted in the desired unit is also supported
 val kw: String = load toString Kilowatts // returns “1200.0 kW”
 val mw: String = load toString Megawatts // returns “1.2 MW”
 val gw: String = load toString Gigawatts // returns “0.0012 GW”
+```
+
+### Approximations
+Create an implicit Quantity value to be used as a tolerance in approximate equality comparisons.
+Use the `approx` method (`=~` operator) like the `equals` method or `==` operator
+
+```scala
+implicit val tolerance = Watts(.1)
+val load = Kilowatts(2.0)
+val reading = Kilowatts(1.9999)
+load =~ reading should be(true)
 ```
 
 ## Market Package
