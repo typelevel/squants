@@ -55,10 +55,26 @@ class QuantitySpec extends FlatSpec with Matchers {
     x.equals(y) should be(right = true)
   }
 
-  it should "not equal an equivalent value of a differnt type" in {
+  it should "not equal an equivalent value of a different type" in {
     val x = KiloThangs(2.1)
     val y = Kilograms(2.1)
     x.equals(y) should be(right = false)
+  }
+
+  it should "approx a like value that is within an implicitly defined tolerance" in {
+    implicit val tol = Thangs(.1)
+    val x = KiloThangs(2.0)
+    val y = KiloThangs(1.9999)
+    x.approx(y) should be(right = true)
+    x =~ y should be(right = true)
+  }
+
+  it should "not approx a like value that is not within an implicitly efined tolerance" in {
+    implicit val tol = Thangs(.1)
+    val x = KiloThangs(2.0)
+    val y = KiloThangs(1.9998)
+    x.approx(y) should be(right = false)
+    x =~ y should be(right = false)
   }
 
   it should "add two like values and result in a like value" in {

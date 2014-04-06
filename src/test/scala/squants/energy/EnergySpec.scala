@@ -98,11 +98,11 @@ class EnergySpec extends FlatSpec with Matchers {
   }
 
   it should "return ThermalCapacity when divided by Temperature" in {
-    Joules(1) / JoulesPerKelvin(1) should be(Kelvin(1))
+    Joules(10) / JoulesPerKelvin(4) should be(Kelvin(2.5))
   }
 
   it should "return Temperature when divided by ThermalCapacity" in {
-    Joules(1) / Kelvin(1) should be(JoulesPerKelvin(1))
+    Joules(10) / Kelvin(2) should be(JoulesPerKelvin(5))
   }
 
   it should "serialize to and de-serialize from Json" in {
