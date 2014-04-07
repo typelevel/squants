@@ -7,9 +7,14 @@
 \*                                                                      */
 
 /**
+ * ==Squants==
+ * The Scala API for Quantities, Units of Measure and Dimensional Analysis
+ *
  * ==Overview==
- * Squants (Scala Quantities) provides a framework of data types and a DSL (Domain Specific Language)
- * used to define Physical and Market domain models.  All types are immutable and thread-safe
+ * Squants is a framework of data types and a domain specific language (DSL) for representing Quantities,
+ * their Units of Measure, and their Dimensional relationships.
+ * The API supports typesafe dimensional analysis, improved domain models and more.
+ * All types are immutable and thread-safe.
  *
  * The motivating driver for the framework was to ensure developers of VPower, Viridity Energy's
  * flagship energy management product, would have a type safe way to define energy
