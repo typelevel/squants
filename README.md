@@ -15,7 +15,10 @@ All types are immutable and thread-safe.
 |
 [User Forum](https://groups.google.com/forum/#!forum/squants)
 
-Current version: **0.2.4-SNAPSHOT** (pre-release)
+### Current Versions
+Current Release: **0.2.3**
+
+Development Build: **0.2.4-SNAPSHOT**
 
 [![Build Status](https://travis-ci.org/garyKeorkunian/squants.png?branch=master)](https://travis-ci.org/garyKeorkunian/squants)
 
@@ -23,7 +26,7 @@ Current version: **0.2.4-SNAPSHOT** (pre-release)
 Repository hosting for Squants is provided by Sonatype.
 To use Squants in your SBT project you will need to add the following dependency to your build.
 
-    "com.squants"  %% "squants"  % "0.2.4-SNAPSHOT"
+    "com.squants"  %% "squants"  % "0.2.3"
 
 To use Squants interactively in the Scala REPL, clone the git repo and run `sbt console`
 
@@ -35,8 +38,8 @@ To use Squants interactively in the Scala REPL, clone the git repo and run `sbt 
 *The Trouble with Doubles*
 
 When building programs that perform some type of dimensional analysis, developers are quick to declare
-quantities using a basic numeric type, usually Double.  While this may be perfectly satisfactory
-in many situations, it can often lead to semantic and other logic issues.
+quantities using a basic numeric type, usually Double.  While this may be satisfactory in some situations,
+it can often lead to semantic and other logic issues.
 
 For example, when using a Double to describe a quantity of Energy (kWh) and Power (kW), it is possible
 to compile a program that adds these two values together.  This is not appropriate as kW and kWh
@@ -496,4 +499,4 @@ The following features and improvements are planned for the 1.0 release
   so that user code can choose a more precise type such as those provided by the
   [Spire](https://github.com/non/spire) project
 * Enhance documentation and support presence
-* Sample Project and a Typesafe Activator Template
+* Typesafe Activator Sample Project /  Template
