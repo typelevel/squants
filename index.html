@@ -36,13 +36,20 @@ their Units of Measure, and their Dimensional relationships.
 The API supports typesafe dimensional analysis, improved domain models and more.
 All types are immutable and thread-safe.</p>
 
-<p><a href="http://www.squants.com/target/scala-2.10/api/#squants.package">API Documentation</a>
+<p><a href="http:/www.squants.com/">Website</a>
+|
+<a href="http://www.squants.com/target/scala-2.10/api/#squants.package">API Documentation</a>
 |
 <a href="https://github.com/garyKeorkunian/squants">GitHub</a>
 |
 <a href="https://groups.google.com/forum/#!forum/squants">User Forum</a></p>
 
-<p>Current version: <strong>0.2.3-SNAPSHOT</strong> (pre-release)</p>
+<h3>
+<a name="current-versions" class="anchor" href="#current-versions"><span class="octicon octicon-link"></span></a>Current Versions</h3>
+
+<p>Current Release: <strong>0.2.3</strong></p>
+
+<p>Development Build: <strong>0.2.4-SNAPSHOT</strong></p>
 
 <p><a href="https://travis-ci.org/garyKeorkunian/squants"><img src="https://travis-ci.org/garyKeorkunian/squants.png?branch=master" alt="Build Status"></a></p>
 
@@ -52,7 +59,7 @@ All types are immutable and thread-safe.</p>
 <p>Repository hosting for Squants is provided by Sonatype.
 To use Squants in your SBT project you will need to add the following dependency to your build.</p>
 
-<pre><code>"com.squants"  %% "squants"  % "0.2.3-SNAPSHOT"
+<pre><code>"com.squants"  %% "squants"  % "0.2.3"
 </code></pre>
 
 <p>To use Squants interactively in the Scala REPL, clone the git repo and run <code>sbt console</code></p>
@@ -68,8 +75,8 @@ sbt console
 <p><em>The Trouble with Doubles</em></p>
 
 <p>When building programs that perform some type of dimensional analysis, developers are quick to declare
-quantities using a basic numeric type, usually Double.  While this may be perfectly satisfactory
-in many situations, it can often lead to semantic and other logic issues.</p>
+quantities using a basic numeric type, usually Double.  While this may be satisfactory in some situations,
+it can often lead to semantic and other logic issues.</p>
 
 <p>For example, when using a Double to describe a quantity of Energy (kWh) and Power (kW), it is possible
 to compile a program that adds these two values together.  This is not appropriate as kW and kWh
@@ -98,8 +105,8 @@ automatically applying scale and type conversions (see below) at run-time.  For 
 <div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">load1</span><span class="k">:</span> <span class="kt">Power</span> <span class="o">=</span> <span class="nc">Kilowatts</span><span class="o">(</span><span class="mi">12</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">load2</span><span class="k">:</span> <span class="kt">Power</span> <span class="o">=</span> <span class="nc">Megawatts</span><span class="o">(</span><span class="mf">0.023</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">sum</span> <span class="k">=</span> <span class="n">load1</span> <span class="o">+</span> <span class="n">load2</span>
-<span class="n">assert</span><span class="o">(</span><span class="n">sum</span> <span class="o">==</span> <span class="nc">Kilowatts</span><span class="o">(</span><span class="mi">35</span><span class="o">))</span>
-<span class="n">assert</span><span class="o">(</span><span class="n">sum</span> <span class="o">==</span> <span class="nc">Megawatts</span><span class="o">(</span><span class="mf">0.035</span><span class="o">))</span>
+<span class="n">sum</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="nc">Kilowatts</span><span class="o">(</span><span class="mi">35</span><span class="o">))</span>
+<span class="n">sum</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="nc">Megawatts</span><span class="o">(</span><span class="mf">0.035</span><span class="o">))</span>
 </pre></div>
 
 <p>is a valid assertion because Kilowatts and Megawatts are both measures of load.  Only the scale is
@@ -127,14 +134,14 @@ Most conversions are implemented by defining relationships between Quantity type
 <div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">load</span><span class="k">:</span> <span class="kt">Power</span> <span class="o">=</span> <span class="nc">Kilowatts</span><span class="o">(</span><span class="mf">1.2</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">time</span><span class="k">:</span> <span class="kt">Time</span> <span class="o">=</span> <span class="nc">Hours</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">energyUsed</span><span class="k">:</span> <span class="kt">Energy</span> <span class="o">=</span> <span class="n">load</span> <span class="o">*</span> <span class="n">time</span>
-<span class="n">assert</span><span class="o">(</span><span class="n">energyUsed</span> <span class="o">==</span> <span class="nc">KilowattHours</span><span class="o">(</span><span class="mf">2.4</span><span class="o">))</span>
+<span class="n">energyUsed</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="nc">KilowattHours</span><span class="o">(</span><span class="mf">2.4</span><span class="o">))</span>
 </pre></div>
 
 <p>This code demonstrates use of the Power.* method, defined as an infix operator that takes a Time
 value and returns an Energy value, conversely</p>
 
 <div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">aveLoad</span><span class="k">:</span> <span class="kt">Power</span> <span class="o">=</span> <span class="n">energyUsed</span> <span class="o">/</span> <span class="n">time</span>
-<span class="n">assert</span><span class="o">(</span><span class="n">aveLoad</span> <span class="o">==</span> <span class="nc">Kilowatts</span><span class="o">(</span><span class="mf">1.2</span><span class="o">)</span>
+<span class="n">aveLoad</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="nc">Kilowatts</span><span class="o">(</span><span class="mf">1.2</span><span class="o">)</span>
 </pre></div>
 
 <p>demonstrates use of the Energy./ method that takes a Time and returns a Power</p>
@@ -142,8 +149,7 @@ value and returns an Energy value, conversely</p>
 <h3>
 <a name="unit-conversions" class="anchor" href="#unit-conversions"><span class="octicon octicon-link"></span></a>Unit Conversions</h3>
 
-<p>If necessary, the value in the desired unit can be extracted with the
-the <code>to</code> method.</p>
+<p>If necessary, the value in the desired unit can be extracted with the <code>to</code> method.</p>
 
 <div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">load</span><span class="k">:</span> <span class="kt">Power</span> <span class="o">=</span> <span class="nc">Kilowatts</span><span class="o">(</span><span class="mi">1200</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">mw</span><span class="k">:</span> <span class="kt">Double</span> <span class="o">=</span> <span class="n">load</span> <span class="n">to</span> <span class="nc">Kilowatts</span> <span class="c1">// returns 1200.0 (default method)</span>
@@ -159,6 +165,18 @@ the <code>to</code> method.</p>
 <span class="k">val</span> <span class="n">gw</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="n">load</span> <span class="n">toString</span> <span class="nc">Gigawatts</span> <span class="c1">// returns “0.0012 GW”</span>
 </pre></div>
 
+<h3>
+<a name="approximations" class="anchor" href="#approximations"><span class="octicon octicon-link"></span></a>Approximations</h3>
+
+<p>Create an implicit Quantity value to be used as a tolerance in approximate equality comparisons.
+Use the <code>approx</code> method (<code>=~</code> operator) like the <code>equals</code> method or <code>==</code> operator</p>
+
+<div class="highlight highlight-scala"><pre><span class="k">implicit</span> <span class="k">val</span> <span class="n">tolerance</span> <span class="k">=</span> <span class="nc">Watts</span><span class="o">(.</span><span class="mi">1</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">load</span> <span class="k">=</span> <span class="nc">Kilowatts</span><span class="o">(</span><span class="mf">2.0</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">reading</span> <span class="k">=</span> <span class="nc">Kilowatts</span><span class="o">(</span><span class="mf">1.9999</span><span class="o">)</span>
+<span class="n">load</span> <span class="o">=~</span> <span class="n">reading</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+</pre></div>
+
 <h2>
 <a name="market-package" class="anchor" href="#market-package"><span class="octicon octicon-link"></span></a>Market Package</h2>
 
@@ -170,7 +188,8 @@ overridden and augmented to realize correct behavior.</p>
 <h3>
 <a name="money" class="anchor" href="#money"><span class="octicon octicon-link"></span></a>Money</h3>
 
-<p>A Quantity of purchasing power</p>
+<p>A Quantity of purchasing power measured in units we call Currencies.
+Create Money values using standard Currency codes.</p>
 
 <div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">tenBucks</span><span class="k">:</span> <span class="kt">Money</span> <span class="o">=</span> <span class="nc">USD</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">someYen</span><span class="k">:</span> <span class="kt">Money</span> <span class="o">=</span> <span class="nc">JPY</span><span class="o">(</span><span class="mi">1200</span><span class="o">)</span>
@@ -181,7 +200,9 @@ overridden and augmented to realize correct behavior.</p>
 <h3>
 <a name="price" class="anchor" href="#price"><span class="octicon octicon-link"></span></a>Price</h3>
 
-<p>A Ratio between Money and another Quantity</p>
+<p>A Ratio between Money and another Quantity.
+A Price value must be typed on a Quantity.
+It can be denominated in any defined Currency.</p>
 
 <p><em>Price = Money / Quantity</em></p>
 
@@ -209,9 +230,9 @@ overridden and augmented to realize correct behavior.</p>
 <h3>
 <a name="money-context" class="anchor" href="#money-context"><span class="octicon octicon-link"></span></a>Money Context</h3>
 
-<p>A MoneyContext can be implicitly declared to define default settings and applicable exchange rates.
-This allows your application to work with a default currency based on an application configuration.
-It also provides support for dynamically updating exchange rates and using those rates for automatic conversions between currencies.
+<p>A MoneyContext can be implicitly declared to define default settings and applicable exchange rates within a context.
+This allows your application to work with a default currency based on an application configuration or other dynamic source.
+It also provides support for updating exchange rates and using those rates for automatic conversions between currencies.
 The technique and frequency chosen for exchange rate updates is completely in control of the application.</p>
 
 <div class="highlight highlight-scala"><pre><span class="k">implicit</span> <span class="k">val</span> <span class="n">moneyContext</span> <span class="k">=</span> <span class="nc">MoneyContext</span><span class="o">(</span><span class="n">defCur</span><span class="o">,</span> <span class="n">curList</span><span class="o">,</span> <span class="n">exchangeRates</span><span class="o">)</span>
@@ -257,24 +278,56 @@ The technique and frequency chosen for exchange rate updates is completely in co
 
 <p>Implicit conversions give the DSL some features that allows client code to express quantities in a more natural way.</p>
 
-<div class="highlight highlight-scala"><pre><span class="c1">// Create Quantities using Unit Of Measure Factory objects (no implicits required)</span>
-<span class="k">val</span> <span class="n">load</span> <span class="k">=</span> <span class="nc">Kilowatts</span><span class="o">(</span><span class="mi">100</span><span class="o">)</span>
+<p>Create Quantities using Unit Of Measure Factory objects (no implicits required)</p>
+
+<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">load</span> <span class="k">=</span> <span class="nc">Kilowatts</span><span class="o">(</span><span class="mi">100</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">time</span> <span class="k">=</span> <span class="nc">Hours</span><span class="o">(</span><span class="mf">3.75</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">money</span> <span class="k">=</span> <span class="nc">USD</span><span class="o">(</span><span class="mf">112.50</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">price</span> <span class="k">=</span> <span class="nc">Price</span><span class="o">(</span><span class="n">money</span><span class="o">,</span> <span class="nc">MegawattHours</span><span class="o">(</span><span class="mi">1</span><span class="o">))</span>
-<span class="c1">// Create Quantities using Unit of Measure names and/or symbols (uses implicits)</span>
-<span class="k">val</span> <span class="n">load1</span> <span class="k">=</span> <span class="mi">100</span> <span class="n">kW</span>          <span class="c1">// Simple expressions don’t need dots</span>
-<span class="k">val</span> <span class="n">load2</span> <span class="k">=</span> <span class="mi">100</span> <span class="n">megaWatts</span>
-<span class="k">val</span> <span class="n">time</span> <span class="k">=</span> <span class="mf">3.</span><span class="n">hours</span> <span class="o">+</span> <span class="mf">45.</span><span class="n">minutes</span> <span class="c1">// Compound expressions may need dots</span>
-<span class="c1">// Create Quantities using operations between other Quantities</span>
-<span class="k">val</span> <span class="n">energyUsed</span> <span class="k">=</span> <span class="mf">100.</span><span class="n">kilowatts</span> <span class="o">*</span> <span class="o">(</span><span class="mf">3.</span><span class="n">hours</span> <span class="o">+</span> <span class="mf">45.</span><span class="n">minutes</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">price</span> <span class="k">=</span> <span class="mf">112.50</span><span class="o">.</span><span class="nc">USD</span> <span class="o">/</span> <span class="mf">1.</span><span class="n">megawattHours</span>
-<span class="k">val</span> <span class="n">speed</span> <span class="k">=</span> <span class="mf">55.</span><span class="n">miles</span> <span class="o">/</span> <span class="mf">1.</span><span class="n">hours</span>
-<span class="c1">// Create Quantities using formatted Strings</span>
-<span class="k">val</span> <span class="n">load</span> <span class="k">=</span> <span class="nc">Power</span><span class="o">(</span><span class="s">"40 MW"</span><span class="o">)</span>       <span class="c1">// 40 MW</span>
 </pre></div>
 
-<p>The last conversion is useful for automatically interpreting strings from user input, json marshaller and other sources</p>
+<p>Create Quantities using Unit of Measure names and/or symbols (uses implicits)</p>
+
+<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">load1</span> <span class="k">=</span> <span class="mi">100</span> <span class="n">kW</span>                  <span class="c1">// Simple expressions don’t need dots</span>
+<span class="k">val</span> <span class="n">load2</span> <span class="k">=</span> <span class="mi">100</span> <span class="n">megaWatts</span>
+<span class="k">val</span> <span class="n">time</span> <span class="k">=</span> <span class="mf">3.</span><span class="n">hours</span> <span class="o">+</span> <span class="mf">45.</span><span class="n">minutes</span>     <span class="c1">// Compound expressions may need dots</span>
+</pre></div>
+
+<p>Create Quantities using operations between other Quantities</p>
+
+<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">energyUsed</span> <span class="k">=</span> <span class="mf">100.</span><span class="n">kilowatts</span> <span class="o">*</span> <span class="o">(</span><span class="mf">3.</span><span class="n">hours</span> <span class="o">+</span> <span class="mf">45.</span><span class="n">minutes</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">price</span> <span class="k">=</span> <span class="mf">112.50</span><span class="o">.</span><span class="nc">USD</span> <span class="o">/</span> <span class="mf">1.</span><span class="n">megawattHours</span>
+<span class="k">val</span> <span class="n">speed</span> <span class="k">=</span> <span class="mf">55.</span><span class="n">miles</span> <span class="o">/</span> <span class="mf">1.</span><span class="n">hours</span>
+</pre></div>
+
+<p>Create Quantities using formatted Strings</p>
+
+<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">load</span> <span class="k">=</span> <span class="nc">Power</span><span class="o">(</span><span class="s">"40 MW"</span><span class="o">)</span>       <span class="c1">// 40 MW</span>
+</pre></div>
+
+<p>Use single unit values to simplify expressions</p>
+
+<div class="highlight highlight-scala"><pre><span class="c1">// Hours(1) == 1.hours == hour</span>
+<span class="k">val</span> <span class="n">ramp</span> <span class="k">=</span> <span class="mf">100.</span><span class="n">kilowatts</span> <span class="o">/</span> <span class="n">hour</span>
+<span class="k">val</span> <span class="n">speed</span> <span class="k">=</span> <span class="mf">100.</span><span class="n">kilometers</span> <span class="o">/</span> <span class="n">hour</span>
+
+<span class="c1">// MegawattHours(1) == 1.megawattHours == megawattHour == MWh</span>
+<span class="k">val</span> <span class="n">hi</span> <span class="k">=</span> <span class="mf">100.d</span><span class="n">ollars</span> <span class="o">/</span> <span class="nc">MWh</span>
+<span class="k">val</span> <span class="n">low</span> <span class="k">=</span> <span class="mf">40.d</span><span class="n">ollars</span> <span class="o">/</span> <span class="n">megawattHour</span>
+</pre></div>
+
+<p>Implicit conversion support for using Numbers to lead some expressions</p>
+
+<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">price</span> <span class="k">=</span> <span class="mi">10</span> <span class="o">/</span> <span class="n">dollar</span>     <span class="c1">// 1 USD / 10 ea</span>
+<span class="k">val</span> <span class="n">freq</span> <span class="k">=</span> <span class="mi">60</span> <span class="o">/</span> <span class="n">second</span>      <span class="c1">// 60 Hz</span>
+<span class="k">val</span> <span class="n">load</span> <span class="k">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="mf">4.</span><span class="nc">MW</span>        <span class="c1">// 40 MW</span>
+</pre></div>
+
+<p>Create Quantity Ranges using <code>to</code> or <code>plusOrMinus</code> (<code>+-</code>) operators</p>
+
+<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">range1</span> <span class="k">=</span> <span class="mf">1000.</span><span class="n">kW</span> <span class="n">to</span> <span class="mf">5000.</span><span class="n">kW</span>     <span class="c1">// 1000.kW to 5000.kW</span>
+<span class="k">val</span> <span class="n">range2</span> <span class="k">=</span> <span class="mf">5000.</span><span class="n">kW</span> <span class="o">+-</span> <span class="mf">1000.</span><span class="n">kW</span>     <span class="c1">// 4000.kW to 6000.kW</span>
+</pre></div>
 
 <h3>
 <a name="numeric-support" class="anchor" href="#numeric-support"><span class="octicon octicon-link"></span></a>Numeric Support</h3>
@@ -282,7 +335,7 @@ The technique and frequency chosen for exchange rate updates is completely in co
 <p>Most Quantities that support implicit conversions also include an implicit Numeric object that can be imported
 to your code where Numeric support is required.  These follow the following pattern:</p>
 
-<div class="highlight highlight-scala"><pre><span class="k">import</span> <span class="nn">MassConversions.MassNumeric</span>
+<div class="highlight highlight-scala"><pre><span class="k">import</span> <span class="nn">squants.mass.MassConversions.MassNumeric</span>
 
 <span class="k">val</span> <span class="n">sum</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="nc">Kilograms</span><span class="o">(</span><span class="mi">100</span><span class="o">),</span> <span class="nc">Grams</span><span class="o">(</span><span class="mi">34510</span><span class="o">)).</span><span class="n">sum</span>
 </pre></div>
@@ -306,9 +359,9 @@ Common 'Base' Quantities include Mass, Temperature, Length, Time, Energy, etc.</
 <div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">distance</span><span class="k">:</span> <span class="kt">Length</span> <span class="o">=</span> <span class="nc">Kilometers</span><span class="o">(</span><span class="mi">100</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">time</span><span class="k">:</span> <span class="kt">Time</span> <span class="o">=</span> <span class="nc">Hours</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">speed</span><span class="k">:</span> <span class="kt">Speed</span> <span class="o">=</span> <span class="n">distance</span> <span class="o">/</span> <span class="n">time</span>
-<span class="n">assert</span><span class="o">(</span><span class="n">speed</span><span class="o">.</span><span class="n">toKilometersPerHour</span> <span class="o">==</span> <span class="mf">50.0</span><span class="o">)</span>
+<span class="n">speed</span><span class="o">.</span><span class="n">toKilometersPerHour</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="mf">50.0</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">acc</span><span class="k">:</span> <span class="kt">Acceleration</span> <span class="o">=</span> <span class="nc">Meters</span><span class="o">(</span><span class="mi">50</span><span class="o">)</span> <span class="o">/</span> <span class="nc">Second</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span> <span class="o">/</span> <span class="nc">Second</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
-<span class="n">assert</span><span class="o">(</span><span class="n">acc</span><span class="o">.</span><span class="n">toMetersPerSecondSquared</span> <span class="o">==</span> <span class="mi">50</span><span class="o">)</span>
+<span class="n">acc</span><span class="o">.</span><span class="n">toMetersPerSecondSquared</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="mi">50</span><span class="o">)</span>
 </pre></div>
 
 <p>Power is the 1st Time Derivative of Energy, PowerRamp is the 2nd</p>
@@ -316,9 +369,9 @@ Common 'Base' Quantities include Mass, Temperature, Length, Time, Energy, etc.</
 <div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">energy</span><span class="k">:</span> <span class="kt">Energy</span> <span class="o">=</span> <span class="nc">KilowattHours</span><span class="o">(</span><span class="mi">100</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">time</span><span class="k">:</span> <span class="kt">Time</span> <span class="o">=</span> <span class="nc">Hours</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">power</span><span class="k">:</span> <span class="kt">Power</span> <span class="o">=</span> <span class="n">energy</span> <span class="o">/</span> <span class="n">time</span>
-<span class="n">assert</span><span class="o">(</span><span class="n">power</span><span class="o">.</span><span class="n">toKilowatts</span> <span class="o">==</span> <span class="mf">50.0</span><span class="o">)</span>
+<span class="n">power</span><span class="o">.</span><span class="n">toKilowatts</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="mf">50.0</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">ramp</span><span class="k">:</span> <span class="kt">PowerRamp</span> <span class="o">=</span> <span class="nc">KilowattHours</span><span class="o">(</span><span class="mi">50</span><span class="o">)</span> <span class="o">/</span> <span class="nc">Hours</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span> <span class="o">/</span> <span class="nc">Hours</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
-<span class="n">assert</span><span class="o">(</span><span class="n">ramp</span><span class="o">.</span><span class="n">toKilowattsPerHour</span> <span class="o">==</span> <span class="mi">50</span><span class="o">)</span>
+<span class="n">ramp</span><span class="o">.</span><span class="n">toKilowattsPerHour</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="mi">50</span><span class="o">)</span>
 </pre></div>
 
 <p>Squants currently supports over 50 quantity types.</p>
@@ -502,7 +555,7 @@ so that user code can choose a more precise type such as those provided by the
 </ul>
 </li>
 <li>Enhance documentation and support presence</li>
-<li>Sample Project and a Typesafe Activator Template</li>
+<li>Typesafe Activator Sample Project /  Template</li>
 </ul>
       </section>
     </div>
