@@ -500,3 +500,7 @@ The following features and improvements are planned for the 1.0 release
   [Spire](https://github.com/non/spire) project
 * Enhance documentation and support presence
 * Typesafe Activator Sample Project /  Template
+
+## Caveats
+
+Code is offered as-is, with no implied warranty of any kind. Comments, criticisms, and/or praise are welcome, especially from physicists, engineers and the like.
