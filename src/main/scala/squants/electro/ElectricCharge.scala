@@ -30,9 +30,10 @@ final class ElectricCharge private (val value: Double)
   def /(that: ElectricPotential): Capacitance = Farads(toCoulombs / that.toVolts)
   def /(that: Capacitance): ElectricPotential = Volts(toCoulombs / that.toFarads)
   def /(that: ElectricCurrent): Time = that.time * (this / that.change)
-  def /(that: Area) = ??? // returns ElectricDisplacementField
+  def /(that: Length) = ??? // returns LinearElectricChargeDensity
+  def /(that: Area) = ??? // returns AreaElectricChargeDensity
   def /(that: Volume) = ??? // returns ElectricChargeDensity
-  def /(that: Mass) = ??? // returns Exposure
+  def /(that: Mass) = ??? // returns ElectricChargeMassRatio
 
   def toCoulombs = to(Coulombs)
   def toPicocoulombs = to(Picocoulombs)
