@@ -63,8 +63,10 @@ sealed abstract class Temperature protected (val value: Double)
   override def plus(that: Temperature): Temperature = Temperature(value + that.convert(valueUnit, withOffset = false).value, valueUnit)
   override def minus(that: Temperature): Temperature = Temperature(value - that.convert(valueUnit, withOffset = false).value, valueUnit)
   override def compare(that: Temperature): Int = if (this.value > that.toScale(valueUnit)) 1 else if (this.value < that.toScale(valueUnit)) -1 else 0
-  override def ==(that: Temperature): Boolean = value == that.toScale(valueUnit)
-  override def !=(that: Temperature): Boolean = value != that.toScale(valueUnit)
+  override def equals(that: Any) = that match {
+    case t: Temperature ⇒ value == t.toScale(valueUnit)
+    case _              ⇒ false
+  }
 
   def *(that: ThermalCapacity) = Joules(toKelvinScale * that.toJoulesPerKelvin)
 

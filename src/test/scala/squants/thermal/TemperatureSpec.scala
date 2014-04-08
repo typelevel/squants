@@ -14,6 +14,7 @@ import org.scalacheck.Prop._
 import org.json4s.native.Serialization
 import org.json4s.{ ShortTypeHints, DefaultFormats }
 import squants.energy.Joules
+import squants.mass.Kilograms
 
 /**
  * @author  garyKeorkunian
@@ -166,6 +167,37 @@ class TemperatureSpec extends FlatSpec with Matchers {
     Celsius(10) should be(Celsius(10))
     Celsius(10) < Celsius(10.1) should be(right = true)
     Celsius(10) > Celsius(9.9) should be(right = true)
+  }
+
+  it should "compare a non-null Quantity to a null and return a proper result" in {
+    val x = Kelvin(2.1)
+    x == null should be(right = false)
+    null == x should be(right = false)
+    x != null should be(right = true)
+    null != x should be(right = true)
+  }
+
+  it should "compare a null Quantity to null and return a proper result" in {
+    val x: Temperature = null
+    x == null should be(right = true)
+    null == x should be(right = true)
+    x != null should be(right = false)
+    null != x should be(right = false)
+  }
+
+  it should "compare a null Quantity to a non-null Quantity" in {
+    val x = null
+    val y = Kelvin(2.1)
+    x == y should be(right = false)
+    y == x should be(right = false)
+  }
+
+  it should "not equal an equivalent value of a different type" in {
+    val x = Kelvin(2.1)
+    val y = Kilograms(2.1)
+    x.equals(y) should be(right = false)
+    x == y should be(right = false)
+    x != y should be(right = true)
   }
 
   they should "return properly formatted strings for all supported Units of Measure" in {

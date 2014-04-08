@@ -12,6 +12,7 @@ import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
 import org.json4s.DefaultFormats
 import org.json4s.native.Serialization
+import squants.mass.Kilograms
 
 /**
  * @author  garyKeorkunian
@@ -54,7 +55,10 @@ class MoneySpec extends FlatSpec with Matchers {
 
   it should "return proper result when comparing like currencies" in {
     USD(10) should be(USD(10))
+    USD(10) == USD(10) should be(right = true)
     USD(10) != USD(9.99) should be(right = true)
+    USD(10) == USD(9.99) should be(right = false)
+    USD(10) != USD(10) should be(right = false)
 
     USD(10) > USD(9.99) should be(right = true)
     USD(10) >= USD(9.99) should be(right = true)
@@ -65,7 +69,43 @@ class MoneySpec extends FlatSpec with Matchers {
     USD(10) <= USD(10) should be(right = true)
   }
 
+  it should "return proper result when comparing dislike currencies with no MoneyContext in scope" in {
+    USD(10) == JPY(10) should be(right = false)
+    USD(10) != JPY(10) should be(right = true)
+  }
+
   it should "return proper result when comparing dislike currencies with a MoneyContext in scope" is pending
+
+  it should "compare a non-null Quantity to a null and return a proper result" in {
+    val x = USD(2.1)
+    x == null should be(right = false)
+    null == x should be(right = false)
+    x != null should be(right = true)
+    null != x should be(right = true)
+  }
+
+  it should "compare a null Quantity to null and return a proper result" in {
+    val x: Money = null
+    x == null should be(right = true)
+    null == x should be(right = true)
+    x != null should be(right = false)
+    null != x should be(right = false)
+  }
+
+  it should "compare a null Quantity to a non-null Quantity" in {
+    val x = null
+    val y = USD(2.1)
+    x == y should be(right = false)
+    y == x should be(right = false)
+  }
+
+  it should "not equal an equivalent value of a different type" in {
+    val x = USD(2.1)
+    val y = Kilograms(2.1)
+    x.equals(y) should be(right = false)
+    x == y should be(right = false)
+    x != y should be(right = true)
+  }
 
   it should "return proper result when adding like currencies with no MoneyContext in scope" in {
     USD(1) + USD(2) should be(USD(3))
