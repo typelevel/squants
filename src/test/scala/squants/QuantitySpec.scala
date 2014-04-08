@@ -25,7 +25,7 @@ class QuantitySpec extends FlatSpec with Matchers {
   final class Thingee private (val value: Double) extends Quantity[Thingee] {
     def valueUnit = Thangs
     def toThangs = to(Thangs)
-    def toKilothangs = to(KiloThangs)
+    def toKilothangs = to(Kilothangs)
   }
 
   object Thingee {
@@ -40,7 +40,7 @@ class QuantitySpec extends FlatSpec with Matchers {
     val symbol = "th"
   }
 
-  object KiloThangs extends ThingeeUnit {
+  object Kilothangs extends ThingeeUnit {
     val symbol = "kth"
     val multiplier = Thangs.multiplier * MetricSystem.Kilo
   }
@@ -55,24 +55,49 @@ class QuantitySpec extends FlatSpec with Matchers {
     x.equals(y) should be(right = true)
   }
 
+  it should "compare a non-null Quantity to a null and return a proper result" in {
+    val x = Thangs(2.1)
+    x == null should be(right = false)
+    null == x should be(right = false)
+    x != null should be(right = true)
+    null != x should be(right = true)
+  }
+
+  it should "compare a null Quantity to null and return a proper result" in {
+    val x: Thingee = null
+    x == null should be(right = true)
+    null == x should be(right = true)
+    x != null should be(right = false)
+    null != x should be(right = false)
+  }
+
+  it should "compare a null Quantity to a non-null Quantity" in {
+    val x = null
+    val y = Thangs(2.1)
+    x == y should be(right = false)
+    y == x should be(right = false)
+  }
+
   it should "not equal an equivalent value of a different type" in {
-    val x = KiloThangs(2.1)
+    val x = Kilothangs(2.1)
     val y = Kilograms(2.1)
     x.equals(y) should be(right = false)
+    x == y should be(right = false)
+    x != y should be(right = true)
   }
 
   it should "approx a like value that is within an implicitly defined tolerance" in {
     implicit val tol = Thangs(.1)
-    val x = KiloThangs(2.0)
-    val y = KiloThangs(1.9999)
+    val x = Kilothangs(2.0)
+    val y = Kilothangs(1.9999)
     x.approx(y) should be(right = true)
     x =~ y should be(right = true)
   }
 
-  it should "not approx a like value that is not within an implicitly efined tolerance" in {
+  it should "not approx a like value that is not within an implicitly defined tolerance" in {
     implicit val tol = Thangs(.1)
-    val x = KiloThangs(2.0)
-    val y = KiloThangs(1.9998)
+    val x = Kilothangs(2.0)
+    val y = Kilothangs(1.9998)
     x.approx(y) should be(right = false)
     x =~ y should be(right = false)
   }
@@ -239,7 +264,7 @@ class QuantitySpec extends FlatSpec with Matchers {
 
   it should "to a unit and return a Double" in {
     val x = Thangs(1500)
-    (x to KiloThangs) should be(1.5)
+    (x to Kilothangs) should be(1.5)
     x.toKilothangs should be(1.5)
   }
 
@@ -259,7 +284,7 @@ class QuantitySpec extends FlatSpec with Matchers {
 
   it should "toString a unit and return a string formatted for the valueUnit" in {
     val x = Thangs(1500)
-    (x toString KiloThangs) should be("1.5 kth")
+    (x toString Kilothangs) should be("1.5 kth")
   }
 
   behavior of "SquantifiedDouble"
@@ -278,8 +303,8 @@ class QuantitySpec extends FlatSpec with Matchers {
 
   it should "provide Numeric support" in {
 
-    ThingeeNumeric.plus(Thangs(1000), KiloThangs(10)) should be(KiloThangs(11))
-    ThingeeNumeric.minus(KiloThangs(10), Thangs(1000)) should be(KiloThangs(9))
+    ThingeeNumeric.plus(Thangs(1000), Kilothangs(10)) should be(Kilothangs(11))
+    ThingeeNumeric.minus(Kilothangs(10), Thangs(1000)) should be(Kilothangs(9))
 
     an[UnsupportedOperationException] should be thrownBy ThingeeNumeric.times(Thangs(1), Thangs(2))
 
@@ -290,11 +315,11 @@ class QuantitySpec extends FlatSpec with Matchers {
     ThingeeNumeric.toFloat(Thangs(10.22)) should be(10.22F)
     ThingeeNumeric.toDouble(Thangs(10.22)) should be(10.22)
 
-    ThingeeNumeric.compare(Thangs(1000), KiloThangs(2)) < 0 should be(right = true)
-    ThingeeNumeric.compare(Thangs(2000), KiloThangs(1)) > 0 should be(right = true)
-    ThingeeNumeric.compare(Thangs(2000), KiloThangs(2)) should be(0)
+    ThingeeNumeric.compare(Thangs(1000), Kilothangs(2)) < 0 should be(right = true)
+    ThingeeNumeric.compare(Thangs(2000), Kilothangs(1)) > 0 should be(right = true)
+    ThingeeNumeric.compare(Thangs(2000), Kilothangs(2)) should be(0)
 
-    val ts = List(Thangs(1000), KiloThangs(10), KiloThangs(100))
-    ts.sum should be(KiloThangs(111))
+    val ts = List(Thangs(1000), Kilothangs(10), Kilothangs(100))
+    ts.sum should be(Kilothangs(111))
   }
 }

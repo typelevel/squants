@@ -176,13 +176,9 @@ final class Money private (val amount: BigDecimal)(val currency: Currency)
   }
 
   // TODO implement version with implicit MoneyContext
-  override def ==(that: Money): Boolean = that.currency match {
-    case this.currency ⇒ amount == that.amount
-    case _             ⇒ throw new UnsupportedOperationException("There must be an implicit MoneyContext in scope to compare dislike currencies")
-  }
-  override def !=(that: Money): Boolean = that.currency match {
-    case this.currency ⇒ amount != that.amount
-    case _             ⇒ throw new UnsupportedOperationException("There must be an implicit MoneyContext in scope to compare dislike currencies")
+  override def equals(that: Any): Boolean = that match {
+    case m: Money ⇒ amount == m.amount && currency == m.currency
+    case _        ⇒ false
   }
   override def <(that: Money): Boolean = that.currency match {
     case this.currency ⇒ amount < that.amount
@@ -199,11 +195,6 @@ final class Money private (val amount: BigDecimal)(val currency: Currency)
   override def >=(that: Money): Boolean = that.currency match {
     case this.currency ⇒ amount >= that.amount
     case _             ⇒ throw new UnsupportedOperationException("There must be an implicit MoneyContext in scope to compare dislike currencies")
-  }
-
-  override def equals(that: Any): Boolean = that match {
-    case m: Money ⇒ amount == m.amount && currency == m.currency
-    case _        ⇒ throw new UnsupportedOperationException("There must be an implicit MoneyContext in scope to compare dislike currencies")
   }
 
   override def compare(that: Money): Int = if (this > that) 1 else if (this < that) -1 else 0
@@ -293,6 +284,8 @@ object Money {
 case class Currency(code: String, name: String, symbol: String, formatDecimals: Int) extends UnitOfMeasure[Money] {
   def apply(d: Double): Money = Money(d, this)
   def apply(d: BigDecimal): Money = Money(d, this)
+  protected def converterFrom: Double ⇒ Double = ???
+  protected def converterTo: Double ⇒ Double = ???
 }
 
 /**

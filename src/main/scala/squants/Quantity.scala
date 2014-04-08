@@ -125,7 +125,8 @@ abstract class Quantity[A <: Quantity[A]] extends Ordered[A] with Serializable {
    * @return
    */
   override def equals(that: Any) = that match {
-    case x: Quantity[_] ⇒ value == x.value && valueUnit == x.valueUnit
+    // TODO Refactor so it also works for UnitBoxed types like Temperature, which may require change to UOM def
+    case x: Quantity[A] ⇒ value == x.value && valueUnit == x.valueUnit
     case _              ⇒ false
   }
 
@@ -135,20 +136,6 @@ abstract class Quantity[A <: Quantity[A]] extends Ordered[A] with Serializable {
    * @return
    */
   override def hashCode() = toString.hashCode()
-
-  /**
-   * Returns boolean result of equality between this and that
-   * @param that Quantity
-   * @return Boolean
-   */
-  def ==(that: A) = value == that.value
-
-  /**
-   * Return boolean result of inequality between this and that
-   * @param that Quantity
-   * @return Boolean
-   */
-  def !=(that: A) = value != that.value
 
   /**
    * Returns boolean result of approximate equality comparison
