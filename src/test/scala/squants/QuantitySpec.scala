@@ -90,7 +90,7 @@ class QuantitySpec extends FlatSpec with Matchers {
     implicit val tol = Thangs(.1)
     val x = Kilothangs(2.0)
     val y = Kilothangs(1.9999)
-    x.approx(y) should be(right = true)
+    x approx y should be(right = true)
     x =~ y should be(right = true)
   }
 
@@ -98,8 +98,19 @@ class QuantitySpec extends FlatSpec with Matchers {
     implicit val tol = Thangs(.1)
     val x = Kilothangs(2.0)
     val y = Kilothangs(1.9998)
-    x.approx(y) should be(right = false)
+    x approx y should be(right = false)
     x =~ y should be(right = false)
+  }
+
+  it should "approx a like value that is within an explicitly passed tolerance" in {
+    implicit val tol = Thangs(.1)
+    val x = Kilothangs(2.0)
+    val y = Kilothangs(1.9999)
+    x approx y should be(right = true)
+    x =~ y should be(right = true)
+    // apply approx with an explicit override of the tolerance
+    x.approx(y)(Thangs(.01)) should be(right = false)
+    x.=~(y)(Thangs(.01)) should be(right = false)
   }
 
   it should "add two like values and result in a like value" in {

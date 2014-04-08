@@ -97,7 +97,7 @@ val energyUsed: Energy = load * time
 energyUsed should be(KilowattHours(2.4))
 ```
 This code demonstrates use of the Power.* method, defined as an infix operator that takes a Time
-value and returns an Energy value, conversely
+and returns an Energy, conversely
 
 ```scala
 val aveLoad: Power = energyUsed / time
@@ -131,7 +131,13 @@ Use the `approx` method (`=~` operator) like the `equals` method or `==` operato
 implicit val tolerance = Watts(.1)
 val load = Kilowatts(2.0)
 val reading = Kilowatts(1.9999)
-load =~ reading should be(true)
+
+load =~ reading should be(true) // uses implicit tolerance
+load approx reading should be(true) // uses implicit tolerance
+
+// use instead of, or override implicit
+load.=~(reading)(Watts(.01)) should be(false)
+load.approx(reading)(Watts(.01)) should be(false)
 ```
 
 ## Market Package
@@ -153,8 +159,7 @@ val digitalStash: Money = BTC(50)
 
 ### Price
 A Ratio between Money and another Quantity.
-A Price value must be typed on a Quantity.
-It can be denominated in any defined Currency.
+A Price value is typed on a Quantity and can be denominated in any defined Currency.
 
 *Price = Money / Quantity*
 
@@ -172,11 +177,19 @@ val milkQuota: Volume = milkPrice * USD(20) // returns UsGallons(5)
 Currency Exchange Rates
 
 ```scala
+// create an exchange rate
 val rate = CurrencyExchangeRate(USD(1), JPY(100))
+
 val someYen: Money = JPY(350)
-val dollarAmount: Money = rate.convert(someYen) // returns USD(3.5)
 val someBucks: Money = USD(23.50)
-val yenAmount: Money = rate * someBucks 		// returns JPY(2350)
+
+// Use the convert method which automatically converts the money to the 'other' currency
+val dollarAmount: Money = rate.convert(someYen) // returns USD(3.5)
+val yenAmount: Money = rate.convert(someBucks)  // returns JPY(2350)
+
+// or just use the * operator in either direction (money * rate, or rate * money)
+val dollarAmount2: Money = rate * someYen       // returns USD(3.5)
+val yenAmount2: Money = someBucks * rate		// returns JPY(2350)
 ```
 
 ### Money Context
@@ -269,7 +282,7 @@ val hi = 100.dollars / MWh
 val low = 40.dollars / megawattHour
 ```
 
-Implicit conversion support for using Numbers to lead some expressions
+Implicit conversion support for using Double on the left side of operations
 
 ```scala
 val price = 10 / dollar	    // 1 USD / 10 ea
@@ -503,4 +516,5 @@ The following features and improvements are planned for the 1.0 release
 
 ## Caveats
 
-Code is offered as-is, with no implied warranty of any kind. Comments, criticisms, and/or praise are welcome, especially from physicists, engineers and the like.
+Code is offered as-is, with no implied warranty of any kind.
+Comments, criticisms, and/or praise are welcome, especially from scientists, engineers and the like.

@@ -17,8 +17,8 @@ import squants._
  * Money is similar to other quantities in that it represents an amount of something - purchasing power - and
  * it is measured in units - currencies.
  *
- * The main difference is that the conversion rate between currencies can not be certain at compile.  In fact it may
- * not always be so easy to know them at runtime as well.
+ * The main difference is that the conversion rate between currencies can not be certain at compile.
+ * (In fact it may not always be so easy to know them at runtime as well.)
  *
  * To address this diversion from the way most other quantities work, Money overrides several of the standard methods
  * and operators to ensure one of two rules is followed:
@@ -83,7 +83,7 @@ final class Money private (val amount: BigDecimal)(val currency: Currency)
    */
   override def plus(that: Money): Money = that.currency match {
     case this.currency ⇒ new Money(amount + that.amount)(currency)
-    case _             ⇒ throw new UnsupportedOperationException("There must be an implicit MoneyContext in scope to add dislike currencies")
+    case _             ⇒ throw new UnsupportedOperationException("plus not supported for cross-currency comparison - use moneyPlus")
   }
 
   /**
@@ -108,7 +108,7 @@ final class Money private (val amount: BigDecimal)(val currency: Currency)
    */
   override def minus(that: Money): Money = that.currency match {
     case this.currency ⇒ new Money(amount - that.amount)(currency)
-    case _             ⇒ throw new UnsupportedOperationException("There must be an implicit MoneyContext in scope to subtract dislike currencies")
+    case _             ⇒ throw new UnsupportedOperationException("minus not supported for cross-currency comparison - use moneyMinus")
   }
 
   /**
@@ -154,7 +154,7 @@ final class Money private (val amount: BigDecimal)(val currency: Currency)
   }
 
   /**
-   * Divides to this money by that money and returns the ratio between the converted amounts
+   * Divides this money by that money and returns the ratio between the converted amounts
    *
    * @param that Money
    * @param context MoneyContext
@@ -164,52 +164,7 @@ final class Money private (val amount: BigDecimal)(val currency: Currency)
   def /(that: Money)(implicit context: MoneyContext = defaultMoneyContext): Double = moneyDivide(that)
 
   /**
-   * Override Quantity.divide to only work on like currencies
-   * Cross currency subtractions should use moneyMinus
-   *
-   * @param that Quantity
-   * @return Double
-   */
-  override def divide(that: Money): Double = that.currency match {
-    case this.currency ⇒ (amount / that.amount).toDouble
-    case _             ⇒ throw new UnsupportedOperationException("There must be an implicit MoneyContext in scope to divide dislike currencies")
-  }
-
-  // TODO implement version with implicit MoneyContext
-  override def equals(that: Any): Boolean = that match {
-    case m: Money ⇒ amount == m.amount && currency == m.currency
-    case _        ⇒ false
-  }
-  override def <(that: Money): Boolean = that.currency match {
-    case this.currency ⇒ amount < that.amount
-    case _             ⇒ throw new UnsupportedOperationException("There must be an implicit MoneyContext in scope to compare dislike currencies")
-  }
-  override def <=(that: Money): Boolean = that.currency match {
-    case this.currency ⇒ amount <= that.amount
-    case _             ⇒ throw new UnsupportedOperationException("There must be an implicit MoneyContext in scope to compare dislike currencies")
-  }
-  override def >(that: Money): Boolean = that.currency match {
-    case this.currency ⇒ amount > that.amount
-    case _             ⇒ throw new UnsupportedOperationException("There must be an implicit MoneyContext in scope to compare dislike currencies")
-  }
-  override def >=(that: Money): Boolean = that.currency match {
-    case this.currency ⇒ amount >= that.amount
-    case _             ⇒ throw new UnsupportedOperationException("There must be an implicit MoneyContext in scope to compare dislike currencies")
-  }
-
-  override def compare(that: Money): Int = if (this > that) 1 else if (this < that) -1 else 0
-
-  override def max(that: Money): Money = (that, that.currency) match {
-    case (m: Money, this.currency) ⇒ new Money(amount.max(m.amount))(currency)
-    case _                         ⇒ throw new UnsupportedOperationException("There must be an implicit MoneyContext in scope to compare dislike currencies")
-  }
-  override def min(that: Money): Money = (that, that.currency) match {
-    case (m: Money, this.currency) ⇒ new Money(amount.min(m.amount))(currency)
-    case _                         ⇒ throw new UnsupportedOperationException("There must be an implicit MoneyContext in scope to compare dislike currencies")
-  }
-
-  /**
-   * Divide this money by another (non-money) Quantity and return
+   * Divide this money by another (non-money) Quantity and return a Price
    * @param that Quantity
    * @tparam A Quantity Type
    * @return Price[A]
@@ -217,9 +172,86 @@ final class Money private (val amount: BigDecimal)(val currency: Currency)
   def /[A <: Quantity[A]](that: A): Price[A] = Price(this, that)
 
   /**
+   * Override for Quantity.divide to only work on Moneys of like Currency
+   * Cross currency subtractions should use moneyMinus
+   *
+   * @param that Money
+   * @return Double
+   */
+  override def divide(that: Money): Double = that.currency match {
+    case this.currency ⇒ (amount / that.amount).toDouble
+    case _             ⇒ throw new UnsupportedOperationException("divide not supported for cross-currency comparison - use moneyDivide")
+  }
+
+  /**
+   * Override for Quantity.max to only work on Moneys of like Currency
+   * @param that Money
+   * @return Int
+   */
+  override def max(that: Money): Money = (that, that.currency) match {
+    case (m: Money, this.currency) ⇒ new Money(amount.max(m.amount))(currency)
+    case _                         ⇒ throw new UnsupportedOperationException("max not supported for cross-currency comparison - use moneyMax")
+  }
+
+  /**
+   * Supports max operation on Moneys of dislike Currency
+   * @param that Money
+   * @param moneyContext MoneyContext
+   * @return
+   */
+  def moneyMax(that: Money)(implicit moneyContext: MoneyContext) = moneyContext.compare(this, that) match {
+    case -1 ⇒ that
+    case _  ⇒ this
+  }
+
+  /**
+   * Override for Quantity.max to only work on Moneys of like Currency
+   * @param that Quantity
+   * @return Int
+   */
+  override def min(that: Money): Money = (that, that.currency) match {
+    case (m: Money, this.currency) ⇒ new Money(amount.min(m.amount))(currency)
+    case _                         ⇒ throw new UnsupportedOperationException("min not supported for cross-currency comparison - use moneyMin")
+  }
+
+  /**
+   * Supports max operation on Moneys of dislike Currency
+   * @param that Money
+   * @param moneyContext MoneyContext
+   * @return
+   */
+  def moneyMin(that: Money)(implicit moneyContext: MoneyContext) = moneyContext.compare(this, that) match {
+    case 1 ⇒ that
+    case _ ⇒ this
+  }
+
+  // TODO implement versions of equals and compare following with implicit MoneyContext
+  /**
+   * Override for Quantity.equal to only match Moneys of like Currency
+   * @param that Money must be of matching value and unit
+   * @return
+   */
+  override def equals(that: Any): Boolean = that match {
+    case m: Money ⇒ amount == m.amount && currency == m.currency
+    case _        ⇒ false
+  }
+
+  /**
+   * Override for Quantity.compare to only work on Moneys of like Currency
+   * @param that Money
+   * @return Int
+   */
+  override def compare(that: Money): Int = that.currency match {
+    case this.currency ⇒ if (this.amount > that.amount) 1 else if (this.amount < that.amount) -1 else 0
+    case _             ⇒ throw new UnsupportedOperationException("Comparison between Moneys of dislike Currency is not supported")
+  }
+
+  /**
    * Combines with that Money to create an [[squants.market.CurrencyExchangeRate]]
    *
    * Exchange Rates on the same currency are not supported
+   *
+   * val rate: CurrencyExchangeRate = JPY(100) toThe USD(1)
    *
    * @param that Money
    * @return
@@ -231,7 +263,7 @@ final class Money private (val amount: BigDecimal)(val currency: Currency)
   }
 
   /**
-   * Convert this Money to a Double representing the currency, unit
+   * Convert this Money to a Double representing the currency unit
    *
    * @param unit Currency
    * @param context MoneyContext required for cross currency operations
