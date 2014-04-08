@@ -107,6 +107,16 @@ class MoneySpec extends FlatSpec with Matchers {
     x != y should be(right = true)
   }
 
+  it should "return proper result on max/min operation with an implicit MoneyContext in scope" in {
+    val r1 = CurrencyExchangeRate(USD(1), JPY(100))
+    val r2 = CurrencyExchangeRate(USD(1), EUR(.75))
+    implicit val moneyContext = MoneyContext(USD, defaultCurrencySet, List(r1, r2))
+    val x = USD(100)
+    val y = JPY(100)
+    x.moneyMax(y) should be(x)
+    y.moneyMin(x) should be(y)
+  }
+
   it should "return proper result when adding like currencies with no MoneyContext in scope" in {
     USD(1) + USD(2) should be(USD(3))
     USD(1).plus(USD(2)) should be(USD(3))
@@ -203,12 +213,17 @@ class MoneySpec extends FlatSpec with Matchers {
     JPY(75) /% BigDecimal(3) should be((JPY(25), JPY(0)))
   }
 
-  it should "return proper result when dividing by a Money value" in {
+  it should "return proper result when dividing by a Money of like Currency" in {
+    USD(10) / USD(2) should be(5)
+  }
+
+  it should "return proper result when dividing by a Money of another Currency" in {
     val r1 = CurrencyExchangeRate(USD(1), JPY(100))
     val r2 = CurrencyExchangeRate(USD(1), EUR(.75))
     implicit val moneyContext = MoneyContext(USD, defaultCurrencySet, List(r1, r2))
 
-    USD(10) / USD(2) should be(5)
+    USD(10) / JPY(200) should be(5)
+    EUR(7.5) / USD(10) should be(1)
   }
 
   it should "return proper results when negating a value" in {
@@ -238,8 +253,8 @@ class MoneySpec extends FlatSpec with Matchers {
   }
 
   it should "return an Exchange Rate on toThe a different currency" in {
-    JPY(100).toThe(USD(1)) should be(CurrencyExchangeRate(USD(1), JPY(100)))
-    USD(1).toThe(JPY(100)) should be(CurrencyExchangeRate(JPY(100), USD(1)))
+    JPY(100) toThe USD(1) should be(CurrencyExchangeRate(USD(1), JPY(100)))
+    USD(1) toThe JPY(100) should be(CurrencyExchangeRate(JPY(100), USD(1)))
   }
 
   it should "throw an IllegalArgumentException on toThe a same currency" in {
