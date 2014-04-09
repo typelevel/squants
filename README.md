@@ -17,8 +17,8 @@ All types are immutable and thread-safe.
 Current Release: **0.2.3**
 ([API Docs](https://oss.sonatype.org/service/local/repositories/releases/archive/com/squants/squants_2.10/0.2.3/squants_2.10-0.2.3-javadoc.jar/!/index.html#squants.package))
 
-Development Build: **0.2.4-SNAPSHOT**
-([API Docs](https://oss.sonatype.org/service/local/repositories/snapshots/archive/com/squants/squants_2.10/0.2.4-SNAPSHOT/squants_2.10-0.2.4-SNAPSHOT-javadoc.jar/!/index.html#squants.package))
+Development Build: **0.3.0-SNAPSHOT**
+([API Docs](https://oss.sonatype.org/service/local/repositories/snapshots/archive/com/squants/squants_2.10/0.3.0-SNAPSHOT/squants_2.10-0.3.0-SNAPSHOT-javadoc.jar/!/index.html#squants.package))
 
 [![Build Status](https://travis-ci.org/garyKeorkunian/squants.png?branch=master)](https://travis-ci.org/garyKeorkunian/squants)
 

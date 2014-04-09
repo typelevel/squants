@@ -44,6 +44,8 @@ trait VolumeFlowRateUnit extends UnitOfMeasure[VolumeFlowRate] {
   def time: Time
   def apply(d: Double): VolumeFlowRate = VolumeFlowRate(volumeUnit(d), time)
   def unapply(flow: VolumeFlowRate) = Some(flow.to(this))
+  protected def converterFrom: Double ⇒ Double = ???
+  protected def converterTo: Double ⇒ Double = ???
 }
 
 object CubicMetersPerSecond extends VolumeFlowRateUnit with ValueUnit {

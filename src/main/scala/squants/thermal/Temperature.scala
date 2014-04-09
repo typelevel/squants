@@ -147,7 +147,7 @@ final class Kelvin(value: Double) extends Temperature(value) { def valueUnit = K
 /**
  * Base trait for units of [[squants.thermal.Temperature]]
  */
-sealed trait TemperatureScale extends BaseQuantityUnit[Temperature] with UnitConverter {
+sealed trait TemperatureScale extends BaseQuantityUnit[Temperature] {
   def dimensionSymbol = "Θ"
   def self: TemperatureScale
 }

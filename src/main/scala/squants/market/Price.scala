@@ -19,10 +19,11 @@ import squants._
  * @author  garyKeorkunian
  * @since   0.1
  *
- * @param money the money
- * @param quantity the quantity
+ * @param money Money
+ * @param quantity Quantity
+ * @tparam A Quantity Type
  */
-case class Price[A <: Quantity[A]](money: Money, quantity: A) extends Ratio[Money, A] {
+case class Price[A <: Quantity[A]](money: Money, quantity: A) extends Ratio[Money, A] with Serializable {
   def base = money
   def counter = quantity
 

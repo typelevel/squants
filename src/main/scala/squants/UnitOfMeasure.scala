@@ -29,13 +29,7 @@ trait UnitOfMeasure[A <: Quantity[A]] extends Serializable {
    * @return
    */
   def symbol: String
-}
 
-/**
- * Provides for defining and calling a converter method that converts a Quantities value from it's [[squants.ValueUnit]]
- * to an alternative Unit of Measure
- */
-trait UnitConverter { uom: UnitOfMeasure[_] ⇒
   /**
    * Defines a signature for converting a quantity from this UOM to the Value UOM
    * @return
@@ -67,7 +61,7 @@ trait UnitConverter { uom: UnitOfMeasure[_] ⇒
 /**
  * A Unit of Measure that require a simple multiplier for converting to and from the underlying value's unit
  */
-trait UnitMultiplier extends UnitConverter { uom: UnitOfMeasure[_] ⇒
+trait UnitMultiplier { uom: UnitOfMeasure[_] ⇒
 
   /**
    * Defines a multiplier value relative to the Quantity's [[squants.ValueUnit]]
@@ -80,13 +74,13 @@ trait UnitMultiplier extends UnitConverter { uom: UnitOfMeasure[_] ⇒
    * Implements the converterTo method as a simple quotient of the value and the multiplier
    * @return
    */
-  def converterTo = value ⇒ value / multiplier
+  def converterTo: Double ⇒ Double = value ⇒ value / multiplier
 
   /**
    * Implements the converterFrom method as a simple product of the value and the multiplier
    * @return
    */
-  def converterFrom = value ⇒ value * multiplier
+  def converterFrom: Double ⇒ Double = value ⇒ value * multiplier
 }
 
 /**

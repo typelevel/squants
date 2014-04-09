@@ -40,6 +40,9 @@ trait AngularVelocityUnit extends UnitOfMeasure[AngularVelocity] {
   def timeUnit: TimeUnit
   def time: Time
   def apply(d: Double) = AngularVelocity(angleBase * d, time)
+
+  protected def converterFrom: Double ⇒ Double = ???
+  protected def converterTo: Double ⇒ Double = ???
 }
 
 object RadiansPerSecond extends AngularVelocityUnit with ValueUnit {
