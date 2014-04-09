@@ -140,6 +140,39 @@ load.=~(reading)(Watts(.01)) should be(false)
 load.approx(reading)(Watts(.01)) should be(false)
 ```
 
+### Vectors
+** EXPERIMENTAL **
+
+Vectors are implemented as a case class that takes a unit and a variable list of parameters
+representing a set of quantity point coordinates.
+The unit is used for extracting a re-boxing quantities within the basic vector operations.
+The dimensionality of the vector is determined by the number of arguments.
+
+```scala
+val vector = QuantityVector(Kilometers, Kilometers(1.2), Kilometers(4.3), Kilometers(2.3)
+val magnitude: Length = vector.magnitude    // returns the scalar value of the vector
+val normalized = vector.normalize           // returns a corresponding vector scaled to 1 unit (ie, the Unit Vector)
+
+val vector2 = QuantityVector(Kilometers, Kilometers(1.2), Kilometers(4.3), Kilometers(2.3)
+val vectorSum = vector + vector2        // returns the sum of two vectors
+val vectorDiff = vector - vector2       // return the difference of two vectors
+val displacement = vectorDiff.magnitude // returns the net displacement of vector and vector2
+val vectorScaled = vector * 5           // returns vector scaled 5 times
+val vectorReduced = vector / 5          // returns vector reduced 5 time
+val vectorDouble = vector / 5.meters    // returns vector reduced and converted to DoubleVector
+val dotProduct = vector * vector2       // returns the Dot Product of vector and vector2
+
+val crossProduct = vector crossProduct vector2  // currencty only supported for 3-dimensional vectors
+```
+
+Simple non-quantity (Double based) vectors are also supported
+
+```scala
+val vector = DoubleVector(1.2, 4.3, 2.3, 5.4)   // a Four-dimensional vector
+```
+
+These features are experimental in the current version and the API may undergo significant change before final release.
+
 ## Market Package
 Market Types are similar but not quite the same as other quantities in the library.
 The primary type, Money, is derived from Quantity, and its Units of Measure are Currencies.
