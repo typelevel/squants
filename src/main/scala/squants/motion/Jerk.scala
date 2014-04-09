@@ -41,6 +41,9 @@ trait JerkUnit extends UnitOfMeasure[Jerk] {
 
   def apply(value: Double) = Jerk(change * value, time)
   def unapply(jerk: Jerk) = Some(jerk.to(this))
+
+  protected def converterFrom: Double ⇒ Double = ???
+  protected def converterTo: Double ⇒ Double = ???
 }
 
 object MetersPerSecondCubed extends JerkUnit with ValueUnit {

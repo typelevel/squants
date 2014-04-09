@@ -27,7 +27,7 @@ case class Acceleration(change: Velocity, time: Time) extends Quantity[Accelerat
     with TimeDerivative[Velocity] with TimeIntegral[Jerk] {
 
   def valueUnit = MetersPerSecondSquared
-  def value = toMetersPerSecondSquared
+  def value = change.to(MetersPerSecond) / time.to(Seconds)
 
   def *(that: Mass): Force = Force(that, this)
   def /(that: Time): Jerk = Jerk(this, that)
@@ -57,6 +57,9 @@ trait AccelerationUnit extends UnitOfMeasure[Acceleration] {
 
   def apply(value: Double) = Acceleration(change * value, time)
   def unapply(acceleration: Acceleration) = Some(acceleration.to(this))
+
+  protected def converterTo: Double ⇒ Double = ???
+  protected def converterFrom: Double ⇒ Double = ???
 }
 
 // TODO - How about direction?

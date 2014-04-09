@@ -40,6 +40,8 @@ trait PressureUnit extends UnitOfMeasure[Pressure] {
   def areaUnit: AreaUnit
   def areaValue: Area
   def apply(value: Double) = Pressure(forceValue * value, areaValue)
+  protected def converterFrom: Double ⇒ Double = ???
+  protected def converterTo: Double ⇒ Double = ???
 }
 
 object Pascals extends PressureUnit with ValueUnit {

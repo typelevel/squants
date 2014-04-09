@@ -54,6 +54,9 @@ trait ForceUnit extends UnitOfMeasure[Force] {
   def accUnit: AccelerationUnit
   def accBase: Acceleration
   def apply(value: Double) = Force(massBase * value, accBase)
+
+  protected def converterFrom: Double ⇒ Double = ???
+  protected def converterTo: Double ⇒ Double = ???
 }
 
 object Newtons extends ForceUnit with ValueUnit {

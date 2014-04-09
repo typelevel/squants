@@ -205,7 +205,7 @@ abstract class Quantity[A <: Quantity[A]] extends Ordered[A] with Serializable {
    * @param unit UnitOfMeasure[A] with UnitConverter
    * @return Double
    */
-  def to(unit: UnitOfMeasure[A] with UnitConverter): Double = unit.convertTo(value)
+  def to(unit: UnitOfMeasure[A]): Double = unit.convertTo(value)
 
   /**
    * Returns an equivalent Quantity boxed with the supplied Unit
@@ -216,7 +216,7 @@ abstract class Quantity[A <: Quantity[A]] extends Ordered[A] with Serializable {
    * @param unit UnitOfMeasure[A] with UnitConverter
    * @return Quantity
    */
-  def in(unit: UnitOfMeasure[A] with UnitConverter) = unit(unit.convertTo(value))
+  def in(unit: UnitOfMeasure[A]) = unit(unit.convertTo(value))
 
   /**
    * Returns a string representing the quantity's value in valueUnits
@@ -229,7 +229,7 @@ abstract class Quantity[A <: Quantity[A]] extends Ordered[A] with Serializable {
    * @param unit UnitOfMeasure[A] with UnitConverter
    * @return String
    */
-  def toString(unit: UnitOfMeasure[A] with UnitConverter): String = to(unit) + " " + unit.symbol
+  def toString(unit: UnitOfMeasure[A]): String = to(unit) + " " + unit.symbol
 }
 
 /**

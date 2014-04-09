@@ -24,9 +24,8 @@ import scala.Some
  *
  * @param distance The distance traveled
  * @param time The travel time
- * @param direction The direction of travel
  */
-case class Velocity(distance: Distance, time: Time, direction: Option[Direction] = None) extends Quantity[Velocity]
+case class Velocity(distance: Distance, time: Time) extends Quantity[Velocity]
     with TimeDerivative[Distance] with TimeIntegral[Acceleration] {
 
   def valueUnit = MetersPerSecond
@@ -46,26 +45,24 @@ case class Velocity(distance: Distance, time: Time, direction: Option[Direction]
   def toUsMilesPerHour: Double = to(UsMilesPerHour)
   def toInternationalMilesPerHour: Double = to(InternationalMilesPerHour)
   def toKnots: Double = to(Knots)
-
-  def withDirection(d: Direction) = copy(direction = Some(d))
 }
 
 trait VelocityUnit extends UnitOfMeasure[Velocity] {
   def distanceUnit: DistanceUnit
   def timeInterval: Time
   def timeUnit: TimeUnit
-  def apply(value: Double) = Velocity(distanceUnit(value), timeInterval, None)
+  def apply(value: Double) = Velocity(distanceUnit(value), timeInterval)
   def unapply(velocity: Velocity) = Some(velocity.to(this))
-}
 
-case class Direction(x: Double, y: Double, z: Double)
+  protected def converterFrom: Double ⇒ Double = ???
+  protected def converterTo: Double ⇒ Double = ???
+}
 
 object FeetPerSecond extends VelocityUnit {
   val distanceUnit = Feet
   val timeInterval = Seconds(1)
   val timeUnit = Seconds
   val symbol = "ft/s"
-  def apply(fps: Double, direction: Option[Direction]) = Velocity(Feet(fps), Seconds(1), direction)
 }
 
 object MetersPerSecond extends VelocityUnit with ValueUnit {
@@ -73,7 +70,6 @@ object MetersPerSecond extends VelocityUnit with ValueUnit {
   val timeInterval = Seconds(1)
   val timeUnit = Seconds
   val symbol = "m/s"
-  def apply(mps: Double, direction: Option[Direction]) = Velocity(Meters(mps), Seconds(1), direction)
 }
 
 object KilometersPerHour extends VelocityUnit {
@@ -81,7 +77,6 @@ object KilometersPerHour extends VelocityUnit {
   val timeInterval = Hours(1)
   val timeUnit = Hours
   val symbol = "km/s"
-  def apply(mps: Double, direction: Option[Direction]) = Velocity(Kilometers(mps), Hours(1), direction)
 }
 
 object UsMilesPerHour extends VelocityUnit {
@@ -89,7 +84,6 @@ object UsMilesPerHour extends VelocityUnit {
   val timeInterval = Hours(1)
   val timeUnit = Hours
   val symbol = "mph"
-  def apply(mph: Double, direction: Option[Direction]) = Velocity(UsMiles(mph), Hours(1), direction)
 }
 
 object InternationalMilesPerHour extends VelocityUnit {
