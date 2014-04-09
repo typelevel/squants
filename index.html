@@ -46,8 +46,8 @@ All types are immutable and thread-safe.</p>
 <p>Current Release: <strong>0.2.3</strong>
 (<a href="https://oss.sonatype.org/service/local/repositories/releases/archive/com/squants/squants_2.10/0.2.3/squants_2.10-0.2.3-javadoc.jar/!/index.html#squants.package">API Docs</a>)</p>
 
-<p>Development Build: <strong>0.2.4-SNAPSHOT</strong>
-(<a href="https://oss.sonatype.org/service/local/repositories/snapshots/archive/com/squants/squants_2.10/0.2.4-SNAPSHOT/squants_2.10-0.2.4-SNAPSHOT-javadoc.jar/!/index.html#squants.package">API Docs</a>)</p>
+<p>Development Build: <strong>0.3.0-SNAPSHOT</strong>
+(<a href="https://oss.sonatype.org/service/local/repositories/snapshots/archive/com/squants/squants_2.10/0.3.0-SNAPSHOT/squants_2.10-0.3.0-SNAPSHOT-javadoc.jar/!/index.html#squants.package">API Docs</a>)</p>
 
 <p><a href="https://travis-ci.org/garyKeorkunian/squants"><img src="https://travis-ci.org/garyKeorkunian/squants.png?branch=master" alt="Build Status"></a></p>
 
@@ -136,7 +136,7 @@ Most conversions are implemented by defining relationships between Quantity type
 </pre></div>
 
 <p>This code demonstrates use of the Power.* method, defined as an infix operator that takes a Time
-value and returns an Energy value, conversely</p>
+and returns an Energy, conversely</p>
 
 <div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">aveLoad</span><span class="k">:</span> <span class="kt">Power</span> <span class="o">=</span> <span class="n">energyUsed</span> <span class="o">/</span> <span class="n">time</span>
 <span class="n">aveLoad</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="nc">Kilowatts</span><span class="o">(</span><span class="mf">1.2</span><span class="o">)</span>
@@ -172,7 +172,13 @@ Use the <code>approx</code> method (<code>=~</code> operator) like the <code>equ
 <div class="highlight highlight-scala"><pre><span class="k">implicit</span> <span class="k">val</span> <span class="n">tolerance</span> <span class="k">=</span> <span class="nc">Watts</span><span class="o">(.</span><span class="mi">1</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">load</span> <span class="k">=</span> <span class="nc">Kilowatts</span><span class="o">(</span><span class="mf">2.0</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">reading</span> <span class="k">=</span> <span class="nc">Kilowatts</span><span class="o">(</span><span class="mf">1.9999</span><span class="o">)</span>
-<span class="n">load</span> <span class="o">=~</span> <span class="n">reading</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+
+<span class="n">load</span> <span class="o">=~</span> <span class="n">reading</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="c1">// uses implicit tolerance</span>
+<span class="n">load</span> <span class="n">approx</span> <span class="n">reading</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="c1">// uses implicit tolerance</span>
+
+<span class="c1">// use instead of, or override implicit</span>
+<span class="n">load</span><span class="o">.=~(</span><span class="n">reading</span><span class="o">)(</span><span class="nc">Watts</span><span class="o">(.</span><span class="mi">01</span><span class="o">))</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+<span class="n">load</span><span class="o">.</span><span class="n">approx</span><span class="o">(</span><span class="n">reading</span><span class="o">)(</span><span class="nc">Watts</span><span class="o">(.</span><span class="mi">01</span><span class="o">))</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
 </pre></div>
 
 <h2>
@@ -199,8 +205,7 @@ Create Money values using standard Currency codes.</p>
 <a name="price" class="anchor" href="#price"><span class="octicon octicon-link"></span></a>Price</h3>
 
 <p>A Ratio between Money and another Quantity.
-A Price value must be typed on a Quantity.
-It can be denominated in any defined Currency.</p>
+A Price value is typed on a Quantity and can be denominated in any defined Currency.</p>
 
 <p><em>Price = Money / Quantity</em></p>
 
@@ -218,11 +223,19 @@ It can be denominated in any defined Currency.</p>
 
 <p>Currency Exchange Rates</p>
 
-<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">rate</span> <span class="k">=</span> <span class="nc">CurrencyExchangeRate</span><span class="o">(</span><span class="nc">USD</span><span class="o">(</span><span class="mi">1</span><span class="o">),</span> <span class="nc">JPY</span><span class="o">(</span><span class="mi">100</span><span class="o">))</span>
+<div class="highlight highlight-scala"><pre><span class="c1">// create an exchange rate</span>
+<span class="k">val</span> <span class="n">rate</span> <span class="k">=</span> <span class="nc">CurrencyExchangeRate</span><span class="o">(</span><span class="nc">USD</span><span class="o">(</span><span class="mi">1</span><span class="o">),</span> <span class="nc">JPY</span><span class="o">(</span><span class="mi">100</span><span class="o">))</span>
+
 <span class="k">val</span> <span class="n">someYen</span><span class="k">:</span> <span class="kt">Money</span> <span class="o">=</span> <span class="nc">JPY</span><span class="o">(</span><span class="mi">350</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">dollarAmount</span><span class="k">:</span> <span class="kt">Money</span> <span class="o">=</span> <span class="n">rate</span><span class="o">.</span><span class="n">convert</span><span class="o">(</span><span class="n">someYen</span><span class="o">)</span> <span class="c1">// returns USD(3.5)</span>
 <span class="k">val</span> <span class="n">someBucks</span><span class="k">:</span> <span class="kt">Money</span> <span class="o">=</span> <span class="nc">USD</span><span class="o">(</span><span class="mf">23.50</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">yenAmount</span><span class="k">:</span> <span class="kt">Money</span> <span class="o">=</span> <span class="n">rate</span> <span class="o">*</span> <span class="n">someBucks</span>         <span class="c1">// returns JPY(2350)</span>
+
+<span class="c1">// Use the convert method which automatically converts the money to the 'other' currency</span>
+<span class="k">val</span> <span class="n">dollarAmount</span><span class="k">:</span> <span class="kt">Money</span> <span class="o">=</span> <span class="n">rate</span><span class="o">.</span><span class="n">convert</span><span class="o">(</span><span class="n">someYen</span><span class="o">)</span> <span class="c1">// returns USD(3.5)</span>
+<span class="k">val</span> <span class="n">yenAmount</span><span class="k">:</span> <span class="kt">Money</span> <span class="o">=</span> <span class="n">rate</span><span class="o">.</span><span class="n">convert</span><span class="o">(</span><span class="n">someBucks</span><span class="o">)</span>  <span class="c1">// returns JPY(2350)</span>
+
+<span class="c1">// or just use the * operator in either direction (money * rate, or rate * money)</span>
+<span class="k">val</span> <span class="n">dollarAmount2</span><span class="k">:</span> <span class="kt">Money</span> <span class="o">=</span> <span class="n">rate</span> <span class="o">*</span> <span class="n">someYen</span>       <span class="c1">// returns USD(3.5)</span>
+<span class="k">val</span> <span class="n">yenAmount2</span><span class="k">:</span> <span class="kt">Money</span> <span class="o">=</span> <span class="n">someBucks</span> <span class="o">*</span> <span class="n">rate</span>        <span class="c1">// returns JPY(2350)</span>
 </pre></div>
 
 <h3>
@@ -314,7 +327,7 @@ The technique and frequency chosen for exchange rate updates is completely in co
 <span class="k">val</span> <span class="n">low</span> <span class="k">=</span> <span class="mf">40.d</span><span class="n">ollars</span> <span class="o">/</span> <span class="n">megawattHour</span>
 </pre></div>
 
-<p>Implicit conversion support for using Numbers to lead some expressions</p>
+<p>Implicit conversion support for using Double on the left side of operations</p>
 
 <div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">price</span> <span class="k">=</span> <span class="mi">10</span> <span class="o">/</span> <span class="n">dollar</span>     <span class="c1">// 1 USD / 10 ea</span>
 <span class="k">val</span> <span class="n">freq</span> <span class="k">=</span> <span class="mi">60</span> <span class="o">/</span> <span class="n">second</span>      <span class="c1">// 60 Hz</span>
@@ -554,7 +567,11 @@ so that user code can choose a more precise type such as those provided by the
 </li>
 <li>Enhance documentation and support presence</li>
 <li>Typesafe Activator Sample Project /  Template</li>
-</ul>
+</ul><h2>
+<a name="caveats" class="anchor" href="#caveats"><span class="octicon octicon-link"></span></a>Caveats</h2>
+
+<p>Code is offered as-is, with no implied warranty of any kind.
+Comments, criticisms, and/or praise are welcome, especially from scientists, engineers and the like.</p>
       </section>
     </div>
 
