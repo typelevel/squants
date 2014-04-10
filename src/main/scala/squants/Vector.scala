@@ -8,8 +8,6 @@
 
 package squants
 
-import squants.motion.{ MetersPerSecondSquared, NewtonSeconds }
-
 /**
  * Root trait for representing Vectors
  *
@@ -18,7 +16,7 @@ import squants.motion.{ MetersPerSecondSquared, NewtonSeconds }
  * @author garyKeorkunian
  * @since 0.3.0
  *
- * @tparam A Type for the vector's coordinate values
+ * @tparam A Type for the Vector's coordinate values
  */
 trait Vector[A] {
   /**
@@ -85,15 +83,16 @@ trait Vector[A] {
    * @param that Vector[A]
    * @return
    */
-  def dotProduct(that: Vector[A]): A
-  def *(that: Vector[A]) = dotProduct(that)
+  def dotProduct(that: Vector[Double]): A
+  def *(that: Vector[Double]) = dotProduct(that)
 
   /**
    * Create the Cross Product of two Vectors
    * @param that Vector[A]
    * @return
    */
-  def crossProduct(that: Vector[A]): Vector[A]
+  def crossProduct(that: Vector[Double]): Vector[A]
+  def #* = crossProduct _
 }
 
 /**
@@ -140,72 +139,100 @@ case class DoubleVector(coordinates: Double*) extends Vector[Double] {
  * @param coordinates Variable list of A
  * @tparam A QuantityType
  */
-case class QuantityVector[A <: Quantity[A]](unit: UnitOfMeasure[A], coordinates: A*) extends Vector[A] {
-  def magnitude: A = unit(math.sqrt(coordinates.toTraversable.map(v ⇒ v.to(unit) * v.to(unit)).sum))
-  def normalize: Vector[A] = this / magnitude.to(unit)
+case class QuantityVector[A <: Quantity[A]](coordinates: A*) extends Vector[A] {
+  def valueUnit = coordinates(0).valueUnit
+  def magnitude: A = valueUnit(math.sqrt(coordinates.toTraversable.map(v ⇒ v.to(valueUnit) * v.to(valueUnit)).sum))
+
+  def normalize: Vector[A] = this / magnitude.to(valueUnit)
+
+  /**
+   * Creates the Unit Vector which corresponds to this vector using the given unit
+   * @return
+   */
+  def normalize(unit: UnitOfMeasure[A]): Vector[A] = this / magnitude.to(unit)
   def plus(that: Vector[A]): Vector[A] =
-    QuantityVector(unit, coordinates.toIterable.zipAll(that.coordinates.toIterable, unit(0), unit(0)).toTraversable.map(v ⇒ v._1 + v._2).toSeq: _*)
+    QuantityVector(coordinates.toIterable.zipAll(that.coordinates.toIterable, valueUnit(0), valueUnit(0)).toTraversable.map(v ⇒ v._1 + v._2).toSeq: _*)
   def minus(that: Vector[A]): Vector[A] =
-    QuantityVector(unit, coordinates.toIterable.zipAll(that.coordinates.toIterable, unit(0), unit(0)).toTraversable.map(v ⇒ v._1 - v._2).toSeq: _*)
+    QuantityVector(coordinates.toIterable.zipAll(that.coordinates.toIterable, valueUnit(0), valueUnit(0)).toTraversable.map(v ⇒ v._1 - v._2).toSeq: _*)
   def times(that: Double): Vector[A] =
-    QuantityVector(unit, coordinates.toTraversable.map(v ⇒ v * that).toSeq: _*)
+    QuantityVector(coordinates.toTraversable.map(v ⇒ v * that).toSeq: _*)
   def divide(that: Double): Vector[A] =
-    QuantityVector(unit, coordinates.toTraversable.map(v ⇒ v / that).toSeq: _*)
+    QuantityVector(coordinates.toTraversable.map(v ⇒ v / that).toSeq: _*)
   def divide(that: A): Vector[Double] =
     DoubleVector(coordinates.toTraversable.map(v ⇒ v / that).toSeq: _*)
 
-  def dotProduct(that: Vector[A]): A =
-    unit(coordinates.toIterable.zipAll(that.coordinates.toIterable, unit(0), unit(0)).toTraversable.map(v ⇒ v._1.to(unit) * v._2.to(unit)).sum)
+  def dotProduct(that: Vector[Double]): A =
+    valueUnit(coordinates.toIterable.zipAll(that.coordinates.toIterable, valueUnit(0), 0d).toTraversable.map(v ⇒ v._1.to(valueUnit) * v._2).sum)
 
-  def crossProduct(that: Vector[A]): Vector[A] = (this.coordinates.length, that.coordinates.length) match {
+  def crossProduct(that: Vector[Double]): Vector[A] = (this.coordinates.length, that.coordinates.length) match {
     case (3, 3) ⇒
-      QuantityVector(unit,
-        unit(coordinates(1).to(unit) * that.coordinates(2).to(unit) -
-          coordinates(2).to(unit) * that.coordinates(1).to(unit)),
-        unit(coordinates(2).to(unit) * that.coordinates(0).to(unit) -
-          coordinates(0).to(unit) * that.coordinates(2).to(unit)),
-        unit(coordinates(0).to(unit) * that.coordinates(1).to(unit) -
-          coordinates(1).to(unit) * that.coordinates(0).to(unit)))
-    case (7, 7) ⇒ throw new UnsupportedOperationException("Seven-dimensional cross product is not currently supported")
-    case _      ⇒ throw new UnsupportedOperationException("Cross product is not supported on vectors with an arbitrary number of dimensions")
+      QuantityVector(
+        valueUnit(coordinates(1).to(valueUnit) * that.coordinates(2) -
+          coordinates(2).to(valueUnit) * that.coordinates(1)),
+        valueUnit(coordinates(2).to(valueUnit) * that.coordinates(0) -
+          coordinates(0).to(valueUnit) * that.coordinates(2)),
+        valueUnit(coordinates(0).to(valueUnit) * that.coordinates(1) -
+          coordinates(1).to(valueUnit) * that.coordinates(0)))
+    case (7, 7) ⇒ throw new UnsupportedOperationException("Seven-dimensional Cross Product is not currently supported")
+    case _      ⇒ throw new UnsupportedOperationException("Cross Product is not supported on vectors with an arbitrary number of dimensions")
   }
+
+  /**
+   * Strategy #1 Prototype for implementation that support dimensional conversion
+   *
+   * Pros - requires no implicit classes of extended case classes,
+   *        it will be much easier to implement divide, dotProduct and crossProduct
+   * Cons - requires implicit conversion to be in scope
+   */
+  def times[B <: Quantity[B], C <: Quantity[C]](that: B)(implicit convert: (A, B) ⇒ C): QuantityVector[C] =
+    QuantityVector(coordinates.toTraversable.map(v ⇒ convert(v, that)).toSeq: _*)
+  def *[B <: Quantity[B], C <: Quantity[C]](that: B)(implicit convert: (A, B) ⇒ C) = times(that)
 }
 
 /**
- * Strategy #1 for implementations that support dimensional conversions
+ * Strategy #2 Prototype for implementations that support dimensional conversions
  *
- * Add implicit conversions for each Quantity type
+ * Add implicit conversions to each Quantity's Conversions object
  *
+ * Pros - can be imported automatically with other conversions
+ * Cons - requires an additional implicit conversion class for every type
  */
 object QuantityVectorConversion {
 
-  implicit class VelocityVector(v: QuantityVector[Velocity]) {
-    def *(that: Mass): QuantityVector[Momentum] =
-      QuantityVector(NewtonSeconds, v.coordinates.toTraversable.map(v ⇒ v * that).toSeq: _*)
+  implicit class LengthVector(v: QuantityVector[Length]) {
+    def strat1Times(that: Length): QuantityVector[Area] =
+      QuantityVector(v.coordinates.toTraversable.map(v ⇒ v * that).toSeq: _*)
+    def strat1Times(that: Area): QuantityVector[Volume] =
+      QuantityVector(v.coordinates.toTraversable.map(v ⇒ v * that).toSeq: _*)
+  }
 
-    def /(that: Time): QuantityVector[Acceleration] =
-      QuantityVector(MetersPerSecondSquared, v.coordinates.toTraversable.map(v ⇒ v / that).toSeq: _*)
-
-    def /(that: Acceleration): QuantityVector[Time] =
-      QuantityVector(Seconds, v.coordinates.toTraversable.map(v ⇒ v / that).toSeq: _*)
+  implicit class AreaVector(v: QuantityVector[Area]) {
+    def strat1Times(that: Length): QuantityVector[Volume] =
+      QuantityVector(v.coordinates.toTraversable.map(v ⇒ v * that).toSeq: _*)
   }
 }
 
 /**
- * Strategy #2 for implementations that support dimensional conversions
+ * Strategy #3 Prototype for implementations that support dimensional conversions
  *
  * Implement a class representing the specific Quantity Vector
  *
+ * Pros - requires no implicits
+ * Cons - requires a new class for every quantity
+ *
  */
-//case class VelocityVector(override val unit: UnitOfMeasure[Velocity], velocities: Velocity*)
-//    extends QuantityVector[Velocity](unit, velocities: _*) {
-//
-//  def *(that: Mass): QuantityVector[Momentum] =
-//    QuantityVector(NewtonSeconds, velocities.toTraversable.map(v ⇒ v * that).toSeq: _*)
-//
-//  def /(that: Time): QuantityVector[Acceleration] =
-//    QuantityVector(MetersPerSecondSquared, velocities.toTraversable.map(v ⇒ v / that).toSeq: _*)
-//
-//  def /(that: Acceleration): QuantityVector[Time] =
-//    QuantityVector(Seconds, velocities.toTraversable.map(v ⇒ v / that).toSeq: _*)
-//}
+class LengthVector(lengths: Length*)
+    extends QuantityVector[Length](lengths: _*) {
+
+  def *(that: Length): AreaVector =
+    new AreaVector(coordinates.toTraversable.map(v ⇒ v * that).toSeq: _*)
+  def *(that: Area): QuantityVector[Volume] =
+    QuantityVector(coordinates.toTraversable.map(v ⇒ v * that).toSeq: _*)
+}
+
+class AreaVector(areas: Area*)
+    extends QuantityVector[Area](areas: _*) {
+
+  def *(that: Length): QuantityVector[Volume] =
+    QuantityVector(coordinates.toTraversable.map(v ⇒ v * that).toSeq: _*)
+}

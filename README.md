@@ -12,6 +12,8 @@ All types are immutable and thread-safe.
 [GitHub](https://github.com/garyKeorkunian/squants)
 |
 [User Forum](https://groups.google.com/forum/#!forum/squants)
+|
+[Wiki](https://github.com/garyKeorkunian/squants/wiki)
 
 ### Current Versions
 Current Release: **0.2.3**
@@ -19,6 +21,8 @@ Current Release: **0.2.3**
 
 Development Build: **0.3.0-SNAPSHOT**
 ([API Docs](https://oss.sonatype.org/service/local/repositories/snapshots/archive/com/squants/squants_2.10/0.3.0-SNAPSHOT/squants_2.10-0.3.0-SNAPSHOT-javadoc.jar/!/index.html#squants.package))
+
+[Release History](https://github.com/garyKeorkunian/squants/wiki/Release-History)
 
 [![Build Status](https://travis-ci.org/garyKeorkunian/squants.png?branch=master)](https://travis-ci.org/garyKeorkunian/squants)
 
@@ -143,26 +147,35 @@ load.approx(reading)(Watts(.01)) should be(false)
 ### Vectors
 ** EXPERIMENTAL **
 
-Vectors are implemented as a case class that takes a unit and a variable list of parameters
-representing a set of quantity point coordinates.
-The unit is used for extracting a re-boxing quantities within the basic vector operations.
+Vectors are implemented as a case class that takes a variable list of like quantities
+representing a set of point coordinates in Cartesian space.
 The dimensionality of the vector is determined by the number of arguments.
 
 ```scala
-val vector = QuantityVector(Kilometers, Kilometers(1.2), Kilometers(4.3), Kilometers(2.3)
-val magnitude: Length = vector.magnitude    // returns the scalar value of the vector
-val normalized = vector.normalize           // returns a corresponding vector scaled to 1 unit (ie, the Unit Vector)
+val vector = QuantityVector(Kilometers(1.2), Kilometers(4.3), Kilometers(2.3)
+val magnitude: Length = vector.magnitude        // returns the scalar value of the vector
+val normalized = vector.normalize(Kilometers)   // returns a corresponding vector scaled to 1 of the given unit
 
-val vector2 = QuantityVector(Kilometers, Kilometers(1.2), Kilometers(4.3), Kilometers(2.3)
+val vector2 = QuantityVector(Kilometers(1.2), Kilometers(4.3), Kilometers(2.3)
 val vectorSum = vector + vector2        // returns the sum of two vectors
 val vectorDiff = vector - vector2       // return the difference of two vectors
 val displacement = vectorDiff.magnitude // returns the net displacement of vector and vector2
 val vectorScaled = vector * 5           // returns vector scaled 5 times
 val vectorReduced = vector / 5          // returns vector reduced 5 time
 val vectorDouble = vector / 5.meters    // returns vector reduced and converted to DoubleVector
-val dotProduct = vector * vector2       // returns the Dot Product of vector and vector2
+val dotProduct = vector * vectorDouble  // returns the Dot Product of vector and vectorDouble
 
-val crossProduct = vector crossProduct vector2  // currencty only supported for 3-dimensional vectors
+val crossProduct = vector crossProduct vectorDouble  // currently only supported for 3-dimensional vectors
+```
+
+Dimensional conversions within Vector operations.
+This feature is currently and development and the final implementation being evaluated.
+This following type of operation is the goal.
+
+```scala
+val vectorLength = QuantityVector(Kilometers(1.2), Kilometers(4.3), Kilometers(2.3)
+val vectorArea: QuantityVector[Area] = vectorLength * Kilometers(10)
+val vectorVelocity: QuantityVector[Velocity] = vectorLength / Seconds(1)
 ```
 
 Simple non-quantity (Double based) vectors are also supported
