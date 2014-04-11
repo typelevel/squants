@@ -29,6 +29,7 @@ class LengthSpec extends FlatSpec with Matchers {
   it should "create values using UOM factories" in {
 
     Meters(1).toMeters should be(1)
+    Nanometers(1).toNanometers should be(1)
     Microns(1).toMicrons should be(1)
     Millimeters(1).toMillimeters should be(1)
     Centimeters(1).toCentimeters should be(1)
@@ -50,6 +51,7 @@ class LengthSpec extends FlatSpec with Matchers {
   it should "properly convert to all supported Units of Measure" in {
     val x = Meters(1)
     x.toMeters should be(1)
+    x.toNanometers should be(1 / MetricSystem.Nano)
     x.toMicrons should be(1 / MetricSystem.Micro)
     x.toMillimeters should be(1 / MetricSystem.Milli)
     x.toCentimeters should be(1 / MetricSystem.Centi)
@@ -71,6 +73,7 @@ class LengthSpec extends FlatSpec with Matchers {
 
   it should "return properly formatted strings for all supported Units of Measure" in {
     Meters(1).toString(Meters) should be("1.0 m")
+    Nanometers(1).toString(Nanometers) should be("1.0 nm")
     Microns(1).toString(Microns) should be("1.0 µm")
     Millimeters(1).toString(Millimeters) should be("1.0 mm")
     Centimeters(1).toString(Centimeters) should be("1.0 cm")
@@ -138,7 +141,11 @@ class LengthSpec extends FlatSpec with Matchers {
   it should "provide aliases for single unit values" in {
     import LengthConversions._
 
+    nanometer should be(Nanometers(1))
+    nanometre should be(Nanometers(1))
     micron should be(Microns(1))
+    micrometer should be(Microns(1))
+    micrometre should be(Microns(1))
     millimeter should be(Millimeters(1))
     millimetre should be(Millimeters(1))
     centimeter should be(Centimeters(1))
@@ -166,6 +173,9 @@ class LengthSpec extends FlatSpec with Matchers {
     import LengthConversions._
 
     val d = 10d
+    d.nm should be(Nanometers(d))
+    d.nanometers should be(Nanometers(d))
+    d.nanometres should be(Nanometers(d))
     d.µm should be(Microns(d))
     d.microns should be(Microns(d))
     d.mm should be(Millimeters(d))
@@ -197,6 +207,8 @@ class LengthSpec extends FlatSpec with Matchers {
   it should "provide implicit conversion from String" in {
     import LengthConversions._
 
+    "10.33 nm".toLength.right.get should be(Nanometers(10.33))
+    "10.33 µm".toLength.right.get should be(Microns(10.33))
     "10.33 mm".toLength.right.get should be(Millimeters(10.33))
     "10.33 cm".toLength.right.get should be(Centimeters(10.33))
     "10.33 m".toLength.right.get should be(Meters(10.33))
