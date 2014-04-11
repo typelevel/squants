@@ -47,6 +47,7 @@ final class Length private (val value: Double) extends Quantity[Length]
   def cubed = this * this * this
 
   def toMicrons = to(Microns)
+  def toNanometers = to(Nanometers)
   def toMillimeters = to(Millimeters)
   def toCentimeters = to(Centimeters)
   def toDecimeters = to(Decimeters)
@@ -72,8 +73,9 @@ final class Length private (val value: Double) extends Quantity[Length]
 object Length {
   private[space] def apply(b: Double) = new Length(b)
   def apply(s: String): Either[String, Length] = {
-    val regex = "([-+]?[0-9]*\\.?[0-9]+) *(mm|cm|m|km|in|ft|yd|mi|nmi|au|ly)".r
+    val regex = "([-+]?[0-9]*\\.?[0-9]+) *(nm|mm|cm|m|km|in|ft|yd|mi|nmi|au|ly)".r
     s match {
+      case regex(value, Nanometers.symbol)        ⇒ Right(Nanometers(value.toDouble))
       case regex(value, Millimeters.symbol)       ⇒ Right(Millimeters(value.toDouble))
       case regex(value, Centimeters.symbol)       ⇒ Right(Centimeters(value.toDouble))
       case regex(value, Meters.symbol)            ⇒ Right(Meters(value.toDouble))
@@ -107,6 +109,11 @@ object Microns extends LengthUnit {
 object Millimeters extends LengthUnit {
   val symbol = "mm"
   val multiplier = MetricSystem.Milli
+}
+
+object Nanometers extends LengthUnit {
+  val symbol = "nm"
+  val multiplier = MetricSystem.Nano
 }
 
 object Centimeters extends LengthUnit {
@@ -180,6 +187,8 @@ object LightYears extends LengthUnit {
 
 object LengthConversions {
   lazy val micron = Microns(1)
+  lazy val nanometer = Nanometers(1)
+  lazy val nanometre = Nanometers(1)
   lazy val millimeter = Millimeters(1)
   lazy val millimetre = Millimeters(1)
   lazy val centimeter = Centimeters(1)
@@ -205,6 +214,9 @@ object LengthConversions {
   implicit class LengthConversions(d: Double) {
     def µm = Microns(d)
     def microns = Microns(d)
+    def nm = Nanometers(d)
+    def nanometers = Nanometers(d)
+    def nanometres = Nanometers(d)
     def mm = Millimeters(d)
     def millimeters = Millimeters(d)
     def millimetres = Millimeters(d)
