@@ -214,7 +214,7 @@ package object squants {
   type Price[A <: Quantity[A]] = squants.market.Price[A]
 
   /**
-   * Provides implicit conversions that allow 'primitive' numbers to lead in * operations
+   * Provides implicit conversions that allow Doubles to lead in * operations
    * {{{
    *    1.5 * Kilometers(10) should be(Kilometers(15))
    * }}}
@@ -223,5 +223,13 @@ package object squants {
    */
   implicit class SquantifiedDouble(d: Double) {
     def *[A <: Quantity[A]](that: A): A = that * d
+    def *[A](that: Vector[A]): Vector[A] = that * d
+  }
+
+  implicit class SquantifiedDoubleVector(v: Vector[Double]) {
+    def dotProduct[A <: Quantity[A]](that: Vector[A]): A = that * v
+    def *[A <: Quantity[A]] = dotProduct _
+    def crossProduct[A <: Quantity[A]](that: Vector[A]): Vector[A] = that crossProduct v
+    def #*[A <: Quantity[A]] = crossProduct _
   }
 }

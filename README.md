@@ -159,7 +159,6 @@ val normalized = vector.normalize(Kilometers)   // returns a corresponding vecto
 val vector2 = QuantityVector(Kilometers(1.2), Kilometers(4.3), Kilometers(2.3)
 val vectorSum = vector + vector2        // returns the sum of two vectors
 val vectorDiff = vector - vector2       // return the difference of two vectors
-val displacement = vectorDiff.magnitude // returns the net displacement of vector and vector2
 val vectorScaled = vector * 5           // returns vector scaled 5 times
 val vectorReduced = vector / 5          // returns vector reduced 5 time
 val vectorDouble = vector / 5.meters    // returns vector reduced and converted to DoubleVector

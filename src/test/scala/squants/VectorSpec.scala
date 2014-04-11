@@ -10,6 +10,8 @@ package squants
 
 import org.scalatest.{ Matchers, FlatSpec }
 import squants.space.{ SquareKilometers, Kilometers }
+import squants.motion.Newtons
+import squants.energy.Joules
 
 /**
  * @author  garyKeorkunian
@@ -24,6 +26,7 @@ class VectorSpec extends FlatSpec with Matchers {
 
   it should "create a Vector with expected values" in {
     val vector = QuantityVector(Kilometers(1), Kilometers(10), Kilometers(5))
+    vector.valueUnit should be(Meters)
     vector.coordinates(0) should be(Kilometers(1))
     vector.coordinates(1) should be(Kilometers(10))
     vector.coordinates(2) should be(Kilometers(5))
@@ -45,9 +48,17 @@ class VectorSpec extends FlatSpec with Matchers {
     QuantityVector(x, y, z) != QuantityVector(z, y, z) should be(right = true)
   }
 
-  it should "determine a length" in {
-    val vector = QuantityVector(Meters(3), Meters(4), Meters(5))
+  it should "determine a magnitude" in {
+    val vector = QuantityVector(Kilometers(.003), Kilometers(.004), Kilometers(.005))
     vector.magnitude should be(Meters(math.sqrt(3 * 3 + 4 * 4 + 5 * 5)))
+  }
+
+  it should "normalize a Vector" in {
+    val x = Kilometers(3)
+    val y = Kilometers(4)
+    val z = Kilometers(5)
+    val normalized = QuantityVector(x, y, z).normalize(Kilometers)
+    normalized.magnitude should be(Kilometers(1.0))
   }
 
   it should "add two Vectors" in {
@@ -98,16 +109,24 @@ class VectorSpec extends FlatSpec with Matchers {
       Kilometers(x.to(Kilometers) * a - y.to(Kilometers) * a))
     QuantityVector(x, y, z).crossProduct(DoubleVector(a, a, a)) should be(expRes)
     QuantityVector(x, y, z) #* DoubleVector(a, a, a) should be(expRes)
+
+    val up = QuantityVector(Kilometers(1), Kilometers(2), Kilometers(3))
+    val left = DoubleVector(3, 2, 1)
+    val forward = up crossProduct left
+    val back = left crossProduct up
+    println(s"forward - $forward")
+    println(s"back - $back")
   }
 
   it should "cross product two Vectors with 7 coordinates each" is pending
 
-  it should "normalize a Vector" in {
-    val x = Kilometers(3)
-    val y = Kilometers(4)
-    val z = Kilometers(5)
-    val normalized = QuantityVector(x, y, z).normalize(Kilometers)
-    normalized.magnitude should be(Kilometers(1.0))
+  it should "convert to a DoubleVector" in {
+    val x = Kilometers(1)
+    val y = Kilometers(2)
+    val z = Kilometers(3)
+    val quantityVector = QuantityVector(x, y, z)
+    quantityVector.to(Kilometers).equals(DoubleVector(1, 2, 3)) should be(right = true)
+    quantityVector.to(Meters).equals(DoubleVector(1000, 2000, 3000)) should be(right = true)
   }
 
   behavior of "Dimensional Conversion Strategies"
@@ -115,11 +134,17 @@ class VectorSpec extends FlatSpec with Matchers {
   /**
    * Pros - clean usage once implicits are in scope
    * Cons - requires implicit conversions to be in scope
+   *        too many implicits creates conflicts, resolved with explicit typing
+   *
+   * Note - These implicit defs could be moved to each type's conversion object
    */
   it should "Strategy #1 - Overloaded times operator that uses implicit dimensional conversion" in {
-    implicit def lenTimeLen: (Length, Length) ⇒ Area = (a, b) ⇒ a * b
-    implicit def lenTimeArea: (Length, Area) ⇒ Volume = (a, b) ⇒ a * b
+    implicit def lenTimesLen: (Length, Length) ⇒ Area = (a, b) ⇒ a * b
+    implicit def lenTimesArea: (Length, Area) ⇒ Volume = (a, b) ⇒ a * b
     implicit def areaTimesLen: (Area, Length) ⇒ Volume = (a, b) ⇒ a * b
+    implicit def areaDivideLen: (Area, Length) ⇒ Length = (a, b) ⇒ a / b
+    implicit def volumeDivideArea: (Volume, Area) ⇒ Length = (a, b) ⇒ a / b
+    implicit def volumeDivideLength: (Volume, Length) ⇒ Area = (a, b) ⇒ a / b
 
     val x = Kilometers(3)
     val y = Kilometers(4)
@@ -130,9 +155,21 @@ class VectorSpec extends FlatSpec with Matchers {
     val vectorA = vectorL times l
     vectorA should be(QuantityVector(SquareKilometers(3), SquareKilometers(4), SquareKilometers(5)))
 
-    val vectorV1 = vectorA times l
-    val vectorV2 = vectorL times a
+    val vectorV1: QuantityVector[Volume] = vectorA * l // Con - explicit typing required to resolve (Area, Length) conflict
+    val vectorV2 = vectorL * a
     vectorV1 should be(vectorV2)
+
+    val vectorL1 = vectorV1 / (l * l)
+    val vectorL2: QuantityVector[Length] = (vectorV2 / l).divide[Length, Length](l) // Con - explicit typing required
+    vectorL1 should be(vectorL2)
+
+    implicit def lenTimesForce: (Length, Force) ⇒ Energy = (l, f) ⇒ l * f
+    import squants.energy.EnergyConversions._
+
+    val displacement = QuantityVector(Meters(2), Meters(2))
+    val force = QuantityVector(Newtons(10), Newtons(10))
+    val work = displacement dotProduct force
+    work should be(Joules(40))
   }
 
   /**
