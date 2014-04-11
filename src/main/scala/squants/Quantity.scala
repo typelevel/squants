@@ -202,7 +202,7 @@ abstract class Quantity[A <: Quantity[A]] extends Ordered[A] with Serializable {
    *   val d = Feet(3)
    *   (d to Inches) should be(36)
    * }}}
-   * @param unit UnitOfMeasure[A] with UnitConverter
+   * @param unit UnitOfMeasure[A]
    * @return Double
    */
   def to(unit: UnitOfMeasure[A]): Double = unit.convertTo(value)
@@ -213,7 +213,7 @@ abstract class Quantity[A <: Quantity[A]] extends Ordered[A] with Serializable {
    * This is really only useful for Quantity classes that box at the UOM level
    * e.g. Temperature and currently Time
    *
-   * @param unit UnitOfMeasure[A] with UnitConverter
+   * @param unit UnitOfMeasure[A]
    * @return Quantity
    */
   def in(unit: UnitOfMeasure[A]) = unit(unit.convertTo(value))
