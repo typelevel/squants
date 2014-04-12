@@ -29,7 +29,12 @@ class VolumeSpec extends FlatSpec with Matchers {
 
     CubicMeters(1).toCubicMeters should be(1)
     Litres(1).toLitres should be(1)
-    Milliliters(1).toMillilitres should be(1)
+    Nanolitres(1).toNanolitres should be(1)
+    Microlitres(1).toMicrolitres should be(1)
+    Millilitres(1).toMillilitres should be(1)
+    Centilitres(1).toCentilitres should be(1)
+    Decilitres(1).toDecilitres should be(1)
+    Hectolitres(1).toHectolitres should be(1)
 
     CubicMiles(1).toCubicMiles should be(1)
     CubicYards(1).toCubicYards should be(1)
@@ -47,7 +52,12 @@ class VolumeSpec extends FlatSpec with Matchers {
     x.toCubicMeters should be(1)
 
     x.toLitres should be(1000)
-    x.toMillilitres should be(1000000)
+    x.toNanolitres - 1000000000000.0d < 1 should be(right = true) // Some issues with conversion precision
+    x.toMicrolitres - 1000000000.0d < 1 should be(right = true) // Some issues with conversion precision
+    x.toMillilitres - 1000000.0d < 1 should be(right = true) // Some issues with conversion precision
+    x.toCentilitres - 100000 < 1 should be(right = true) // Some issues with conversion precision
+    x.toDecilitres should be(10000)
+    x.toHectolitres should be(10)
 
     x.toCubicMiles should be(1 / math.pow(UsMiles.multiplier, 3))
     x.toCubicYards should be(1 / BigDecimal(Yards.multiplier).pow(3).toDouble)
@@ -79,7 +89,12 @@ class VolumeSpec extends FlatSpec with Matchers {
   it should "return properly formatted strings for all supported Units of Measure" in {
     CubicMeters(1).toString(CubicMeters) should be("1.0 m³")
     Litres(1).toString(Litres) should be("1.0 L")
-    Milliliters(1).toString(Milliliters) should be("1.0 ml")
+    Nanolitres(1).toString(Nanolitres) should be("1.0 nl")
+    Microlitres(1).toString(Microlitres) should be("1.0 µl")
+    Millilitres(1).toString(Millilitres) should be("1.0 ml")
+    Centilitres(1).toString(Centilitres) should be("1.0 cl")
+    Decilitres(1).toString(Decilitres) should be("1.0 dl")
+    Hectolitres(1).toString(Hectolitres) should be("1.0 hl")
 
     CubicMiles(1).toString(CubicMiles) should be("1.0 mi³")
     CubicYards(1).toString(CubicYards) should be("1.0 yd³")
@@ -131,7 +146,18 @@ class VolumeSpec extends FlatSpec with Matchers {
 
     cubicMeter should be(CubicMeters(1))
     litre should be(Litres(1))
-    millilitre should be(Milliliters(1))
+    nanoliter should be(Nanolitres(1))
+    nanolitre should be(Nanolitres(1))
+    microliter should be(Microlitres(1))
+    microlitre should be(Microlitres(1))
+    milliliter should be(Millilitres(1))
+    millilitre should be(Millilitres(1))
+    centiliter should be(Centilitres(1))
+    centilitre should be(Centilitres(1))
+    deciliter should be(Decilitres(1))
+    decilitre should be(Decilitres(1))
+    hectoliter should be(Hectolitres(1))
+    hectolitre should be(Hectolitres(1))
 
     cubicMile should be(CubicMiles(1))
     cubicYard should be(CubicYards(1))
@@ -155,7 +181,18 @@ class VolumeSpec extends FlatSpec with Matchers {
     d.cubicMeters should be(CubicMeters(d))
     d.cubicMetres should be(CubicMeters(d))
     d.litres should be(Litres(d))
-    d.millilitres should be(Milliliters(d))
+    d.nanoliters should be(Nanolitres(d))
+    d.nanolitres should be(Nanolitres(d))
+    d.microliters should be(Microlitres(d))
+    d.microlitres should be(Microlitres(d))
+    d.milliliters should be(Millilitres(d))
+    d.millilitres should be(Millilitres(d))
+    d.centiliters should be(Centilitres(d))
+    d.centilitres should be(Centilitres(d))
+    d.deciliters should be(Decilitres(d))
+    d.decilitres should be(Decilitres(d))
+    d.hectoliters should be(Hectolitres(d))
+    d.hectolitres should be(Hectolitres(d))
 
     d.cubicMiles should be(CubicMiles(d))
     d.cubicYards should be(CubicYards(d))
