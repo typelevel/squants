@@ -80,13 +80,13 @@ object AngleConversions {
   lazy val arcminute = Arcminutes(1)
   lazy val arcsecond = Arcseconds(1)
 
-  implicit class AngleConversions(d: Double) {
-    def radians = Radians(d)
-    def degrees = Degrees(d)
-    def gradians = Gradians(d)
-    def turns = Turns(d)
-    def arcminutes = Arcminutes(d)
-    def arcseconds = Arcseconds(d)
+  implicit class AngleConversions[A](d: A)(implicit num: Numeric[A]) {
+    def radians = Radians(num.toDouble(d))
+    def degrees = Degrees(num.toDouble(d))
+    def gradians = Gradians(num.toDouble(d))
+    def turns = Turns(num.toDouble(d))
+    def arcminutes = Arcminutes(num.toDouble(d))
+    def arcseconds = Arcseconds(num.toDouble(d))
   }
 
   implicit object AngleNumeric extends AbstractQuantityNumeric[Angle](Radians)
