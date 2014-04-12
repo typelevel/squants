@@ -39,7 +39,12 @@ final class Volume private (val value: Double)
 
   def toCubicMeters = to(CubicMeters)
   def toLitres = to(Litres)
-  def toMillilitres = to(Milliliters)
+  def toNanolitres = to(Nanolitres)
+  def toMillilitres = to(Millilitres)
+  def toMicrolitres = to(Microlitres)
+  def toCentilitres = to(Centilitres)
+  def toDecilitres = to(Decilitres)
+  def toHectolitres = to(Hectolitres)
 
   def toCubicMiles = to(CubicMiles)
   def toCubicYards = to(CubicYards)
@@ -84,9 +89,34 @@ object Litres extends VolumeUnit {
   val multiplier = .001
 }
 
-object Milliliters extends VolumeUnit {
+object Nanolitres extends VolumeUnit {
+  val symbol = "nl"
+  val multiplier = Litres.multiplier * MetricSystem.Nano
+}
+
+object Microlitres extends VolumeUnit {
+  val symbol = "µl"
+  val multiplier = Litres.multiplier * MetricSystem.Micro
+}
+
+object Millilitres extends VolumeUnit {
   val symbol = "ml"
   val multiplier = Litres.multiplier * MetricSystem.Milli
+}
+
+object Centilitres extends VolumeUnit {
+  val symbol = "cl"
+  val multiplier = Litres.multiplier * MetricSystem.Centi
+}
+
+object Decilitres extends VolumeUnit {
+  val symbol = "dl"
+  val multiplier = Litres.multiplier * MetricSystem.Deci
+}
+
+object Hectolitres extends VolumeUnit {
+  val symbol = "hl"
+  val multiplier = Litres.multiplier * MetricSystem.Hecto
 }
 
 object CubicMiles extends VolumeUnit {
@@ -111,7 +141,7 @@ object CubicInches extends VolumeUnit {
 
 object UsGallons extends VolumeUnit {
   val symbol = "gal"
-  val multiplier = Milliliters.multiplier * 3785.411784
+  val multiplier = Millilitres.multiplier * 3785.411784
 }
 
 object UsQuarts extends VolumeUnit {
@@ -146,7 +176,7 @@ object Teaspoons extends VolumeUnit {
 
 object UsDryGallons extends VolumeUnit {
   val symbol = "gal"
-  val multiplier = Milliliters.multiplier * 4404.8837
+  val multiplier = Millilitres.multiplier * 4404.8837
 }
 
 object UsDryQuarts extends VolumeUnit {
@@ -166,7 +196,7 @@ object UsDryCups extends VolumeUnit {
 
 object ImperialGallons extends VolumeUnit {
   val symbol = "gal"
-  val multiplier = Milliliters.multiplier * 4546.09
+  val multiplier = Millilitres.multiplier * 4546.09
 }
 
 object ImperialQuarts extends VolumeUnit {
@@ -187,7 +217,19 @@ object ImperialCups extends VolumeUnit {
 object VolumeConversions {
   lazy val cubicMeter = CubicMeters(1)
   lazy val litre = Litres(1)
-  lazy val millilitre = Milliliters(1)
+  lazy val liter = Litres(1)
+  lazy val nanolitre = Nanolitres(1)
+  lazy val nanoliter = Nanolitres(1)
+  lazy val microlitre = Microlitres(1)
+  lazy val microliter = Microlitres(1)
+  lazy val millilitre = Millilitres(1)
+  lazy val milliliter = Millilitres(1)
+  lazy val centilitre = Centilitres(1)
+  lazy val centiliter = Centilitres(1)
+  lazy val decilitre = Decilitres(1)
+  lazy val deciliter = Decilitres(1)
+  lazy val hectolitre = Hectolitres(1)
+  lazy val hectoliter = Hectolitres(1)
 
   lazy val cubicMile = CubicMiles(1)
   lazy val cubicYard = CubicYards(1)
@@ -207,7 +249,19 @@ object VolumeConversions {
     def cubicMeters = CubicMeters(d)
     def cubicMetres = CubicMeters(d)
     def litres = Litres(d)
-    def millilitres = Milliliters(d)
+    def liters = Litres(d)
+    def nanolitres = Nanolitres(d)
+    def nanoliters = Nanolitres(d)
+    def microlitres = Microlitres(d)
+    def microliters = Microlitres(d)
+    def millilitres = Millilitres(d)
+    def milliliters = Millilitres(d)
+    def centilitres = Centilitres(d)
+    def centiliters = Centilitres(d)
+    def decilitres = Decilitres(d)
+    def deciliters = Decilitres(d)
+    def hectolitres = Hectolitres(d)
+    def hectoliters = Hectolitres(d)
 
     def cubicMiles = CubicMiles(d)
     def cubicYards = CubicYards(d)
