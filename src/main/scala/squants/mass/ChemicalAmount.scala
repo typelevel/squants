@@ -31,11 +31,11 @@ final class ChemicalAmount private (val value: Double) extends Quantity[Chemical
 object ChemicalAmount {
   // TODO Consider implementing this pattern in all Q's
   def valueUnit = Moles
-  private[mass] def apply(value: Double) = new ChemicalAmount(value)
+  private[mass] def apply[A](n: A)(implicit num: Numeric[A]) = new ChemicalAmount(num.toDouble(n))
 }
 
 trait ChemicalAmountUnit extends BaseQuantityUnit[ChemicalAmount] with UnitMultiplier {
-  def apply(d: Double) = ChemicalAmount(convertFrom(d))
+  def apply[A](n: A)(implicit num: Numeric[A]) = ChemicalAmount(convertFrom(n))
   def dimensionSymbol = "N"
 }
 
@@ -52,9 +52,9 @@ object ChemicalAmountConversions {
   lazy val mole = Moles(1)
   lazy val poundMole = PoundMoles(1)
 
-  implicit class ChemicalAmountConversions(d: Double) {
-    def moles = Moles(d)
-    def poundMoles = PoundMoles(d)
+  implicit class ChemicalAmountConversions[A](n: A)(implicit num: Numeric[A]) {
+    def moles = Moles(n)
+    def poundMoles = PoundMoles(n)
   }
 
   implicit object ChemicalAmountNumeric extends AbstractQuantityNumeric[ChemicalAmount](ChemicalAmount.valueUnit)

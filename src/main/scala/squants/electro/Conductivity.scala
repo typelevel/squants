@@ -28,11 +28,11 @@ final class Conductivity private (val value: Double) extends Quantity[Conductivi
 }
 
 object Conductivity {
-  private[electro] def apply(value: Double) = new Conductivity(value)
+  private[electro] def apply[A](n: A)(implicit num: Numeric[A]) = new Conductivity(num.toDouble(n))
 }
 
 trait ConductivityUnit extends UnitOfMeasure[Conductivity] with UnitMultiplier {
-  def apply(d: Double) = Conductivity(convertFrom(d))
+  def apply[A](n: A)(implicit num: Numeric[A]) = Conductivity(convertFrom(n))
 }
 
 object SiemensPerMeter extends ConductivityUnit with ValueUnit {
@@ -42,8 +42,8 @@ object SiemensPerMeter extends ConductivityUnit with ValueUnit {
 object ConductivityConversions {
   lazy val siemenPerMeter = SiemensPerMeter(1)
 
-  implicit class ConductivityConversions(d: Double) {
-    def siemensPerMeter = SiemensPerMeter(d)
+  implicit class ConductivityConversions[A](n: A)(implicit num: Numeric[A]) {
+    def siemensPerMeter = SiemensPerMeter(n)
   }
 
   implicit object ConductivityNumeric extends AbstractQuantityNumeric[Conductivity](SiemensPerMeter)

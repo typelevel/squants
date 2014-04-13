@@ -53,12 +53,6 @@ class TimeSpec extends FlatSpec with Matchers {
     Days(5) - Hours(12) should be(Days(4.5))
   }
 
-  it should "return a Double when divided be Time" in {
-    Seconds(60) / Seconds(15) should be(4)
-    Minutes(1) / Seconds(15) should be(4)
-    Hours(2) / Minutes(30) should be(4)
-  }
-
   it should "properly convert to all supported Units of Measure" in {
     val x = Seconds(1)
     x.toMicroseconds should be(1000000d)

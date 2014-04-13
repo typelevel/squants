@@ -42,7 +42,7 @@ final class Dimensionless private (val value: Double)
  * Factory singleton for [[squants.Dimensionless]]
  */
 object Dimensionless {
-  def apply(value: Double) = new Dimensionless(value)
+  def apply[A](n: A)(implicit num: Numeric[A]) = new Dimensionless(num.toDouble(n))
 }
 
 /**
@@ -51,7 +51,7 @@ object Dimensionless {
  * The DimensionlessUnit is a useful paradox
  */
 trait DimensionlessUnit extends UnitOfMeasure[Dimensionless] with UnitMultiplier {
-  def apply(n: Double) = Dimensionless(convertFrom(n))
+  def apply[A](n: A)(implicit num: Numeric[A]) = Dimensionless(convertFrom(n))
   def unapply(c: Dimensionless) = Some(convertTo(c.value))
 }
 
@@ -95,17 +95,17 @@ object DimensionlessConversions {
   lazy val thousand = Each(1000)
   lazy val million = Each(1000000)
 
-  implicit class DimensionlessConversions(d: Double) {
-    def each = Each(d)
-    def ea = Each(d)
-    def dozen = Dozen(d)
-    def dz = Dozen(d)
-    def score = Score(d)
-    def gross = Gross(d)
-    def gr = Gross(d)
-    def hundred = Each(d * 100)
-    def thousand = Each(d * 1000)
-    def million = Each(d * 1000000D)
+  implicit class DimensionlessConversions[A](n: A)(implicit num: Numeric[A]) {
+    def each = Each(n)
+    def ea = Each(n)
+    def dozen = Dozen(n)
+    def dz = Dozen(n)
+    def score = Score(n)
+    def gross = Gross(n)
+    def gr = Gross(n)
+    def hundred = Each(num.toDouble(n) * 100)
+    def thousand = Each(num.toDouble(n) * 1000)
+    def million = Each(num.toDouble(n) * 1000000D)
   }
 
   implicit object DimensionlessNumeric extends AbstractQuantityNumeric[Dimensionless](Each) {

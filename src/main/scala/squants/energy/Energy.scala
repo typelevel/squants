@@ -69,7 +69,7 @@ final class Energy private (val value: Double)
  * Companion object for [[squants.energy.Energy]]
  */
 object Energy {
-  private[energy] def apply(value: Double) = new Energy(value)
+  private[energy] def apply[A](n: A)(implicit num: Numeric[A]) = new Energy(num.toDouble(n))
   def apply(load: Power, time: Time): Energy = load * time
   def apply(s: String): Either[String, Energy] = {
     val regex = "([-+]?[0-9]*\\.?[0-9]+) *(J|Wh|kWh|MWh|GWh|Btu|MBtu|MMBtu)".r
@@ -93,7 +93,7 @@ object Energy {
  * Base trait for units of [[squants.energy.Energy]]
  */
 trait EnergyUnit extends UnitOfMeasure[Energy] with UnitMultiplier {
-  def apply(e: Double): Energy = Energy(convertFrom(e))
+  def apply[A](n: A)(implicit num: Numeric[A]) = Energy(convertFrom(n))
   def unapply(energy: Energy) = Some(convertTo(energy.value))
 }
 
@@ -149,20 +149,20 @@ object EnergyConversions {
   lazy val joule = Watts(1) * Seconds(1)
   lazy val btuMultiplier = joule.value * 1055.05585262
 
-  implicit class EnergyConversions(d: Double) {
-    def J = Joules(d)
-    def joules = Joules(d)
-    def Wh = WattHours(d)
-    def kWh = KilowattHours(d)
-    def MWh = MegawattHours(d)
-    def GWh = GigawattHours(d)
-    def Btu = BritishThermalUnits(d)
-    def MBtu = MBtus(d)
-    def MMBtu = MMBtus(d)
-    def wattHours = WattHours(d)
-    def kilowattHours = KilowattHours(d)
-    def megawattHours = MegawattHours(d)
-    def gigawattHours = GigawattHours(d)
+  implicit class EnergyConversions[A](n: A)(implicit num: Numeric[A]) {
+    def J = Joules(n)
+    def joules = Joules(n)
+    def Wh = WattHours(n)
+    def kWh = KilowattHours(n)
+    def MWh = MegawattHours(n)
+    def GWh = GigawattHours(n)
+    def Btu = BritishThermalUnits(n)
+    def MBtu = MBtus(n)
+    def MMBtu = MMBtus(n)
+    def wattHours = WattHours(n)
+    def kilowattHours = KilowattHours(n)
+    def megawattHours = MegawattHours(n)
+    def gigawattHours = GigawattHours(n)
   }
 
   implicit class EnergyStringConversions(s: String) {

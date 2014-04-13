@@ -36,21 +36,21 @@ final class LuminousFlux private (val value: Double)
 }
 
 object LuminousFlux {
-  private[photo] def apply(value: Double) = new LuminousFlux(value)
+  private[photo] def apply[A](n: A)(implicit num: Numeric[A]) = new LuminousFlux(num.toDouble(n))
 }
 
 trait LuminousFluxUnit extends UnitOfMeasure[LuminousFlux] with UnitMultiplier
 
 object Lumens extends LuminousFluxUnit with ValueUnit {
-  def apply(d: Double) = LuminousFlux(d)
+  def apply[A](n: A)(implicit num: Numeric[A]) = LuminousFlux(n)
   val symbol = "lm"
 }
 
 object LuminousFluxConversions {
   lazy val lumen = Lumens(1)
 
-  implicit class LuminousFluxConversions(d: Double) {
-    def lumens = Lumens(d)
+  implicit class LuminousFluxConversions[A](n: A)(implicit num: Numeric[A]) {
+    def lumens = Lumens(n)
   }
 
   implicit object LuminousFluxNumeric extends AbstractQuantityNumeric[LuminousFlux](Lumens)

@@ -30,11 +30,11 @@ final class Illuminance private (val value: Double) extends Quantity[Illuminance
 }
 
 object Illuminance {
-  private[photo] def apply(value: Double) = new Illuminance(value)
+  private[photo] def apply[A](n: A)(implicit num: Numeric[A]) = new Illuminance(num.toDouble(n))
 }
 
 trait IlluminanceUnit extends UnitOfMeasure[Illuminance] with UnitMultiplier {
-  def apply(d: Double) = Illuminance(convertFrom(d))
+  def apply[A](n: A)(implicit num: Numeric[A]) = Illuminance(convertFrom(n))
 }
 
 object Lux extends IlluminanceUnit with ValueUnit {
@@ -44,8 +44,8 @@ object Lux extends IlluminanceUnit with ValueUnit {
 object IlluminanceConversions {
   lazy val lux = Lux(1)
 
-  implicit class IlluminanceConversions(d: Double) {
-    def lux = Lux(d)
+  implicit class IlluminanceConversions[A](n: A)(implicit num: Numeric[A]) {
+    def lux = Lux(n)
   }
 
   implicit object IlluminanceNumeric extends AbstractQuantityNumeric[Illuminance](Lux)

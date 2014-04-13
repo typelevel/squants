@@ -30,12 +30,12 @@ final class LuminousIntensity private (val value: Double) extends Quantity[Lumin
 }
 
 object LuminousIntensity {
-  private[photo] def apply(value: Double) = new LuminousIntensity(value)
+  private[photo] def apply[A](n: A)(implicit num: Numeric[A]) = new LuminousIntensity(num.toDouble(n))
 }
 
 trait LuminousIntensityUnit extends BaseQuantityUnit[LuminousIntensity] with UnitMultiplier {
   val dimensionSymbol = "J"
-  def apply(d: Double) = LuminousIntensity(convertFrom(d))
+  def apply[A](n: A)(implicit num: Numeric[A]) = LuminousIntensity(convertFrom(n))
   def unapply(l: LuminousIntensity) = Some(convertTo(l.value))
 }
 
@@ -46,8 +46,8 @@ object Candelas extends LuminousIntensityUnit with ValueUnit with BaseUnit {
 object LuminousIntensityConversions {
   lazy val candela = Candelas(1)
 
-  implicit class LuminousIntensityConversions(d: Double) {
-    def candelas = Candelas(d)
+  implicit class LuminousIntensityConversions[A](n: A)(implicit num: Numeric[A]) {
+    def candelas = Candelas(n)
   }
 
   implicit object LuminousIntensityNumeric extends AbstractQuantityNumeric[LuminousIntensity](Candelas)

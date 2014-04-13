@@ -50,7 +50,7 @@ object Time {
   val SecondsPerHour = SecondsPerMinutes * 60d
   val SecondsPerDay = SecondsPerHour * 24
 
-  private[time] def apply(d: Double) = new Time(d)
+  private[time] def apply[A](n: A)(implicit num: Numeric[A]) = new Time(num.toDouble(n))
 
   def apply(s: String): Either[String, Time] = {
     val regex = "([-+]?[0-9]*\\.?[0-9]+) *(ms|s|m|h|d)".r
@@ -67,7 +67,7 @@ object Time {
 
 trait TimeUnit extends BaseQuantityUnit[Time] with UnitMultiplier {
   def dimensionSymbol = "T"
-  def apply(d: Double) = Time(convertFrom(d))
+  def apply[A](n: A)(implicit num: Numeric[A]) = Time(convertFrom(n))
   def unapply(t: Time) = Some(convertTo(t.value))
 }
 
@@ -109,13 +109,13 @@ object TimeConversions {
   lazy val hour = Hours(1)
   lazy val day = Days(1)
 
-  implicit class TimeConversions(val coefficient: Double) {
-    def microseconds = Microseconds(coefficient)
-    def milliseconds = Milliseconds(coefficient)
-    def seconds = Seconds(coefficient)
-    def minutes = Minutes(coefficient)
-    def hours = Hours(coefficient)
-    def days = Days(coefficient)
+  implicit class TimeConversions[A](n: A)(implicit num: Numeric[A]) {
+    def microseconds = Microseconds(n)
+    def milliseconds = Milliseconds(n)
+    def seconds = Seconds(n)
+    def minutes = Minutes(n)
+    def hours = Hours(n)
+    def days = Days(n)
   }
 
   implicit class TimeStringConversions(s: String) {

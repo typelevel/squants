@@ -38,14 +38,14 @@ trait RadiantIntensityUnit extends UnitOfMeasure[RadiantIntensity]
 
 object WattsPerSteradian extends RadiantIntensityUnit with ValueUnit {
   val symbol = Watts.symbol + "/" + SquaredRadians.symbol
-  def apply(d: Double) = RadiantIntensity(Watts(d), SquaredRadians(1))
+  def apply[A](n: A)(implicit num: Numeric[A]) = RadiantIntensity(Watts(n), SquaredRadians(1))
 }
 
 object RadiantIntensityConversions {
   lazy val wattPerSteradian = WattsPerSteradian(1)
 
-  implicit class RadiantIntensityConversions(val d: Double) {
-    def wattsPerSteradian = WattsPerSteradian(d)
+  implicit class RadiantIntensityConversions[A](n: A)(implicit num: Numeric[A]) {
+    def wattsPerSteradian = WattsPerSteradian(n)
   }
 
   implicit object RadiantIntensityNumeric extends AbstractQuantityNumeric[RadiantIntensity](WattsPerSteradian)

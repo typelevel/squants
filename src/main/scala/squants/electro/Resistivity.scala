@@ -28,11 +28,11 @@ final class Resistivity private (val value: Double) extends Quantity[Resistivity
 }
 
 object Resistivity {
-  private[electro] def apply(value: Double) = new Resistivity(value)
+  private[electro] def apply[A](n: A)(implicit num: Numeric[A]) = new Resistivity(num.toDouble(n))
 }
 
 trait ResitivityUnit extends UnitOfMeasure[Resistivity] with UnitMultiplier {
-  def apply(d: Double) = Resistivity(convertFrom(d))
+  def apply[A](n: A)(implicit num: Numeric[A]) = Resistivity(convertFrom(n))
 }
 
 object OhmMeters extends ResitivityUnit with ValueUnit {
@@ -42,8 +42,8 @@ object OhmMeters extends ResitivityUnit with ValueUnit {
 object ResistivityConversions {
   lazy val ohmMeter = OhmMeters(1)
 
-  implicit class ResistivityConversions(d: Double) {
-    def ohmMeters = OhmMeters(d)
+  implicit class ResistivityConversions[A](n: A)(implicit num: Numeric[A]) {
+    def ohmMeters = OhmMeters(n)
   }
 
   implicit object ResistivityNumeric extends AbstractQuantityNumeric[Resistivity](OhmMeters)

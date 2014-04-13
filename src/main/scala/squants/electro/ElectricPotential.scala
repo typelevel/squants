@@ -41,11 +41,11 @@ final class ElectricPotential private (val value: Double) extends Quantity[Elect
 }
 
 object ElectricPotential {
-  private[electro] def apply(value: Double) = new ElectricPotential(value)
+  private[electro] def apply[A](n: A)(implicit num: Numeric[A]) = new ElectricPotential(num.toDouble(n))
 }
 
 trait ElectricPotentialUnit extends UnitOfMeasure[ElectricPotential] with UnitMultiplier {
-  def apply(d: Double) = ElectricPotential(convertFrom(d))
+  def apply[A](n: A)(implicit num: Numeric[A]) = ElectricPotential(convertFrom(n))
 }
 
 object Volts extends ElectricPotentialUnit with ValueUnit {
@@ -79,13 +79,13 @@ object ElectricPotentialConversions {
   lazy val kilovolt = Kilovolts(1)
   lazy val megavolt = Megavolts(1)
 
-  implicit class ElectricPotentialConversions(d: Double) {
-    def V = Volts(d)
-    def volts = Volts(d)
-    def microvolts = Microvolts(d)
-    def millivolts = Millivolts(d)
-    def kilovolts = Kilovolts(d)
-    def megavolts = Megavolts(d)
+  implicit class ElectricPotentialConversions[A](n: A)(implicit num: Numeric[A]) {
+    def V = Volts(n)
+    def volts = Volts(n)
+    def microvolts = Microvolts(n)
+    def millivolts = Millivolts(n)
+    def kilovolts = Kilovolts(n)
+    def megavolts = Megavolts(n)
   }
 
   implicit object ElectricPotentialNumeric extends AbstractQuantityNumeric[ElectricPotential](Volts)

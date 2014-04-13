@@ -56,12 +56,12 @@ final class Area private (val value: Double)
 }
 
 object Area {
-  private[space] def apply(a: Double) = new Area(a)
+  private[space] def apply[A](n: A)(implicit num: Numeric[A]) = new Area(num.toDouble(n))
   def apply(length1: Length, length2: Length): Area = apply(length1.toMeters * length2.toMeters)
 }
 
 trait AreaUnit extends UnitOfMeasure[Area] with UnitMultiplier {
-  def apply(a: Double) = Area(convertFrom(a))
+  def apply[A](n: A)(implicit num: Numeric[A]) = Area(convertFrom(n))
   def unapply(area: Area) = Some(convertTo(area.value))
 }
 
@@ -126,17 +126,17 @@ object AreaConversions {
   lazy val acre = Acres(1)
   lazy val barne = Barnes(1)
 
-  implicit class AreaConversions[A](d: A)(implicit num: Numeric[A]) {
-    def squareMeters = SquareMeters(num.toDouble(d))
-    def squareCentimeters = SquareCentimeters(num.toDouble(d))
-    def squareKilometers = SquareKilometers(num.toDouble(d))
-    def squareMiles = SquareUsMiles(num.toDouble(d))
-    def squareYards = SquareYards(num.toDouble(d))
-    def squareFeet = SquareFeet(num.toDouble(d))
-    def squareInches = SquareInches(num.toDouble(d))
-    def hectares = Hectares(num.toDouble(d))
-    def acres = Acres(num.toDouble(d))
-    def barnes = Barnes(num.toDouble(d))
+  implicit class AreaConversions[A](n: A)(implicit num: Numeric[A]) {
+    def squareMeters = SquareMeters(n)
+    def squareCentimeters = SquareCentimeters(n)
+    def squareKilometers = SquareKilometers(n)
+    def squareMiles = SquareUsMiles(n)
+    def squareYards = SquareYards(n)
+    def squareFeet = SquareFeet(n)
+    def squareInches = SquareInches(n)
+    def hectares = Hectares(n)
+    def acres = Acres(n)
+    def barnes = Barnes(n)
   }
 
   implicit object AreaNumeric extends AbstractQuantityNumeric[Area](SquareMeters)

@@ -30,11 +30,11 @@ final class ElectricalConductance private (val value: Double)
 }
 
 object ElectricalConductance {
-  private[electro] def apply(value: Double) = new ElectricalConductance(value)
+  private[electro] def apply[A](n: A)(implicit num: Numeric[A]) = new ElectricalConductance(num.toDouble(n))
 }
 
 trait ElectricalConductanceUnit extends UnitOfMeasure[ElectricalConductance] with UnitMultiplier {
-  def apply(d: Double) = ElectricalConductance(convertFrom(d))
+  def apply[A](n: A)(implicit num: Numeric[A]) = ElectricalConductance(convertFrom(n))
 }
 
 object Siemens extends ElectricalConductanceUnit with ValueUnit {
@@ -44,8 +44,8 @@ object Siemens extends ElectricalConductanceUnit with ValueUnit {
 object ElectricalConductanceConversions {
   lazy val siemen = Siemens(1)
 
-  implicit class ElectricalConductanceConversions(d: Double) {
-    def siemens = Siemens(d)
+  implicit class ElectricalConductanceConversions[A](n: A)(implicit num: Numeric[A]) {
+    def siemens = Siemens(n)
   }
 
   implicit object ElectricalConductanceNumeric extends AbstractQuantityNumeric[ElectricalConductance](Siemens)

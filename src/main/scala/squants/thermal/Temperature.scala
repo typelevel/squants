@@ -117,11 +117,11 @@ object Temperature {
   val scales = Seq(Fahrenheit, Celsius, Kelvin)
   val defaultScale = Fahrenheit
 
-  def apply(d: Double): Temperature = defaultScale(d)
-  def apply(d: Double, scale: TemperatureScale) = scale match {
-    case Fahrenheit ⇒ Fahrenheit(d)
-    case Celsius    ⇒ Celsius(d)
-    case Kelvin     ⇒ Kelvin(d)
+  def apply[A](n: A)(implicit num: Numeric[A]): Temperature = defaultScale(n)
+  def apply[A](n: A, scale: TemperatureScale)(implicit num: Numeric[A]) = scale match {
+    case Fahrenheit ⇒ Fahrenheit(n)
+    case Celsius    ⇒ Celsius(n)
+    case Kelvin     ⇒ Kelvin(n)
   }
   def apply(s: String): Either[String, Temperature] = {
     val regex = "([-+]?[0-9]*\\.?[0-9]+)[ °]*(f|F|c|C|k|K)".r
@@ -158,7 +158,7 @@ object Celsius extends TemperatureScale {
   protected def converterFrom = TemperatureConversions.celsiusToKelvinScale
   protected def converterTo = TemperatureConversions.kelvinToCelsiusScale
   def apply(temperature: Temperature): Temperature = temperature.inCelsius
-  def apply(degrees: Double) = new Celsius(degrees)
+  def apply[A](n: A)(implicit num: Numeric[A]) = new Celsius(num.toDouble(n))
 }
 
 object Fahrenheit extends TemperatureScale {
@@ -167,14 +167,14 @@ object Fahrenheit extends TemperatureScale {
   protected def converterFrom = TemperatureConversions.fahrenheitToKelvinScale
   protected def converterTo = TemperatureConversions.kelvinToFahrenheitScale
   def apply(temperature: Temperature): Temperature = temperature.inFahrenheit
-  def apply(degrees: Double) = new Fahrenheit(degrees)
+  def apply[A](n: A)(implicit num: Numeric[A]) = new Fahrenheit(num.toDouble(n))
 }
 
 object Kelvin extends TemperatureScale with ValueUnit with BaseUnit {
   val symbol = "°K"
   val self = this
   def apply(temperature: Temperature): Temperature = temperature.inKelvin
-  def apply(degrees: Double) = new Kelvin(degrees)
+  def apply[A](n: A)(implicit num: Numeric[A]) = new Kelvin(num.toDouble(n))
 }
 
 object TemperatureConversions {
@@ -210,17 +210,17 @@ object TemperatureConversions {
   def fahrenheitToKelvinScale(fahrenheit: Double) = (fahrenheit + 459.67) * 5d / 9d
   def kelvinToFahrenheitScale(kelvin: Double) = kelvin * 9d / 5d - 459.67
 
-  implicit class TemperatureConversions(d: Double) {
-    def C = Celsius(d)
-    def celsius = Celsius(d)
-    def degreesCelsius = Celsius(d)
-    def F = Fahrenheit(d)
-    def Fah = Fahrenheit(d) // F conflicts with (Float) in the console; Fah is provided as an alternative
-    def fahrenheit = Fahrenheit(d)
-    def degreesFahrenheit = Fahrenheit(d)
-    def K = Kelvin(d)
-    def kelvin = Kelvin(d)
-    def degreesKelvin = Kelvin(d)
+  implicit class TemperatureConversions[A](n: A)(implicit num: Numeric[A]) {
+    def C = Celsius(n)
+    def celsius = Celsius(n)
+    def degreesCelsius = Celsius(n)
+    def F = Fahrenheit(n)
+    def Fah = Fahrenheit(n) // F conflicts with (Float) in the console; Fah is provided as an alternative
+    def fahrenheit = Fahrenheit(n)
+    def degreesFahrenheit = Fahrenheit(n)
+    def K = Kelvin(n)
+    def kelvin = Kelvin(n)
+    def degreesKelvin = Kelvin(n)
   }
 
   implicit class TemperatureStringConversion(s: String) {

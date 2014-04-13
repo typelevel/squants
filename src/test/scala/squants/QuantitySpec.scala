@@ -29,11 +29,11 @@ class QuantitySpec extends FlatSpec with Matchers {
   }
 
   object Thingee {
-    private[squants] def apply(value: Double) = new Thingee(value)
+    private[squants] def apply[A](n: A)(implicit num: Numeric[A]) = new Thingee(num.toDouble(n))
   }
 
   trait ThingeeUnit extends UnitOfMeasure[Thingee] with UnitMultiplier {
-    def apply(value: Double) = Thingee(convertFrom(value))
+    def apply[A](n: A)(implicit num: Numeric[A]) = Thingee(convertFrom(n))
   }
 
   object Thangs extends ThingeeUnit with ValueUnit {

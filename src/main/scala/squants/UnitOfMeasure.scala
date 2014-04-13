@@ -19,10 +19,10 @@ package squants
 trait UnitOfMeasure[A <: Quantity[A]] extends Serializable {
   /**
    * Factory method for creating instances of a Quantity in this UnitOfMeasure
-   * @param d Double - the Quantity's value in terms of this UnitOfMeasure
+   * @param n Double - the Quantity's value in terms of this UnitOfMeasure
    * @return
    */
-  def apply(d: Double): A
+  def apply[N](n: N)(implicit num: Numeric[N]): A
 
   /**
    * Symbol used when representing Quantities in this UnitOfMeasure
@@ -44,18 +44,22 @@ trait UnitOfMeasure[A <: Quantity[A]] extends Serializable {
 
   /**
    * Applies the converterTo method to a value
-   * @param value Double
+   * @param n N value in terms of teh ValueUnit
+   * @param num Numeric[N]
+   * @tparam N Type
    * @return
    */
-  final def convertTo(value: Double) = converterTo(value)
+  final def convertTo[N](n: N)(implicit num: Numeric[N]) = converterTo(num.toDouble(n))
 
   /**
    * Applies the converterFrom method to a value
    *
-   * @param value Double
+   * @param n N value in terms of this Unit
+   * @param num Numeric[N]
+   * @tparam N Type
    * @return
    */
-  final def convertFrom(value: Double) = converterFrom(value)
+  final def convertFrom[N](n: N)(implicit num: Numeric[N]) = converterFrom(num.toDouble(n))
 }
 
 /**

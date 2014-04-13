@@ -53,7 +53,7 @@ trait ForceUnit extends UnitOfMeasure[Force] {
   def massBase: Mass
   def accUnit: AccelerationUnit
   def accBase: Acceleration
-  def apply(value: Double) = Force(massBase * value, accBase)
+  def apply[A](n: A)(implicit num: Numeric[A]) = Force(massBase * num.toDouble(n), accBase)
 
   protected def converterFrom: Double ⇒ Double = ???
   protected def converterTo: Double ⇒ Double = ???
@@ -88,9 +88,9 @@ object ForceConversions {
   lazy val kilogramForce = KilogramForce(1)
   lazy val poundForce = PoundForce(1)
 
-  implicit class ForceConversions(d: Double) {
-    def newtons = Newtons(d)
-    def kilogramForce = KilogramForce(d)
+  implicit class ForceConversions[A](n: A)(implicit num: Numeric[A]) {
+    def newtons = Newtons(n)
+    def kilogramForce = KilogramForce(n)
     def poundForce = PoundForce(1)
     def lbf = PoundForce(1)
   }

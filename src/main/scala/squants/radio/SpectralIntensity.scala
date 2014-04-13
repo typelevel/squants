@@ -34,14 +34,14 @@ trait SpectralIntensityUnit extends UnitOfMeasure[SpectralIntensity]
 
 object WattsPerSteradianPerMeter extends SpectralIntensityUnit with ValueUnit {
   val symbol = Watts.symbol + "/" + SquaredRadians.symbol + "/" + Meters.symbol
-  def apply(d: Double) = SpectralIntensity(RadiantIntensity(Watts(d), SquaredRadians(1)), Meters(1))
+  def apply[A](n: A)(implicit num: Numeric[A]) = SpectralIntensity(RadiantIntensity(Watts(n), SquaredRadians(1)), Meters(1))
 }
 
 object SpectralIntensityConversions {
   lazy val wattPerSteradianPerMeter = WattsPerSteradianPerMeter(1)
 
-  implicit class SpectralIntensityConversions(val d: Double) {
-    def wattsPerSteradianPerMeter = WattsPerSteradianPerMeter(d)
+  implicit class SpectralIntensityConversions[A](n: A)(implicit num: Numeric[A]) {
+    def wattsPerSteradianPerMeter = WattsPerSteradianPerMeter(n)
   }
 
   implicit object SpectralIntensityNumeric extends AbstractQuantityNumeric[SpectralIntensity](WattsPerSteradianPerMeter)

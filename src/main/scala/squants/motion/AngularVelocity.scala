@@ -39,7 +39,7 @@ trait AngularVelocityUnit extends UnitOfMeasure[AngularVelocity] {
   def angleBase: Angle
   def timeUnit: TimeUnit
   def time: Time
-  def apply(d: Double) = AngularVelocity(angleBase * d, time)
+  def apply[A](n: A)(implicit num: Numeric[A]) = AngularVelocity(angleBase * num.toDouble(n), time)
 
   protected def converterFrom: Double ⇒ Double = ???
   protected def converterTo: Double ⇒ Double = ???
@@ -83,11 +83,11 @@ object AngularVelocityConversions {
   lazy val gradPerSecond = GradsPerSecond(1)
   lazy val turnPerSecond = TurnsPerSecond(1)
 
-  implicit class AngularVelocityConversions(val d: Double) {
-    def radiansPerSecond = RadiansPerSecond(d)
-    def degreesPerSecond = DegreesPerSecond(d)
-    def gradsPerSecond = GradsPerSecond(d)
-    def turnsPerSecond = TurnsPerSecond(d)
+  implicit class AngularVelocityConversions[A](n: A)(implicit num: Numeric[A]) {
+    def radiansPerSecond = RadiansPerSecond(n)
+    def degreesPerSecond = DegreesPerSecond(n)
+    def gradsPerSecond = GradsPerSecond(n)
+    def turnsPerSecond = TurnsPerSecond(n)
   }
 
   implicit object AngularVelocityNumeric extends AbstractQuantityNumeric[AngularVelocity](RadiansPerSecond)

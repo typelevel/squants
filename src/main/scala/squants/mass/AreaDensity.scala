@@ -29,19 +29,18 @@ case class AreaDensity(mass: Mass, area: Area) extends Quantity[AreaDensity] {
 }
 
 trait AreaDensityUnit extends UnitOfMeasure[AreaDensity] {
-  def apply(d: Double): AreaDensity
 }
 
 object KilogramsPerSquareMeter extends AreaDensityUnit with ValueUnit {
-  def apply(d: Double) = AreaDensity(Kilograms(d), SquareMeters(1))
+  def apply[A](n: A)(implicit num: Numeric[A]) = AreaDensity(Kilograms(n), SquareMeters(1))
   val symbol = "kg/m²"
 }
 
 object AreaDensityConversions {
   lazy val kilogramPerSquareMeter = KilogramsPerSquareMeter(1)
 
-  implicit class AreaDensityConversions(val d: Double) {
-    def kilogramsPerSquareMeter = KilogramsPerSquareMeter(d)
+  implicit class AreaDensityConversions[A](n: A)(implicit num: Numeric[A]) {
+    def kilogramsPerSquareMeter = KilogramsPerSquareMeter(n)
   }
 
   implicit object AreaDensityNumeric extends AbstractQuantityNumeric[AreaDensity](KilogramsPerSquareMeter)

@@ -31,13 +31,13 @@ final class SolidAngle private (val value: Double) extends Quantity[SolidAngle] 
 }
 
 object SolidAngle {
-  private[space] def apply(value: Double) = new SolidAngle(value)
+  private[space] def apply[A](n: A)(implicit num: Numeric[A]) = new SolidAngle(num.toDouble(n))
 }
 
 trait SolidAngleUnit extends UnitOfMeasure[SolidAngle]
 
 object SquaredRadians extends SolidAngleUnit with ValueUnit {
-  def apply(d: Double) = SolidAngle(d)
+  def apply[A](n: A)(implicit num: Numeric[A]) = SolidAngle(n)
   val symbol = "sr"
 }
 
@@ -45,9 +45,9 @@ object SolidAngleConversions {
   lazy val squaredRadian = SquaredRadians(1)
   lazy val steradian = SquaredRadians(1)
 
-  implicit class SolidAngleConversions[A](d: A)(implicit num: Numeric[A]) {
-    def squaredRadians = SquaredRadians(num.toDouble(d))
-    def steradians = SquaredRadians(num.toDouble(d))
+  implicit class SolidAngleConversions[A](n: A)(implicit num: Numeric[A]) {
+    def squaredRadians = SquaredRadians(n)
+    def steradians = SquaredRadians(n)
   }
 
   implicit object SolidAngleNumeric extends AbstractQuantityNumeric[SolidAngle](SquaredRadians)

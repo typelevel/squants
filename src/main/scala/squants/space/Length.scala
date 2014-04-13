@@ -71,7 +71,7 @@ final class Length private (val value: Double) extends Quantity[Length]
  * Factory singleton for length
  */
 object Length {
-  private[space] def apply(b: Double) = new Length(b)
+  private[space] def apply[A](b: A)(implicit num: Numeric[A]) = new Length(num.toDouble(b))
   def apply(s: String): Either[String, Length] = {
     val regex = "([-+]?[0-9]*\\.?[0-9]+) *(nm|µm|mm|cm|m|km|in|ft|yd|mi|nmi|au|ly)".r
     s match {
@@ -98,7 +98,7 @@ object Length {
  */
 trait LengthUnit extends BaseQuantityUnit[Length] with UnitMultiplier {
   val dimensionSymbol = "L"
-  def apply(d: Double) = Length(convertFrom(d))
+  def apply[A](n: A)(implicit num: Numeric[A]) = Length(convertFrom(n))
   def unapply(l: Length) = Some(convertTo(l.value))
 }
 
@@ -214,38 +214,38 @@ object LengthConversions {
   lazy val astronomicalUnit = AstronomicalUnits(1)
   lazy val lightYear = LightYears(1)
 
-  implicit class LengthConversions[A](d: A)(implicit num: Numeric[A]) {
-    def nm = Nanometers(num.toDouble(d))
-    def nanometers = Nanometers(num.toDouble(d))
-    def nanometres = Nanometers(num.toDouble(d))
-    def µm = Microns(num.toDouble(d))
-    def microns = Microns(num.toDouble(d))
-    def micrometer = Microns(num.toDouble(d))
-    def micrometre = Microns(num.toDouble(d))
-    def mm = Millimeters(num.toDouble(d))
-    def millimeters = Millimeters(num.toDouble(d))
-    def millimetres = Millimeters(num.toDouble(d))
-    def cm = Centimeters(num.toDouble(d))
-    def centimeters = Centimeters(num.toDouble(d))
-    def centimetres = Centimeters(num.toDouble(d))
-    def dm = Decimeters(num.toDouble(d))
-    def meters = Meters(num.toDouble(d))
-    def metres = Meters(num.toDouble(d))
-    def dam = Decameters(num.toDouble(d))
-    def hm = Hectometers(num.toDouble(d))
-    def km = Kilometers(num.toDouble(d))
-    def kilometers = Kilometers(num.toDouble(d))
-    def kilometres = Kilometers(num.toDouble(d))
-    def inches = Inches(num.toDouble(d))
-    def ft = Feet(num.toDouble(d))
-    def feet = Feet(num.toDouble(d))
-    def yd = Yards(num.toDouble(d))
-    def yards = Yards(num.toDouble(d))
-    def miles = UsMiles(num.toDouble(d))
-    def nmi = NauticalMiles(num.toDouble(d))
-    def au = AstronomicalUnits(num.toDouble(d))
-    def ly = LightYears(num.toDouble(d))
-    def lightYears = LightYears(num.toDouble(d))
+  implicit class LengthConversions[A](n: A)(implicit num: Numeric[A]) {
+    def nm = Nanometers(n)
+    def nanometers = Nanometers(n)
+    def nanometres = Nanometers(n)
+    def µm = Microns(n)
+    def microns = Microns(n)
+    def micrometer = Microns(n)
+    def micrometre = Microns(n)
+    def mm = Millimeters(n)
+    def millimeters = Millimeters(n)
+    def millimetres = Millimeters(n)
+    def cm = Centimeters(n)
+    def centimeters = Centimeters(n)
+    def centimetres = Centimeters(n)
+    def dm = Decimeters(n)
+    def meters = Meters(n)
+    def metres = Meters(n)
+    def dam = Decameters(n)
+    def hm = Hectometers(n)
+    def km = Kilometers(n)
+    def kilometers = Kilometers(n)
+    def kilometres = Kilometers(n)
+    def inches = Inches(n)
+    def ft = Feet(n)
+    def feet = Feet(n)
+    def yd = Yards(n)
+    def yards = Yards(n)
+    def miles = UsMiles(n)
+    def nmi = NauticalMiles(n)
+    def au = AstronomicalUnits(n)
+    def ly = LightYears(n)
+    def lightYears = LightYears(n)
   }
 
   implicit class LengthStringConversions(s: String) {

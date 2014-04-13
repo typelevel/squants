@@ -42,7 +42,7 @@ trait VolumeFlowRateUnit extends UnitOfMeasure[VolumeFlowRate] {
   def volumeBase: Volume
   def timeUnit: TimeUnit
   def time: Time
-  def apply(d: Double): VolumeFlowRate = VolumeFlowRate(volumeUnit(d), time)
+  def apply[A](n: A)(implicit num: Numeric[A]) = VolumeFlowRate(volumeUnit(n), time)
   def unapply(flow: VolumeFlowRate) = Some(flow.to(this))
   protected def converterFrom: Double ⇒ Double = ???
   protected def converterTo: Double ⇒ Double = ???
@@ -86,11 +86,11 @@ object VolumeFlowRateConversions {
   lazy val gallonPerHour = GallonsPerHour(1)
   lazy val gallonPerMinute = GallonsPerMinute(1)
 
-  implicit class VolumeFlowRateConversions(val d: Double) {
-    def cubicMetersPerSecond = CubicMetersPerSecond(d)
-    def gallonsPerDay = GallonsPerDay(d)
-    def gallonsPerHour = GallonsPerHour(d)
-    def gallonsPerMinute = GallonsPerMinute(d)
+  implicit class VolumeFlowRateConversions[A](n: A)(implicit num: Numeric[A]) {
+    def cubicMetersPerSecond = CubicMetersPerSecond(n)
+    def gallonsPerDay = GallonsPerDay(n)
+    def gallonsPerHour = GallonsPerHour(n)
+    def gallonsPerMinute = GallonsPerMinute(n)
   }
 
   implicit object VolumeFlowRateNumeric extends AbstractQuantityNumeric[VolumeFlowRate](CubicMetersPerSecond)

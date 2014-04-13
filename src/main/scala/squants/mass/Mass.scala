@@ -60,7 +60,7 @@ final class Mass private (val value: Double) extends Quantity[Mass]
  * Factory singleton for [[squants.mass.Mass]] quantities
  */
 object Mass {
-  private[mass] def apply(b: Double) = new Mass(b)
+  private[mass] def apply[A](n: A)(implicit num: Numeric[A]) = new Mass(num.toDouble(n))
   def apply(s: String): Either[String, Mass] = {
     val regex = "([-+]?[0-9]*\\.?[0-9]+) *(mcg|mg|g|kg|t|tonnes|lb|oz)".r
     s match {
@@ -82,7 +82,7 @@ object Mass {
  */
 trait MassUnit extends BaseQuantityUnit[Mass] with UnitMultiplier {
   def dimensionSymbol = "M"
-  def apply(n: Double) = Mass(convertFrom(n))
+  def apply[A](n: A)(implicit num: Numeric[A]) = Mass(convertFrom(n))
   def unapply(m: Mass) = Some(convertTo(m.value))
 }
 
@@ -134,22 +134,17 @@ object MassConversions {
   lazy val pound = Pounds(1)
   lazy val ounce = Ounces(1)
 
-  /**
-   * Class for implicit conversions to [[squants.mass.Mass]]
-   *
-   * @param d Double
-   */
-  implicit class MassConversions(val d: Double) {
-    def mcg = Micrograms(d)
-    def mg = Milligrams(d)
+  implicit class MassConversions[A](n: A)(implicit num: Numeric[A]) {
+    def mcg = Micrograms(n)
+    def mg = Milligrams(n)
     def milligrams = mg
-    def g = Grams(d)
+    def g = Grams(n)
     def grams = g
-    def kg = Kilograms(d)
+    def kg = Kilograms(n)
     def kilograms = kg
-    def tonnes = Tonnes(d)
-    def pounds = Pounds(d)
-    def ounces = Ounces(d)
+    def tonnes = Tonnes(n)
+    def pounds = Pounds(n)
+    def ounces = Ounces(n)
   }
 
   implicit class MassStringConversions(val s: String) {

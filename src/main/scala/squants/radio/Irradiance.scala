@@ -34,14 +34,14 @@ trait IrradianceUnit extends UnitOfMeasure[Irradiance]
 
 object WattsPerSquareMeter extends IrradianceUnit with ValueUnit {
   val symbol = Watts.symbol + "/" + SquareMeters.symbol
-  def apply(d: Double) = Irradiance(Watts(d), SquareMeters(1))
+  def apply[A](n: A)(implicit num: Numeric[A]) = Irradiance(Watts(n), SquareMeters(1))
 }
 
 object IrradianceConversions {
   lazy val wattPerSquareMeter = WattsPerSquareMeter(1)
 
-  implicit class IrradianceConversions(val d: Double) {
-    def wattsPerSquareMeter = WattsPerSquareMeter(d)
+  implicit class IrradianceConversions[A](n: A)(implicit num: Numeric[A]) {
+    def wattsPerSquareMeter = WattsPerSquareMeter(n)
   }
 
   implicit object IrradianceNumeric extends AbstractQuantityNumeric[Irradiance](WattsPerSquareMeter)
