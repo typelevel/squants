@@ -45,9 +45,9 @@ object SolidAngleConversions {
   lazy val squaredRadian = SquaredRadians(1)
   lazy val steradian = SquaredRadians(1)
 
-  implicit class SolidAngleConversions(d: Double) {
-    def squaredRadians = SquaredRadians(d)
-    def steradians = SquaredRadians(d)
+  implicit class SolidAngleConversions[A](d: A)(implicit num: Numeric[A]) {
+    def squaredRadians = SquaredRadians(num.toDouble(d))
+    def steradians = SquaredRadians(num.toDouble(d))
   }
 
   implicit object SolidAngleNumeric extends AbstractQuantityNumeric[SolidAngle](SquaredRadians)
