@@ -15,7 +15,8 @@ scalacOptions ++= Seq("-feature", "-deprecation")
 libraryDependencies ++= Seq(
   Dependencies.scalaTest,
   Dependencies.scalaCheck,
-  Dependencies.json4s
+  Dependencies.json4s,
+  Dependencies.spire
 )
 
 resolvers ++= Seq(
