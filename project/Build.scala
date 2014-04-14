@@ -6,12 +6,14 @@ object Versions {
   val ScalaTest = "2.0"
   val ScalaCheck = "1.11.3"
   val Json4s = "3.3.0-SNAPSHOT"
+  val Spire = "0.7.3"
 }
 
 object Dependencies {
   val scalaTest = "org.scalatest" %% "scalatest" % Versions.ScalaTest % "test"
   val scalaCheck = "org.scalacheck" %% "scalacheck" % Versions.ScalaCheck % "test"
   val json4s = "org.json4s" %% "json4s-native" % Versions.Json4s % "test"
+  val spire = "org.spire-math" %% "spire" % Versions.Spire % "test"
 }
 
 object Resolvers {

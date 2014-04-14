@@ -27,13 +27,13 @@ class MassSpec extends FlatSpec with Matchers {
   behavior of "Mass and its Units of Measure"
 
   it should "create values using UOM factories" in {
-    Micrograms(1).toMicrograms should be(1)
-    Milligrams(1).toMilligrams should be(1)
-    Grams(1).toGrams should be(1)
-    Kilograms(1).toKilograms should be(1)
-    Tonnes(1).toTonnes should be(1)
-    Pounds(1).toPounds should be(1)
-    Ounces(1).toOunces should be(1)
+    Micrograms(10.22).toMicrograms should be(10.22)
+    Milligrams(10.22).toMilligrams should be(10.22)
+    Grams(10.22).toGrams should be(10.22)
+    Kilograms(10.22).toKilograms should be(10.22)
+    Tonnes(10.22).toTonnes should be(10.22)
+    Pounds(10.22).toPounds should be(10.22)
+    Ounces(10.22).toOunces should be(10.22)
   }
 
   it should "properly convert to all supported Units of Measure" in {
@@ -118,7 +118,7 @@ class MassSpec extends FlatSpec with Matchers {
   it should "provide implicit conversion from Double" in {
     import MassConversions._
 
-    val d = 10d
+    val d = 10.22
     d.mcg should be(Micrograms(d))
     d.mg should be(Milligrams(d))
     d.milligrams should be(Milligrams(d))
@@ -129,6 +129,16 @@ class MassSpec extends FlatSpec with Matchers {
     d.tonnes should be(Tonnes(d))
     d.pounds should be(Pounds(d))
     d.ounces should be(Ounces(d))
+  }
+
+  it should "provide implicit conversions from arbitrary Numeric types" in {
+    import MassConversions._
+
+    val i = 10
+    i.grams should be(Grams(i))
+
+    val bd = BigDecimal(10.22)
+    bd.grams should be(Grams(bd))
   }
 
   it should "provide implicit conversions from String" in {

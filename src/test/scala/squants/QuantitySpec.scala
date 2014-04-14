@@ -49,6 +49,42 @@ class QuantitySpec extends FlatSpec with Matchers {
 
   behavior of "Quantity as implemented in Thingee"
 
+  it should "create values using arbitrary numeric types" in {
+
+    // using arbitrary Numeric types
+    import spire.math.Rational
+    import spire.math.Real
+
+    abstract class BaseNumeric[T] extends Numeric[T] {
+      def plus(x: T, y: T) = ???
+      def minus(x: T, y: T) = ???
+      def times(x: T, y: T) = ???
+      def negate(x: T) = ???
+      def fromInt(x: Int) = ???
+      def toInt(x: T) = ???
+      def toLong(x: T) = ???
+      def toFloat(x: T) = ???
+      def compare(x: T, y: T) = ???
+    }
+
+    implicit val rationalNumeric = new BaseNumeric[Rational] {
+      def toDouble(x: Rational) = x.toDouble
+    }
+
+    implicit val realNumeric = new BaseNumeric[Real] {
+      def toDouble(x: Real) = x.toDouble
+    }
+
+    Thangs(10).toThangs should be(10)
+    Thangs(BigDecimal(10.22)).toThangs should be(10.22)
+
+    Thangs(Rational(10.22)).toThangs should be(10.22)
+    (Thangs(Rational(10)) + Thangs(Rational(.22))).toThangs should be(10.22)
+
+    Thangs(Real(10.22)).toThangs should be(10.22)
+    (Thangs(Real(10)) + Thangs(Real(.22))).toThangs should be(10.22)
+  }
+
   it should "equal an equivalent like value" in {
     val x = Thangs(2.1)
     val y = Thangs(2.1)
