@@ -39,7 +39,7 @@ trait PressureUnit extends UnitOfMeasure[Pressure] {
   def forceValue: Force
   def areaUnit: AreaUnit
   def areaValue: Area
-  def apply(value: Double) = Pressure(forceValue * value, areaValue)
+  def apply[A](n: A)(implicit num: Numeric[A]) = Pressure(forceValue * num.toDouble(n), areaValue)
   protected def converterFrom: Double ⇒ Double = ???
   protected def converterTo: Double ⇒ Double = ???
 }
@@ -82,11 +82,11 @@ object PressureConversions {
   lazy val psi = PoundsPerSquareInch(1)
   lazy val atm = StandardAtmospheres(1)
 
-  implicit class PressureConversion(d: Double) {
-    def pascals = Pascals(d)
-    def bars = Bars(d)
-    def psi = PoundsPerSquareInch(d)
-    def atm = StandardAtmospheres(d)
+  implicit class PressureConversions[A](n: A)(implicit num: Numeric[A]) {
+    def pascals = Pascals(n)
+    def bars = Bars(n)
+    def psi = PoundsPerSquareInch(n)
+    def atm = StandardAtmospheres(n)
   }
 
   implicit object PressureNumeric extends AbstractQuantityNumeric[Pressure](Pascals)

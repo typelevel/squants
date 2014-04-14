@@ -34,14 +34,14 @@ trait SpectralPowerUnit extends UnitOfMeasure[SpectralPower]
 
 object WattsPerMeter extends SpectralPowerUnit with ValueUnit {
   val symbol = Watts.symbol + "/" + Meters.symbol
-  def apply(d: Double) = SpectralPower(Watts(d), Meters(1))
+  def apply[A](n: A)(implicit num: Numeric[A]) = SpectralPower(Watts(num.toDouble(n)), Meters(1))
 }
 
 object SpectralPowerConversions {
   lazy val wattPerMeter = WattsPerMeter(1)
 
-  implicit class SpectralPowerConversions(val d: Double) {
-    def wattsPerMeter = WattsPerMeter(d)
+  implicit class SpectralPowerConversions[A](n: A)(implicit num: Numeric[A]) {
+    def wattsPerMeter = WattsPerMeter(n)
   }
 
   implicit object SpectralPowerNumeric extends AbstractQuantityNumeric[SpectralPower](WattsPerMeter)

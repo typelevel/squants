@@ -68,7 +68,7 @@ final class Power private (val value: Double)
  * Companion object for [[squants.energy.Power]]
  */
 object Power {
-  private[energy] def apply(value: Double) = new Power(value)
+  private[energy] def apply[A](n: A)(implicit num: Numeric[A]) = new Power(num.toDouble(n))
   def apply(energy: Energy, time: Time): Power = apply(energy.toWattHours / time.toHours)
   def apply(s: String): Either[String, Power] = {
     val regex = "([-+]?[0-9]*\\.?[0-9]+) *(mW|W|kW|MW|GW|Btu/hr)".r
@@ -85,7 +85,7 @@ object Power {
 }
 
 trait PowerUnit extends UnitOfMeasure[Power] with UnitMultiplier {
-  def apply(p: Double): Power = Power(convertFrom(p))
+  def apply[A](n: A)(implicit num: Numeric[A]) = Power(convertFrom(n))
   def unapply(power: Power) = Some(convertTo(power.value))
 }
 
@@ -130,18 +130,18 @@ object PowerConversions {
   lazy val gigawatt = Gigawatts(1)
   lazy val GW = gigawatt
 
-  implicit class PowerConversions(d: Double) {
-    def mW = Milliwatts(d)
-    def W = Watts(d)
-    def kW = Kilowatts(d)
-    def MW = Megawatts(d)
-    def GW = Gigawatts(d)
-    def milliwatts = Milliwatts(d)
-    def watts = Watts(d)
-    def kilowatts = Kilowatts(d)
-    def megawatts = Megawatts(d)
-    def gigawatts = Gigawatts(d)
-    def BTUph = BtusPerHour(d)
+  implicit class PowerConversions[A](n: A)(implicit num: Numeric[A]) {
+    def mW = Milliwatts(n)
+    def W = Watts(n)
+    def kW = Kilowatts(n)
+    def MW = Megawatts(n)
+    def GW = Gigawatts(n)
+    def milliwatts = Milliwatts(n)
+    def watts = Watts(n)
+    def kilowatts = Kilowatts(n)
+    def megawatts = Megawatts(n)
+    def gigawatts = Gigawatts(n)
+    def BTUph = BtusPerHour(n)
   }
 
   implicit class PowerStringConversions(s: String) {

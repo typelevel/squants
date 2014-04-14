@@ -34,21 +34,21 @@ final class MagneticFlux private (val value: Double) extends Quantity[MagneticFl
 }
 
 object MagneticFlux {
-  private[electro] def apply(value: Double) = new MagneticFlux(value)
+  private[electro] def apply[A](n: A)(implicit num: Numeric[A]) = new MagneticFlux(num.toDouble(n))
 }
 
 trait MagneticFluxUnit extends UnitOfMeasure[MagneticFlux] with UnitMultiplier
 
 object Webers extends MagneticFluxUnit with ValueUnit {
   val symbol = "Wb"
-  def apply(d: Double) = MagneticFlux(d)
+  def apply[A](n: A)(implicit num: Numeric[A]) = MagneticFlux(n)
 }
 
 object MagneticFluxConversions {
   lazy val weber = Webers(1)
 
-  implicit class MagneticFluxConversions(d: Double) {
-    def webers = Webers(d)
+  implicit class MagneticFluxConversions[A](n: A)(implicit num: Numeric[A]) {
+    def webers = Webers(n)
   }
 
   implicit object MagneticFluxNumeric extends AbstractQuantityNumeric[MagneticFlux](Webers)

@@ -41,7 +41,7 @@ final class PowerRamp private (val value: Double)
 }
 
 object PowerRamp {
-  private[energy] def apply(value: Double) = new PowerRamp(value)
+  private[energy] def apply[A](n: A)(implicit num: Numeric[A]) = new PowerRamp(num.toDouble(n))
   def apply(change: Power, time: Time): PowerRamp = apply(change.toWatts / time.toHours)
   def apply(s: String): Either[String, PowerRamp] = {
     val regex = "([-+]?[0-9]*\\.?[0-9]+) *(W/h|kW/h|MW/h|GW/h)".r
@@ -56,7 +56,7 @@ object PowerRamp {
 }
 
 trait PowerRampUnit extends UnitOfMeasure[PowerRamp] with UnitMultiplier {
-  def apply(r: Double): PowerRamp = PowerRamp(convertFrom(r))
+  def apply[A](n: A)(implicit num: Numeric[A]) = PowerRamp(convertFrom(n))
   def unapply(ramp: PowerRamp) = Some(convertTo(ramp.value))
 }
 
@@ -89,11 +89,11 @@ object PowerRampConversions {
   lazy val gigawattsPerHour = GigawattsPerHour(1)
   lazy val GWph = gigawattsPerHour
 
-  implicit class PowerRampConversions(d: Double) {
-    def Wph = WattsPerHour(d)
-    def kWph = KilowattsPerHour(d)
-    def MWph = MegawattsPerHour(d)
-    def GWph = GigawattsPerHour(d)
+  implicit class PowerRampConversions[A](n: A)(implicit num: Numeric[A]) {
+    def Wph = WattsPerHour(n)
+    def kWph = KilowattsPerHour(n)
+    def MWph = MegawattsPerHour(n)
+    def GWph = GigawattsPerHour(n)
   }
 
   implicit class PowerRampStringConversion(s: String) {

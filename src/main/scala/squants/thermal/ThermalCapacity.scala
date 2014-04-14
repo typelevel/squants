@@ -31,11 +31,11 @@ final class ThermalCapacity private (val value: Double) extends Quantity[Thermal
 }
 
 object ThermalCapacity {
-  private[thermal] def apply(value: Double) = new ThermalCapacity(value)
+  private[thermal] def apply[A](n: A)(implicit num: Numeric[A]) = new ThermalCapacity(num.toDouble(n))
 }
 
 trait ThermalCapacityUnit extends UnitOfMeasure[ThermalCapacity] with UnitMultiplier {
-  def apply(d: Double) = ThermalCapacity(convertFrom(d))
+  def apply[A](n: A)(implicit num: Numeric[A]) = ThermalCapacity(convertFrom(n))
 }
 
 object JoulesPerKelvin extends ThermalCapacityUnit with ValueUnit {
@@ -45,8 +45,8 @@ object JoulesPerKelvin extends ThermalCapacityUnit with ValueUnit {
 object ThermalCapacityConversions {
   lazy val joulePerKelvin = JoulesPerKelvin(1)
 
-  implicit class ThermalCapacityConversions(d: Double) {
-    def joulesPerKelvin = JoulesPerKelvin(d)
+  implicit class ThermalCapacityConversions[A](n: A)(implicit num: Numeric[A]) {
+    def joulesPerKelvin = JoulesPerKelvin(n)
   }
 
   implicit object ThermalCapacityNumeric extends AbstractQuantityNumeric[ThermalCapacity](JoulesPerKelvin)

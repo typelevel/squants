@@ -29,8 +29,8 @@ case class Jerk(change: Acceleration, time: Time) extends Quantity[Jerk]
   def toString(unit: JerkUnit) = to(unit) + " " + unit.symbol
 
   def to(unit: JerkUnit) = change.to(unit.changeUnit) / unit.change.to(unit.changeUnit) / time.to(unit.timeUnit)
-  def toMetersPerSecondCubed: Double = change.toMetersPerSecondSquared / time.toSeconds
-  def toFeetPerSecondCubed: Double = change.toFeetPerSecondSquared / time.toSeconds
+  def toMetersPerSecondCubed = change.toMetersPerSecondSquared / time.toSeconds
+  def toFeetPerSecondCubed = change.toFeetPerSecondSquared / time.toSeconds
 }
 
 trait JerkUnit extends UnitOfMeasure[Jerk] {
@@ -39,7 +39,7 @@ trait JerkUnit extends UnitOfMeasure[Jerk] {
   def timeUnit: TimeUnit
   def time: Time
 
-  def apply(value: Double) = Jerk(change * value, time)
+  def apply[A](n: A)(implicit num: Numeric[A]) = Jerk(change * num.toDouble(n), time)
   def unapply(jerk: Jerk) = Some(jerk.to(this))
 
   protected def converterFrom: Double ⇒ Double = ???
@@ -65,9 +65,9 @@ object JerkConversions {
   lazy val meterPerSecondCubed = MetersPerSecondCubed(1)
   lazy val footPerSecondCubed = FeetPerSecondCubed(1)
 
-  implicit class JerkConversions(val d: Double) {
-    def metersPerSecondCubed = MetersPerSecondCubed(d)
-    def feetPerSecondCubed = FeetPerSecondCubed(d)
+  implicit class JerkConversions[A](n: A)(implicit num: Numeric[A]) {
+    def metersPerSecondCubed = MetersPerSecondCubed(n)
+    def feetPerSecondCubed = FeetPerSecondCubed(n)
   }
 
   implicit object JerkNumeric extends AbstractQuantityNumeric[Jerk](MetersPerSecondCubed)

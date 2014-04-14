@@ -28,11 +28,11 @@ final class MagneticFluxDensity private (val value: Double) extends Quantity[Mag
 }
 
 object MagneticFluxDensity {
-  private[electro] def apply(value: Double) = new MagneticFluxDensity(value)
+  private[electro] def apply[A](n: A)(implicit num: Numeric[A]) = new MagneticFluxDensity(num.toDouble(n))
 }
 
 trait MagneticFluxDensityUnit extends UnitOfMeasure[MagneticFluxDensity] with UnitMultiplier {
-  def apply(d: Double) = MagneticFluxDensity(convertFrom(d))
+  def apply[A](n: A)(implicit num: Numeric[A]) = MagneticFluxDensity(convertFrom(n))
 }
 
 object Teslas extends MagneticFluxDensityUnit with ValueUnit {
@@ -48,9 +48,9 @@ object MagneticFluxDensityConversions {
   lazy val tesla = Teslas(1)
   lazy val gauss = Gauss(1)
 
-  implicit class MagneticFluxDensistyConversion(d: Double) {
-    def teslas = Teslas(d)
-    def gauss = Gauss(d)
+  implicit class MagneticFluxDensistyConversions[A](n: A)(implicit num: Numeric[A]) {
+    def teslas = Teslas(n)
+    def gauss = Gauss(n)
   }
 
   implicit object MagneticFluxDensistyNumeric extends AbstractQuantityNumeric[MagneticFluxDensity](Teslas)

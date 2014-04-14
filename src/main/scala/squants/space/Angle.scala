@@ -36,11 +36,11 @@ final class Angle private (val value: Double)
 }
 
 object Angle {
-  private[space] def apply(value: Double) = new Angle(value)
+  private[space] def apply[A](n: A)(implicit num: Numeric[A]) = new Angle(num.toDouble(n))
 }
 
 trait AngleUnit extends UnitOfMeasure[Angle] with UnitMultiplier {
-  def apply(d: Double): Angle = Angle(convertFrom(d))
+  def apply[A](n: A)(implicit num: Numeric[A]) = Angle(convertFrom(n))
 }
 
 object Radians extends AngleUnit with ValueUnit {
@@ -80,13 +80,13 @@ object AngleConversions {
   lazy val arcminute = Arcminutes(1)
   lazy val arcsecond = Arcseconds(1)
 
-  implicit class AngleConversions[A](d: A)(implicit num: Numeric[A]) {
-    def radians = Radians(num.toDouble(d))
-    def degrees = Degrees(num.toDouble(d))
-    def gradians = Gradians(num.toDouble(d))
-    def turns = Turns(num.toDouble(d))
-    def arcminutes = Arcminutes(num.toDouble(d))
-    def arcseconds = Arcseconds(num.toDouble(d))
+  implicit class AngleConversions[A](n: A)(implicit num: Numeric[A]) {
+    def radians = Radians(n)
+    def degrees = Degrees(n)
+    def gradians = Gradians(n)
+    def turns = Turns(n)
+    def arcminutes = Arcminutes(n)
+    def arcseconds = Arcseconds(n)
   }
 
   implicit object AngleNumeric extends AbstractQuantityNumeric[Angle](Radians)

@@ -37,47 +37,47 @@ trait FrequencyUnit extends UnitOfMeasure[Frequency] with UnitMultiplier
 
 object Hertz extends FrequencyUnit with ValueUnit {
   val symbol = "Hz"
-  def apply(cycles: Double) = Frequency(Dimensionless(cycles), Seconds(1))
+  def apply[A](n: A)(implicit num: Numeric[A]) = Frequency(Dimensionless(num.toDouble(n)), Seconds(1))
 }
 
 object Kilohertz extends FrequencyUnit {
   val multiplier = MetricSystem.Kilo
   val symbol = "kHz"
-  def apply(cycles: Double) = Frequency(Dimensionless(cycles * MetricSystem.Kilo), Seconds(1))
+  def apply[A](n: A)(implicit num: Numeric[A]) = Frequency(Dimensionless(num.toDouble(n) * MetricSystem.Kilo), Seconds(1))
 }
 
 object Megahertz extends FrequencyUnit {
   val multiplier = MetricSystem.Mega
   val symbol = "MHz"
-  def apply(cycles: Double) = Frequency(Dimensionless(cycles * MetricSystem.Mega), Seconds(1))
+  def apply[A](n: A)(implicit num: Numeric[A]) = Frequency(Dimensionless(num.toDouble(n) * MetricSystem.Mega), Seconds(1))
 }
 
 object Gigahertz extends FrequencyUnit {
   val multiplier = MetricSystem.Giga
   val symbol = "GHz"
-  def apply(cycles: Double) = Frequency(Dimensionless(cycles * MetricSystem.Giga), Seconds(1))
+  def apply[A](n: A)(implicit num: Numeric[A]) = Frequency(Dimensionless(num.toDouble(n) * MetricSystem.Giga), Seconds(1))
 }
 
 object Terahertz extends FrequencyUnit {
   val multiplier = MetricSystem.Tera
   val symbol = "THz"
-  def apply(cycles: Double) = Frequency(Dimensionless(cycles * MetricSystem.Tera), Seconds(1))
+  def apply[A](n: A)(implicit num: Numeric[A]) = Frequency(Dimensionless(num.toDouble(n) * MetricSystem.Tera), Seconds(1))
 }
 
 object RevolutionsPerMinute extends FrequencyUnit {
   val multiplier = 1d / 60
   val symbol = "rpm"
-  def apply(revolutions: Double) = Frequency(Dimensionless(revolutions), Minutes(1))
+  def apply[A](n: A)(implicit num: Numeric[A]) = Frequency(Dimensionless(num.toDouble(n)), Minutes(1))
 }
 
 object FrequencyConversions {
-  implicit class FrequencyConversions(d: Double) {
-    def hertz = Hertz(d)
-    def kilohertz = Kilohertz(d)
-    def megahertz = Megahertz(d)
-    def gigahertz = Gigahertz(d)
-    def terahertz = Terahertz(d)
-    def rpm = RevolutionsPerMinute(d)
+  implicit class FrequencyConversions[A](n: A)(implicit num: Numeric[A]) {
+    def hertz = Hertz(n)
+    def kilohertz = Kilohertz(n)
+    def megahertz = Megahertz(n)
+    def gigahertz = Gigahertz(n)
+    def terahertz = Terahertz(n)
+    def rpm = RevolutionsPerMinute(n)
   }
 
   implicit object FrequencyNumeric extends AbstractQuantityNumeric[Frequency](Hertz)

@@ -29,11 +29,11 @@ final class EnergyDensity private (val value: Double) extends Quantity[EnergyDen
 }
 
 object EnergyDensity {
-  private[energy] def apply(value: Double) = new EnergyDensity(value)
+  private[energy] def apply[A](n: A)(implicit num: Numeric[A]) = new EnergyDensity(num.toDouble(n))
 }
 
 trait EnergyDensityUnit extends UnitOfMeasure[EnergyDensity] with UnitMultiplier {
-  def apply(d: Double) = EnergyDensity(convertFrom(d))
+  def apply[A](n: A)(implicit num: Numeric[A]) = EnergyDensity(convertFrom(n))
 }
 
 object JoulesPerCubicMeter extends EnergyDensityUnit with ValueUnit {
@@ -43,8 +43,8 @@ object JoulesPerCubicMeter extends EnergyDensityUnit with ValueUnit {
 object EnergyDensityConversions {
   lazy val joulePerCubicMeter = JoulesPerCubicMeter(1)
 
-  implicit class EnergyDensityConversions(val d: Double) {
-    def joulesPerCubicMeter = JoulesPerCubicMeter(d)
+  implicit class EnergyDensityConversions[A](n: A)(implicit num: Numeric[A]) {
+    def joulesPerCubicMeter = JoulesPerCubicMeter(n)
   }
 
   implicit object EnergyDensityNumeric extends AbstractQuantityNumeric[EnergyDensity](JoulesPerCubicMeter)

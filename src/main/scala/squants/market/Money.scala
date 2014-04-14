@@ -160,8 +160,8 @@ final class Money private (val amount: BigDecimal)(val currency: Currency)
    * @param context MoneyContext
    * @return
    */
-  def moneyDivide(that: Money)(implicit context: MoneyContext): Double = context.divide(this, that)
-  def /(that: Money)(implicit context: MoneyContext = defaultMoneyContext): Double = moneyDivide(that)
+  def moneyDivide(that: Money)(implicit context: MoneyContext): BigDecimal = context.divide(this, that)
+  def /(that: Money)(implicit context: MoneyContext = defaultMoneyContext): BigDecimal = moneyDivide(that)
 
   /**
    * Divide this money by another (non-money) Quantity and return a Price
@@ -293,8 +293,8 @@ object Money {
   def apply(value: BigDecimal, currency: Currency) = new Money(value)(currency)
   def apply(value: BigDecimal, currency: String) = new Money(value)(defaultCurrencyMap(currency))
 
-  def apply(value: Double, currency: Currency) = new Money(BigDecimal(value))(currency)
-  def apply(value: Double, currency: String) = new Money(BigDecimal(value))(defaultCurrencyMap(currency))
+  def apply[A](n: A, currency: Currency)(implicit num: Numeric[A]) = new Money(BigDecimal(num.toDouble(n)))(currency)
+  def apply[A](n: A, currency: String)(implicit num: Numeric[A]) = new Money(BigDecimal(num.toDouble(n)))(defaultCurrencyMap(currency))
 
   def apply(s: String): Either[String, Money] = {
     lazy val regex = ("([-+]?[0-9]*\\.?[0-9]+) *(" + defaultCurrencySet.map(_.code).reduceLeft(_ + "|" + _) + ")").r
@@ -314,7 +314,7 @@ object Money {
  * @param formatDecimals Number of decimals in standard formatting
  */
 case class Currency(code: String, name: String, symbol: String, formatDecimals: Int) extends UnitOfMeasure[Money] {
-  def apply(d: Double): Money = Money(d, this)
+  def apply[A](n: A)(implicit num: Numeric[A]) = Money(BigDecimal(num.toDouble(n)), this)
   def apply(d: BigDecimal): Money = Money(d, this)
   protected def converterFrom: Double ⇒ Double = ???
   protected def converterTo: Double ⇒ Double = ???
@@ -331,28 +331,28 @@ object MoneyConversions {
   implicit def fromLong(l: Long) = new MoneyConversions(BigDecimal(l))
   implicit def fromDouble(d: Double) = new MoneyConversions(BigDecimal(d))
 
-  implicit class MoneyConversions(value: BigDecimal) {
-    def money(implicit context: MoneyContext) = Money(value, context.defaultCurrency)
-    def XAU = Money(value, squants.market.XAU)
-    def XAG = Money(value, squants.market.XAG)
-    def USD = Money(value, squants.market.USD)
+  implicit class MoneyConversions[A](n: A)(implicit num: Numeric[A]) {
+    def money(implicit context: MoneyContext) = Money(n, context.defaultCurrency)
+    def XAU = Money(n, squants.market.XAU)
+    def XAG = Money(n, squants.market.XAG)
+    def USD = Money(n, squants.market.USD)
     def dollars = USD
-    def cents = Money(value / 100d, squants.market.USD)
-    def EUR = Money(value, squants.market.EUR)
+    def cents = Money(num.toDouble(n) / 100d, squants.market.USD)
+    def EUR = Money(n, squants.market.EUR)
     def euros = EUR
-    def JPY = Money(value, squants.market.JPY)
+    def JPY = Money(n, squants.market.JPY)
     def yen = JPY
-    def GBP = Money(value, squants.market.GBP)
+    def GBP = Money(n, squants.market.GBP)
     def poundSterling = GBP
-    def CHF = Money(value, squants.market.CHF)
+    def CHF = Money(n, squants.market.CHF)
     def swissFrancs = CHF
-    def AUD = Money(value, squants.market.AUD)
-    def CAD = Money(value, squants.market.CAD)
-    def SEK = Money(value, squants.market.SEK)
-    def HKD = Money(value, squants.market.HKD)
-    def NOK = Money(value, squants.market.NOK)
-    def NZD = Money(value, squants.market.NZD)
-    def BTC = Money(value, squants.market.BTC)
+    def AUD = Money(n, squants.market.AUD)
+    def CAD = Money(n, squants.market.CAD)
+    def SEK = Money(n, squants.market.SEK)
+    def HKD = Money(n, squants.market.HKD)
+    def NOK = Money(n, squants.market.NOK)
+    def NZD = Money(n, squants.market.NZD)
+    def BTC = Money(n, squants.market.BTC)
     def bitCoin = BTC
   }
 }

@@ -36,11 +36,11 @@ final class ElectricalResistance private (val value: Double)
 }
 
 object ElectricalResistance {
-  private[electro] def apply(value: Double) = new ElectricalResistance(value)
+  private[electro] def apply[A](n: A)(implicit num: Numeric[A]) = new ElectricalResistance(num.toDouble(n))
 }
 
 trait ElectricalResistanceUnit extends UnitOfMeasure[ElectricalResistance] with UnitMultiplier {
-  def apply(d: Double) = ElectricalResistance(convertFrom(d))
+  def apply[A](n: A)(implicit num: Numeric[A]) = ElectricalResistance(convertFrom(n))
 }
 
 object Ohms extends ElectricalResistanceUnit with ValueUnit {
@@ -86,14 +86,14 @@ object ElectricalResistanceConversions {
   lazy val megohm = Megohms(1)
   lazy val gigohm = Gigohms(1)
 
-  implicit class ElectricalResistanceConversions(d: Double) {
-    def ohms = Ohms(d)
-    def nanohms = Nanohms(d)
-    def microohms = Microohms(d)
-    def milliohms = Milliohms(d)
-    def kilohms = Kilohms(d)
-    def megohms = Megohms(d)
-    def gigohms = Gigohms(d)
+  implicit class ElectricalResistanceConversions[A](n: A)(implicit num: Numeric[A]) {
+    def ohms = Ohms(n)
+    def nanohms = Nanohms(n)
+    def microohms = Microohms(n)
+    def milliohms = Milliohms(n)
+    def kilohms = Kilohms(n)
+    def megohms = Megohms(n)
+    def gigohms = Gigohms(n)
   }
 
   implicit object ElectricalResistanceNumeric

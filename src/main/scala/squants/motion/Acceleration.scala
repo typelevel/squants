@@ -55,14 +55,12 @@ trait AccelerationUnit extends UnitOfMeasure[Acceleration] {
   def timeUnit: TimeUnit
   def time: Time
 
-  def apply(value: Double) = Acceleration(change * value, time)
+  def apply[A](n: A)(implicit num: Numeric[A]) = Acceleration(change * num.toDouble(n), time)
   def unapply(acceleration: Acceleration) = Some(acceleration.to(this))
 
   protected def converterTo: Double ⇒ Double = ???
   protected def converterFrom: Double ⇒ Double = ???
 }
-
-// TODO - How about direction?
 
 object MetersPerSecondSquared extends AccelerationUnit with ValueUnit {
   val changeUnit = MetersPerSecond
@@ -97,14 +95,13 @@ object EarthGravities extends AccelerationUnit {
   val timeUnit = Seconds
   val time = Seconds(1)
   val symbol = "g"
-  //  def apply(g: Double) = MetersPerSecondSquared(squants.StandardEarthGravity.toMetersPerSecondSquared * g)
 }
 
 object AccelerationConversions {
 
-  implicit class AccelerationConversions(d: Double) {
-    def mpss = MetersPerSecondSquared(d)
-    def fpss = FeetPerSecondSquared(d)
+  implicit class AccelerationConversions[A](n: A)(implicit num: Numeric[A]) {
+    def mpss = MetersPerSecondSquared(n)
+    def fpss = FeetPerSecondSquared(n)
   }
 
   implicit object AccelerationNumeric extends AbstractQuantityNumeric[Acceleration](MetersPerSecondSquared)

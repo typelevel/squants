@@ -28,21 +28,21 @@ final class LuminousEnergy private (val value: Double)
 }
 
 object LuminousEnergy {
-  private[photo] def apply(value: Double) = new LuminousEnergy(value)
+  private[photo] def apply[A](n: A)(implicit num: Numeric[A]) = new LuminousEnergy(num.toDouble(n))
 }
 
 trait LuminousEnergyUnit extends UnitOfMeasure[LuminousEnergy] with UnitMultiplier
 
 object LumenSeconds extends LuminousEnergyUnit with ValueUnit {
-  def apply(d: Double) = LuminousEnergy(d)
+  def apply[A](n: A)(implicit num: Numeric[A]) = LuminousEnergy(n)
   val symbol = "lm⋅s"
 }
 
 object LuminousEnergyConversions {
   lazy val lumenSecond = LumenSeconds(1)
 
-  implicit class LuminousEnergyConversions(d: Double) {
-    def lumenSeconds = LumenSeconds(d)
+  implicit class LuminousEnergyConversions[A](n: A)(implicit num: Numeric[A]) {
+    def lumenSeconds = LumenSeconds(n)
   }
 
   implicit object LuminousEnergyNumeric extends AbstractQuantityNumeric[LuminousEnergy](LumenSeconds)

@@ -29,15 +29,15 @@ case class Luminance(intensity: LuminousIntensity, area: Area) extends Quantity[
 trait LuminanceUnit extends UnitOfMeasure[Luminance]
 
 object CandelasPerSquareMeter extends LuminanceUnit with ValueUnit {
-  def apply(d: Double) = new Luminance(Candelas(d), SquareMeters(1))
+  def apply[A](n: A)(implicit num: Numeric[A]) = new Luminance(Candelas(n), SquareMeters(1))
   val symbol = "cd/m²"
 }
 
 object LuminanceConversions {
   lazy val candelaPerSquareMeter = CandelasPerSquareMeter(1)
 
-  implicit class LuminanceConversions(d: Double) {
-    def candelasPerSquareMeter = CandelasPerSquareMeter(d)
+  implicit class LuminanceConversions[A](n: A)(implicit num: Numeric[A]) {
+    def candelasPerSquareMeter = CandelasPerSquareMeter(n)
   }
 
   implicit object LuminanceNumeric extends AbstractQuantityNumeric[Luminance](CandelasPerSquareMeter)

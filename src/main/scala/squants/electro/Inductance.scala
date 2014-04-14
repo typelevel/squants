@@ -28,21 +28,21 @@ final class Inductance private (val value: Double) extends Quantity[Inductance]
 }
 
 object Inductance {
-  private[electro] def apply(value: Double) = new Inductance(value)
+  private[electro] def apply[A](n: A)(implicit num: Numeric[A]) = new Inductance(num.toDouble(n))
 }
 
 trait InductanceUnit extends UnitOfMeasure[Inductance] with UnitMultiplier
 
 object Henry extends InductanceUnit with ValueUnit {
   val symbol = "H"
-  def apply(d: Double) = Inductance(d)
+  def apply[A](n: A)(implicit num: Numeric[A]) = Inductance(n)
 }
 
 object InductanceConversions {
   lazy val henry = Henry(1)
 
-  implicit class InductanceConversions(d: Double) {
-    def henry = Henry(d)
+  implicit class InductanceConversions[A](n: A)(implicit num: Numeric[A]) {
+    def henry = Henry(n)
   }
 
   implicit object InductanceNumeric extends AbstractQuantityNumeric[Inductance](Henry)

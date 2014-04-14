@@ -45,11 +45,11 @@ final class ElectricCharge private (val value: Double)
 }
 
 object ElectricCharge {
-  private[electro] def apply(value: Double) = new ElectricCharge(value)
+  private[electro] def apply[A](n: A)(implicit num: Numeric[A]) = new ElectricCharge(num.toDouble(n))
 }
 
 trait ElectricChargeUnit extends UnitOfMeasure[ElectricCharge] with UnitMultiplier {
-  def apply(d: Double) = ElectricCharge(convertFrom(d))
+  def apply[A](n: A)(implicit num: Numeric[A]) = ElectricCharge(convertFrom(n))
 }
 
 object Coulombs extends ElectricChargeUnit with ValueUnit {
@@ -95,14 +95,14 @@ object ElectricChargeConversions {
   lazy val abcoulomb = Abcoulombs(1)
   lazy val ampereHour = AmpereHours(1)
 
-  implicit class ElectricalChargeConversion(d: Double) {
-    def coulombs = Coulombs(d)
-    def picocoulombs = Picocoulombs(d)
-    def nanocoulombs = Nanocoulombs(d)
-    def microcoulombs = Microcoulombs(d)
-    def millicoulombs = Millicoulombs(d)
-    def abcoulombs = Abcoulombs(d)
-    def ampereHours = AmpereHours(d)
+  implicit class ElectricalChargeConversions[A](n: A)(implicit num: Numeric[A]) {
+    def coulombs = Coulombs(n)
+    def picocoulombs = Picocoulombs(n)
+    def nanocoulombs = Nanocoulombs(n)
+    def microcoulombs = Microcoulombs(n)
+    def millicoulombs = Millicoulombs(n)
+    def abcoulombs = Abcoulombs(n)
+    def ampereHours = AmpereHours(n)
   }
 
   implicit object ElectricalChargeNumeric

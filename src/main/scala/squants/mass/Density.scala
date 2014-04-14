@@ -29,19 +29,19 @@ case class Density(mass: Mass, volume: Volume) extends Quantity[Density] {
 }
 
 trait DensityUnit extends UnitOfMeasure[Density] {
-  def apply(d: Double): Density
+  def apply[A](n: A)(implicit num: Numeric[A]): Density
 }
 
 object KilogramsPerCubicMeter extends DensityUnit with ValueUnit {
-  def apply(d: Double) = Density(Kilograms(d), CubicMeters(1))
+  def apply[A](n: A)(implicit num: Numeric[A]) = Density(Kilograms(n), CubicMeters(1))
   val symbol = "kg/m³"
 }
 
 object DensityConversions {
   lazy val kilogramPerCubicMeter = KilogramsPerCubicMeter(1)
 
-  implicit class AreaDensityConversions(val d: Double) {
-    def kilogramsPerCubicMeter = KilogramsPerCubicMeter(d)
+  implicit class AreaDensityConversions[A](n: A)(implicit num: Numeric[A]) {
+    def kilogramsPerCubicMeter = KilogramsPerCubicMeter(n)
   }
 
   implicit object DensityNumeric extends AbstractQuantityNumeric[Density](KilogramsPerCubicMeter)

@@ -134,7 +134,7 @@ case class MoneyContext(
    * @param moneyB Money B
    * @return
    */
-  def divide(moneyA: Money, moneyB: Money): Double = (moneyA.amount / convert(moneyB, moneyA.currency).amount).toDouble
+  def divide(moneyA: Money, moneyB: Money): BigDecimal = moneyA.amount / convert(moneyB, moneyA.currency).amount
 
   /**
    * Performs a standard compare on two money values that may or may not be in the same currency

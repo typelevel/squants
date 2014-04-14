@@ -36,7 +36,7 @@ trait YankUnit extends UnitOfMeasure[Yank] {
   def forceBase: Force
   def timeUnit: TimeUnit
   def timeBase: Time
-  def apply(d: Double) = Yank(forceBase * d, timeBase)
+  def apply[A](n: A)(implicit num: Numeric[A]) = Yank(forceBase * num.toDouble(n), timeBase)
   def unapply(yank: Yank) = Some(yank.to(this))
 }
 
@@ -51,8 +51,8 @@ object NewtonsPerSecond extends YankUnit with ValueUnit {
 object YankConversions {
   lazy val newtonPerSecond = NewtonsPerSecond(1)
 
-  implicit class YankConversions(val d: Double) {
-    def newtonsPerSecond = NewtonsPerSecond(d)
+  implicit class YankConversions[A](n: A)(implicit num: Numeric[A]) {
+    def newtonsPerSecond = NewtonsPerSecond(n)
   }
 
   implicit object YankNumeric extends AbstractQuantityNumeric[Yank](NewtonsPerSecond)

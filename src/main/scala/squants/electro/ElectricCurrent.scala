@@ -42,7 +42,7 @@ final class ElectricCurrent private (val value: Double) extends Quantity[Electri
 }
 
 object ElectricCurrent {
-  private[electro] def apply(value: Double) = new ElectricCurrent(value)
+  private[electro] def apply[A](n: A)(implicit num: Numeric[A]) = new ElectricCurrent(num.toDouble(n))
 }
 
 /**
@@ -50,7 +50,7 @@ object ElectricCurrent {
  */
 trait ElectricCurrentUnit extends BaseQuantityUnit[ElectricCurrent] with UnitMultiplier {
   def dimensionSymbol = "I"
-  def apply(n: Double) = ElectricCurrent(convertFrom(n))
+  def apply[A](n: A)(implicit num: Numeric[A]) = ElectricCurrent(convertFrom(n))
   def unapply(c: ElectricCurrent) = Some(convertTo(c.value))
 }
 
@@ -75,13 +75,13 @@ object ElectricCurrentConversions {
   lazy val milliampere = Milliamperes(1)
   lazy val milliamp = Milliamperes(1)
 
-  implicit class ElectricCurrentConversion(d: Double) {
-    def amperes = Amperes(d)
-    def amps = Amperes(d)
-    def A = Amperes(d)
-    def milliampers = Milliamperes(d)
-    def milliamps = Milliamperes(d)
-    def mA = Milliamperes(d)
+  implicit class ElectricCurrentConversions[A](n: A)(implicit num: Numeric[A]) {
+    def amperes = Amperes(n)
+    def amps = Amperes(n)
+    def A = Amperes(n)
+    def milliampers = Milliamperes(n)
+    def milliamps = Milliamperes(n)
+    def mA = Milliamperes(n)
   }
 
   implicit object ElectricCurrentNumeric

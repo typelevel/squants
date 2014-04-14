@@ -27,11 +27,11 @@ final class SpecificEnergy private (val value: Double) extends Quantity[Specific
 }
 
 object SpecificEnergy {
-  private[energy] def apply(value: Double) = new SpecificEnergy(value)
+  private[energy] def apply[A](n: A)(implicit num: Numeric[A]) = new SpecificEnergy(num.toDouble(n))
 }
 
 trait SpecificEnergyUnit extends UnitOfMeasure[SpecificEnergy] with UnitMultiplier {
-  def apply(d: Double): SpecificEnergy = SpecificEnergy(convertFrom(d))
+  def apply[A](n: A)(implicit num: Numeric[A]) = SpecificEnergy(convertFrom(n))
 }
 
 object Grays extends SpecificEnergyUnit with ValueUnit {
@@ -41,8 +41,8 @@ object Grays extends SpecificEnergyUnit with ValueUnit {
 object SpecificEnergyConversions {
   lazy val gray = Grays(1)
 
-  implicit class SpecificEnergyConversions(d: Double) {
-    def grays = Grays(d)
+  implicit class SpecificEnergyConversions[A](n: A)(implicit num: Numeric[A]) {
+    def grays = Grays(n)
   }
 
   implicit object SpecificEnergyNumeric extends AbstractQuantityNumeric[SpecificEnergy](Grays)

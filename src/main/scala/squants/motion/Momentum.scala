@@ -36,15 +36,15 @@ trait MomentumUnit extends UnitOfMeasure[Momentum] {
 }
 
 object NewtonSeconds extends MomentumUnit with ValueUnit {
-  def apply(d: Double): Momentum = Momentum(Kilograms(d), MetersPerSecond(1))
+  def apply[A](n: A)(implicit num: Numeric[A]) = Momentum(Kilograms(n), MetersPerSecond(1))
   val symbol = "Ns"
 }
 
 object MomentumConversions {
   lazy val newtonSecond = NewtonSeconds(1)
 
-  implicit class MomentumConversions(d: Double) {
-    def newtonSeconds = NewtonSeconds(d)
+  implicit class MomentumConversions[A](n: A)(implicit num: Numeric[A]) {
+    def newtonSeconds = NewtonSeconds(n)
   }
 
   implicit object MomentumNumeric extends AbstractQuantityNumeric[Momentum](NewtonSeconds)

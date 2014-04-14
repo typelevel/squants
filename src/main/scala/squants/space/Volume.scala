@@ -71,12 +71,12 @@ final class Volume private (val value: Double)
 }
 
 object Volume {
-  private[space] def apply(cubicMeters: Double) = new Volume(cubicMeters)
+  private[space] def apply[A](n: A)(implicit num: Numeric[A]) = new Volume(num.toDouble(n))
   def apply(area: Area, length: Length): Volume = apply(area.toSquareMeters * length.toMeters)
 }
 
 trait VolumeUnit extends UnitOfMeasure[Volume] with UnitMultiplier {
-  def apply(n: Double) = Volume(convertFrom(n))
+  def apply[A](n: A)(implicit num: Numeric[A]) = Volume(convertFrom(n))
   def unapply(v: Volume) = Some(convertTo(v.value))
 }
 
@@ -245,36 +245,36 @@ object VolumeConversions {
   lazy val tablespoon = Tablespoons(1)
   lazy val teaspoon = Teaspoons(1)
 
-  implicit class VolumeConversions[A](d: A)(implicit num: Numeric[A]) {
-    def cubicMeters = CubicMeters(num.toDouble(d))
-    def cubicMetres = CubicMeters(num.toDouble(d))
-    def litres = Litres(num.toDouble(d))
-    def liters = Litres(num.toDouble(d))
-    def nanolitres = Nanolitres(num.toDouble(d))
-    def nanoliters = Nanolitres(num.toDouble(d))
-    def microlitres = Microlitres(num.toDouble(d))
-    def microliters = Microlitres(num.toDouble(d))
-    def millilitres = Millilitres(num.toDouble(d))
-    def milliliters = Millilitres(num.toDouble(d))
-    def centilitres = Centilitres(num.toDouble(d))
-    def centiliters = Centilitres(num.toDouble(d))
-    def decilitres = Decilitres(num.toDouble(d))
-    def deciliters = Decilitres(num.toDouble(d))
-    def hectolitres = Hectolitres(num.toDouble(d))
-    def hectoliters = Hectolitres(num.toDouble(d))
+  implicit class VolumeConversions[A](n: A)(implicit num: Numeric[A]) {
+    def cubicMeters = CubicMeters(n)
+    def cubicMetres = CubicMeters(n)
+    def litres = Litres(n)
+    def liters = Litres(n)
+    def nanolitres = Nanolitres(n)
+    def nanoliters = Nanolitres(n)
+    def microlitres = Microlitres(n)
+    def microliters = Microlitres(n)
+    def millilitres = Millilitres(n)
+    def milliliters = Millilitres(n)
+    def centilitres = Centilitres(n)
+    def centiliters = Centilitres(n)
+    def decilitres = Decilitres(n)
+    def deciliters = Decilitres(n)
+    def hectolitres = Hectolitres(n)
+    def hectoliters = Hectolitres(n)
 
-    def cubicMiles = CubicMiles(num.toDouble(d))
-    def cubicYards = CubicYards(num.toDouble(d))
-    def cubicFeet = CubicFeet(num.toDouble(d))
-    def cubicInches = CubicInches(num.toDouble(d))
+    def cubicMiles = CubicMiles(n)
+    def cubicYards = CubicYards(n)
+    def cubicFeet = CubicFeet(n)
+    def cubicInches = CubicInches(n)
 
-    def gallons = UsGallons(num.toDouble(d))
-    def quarts = UsQuarts(num.toDouble(d))
-    def pints = UsPints(num.toDouble(d))
-    def cups = UsCups(num.toDouble(d))
-    def fluidOunces = FluidOunces(num.toDouble(d))
-    def tablespoons = Tablespoons(num.toDouble(d))
-    def teaspoons = Teaspoons(num.toDouble(d))
+    def gallons = UsGallons(n)
+    def quarts = UsQuarts(n)
+    def pints = UsPints(n)
+    def cups = UsCups(n)
+    def fluidOunces = FluidOunces(n)
+    def tablespoons = Tablespoons(n)
+    def teaspoons = Teaspoons(n)
   }
 
   implicit object VolumeNumeric extends AbstractQuantityNumeric[Volume](CubicMeters)

@@ -39,19 +39,19 @@ case class Velocity(distance: Distance, time: Time) extends Quantity[Velocity]
   def toString(unit: VelocityUnit) = to(unit) + " " + unit.symbol
 
   def to(unit: VelocityUnit) = distance.to(unit.distanceUnit) / time.to(unit.timeUnit)
-  def toFeetPerSecond: Double = to(FeetPerSecond)
-  def toMetersPerSeconds: Double = to(MetersPerSecond)
-  def toKilometersPerHour: Double = to(KilometersPerHour)
-  def toUsMilesPerHour: Double = to(UsMilesPerHour)
-  def toInternationalMilesPerHour: Double = to(InternationalMilesPerHour)
-  def toKnots: Double = to(Knots)
+  def toFeetPerSecond = to(FeetPerSecond)
+  def toMetersPerSeconds = to(MetersPerSecond)
+  def toKilometersPerHour = to(KilometersPerHour)
+  def toUsMilesPerHour = to(UsMilesPerHour)
+  def toInternationalMilesPerHour = to(InternationalMilesPerHour)
+  def toKnots = to(Knots)
 }
 
 trait VelocityUnit extends UnitOfMeasure[Velocity] {
   def distanceUnit: DistanceUnit
   def timeInterval: Time
   def timeUnit: TimeUnit
-  def apply(value: Double) = Velocity(distanceUnit(value), timeInterval)
+  def apply[A](n: A)(implicit num: Numeric[A]) = Velocity(distanceUnit(n), timeInterval)
   def unapply(velocity: Velocity) = Some(velocity.to(this))
 
   protected def converterFrom: Double ⇒ Double = ???
@@ -107,12 +107,12 @@ object VelocityConversions {
   lazy val milePerHour = UsMilesPerHour(1)
   lazy val knot = Knots(1)
 
-  implicit class VelocityConversions(d: Double) {
-    def fps = FeetPerSecond(d)
-    def mps = MetersPerSecond(d)
-    def kph = KilometersPerHour(d)
-    def mph = UsMilesPerHour(d)
-    def knots = Knots(d)
+  implicit class VelocityConversions[A](n: A)(implicit num: Numeric[A]) {
+    def fps = FeetPerSecond(n)
+    def mps = MetersPerSecond(n)
+    def kph = KilometersPerHour(n)
+    def mph = UsMilesPerHour(n)
+    def knots = Knots(n)
   }
 
   implicit object VelocityNumeric extends AbstractQuantityNumeric[Velocity](MetersPerSecond)

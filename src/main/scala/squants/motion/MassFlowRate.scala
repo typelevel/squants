@@ -32,15 +32,15 @@ trait MassFlowRateUnit extends UnitOfMeasure[MassFlowRate] {
 }
 
 object KilogramsPerSecond extends MassFlowRateUnit with ValueUnit {
-  def apply(d: Double) = MassFlowRate(Kilograms(d), Seconds(1))
+  def apply[A](n: A)(implicit num: Numeric[A]) = MassFlowRate(Kilograms(n), Seconds(1))
   val symbol = "kg/s"
 }
 
 object MassFlowRateConversions {
   lazy val kilogramPerSecond = KilogramsPerSecond(1)
 
-  implicit class MassFlowRateConversions(val d: Double) {
-    def kilogramsPerSecond = KilogramsPerSecond(d)
+  implicit class MassFlowRateConversions[A](n: A)(implicit num: Numeric[A]) {
+    def kilogramsPerSecond = KilogramsPerSecond(n)
   }
 
   implicit object MassFlowRateNumeric extends AbstractQuantityNumeric[MassFlowRate](KilogramsPerSecond)

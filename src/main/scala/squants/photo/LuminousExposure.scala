@@ -30,11 +30,11 @@ final class LuminousExposure private (val value: Double) extends Quantity[Lumino
 }
 
 object LuminousExposure {
-  private[photo] def apply(value: Double) = new LuminousExposure(value)
+  private[photo] def apply[A](n: A)(implicit num: Numeric[A]) = new LuminousExposure(num.toDouble(n))
 }
 
 trait LuminousExposureUnit extends UnitOfMeasure[LuminousExposure] with UnitMultiplier {
-  def apply(d: Double) = LuminousExposure(convertFrom(d))
+  def apply[A](n: A)(implicit num: Numeric[A]) = LuminousExposure(convertFrom(n))
 }
 
 object LuxSeconds extends LuminousExposureUnit with ValueUnit {
@@ -44,8 +44,8 @@ object LuxSeconds extends LuminousExposureUnit with ValueUnit {
 object LuminousExposureConversions {
   lazy val luxSecond = LuxSeconds(1)
 
-  implicit class LuminousExposureConversions(val d: Double) {
-    def luxSeconds = LuxSeconds(d)
+  implicit class LuminousExposureConversions[A](n: A)(implicit num: Numeric[A]) {
+    def luxSeconds = LuxSeconds(n)
   }
 
   implicit object LuminousExposureNumeric extends AbstractQuantityNumeric[LuminousExposure](LuxSeconds)

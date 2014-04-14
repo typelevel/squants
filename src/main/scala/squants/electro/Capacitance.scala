@@ -33,11 +33,11 @@ final class Capacitance private (val value: Double)
 }
 
 object Capacitance {
-  private[electro] def apply(value: Double) = new Capacitance(value)
+  private[electro] def apply[A](n: A)(implicit num: Numeric[A]) = new Capacitance(num.toDouble(n))
 }
 
 trait CapacitanceUnit extends UnitOfMeasure[Capacitance] with UnitMultiplier {
-  def apply(d: Double) = Capacitance(convertFrom(d))
+  def apply[A](n: A)(implicit num: Numeric[A]) = Capacitance(convertFrom(n))
 }
 
 object Farads extends CapacitanceUnit with ValueUnit {
@@ -77,13 +77,13 @@ object CapacitanceConversions {
   lazy val millifarad = Millifarads(1)
   lazy val kilofarad = Kilofarads(1)
 
-  implicit class CapacitanceConversions(d: Double) {
-    def farads = Farads(d)
-    def picofarads = Picofarads(d)
-    def nanofarads = Nanofarads(d)
-    def microfarads = Microfarads(d)
-    def millifarads = Millifarads(d)
-    def kilofarads = Kilofarads(d)
+  implicit class CapacitanceConversions[A](n: A)(implicit num: Numeric[A]) {
+    def farads = Farads(n)
+    def picofarads = Picofarads(n)
+    def nanofarads = Nanofarads(n)
+    def microfarads = Microfarads(n)
+    def millifarads = Millifarads(n)
+    def kilofarads = Kilofarads(n)
   }
 
   implicit object CapacitanceNumeric extends AbstractQuantityNumeric[Capacitance](Farads)
