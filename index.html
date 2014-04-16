@@ -31,14 +31,23 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <p>Squants is a framework of data types and a domain specific language (DSL) for representing Quantities,
+        <h1>
+<a name="squants" class="anchor" href="#squants"><span class="octicon octicon-link"></span></a>Squants</h1>
+
+<p><strong>The Scala API for Quantities, Units of Measure and Dimensional Analysis</strong></p>
+
+<p>Squants is a framework of data types and a domain specific language (DSL) for representing Quantities,
 their Units of Measure, and their Dimensional relationships.
 The API supports typesafe dimensional analysis, improved domain models and more.
 All types are immutable and thread-safe.</p>
 
-<p><a href="https://github.com/garyKeorkunian/squants">GitHub</a>
+<p><a href="http:/www.squants.com/">Website</a>
 |
-<a href="https://groups.google.com/forum/#!forum/squants">User Forum</a></p>
+<a href="https://github.com/garyKeorkunian/squants">GitHub</a>
+|
+<a href="https://groups.google.com/forum/#!forum/squants">User Forum</a>
+|
+<a href="https://github.com/garyKeorkunian/squants/wiki">Wiki</a></p>
 
 <h3>
 <a name="current-versions" class="anchor" href="#current-versions"><span class="octicon octicon-link"></span></a>Current Versions</h3>
@@ -46,8 +55,10 @@ All types are immutable and thread-safe.</p>
 <p>Current Release: <strong>0.2.3</strong>
 (<a href="https://oss.sonatype.org/service/local/repositories/releases/archive/com/squants/squants_2.10/0.2.3/squants_2.10-0.2.3-javadoc.jar/!/index.html#squants.package">API Docs</a>)</p>
 
-<p>Development Build: <strong>0.3.0-SNAPSHOT</strong>
-(<a href="https://oss.sonatype.org/service/local/repositories/snapshots/archive/com/squants/squants_2.10/0.3.0-SNAPSHOT/squants_2.10-0.3.0-SNAPSHOT-javadoc.jar/!/index.html#squants.package">API Docs</a>)</p>
+<p>Development Build: <strong>0.3.2-SNAPSHOT</strong>
+(<a href="https://oss.sonatype.org/service/local/repositories/snapshots/archive/com/squants/squants_2.10/0.3.2-SNAPSHOT/squants_2.10-0.3.2-SNAPSHOT-javadoc.jar/!/index.html#squants.package">API Docs</a>)</p>
+
+<p><a href="https://github.com/garyKeorkunian/squants/wiki/Release-History">Release History</a></p>
 
 <p><a href="https://travis-ci.org/garyKeorkunian/squants"><img src="https://travis-ci.org/garyKeorkunian/squants.png?branch=master" alt="Build Status"></a></p>
 
@@ -110,6 +121,13 @@ automatically applying scale and type conversions (see below) at run-time.  For 
 <p>is a valid assertion because Kilowatts and Megawatts are both measures of load.  Only the scale is
 different and the framework applies an appropriate conversion.  Also, notice that keeping track of
 the scale within the value name is no longer needed.</p>
+
+<p>_Note - Quantities can be initialized using any type T with an available implicit Numeric[T].
+In the current iteration, those values are converted to Double, which is the current type of the
+underlying value.
+The goal of the project is to refactor the underlying value to a Generic so that the initializing
+type is retained as the underlying value type.
+This allows user code to use high precision types for the underlying value.</p>
 
 <h3>
 <a name="dimensional-type-safety" class="anchor" href="#dimensional-type-safety"><span class="octicon octicon-link"></span></a>Dimensional Type Safety</h3>
@@ -180,6 +198,46 @@ Use the <code>approx</code> method (<code>=~</code> operator) like the <code>equ
 <span class="n">load</span><span class="o">.=~(</span><span class="n">reading</span><span class="o">)(</span><span class="nc">Watts</span><span class="o">(.</span><span class="mi">01</span><span class="o">))</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
 <span class="n">load</span><span class="o">.</span><span class="n">approx</span><span class="o">(</span><span class="n">reading</span><span class="o">)(</span><span class="nc">Watts</span><span class="o">(.</span><span class="mi">01</span><span class="o">))</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
 </pre></div>
+
+<h3>
+<a name="vectors" class="anchor" href="#vectors"><span class="octicon octicon-link"></span></a>Vectors</h3>
+
+<p>** EXPERIMENTAL **</p>
+
+<p>Vectors are implemented as a case class that takes a variable list of like quantities
+representing a set of point coordinates in Cartesian space.
+The dimensionality of the vector is determined by the number of arguments.</p>
+
+<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">vector</span> <span class="k">=</span> <span class="nc">QuantityVector</span><span class="o">(</span><span class="nc">Kilometers</span><span class="o">(</span><span class="mf">1.2</span><span class="o">),</span> <span class="nc">Kilometers</span><span class="o">(</span><span class="mf">4.3</span><span class="o">),</span> <span class="nc">Kilometers</span><span class="o">(</span><span class="mf">2.3</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">magnitude</span><span class="k">:</span> <span class="kt">Length</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">magnitude</span>        <span class="c1">// returns the scalar value of the vector</span>
+<span class="k">val</span> <span class="n">normalized</span> <span class="k">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">normalize</span><span class="o">(</span><span class="nc">Kilometers</span><span class="o">)</span>   <span class="c1">// returns a corresponding vector scaled to 1 of the given unit</span>
+
+<span class="k">val</span> <span class="n">vector2</span> <span class="k">=</span> <span class="nc">QuantityVector</span><span class="o">(</span><span class="nc">Kilometers</span><span class="o">(</span><span class="mf">1.2</span><span class="o">),</span> <span class="nc">Kilometers</span><span class="o">(</span><span class="mf">4.3</span><span class="o">),</span> <span class="nc">Kilometers</span><span class="o">(</span><span class="mf">2.3</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">vectorSum</span> <span class="k">=</span> <span class="n">vector</span> <span class="o">+</span> <span class="n">vector2</span>        <span class="c1">// returns the sum of two vectors</span>
+<span class="k">val</span> <span class="n">vectorDiff</span> <span class="k">=</span> <span class="n">vector</span> <span class="o">-</span> <span class="n">vector2</span>       <span class="c1">// return the difference of two vectors</span>
+<span class="k">val</span> <span class="n">vectorScaled</span> <span class="k">=</span> <span class="n">vector</span> <span class="o">*</span> <span class="mi">5</span>           <span class="c1">// returns vector scaled 5 times</span>
+<span class="k">val</span> <span class="n">vectorReduced</span> <span class="k">=</span> <span class="n">vector</span> <span class="o">/</span> <span class="mi">5</span>          <span class="c1">// returns vector reduced 5 time</span>
+<span class="k">val</span> <span class="n">vectorDouble</span> <span class="k">=</span> <span class="n">vector</span> <span class="o">/</span> <span class="mf">5.</span><span class="n">meters</span>    <span class="c1">// returns vector reduced and converted to DoubleVector</span>
+<span class="k">val</span> <span class="n">dotProduct</span> <span class="k">=</span> <span class="n">vector</span> <span class="o">*</span> <span class="n">vectorDouble</span>  <span class="c1">// returns the Dot Product of vector and vectorDouble</span>
+
+<span class="k">val</span> <span class="n">crossProduct</span> <span class="k">=</span> <span class="n">vector</span> <span class="n">crossProduct</span> <span class="n">vectorDouble</span>  <span class="c1">// currently only supported for 3-dimensional vectors</span>
+</pre></div>
+
+<p>Dimensional conversions within Vector operations.
+This feature is currently and development and the final implementation being evaluated.
+This following type of operation is the goal.</p>
+
+<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">vectorLength</span> <span class="k">=</span> <span class="nc">QuantityVector</span><span class="o">(</span><span class="nc">Kilometers</span><span class="o">(</span><span class="mf">1.2</span><span class="o">),</span> <span class="nc">Kilometers</span><span class="o">(</span><span class="mf">4.3</span><span class="o">),</span> <span class="nc">Kilometers</span><span class="o">(</span><span class="mf">2.3</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">vectorArea</span><span class="k">:</span> <span class="kt">QuantityVector</span><span class="o">[</span><span class="kt">Area</span><span class="o">]</span> <span class="k">=</span> <span class="n">vectorLength</span> <span class="o">*</span> <span class="nc">Kilometers</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">vectorVelocity</span><span class="k">:</span> <span class="kt">QuantityVector</span><span class="o">[</span><span class="kt">Velocity</span><span class="o">]</span> <span class="k">=</span> <span class="n">vectorLength</span> <span class="o">/</span> <span class="nc">Seconds</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+</pre></div>
+
+<p>Simple non-quantity (Double based) vectors are also supported</p>
+
+<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">vector</span> <span class="k">=</span> <span class="nc">DoubleVector</span><span class="o">(</span><span class="mf">1.2</span><span class="o">,</span> <span class="mf">4.3</span><span class="o">,</span> <span class="mf">2.3</span><span class="o">,</span> <span class="mf">5.4</span><span class="o">)</span>   <span class="c1">// a Four-dimensional vector</span>
+</pre></div>
+
+<p>These features are experimental in the current version and the API may undergo significant change before final release.</p>
 
 <h2>
 <a name="market-package" class="anchor" href="#market-package"><span class="octicon octicon-link"></span></a>Market Package</h2>
