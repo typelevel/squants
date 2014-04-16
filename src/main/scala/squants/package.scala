@@ -213,6 +213,8 @@ package object squants {
   type Money = squants.market.Money
   type Price[A <: Quantity[A]] = squants.market.Price[A]
 
+  // TODO - the following implicits need tests
+
   /**
    * Provides implicit conversions that allow Doubles to lead in * operations
    * {{{
@@ -225,6 +227,14 @@ package object squants {
     def *[A <: Quantity[A]](that: A): A = that * d
     def *[A](that: Vector[A]): Vector[A] = that * d
   }
+
+  implicit class SquantifiedNumeric[A](n: A)(implicit num: Numeric[A]) {
+    def *[B <: Quantity[B]](that: B): B = that * num.toDouble(n)
+    def *[B](that: Vector[B]): Vector[B] = that * num.toDouble(n)
+  }
+
+  //TODO - determine if this is a better implementation for converting numeric values
+  //  implicit def SquantifyNumeric[A](n: A)(implicit num: Numeric[A]) = SquantifiedDouble(num.toDouble(n))
 
   implicit class SquantifiedDoubleVector(v: Vector[Double]) {
     def dotProduct[A <: Quantity[A]](that: Vector[A]): A = that * v

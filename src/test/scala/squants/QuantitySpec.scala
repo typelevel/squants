@@ -128,6 +128,7 @@ class QuantitySpec extends FlatSpec with Matchers {
     val y = Kilothangs(1.9999)
     x approx y should be(right = true)
     x =~ y should be(right = true)
+    (x ~= y) should be(right = true)
   }
 
   it should "not approx a like value that is not within an implicitly defined tolerance" in {
@@ -136,6 +137,7 @@ class QuantitySpec extends FlatSpec with Matchers {
     val y = Kilothangs(1.9998)
     x approx y should be(right = false)
     x =~ y should be(right = false)
+    (x ~= y) should be(right = false)
   }
 
   it should "approx a like value that is within an explicitly passed tolerance" in {
@@ -144,9 +146,11 @@ class QuantitySpec extends FlatSpec with Matchers {
     val y = Kilothangs(1.9999)
     x approx y should be(right = true)
     x =~ y should be(right = true)
+    (x ~= y) should be(right = true)
     // apply approx with an explicit override of the tolerance
     x.approx(y)(Thangs(.01)) should be(right = false)
     x.=~(y)(Thangs(.01)) should be(right = false)
+    x.~=(y)(Thangs(.01)) should be(right = false)
   }
 
   it should "add two like values and result in a like value" in {
@@ -344,6 +348,20 @@ class QuantitySpec extends FlatSpec with Matchers {
     val m = 10 * Kilograms(50)
     m.getClass should be(classOf[Mass])
     (m to Kilograms) should be(500)
+  }
+
+  behavior of "SquantifiedNumeric"
+
+  it should "multiply by a Quantity value and return the product as a like value" ignore {
+    // TODO - The implicit does seem to get picked up here.  Using the conversion explicitly works, but so what.
+    //    val multiple = BigDecimal(10)
+    //    val l = multiple * Thangs(1000)
+    //    l.getClass should be(classOf[Thingee])
+    //    (l to Thangs) should be(10000)
+    //
+    //    val m = multiple * Kilograms(50)
+    //    m.getClass should be(classOf[Mass])
+    //    (m to Kilograms) should be(500)
   }
 
   behavior of "QuantityNumeric"

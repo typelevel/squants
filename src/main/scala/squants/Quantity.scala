@@ -126,6 +126,7 @@ abstract class Quantity[A <: Quantity[A]] extends Ordered[A] with Serializable {
    */
   override def equals(that: Any) = that match {
     // TODO Refactor so it also works for UnitBoxed types like Temperature, which may require change to UOM def
+    // Currently this is satisfied by overrides in those classes
     case x: Quantity[A] ⇒ value == x.value && valueUnit == x.valueUnit
     case _              ⇒ false
   }
@@ -144,7 +145,10 @@ abstract class Quantity[A <: Quantity[A]] extends Ordered[A] with Serializable {
    * @return
    */
   def approx(that: A)(implicit tolerance: A) = that within this.plusOrMinus(tolerance)
-  def =~(that: A)(implicit tolerance: A) = approx(that)(tolerance)
+  /** approx */
+  def =~(that: A)(implicit tolerance: A) = approx(that)
+  /** approx - more natural operator but has low precedence and requires parens */
+  def ~=(that: A)(implicit tolerance: A) = approx(that)
 
   /**
    * Implements Ordered.compare
@@ -158,14 +162,14 @@ abstract class Quantity[A <: Quantity[A]] extends Ordered[A] with Serializable {
    * @param that Quantity
    * @return Quantity
    */
-  def max(that: A): Quantity[A] = if (value >= that.value) this else that
+  def max(that: A): A = if (value >= that.value) this else that
 
   /**
    * Returns the min of this and that Quantity
    * @param that Quantity
    * @return Quantity
    */
-  def min(that: A): Quantity[A] = if (value <= that.value) this else that
+  def min(that: A): A = if (value <= that.value) this else that
 
   /**
    * Returns a QuantityRange representing the range for this value +- that

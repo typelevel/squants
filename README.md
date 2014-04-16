@@ -80,6 +80,13 @@ is a valid assertion because Kilowatts and Megawatts are both measures of load. 
 different and the framework applies an appropriate conversion.  Also, notice that keeping track of
 the scale within the value name is no longer needed.
 
+_Note - Quantities can be initialized using any type T with an available implicit Numeric[T].
+In the current iteration, those values are converted to Double, which is the current type of the
+underlying value.
+The goal of the project is to refactor the underlying value to a Generic so that the initializing
+type is retained as the underlying value type.
+This allows user code to use high precision types for the underlying value.
+
 ### Dimensional Type Safety
 The following code highlights the type safety features.
 

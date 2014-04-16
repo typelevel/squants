@@ -111,6 +111,8 @@ case class DoubleVector(coordinates: Double*) extends Vector[Double] {
   def minus(that: Vector[Double]): Vector[Double] =
     DoubleVector(coordinates.toIterable.zipAll(that.coordinates.toIterable, 0d, 0d).toTraversable.map(v ⇒ v._1 - v._2).toSeq: _*)
   def times(that: Double): Vector[Double] = DoubleVector(coordinates.toTraversable.map(v ⇒ v * that).toSeq: _*)
+  def times[B](that: B)(implicit num: Numeric[B]): Vector[Double] =
+    DoubleVector(coordinates.toTraversable.map(v ⇒ v * num.toDouble(that)).toSeq: _*)
 
   /**
    * Scale and Squantify this Vector.  Returns a QuantityVector[A]
@@ -124,6 +126,8 @@ case class DoubleVector(coordinates: Double*) extends Vector[Double] {
   def times[A <: Quantity[A]](that: A) = QuantityVector(coordinates.toTraversable.map(v ⇒ that * v).toSeq: _*)
 
   def divide(that: Double): Vector[Double] = DoubleVector(coordinates.toTraversable.map(v ⇒ v / that).toSeq: _*)
+  def divide[B](that: B)(implicit num: Fractional[B]): Vector[Double] =
+    DoubleVector(coordinates.toTraversable.map(v ⇒ v * num.toDouble(that)).toSeq: _*)
 
   def dotProduct(that: Vector[Double]) =
     coordinates.toIterable.zipAll(that.coordinates.toIterable, 0d, 0d).toTraversable.map(v ⇒ v._1 * v._2).sum

@@ -22,7 +22,21 @@ class VectorSpec extends FlatSpec with Matchers {
 
   // TODO Expand tests
 
-  behavior of "Vector"
+  behavior of "DoubleVector"
+
+  it should "create a Vector with expected values" is pending
+  it should "equate to like Vectors" is pending
+  it should "not equate to dislike Vectors" is pending
+  it should "determine a magnitude" is pending
+  it should "normalize a Vector" is pending
+  it should "add two Vectors" is pending
+  it should "subtract two Vectors" is pending
+  it should "rescale a Vectors" is pending
+  it should "dotProduct two Vectors" is pending
+  it should "crossProduct two Vectors with 3 dimensions" is pending
+  it should "crossProduct two Vectors with 7 dimensions" is pending
+
+  behavior of "QuantityVector"
 
   it should "create a Vector with expected values" in {
     val vector = QuantityVector(Kilometers(1), Kilometers(10), Kilometers(5))
@@ -88,6 +102,9 @@ class VectorSpec extends FlatSpec with Matchers {
     QuantityVector(x, y, z) / r should be(QuantityVector(x / r, y / r, z / r))
   }
 
+  it should "rescale a Vector with a Generic Numeric" in {
+  }
+
   it should "dot product two Vectors" in {
     val x = Kilometers(1)
     val y = Kilometers(2)
@@ -129,6 +146,11 @@ class VectorSpec extends FlatSpec with Matchers {
     quantityVector.to(Meters).equals(DoubleVector(1000, 2000, 3000)) should be(right = true)
   }
 
+  behavior of "SquantifiedDoubleVector"
+
+  it should "multiply by a Vector[Quantity] and return the Dot Product as like Quantity" is pending
+  it should "crossProduct by a Vector[Quantity] and return the Cross Product as like Vector[Quantity]" is pending
+
   behavior of "Dimensional Conversion Strategies"
 
   /**
@@ -160,7 +182,7 @@ class VectorSpec extends FlatSpec with Matchers {
     vectorV1 should be(vectorV2)
 
     val vectorL1 = vectorV1 / (l * l)
-    val vectorL2: QuantityVector[Length] = (vectorV2 / l).divide[Length, Length](l) // Con - explicit typing required
+    val vectorL2 = (vectorV2 / l).divide[Length, Length](l) // Con - explicit typing required
     vectorL1 should be(vectorL2)
 
     implicit def lenTimesForce: (Length, Force) ⇒ Energy = (l, f) ⇒ l * f
