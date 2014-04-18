@@ -73,6 +73,7 @@ package object market {
   lazy val JPY = Currency("JPY", "Japanese Yen", "¥", 2)
   lazy val KRW = Currency("KRW", "South Korean Won", "kr", 2)
   lazy val MXN = Currency("MXN", "Mexican Peso", "$", 2)
+  lazy val MYR = Currency("MYR", "Malaysian Ringgit", "RM", 2)
   lazy val NOK = Currency("NOK", "Norwegian Krone", "kr", 2)
   lazy val NZD = Currency("NZD", "New Zealand Dollar", "$", 2)
   lazy val RUB = Currency("RUB", "Russian Ruble", "руб", 2)
@@ -83,7 +84,7 @@ package object market {
 
   lazy val defaultCurrencyMap: Map[String, Currency] =
     List(USD, ARS, AUD, BRL, CAD, CHF, CLP, CNY, CZK, DKK, EUR,
-      GBP, HKD, INR, JPY, KRW, MXN, NOK, NZD, RUB, SEK, XAG, XAU, BTC)
+      GBP, HKD, INR, JPY, KRW, MXN, MYR, NOK, NZD, RUB, SEK, XAG, XAU, BTC)
       .map(c ⇒ (c.code, c)).toMap
 
   lazy val defaultCurrencySet = defaultCurrencyMap.map(_._2).toSet

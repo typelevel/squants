@@ -136,7 +136,7 @@ val gw: String = load toString Gigawatts // returns “0.0012 GW”
 
 ### Approximations
 Create an implicit Quantity value to be used as a tolerance in approximate equality comparisons.
-Use the `approx` method (`=~` operator) like the `equals` method or `==` operator
+Use the `approx` method (`=~` and `~=` operator) like the `equals` method (`==` operator)
 
 ```scala
 implicit val tolerance = Watts(.1)

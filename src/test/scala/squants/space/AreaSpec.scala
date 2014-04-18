@@ -43,8 +43,9 @@ class AreaSpec extends FlatSpec with Matchers {
     x.toSquareMeters should be(1)
     x.toSquareCentimeters should be(1 / (MetricSystem.Centi * MetricSystem.Centi))
     x.toSquareKilometers should be(1 / (MetricSystem.Kilo * MetricSystem.Kilo))
-    x.toSquareUsMiles should be(1 / SquareUsMiles.multiplier) // TODO - Using the UOM multiplier is cheating
-    x.toSquareYards should be(1 / SquareYards.multiplier) // TODO - If the multiplier is wrong, the test still passes
+
+    x.toSquareUsMiles should be(1 / SquareUsMiles.multiplier)
+    x.toSquareYards should be(1 / SquareYards.multiplier)
     x.toSquareFeet should be(1 / SquareFeet.multiplier)
     x.toHectares should be(1 / Hectares.multiplier)
     x.toAcres should be(1 / Acres.multiplier)
