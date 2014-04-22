@@ -228,6 +228,11 @@ package object squants {
     def *[A](that: Vector[A]): Vector[A] = that * d
   }
 
+  implicit class SquantifiedLong(l: Long) {
+    def *[A <: Quantity[A]](that: A): A = that * l.toDouble
+    def *[A](that: Vector[A]): Vector[A] = that * l.toDouble
+  }
+
   implicit class SquantifiedNumeric[A](n: A)(implicit num: Numeric[A]) {
     def *[B <: Quantity[B]](that: B): B = that * num.toDouble(n)
     def *[B](that: Vector[B]): Vector[B] = that * num.toDouble(n)

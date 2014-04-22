@@ -11,6 +11,7 @@ package squants
 import org.scalatest.{ FlatSpec, Matchers }
 import squants.thermal.{ Celsius, Fahrenheit }
 import squants.time.Hours
+import scala.math.Numeric.BigDecimalAsIfIntegral
 
 /**
  * @author  garyKeorkunian
@@ -341,11 +342,23 @@ class QuantitySpec extends FlatSpec with Matchers {
   behavior of "SquantifiedDouble"
 
   it should "multiply by a Quantity value and return the product as a like value" in {
-    val l = 10 * Thangs(1000)
+    val l = 10.22 * Thangs(1000)
+    l.getClass should be(classOf[Thingee])
+    (l to Thangs) should be(10220)
+
+    val m = 10D * Kilograms(50)
+    m.getClass should be(classOf[Mass])
+    (m to Kilograms) should be(500)
+  }
+
+  behavior of "SquantifiedLong"
+
+  it should "multiply by a Quantity value and return the product as a like value" in {
+    val l = 10L * Thangs(1000)
     l.getClass should be(classOf[Thingee])
     (l to Thangs) should be(10000)
 
-    val m = 10 * Kilograms(50)
+    val m = 10L * Kilograms(50)
     m.getClass should be(classOf[Mass])
     (m to Kilograms) should be(500)
   }
