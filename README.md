@@ -16,11 +16,11 @@ All types are immutable and thread-safe.
 [Wiki](https://github.com/garyKeorkunian/squants/wiki)
 
 ### Current Versions
-Current Release: **0.2.3**
-([API Docs](https://oss.sonatype.org/service/local/repositories/releases/archive/com/squants/squants_2.10/0.2.3/squants_2.10-0.2.3-javadoc.jar/!/index.html#squants.package))
+Current Release: **0.3.3**
+([API Docs](https://oss.sonatype.org/service/local/repositories/releases/archive/com/squants/squants_2.10/0.3.3/squants_2.10-0.3.3-javadoc.jar/!/index.html#squants.package))
 
-Development Build: **0.3.2-SNAPSHOT**
-([API Docs](https://oss.sonatype.org/service/local/repositories/snapshots/archive/com/squants/squants_2.10/0.3.2-SNAPSHOT/squants_2.10-0.3.2-SNAPSHOT-javadoc.jar/!/index.html#squants.package))
+Development Build: **0.4.0-SNAPSHOT**
+([API Docs](https://oss.sonatype.org/service/local/repositories/snapshots/archive/com/squants/squants_2.10/0.4.0-SNAPSHOT/squants_2.10-0.4.0-SNAPSHOT-javadoc.jar/!/index.html#squants.package))
 
 [Release History](https://github.com/garyKeorkunian/squants/wiki/Release-History)
 
@@ -30,7 +30,7 @@ Development Build: **0.3.2-SNAPSHOT**
 Repository hosting for Squants is provided by Sonatype.
 To use Squants in your SBT project you will need to add the following dependency to your build.
 
-    "com.squants"  %% "squants"  % "0.2.3"
+    "com.squants"  %% "squants"  % "0.3.3"
 
 To use Squants interactively in the Scala REPL, clone the git repo and run `sbt console`
 
