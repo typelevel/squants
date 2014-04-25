@@ -45,6 +45,9 @@ case class Price[A <: Quantity[A]](money: Money, quantity: A) extends Ratio[Mone
   def divide(that: Price[A]): BigDecimal = money.amount / that.money.amount
   def /(that: Price[A]): BigDecimal = divide(that)
 
+  def in(currency: Currency)(implicit moneyContext: MoneyContext) =
+    (money in currency) / quantity
+
   /**
    * Returns the Cost (Money) for a quantity `that` of A
    * @param that Quantity
@@ -60,5 +63,8 @@ case class Price[A <: Quantity[A]](money: Money, quantity: A) extends Ratio[Mone
   def *(that: Money): A = convertToCounter(that)
 
   override def toString = money.toString + "/" + quantity.toString
+
+  def toString(currency: Currency, unit: UnitOfMeasure[A])(implicit moneyContext: MoneyContext) =
+    (money in currency).toString + "/" + quantity.toString(unit)
 }
 

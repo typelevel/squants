@@ -10,7 +10,7 @@ package squants.market
 
 import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
-import squants.space.Meters
+import squants.space.{ Yards, Meters }
 import org.json4s.{ ShortTypeHints, DefaultFormats }
 import org.json4s.native.Serialization
 import squants.mass.{ Mass, Kilograms }
@@ -88,6 +88,18 @@ class PriceSpec extends FlatSpec with Matchers {
   it should "return properly formatted strings" in {
     val p = Price(Money(10.22, "USD"), Meters(1))
     p.toString should be(p.money.toString + "/" + p.quantity.toString)
+  }
+
+  it should "convert a Price to a different currency with a valid MoneyContext" in {
+    implicit val moneyContext = MoneyContext(USD, defaultCurrencySet, Seq(USD(1) toThe JPY(100)))
+    val p = Price(USD(10), Meters(1))
+    p in JPY should be(Price(USD(10) in JPY, Meters(1)))
+  }
+
+  it should "return a properly formatted string converted to different currency and/or unit with a valid MoneyContext" in {
+    implicit val moneyContext = MoneyContext(USD, defaultCurrencySet, Seq(USD(1) toThe JPY(100)))
+    val p = Price(USD(10), Meters(1))
+    p toString (JPY, Yards) should be(p.money.in(JPY).toString + "/" + p.quantity.toString(Yards))
   }
 
   // TODO - Get this working

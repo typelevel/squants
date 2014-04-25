@@ -129,6 +129,7 @@ class QuantitySpec extends FlatSpec with Matchers {
     val y = Kilothangs(1.9999)
     x approx y should be(right = true)
     x =~ y should be(right = true)
+    x ≈ y should be(right = true)
     (x ~= y) should be(right = true)
   }
 

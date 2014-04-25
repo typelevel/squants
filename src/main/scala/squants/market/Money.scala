@@ -52,6 +52,8 @@ final class Money private (val amount: BigDecimal)(val currency: Currency)
    */
   override def toString = amount.setScale(currency.formatDecimals, BigDecimal.RoundingMode.HALF_EVEN).toString + " " + currency.code
 
+  def toString(c: Currency)(implicit context: MoneyContext): String = in(c).toString
+
   /**
    * Returns a string formatted with the value and currency symbol
    *
@@ -60,6 +62,8 @@ final class Money private (val amount: BigDecimal)(val currency: Currency)
    * @return String
    */
   def toFormattedString = currency.symbol + amount.setScale(currency.formatDecimals).toString
+
+  def toFormattedString(c: Currency)(implicit context: MoneyContext): String = in(c).toFormattedString
 
   /**
    * Adds this Money to that Money converted to this.currency via context
@@ -313,12 +317,38 @@ object Money {
  * @param symbol Currency symbol
  * @param formatDecimals Number of decimals in standard formatting
  */
-case class Currency(code: String, name: String, symbol: String, formatDecimals: Int) extends UnitOfMeasure[Money] {
+abstract class Currency(val code: String, val name: String, val symbol: String, val formatDecimals: Int) extends UnitOfMeasure[Money] {
   def apply[A](n: A)(implicit num: Numeric[A]) = Money(BigDecimal(num.toDouble(n)), this)
   def apply(d: BigDecimal): Money = Money(d, this)
   protected def converterFrom: Double ⇒ Double = ???
   protected def converterTo: Double ⇒ Double = ???
 }
+
+object USD extends Currency("USD", "US Dollar", "$", 2)
+object ARS extends Currency("ARS", "Argentinean Peso", "$", 2)
+object AUD extends Currency("AUD", "Australian Dollar", "$", 2)
+object BRL extends Currency("BRL", "Brazilian Real", "R$", 2)
+object CAD extends Currency("CAD", "Canadian Dollar", "$", 2)
+object CHF extends Currency("CHF", "Swiss Franc", "CHF", 2)
+object CLP extends Currency("CLP", "Chilean Peso", "¥", 2)
+object CNY extends Currency("CNY", "Chinese Yuan Renmimbi", "¥", 2)
+object CZK extends Currency("CZK", "Czech Republic Koruny", "Kč", 2)
+object DKK extends Currency("DKK", "Danish Kroner", "kr", 2)
+object EUR extends Currency("EUR", "Euro", "€", 2)
+object GBP extends Currency("GBP", "British Pound", "£", 2)
+object HKD extends Currency("HKD", "Hong Kong Dollar", "$", 2)
+object INR extends Currency("INR", "Indian Rupee", "Rp", 2)
+object JPY extends Currency("JPY", "Japanese Yen", "¥", 2)
+object KRW extends Currency("KRW", "South Korean Won", "kr", 2)
+object MXN extends Currency("MXN", "Mexican Peso", "$", 2)
+object MYR extends Currency("MYR", "Malaysian Ringgit", "RM", 2)
+object NOK extends Currency("NOK", "Norwegian Krone", "kr", 2)
+object NZD extends Currency("NZD", "New Zealand Dollar", "$", 2)
+object RUB extends Currency("RUB", "Russian Ruble", "руб", 2)
+object SEK extends Currency("SEK", "Swedish Kroner", "kr", 2)
+object XAG extends Currency("XAG", "Silver", "oz", 4)
+object XAU extends Currency("XAU", "Gold", "oz", 4)
+object BTC extends Currency("BTC", "BitCoin", "B", 15)
 
 /**
  * Support for Money DSL

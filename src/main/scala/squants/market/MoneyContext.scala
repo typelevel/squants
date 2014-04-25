@@ -30,7 +30,7 @@ package squants.market
 case class MoneyContext(
     defaultCurrency: Currency,
     currencies: Set[Currency],
-    rates: List[CurrencyExchangeRate],
+    rates: Seq[CurrencyExchangeRate],
     allowIndirectConversions: Boolean = true) {
 
   /**

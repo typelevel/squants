@@ -55,39 +55,15 @@ package squants
  */
 package object market {
 
-  /* Supported Currencies */
-  lazy val USD = Currency("USD", "US Dollar", "$", 2)
-  lazy val ARS = Currency("ARS", "Argentinean Peso", "$", 2)
-  lazy val AUD = Currency("AUD", "Australian Dollar", "$", 2)
-  lazy val BRL = Currency("BRL", "Brazilian Real", "R$", 2)
-  lazy val CAD = Currency("CAD", "Canadian Dollar", "$", 2)
-  lazy val CHF = Currency("CHF", "Swiss Franc", "CHF", 2)
-  lazy val CLP = Currency("CLP", "Chilean Peso", "¥", 2)
-  lazy val CNY = Currency("CNY", "Chinese Yuan Renmimbi", "¥", 2)
-  lazy val CZK = Currency("CZK", "Czech Republic Koruny", "Kč", 2)
-  lazy val DKK = Currency("DKK", "Danish Kroner", "kr", 2)
-  lazy val EUR = Currency("EUR", "Euro", "€", 2)
-  lazy val GBP = Currency("GBP", "British Pound", "£", 2)
-  lazy val HKD = Currency("HKD", "Hong Kong Dollar", "$", 2)
-  lazy val INR = Currency("INR", "Indian Rupee", "Rp", 2)
-  lazy val JPY = Currency("JPY", "Japanese Yen", "¥", 2)
-  lazy val KRW = Currency("KRW", "South Korean Won", "kr", 2)
-  lazy val MXN = Currency("MXN", "Mexican Peso", "$", 2)
-  lazy val MYR = Currency("MYR", "Malaysian Ringgit", "RM", 2)
-  lazy val NOK = Currency("NOK", "Norwegian Krone", "kr", 2)
-  lazy val NZD = Currency("NZD", "New Zealand Dollar", "$", 2)
-  lazy val RUB = Currency("RUB", "Russian Ruble", "руб", 2)
-  lazy val SEK = Currency("SEK", "Swedish Kroner", "kr", 2)
-  lazy val XAG = Currency("XAG", "Silver", "oz", 4)
-  lazy val XAU = Currency("XAU", "Gold", "oz", 4)
-  lazy val BTC = Currency("BTC", "BitCoin", "B", 15)
+  lazy val defaultCurrencySet = Set(
+    USD, ARS, AUD, BRL, CAD,
+    CHF, CLP, CNY, CZK, DKK,
+    EUR, GBP, HKD, INR, JPY,
+    KRW, MXN, MYR, NOK, NZD,
+    RUB, SEK, XAG, XAU, BTC)
 
-  lazy val defaultCurrencyMap: Map[String, Currency] =
-    List(USD, ARS, AUD, BRL, CAD, CHF, CLP, CNY, CZK, DKK, EUR,
-      GBP, HKD, INR, JPY, KRW, MXN, MYR, NOK, NZD, RUB, SEK, XAG, XAU, BTC)
-      .map(c ⇒ (c.code, c)).toMap
+  lazy val defaultCurrencyMap: Map[String, Currency] = defaultCurrencySet.map { c: Currency ⇒ c.code -> c }.toMap
 
-  lazy val defaultCurrencySet = defaultCurrencyMap.map(_._2).toSet
   lazy val defaultMoneyContext = MoneyContext(USD, defaultCurrencySet, Nil)
 
   class NoSuchExchangeRateException(val s: String) extends Exception
