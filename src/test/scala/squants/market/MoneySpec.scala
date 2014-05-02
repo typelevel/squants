@@ -293,6 +293,12 @@ class MoneySpec extends FlatSpec with Matchers {
     USD(10).toFormattedString should be("$10.00")
   }
 
+  it should "return properly formatted strings in different currency with an implicit MoneyContext in scope" in {
+    implicit val moneyContext = MoneyContext(USD, defaultCurrencySet, Seq(USD(1) toThe JPY(100)))
+    USD(10).toString(JPY) should be("1000.00 JPY")
+    USD(10).toFormattedString(JPY) should be("¥1000.00")
+  }
+
   it should "return a properly sorted list of Moneys" in {
     implicit val fxContext = MoneyContext(USD, defaultCurrencySet, Nil)
     val unorderedList = List(Money(10), Money(100), Money(1))
@@ -302,14 +308,14 @@ class MoneySpec extends FlatSpec with Matchers {
     orderedList.tail.tail.head should be(Money(100))
   }
 
-  it should "serialize to and de-serialize Currency from Json" in {
+  it should "serialize to and de-serialize Currency from Json" ignore {
     implicit val formats = DefaultFormats
     val ser = Serialization.write(USD)
     val des = Serialization.read[Currency](ser)
     des should be(USD)
   }
 
-  it should "serialize to and de-serialize Money from Json" in {
+  it should "serialize to and de-serialize Money from Json" ignore {
     implicit val formats = DefaultFormats.withBigDecimal
     val x = USD(10.22)
     val ser = Serialization.write(x)

@@ -147,7 +147,9 @@ abstract class Quantity[A <: Quantity[A]] extends Ordered[A] with Serializable {
   def approx(that: A)(implicit tolerance: A) = that within this.plusOrMinus(tolerance)
   /** approx */
   def =~(that: A)(implicit tolerance: A) = approx(that)
-  /** approx - more natural operator but has low precedence and requires parens */
+  /** approx */
+  def ≈(that: A)(implicit tolerance: A) = approx(that)
+  /** approx */
   def ~=(that: A)(implicit tolerance: A) = approx(that)
 
   /**

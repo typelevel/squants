@@ -19,7 +19,7 @@ package squants
 trait UnitOfMeasure[A <: Quantity[A]] extends Serializable {
   /**
    * Factory method for creating instances of a Quantity in this UnitOfMeasure
-   * @param n Double - the Quantity's value in terms of this UnitOfMeasure
+   * @param n N - the Quantity's value in terms of this UnitOfMeasure
    * @return
    */
   def apply[N](n: N)(implicit num: Numeric[N]): A

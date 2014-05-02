@@ -41,11 +41,11 @@ To use Squants interactively in the Scala REPL, clone the git repo and run `sbt 
 ## Better Dimensional Analysis
 *The Trouble with Doubles*
 
-When building programs that perform some type of dimensional analysis, developers are quick to declare
+When building programs that perform dimensional analysis, developers are quick to declare
 quantities using a basic numeric type, usually Double.  While this may be satisfactory in some situations,
 it can often lead to semantic and other logic issues.
 
-For example, when using a Double to describe a quantity of Energy (kWh) and Power (kW), it is possible
+For example, when using a Double to describe quantities of Energy (kWh) and Power (kW), it is possible
 to compile a program that adds these two values together.  This is not appropriate as kW and kWh
 measure two different quantities.  The unit kWh is used to measure an amount of Energy used
 or produced.  The unit kW is used to measure Power/Load, the rate at which Energy is being used
@@ -61,12 +61,12 @@ val energyMwh: Double = 24.2
 val sumKw = loadKw + energyMwh
 ```
 
-which not only adds different quantity types (load vs energy), it also fails to convert the scales (Mega vs Kilo).
+which not only adds different quantity types (Power vs Energy), it also fails to convert the scales (Mega vs Kilo).
 Because this code compiles, detection of these errors is pushed further into the development cycle.
 
 ### Dimensional Types
-The Squants Type Library and DSL helps prevent errors like these by type checking operations at compile time and
-automatically applying scale and type conversions (see below) at run-time.  For example,
+Squants helps prevent errors like these by type checking operations at compile time and
+automatically applying scale and type conversions at run-time.  For example,
 
 ```scala
 val load1: Power = Kilowatts(12)
@@ -76,16 +76,15 @@ sum should be(Kilowatts(35))
 sum should be(Megawatts(0.035))
 ```
 
-is a valid assertion because Kilowatts and Megawatts are both measures of load.  Only the scale is
-different and the framework applies an appropriate conversion.  Also, notice that keeping track of
+is a valid assertion because Kilowatts and Megawatts are both units of Power.  Only the scale is
+different and the library applies an appropriate conversion.  Also, notice that keeping track of
 the scale within the value name is no longer needed.
 
-_Note - Quantities can be initialized using any type T with an available implicit Numeric[T].
-In the current iteration, those values are converted to Double, which is the current type of the
-underlying value.
+NOTE - Quantities can be initialized using any type T with an available implicit Numeric[T].
+In the current iteration, those values are converted to Double, which is the current type of the underlying value.
 The goal of the project is to refactor the underlying value to a Generic so that the initializing
 type is retained as the underlying value type.
-This allows user code to use high precision types for the underlying value.
+This will allow user code to use high precision types for the underlying value.
 
 ### Dimensional Type Safety
 The following code highlights the type safety features.
@@ -95,11 +94,12 @@ val load: Power = Kilowatts(1.2)
 val energy: Energy = KilowattHours(23.0)
 val sum = load + energy // Invalid operation - does not compile
 ```
-The invalid expression prevents the code from compiling, catching the error made when using Double above.
+The unsupported operation in this expression prevents the code from compiling,
+catching the error made when using Double in the example above.
 
 ### Smart Type Conversions
 Dimensionally smart type conversions are a key feature of Squants.
-Most conversions are implemented by defining relationships between Quantity types using infix operations.
+Most conversions are implemented by defining relationships between Quantity types using infix operators.
 
 ```scala
 val load: Power = Kilowatts(1.2)
@@ -107,14 +107,14 @@ val time: Time = Hours(2)
 val energyUsed: Energy = load * time
 energyUsed should be(KilowattHours(2.4))
 ```
-This code demonstrates use of the Power.* method, defined as an infix operator that takes a Time
+This code demonstrates use of Power's `*` method, defined as an infix operator that takes a Time
 and returns an Energy, conversely
 
 ```scala
 val aveLoad: Power = energyUsed / time
 aveLoad should be(Kilowatts(1.2)
 ```
-demonstrates use of the Energy./ method that takes a Time and returns a Power
+demonstrates use of Energy's `/` method that takes a Time and returns a Power
 
 ### Unit Conversions
 If necessary, the value in the desired unit can be extracted with the `to` method.
@@ -143,20 +143,31 @@ implicit val tolerance = Watts(.1)
 val load = Kilowatts(2.0)
 val reading = Kilowatts(1.9999)
 
-load =~ reading should be(true) // uses implicit tolerance
-load approx reading should be(true) // uses implicit tolerance
+ // uses implicit tolerance
+load =~ reading should be(true)
+load ≈ reading should be(true)
+load approx reading should be(true)
 
 // use instead of, or override implicit
 load.=~(reading)(Watts(.01)) should be(false)
 load.approx(reading)(Watts(.01)) should be(false)
 ```
 
+The `=~` and `≈` are the preferred operators as they have the correct precedence for equality operations.
+The `~=` is provided for those who wish to use a more natural looking approx operator using standard characters.
+However, because of its low precedence, user code may require parenthesis around these comparisons
+
 ### Vectors
 ** EXPERIMENTAL **
 
-Vectors are implemented as a case class that takes a variable list of like quantities
+All Quantity types in Squants represent the scalar value of a quantity.
+That is, there is no direction information encoded in any of the Quantity types.
+This is true even for Quantities which are proper vector quantities (ie. Velocity, Acceleration, etc).
+
+Vector quantities in Squants are implemented as a case class that takes a variable parameter list of like quantities
 representing a set of point coordinates in Cartesian space.
 The dimensionality of the vector is determined by the number of arguments.
+Most basic vector operations are currently supported (addition, substraction, scaling
 
 ```scala
 val vector = QuantityVector(Kilometers(1.2), Kilometers(4.3), Kilometers(2.3)
