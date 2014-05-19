@@ -236,6 +236,14 @@ abstract class Quantity[A <: Quantity[A]] extends Ordered[A] with Serializable {
    * @return String
    */
   def toString(unit: UnitOfMeasure[A]): String = to(unit) + " " + unit.symbol
+
+  /**
+   * Returns a string representing the quantity's value in the given `unit` in the given `format`
+   * @param unit UnitOfMeasure[A] with UnitConverter
+   * @param format String containing the format for the value (ie "%.3f")
+   * @return String
+   */
+  def toString(unit: UnitOfMeasure[A], format: String): String = format.format(to(unit)) + " " + unit.symbol
 }
 
 /**

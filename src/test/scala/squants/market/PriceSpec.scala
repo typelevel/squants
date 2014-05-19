@@ -11,9 +11,6 @@ package squants.market
 import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
 import squants.space.{ Yards, Meters }
-import org.json4s.{ ShortTypeHints, DefaultFormats }
-import org.json4s.native.Serialization
-import squants.mass.{ Mass, Kilograms }
 
 /**
  * @author  garyKeorkunian
@@ -100,16 +97,5 @@ class PriceSpec extends FlatSpec with Matchers {
     implicit val moneyContext = MoneyContext(USD, defaultCurrencySet, Seq(USD(1) toThe JPY(100)))
     val p = Price(USD(10), Meters(1))
     p toString (JPY, Yards) should be(p.money.in(JPY).toString + "/" + p.quantity.toString(Yards))
-  }
-
-  // TODO - Get this working
-  it should "serialize to and de-serialize from Json" ignore {
-    implicit val formats = DefaultFormats.withBigDecimal + ShortTypeHints(List(classOf[Money], classOf[Mass], classOf[Currency]))
-    val p = USD(10.22) / Kilograms(1)
-    println(p)
-    val ser = Serialization.write(p)
-    println(ser)
-    val des = Serialization.read[Price[Mass]](ser)
-    des should be(p)
   }
 }

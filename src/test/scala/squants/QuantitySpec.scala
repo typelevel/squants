@@ -335,9 +335,15 @@ class QuantitySpec extends FlatSpec with Matchers {
     x.toString should be("10.0 th")
   }
 
-  it should "toString a unit and return a string formatted for the valueUnit" in {
+  it should "toString a unit and return a string formatted for the unit" in {
     val x = Thangs(1500)
     (x toString Kilothangs) should be("1.5 kth")
+  }
+
+  it should "toString a format and unit and return a string using the format and unit" in {
+    val x = Thangs(1.2555555)
+    x.toString(Thangs, "%.2f") should be("1.26 th")
+    x.toString(Thangs, "%.3f") should be("1.256 th")
   }
 
   behavior of "SquantifiedDouble"
