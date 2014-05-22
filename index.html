@@ -76,11 +76,11 @@ sbt console
 
 <p><em>The Trouble with Doubles</em></p>
 
-<p>When building programs that perform some type of dimensional analysis, developers are quick to declare
+<p>When building programs that perform dimensional analysis, developers are quick to declare
 quantities using a basic numeric type, usually Double.  While this may be satisfactory in some situations,
 it can often lead to semantic and other logic issues.</p>
 
-<p>For example, when using a Double to describe a quantity of Energy (kWh) and Power (kW), it is possible
+<p>For example, when using a Double to describe quantities of Energy (kWh) and Power (kW), it is possible
 to compile a program that adds these two values together.  This is not appropriate as kW and kWh
 measure two different quantities.  The unit kWh is used to measure an amount of Energy used
 or produced.  The unit kW is used to measure Power/Load, the rate at which Energy is being used
@@ -95,14 +95,14 @@ or produced, that is, Power is the first time derivative of Energy.</p>
 <span class="k">val</span> <span class="n">sumKw</span> <span class="k">=</span> <span class="n">loadKw</span> <span class="o">+</span> <span class="n">energyMwh</span>
 </pre></div>
 
-<p>which not only adds different quantity types (load vs energy), it also fails to convert the scales (Mega vs Kilo).
+<p>which not only adds different quantity types (Power vs Energy), it also fails to convert the scales (Mega vs Kilo).
 Because this code compiles, detection of these errors is pushed further into the development cycle.</p>
 
 <h3>
 <a name="dimensional-types" class="anchor" href="#dimensional-types"><span class="octicon octicon-link"></span></a>Dimensional Types</h3>
 
-<p>The Squants Type Library and DSL helps prevent errors like these by type checking operations at compile time and
-automatically applying scale and type conversions (see below) at run-time.  For example,</p>
+<p>Squants helps prevent errors like these by type checking operations at compile time and
+automatically applying scale and type conversions at run-time.  For example,</p>
 
 <div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">load1</span><span class="k">:</span> <span class="kt">Power</span> <span class="o">=</span> <span class="nc">Kilowatts</span><span class="o">(</span><span class="mi">12</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">load2</span><span class="k">:</span> <span class="kt">Power</span> <span class="o">=</span> <span class="nc">Megawatts</span><span class="o">(</span><span class="mf">0.023</span><span class="o">)</span>
@@ -111,16 +111,15 @@ automatically applying scale and type conversions (see below) at run-time.  For 
 <span class="n">sum</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="nc">Megawatts</span><span class="o">(</span><span class="mf">0.035</span><span class="o">))</span>
 </pre></div>
 
-<p>is a valid assertion because Kilowatts and Megawatts are both measures of load.  Only the scale is
-different and the framework applies an appropriate conversion.  Also, notice that keeping track of
+<p>is a valid assertion because Kilowatts and Megawatts are both units of Power.  Only the scale is
+different and the library applies an appropriate conversion.  Also, notice that keeping track of
 the scale within the value name is no longer needed.</p>
 
-<p>_Note - Quantities can be initialized using any type T with an available implicit Numeric[T].
-In the current iteration, those values are converted to Double, which is the current type of the
-underlying value.
+<p>NOTE - Quantities can be initialized using any type T with an available implicit Numeric[T].
+In the current iteration, those values are converted to Double, which is the current type of the underlying value.
 The goal of the project is to refactor the underlying value to a Generic so that the initializing
 type is retained as the underlying value type.
-This allows user code to use high precision types for the underlying value.</p>
+This will allow user code to use high precision types for the underlying value.</p>
 
 <h3>
 <a name="dimensional-type-safety" class="anchor" href="#dimensional-type-safety"><span class="octicon octicon-link"></span></a>Dimensional Type Safety</h3>
@@ -132,13 +131,14 @@ This allows user code to use high precision types for the underlying value.</p>
 <span class="k">val</span> <span class="n">sum</span> <span class="k">=</span> <span class="n">load</span> <span class="o">+</span> <span class="n">energy</span> <span class="c1">// Invalid operation - does not compile</span>
 </pre></div>
 
-<p>The invalid expression prevents the code from compiling, catching the error made when using Double above.</p>
+<p>The unsupported operation in this expression prevents the code from compiling,
+catching the error made when using Double in the example above.</p>
 
 <h3>
 <a name="smart-type-conversions" class="anchor" href="#smart-type-conversions"><span class="octicon octicon-link"></span></a>Smart Type Conversions</h3>
 
 <p>Dimensionally smart type conversions are a key feature of Squants.
-Most conversions are implemented by defining relationships between Quantity types using infix operations.</p>
+Most conversions are implemented by defining relationships between Quantity types using infix operators.</p>
 
 <div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">load</span><span class="k">:</span> <span class="kt">Power</span> <span class="o">=</span> <span class="nc">Kilowatts</span><span class="o">(</span><span class="mf">1.2</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">time</span><span class="k">:</span> <span class="kt">Time</span> <span class="o">=</span> <span class="nc">Hours</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span>
@@ -146,14 +146,14 @@ Most conversions are implemented by defining relationships between Quantity type
 <span class="n">energyUsed</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="nc">KilowattHours</span><span class="o">(</span><span class="mf">2.4</span><span class="o">))</span>
 </pre></div>
 
-<p>This code demonstrates use of the Power.* method, defined as an infix operator that takes a Time
+<p>This code demonstrates use of Power's <code>*</code> method, defined as an infix operator that takes a Time
 and returns an Energy, conversely</p>
 
 <div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">aveLoad</span><span class="k">:</span> <span class="kt">Power</span> <span class="o">=</span> <span class="n">energyUsed</span> <span class="o">/</span> <span class="n">time</span>
 <span class="n">aveLoad</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="nc">Kilowatts</span><span class="o">(</span><span class="mf">1.2</span><span class="o">)</span>
 </pre></div>
 
-<p>demonstrates use of the Energy./ method that takes a Time and returns a Power</p>
+<p>demonstrates use of Energy's <code>/</code> method that takes a Time and returns a Power</p>
 
 <h3>
 <a name="unit-conversions" class="anchor" href="#unit-conversions"><span class="octicon octicon-link"></span></a>Unit Conversions</h3>
@@ -184,22 +184,33 @@ Use the <code>approx</code> method (<code>=~</code> and <code>~=</code> operator
 <span class="k">val</span> <span class="n">load</span> <span class="k">=</span> <span class="nc">Kilowatts</span><span class="o">(</span><span class="mf">2.0</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">reading</span> <span class="k">=</span> <span class="nc">Kilowatts</span><span class="o">(</span><span class="mf">1.9999</span><span class="o">)</span>
 
-<span class="n">load</span> <span class="o">=~</span> <span class="n">reading</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="c1">// uses implicit tolerance</span>
-<span class="n">load</span> <span class="n">approx</span> <span class="n">reading</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="c1">// uses implicit tolerance</span>
+ <span class="c1">// uses implicit tolerance</span>
+<span class="n">load</span> <span class="o">=~</span> <span class="n">reading</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+<span class="n">load</span> <span class="o">≈</span> <span class="n">reading</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+<span class="n">load</span> <span class="n">approx</span> <span class="n">reading</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
 
 <span class="c1">// use instead of, or override implicit</span>
 <span class="n">load</span><span class="o">.=~(</span><span class="n">reading</span><span class="o">)(</span><span class="nc">Watts</span><span class="o">(.</span><span class="mi">01</span><span class="o">))</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
 <span class="n">load</span><span class="o">.</span><span class="n">approx</span><span class="o">(</span><span class="n">reading</span><span class="o">)(</span><span class="nc">Watts</span><span class="o">(.</span><span class="mi">01</span><span class="o">))</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
 </pre></div>
 
+<p>The <code>=~</code> and <code>≈</code> are the preferred operators as they have the correct precedence for equality operations.
+The <code>~=</code> is provided for those who wish to use a more natural looking approx operator using standard characters.
+However, because of its low precedence, user code may require parenthesis around these comparisons</p>
+
 <h3>
 <a name="vectors" class="anchor" href="#vectors"><span class="octicon octicon-link"></span></a>Vectors</h3>
 
 <p>** EXPERIMENTAL **</p>
 
-<p>Vectors are implemented as a case class that takes a variable list of like quantities
+<p>All Quantity types in Squants represent the scalar value of a quantity.
+That is, there is no direction information encoded in any of the Quantity types.
+This is true even for Quantities which are proper vector quantities (ie. Velocity, Acceleration, etc).</p>
+
+<p>Vector quantities in Squants are implemented as a case class that takes a variable parameter list of like quantities
 representing a set of point coordinates in Cartesian space.
-The dimensionality of the vector is determined by the number of arguments.</p>
+The dimensionality of the vector is determined by the number of arguments.
+Most basic vector operations are currently supported (addition, substraction, scaling</p>
 
 <div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">vector</span> <span class="k">=</span> <span class="nc">QuantityVector</span><span class="o">(</span><span class="nc">Kilometers</span><span class="o">(</span><span class="mf">1.2</span><span class="o">),</span> <span class="nc">Kilometers</span><span class="o">(</span><span class="mf">4.3</span><span class="o">),</span> <span class="nc">Kilometers</span><span class="o">(</span><span class="mf">2.3</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">magnitude</span><span class="k">:</span> <span class="kt">Length</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">magnitude</span>        <span class="c1">// returns the scalar value of the vector</span>
