@@ -59,22 +59,11 @@ final class Mass private (val value: Double) extends Quantity[Mass]
 /**
  * Factory singleton for [[squants.mass.Mass]] quantities
  */
-object Mass {
+object Mass extends QuantityCompanion[Mass] {
   private[mass] def apply[A](n: A)(implicit num: Numeric[A]) = new Mass(num.toDouble(n))
-  def apply(s: String): Either[String, Mass] = {
-    val regex = "([-+]?[0-9]*\\.?[0-9]+) *(mcg|mg|g|kg|t|tonnes|lb|oz)".r
-    s match {
-      case regex(value, Micrograms.symbol) ⇒ Right(Micrograms(value.toDouble))
-      case regex(value, Milligrams.symbol) ⇒ Right(Milligrams(value.toDouble))
-      case regex(value, Grams.symbol)      ⇒ Right(Grams(value.toDouble))
-      case regex(value, Kilograms.symbol)  ⇒ Right(Kilograms(value.toDouble))
-      case regex(value, Tonnes.symbol)     ⇒ Right(Tonnes(value.toDouble))
-      case regex(value, "tonnes")          ⇒ Right(Tonnes(value.toDouble))
-      case regex(value, Pounds.symbol)     ⇒ Right(Pounds(value.toDouble))
-      case regex(value, Ounces.symbol)     ⇒ Right(Ounces(value.toDouble))
-      case _                               ⇒ Left(s"Unable to parse $s as Mass")
-    }
-  }
+  def name = "Mass"
+  def units = Set(Micrograms, Milligrams, Grams, Kilograms, Tonnes, Pounds, Ounces)
+  def apply(s: String): Either[String, Mass] = parseString(s)
 }
 
 /**

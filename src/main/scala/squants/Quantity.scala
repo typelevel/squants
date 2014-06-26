@@ -211,7 +211,7 @@ abstract class Quantity[A <: Quantity[A]] extends Ordered[A] with Serializable {
    * @param unit UnitOfMeasure[A]
    * @return Double
    */
-  def to(unit: UnitOfMeasure[A]): Double = unit.convertTo(value)
+  def to(unit: UnitOfMeasure[A]): Double = unit.convertTo(valueUnit.convertFrom(value))
 
   /**
    * Returns an equivalent Quantity boxed with the supplied Unit
@@ -222,7 +222,7 @@ abstract class Quantity[A <: Quantity[A]] extends Ordered[A] with Serializable {
    * @param unit UnitOfMeasure[A]
    * @return Quantity
    */
-  def in(unit: UnitOfMeasure[A]) = unit(unit.convertTo(value))
+  def in(unit: UnitOfMeasure[A]) = unit(unit.convertTo(valueUnit.convertFrom(value)))
 
   /**
    * Returns a string representing the quantity's value in valueUnits
@@ -243,7 +243,7 @@ abstract class Quantity[A <: Quantity[A]] extends Ordered[A] with Serializable {
    * @param format String containing the format for the value (ie "%.3f")
    * @return String
    */
-  def toString(unit: UnitOfMeasure[A], format: String): String = format.format(to(unit)) + " " + unit.symbol
+  def toString(unit: UnitOfMeasure[A], format: String): String = "%s %s".format(format.format(to(unit)), unit.symbol)
 }
 
 /**
@@ -272,7 +272,6 @@ abstract class AbstractQuantityNumeric[A <: Quantity[A]](val valueUnit: UnitOfMe
   /**
    * `times` is not a supported Numeric operation for Quantities.
    * It is not possible to multiply a dimensional quantity by a like quantity and get another like quantity.
-   *
    * Applying this class in a way that uses this method will result in an UnsupportedOperationException being thrown.
    *
    * @param x Quantity[A]
@@ -289,3 +288,17 @@ abstract class AbstractQuantityNumeric[A <: Quantity[A]](val valueUnit: UnitOfMe
   def toDouble(x: A) = x.value
   def compare(x: A, y: A) = if (x.value > y.value) 1 else if (x.value < y.value) -1 else 0
 }
+
+trait QuantityCompanion[A <: Quantity[A]] {
+  def name: String
+  def units: Set[UnitOfMeasure[A]]
+  def symbolToUnit(symbol: String): Option[UnitOfMeasure[A]] = units.find(u ⇒ u.symbol == symbol)
+  def parseString(s: String): Either[String, A] = {
+    val regex = ("([-+]?[0-9]*\\.?[0-9]+) *(" + units.map { u: UnitOfMeasure[A] ⇒ u.symbol }.reduceLeft(_ + "|" + _) + ")").r
+    s match {
+      case regex(value, symbol) ⇒ Right(symbolToUnit(symbol).get(value.toDouble))
+      case _                    ⇒ Left(s"Unable to parse $s as $name")
+    }
+  }
+}
+

@@ -22,14 +22,14 @@ import org.json4s.JsonAST.JDecimal
 import squants.mass.{ Kilograms, Mass }
 
 /**
- * Provides JSON serialization and deserialization for Squants Price type
- * @tparam T The type of quantity of being priced
+ * Provides JSON serialization and deserialization for Price type
+ * @tparam A The type of quantity of being priced
  */
-trait PriceSerializerT[T <: Quantity[T]] extends Serializer[Price[T]] {
+trait PriceSerializerT[A <: Quantity[A]] extends Serializer[Price[A]] {
 
-  protected def Clazz = classOf[Price[T]]
+  protected def Clazz = classOf[Price[A]]
   def QuantityValidator: String ⇒ Boolean
-  def StringToQuantity: String ⇒ T
+  def StringToQuantity: String ⇒ A
 
   /**
    * Implementation
@@ -41,17 +41,17 @@ trait PriceSerializerT[T <: Quantity[T]] extends Serializer[Price[T]] {
     // is suspect, as some units of different quantity types may use the same symbol.
     // TODO - Come up with better way to verify that this is the Serializer for a given Price[A]
     case (TypeInfo(price, _), json) if Clazz.isAssignableFrom(price) && jsonContainsValidQuantity(json, QuantityValidator) ⇒
-      deserializePrice[T](json, StringToQuantity)
+      deserializePrice[A](json, StringToQuantity)
   }
 
   /**
    * Helper function for deserialization of a Price of any Quantity type
    * @param json JValue to be deserialized
    * @param stringToQuantity Function used to convert a string to a Quantity
-   * @tparam A Quantity Type
+   * @tparam B Quantity Type
    * @return
    */
-  def deserializePrice[A <: Quantity[A]](json: JValue, stringToQuantity: String ⇒ A): Price[A] = json match {
+  def deserializePrice[B <: Quantity[B]](json: JValue, stringToQuantity: String ⇒ B): Price[B] = json match {
     case JObject(List(
       JField("amount", JDecimal(amount)),
       JField("currency", JString(currency)),
@@ -68,10 +68,10 @@ trait PriceSerializerT[T <: Quantity[T]] extends Serializer[Price[T]] {
    * Helper function for serializing a Price of any Quantity Type
    * @param price Price
    * @param unit Unit used for serializing the Quantity part of the price
-   * @tparam A Quantity Type
+   * @tparam B Quantity Type
    * @return
    */
-  def serializePrice[A <: Quantity[A]](price: Price[A], unit: UnitOfMeasure[A]) = {
+  def serializePrice[B <: Quantity[B]](price: Price[B], unit: UnitOfMeasure[B]) = {
     JObject(
       List(
         "amount" -> JDecimal(price.money.value),

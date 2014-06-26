@@ -16,7 +16,7 @@ import org.json4s.reflect.TypeInfo
 import org.json4s.JsonAST.JDecimal
 
 /**
- * Provides JSON serialization and deserialization for Squants Money type
+ * Provides JSON serialization and deserialization for Money type
  */
 class MoneySerializer extends Serializer[Money] {
 

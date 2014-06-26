@@ -134,9 +134,17 @@ val mw: String = load toString Megawatts // returns “1.2 MW”
 val gw: String = load toString Gigawatts // returns “0.0012 GW”
 ```
 
+Simple console based conversions (using DSL described below)
+
+```scala
+1.kilograms to Pounds       // returns 2.2046226218487757
+2.1.pounds to Kilograms     // returns 0.952543977
+100.C to Fahrenheit         // returns 212.0
+```
+
 ### Approximations
 Create an implicit Quantity value to be used as a tolerance in approximate equality comparisons.
-Use the `approx` method (`=~` and `~=` operator) like the `equals` method (`==` operator)
+Use the `approx` method (`=~`, `~=`, `≈` operator) like the `equals` method (`==` operator)
 
 ```scala
 implicit val tolerance = Watts(.1)
@@ -155,19 +163,19 @@ load.approx(reading)(Watts(.01)) should be(false)
 
 The `=~` and `≈` are the preferred operators as they have the correct precedence for equality operations.
 The `~=` is provided for those who wish to use a more natural looking approx operator using standard characters.
-However, because of its low precedence, user code may require parenthesis around these comparisons
+However, because of its lower precedence, user code may require parenthesis around these comparisons
 
 ### Vectors
 ** EXPERIMENTAL **
 
 All Quantity types in Squants represent the scalar value of a quantity.
 That is, there is no direction information encoded in any of the Quantity types.
-This is true even for Quantities which are proper vector quantities (ie. Velocity, Acceleration, etc).
+This is true even for Quantities which are normally vector quantities (ie. Velocity, Acceleration, etc).
 
 Vector quantities in Squants are implemented as a case class that takes a variable parameter list of like quantities
 representing a set of point coordinates in Cartesian space.
 The dimensionality of the vector is determined by the number of arguments.
-Most basic vector operations are currently supported (addition, substraction, scaling
+Most basic vector operations are currently supported (addition, subtraction, scaling, cross and dot products)
 
 ```scala
 val vector = QuantityVector(Kilometers(1.2), Kilometers(4.3), Kilometers(2.3)
