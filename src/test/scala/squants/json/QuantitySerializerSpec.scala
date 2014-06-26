@@ -26,6 +26,7 @@ class QuantitySerializerSpec extends FlatSpec with MustMatchers {
       new MassPriceSerializer(Pounds) +
       new MoneySerializer +
       new TimeSerializer(Seconds) +
+      new MassSerializer(Pounds) +
       new TimePriceSerializer(Hours)
   }
 
@@ -94,6 +95,11 @@ class QuantitySerializerSpec extends FlatSpec with MustMatchers {
     time4 must be(Hours(seedValue))
     val time5 = read[Time](jsonTimeInt)
     time5 must be(Seconds(seedValueInt))
+  }
+
+  it must "serialize a Mass value" in {
+    val json = write[Mass](Pounds(seedValue))
+    println(json)
   }
 
   behavior of "MoneySerializer"

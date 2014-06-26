@@ -36,6 +36,18 @@ class MassSpec extends FlatSpec with Matchers {
     Ounces(10.22).toOunces should be(10.22)
   }
 
+  it should "create values from properly formatted Strings" in {
+    Mass("10.22 mcg").right.get should be(Micrograms(10.22))
+    Mass("10.22 mg").right.get should be(Milligrams(10.22))
+    Mass("10.22 g").right.get should be(Grams(10.22))
+    Mass("10.22 kg").right.get should be(Kilograms(10.22))
+    Mass("10.22 t").right.get should be(Tonnes(10.22))
+    Mass("10.22 lb").right.get should be(Pounds(10.22))
+    Mass("10.22 oz").right.get should be(Ounces(10.22))
+    Mass("10.45 zz").left.get should be("Unable to parse 10.45 zz as Mass")
+    Mass("zz g").left.get should be("Unable to parse zz g as Mass")
+  }
+
   it should "properly convert to all supported Units of Measure" in {
     val x = Grams(1)
     x.toMicrograms should be(1 / MetricSystem.Micro)
@@ -149,10 +161,10 @@ class MassSpec extends FlatSpec with Matchers {
     "10.45 g".toMass.right.get should be(Grams(10.45))
     "10.45 kg".toMass.right.get should be(Kilograms(10.45))
     "10.45 t".toMass.right.get should be(Tonnes(10.45))
-    "10.45 tonnes".toMass.right.get should be(Tonnes(10.45))
     "10.45 lb".toMass.right.get should be(Pounds(10.45))
     "10.45 oz".toMass.right.get should be(Ounces(10.45))
     "10.45 zz".toMass.left.get should be("Unable to parse 10.45 zz as Mass")
+    "zz oz".toMass.left.get should be("Unable to parse zz oz as Mass")
   }
 
   it should "provide Numeric support" in {
