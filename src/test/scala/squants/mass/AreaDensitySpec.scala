@@ -10,9 +10,7 @@ package squants.mass
 
 import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
-import squants.space.{ SquareMeters, CubicMeters }
-import org.json4s.DefaultFormats
-import org.json4s.native.Serialization
+import squants.space.SquareMeters
 
 /**
  * @author  garyKeorkunian
@@ -38,14 +36,6 @@ class AreaDensitySpec extends FlatSpec with Matchers {
 
   it should "return Mass when multiplied by Volume" in {
     KilogramsPerSquareMeter(1) * SquareMeters(1) should be(Kilograms(1))
-  }
-
-  it should "serialize to and de-serialize from Json" in {
-    implicit val formats = DefaultFormats
-    val x = KilogramsPerSquareMeter(10.22)
-    val ser = Serialization.write(x)
-    val des = Serialization.read[AreaDensity](ser)
-    x should be(des)
   }
 
   behavior of "AreaDensityConversion"

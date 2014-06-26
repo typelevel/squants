@@ -12,8 +12,6 @@ import org.scalatest.{ Matchers, FlatSpec }
 import squants.MetricSystem
 import squants.energy.Watts
 import squants.time.Seconds
-import org.json4s.DefaultFormats
-import org.json4s.native.Serialization
 
 /**
  * @author  garyKeorkunian
@@ -68,14 +66,6 @@ class ElectricPotentialSpec extends FlatSpec with Matchers {
 
   it should "return MagneticFlux when multiplied by Time" in {
     Volts(1) * Seconds(1) should be(Webers(1))
-  }
-
-  it should "serialize to and de-serialize from Json" in {
-    implicit val formats = DefaultFormats
-    val x = Volts(10.22)
-    val ser = Serialization.write(x)
-    val des = Serialization.read[ElectricPotential](ser)
-    x should be(des)
   }
 
   behavior of "ElectricalPotentialConversions"

@@ -12,8 +12,6 @@ import org.scalatest.{ Matchers, FlatSpec }
 import squants.MetricSystem
 import squants.time.{ Seconds, Time }
 import squants.energy.Joules
-import org.json4s.DefaultFormats
-import org.json4s.native.Serialization
 
 /**
  * @author  garyKeorkunian
@@ -71,14 +69,6 @@ class ElectricChargeSpec extends FlatSpec with Matchers {
 
   it should "return Time when divided by ElectricalCurrent" in {
     Coulombs(1) / Amperes(1) should be(Seconds(1))
-  }
-
-  it should "serialize to and de-serialize from Json" in {
-    implicit val formats = DefaultFormats
-    val x = Coulombs(10.22)
-    val ser = Serialization.write(x)
-    val des = Serialization.read[ElectricCharge](ser)
-    x should be(des)
   }
 
   behavior of "ElectricalChargeConversions"

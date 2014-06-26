@@ -29,6 +29,9 @@ final class Time private (val value: Double) extends Quantity[Time]
 
   def millis = toMilliseconds.toLong
 
+  // TODO - Remove once TimeDerivative pairing of Length -> Velocity is fixed
+  def *(that: Velocity) = that * this
+
   def *[A <: squants.Quantity[A] with squants.time.TimeIntegral[_]](that: TimeDerivative[A]): A = that * this
 
   def toMicroseconds = to(Microseconds)

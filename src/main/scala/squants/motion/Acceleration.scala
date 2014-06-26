@@ -20,14 +20,15 @@ import scala.Some
  * @author  garyKeorkunian
  * @since   0.1
  *
- * @param change the change in velocity
+ * @param velocity the change in velocity
  * @param time the time interval
  */
-case class Acceleration(change: Velocity, time: Time) extends Quantity[Acceleration]
+case class Acceleration(velocity: Velocity, time: Time) extends Quantity[Acceleration]
     with TimeDerivative[Velocity] with TimeIntegral[Jerk] {
 
   def valueUnit = MetersPerSecondSquared
-  def value = change.to(MetersPerSecond) / time.to(Seconds)
+  def value = toMetersPerSecondSquared
+  def change = velocity
 
   def *(that: Mass): Force = Force(that, this)
   def /(that: Time): Jerk = Jerk(this, that)
@@ -35,7 +36,7 @@ case class Acceleration(change: Velocity, time: Time) extends Quantity[Accelerat
 
   def toString(unit: AccelerationUnit) = to(unit) + " " + unit.symbol
 
-  def to(unit: AccelerationUnit): Double = change.to(unit.changeUnit) / unit.change.to(unit.changeUnit) / time.to(unit.timeUnit)
+  def to(unit: AccelerationUnit): Double = velocity.to(unit.changeUnit) / unit.change.to(unit.changeUnit) / time.to(unit.timeUnit)
   def toFeetPerSecondSquared = to(FeetPerSecondSquared)
   def toMetersPerSecondSquared = to(MetersPerSecondSquared)
   def toUsMilesPerHourSquared = to(UsMilesPerHourSquared)

@@ -14,8 +14,6 @@ import squants.mass.Kilograms
 import squants.time.Seconds
 import squants.energy.Joules
 import squants.space.{ SquareMeters, Meters }
-import org.json4s.DefaultFormats
-import org.json4s.native.Serialization
 
 /**
  * @author  garyKeorkunian
@@ -75,14 +73,6 @@ class ForceSpec extends FlatSpec with Matchers {
 
   it should "return Yank when divided by Time" in {
     Newtons(1) / Seconds(1) should be(NewtonsPerSecond(1))
-  }
-
-  it should "serialize to and de-serialize from Json" in {
-    implicit val formats = DefaultFormats
-    val x = Newtons(10.22)
-    val ser = Serialization.write(x)
-    val des = Serialization.read[Force](ser)
-    x should be(des)
   }
 
   behavior of "ForceConversions"

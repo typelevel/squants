@@ -10,6 +10,8 @@ homepage := Some(url("http://www.squants.com/"))
 
 scalaVersion in ThisBuild := Versions.Scala
 
+crossScalaVersions := Versions.ScalaCross
+
 scalacOptions ++= Seq("-feature", "-deprecation")
 
 libraryDependencies ++= Seq(

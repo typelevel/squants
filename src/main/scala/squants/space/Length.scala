@@ -9,7 +9,7 @@
 package squants.space
 
 import squants._
-import squants.time.TimeIntegral
+import squants.time.{ Time, TimeIntegral }
 import squants.energy.{ Watts, Joules }
 import squants.radio.WattsPerSteradian
 import squants.electro._
@@ -18,6 +18,7 @@ import squants.motion.Velocity
 import squants.radio.RadiantIntensity
 import scala.Some
 import squants.radio.SpectralIntensity
+import squants.Time
 
 /**
  * Represents a quantity of length
@@ -28,7 +29,7 @@ import squants.radio.SpectralIntensity
  * @param value value in  [[squants.space.Meters]]
  */
 final class Length private (val value: Double) extends Quantity[Length]
-    with BaseQuantity with TimeIntegral[Velocity] {
+    with BaseQuantity {
 
   def valueUnit = Meters
   def baseUnit = Meters

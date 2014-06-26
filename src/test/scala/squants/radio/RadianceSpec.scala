@@ -11,8 +11,6 @@ package squants.radio
 import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
 import squants.space.SquareMeters
-import org.json4s.DefaultFormats
-import org.json4s.native.Serialization
 
 /**
  * @author  garyKeorkunian
@@ -42,14 +40,6 @@ class RadianceSpec extends FlatSpec with Matchers {
 
   it should "return Area when divided by RadiantIntensity" in {
     WattsPerSteradianPerSquareMeter(1) / WattsPerSteradian(1) should be(SquareMeters(1))
-  }
-
-  it should "serialize to and de-serialize from Json" in {
-    implicit val formats = DefaultFormats
-    val x = WattsPerSteradianPerSquareMeter(10.22)
-    val ser = Serialization.write(x)
-    val des = Serialization.read[Radiance](ser)
-    x should be(des)
   }
 
   behavior of "RadianceConversions"

@@ -12,8 +12,6 @@ import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
 import squants.time.Seconds
 import squants.mass.Kilograms
-import org.json4s.DefaultFormats
-import org.json4s.native.Serialization
 
 /**
  * @author  garyKeorkunian
@@ -51,14 +49,6 @@ class MomentumSpec extends FlatSpec with Matchers {
 
   it should "return Velocity when divided by Mass" in {
     NewtonSeconds(1) / Kilograms(1) should be(MetersPerSecond(1))
-  }
-
-  it should "serialize to and de-serialize from Json" in {
-    implicit val formats = DefaultFormats
-    val x = NewtonSeconds(10.22)
-    val ser = Serialization.write(x)
-    val des = Serialization.read[Momentum](ser)
-    x should be(des)
   }
 
   behavior of "MomentumConversions"

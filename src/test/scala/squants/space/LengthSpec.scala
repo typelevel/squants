@@ -14,8 +14,6 @@ import squants.motion.{ MetersPerSecond, Newtons }
 import squants.energy.Joules
 import squants.time.Seconds
 import squants.electro.{ Ohms, OhmMeters, Siemens, SiemensPerMeter }
-import org.json4s.DefaultFormats
-import org.json4s.native.Serialization
 
 /**
  * @author  garyKeorkunian
@@ -126,14 +124,6 @@ class LengthSpec extends FlatSpec with Matchers {
 
   it should "return a Volume when cubed" in {
     Meters(3).cubed should be(CubicMeters(27))
-  }
-
-  it should "serialize to and de-serialize from Json" in {
-    implicit val formats = DefaultFormats
-    val x = Meters(10.22)
-    val ser = Serialization.write(x)
-    val des = Serialization.read[Length](ser)
-    x should be(des)
   }
 
   behavior of "LengthConversions"

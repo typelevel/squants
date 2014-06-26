@@ -11,8 +11,6 @@ package squants.photo
 import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
 import squants.space.SquareMeters
-import org.json4s.DefaultFormats
-import org.json4s.native.Serialization
 
 /**
  * @author  garyKeorkunian
@@ -38,14 +36,6 @@ class LuminanceSpec extends FlatSpec with Matchers {
 
   it should "return LuminousIntensity when multiplied by Area" in {
     CandelasPerSquareMeter(1) * SquareMeters(1) should be(Candelas(1))
-  }
-
-  it should "serialize to and de-serialize from Json" in {
-    implicit val formats = DefaultFormats
-    val x = CandelasPerSquareMeter(10.22)
-    val ser = Serialization.write(x)
-    val des = Serialization.read[Luminance](ser)
-    x should be(des)
   }
 
   behavior of "LuminanceConversions"

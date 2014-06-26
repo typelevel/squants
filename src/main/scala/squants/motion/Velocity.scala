@@ -8,13 +8,14 @@
 
 package squants.motion
 
-import squants._
 import squants.time._
 import squants.space._
-import squants.Meters
-import squants.Time
 import squants.time.Seconds
+import squants._
+import squants.Time
+import squants.space.Length
 import scala.Some
+import squants.Meters
 
 /**
  * Represents a quantify of Velocity
@@ -25,12 +26,15 @@ import scala.Some
  * @param distance The distance traveled
  * @param time The travel time
  */
-case class Velocity(distance: Distance, time: Time) extends Quantity[Velocity]
-    with TimeDerivative[Distance] with TimeIntegral[Acceleration] {
+case class Velocity(distance: Length, time: Time) extends Quantity[Velocity]
+    with TimeIntegral[Acceleration] {
 
   def valueUnit = MetersPerSecond
   def value = toMetersPerSeconds
   def change = distance
+
+  // TODO - Remove once TimeDerivative pairing of Length -> Velocity is fixed
+  def *(that: Time): Length = change * (that / time)
 
   def *(that: Mass): Momentum = Momentum(that, this)
   def /(that: Time): Acceleration = Acceleration(this, that)
