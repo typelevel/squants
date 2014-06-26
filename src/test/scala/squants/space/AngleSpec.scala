@@ -9,8 +9,6 @@
 package squants.space
 
 import org.scalatest.{ Matchers, FlatSpec }
-import org.json4s.DefaultFormats
-import org.json4s.native.Serialization
 
 /**
  * @author  garyKeorkunian
@@ -63,14 +61,6 @@ class AngleSpec extends FlatSpec with Matchers {
 
   it should "return the asin of an Angle" in {
     Radians(1).asin should be(math.asin(1))
-  }
-
-  it should "serialize to and de-serialize from Json" in {
-    implicit val formats = DefaultFormats
-    val x = Radians(10.22)
-    val ser = Serialization.write(x)
-    val des = Serialization.read[Angle](ser)
-    x should be(des)
   }
 
   behavior of "AngleConversion"

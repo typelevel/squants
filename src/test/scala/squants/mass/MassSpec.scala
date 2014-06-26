@@ -14,8 +14,6 @@ import squants.MetricSystem
 import squants.motion._
 import squants.time.Seconds
 import squants.space.{ SquareMeters, CubicMeters }
-import org.json4s.DefaultFormats
-import org.json4s.native.Serialization
 
 /**
  * @author  garyKeorkunian
@@ -103,14 +101,6 @@ class MassSpec extends FlatSpec with Matchers {
 
   it should "return AreaDensity when divided by Area" in {
     Kilograms(1) / KilogramsPerSquareMeter(1) should be(SquareMeters(1))
-  }
-
-  it should "serialize to and de-serialize from Json" in {
-    implicit val formats = DefaultFormats
-    val x = Kilograms(10.22)
-    val ser = Serialization.write(x)
-    val des = Serialization.read[Mass](ser)
-    x should be(des)
   }
 
   behavior of "MassConversions"

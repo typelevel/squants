@@ -13,8 +13,6 @@ import scala.language.postfixOps
 import squants.time.Seconds
 import squants.space.Meters
 import squants.mass.Kilograms
-import org.json4s.DefaultFormats
-import org.json4s.native.Serialization
 
 /**
  * @author  garyKeorkunian
@@ -66,14 +64,6 @@ class VelocitySpec extends FlatSpec with Matchers {
 
   it should "return a dimensionless ration when divided by an Acceleration" in {
     MetersPerSecond(10) / MetersPerSecond(4) should be(2.5)
-  }
-
-  it should "serialize to and de-serialize from Json" in {
-    implicit val formats = DefaultFormats
-    val x = MetersPerSecond(10.22)
-    val ser = Serialization.write(x)
-    val des = Serialization.read[Velocity](ser)
-    x should be(des)
   }
 
   behavior of "VelocityConversions"

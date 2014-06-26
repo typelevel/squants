@@ -12,8 +12,6 @@ import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
 import squants.space.CubicMeters
 import squants.time.Seconds
-import org.json4s.DefaultFormats
-import org.json4s.native.Serialization
 
 /**
  * @author  garyKeorkunian
@@ -48,14 +46,6 @@ class VolumeFlowRateSpec extends FlatSpec with Matchers {
 
   it should "return Volume when multiplied by Time" in {
     CubicMetersPerSecond(1) * Seconds(1) should be(CubicMeters(1))
-  }
-
-  it should "serialize to and de-serialize from Json" in {
-    implicit val formats = DefaultFormats
-    val x = CubicMetersPerSecond(10.22)
-    val ser = Serialization.write(x)
-    val des = Serialization.read[VolumeFlowRate](ser)
-    x should be(des)
   }
 
   behavior of "VolumeFlowRateConversions"

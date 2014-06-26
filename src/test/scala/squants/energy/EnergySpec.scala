@@ -17,8 +17,6 @@ import squants.space.{ CubicMeters, Meters }
 import squants.motion.Newtons
 import squants.mass.Kilograms
 import squants.thermal.{ Kelvin, JoulesPerKelvin }
-import org.json4s.DefaultFormats
-import org.json4s.native.Serialization
 
 /**
  * @author  garyKeorkunian
@@ -132,14 +130,6 @@ class EnergySpec extends FlatSpec with Matchers {
 
   it should "return Temperature when divided by ThermalCapacity" in {
     Joules(10) / Kelvin(2) should be(JoulesPerKelvin(5))
-  }
-
-  it should "serialize to and de-serialize from Json" in {
-    implicit val formats = DefaultFormats
-    val x = KilowattHours(10.22)
-    val ser = Serialization.write(x)
-    val des = Serialization.read[Energy](ser)
-    x should be(des)
   }
 
   behavior of "EnergyConversions"

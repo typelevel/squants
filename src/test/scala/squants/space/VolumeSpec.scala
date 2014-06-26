@@ -13,8 +13,6 @@ import squants.motion.CubicMetersPerSecond
 import squants.time.Seconds
 import squants.mass.{ Kilograms, KilogramsPerCubicMeter }
 import squants.energy.{ Joules, JoulesPerCubicMeter }
-import org.json4s.DefaultFormats
-import org.json4s.native.Serialization
 
 /**
  * @author  garyKeorkunian
@@ -129,14 +127,6 @@ class VolumeSpec extends FlatSpec with Matchers {
 
   it should "return Time when divided by VolumeFlowRate" in {
     CubicMeters(1) / CubicMetersPerSecond(1) should be(Seconds(1))
-  }
-
-  it should "serialize to and de-serialize from Json" in {
-    implicit val formats = DefaultFormats
-    val x = CubicMeters(10.22)
-    val ser = Serialization.write(x)
-    val des = Serialization.read[Volume](ser)
-    x should be(des)
   }
 
   behavior of "VolumeConversions"

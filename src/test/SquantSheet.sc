@@ -2,7 +2,6 @@
 import squants.market._
 import squants.mass.MassConversions._
 import squants.mass.Pounds
-import squants.space.Meters
 import squants.time.TimeConversions._
 import squants.market.MoneyConversions._
 

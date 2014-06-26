@@ -12,8 +12,6 @@ import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
 import squants.MetricSystem
 import squants.time.Hours
-import org.json4s.DefaultFormats
-import org.json4s.native.Serialization
 
 /**
  * @author  garyKeorkunian
@@ -56,14 +54,6 @@ class PowerSpec extends FlatSpec with Matchers {
 
   it should "return Energy when multiplied by Time" in {
     Watts(1) * Hours(1) should be(WattHours(1))
-  }
-
-  it should "serialize to and de-serialize from Json" in {
-    implicit val formats = DefaultFormats
-    val x = Kilowatts(10.22)
-    val ser = Serialization.write(x)
-    val des = Serialization.read[Power](ser)
-    x should be(des)
   }
 
   behavior of "PowerConversions"

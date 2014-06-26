@@ -11,8 +11,6 @@ package squants.photo
 import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
 import squants.time.Seconds
-import org.json4s.DefaultFormats
-import org.json4s.native.Serialization
 
 /**
  * @author  garyKeorkunian
@@ -42,14 +40,6 @@ class LuminousExposureSpec extends FlatSpec with Matchers {
 
   it should "return Time when divided by Illuminance" in {
     LuxSeconds(1) / Lux(1) should be(Seconds(1))
-  }
-
-  it should "serialize to and de-serialize from Json" in {
-    implicit val formats = DefaultFormats
-    val x = LuxSeconds(10.22)
-    val ser = Serialization.write(x)
-    val des = Serialization.read[LuminousExposure](ser)
-    x should be(des)
   }
 
   behavior of "LuminousExposureConversions"

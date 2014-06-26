@@ -11,8 +11,6 @@ package squants.electro
 import org.scalatest.{ Matchers, FlatSpec }
 import squants.time.Seconds
 import squants.space.SquareMeters
-import org.json4s.DefaultFormats
-import org.json4s.native.Serialization
 
 /**
  * @author  garyKeorkunian
@@ -50,14 +48,6 @@ class MagneticFluxSpec extends FlatSpec with Matchers {
 
   it should "return Inductance when divided by ElectricCurrent" in {
     Webers(1) / Amperes(1) should be(Henry(1))
-  }
-
-  it should "serialize to and de-serialize from Json" in {
-    implicit val formats = DefaultFormats
-    val x = Webers(10.22)
-    val ser = Serialization.write(x)
-    val des = Serialization.read[MagneticFlux](ser)
-    x should be(des)
   }
 
   behavior of "MagneticFluxConversions"

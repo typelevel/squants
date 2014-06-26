@@ -20,7 +20,7 @@ Current Release: **0.3.3**
 ([API Docs](https://oss.sonatype.org/service/local/repositories/releases/archive/com/squants/squants_2.10/0.3.3/squants_2.10-0.3.3-javadoc.jar/!/index.html#squants.package))
 
 Development Build: **0.4.0-SNAPSHOT**
-([API Docs](https://oss.sonatype.org/service/local/repositories/snapshots/archive/com/squants/squants_2.10/0.4.0-SNAPSHOT/squants_2.10-0.4.0-SNAPSHOT-javadoc.jar/!/index.html#squants.package))
+([API Docs](https://oss.sonatype.org/service/local/repositories/snapshots/archive/com/squants/squants_2.11/0.4.0-SNAPSHOT/squants_2.11-0.4.0-SNAPSHOT-javadoc.jar/!/index.html#squants.package))
 
 [Release History](https://github.com/garyKeorkunian/squants/wiki/Release-History)
 
@@ -31,6 +31,16 @@ Repository hosting for Squants is provided by Sonatype.
 To use Squants in your SBT project you will need to add the following dependency to your build.
 
     "com.squants"  %% "squants"  % "0.3.3"
+
+This dependency format assumes you are using Scala 2.10, the only version for which Squants 0.3.3 is built.
+If you are using Scala 2.11, and wish to use Squants 0.3.3, use the following.
+
+    "com.squants"  % "squants_2.10"  % "0.3.3"
+
+Beginning with Squants 0.4.0-SNAPSHOT, both Scala 2.10 and 2.11 builds are available.
+Therefore, the following will work for both 2.10 and 2.11 based projects.
+
+    "com.squants"  %% "squants"  % "0.4.0-SNAPSHOT"
 
 To use Squants interactively in the Scala REPL, clone the git repo and run `sbt console`
 
