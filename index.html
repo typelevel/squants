@@ -49,7 +49,7 @@ All types are immutable and thread-safe.</p>
 (<a href="https://oss.sonatype.org/service/local/repositories/releases/archive/com/squants/squants_2.10/0.3.3/squants_2.10-0.3.3-javadoc.jar/!/index.html#squants.package">API Docs</a>)</p>
 
 <p>Development Build: <strong>0.4.0-SNAPSHOT</strong>
-(<a href="https://oss.sonatype.org/service/local/repositories/snapshots/archive/com/squants/squants_2.10/0.4.0-SNAPSHOT/squants_2.10-0.4.0-SNAPSHOT-javadoc.jar/!/index.html#squants.package">API Docs</a>)</p>
+(<a href="https://oss.sonatype.org/service/local/repositories/snapshots/archive/com/squants/squants_2.11/0.4.0-SNAPSHOT/squants_2.11-0.4.0-SNAPSHOT-javadoc.jar/!/index.html#squants.package">API Docs</a>)</p>
 
 <p><a href="https://github.com/garyKeorkunian/squants/wiki/Release-History">Release History</a></p>
 
@@ -62,6 +62,18 @@ All types are immutable and thread-safe.</p>
 To use Squants in your SBT project you will need to add the following dependency to your build.</p>
 
 <pre><code>"com.squants"  %% "squants"  % "0.3.3"
+</code></pre>
+
+<p>This dependency format assumes you are using Scala 2.10, the only version for which Squants 0.3.3 is built.
+If you are using Scala 2.11, and wish to use Squants 0.3.3, use the following.</p>
+
+<pre><code>"com.squants"  % "squants_2.10"  % "0.3.3"
+</code></pre>
+
+<p>Beginning with Squants 0.4.0-SNAPSHOT, both Scala 2.10 and 2.11 builds are available.
+Therefore, the following will work for both 2.10 and 2.11 based projects.</p>
+
+<pre><code>"com.squants"  %% "squants"  % "0.4.0-SNAPSHOT"
 </code></pre>
 
 <p>To use Squants interactively in the Scala REPL, clone the git repo and run <code>sbt console</code></p>
@@ -174,11 +186,18 @@ and returns an Energy, conversely</p>
 <span class="k">val</span> <span class="n">gw</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="n">load</span> <span class="n">toString</span> <span class="nc">Gigawatts</span> <span class="c1">// returns “0.0012 GW”</span>
 </pre></div>
 
+<p>Simple console based conversions (using DSL described below)</p>
+
+<div class="highlight highlight-scala"><pre><span class="mf">1.</span><span class="n">kilograms</span> <span class="n">to</span> <span class="nc">Pounds</span>       <span class="c1">// returns 2.2046226218487757</span>
+<span class="mf">2.1</span><span class="o">.</span><span class="n">pounds</span> <span class="n">to</span> <span class="nc">Kilograms</span>     <span class="c1">// returns 0.952543977</span>
+<span class="mf">100.</span><span class="n">C</span> <span class="n">to</span> <span class="nc">Fahrenheit</span>         <span class="c1">// returns 212.0</span>
+</pre></div>
+
 <h3>
 <a name="approximations" class="anchor" href="#approximations"><span class="octicon octicon-link"></span></a>Approximations</h3>
 
 <p>Create an implicit Quantity value to be used as a tolerance in approximate equality comparisons.
-Use the <code>approx</code> method (<code>=~</code> and <code>~=</code> operator) like the <code>equals</code> method (<code>==</code> operator)</p>
+Use the <code>approx</code> method (<code>=~</code>, <code>~=</code>, <code>≈</code> operator) like the <code>equals</code> method (<code>==</code> operator)</p>
 
 <div class="highlight highlight-scala"><pre><span class="k">implicit</span> <span class="k">val</span> <span class="n">tolerance</span> <span class="k">=</span> <span class="nc">Watts</span><span class="o">(.</span><span class="mi">1</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">load</span> <span class="k">=</span> <span class="nc">Kilowatts</span><span class="o">(</span><span class="mf">2.0</span><span class="o">)</span>
@@ -196,7 +215,7 @@ Use the <code>approx</code> method (<code>=~</code> and <code>~=</code> operator
 
 <p>The <code>=~</code> and <code>≈</code> are the preferred operators as they have the correct precedence for equality operations.
 The <code>~=</code> is provided for those who wish to use a more natural looking approx operator using standard characters.
-However, because of its low precedence, user code may require parenthesis around these comparisons</p>
+However, because of its lower precedence, user code may require parenthesis around these comparisons</p>
 
 <h3>
 <a name="vectors" class="anchor" href="#vectors"><span class="octicon octicon-link"></span></a>Vectors</h3>
@@ -205,12 +224,12 @@ However, because of its low precedence, user code may require parenthesis around
 
 <p>All Quantity types in Squants represent the scalar value of a quantity.
 That is, there is no direction information encoded in any of the Quantity types.
-This is true even for Quantities which are proper vector quantities (ie. Velocity, Acceleration, etc).</p>
+This is true even for Quantities which are normally vector quantities (ie. Velocity, Acceleration, etc).</p>
 
 <p>Vector quantities in Squants are implemented as a case class that takes a variable parameter list of like quantities
 representing a set of point coordinates in Cartesian space.
 The dimensionality of the vector is determined by the number of arguments.
-Most basic vector operations are currently supported (addition, substraction, scaling</p>
+Most basic vector operations are currently supported (addition, subtraction, scaling, cross and dot products)</p>
 
 <div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">vector</span> <span class="k">=</span> <span class="nc">QuantityVector</span><span class="o">(</span><span class="nc">Kilometers</span><span class="o">(</span><span class="mf">1.2</span><span class="o">),</span> <span class="nc">Kilometers</span><span class="o">(</span><span class="mf">4.3</span><span class="o">),</span> <span class="nc">Kilometers</span><span class="o">(</span><span class="mf">2.3</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">magnitude</span><span class="k">:</span> <span class="kt">Length</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">magnitude</span>        <span class="c1">// returns the scalar value of the vector</span>
