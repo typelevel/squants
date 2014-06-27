@@ -26,7 +26,7 @@ final class Volume private (val value: Double)
     extends Quantity[Volume]
     with TimeIntegral[VolumeFlowRate] {
 
-  def valueUnit = CubicMeters
+  def valueUnit = Volume.valueUnit
 
   def *(that: Density): Mass = Kilograms(toCubicMeters * that.toKilogramsPerCubicMeter)
   def *(that: EnergyDensity): Energy = Joules(toCubicMeters * that.toJoulesPerCubicMeter)
@@ -40,8 +40,8 @@ final class Volume private (val value: Double)
   def toCubicMeters = to(CubicMeters)
   def toLitres = to(Litres)
   def toNanolitres = to(Nanolitres)
-  def toMillilitres = to(Millilitres)
   def toMicrolitres = to(Microlitres)
+  def toMillilitres = to(Millilitres)
   def toCentilitres = to(Centilitres)
   def toDecilitres = to(Decilitres)
   def toHectolitres = to(Hectolitres)
@@ -70,9 +70,16 @@ final class Volume private (val value: Double)
   def toImperialCups = to(ImperialCups)
 }
 
-object Volume {
+object Volume extends QuantityCompanion[Volume] {
   private[space] def apply[A](n: A)(implicit num: Numeric[A]) = new Volume(num.toDouble(n))
   def apply(area: Area, length: Length): Volume = apply(area.toSquareMeters * length.toMeters)
+  def apply(s: String) = parseString(s)
+  def name = "Volume"
+  def valueUnit = CubicMeters
+  def units = Set(CubicMeters, Litres, Nanolitres, Microlitres, Millilitres, Centilitres,
+    Decilitres, Hectolitres,
+    CubicMiles, CubicYards, CubicFeet, CubicInches,
+    UsGallons, UsQuarts, UsPints, UsCups, FluidOunces, Tablespoons, Teaspoons)
 }
 
 trait VolumeUnit extends UnitOfMeasure[Volume] with UnitMultiplier {
@@ -277,5 +284,5 @@ object VolumeConversions {
     def teaspoons = Teaspoons(n)
   }
 
-  implicit object VolumeNumeric extends AbstractQuantityNumeric[Volume](CubicMeters)
+  implicit object VolumeNumeric extends AbstractQuantityNumeric[Volume](Volume.valueUnit)
 }

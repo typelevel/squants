@@ -31,7 +31,7 @@ import squants.mass.AreaDensity
 final class Area private (val value: Double)
     extends Quantity[Area] {
 
-  def valueUnit = SquareMeters
+  def valueUnit = Area.valueUnit
 
   def *(that: Length): Volume = CubicMeters(toSquareMeters * that.toMeters)
   def *(that: AreaDensity): Mass = Kilograms(toSquareMeters * that.toKilogramsPerSquareMeter)
@@ -55,9 +55,15 @@ final class Area private (val value: Double)
   def toBarnes = to(Barnes)
 }
 
-object Area {
+object Area extends QuantityCompanion[Area] {
   private[space] def apply[A](n: A)(implicit num: Numeric[A]) = new Area(num.toDouble(n))
   def apply(length1: Length, length2: Length): Area = apply(length1.toMeters * length2.toMeters)
+  def apply(s: String) = parseString(s)
+  def name = "Area"
+  def valueUnit = SquareMeters
+  def units = Set(SquareMeters, SquareCentimeters, SquareKilometers,
+    SquareUsMiles, SquareYards, SquareFeet, SquareInches,
+    Hectares, Acres, Barnes)
 }
 
 trait AreaUnit extends UnitOfMeasure[Area] with UnitMultiplier {
@@ -95,7 +101,7 @@ object SquareFeet extends AreaUnit {
 }
 
 object SquareInches extends AreaUnit {
-  val symbol = "ft²"
+  val symbol = "in²"
   val multiplier = 6.4516 * SquareCentimeters.multiplier
 }
 
@@ -139,5 +145,5 @@ object AreaConversions {
     def barnes = Barnes(n)
   }
 
-  implicit object AreaNumeric extends AbstractQuantityNumeric[Area](SquareMeters)
+  implicit object AreaNumeric extends AbstractQuantityNumeric[Area](Area.valueUnit)
 }

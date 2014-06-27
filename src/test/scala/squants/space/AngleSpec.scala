@@ -9,6 +9,7 @@
 package squants.space
 
 import org.scalatest.{ Matchers, FlatSpec }
+import squants.QuantityStringParseException
 
 /**
  * @author  garyKeorkunian
@@ -26,6 +27,17 @@ class AngleSpec extends FlatSpec with Matchers {
     Turns(1).toTurns should be(1)
     Arcminutes(1).toArcminutes should be(1)
     Arcseconds(1).toArcseconds should be(1)
+  }
+
+  it should "create values from properly formatted Strings" in {
+    Angle("10.22 rad").get should be(Radians(10.22))
+    Angle("10.22°").get should be(Degrees(10.22))
+    Angle("10.22 grad").get should be(Gradians(10.22))
+    Angle("10.22 turns").get should be(Turns(10.22))
+    Angle("10.22 amin").get should be(Arcminutes(10.22))
+    Angle("10.22 asec").get should be(Arcseconds(10.22))
+    Angle("10.33 zz").failed.get should be(QuantityStringParseException("Unable to parse Angle", "10.33 zz"))
+    Angle("ZZ rad").failed.get should be(QuantityStringParseException("Unable to parse Angle", "ZZ rad"))
   }
 
   it should "properly convert to all supported Units of Measure" in {
