@@ -21,7 +21,7 @@ import squants.radio.RadiantIntensity
  */
 final class SolidAngle private (val value: Double) extends Quantity[SolidAngle] {
 
-  def valueUnit = SquaredRadians
+  def valueUnit = SolidAngle.valueUnit
 
   def *(that: LuminousIntensity): LuminousFlux = Lumens(toSquaredRadians * that.toCandelas)
   def *(that: RadiantIntensity): Power = Watts(toSquaredRadians * that.toWattsPerSteradian)
@@ -30,8 +30,12 @@ final class SolidAngle private (val value: Double) extends Quantity[SolidAngle] 
   def toSteradians = value
 }
 
-object SolidAngle {
+object SolidAngle extends QuantityCompanion[SolidAngle] {
   private[space] def apply[A](n: A)(implicit num: Numeric[A]) = new SolidAngle(num.toDouble(n))
+  def apply(s: String) = parseString(s)
+  def name = "SolidAngle"
+  def valueUnit = SquareRadians
+  def units = Set(SquareRadians)
 }
 
 trait SolidAngleUnit extends UnitOfMeasure[SolidAngle]
@@ -50,6 +54,6 @@ object SolidAngleConversions {
     def steradians = SquaredRadians(n)
   }
 
-  implicit object SolidAngleNumeric extends AbstractQuantityNumeric[SolidAngle](SquaredRadians)
+  implicit object SolidAngleNumeric extends AbstractQuantityNumeric[SolidAngle](SolidAngle.valueUnit)
 }
 

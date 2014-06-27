@@ -19,7 +19,7 @@ import squants._
 final class Angle private (val value: Double)
     extends Quantity[Angle] {
 
-  def valueUnit = Radians
+  def valueUnit = Angle.valueUnit
 
   def toRadians = to(Radians)
   def toDegrees = to(Degrees)
@@ -35,8 +35,12 @@ final class Angle private (val value: Double)
   def acos = math.acos(toRadians)
 }
 
-object Angle {
+object Angle extends QuantityCompanion[Angle] {
   private[space] def apply[A](n: A)(implicit num: Numeric[A]) = new Angle(num.toDouble(n))
+  def apply(s: String) = parseString(s)
+  def name = "Angle"
+  def valueUnit = Radians
+  def units = Set(Radians, Degrees, Gradians, Turns, Arcminutes, Arcseconds)
 }
 
 trait AngleUnit extends UnitOfMeasure[Angle] with UnitMultiplier {
@@ -89,5 +93,5 @@ object AngleConversions {
     def arcseconds = Arcseconds(n)
   }
 
-  implicit object AngleNumeric extends AbstractQuantityNumeric[Angle](Radians)
+  implicit object AngleNumeric extends AbstractQuantityNumeric[Angle](Angle.valueUnit)
 }

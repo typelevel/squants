@@ -13,6 +13,7 @@ import squants.motion.CubicMetersPerSecond
 import squants.time.Seconds
 import squants.mass.{ Kilograms, KilogramsPerCubicMeter }
 import squants.energy.{ Joules, JoulesPerCubicMeter }
+import squants.QuantityStringParseException
 
 /**
  * @author  garyKeorkunian
@@ -43,6 +44,34 @@ class VolumeSpec extends FlatSpec with Matchers {
     UsQuarts(1).toUsQuarts should be(1)
     UsPints(1).toUsPints should be(1)
     UsCups(1).toUsCups should be(1)
+
+    FluidOunces(1).toFluidOunces should be(1)
+    Tablespoons(1).toTablespoons should be(1)
+    Teaspoons(1).toTeaspoons should be(1)
+  }
+
+  it should "create values from properly formatted Strings" in {
+    Volume("10.22 m³").get should be(CubicMeters(10.22))
+    Volume("10.22 L").get should be(Litres(10.22))
+    Volume("10.22 nl").get should be(Nanolitres(10.22))
+    Volume("10.22 µl").get should be(Microlitres(10.22))
+    Volume("10.22 ml").get should be(Millilitres(10.22))
+    Volume("10.22 cl").get should be(Centilitres(10.22))
+    Volume("10.22 dl").get should be(Decilitres(10.22))
+    Volume("10.22 hl").get should be(Hectolitres(10.22))
+    Volume("10.22 mi³").get should be(CubicMiles(10.22))
+    Volume("10.22 yd³").get should be(CubicYards(10.22))
+    Volume("10.22 ft³").get should be(CubicFeet(10.22))
+    Volume("10.22 in³").get should be(CubicInches(10.22))
+    Volume("10.22 gal").get should be(UsGallons(10.22))
+    Volume("10.22 qt").get should be(UsQuarts(10.22))
+    Volume("10.22 pt").get should be(UsPints(10.22))
+    Volume("10.22 c").get should be(UsCups(10.22))
+    Volume("10.22 oz").get should be(FluidOunces(10.22))
+    Volume("10.22 tbsp").get should be(Tablespoons(10.22))
+    Volume("10.22 tsp").get should be(Teaspoons(10.22))
+    Volume("10.22 zz").failed.get should be(QuantityStringParseException("Unable to parse Volume", "10.22 zz"))
+    Volume("ZZ L").failed.get should be(QuantityStringParseException("Unable to parse Volume", "ZZ L"))
   }
 
   it should "properly convert to all supported Units of Measure" in {

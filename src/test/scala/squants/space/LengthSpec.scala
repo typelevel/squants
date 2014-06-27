@@ -46,6 +46,28 @@ class LengthSpec extends FlatSpec with Matchers {
     LightYears(1).toLightYears should be(1)
   }
 
+  it should "create values from properly formatted Strings" in {
+    Length("10.33 nm").get should be(Nanometers(10.33))
+    Length("10.33 µm").get should be(Microns(10.33))
+    Length("10.33 mm").get should be(Millimeters(10.33))
+    Length("10.33 cm").get should be(Centimeters(10.33))
+    Length("10.33 dm").get should be(Decimeters(10.33))
+    Length("10.33 m").get should be(Meters(10.33))
+    Length("10.33 dam").get should be(Decameters(10.33))
+    Length("10.33 hm").get should be(Hectometers(10.33))
+    Length("10.33 km").get should be(Kilometers(10.33))
+    Length("10.33 in").get should be(Inches(10.33))
+    Length("10.33 ft").get should be(Feet(10.33))
+    Length("10.33 yd").get should be(Yards(10.33))
+    Length("10.33 mi").get should be(UsMiles(10.33))
+    Length("10.33 mile").get should be(InternationalMiles(10.33))
+    Length("10.33 nmi").get should be(NauticalMiles(10.33))
+    Length("10.33 au").get should be(AstronomicalUnits(10.33))
+    Length("10.33 ly").get should be(LightYears(10.33))
+    Length("10.33 zz").failed.get should be(QuantityStringParseException("Unable to parse Length", "10.33 zz"))
+    Length("ZZ m").failed.get should be(QuantityStringParseException("Unable to parse Length", "ZZ m"))
+  }
+
   it should "properly convert to all supported Units of Measure" in {
     val x = Meters(1)
     x.toMeters should be(1)
@@ -201,16 +223,21 @@ class LengthSpec extends FlatSpec with Matchers {
     "10.33 µm".toLength.get should be(Microns(10.33))
     "10.33 mm".toLength.get should be(Millimeters(10.33))
     "10.33 cm".toLength.get should be(Centimeters(10.33))
+    "10.33 dm".toLength.get should be(Decimeters(10.33))
     "10.33 m".toLength.get should be(Meters(10.33))
+    "10.33 dam".toLength.get should be(Decameters(10.33))
+    "10.33 hm".toLength.get should be(Hectometers(10.33))
     "10.33 km".toLength.get should be(Kilometers(10.33))
     "10.33 in".toLength.get should be(Inches(10.33))
     "10.33 ft".toLength.get should be(Feet(10.33))
     "10.33 yd".toLength.get should be(Yards(10.33))
     "10.33 mi".toLength.get should be(UsMiles(10.33))
+    "10.33 mile".toLength.get should be(InternationalMiles(10.33))
     "10.33 nmi".toLength.get should be(NauticalMiles(10.33))
     "10.33 au".toLength.get should be(AstronomicalUnits(10.33))
     "10.33 ly".toLength.get should be(LightYears(10.33))
     "10.33 zz".toLength.failed.get should be(QuantityStringParseException("Unable to parse Length", "10.33 zz"))
+    "ZZ m".toLength.failed.get should be(QuantityStringParseException("Unable to parse Length", "ZZ m"))
   }
 
   it should "provide Numeric support" in {

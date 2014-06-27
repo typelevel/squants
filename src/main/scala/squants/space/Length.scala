@@ -32,7 +32,7 @@ import scala.util.{ Failure, Success, Try }
 final class Length private (val value: Double) extends Quantity[Length]
     with BaseQuantity {
 
-  def valueUnit = Meters
+  def valueUnit = Length.valueUnit
   def baseUnit = Meters
 
   def *(that: Length): Area = Area(this, that)
@@ -72,27 +72,15 @@ final class Length private (val value: Double) extends Quantity[Length]
 /**
  * Factory singleton for length
  */
-object Length {
+object Length extends QuantityCompanion[Length] {
   private[space] def apply[A](b: A)(implicit num: Numeric[A]) = new Length(num.toDouble(b))
-  def apply(s: String): Try[Length] = {
-    val regex = "([-+]?[0-9]*\\.?[0-9]+) *(nm|µm|mm|cm|m|km|in|ft|yd|mi|nmi|au|ly)".r
-    s match {
-      case regex(value, Nanometers.symbol)        ⇒ Success(Nanometers(value.toDouble))
-      case regex(value, Microns.symbol)           ⇒ Success(Microns(value.toDouble))
-      case regex(value, Millimeters.symbol)       ⇒ Success(Millimeters(value.toDouble))
-      case regex(value, Centimeters.symbol)       ⇒ Success(Centimeters(value.toDouble))
-      case regex(value, Meters.symbol)            ⇒ Success(Meters(value.toDouble))
-      case regex(value, Kilometers.symbol)        ⇒ Success(Kilometers(value.toDouble))
-      case regex(value, Inches.symbol)            ⇒ Success(Inches(value.toDouble))
-      case regex(value, Feet.symbol)              ⇒ Success(Feet(value.toDouble))
-      case regex(value, Yards.symbol)             ⇒ Success(Yards(value.toDouble))
-      case regex(value, UsMiles.symbol)           ⇒ Success(UsMiles(value.toDouble))
-      case regex(value, NauticalMiles.symbol)     ⇒ Success(NauticalMiles(value.toDouble))
-      case regex(value, AstronomicalUnits.symbol) ⇒ Success(AstronomicalUnits(value.toDouble))
-      case regex(value, LightYears.symbol)        ⇒ Success(LightYears(value.toDouble))
-      case _                                      ⇒ Failure(QuantityStringParseException("Unable to parse Length", s))
-    }
-  }
+  def apply(s: String): Try[Length] = parseString(s)
+  def name = "Length"
+  def valueUnit = Meters
+  def units = Set(Nanometers, Microns, Millimeters, Centimeters,
+    Decimeters, Meters, Decameters, Hectometers, Kilometers,
+    Inches, Feet, Yards, UsMiles, InternationalMiles, NauticalMiles,
+    AstronomicalUnits, LightYears)
 }
 
 /**
@@ -254,6 +242,6 @@ object LengthConversions {
     def toLength = Length(s)
   }
 
-  implicit object LengthNumeric extends AbstractQuantityNumeric[Length](Meters)
+  implicit object LengthNumeric extends AbstractQuantityNumeric[Length](Length.valueUnit)
 }
 

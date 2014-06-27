@@ -9,7 +9,7 @@
 package squants.space
 
 import org.scalatest.{ Matchers, FlatSpec }
-import squants.MetricSystem
+import squants.{ QuantityStringParseException, MetricSystem }
 import squants.motion.{ Pascals, Newtons }
 import squants.photo.{ Candelas, CandelasPerSquareMeter, Lumens, Lux }
 import squants.mass.{ Kilograms, KilogramsPerSquareMeter }
@@ -31,9 +31,25 @@ class AreaSpec extends FlatSpec with Matchers {
     SquareUsMiles(1).toSquareUsMiles should be(1)
     SquareYards(1).toSquareYards should be(1)
     SquareFeet(1).toSquareFeet should be(1)
+    SquareInches(1).toSquareInches should be(1)
     Hectares(1).toHectares should be(1)
     Acres(1).toAcres should be(1)
     Barnes(1).toBarnes should be(1)
+  }
+
+  it should "create values from properly formatted Strings" in {
+    Area("10.22 m²").get should be(SquareMeters(10.22))
+    Area("10.22 cm²").get should be(SquareCentimeters(10.22))
+    Area("10.22 km²").get should be(SquareKilometers(10.22))
+    Area("10.22 mi²").get should be(SquareUsMiles(10.22))
+    Area("10.22 yd²").get should be(SquareYards(10.22))
+    Area("10.22 ft²").get should be(SquareFeet(10.22))
+    Area("10.22 in²").get should be(SquareInches(10.22))
+    Area("10.22 ha").get should be(Hectares(10.22))
+    Area("10.22 acre").get should be(Acres(10.22))
+    Area("10.22 b").get should be(Barnes(10.22))
+    Area("10.22 zz").failed.get should be(QuantityStringParseException("Unable to parse Area", "10.22 zz"))
+    Area("ZZ m²").failed.get should be(QuantityStringParseException("Unable to parse Area", "ZZ m²"))
   }
 
   it should "properly convert to all supported Units of Measure" in {
@@ -57,6 +73,7 @@ class AreaSpec extends FlatSpec with Matchers {
     SquareUsMiles(1).toString(SquareUsMiles) should be("1.0 mi²")
     SquareYards(1).toString(SquareYards) should be("1.0 yd²")
     SquareFeet(1).toString(SquareFeet) should be("1.0 ft²")
+    SquareInches(1).toString(SquareInches) should be("1.0 in²")
     Hectares(1).toString(Hectares) should be("1.0 ha")
     Acres(1).toString(Acres) should be("1.0 acre")
     Barnes(1).toString(Barnes) should be("1.0 b")
