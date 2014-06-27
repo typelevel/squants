@@ -27,7 +27,7 @@ import squants.space.{ SquareMeters, CubicMeters }
 final class Mass private (val value: Double) extends Quantity[Mass]
     with BaseQuantity with TimeIntegral[MassFlowRate] {
 
-  def valueUnit = Grams
+  def valueUnit = Mass.valueUnit
   def baseUnit = Kilograms
 
   def *(that: SpecificEnergy): Energy = Joules(toKilograms * that.toGrays)
@@ -57,13 +57,14 @@ final class Mass private (val value: Double) extends Quantity[Mass]
 }
 
 /**
- * Factory singleton for [[squants.mass.Mass]] quantities
+ * Factory singleton for [[squants.mass.Mass]] values
  */
 object Mass extends QuantityCompanion[Mass] {
   private[mass] def apply[A](n: A)(implicit num: Numeric[A]) = new Mass(num.toDouble(n))
+  def apply(s: String) = parseString(s)
   def name = "Mass"
+  def valueUnit = Grams
   def units = Set(Micrograms, Milligrams, Grams, Kilograms, Tonnes, Pounds, Ounces)
-  def apply(s: String): Either[String, Mass] = parseString(s)
 }
 
 /**
@@ -140,6 +141,6 @@ object MassConversions {
     def toMass = Mass(s)
   }
 
-  implicit object MassNumeric extends AbstractQuantityNumeric[Mass](Grams)
+  implicit object MassNumeric extends AbstractQuantityNumeric[Mass](Mass.valueUnit)
 }
 

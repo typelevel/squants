@@ -11,6 +11,7 @@ package squants.thermal
 import org.scalatest.{ Matchers, FlatSpec }
 import squants.energy.Joules
 import squants.mass.Kilograms
+import squants.QuantityStringParseException
 
 /**
  * @author  garyKeorkunian
@@ -272,12 +273,12 @@ class TemperatureSpec extends FlatSpec with Matchers {
   they should "provide implicit conversions from String" in {
     import TemperatureConversions._
 
-    "10.22°F".toTemperature.right.get should be(Fahrenheit(10.22))
-    "10.22°K".toTemperature.right.get should be(Kelvin(10.22))
-    "10.22°C".toTemperature.right.get should be(Celsius(10.22))
-    "10.22 F".toTemperature.right.get should be(Fahrenheit(10.22))
-    "10.22 K".toTemperature.right.get should be(Kelvin(10.22))
-    "10.22 C".toTemperature.right.get should be(Celsius(10.22))
-    "10.22 Z".toTemperature.left.get should be("Unable to parse 10.22 Z as Temperature")
+    "10.22°F".toTemperature.get should be(Fahrenheit(10.22))
+    "10.22°K".toTemperature.get should be(Kelvin(10.22))
+    "10.22°C".toTemperature.get should be(Celsius(10.22))
+    "10.22 F".toTemperature.get should be(Fahrenheit(10.22))
+    "10.22 K".toTemperature.get should be(Kelvin(10.22))
+    "10.22 C".toTemperature.get should be(Celsius(10.22))
+    "10.22 Z".toTemperature.failed.get should be(QuantityStringParseException("Unable to parse Temperature", "10.22 Z"))
   }
 }

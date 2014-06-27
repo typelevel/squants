@@ -19,6 +19,7 @@ import squants.radio.RadiantIntensity
 import scala.Some
 import squants.radio.SpectralIntensity
 import squants.Time
+import scala.util.{ Failure, Success, Try }
 
 /**
  * Represents a quantity of length
@@ -73,23 +74,23 @@ final class Length private (val value: Double) extends Quantity[Length]
  */
 object Length {
   private[space] def apply[A](b: A)(implicit num: Numeric[A]) = new Length(num.toDouble(b))
-  def apply(s: String): Either[String, Length] = {
+  def apply(s: String): Try[Length] = {
     val regex = "([-+]?[0-9]*\\.?[0-9]+) *(nm|µm|mm|cm|m|km|in|ft|yd|mi|nmi|au|ly)".r
     s match {
-      case regex(value, Nanometers.symbol)        ⇒ Right(Nanometers(value.toDouble))
-      case regex(value, Microns.symbol)           ⇒ Right(Microns(value.toDouble))
-      case regex(value, Millimeters.symbol)       ⇒ Right(Millimeters(value.toDouble))
-      case regex(value, Centimeters.symbol)       ⇒ Right(Centimeters(value.toDouble))
-      case regex(value, Meters.symbol)            ⇒ Right(Meters(value.toDouble))
-      case regex(value, Kilometers.symbol)        ⇒ Right(Kilometers(value.toDouble))
-      case regex(value, Inches.symbol)            ⇒ Right(Inches(value.toDouble))
-      case regex(value, Feet.symbol)              ⇒ Right(Feet(value.toDouble))
-      case regex(value, Yards.symbol)             ⇒ Right(Yards(value.toDouble))
-      case regex(value, UsMiles.symbol)           ⇒ Right(UsMiles(value.toDouble))
-      case regex(value, NauticalMiles.symbol)     ⇒ Right(NauticalMiles(value.toDouble))
-      case regex(value, AstronomicalUnits.symbol) ⇒ Right(AstronomicalUnits(value.toDouble))
-      case regex(value, LightYears.symbol)        ⇒ Right(LightYears(value.toDouble))
-      case _                                      ⇒ Left(s"Unable to parse $s as Length")
+      case regex(value, Nanometers.symbol)        ⇒ Success(Nanometers(value.toDouble))
+      case regex(value, Microns.symbol)           ⇒ Success(Microns(value.toDouble))
+      case regex(value, Millimeters.symbol)       ⇒ Success(Millimeters(value.toDouble))
+      case regex(value, Centimeters.symbol)       ⇒ Success(Centimeters(value.toDouble))
+      case regex(value, Meters.symbol)            ⇒ Success(Meters(value.toDouble))
+      case regex(value, Kilometers.symbol)        ⇒ Success(Kilometers(value.toDouble))
+      case regex(value, Inches.symbol)            ⇒ Success(Inches(value.toDouble))
+      case regex(value, Feet.symbol)              ⇒ Success(Feet(value.toDouble))
+      case regex(value, Yards.symbol)             ⇒ Success(Yards(value.toDouble))
+      case regex(value, UsMiles.symbol)           ⇒ Success(UsMiles(value.toDouble))
+      case regex(value, NauticalMiles.symbol)     ⇒ Success(NauticalMiles(value.toDouble))
+      case regex(value, AstronomicalUnits.symbol) ⇒ Success(AstronomicalUnits(value.toDouble))
+      case regex(value, LightYears.symbol)        ⇒ Success(LightYears(value.toDouble))
+      case _                                      ⇒ Failure(QuantityStringParseException("Unable to parse Length", s))
     }
   }
 }

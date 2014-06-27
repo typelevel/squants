@@ -28,10 +28,12 @@ final class ChemicalAmount private (val value: Double) extends Quantity[Chemical
   def toPoundMoles = to(PoundMoles)
 }
 
-object ChemicalAmount {
-  // TODO Consider implementing this pattern in all Q's
-  def valueUnit = Moles
+object ChemicalAmount extends QuantityCompanion[ChemicalAmount] {
   private[mass] def apply[A](n: A)(implicit num: Numeric[A]) = new ChemicalAmount(num.toDouble(n))
+  def apply(s: String) = parseString(s)
+  val name = "ChemicalAmount"
+  def valueUnit = Moles
+  def units = Set(Moles, PoundMoles)
 }
 
 trait ChemicalAmountUnit extends BaseQuantityUnit[ChemicalAmount] with UnitMultiplier {

@@ -15,25 +15,32 @@ import squants.space.CubicMeters
  * @author  garyKeorkunian
  * @since   0.1
  *
- * @param mass Mass
- * @param volume Volume
+ * @param value Double
  */
-case class Density(mass: Mass, volume: Volume) extends Quantity[Density] {
+case class Density(value: Double) extends Quantity[Density] {
 
   def valueUnit = KilogramsPerCubicMeter
-  def value = toKilogramsPerCubicMeter
 
-  def *(that: Volume): Mass = mass * (that / volume)
+  def *(that: Volume): Mass = Kilograms(value * that.toCubicMeters)
 
-  def toKilogramsPerCubicMeter = mass.toKilograms / volume.toCubicMeters
+  def toKilogramsPerCubicMeter = to(KilogramsPerCubicMeter)
 }
 
-trait DensityUnit extends UnitOfMeasure[Density] {
-  def apply[A](n: A)(implicit num: Numeric[A]): Density
+object Density extends QuantityCompanion[Density] {
+  private[mass] def apply[A](n: A)(implicit num: Numeric[A]) = new Density(num.toDouble(n))
+  def apply(m: Mass, v: Volume): Density = KilogramsPerCubicMeter(m.toKilograms / v.toCubicMeters)
+  def apply(s: String) = parseString(s)
+  def name = "Density"
+  def valueUnit = KilogramsPerCubicMeter
+  def units = Set(KilogramsPerCubicMeter)
+}
+
+trait DensityUnit extends UnitOfMeasure[Density] with UnitMultiplier {
+  def apply[A](n: A)(implicit num: Numeric[A]) = Density(convertFrom(n))
+  def unapply(d: Density) = Some(convertTo(d.value))
 }
 
 object KilogramsPerCubicMeter extends DensityUnit with ValueUnit {
-  def apply[A](n: A)(implicit num: Numeric[A]) = Density(Kilograms(n), CubicMeters(1))
   val symbol = "kg/m³"
 }
 

@@ -13,6 +13,7 @@ import scala.language.postfixOps
 import squants.motion.{ MetersPerSecond, MetersPerSecondCubed, MetersPerSecondSquared }
 import squants.space.Meters
 import scala.concurrent.duration.Duration
+import squants.QuantityStringParseException
 
 /**
  * @author  garyKeorkunian
@@ -105,12 +106,12 @@ class TimeSpec extends FlatSpec with Matchers {
   it should "provide implicit conversions from String" in {
     import TimeConversions._
 
-    "10.22 ms".toTime.right.get should be(Milliseconds(10.22))
-    "10.22 s".toTime.right.get should be(Seconds(10.22))
-    "10.22 m".toTime.right.get should be(Minutes(10.22))
-    "10.22 h".toTime.right.get should be(Hours(10.22))
-    "10.22 d".toTime.right.get should be(Days(10.22))
-    "10.22 z".toTime.left.get should be("Unable to parse 10.22 z as Time")
+    "10.22 ms".toTime.get should be(Milliseconds(10.22))
+    "10.22 s".toTime.get should be(Seconds(10.22))
+    "10.22 m".toTime.get should be(Minutes(10.22))
+    "10.22 h".toTime.get should be(Hours(10.22))
+    "10.22 d".toTime.get should be(Days(10.22))
+    "10.22 z".toTime.failed.get should be(QuantityStringParseException("Unable to parse Time", "10.22 z"))
   }
 
   it should "convert a Scala Concurrent Duration to a Time" in {

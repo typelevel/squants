@@ -19,8 +19,8 @@ All types are immutable and thread-safe.
 Current Release: **0.3.3**
 ([API Docs](https://oss.sonatype.org/service/local/repositories/releases/archive/com/squants/squants_2.10/0.3.3/squants_2.10-0.3.3-javadoc.jar/!/index.html#squants.package))
 
-Development Build: **0.4.0-SNAPSHOT**
-([API Docs](https://oss.sonatype.org/service/local/repositories/snapshots/archive/com/squants/squants_2.11/0.4.0-SNAPSHOT/squants_2.11-0.4.0-SNAPSHOT-javadoc.jar/!/index.html#squants.package))
+Development Build: **0.4.1-SNAPSHOT**
+([API Docs](https://oss.sonatype.org/service/local/repositories/snapshots/archive/com/squants/squants_2.11/0.4.1-SNAPSHOT/squants_2.11-0.4.1-SNAPSHOT-javadoc.jar/!/index.html#squants.package))
 
 [Release History](https://github.com/garyKeorkunian/squants/wiki/Release-History)
 
@@ -40,7 +40,7 @@ If you are using Scala 2.11, and wish to use Squants 0.3.3, use the following.
 Beginning with Squants 0.4.0-SNAPSHOT, both Scala 2.10 and 2.11 builds are available.
 Therefore, the following will work for both 2.10 and 2.11 based projects.
 
-    "com.squants"  %% "squants"  % "0.4.0-SNAPSHOT"
+    "com.squants"  %% "squants"  % "0.4.1-SNAPSHOT"
 
 To use Squants interactively in the Scala REPL, clone the git repo and run `sbt console`
 
