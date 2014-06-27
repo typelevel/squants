@@ -32,6 +32,16 @@ class TimeSpec extends FlatSpec with Matchers {
     Hours(1).toHours should be(1)
     Days(1).toDays should be(1)
   }
+  it should "create values from properly formatted Strings" in {
+    Time("10.22 µs").get should be(Microseconds(10.22))
+    Time("10.22 ms").get should be(Milliseconds(10.22))
+    Time("10.22 s").get should be(Seconds(10.22))
+    Time("10.22 m").get should be(Minutes(10.22))
+    Time("10.22 h").get should be(Hours(10.22))
+    Time("10.22 d").get should be(Days(10.22))
+    Time("10.22 z").failed.get should be(QuantityStringParseException("Unable to parse Time", "10.22 z"))
+    Time("ZZ ms").failed.get should be(QuantityStringParseException("Unable to parse Time", "ZZ ms"))
+  }
 
   it should "return equality for units in different units" in {
     Microseconds(1000) should be(Milliseconds(1))
@@ -106,12 +116,14 @@ class TimeSpec extends FlatSpec with Matchers {
   it should "provide implicit conversions from String" in {
     import TimeConversions._
 
+    "10.22 µs".toTime.get should be(Microseconds(10.22))
     "10.22 ms".toTime.get should be(Milliseconds(10.22))
     "10.22 s".toTime.get should be(Seconds(10.22))
     "10.22 m".toTime.get should be(Minutes(10.22))
     "10.22 h".toTime.get should be(Hours(10.22))
     "10.22 d".toTime.get should be(Days(10.22))
     "10.22 z".toTime.failed.get should be(QuantityStringParseException("Unable to parse Time", "10.22 z"))
+    "ZZ ms".toTime.failed.get should be(QuantityStringParseException("Unable to parse Time", "ZZ ms"))
   }
 
   it should "convert a Scala Concurrent Duration to a Time" in {
