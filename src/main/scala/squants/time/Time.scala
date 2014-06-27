@@ -26,7 +26,7 @@ final class Time private (val value: Double) extends Quantity[Time]
     with BaseQuantity {
 
   def baseUnit = Seconds
-  def valueUnit = Milliseconds
+  def valueUnit = Time.valueUnit
 
   def millis = toMilliseconds.toLong
 
@@ -43,7 +43,7 @@ final class Time private (val value: Double) extends Quantity[Time]
   def toDays = to(Days)
 }
 
-object Time {
+object Time extends QuantityCompanion[Time] {
   val MillisecondsPerNanosecond = 1d / 1000000d
   val MillisecondsPerMicrosecond = 1d / 1000d
   val MillisecondsPerSecond = 1000d
@@ -55,18 +55,11 @@ object Time {
   val SecondsPerDay = SecondsPerHour * 24
 
   private[time] def apply[A](n: A)(implicit num: Numeric[A]) = new Time(num.toDouble(n))
+  def apply(s: String): Try[Time] = parseString(s)
 
-  def apply(s: String): Try[Time] = {
-    val regex = "([-+]?[0-9]*\\.?[0-9]+) *(ms|s|m|h|d)".r
-    s match {
-      case regex(value, "ms") ⇒ Success(Milliseconds(value.toDouble))
-      case regex(value, "s")  ⇒ Success(Seconds(value.toDouble))
-      case regex(value, "m")  ⇒ Success(Minutes(value.toDouble))
-      case regex(value, "h")  ⇒ Success(Hours(value.toDouble))
-      case regex(value, "d")  ⇒ Success(Days(value.toDouble))
-      case _                  ⇒ Failure(QuantityStringParseException("Unable to parse Time", s))
-    }
-  }
+  def name = "Time"
+  def valueUnit = Milliseconds
+  def units = Set(Microseconds, Milliseconds, Seconds, Minutes, Hours, Days)
 }
 
 trait TimeUnit extends BaseQuantityUnit[Time] with UnitMultiplier {
@@ -126,7 +119,7 @@ object TimeConversions {
     def toTime = Time(s)
   }
 
-  implicit object TimeNumeric extends AbstractQuantityNumeric[Time](Milliseconds)
+  implicit object TimeNumeric extends AbstractQuantityNumeric[Time](Time.valueUnit)
 
   implicit def timeToScalaDuration(time: Time) = Duration(time.toString)
   implicit def scalaDurationToTime(duration: Duration) = Milliseconds(duration.toMillis)
