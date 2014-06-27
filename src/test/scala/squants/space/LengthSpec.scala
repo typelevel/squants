@@ -9,7 +9,7 @@
 package squants.space
 
 import org.scalatest.{ Matchers, FlatSpec }
-import squants.MetricSystem
+import squants.{ QuantityStringParseException, MetricSystem }
 import squants.motion.{ MetersPerSecond, Newtons }
 import squants.energy.Joules
 import squants.time.Seconds
@@ -197,20 +197,20 @@ class LengthSpec extends FlatSpec with Matchers {
   it should "provide implicit conversion from String" in {
     import LengthConversions._
 
-    "10.33 nm".toLength.right.get should be(Nanometers(10.33))
-    "10.33 µm".toLength.right.get should be(Microns(10.33))
-    "10.33 mm".toLength.right.get should be(Millimeters(10.33))
-    "10.33 cm".toLength.right.get should be(Centimeters(10.33))
-    "10.33 m".toLength.right.get should be(Meters(10.33))
-    "10.33 km".toLength.right.get should be(Kilometers(10.33))
-    "10.33 in".toLength.right.get should be(Inches(10.33))
-    "10.33 ft".toLength.right.get should be(Feet(10.33))
-    "10.33 yd".toLength.right.get should be(Yards(10.33))
-    "10.33 mi".toLength.right.get should be(UsMiles(10.33))
-    "10.33 nmi".toLength.right.get should be(NauticalMiles(10.33))
-    "10.33 au".toLength.right.get should be(AstronomicalUnits(10.33))
-    "10.33 ly".toLength.right.get should be(LightYears(10.33))
-    "10.33 zz".toLength.left.get should be("Unable to parse 10.33 zz as Length")
+    "10.33 nm".toLength.get should be(Nanometers(10.33))
+    "10.33 µm".toLength.get should be(Microns(10.33))
+    "10.33 mm".toLength.get should be(Millimeters(10.33))
+    "10.33 cm".toLength.get should be(Centimeters(10.33))
+    "10.33 m".toLength.get should be(Meters(10.33))
+    "10.33 km".toLength.get should be(Kilometers(10.33))
+    "10.33 in".toLength.get should be(Inches(10.33))
+    "10.33 ft".toLength.get should be(Feet(10.33))
+    "10.33 yd".toLength.get should be(Yards(10.33))
+    "10.33 mi".toLength.get should be(UsMiles(10.33))
+    "10.33 nmi".toLength.get should be(NauticalMiles(10.33))
+    "10.33 au".toLength.get should be(AstronomicalUnits(10.33))
+    "10.33 ly".toLength.get should be(LightYears(10.33))
+    "10.33 zz".toLength.failed.get should be(QuantityStringParseException("Unable to parse Length", "10.33 zz"))
   }
 
   it should "provide Numeric support" in {

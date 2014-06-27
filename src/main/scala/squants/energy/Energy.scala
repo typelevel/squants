@@ -15,6 +15,7 @@ import squants.mass.{ ChemicalAmount, Kilograms }
 import squants.motion.Newtons
 import squants.thermal.{ Kelvin, ThermalCapacity, JoulesPerKelvin }
 import squants.space.CubicMeters
+import scala.util.{ Failure, Success, Try }
 
 /**
  * Represents a quantity of energy
@@ -81,18 +82,18 @@ final class Energy private (val value: Double)
 object Energy {
   private[energy] def apply[A](n: A)(implicit num: Numeric[A]) = new Energy(num.toDouble(n))
   def apply(load: Power, time: Time): Energy = load * time
-  def apply(s: String): Either[String, Energy] = {
+  def apply(s: String): Try[Energy] = {
     val regex = "([-+]?[0-9]*\\.?[0-9]+) *(J|Wh|kWh|MWh|GWh|Btu|MBtu|MMBtu)".r
     s match {
-      case regex(value, Joules.symbol)              ⇒ Right(Joules(value.toDouble))
-      case regex(value, WattHours.symbol)           ⇒ Right(WattHours(value.toDouble))
-      case regex(value, KilowattHours.symbol)       ⇒ Right(KilowattHours(value.toDouble))
-      case regex(value, MegawattHours.symbol)       ⇒ Right(MegawattHours(value.toDouble))
-      case regex(value, GigawattHours.symbol)       ⇒ Right(GigawattHours(value.toDouble))
-      case regex(value, BritishThermalUnits.symbol) ⇒ Right(BritishThermalUnits(value.toDouble))
-      case regex(value, MBtus.symbol)               ⇒ Right(MBtus(value.toDouble))
-      case regex(value, MMBtus.symbol)              ⇒ Right(MMBtus(value.toDouble))
-      case _                                        ⇒ Left(s"Unable to parse $s as Energy")
+      case regex(value, Joules.symbol)              ⇒ Success(Joules(value.toDouble))
+      case regex(value, WattHours.symbol)           ⇒ Success(WattHours(value.toDouble))
+      case regex(value, KilowattHours.symbol)       ⇒ Success(KilowattHours(value.toDouble))
+      case regex(value, MegawattHours.symbol)       ⇒ Success(MegawattHours(value.toDouble))
+      case regex(value, GigawattHours.symbol)       ⇒ Success(GigawattHours(value.toDouble))
+      case regex(value, BritishThermalUnits.symbol) ⇒ Success(BritishThermalUnits(value.toDouble))
+      case regex(value, MBtus.symbol)               ⇒ Success(MBtus(value.toDouble))
+      case regex(value, MMBtus.symbol)              ⇒ Success(MMBtus(value.toDouble))
+      case _                                        ⇒ Failure(QuantityStringParseException("Unable to parse Energy", s))
     }
   }
 

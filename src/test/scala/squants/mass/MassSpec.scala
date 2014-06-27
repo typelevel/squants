@@ -10,7 +10,7 @@ package squants.mass
 
 import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
-import squants.MetricSystem
+import squants.{ QuantityStringParseException, MetricSystem }
 import squants.motion._
 import squants.time.Seconds
 import squants.space.{ SquareMeters, CubicMeters }
@@ -35,15 +35,15 @@ class MassSpec extends FlatSpec with Matchers {
   }
 
   it should "create values from properly formatted Strings" in {
-    Mass("10.22 mcg").right.get should be(Micrograms(10.22))
-    Mass("10.22 mg").right.get should be(Milligrams(10.22))
-    Mass("10.22 g").right.get should be(Grams(10.22))
-    Mass("10.22 kg").right.get should be(Kilograms(10.22))
-    Mass("10.22 t").right.get should be(Tonnes(10.22))
-    Mass("10.22 lb").right.get should be(Pounds(10.22))
-    Mass("10.22 oz").right.get should be(Ounces(10.22))
-    Mass("10.45 zz").left.get should be("Unable to parse 10.45 zz as Mass")
-    Mass("zz g").left.get should be("Unable to parse zz g as Mass")
+    Mass("10.22 mcg").get should be(Micrograms(10.22))
+    Mass("10.22 mg").get should be(Milligrams(10.22))
+    Mass("10.22 g").get should be(Grams(10.22))
+    Mass("10.22 kg").get should be(Kilograms(10.22))
+    Mass("10.22 t").get should be(Tonnes(10.22))
+    Mass("10.22 lb").get should be(Pounds(10.22))
+    Mass("10.22 oz").get should be(Ounces(10.22))
+    Mass("10.45 zz").failed.get should be(QuantityStringParseException("Unable to parse Mass", "10.45 zz"))
+    Mass("zz g").failed.get should be(QuantityStringParseException("Unable to parse Mass", "zz g"))
   }
 
   it should "properly convert to all supported Units of Measure" in {
@@ -146,15 +146,15 @@ class MassSpec extends FlatSpec with Matchers {
   it should "provide implicit conversions from String" in {
     import MassConversions._
 
-    "10.45 mcg".toMass.right.get should be(Micrograms(10.45))
-    "10.45 mg".toMass.right.get should be(Milligrams(10.45))
-    "10.45 g".toMass.right.get should be(Grams(10.45))
-    "10.45 kg".toMass.right.get should be(Kilograms(10.45))
-    "10.45 t".toMass.right.get should be(Tonnes(10.45))
-    "10.45 lb".toMass.right.get should be(Pounds(10.45))
-    "10.45 oz".toMass.right.get should be(Ounces(10.45))
-    "10.45 zz".toMass.left.get should be("Unable to parse 10.45 zz as Mass")
-    "zz oz".toMass.left.get should be("Unable to parse zz oz as Mass")
+    "10.45 mcg".toMass.get should be(Micrograms(10.45))
+    "10.45 mg".toMass.get should be(Milligrams(10.45))
+    "10.45 g".toMass.get should be(Grams(10.45))
+    "10.45 kg".toMass.get should be(Kilograms(10.45))
+    "10.45 t".toMass.get should be(Tonnes(10.45))
+    "10.45 lb".toMass.get should be(Pounds(10.45))
+    "10.45 oz".toMass.get should be(Ounces(10.45))
+    "10.45 zz".toMass.failed.get should be(QuantityStringParseException("Unable to parse Mass", "10.45 zz"))
+    "zz oz".toMass.failed.get should be(QuantityStringParseException("Unable to parse Mass", "zz oz"))
   }
 
   it should "provide Numeric support" in {

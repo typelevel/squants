@@ -10,7 +10,7 @@ package squants.energy
 
 import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
-import squants.MetricSystem
+import squants.{ QuantityStringParseException, MetricSystem }
 import squants.time.Hours
 import squants.electro.{ Coulombs, Volts }
 import squants.space.{ CubicMeters, Meters }
@@ -191,15 +191,15 @@ class EnergySpec extends FlatSpec with Matchers {
   it should "provide implicit conversions from String" in {
     import EnergyConversions._
 
-    "10.22 J".toEnergy.right.get should be(Joules(10.22))
-    "10.22 Wh".toEnergy.right.get should be(WattHours(10.22))
-    "10.22 kWh".toEnergy.right.get should be(KilowattHours(10.22))
-    "10.22 MWh".toEnergy.right.get should be(MegawattHours(10.22))
-    "10.22 GWh".toEnergy.right.get should be(GigawattHours(10.22))
-    "10.22 Btu".toEnergy.right.get should be(BritishThermalUnits(10.22))
-    "10.22 MBtu".toEnergy.right.get should be(MBtus(10.22))
-    "10.22 MMBtu".toEnergy.right.get should be(MMBtus(10.22))
-    "10.22 zz".toEnergy.left.get should be("Unable to parse 10.22 zz as Energy")
+    "10.22 J".toEnergy.get should be(Joules(10.22))
+    "10.22 Wh".toEnergy.get should be(WattHours(10.22))
+    "10.22 kWh".toEnergy.get should be(KilowattHours(10.22))
+    "10.22 MWh".toEnergy.get should be(MegawattHours(10.22))
+    "10.22 GWh".toEnergy.get should be(GigawattHours(10.22))
+    "10.22 Btu".toEnergy.get should be(BritishThermalUnits(10.22))
+    "10.22 MBtu".toEnergy.get should be(MBtus(10.22))
+    "10.22 MMBtu".toEnergy.get should be(MMBtus(10.22))
+    "10.22 zz".toEnergy.failed.get should be(QuantityStringParseException("Unable to parse Energy", "10.22 zz"))
   }
 
   it should "provide Numeric support" in {

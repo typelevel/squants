@@ -11,6 +11,7 @@ package squants.mass
 import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
 import squants.space.SquareMeters
+import squants.QuantityStringParseException
 
 /**
  * @author  garyKeorkunian
@@ -23,6 +24,12 @@ class AreaDensitySpec extends FlatSpec with Matchers {
 
   it should "create values using UOM factories" in {
     KilogramsPerSquareMeter(1).toKilogramsPerSquareMeter should be(1)
+  }
+
+  it should "create values from properly formatted Strings" in {
+    AreaDensity("10.22 kg/m²").get should be(KilogramsPerSquareMeter(10.22))
+    AreaDensity("10.45 zz").failed.get should be(QuantityStringParseException("Unable to parse AreaDensity", "10.45 zz"))
+    AreaDensity("zz kg/m²").failed.get should be(QuantityStringParseException("Unable to parse AreaDensity", "zz kg/m²"))
   }
 
   it should "properly convert to all supported Units of Measure" in {

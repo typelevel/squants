@@ -10,7 +10,7 @@ package squants.energy
 
 import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
-import squants.MetricSystem
+import squants.{ QuantityStringParseException, MetricSystem }
 import squants.time.Hours
 
 /**
@@ -93,13 +93,13 @@ class PowerSpec extends FlatSpec with Matchers {
   it should "provide implicit conversions from String" in {
     import PowerConversions._
 
-    "10.22 mW".toPower.right.get should be(Milliwatts(10.22))
-    "10.22 W".toPower.right.get should be(Watts(10.22))
-    "10.22 kW".toPower.right.get should be(Kilowatts(10.22))
-    "10.22 MW".toPower.right.get should be(Megawatts(10.22))
-    "10.22 GW".toPower.right.get should be(Gigawatts(10.22))
-    "10.22 Btu/hr".toPower.right.get should be(BtusPerHour(10.22))
-    "10.22 zz".toPower.left.get should be("Unable to parse 10.22 zz as Power")
+    "10.22 mW".toPower.get should be(Milliwatts(10.22))
+    "10.22 W".toPower.get should be(Watts(10.22))
+    "10.22 kW".toPower.get should be(Kilowatts(10.22))
+    "10.22 MW".toPower.get should be(Megawatts(10.22))
+    "10.22 GW".toPower.get should be(Gigawatts(10.22))
+    "10.22 Btu/hr".toPower.get should be(BtusPerHour(10.22))
+    "10.22 zz".toPower.failed.get should be(QuantityStringParseException("Unable to parse Power", "10.22 zz"))
   }
 
   it should "provide Numeric support in" in {

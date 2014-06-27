@@ -10,6 +10,7 @@ package squants.mass
 
 import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
+import squants.QuantityStringParseException
 
 /**
  * @author  garyKeorkunian
@@ -23,6 +24,13 @@ class ChemicalAmountSpec extends FlatSpec with Matchers {
   it should "create values using UOM factories" in {
     Moles(1).toMoles should be(1)
     PoundMoles(1).toPoundMoles should be(1)
+  }
+
+  it should "create values from properly formatted Strings" in {
+    ChemicalAmount("10.22 mol").get should be(Moles(10.22))
+    ChemicalAmount("10.22 lb-mol").get should be(PoundMoles(10.22))
+    ChemicalAmount("10.45 zz").failed.get should be(QuantityStringParseException("Unable to parse ChemicalAmount", "10.45 zz"))
+    ChemicalAmount("zz mol").failed.get should be(QuantityStringParseException("Unable to parse ChemicalAmount", "zz mol"))
   }
 
   it should "properly convert to all supported Units of Measure" in {

@@ -102,8 +102,8 @@ trait PriceSerializerT[A <: Quantity[A]] extends Serializer[Price[A]] {
  */
 class EnergyPriceSerializer(unitOfMeasure: UnitOfMeasure[Energy])
     extends PriceSerializerT[Energy] {
-  def StringToQuantity = s ⇒ Energy(s).right.toOption.get
-  def QuantityValidator = s ⇒ Energy(s).isRight
+  def StringToQuantity = s ⇒ Energy(s).get
+  def QuantityValidator = s ⇒ Energy(s).isSuccess
   def serialize(implicit format: Formats) = {
     case p @ Price(_, MegawattHours(_)) ⇒ serializePrice(p.asInstanceOf[Price[Energy]], unitOfMeasure)
   }
@@ -111,8 +111,8 @@ class EnergyPriceSerializer(unitOfMeasure: UnitOfMeasure[Energy])
 
 class MassPriceSerializer(unitOfMeasure: UnitOfMeasure[Mass])
     extends PriceSerializerT[Mass] {
-  def StringToQuantity = s ⇒ Mass(s).right.toOption.get
-  def QuantityValidator = s ⇒ Mass(s).isRight
+  def StringToQuantity = s ⇒ Mass(s).get
+  def QuantityValidator = s ⇒ Mass(s).isSuccess
   def serialize(implicit format: Formats) = {
     case p @ Price(_, Kilograms(_)) ⇒ serializePrice(p.asInstanceOf[Price[Mass]], unitOfMeasure)
   }
@@ -120,8 +120,8 @@ class MassPriceSerializer(unitOfMeasure: UnitOfMeasure[Mass])
 
 class TimePriceSerializer(unitOfMeasure: UnitOfMeasure[Time])
     extends PriceSerializerT[Time] {
-  def StringToQuantity = s ⇒ Time(s).right.toOption.get
-  def QuantityValidator = s ⇒ Time(s).isRight
+  def StringToQuantity = s ⇒ Time(s).get
+  def QuantityValidator = s ⇒ Time(s).isSuccess
   def serialize(implicit format: Formats) = {
     case p @ Price(_, Hours(_)) ⇒ serializePrice(p.asInstanceOf[Price[Time]], unitOfMeasure)
   }

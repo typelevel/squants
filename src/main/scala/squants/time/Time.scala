@@ -12,6 +12,7 @@ import scala.language.implicitConversions
 import squants._
 import scala.Some
 import scala.concurrent.duration.Duration
+import scala.util.{ Failure, Success, Try }
 
 /**
  * Represents a quantity of Time
@@ -55,15 +56,15 @@ object Time {
 
   private[time] def apply[A](n: A)(implicit num: Numeric[A]) = new Time(num.toDouble(n))
 
-  def apply(s: String): Either[String, Time] = {
+  def apply(s: String): Try[Time] = {
     val regex = "([-+]?[0-9]*\\.?[0-9]+) *(ms|s|m|h|d)".r
     s match {
-      case regex(value, "ms") ⇒ Right(Milliseconds(value.toDouble))
-      case regex(value, "s")  ⇒ Right(Seconds(value.toDouble))
-      case regex(value, "m")  ⇒ Right(Minutes(value.toDouble))
-      case regex(value, "h")  ⇒ Right(Hours(value.toDouble))
-      case regex(value, "d")  ⇒ Right(Days(value.toDouble))
-      case _                  ⇒ Left(s"Unable to parse $s as Time")
+      case regex(value, "ms") ⇒ Success(Milliseconds(value.toDouble))
+      case regex(value, "s")  ⇒ Success(Seconds(value.toDouble))
+      case regex(value, "m")  ⇒ Success(Minutes(value.toDouble))
+      case regex(value, "h")  ⇒ Success(Hours(value.toDouble))
+      case regex(value, "d")  ⇒ Success(Days(value.toDouble))
+      case _                  ⇒ Failure(QuantityStringParseException("Unable to parse Time", s))
     }
   }
 }

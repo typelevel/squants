@@ -11,6 +11,7 @@ package squants.thermal
 import scala.language.implicitConversions
 import squants._
 import squants.energy.Joules
+import scala.util.{ Failure, Success, Try }
 
 /**
  * Represents a quantity of temperature
@@ -123,19 +124,19 @@ object Temperature {
     case Celsius    ⇒ Celsius(n)
     case Kelvin     ⇒ Kelvin(n)
   }
-  def apply(s: String): Either[String, Temperature] = {
+  def apply(s: String): Try[Temperature] = {
     val regex = "([-+]?[0-9]*\\.?[0-9]+)[ °]*(f|F|c|C|k|K)".r
     s match {
-      case regex(value, Fahrenheit.symbol) ⇒ Right(Fahrenheit(value.toDouble))
-      case regex(value, "f")               ⇒ Right(Fahrenheit(value.toDouble))
-      case regex(value, "F")               ⇒ Right(Fahrenheit(value.toDouble))
-      case regex(value, Celsius.symbol)    ⇒ Right(Celsius(value.toDouble))
-      case regex(value, "c")               ⇒ Right(Celsius(value.toDouble))
-      case regex(value, "C")               ⇒ Right(Celsius(value.toDouble))
-      case regex(value, Kelvin.symbol)     ⇒ Right(Kelvin(value.toDouble))
-      case regex(value, "k")               ⇒ Right(Kelvin(value.toDouble))
-      case regex(value, "K")               ⇒ Right(Kelvin(value.toDouble))
-      case _                               ⇒ Left(s"Unable to parse $s as Temperature")
+      case regex(value, Fahrenheit.symbol) ⇒ Success(Fahrenheit(value.toDouble))
+      case regex(value, "f")               ⇒ Success(Fahrenheit(value.toDouble))
+      case regex(value, "F")               ⇒ Success(Fahrenheit(value.toDouble))
+      case regex(value, Celsius.symbol)    ⇒ Success(Celsius(value.toDouble))
+      case regex(value, "c")               ⇒ Success(Celsius(value.toDouble))
+      case regex(value, "C")               ⇒ Success(Celsius(value.toDouble))
+      case regex(value, Kelvin.symbol)     ⇒ Success(Kelvin(value.toDouble))
+      case regex(value, "k")               ⇒ Success(Kelvin(value.toDouble))
+      case regex(value, "K")               ⇒ Success(Kelvin(value.toDouble))
+      case _                               ⇒ Failure(QuantityStringParseException("Unable to parse Temperature", s))
     }
   }
 }

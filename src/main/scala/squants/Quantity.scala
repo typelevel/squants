@@ -8,6 +8,8 @@
 
 package squants
 
+import scala.util.{ Failure, Success, Try }
+
 /**
  * A base trait for measurable quantities
  *
@@ -289,15 +291,18 @@ abstract class AbstractQuantityNumeric[A <: Quantity[A]](val valueUnit: UnitOfMe
   def compare(x: A, y: A) = if (x.value > y.value) 1 else if (x.value < y.value) -1 else 0
 }
 
+case class QuantityStringParseException(message: String, expression: String) extends Exception
+
 trait QuantityCompanion[A <: Quantity[A]] {
   def name: String
+  def valueUnit: UnitOfMeasure[A] with ValueUnit
   def units: Set[UnitOfMeasure[A]]
   def symbolToUnit(symbol: String): Option[UnitOfMeasure[A]] = units.find(u ⇒ u.symbol == symbol)
-  def parseString(s: String): Either[String, A] = {
+  protected def parseString(s: String): Try[A] = {
     val regex = ("([-+]?[0-9]*\\.?[0-9]+) *(" + units.map { u: UnitOfMeasure[A] ⇒ u.symbol }.reduceLeft(_ + "|" + _) + ")").r
     s match {
-      case regex(value, symbol) ⇒ Right(symbolToUnit(symbol).get(value.toDouble))
-      case _                    ⇒ Left(s"Unable to parse $s as $name")
+      case regex(value, symbol) ⇒ Success(symbolToUnit(symbol).get(value.toDouble))
+      case _                    ⇒ Failure(QuantityStringParseException(s"Unable to parse $name", s))
     }
   }
 }

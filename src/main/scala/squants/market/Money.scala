@@ -10,6 +10,7 @@ package squants.market
 
 import scala.language.implicitConversions
 import squants._
+import scala.util.{ Failure, Success, Try }
 
 /**
  * Represents a quantity of Money.
@@ -300,11 +301,11 @@ object Money {
   def apply[A](n: A, currency: Currency)(implicit num: Numeric[A]) = new Money(BigDecimal(num.toDouble(n)))(currency)
   def apply[A](n: A, currency: String)(implicit num: Numeric[A]) = new Money(BigDecimal(num.toDouble(n)))(defaultCurrencyMap(currency))
 
-  def apply(s: String): Either[String, Money] = {
+  def apply(s: String): Try[Money] = {
     lazy val regex = ("([-+]?[0-9]*\\.?[0-9]+) *(" + defaultCurrencySet.map(_.code).reduceLeft(_ + "|" + _) + ")").r
     s match {
-      case regex(value, currency) ⇒ Right(Money(value.toDouble, defaultCurrencyMap(currency)))
-      case _                      ⇒ Left(s"Unable to parse $s as Money")
+      case regex(value, currency) ⇒ Success(Money(value.toDouble, defaultCurrencyMap(currency)))
+      case _                      ⇒ Failure(QuantityStringParseException("Unable to parse Money", s))
     }
   }
 }
