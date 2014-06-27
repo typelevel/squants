@@ -18,7 +18,7 @@ import squants._
  */
 final class SpecificEnergy private (val value: Double) extends Quantity[SpecificEnergy] {
 
-  def valueUnit = Grays
+  def valueUnit = SpecificEnergy.valueUnit
 
   def *(that: Mass): Energy = Joules(toGrays * that.toKilograms)
   def /(that: Time) = ??? // returns AbsorbedEnergyRate
@@ -26,8 +26,12 @@ final class SpecificEnergy private (val value: Double) extends Quantity[Specific
   def toGrays = to(Grays)
 }
 
-object SpecificEnergy {
+object SpecificEnergy extends QuantityCompanion[SpecificEnergy] {
   private[energy] def apply[A](n: A)(implicit num: Numeric[A]) = new SpecificEnergy(num.toDouble(n))
+  def apply(s: String) = parseString(s)
+  def name = "SpecificEnergy"
+  def valueUnit = Grays
+  def units = Set(Grays)
 }
 
 trait SpecificEnergyUnit extends UnitOfMeasure[SpecificEnergy] with UnitMultiplier {
@@ -45,6 +49,6 @@ object SpecificEnergyConversions {
     def grays = Grays(n)
   }
 
-  implicit object SpecificEnergyNumeric extends AbstractQuantityNumeric[SpecificEnergy](Grays)
+  implicit object SpecificEnergyNumeric extends AbstractQuantityNumeric[SpecificEnergy](SpecificEnergy.valueUnit)
 }
 

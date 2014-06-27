@@ -24,7 +24,7 @@ final class PowerRamp private (val value: Double)
     extends Quantity[PowerRamp] with PhysicalQuantity
     with TimeDerivative[Power] {
 
-  def valueUnit = WattsPerHour
+  def valueUnit = PowerRamp.valueUnit
   def change = Watts(value)
   def time = Hours(1)
 
@@ -41,19 +41,14 @@ final class PowerRamp private (val value: Double)
   })
 }
 
-object PowerRamp {
+object PowerRamp extends QuantityCompanion[PowerRamp] {
   private[energy] def apply[A](n: A)(implicit num: Numeric[A]) = new PowerRamp(num.toDouble(n))
   def apply(change: Power, time: Time): PowerRamp = apply(change.toWatts / time.toHours)
-  def apply(s: String): Try[PowerRamp] = {
-    val regex = "([-+]?[0-9]*\\.?[0-9]+) *(W/h|kW/h|MW/h|GW/h)".r
-    s match {
-      case regex(value, WattsPerHour.symbol)     ⇒ Success(WattsPerHour(value.toDouble))
-      case regex(value, KilowattsPerHour.symbol) ⇒ Success(KilowattsPerHour(value.toDouble))
-      case regex(value, MegawattsPerHour.symbol) ⇒ Success(MegawattsPerHour(value.toDouble))
-      case regex(value, GigawattsPerHour.symbol) ⇒ Success(GigawattsPerHour(value.toDouble))
-      case _                                     ⇒ Failure(QuantityStringParseException("Unable to parse PowerRamp", s))
-    }
-  }
+  def apply(s: String) = parseString(s)
+
+  def name = "PowerRamp"
+  def valueUnit = WattsPerHour
+  def units = Set(WattsPerHour, KilowattsPerHour, MegawattsPerHour, GigawattsPerHour)
 }
 
 trait PowerRampUnit extends UnitOfMeasure[PowerRamp] with UnitMultiplier {
@@ -101,5 +96,5 @@ object PowerRampConversions {
     def toPowerRamp = PowerRamp(s)
   }
 
-  implicit object PowerRampNumeric extends AbstractQuantityNumeric[PowerRamp](WattsPerHour)
+  implicit object PowerRampNumeric extends AbstractQuantityNumeric[PowerRamp](PowerRamp.valueUnit)
 }

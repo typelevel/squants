@@ -29,7 +29,7 @@ final class Energy private (val value: Double)
     extends Quantity[Energy] with PhysicalQuantity
     with TimeIntegral[Power] {
 
-  def valueUnit = WattHours
+  def valueUnit = Energy.valueUnit
 
   def /(that: Time): Power = Power(value / that.toHours)
   def /(that: Power): Time = Hours(value / that.value)
@@ -79,25 +79,17 @@ final class Energy private (val value: Double)
 /**
  * Companion object for [[squants.energy.Energy]]
  */
-object Energy {
+object Energy extends QuantityCompanion[Energy] {
   private[energy] def apply[A](n: A)(implicit num: Numeric[A]) = new Energy(num.toDouble(n))
   def apply(load: Power, time: Time): Energy = load * time
-  def apply(s: String): Try[Energy] = {
-    val regex = "([-+]?[0-9]*\\.?[0-9]+) *(J|Wh|kWh|MWh|GWh|Btu|MBtu|MMBtu)".r
-    s match {
-      case regex(value, Joules.symbol)              ⇒ Success(Joules(value.toDouble))
-      case regex(value, WattHours.symbol)           ⇒ Success(WattHours(value.toDouble))
-      case regex(value, KilowattHours.symbol)       ⇒ Success(KilowattHours(value.toDouble))
-      case regex(value, MegawattHours.symbol)       ⇒ Success(MegawattHours(value.toDouble))
-      case regex(value, GigawattHours.symbol)       ⇒ Success(GigawattHours(value.toDouble))
-      case regex(value, BritishThermalUnits.symbol) ⇒ Success(BritishThermalUnits(value.toDouble))
-      case regex(value, MBtus.symbol)               ⇒ Success(MBtus(value.toDouble))
-      case regex(value, MMBtus.symbol)              ⇒ Success(MMBtus(value.toDouble))
-      case _                                        ⇒ Failure(QuantityStringParseException("Unable to parse Energy", s))
-    }
-  }
+  def apply(s: String): Try[Energy] = parseString(s)
 
-  def unapply(energy: Energy) = Some(energy.value)
+  def name = "Energy"
+  def valueUnit = WattHours
+  def units = Set(WattHours, KilowattHours, MegawattHours, GigawattHours,
+    Joules, Picojoules, Nanojoules, Microjoules, Millijoules,
+    Kilojoules, Megajoules, Gigajoules, Terajoules,
+    BritishThermalUnits, MBtus, MMBtus)
 }
 
 /**
@@ -247,5 +239,5 @@ object EnergyConversions {
     def toEnergy = Energy(s)
   }
 
-  implicit object EnergyNumeric extends AbstractQuantityNumeric[Energy](WattHours)
+  implicit object EnergyNumeric extends AbstractQuantityNumeric[Energy](Energy.valueUnit)
 }

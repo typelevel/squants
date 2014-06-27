@@ -18,5 +18,5 @@ import squants.electro.Coulombs
 package object energy {
 
   /* Known Quantities */
-  lazy val ElementaryConstant = Coulombs(BigDecimal("1.602176565E-19").toDouble)
+  lazy val ElementaryConstant = Coulombs(BigDecimal("1.602176565E-19"))
 }

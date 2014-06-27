@@ -99,7 +99,6 @@ class QuantitySerializerSpec extends FlatSpec with MustMatchers {
 
   it must "serialize a Mass value" in {
     val json = write[Mass](Pounds(seedValue))
-    println(json)
   }
 
   behavior of "MoneySerializer"
@@ -134,7 +133,6 @@ class QuantitySerializerSpec extends FlatSpec with MustMatchers {
 
   it must "serialize an Mass Price" in {
     val json = write[Price[Mass]](USD(seedValue) / Pounds(1))
-    println(USD(seedValue) / Pounds(1))
     json must be(jsonMassPrice)
   }
 

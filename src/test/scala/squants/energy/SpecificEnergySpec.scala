@@ -11,6 +11,7 @@ package squants.energy
 import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
 import squants.mass.Kilograms
+import squants.QuantityStringParseException
 
 /**
  * @author  garyKeorkunian
@@ -24,6 +25,12 @@ class SpecificEnergySpec extends FlatSpec with Matchers {
   it should "create values using UOM factories" in {
 
     Grays(1).toGrays should be(1)
+  }
+
+  it should "create values from properly formatted Strings" in {
+    SpecificEnergy("10.22 Gy").get should be(Grays(10.22))
+    SpecificEnergy("10.22 zz").failed.get should be(QuantityStringParseException("Unable to parse SpecificEnergy", "10.22 zz"))
+    SpecificEnergy("ZZ Gy").failed.get should be(QuantityStringParseException("Unable to parse SpecificEnergy", "ZZ Gy"))
   }
 
   it should "properly convert to all supported Units of Measure" in {

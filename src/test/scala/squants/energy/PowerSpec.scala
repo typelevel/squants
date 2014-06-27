@@ -23,13 +23,23 @@ class PowerSpec extends FlatSpec with Matchers {
   behavior of "Power and its Units of Measure"
 
   it should "create values using UOM factories" in {
-
     Watts(1).toWatts should be(1)
     Milliwatts(1).toMilliwatts should be(1)
     Kilowatts(1).toKilowatts should be(1)
     Megawatts(1).toMegawatts should be(1)
     Gigawatts(1).toGigawatts should be(1)
     BtusPerHour(1).toBtusPerHour should be(1)
+  }
+
+  it should "create values from properly formatted Strings" in {
+    Power("10.22 mW").get should be(Milliwatts(10.22))
+    Power("10.22 W").get should be(Watts(10.22))
+    Power("10.22 kW").get should be(Kilowatts(10.22))
+    Power("10.22 MW").get should be(Megawatts(10.22))
+    Power("10.22 GW").get should be(Gigawatts(10.22))
+    Power("10.22 Btu/hr").get should be(BtusPerHour(10.22))
+    Power("10.22 zz").failed.get should be(QuantityStringParseException("Unable to parse Power", "10.22 zz"))
+    Power("ZZ W").failed.get should be(QuantityStringParseException("Unable to parse Power", "ZZ W"))
   }
 
   it should "properly convert to all supported Units of Measure" in {
@@ -100,6 +110,7 @@ class PowerSpec extends FlatSpec with Matchers {
     "10.22 GW".toPower.get should be(Gigawatts(10.22))
     "10.22 Btu/hr".toPower.get should be(BtusPerHour(10.22))
     "10.22 zz".toPower.failed.get should be(QuantityStringParseException("Unable to parse Power", "10.22 zz"))
+    "ZZ W".toPower.failed.get should be(QuantityStringParseException("Unable to parse Power", "ZZ W"))
   }
 
   it should "provide Numeric support in" in {

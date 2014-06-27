@@ -33,7 +33,7 @@ final class Power private (val value: Double)
     extends Quantity[Power] with PhysicalQuantity
     with TimeDerivative[Energy] with TimeIntegral[PowerRamp] {
 
-  def valueUnit = Watts
+  def valueUnit = Power.valueUnit
   def change = WattHours(value)
   def time = Hours(1)
 
@@ -68,21 +68,14 @@ final class Power private (val value: Double)
 /**
  * Companion object for [[squants.energy.Power]]
  */
-object Power {
+object Power extends QuantityCompanion[Power] {
   private[energy] def apply[A](n: A)(implicit num: Numeric[A]) = new Power(num.toDouble(n))
   def apply(energy: Energy, time: Time): Power = apply(energy.toWattHours / time.toHours)
-  def apply(s: String): Try[Power] = {
-    val regex = "([-+]?[0-9]*\\.?[0-9]+) *(mW|W|kW|MW|GW|Btu/hr)".r
-    s match {
-      case regex(value, Milliwatts.symbol)  ⇒ Success(Milliwatts(value.toDouble))
-      case regex(value, Watts.symbol)       ⇒ Success(Watts(value.toDouble))
-      case regex(value, Kilowatts.symbol)   ⇒ Success(Kilowatts(value.toDouble))
-      case regex(value, Megawatts.symbol)   ⇒ Success(Megawatts(value.toDouble))
-      case regex(value, Gigawatts.symbol)   ⇒ Success(Gigawatts(value.toDouble))
-      case regex(value, BtusPerHour.symbol) ⇒ Success(BtusPerHour(value.toDouble))
-      case _                                ⇒ Failure(QuantityStringParseException("Unable to parse Power", s))
-    }
-  }
+  def apply(s: String) = parseString(s)
+
+  def name = "Power"
+  def valueUnit = Watts
+  def units = Set(Watts, Milliwatts, Kilowatts, Megawatts, Gigawatts, BtusPerHour)
 }
 
 trait PowerUnit extends UnitOfMeasure[Power] with UnitMultiplier {
@@ -149,6 +142,6 @@ object PowerConversions {
     def toPower = Power(s)
   }
 
-  implicit object PowerNumeric extends AbstractQuantityNumeric[Power](Watts)
+  implicit object PowerNumeric extends AbstractQuantityNumeric[Power](Power.valueUnit)
 }
 
