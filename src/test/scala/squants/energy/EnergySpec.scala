@@ -28,7 +28,6 @@ class EnergySpec extends FlatSpec with Matchers {
   behavior of "Energy and its Units of Measure"
 
   it should "create values using UOM factories" in {
-
     WattHours(1).toWattHours should be(1)
     KilowattHours(1).toKilowattHours should be(1)
     MegawattHours(1).toMegawattHours should be(1)
@@ -47,6 +46,19 @@ class EnergySpec extends FlatSpec with Matchers {
     BritishThermalUnits(1).toBtus should be(1)
     MBtus(1).toMBtus should be(1)
     MMBtus(1).toMMBtus should be(1)
+  }
+
+  it should "create values from properly formatted Strings" in {
+    Energy("10.22 J").get should be(Joules(10.22))
+    Energy("10.22 Wh").get should be(WattHours(10.22))
+    Energy("10.22 kWh").get should be(KilowattHours(10.22))
+    Energy("10.22 MWh").get should be(MegawattHours(10.22))
+    Energy("10.22 GWh").get should be(GigawattHours(10.22))
+    Energy("10.22 Btu").get should be(BritishThermalUnits(10.22))
+    Energy("10.22 MBtu").get should be(MBtus(10.22))
+    Energy("10.22 MMBtu").get should be(MMBtus(10.22))
+    Energy("10.22 zz").failed.get should be(QuantityStringParseException("Unable to parse Energy", "10.22 zz"))
+    Energy("ZZ J").failed.get should be(QuantityStringParseException("Unable to parse Energy", "ZZ J"))
   }
 
   it should "properly convert to all supported Units of Measure" in {
@@ -200,6 +212,7 @@ class EnergySpec extends FlatSpec with Matchers {
     "10.22 MBtu".toEnergy.get should be(MBtus(10.22))
     "10.22 MMBtu".toEnergy.get should be(MMBtus(10.22))
     "10.22 zz".toEnergy.failed.get should be(QuantityStringParseException("Unable to parse Energy", "10.22 zz"))
+    "ZZ J".toEnergy.failed.get should be(QuantityStringParseException("Unable to parse Energy", "ZZ J"))
   }
 
   it should "provide Numeric support" in {

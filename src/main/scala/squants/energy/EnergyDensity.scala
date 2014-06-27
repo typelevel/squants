@@ -21,15 +21,19 @@ import squants._
 final class EnergyDensity private (val value: Double) extends Quantity[EnergyDensity]
     with PhysicalQuantity {
 
-  def valueUnit = JoulesPerCubicMeter
+  def valueUnit = EnergyDensity.valueUnit
 
   def *(that: Volume): Energy = Joules(toJoulesPerCubicMeter * that.toCubicMeters)
 
   def toJoulesPerCubicMeter = to(JoulesPerCubicMeter)
 }
 
-object EnergyDensity {
+object EnergyDensity extends QuantityCompanion[EnergyDensity] {
   private[energy] def apply[A](n: A)(implicit num: Numeric[A]) = new EnergyDensity(num.toDouble(n))
+  def apply(s: String) = parseString(s)
+  def name = "EnergyDensity"
+  def valueUnit = JoulesPerCubicMeter
+  def units = Set(JoulesPerCubicMeter)
 }
 
 trait EnergyDensityUnit extends UnitOfMeasure[EnergyDensity] with UnitMultiplier {
@@ -47,5 +51,5 @@ object EnergyDensityConversions {
     def joulesPerCubicMeter = JoulesPerCubicMeter(n)
   }
 
-  implicit object EnergyDensityNumeric extends AbstractQuantityNumeric[EnergyDensity](JoulesPerCubicMeter)
+  implicit object EnergyDensityNumeric extends AbstractQuantityNumeric[EnergyDensity](EnergyDensity.valueUnit)
 }

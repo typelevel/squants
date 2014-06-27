@@ -131,8 +131,7 @@ class VectorSpec extends FlatSpec with Matchers {
     val left = DoubleVector(3, 2, 1)
     val forward = up crossProduct left
     val back = left crossProduct up
-    println(s"forward - $forward")
-    println(s"back - $back")
+    // TODO Enhance these tests
   }
 
   it should "cross product two Vectors with 7 coordinates each" is pending
