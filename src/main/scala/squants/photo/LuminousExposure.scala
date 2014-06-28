@@ -21,7 +21,7 @@ final class LuminousExposure private (val value: Double) extends Quantity[Lumino
     with PhysicalQuantity
     with TimeIntegral[Illuminance] {
 
-  def valueUnit = LuxSeconds
+  def valueUnit = LuminousExposure.valueUnit
 
   def /(that: Time): Illuminance = Lux(value / that.toSeconds)
   def /(that: Illuminance): Time = Seconds(value / that.toLux)
@@ -29,8 +29,12 @@ final class LuminousExposure private (val value: Double) extends Quantity[Lumino
   def toLuxSeconds = to(LuxSeconds)
 }
 
-object LuminousExposure {
+object LuminousExposure extends QuantityCompanion[LuminousExposure] {
   private[photo] def apply[A](n: A)(implicit num: Numeric[A]) = new LuminousExposure(num.toDouble(n))
+  def apply(s: String) = parseString(s)
+  def name = "LuminousExposure"
+  def valueUnit = LuxSeconds
+  def units = Set(LuxSeconds)
 }
 
 trait LuminousExposureUnit extends UnitOfMeasure[LuminousExposure] with UnitMultiplier {
@@ -48,5 +52,5 @@ object LuminousExposureConversions {
     def luxSeconds = LuxSeconds(n)
   }
 
-  implicit object LuminousExposureNumeric extends AbstractQuantityNumeric[LuminousExposure](LuxSeconds)
+  implicit object LuminousExposureNumeric extends AbstractQuantityNumeric[LuminousExposure](LuminousExposure.valueUnit)
 }

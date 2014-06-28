@@ -20,7 +20,7 @@ final class Illuminance private (val value: Double) extends Quantity[Illuminance
     with PhysicalQuantity
     with TimeDerivative[LuminousExposure] {
 
-  def valueUnit = Lux
+  def valueUnit = Illuminance.valueUnit
   def change = LuxSeconds(value)
   def time = Seconds(1)
 
@@ -29,8 +29,12 @@ final class Illuminance private (val value: Double) extends Quantity[Illuminance
   def toLux = to(Lux)
 }
 
-object Illuminance {
+object Illuminance extends QuantityCompanion[Illuminance] {
   private[photo] def apply[A](n: A)(implicit num: Numeric[A]) = new Illuminance(num.toDouble(n))
+  def apply(s: String) = parseString(s)
+  def name = "Illuminance"
+  def valueUnit = Lux
+  def units = Set(Lux)
 }
 
 trait IlluminanceUnit extends UnitOfMeasure[Illuminance] with UnitMultiplier {
@@ -48,5 +52,5 @@ object IlluminanceConversions {
     def lux = Lux(n)
   }
 
-  implicit object IlluminanceNumeric extends AbstractQuantityNumeric[Illuminance](Lux)
+  implicit object IlluminanceNumeric extends AbstractQuantityNumeric[Illuminance](Illuminance.valueUnit)
 }

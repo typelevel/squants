@@ -19,18 +19,22 @@ import squants.space.{ SquareMeters, SolidAngle }
 final class LuminousIntensity private (val value: Double) extends Quantity[LuminousIntensity]
     with BaseQuantity {
 
-  def valueUnit = Candelas
+  def valueUnit = LuminousIntensity.valueUnit
   def baseUnit = Candelas
 
   def *(that: SolidAngle): LuminousFlux = Lumens(toCandelas * that.toSquaredRadians)
-  def /(that: Area): Luminance = Luminance(this, that)
+  def /(that: Area): Luminance = CandelasPerSquareMeter(toCandelas / that.toSquareMeters)
   def /(that: Luminance): Area = SquareMeters(toCandelas / that.toCandelasPerSquareMeters)
 
   def toCandelas = to(Candelas)
 }
 
-object LuminousIntensity {
+object LuminousIntensity extends QuantityCompanion[LuminousIntensity] {
   private[photo] def apply[A](n: A)(implicit num: Numeric[A]) = new LuminousIntensity(num.toDouble(n))
+  def apply(s: String) = parseString(s)
+  def name = "LuminousIntensity"
+  def valueUnit = Candelas
+  def units = Set(Candelas)
 }
 
 trait LuminousIntensityUnit extends BaseQuantityUnit[LuminousIntensity] with UnitMultiplier {
@@ -50,5 +54,5 @@ object LuminousIntensityConversions {
     def candelas = Candelas(n)
   }
 
-  implicit object LuminousIntensityNumeric extends AbstractQuantityNumeric[LuminousIntensity](Candelas)
+  implicit object LuminousIntensityNumeric extends AbstractQuantityNumeric[LuminousIntensity](LuminousIntensity.valueUnit)
 }

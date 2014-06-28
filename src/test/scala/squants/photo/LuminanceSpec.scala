@@ -11,6 +11,7 @@ package squants.photo
 import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
 import squants.space.SquareMeters
+import squants.QuantityStringParseException
 
 /**
  * @author  garyKeorkunian
@@ -23,6 +24,12 @@ class LuminanceSpec extends FlatSpec with Matchers {
 
   it should "create values using UOM factories" in {
     CandelasPerSquareMeter(1).toCandelasPerSquareMeters should be(1)
+  }
+
+  it should "create values from properly formatted Strings" in {
+    Luminance("10.22 cd/m²").get should be(CandelasPerSquareMeter(10.22))
+    Luminance("10.45 zz").failed.get should be(QuantityStringParseException("Unable to parse Luminance", "10.45 zz"))
+    Luminance("zz cd/m²").failed.get should be(QuantityStringParseException("Unable to parse Luminance", "zz cd/m²"))
   }
 
   it should "properly convert to all supported Units of Measure" in {

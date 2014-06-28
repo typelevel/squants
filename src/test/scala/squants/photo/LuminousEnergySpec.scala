@@ -11,6 +11,7 @@ package squants.photo
 import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
 import squants.time.Seconds
+import squants.QuantityStringParseException
 
 /**
  * @author  garyKeorkunian
@@ -23,6 +24,12 @@ class LuminousEnergySpec extends FlatSpec with Matchers {
 
   it should "create values using UOM factories" in {
     LumenSeconds(1).toLumenSeconds should be(1)
+  }
+
+  it should "create values from properly formatted Strings" in {
+    LuminousEnergy("10.22 lm⋅s").get should be(LumenSeconds(10.22))
+    LuminousEnergy("10.45 zz").failed.get should be(QuantityStringParseException("Unable to parse LuminousEnergy", "10.45 zz"))
+    LuminousEnergy("zz lm⋅s").failed.get should be(QuantityStringParseException("Unable to parse LuminousEnergy", "zz lm⋅s"))
   }
 
   it should "properly convert to all supported Units of Measure" in {
