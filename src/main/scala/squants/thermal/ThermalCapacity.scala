@@ -23,15 +23,19 @@ import squants.energy.{ Energy, Joules }
  */
 final class ThermalCapacity private (val value: Double) extends Quantity[ThermalCapacity] {
 
-  def valueUnit = JoulesPerKelvin
+  def valueUnit = ThermalCapacity.valueUnit
 
   def *(that: Temperature): Energy = Joules(toJoulesPerKelvin * that.toKelvinScale)
 
   def toJoulesPerKelvin = to(JoulesPerKelvin)
 }
 
-object ThermalCapacity {
+object ThermalCapacity extends QuantityCompanion[ThermalCapacity] {
   private[thermal] def apply[A](n: A)(implicit num: Numeric[A]) = new ThermalCapacity(num.toDouble(n))
+  def apply(s: String) = parseString(s)
+  def name = "ThermalCapacity"
+  def valueUnit = JoulesPerKelvin
+  def units = Set(JoulesPerKelvin)
 }
 
 trait ThermalCapacityUnit extends UnitOfMeasure[ThermalCapacity] with UnitMultiplier {
@@ -49,5 +53,5 @@ object ThermalCapacityConversions {
     def joulesPerKelvin = JoulesPerKelvin(n)
   }
 
-  implicit object ThermalCapacityNumeric extends AbstractQuantityNumeric[ThermalCapacity](JoulesPerKelvin)
+  implicit object ThermalCapacityNumeric extends AbstractQuantityNumeric[ThermalCapacity](ThermalCapacity.valueUnit)
 }
