@@ -9,7 +9,7 @@
 package squants.electro
 
 import org.scalatest.{ Matchers, FlatSpec }
-import squants.MetricSystem
+import squants.{ QuantityStringParseException, MetricSystem }
 import squants.time.{ Seconds, Time }
 import squants.energy.Joules
 
@@ -20,7 +20,7 @@ import squants.energy.Joules
  */
 class ElectricChargeSpec extends FlatSpec with Matchers {
 
-  behavior of "ElectricalCharge and its Units of Measure"
+  behavior of "ElectricCharge and its Units of Measure"
 
   it should "create values using UOM factories" in {
     Coulombs(1).toCoulombs should be(1)
@@ -30,6 +30,18 @@ class ElectricChargeSpec extends FlatSpec with Matchers {
     Millicoulombs(1).toMillcoulombs should be(1)
     Abcoulombs(1).toAbcoulombs should be(1)
     AmpereHours(1).toAmpereHours should be(1)
+  }
+
+  it should "create values from properly formatted Strings" in {
+    ElectricCharge("10.22 C").get should be(Coulombs(10.22))
+    ElectricCharge("10.22 pC").get should be(Picocoulombs(10.22))
+    ElectricCharge("10.22 nC").get should be(Nanocoulombs(10.22))
+    ElectricCharge("10.22 µC").get should be(Microcoulombs(10.22))
+    ElectricCharge("10.22 mC").get should be(Millicoulombs(10.22))
+    ElectricCharge("10.22 aC").get should be(Abcoulombs(10.22))
+    ElectricCharge("10.22 Ah").get should be(AmpereHours(10.22))
+    ElectricCharge("10.22 zz").failed.get should be(QuantityStringParseException("Unable to parse ElectricCharge", "10.22 zz"))
+    ElectricCharge("zz C").failed.get should be(QuantityStringParseException("Unable to parse ElectricCharge", "zz C"))
   }
 
   it should "properly convert to all supported Units of Measure" in {

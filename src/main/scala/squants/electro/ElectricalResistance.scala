@@ -19,7 +19,7 @@ import squants._
 final class ElectricalResistance private (val value: Double)
     extends Quantity[ElectricalResistance] {
 
-  def valueUnit = Ohms
+  def valueUnit = ElectricalResistance.valueUnit
 
   def *(that: ElectricCurrent): ElectricPotential = Volts(toOhms * that.toAmperes)
   def *(that: Length): Resistivity = OhmMeters(toOhms * that.toMeters)
@@ -35,8 +35,12 @@ final class ElectricalResistance private (val value: Double)
   def inSiemens = Siemens(1.0 / to(Ohms))
 }
 
-object ElectricalResistance {
+object ElectricalResistance extends QuantityCompanion[ElectricalResistance] {
   private[electro] def apply[A](n: A)(implicit num: Numeric[A]) = new ElectricalResistance(num.toDouble(n))
+  def apply(s: String) = parseString(s)
+  def name = "ElectricalResistance"
+  def valueUnit = Ohms
+  def units = Set(Ohms, Nanohms, Microohms, Milliohms, Kilohms, Megohms, Gigohms)
 }
 
 trait ElectricalResistanceUnit extends UnitOfMeasure[ElectricalResistance] with UnitMultiplier {
@@ -97,5 +101,5 @@ object ElectricalResistanceConversions {
   }
 
   implicit object ElectricalResistanceNumeric
-    extends AbstractQuantityNumeric[ElectricalResistance](Ohms)
+    extends AbstractQuantityNumeric[ElectricalResistance](ElectricalResistance.valueUnit)
 }

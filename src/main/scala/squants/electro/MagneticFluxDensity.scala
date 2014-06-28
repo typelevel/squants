@@ -19,7 +19,7 @@ import squants._
 final class MagneticFluxDensity private (val value: Double) extends Quantity[MagneticFluxDensity]
     with PhysicalQuantity {
 
-  def valueUnit = Teslas
+  def valueUnit = MagneticFluxDensity.valueUnit
 
   def *(that: Area): MagneticFlux = Webers(toTeslas * that.toSquareMeters)
 
@@ -27,8 +27,12 @@ final class MagneticFluxDensity private (val value: Double) extends Quantity[Mag
   def toGuass = to(Gauss)
 }
 
-object MagneticFluxDensity {
+object MagneticFluxDensity extends QuantityCompanion[MagneticFluxDensity] {
   private[electro] def apply[A](n: A)(implicit num: Numeric[A]) = new MagneticFluxDensity(num.toDouble(n))
+  def apply(s: String) = parseString(s)
+  def name = "MagneticFluxDensity"
+  def valueUnit = Teslas
+  def units = Set(Teslas, Gauss)
 }
 
 trait MagneticFluxDensityUnit extends UnitOfMeasure[MagneticFluxDensity] with UnitMultiplier {
@@ -53,5 +57,5 @@ object MagneticFluxDensityConversions {
     def gauss = Gauss(n)
   }
 
-  implicit object MagneticFluxDensistyNumeric extends AbstractQuantityNumeric[MagneticFluxDensity](Teslas)
+  implicit object MagneticFluxDensistyNumeric extends AbstractQuantityNumeric[MagneticFluxDensity](MagneticFluxDensity.valueUnit)
 }

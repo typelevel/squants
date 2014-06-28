@@ -10,6 +10,7 @@ package squants.electro
 
 import org.scalatest.{ Matchers, FlatSpec }
 import squants.space.SquareMeters
+import squants.QuantityStringParseException
 
 /**
  * @author  garyKeorkunian
@@ -23,6 +24,13 @@ class MagneticFluxDensitySpec extends FlatSpec with Matchers {
   it should "create values using UOM factories" in {
     Teslas(1).toTeslas should be(1)
     Gauss(1).toGuass should be(1)
+  }
+
+  it should "create values from properly formatted Strings" in {
+    MagneticFluxDensity("10.22 T").get should be(Teslas(10.22))
+    MagneticFluxDensity("10.22 Gs").get should be(Gauss(10.22))
+    MagneticFluxDensity("10.22 zz").failed.get should be(QuantityStringParseException("Unable to parse MagneticFluxDensity", "10.22 zz"))
+    MagneticFluxDensity("zz T").failed.get should be(QuantityStringParseException("Unable to parse MagneticFluxDensity", "zz T"))
   }
 
   it should "properly convert to all supported Units of Measure" in {

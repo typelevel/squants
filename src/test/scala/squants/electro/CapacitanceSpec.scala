@@ -9,7 +9,7 @@
 package squants.electro
 
 import org.scalatest.{ Matchers, FlatSpec }
-import squants.MetricSystem
+import squants.{ QuantityStringParseException, MetricSystem }
 
 /**
  * @author  garyKeorkunian
@@ -27,6 +27,17 @@ class CapacitanceSpec extends FlatSpec with Matchers {
     Microfarads(1).toMicrofarads should be(1)
     Millifarads(1).toMillifarads should be(1)
     Kilofarads(1).toKilofarads should be(1)
+  }
+
+  it should "create values from properly formatted Strings" in {
+    Capacitance("10.22 F").get should be(Farads(10.22))
+    Capacitance("10.22 pF").get should be(Picofarads(10.22))
+    Capacitance("10.22 nF").get should be(Nanofarads(10.22))
+    Capacitance("10.22 μF").get should be(Microfarads(10.22))
+    Capacitance("10.22 mF").get should be(Millifarads(10.22))
+    Capacitance("10.22 kF").get should be(Kilofarads(10.22))
+    Capacitance("10.22 zz").failed.get should be(QuantityStringParseException("Unable to parse Capacitance", "10.22 zz"))
+    Capacitance("zz F").failed.get should be(QuantityStringParseException("Unable to parse Capacitance", "zz F"))
   }
 
   it should "properly convert to all supported Units of Measure" in {

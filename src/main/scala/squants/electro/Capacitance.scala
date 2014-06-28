@@ -19,12 +19,12 @@ import squants._
 final class Capacitance private (val value: Double)
     extends Quantity[Capacitance] {
 
-  def valueUnit = Farads
+  def valueUnit = Capacitance.valueUnit
 
   def *(that: ElectricPotential): ElectricCharge = Coulombs(this.toFarads * that.toVolts)
   def /(that: Length) = ??? // returns Permittivity
 
-  def toFarads = value
+  def toFarads = to(Farads)
   def toPicofarads = to(Picofarads)
   def toNanofarads = to(Nanofarads)
   def toMicrofarads = to(Microfarads)
@@ -32,8 +32,12 @@ final class Capacitance private (val value: Double)
   def toKilofarads = to(Kilofarads)
 }
 
-object Capacitance {
+object Capacitance extends QuantityCompanion[Capacitance] {
   private[electro] def apply[A](n: A)(implicit num: Numeric[A]) = new Capacitance(num.toDouble(n))
+  def apply(s: String) = parseString(s)
+  def name = "Capacitance"
+  def valueUnit = Farads
+  def units = Set(Farads, Picofarads, Nanofarads, Microfarads, Millifarads, Kilofarads)
 }
 
 trait CapacitanceUnit extends UnitOfMeasure[Capacitance] with UnitMultiplier {
@@ -86,5 +90,5 @@ object CapacitanceConversions {
     def kilofarads = Kilofarads(n)
   }
 
-  implicit object CapacitanceNumeric extends AbstractQuantityNumeric[Capacitance](Farads)
+  implicit object CapacitanceNumeric extends AbstractQuantityNumeric[Capacitance](Capacitance.valueUnit)
 }

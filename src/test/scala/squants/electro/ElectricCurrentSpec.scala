@@ -9,7 +9,7 @@
 package squants.electro
 
 import org.scalatest.{ Matchers, FlatSpec }
-import squants.MetricSystem
+import squants.{ QuantityStringParseException, MetricSystem }
 import squants.time.Seconds
 import squants.energy.Watts
 
@@ -20,11 +20,18 @@ import squants.energy.Watts
  */
 class ElectricCurrentSpec extends FlatSpec with Matchers {
 
-  behavior of "ElectricalCurrent and its Units of Measure"
+  behavior of "ElectricCurrent and its Units of Measure"
 
   it should "create values using UOM factories" in {
     Amperes(1).toAmperes should be(1)
     Milliamperes(1).toMilliamperes should be(1)
+  }
+
+  it should "create values from properly formatted Strings" in {
+    ElectricCurrent("10.22 A").get should be(Amperes(10.22))
+    ElectricCurrent("10.22 mA").get should be(Milliamperes(10.22))
+    ElectricCurrent("10.22 zz").failed.get should be(QuantityStringParseException("Unable to parse ElectricCurrent", "10.22 zz"))
+    ElectricCurrent("zz A").failed.get should be(QuantityStringParseException("Unable to parse ElectricCurrent", "zz A"))
   }
 
   it should "properly convert to all supported Units of Measure" in {

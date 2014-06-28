@@ -24,7 +24,7 @@ import squants.energy.Watts
 final class ElectricCurrent private (val value: Double) extends Quantity[ElectricCurrent]
     with PhysicalQuantity with BaseQuantity with TimeDerivative[ElectricCharge] {
 
-  def valueUnit = Amperes
+  def valueUnit = ElectricCurrent.valueUnit
   def baseUnit = Amperes
 
   def change = Coulombs(value)
@@ -41,8 +41,12 @@ final class ElectricCurrent private (val value: Double) extends Quantity[Electri
   def toMilliamperes = to(Milliamperes)
 }
 
-object ElectricCurrent {
+object ElectricCurrent extends QuantityCompanion[ElectricCurrent] {
   private[electro] def apply[A](n: A)(implicit num: Numeric[A]) = new ElectricCurrent(num.toDouble(n))
+  def apply(s: String) = parseString(s)
+  def name = "ElectricCurrent"
+  def valueUnit = Amperes
+  def units = Set(Amperes, Milliamperes)
 }
 
 /**
@@ -85,5 +89,5 @@ object ElectricCurrentConversions {
   }
 
   implicit object ElectricCurrentNumeric
-    extends AbstractQuantityNumeric[ElectricCurrent](Amperes)
+    extends AbstractQuantityNumeric[ElectricCurrent](ElectricCurrent.valueUnit)
 }
