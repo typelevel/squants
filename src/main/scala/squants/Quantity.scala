@@ -297,7 +297,9 @@ trait QuantityCompanion[A <: Quantity[A]] {
   def name: String
   def valueUnit: UnitOfMeasure[A] with ValueUnit
   def units: Set[UnitOfMeasure[A]]
+
   def symbolToUnit(symbol: String): Option[UnitOfMeasure[A]] = units.find(u ⇒ u.symbol == symbol)
+
   protected def parseString(s: String): Try[A] = {
     val regex = ("([-+]?[0-9]*\\.?[0-9]+) *(" + units.map { u: UnitOfMeasure[A] ⇒ u.symbol }.reduceLeft(_ + "|" + _) + ")").r
     s match {

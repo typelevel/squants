@@ -19,7 +19,8 @@ import squants.time.{ Seconds, Time, TimeIntegral }
 final class LuminousEnergy private (val value: Double)
     extends Quantity[LuminousEnergy]
     with TimeIntegral[LuminousFlux] {
-  def valueUnit = LumenSeconds
+
+  def valueUnit = LuminousEnergy.valueUnit
 
   def /(that: Time): LuminousFlux = Lumens(value / that.toSeconds)
   def /(that: LuminousFlux): Time = Seconds(value / that.toLumens)
@@ -27,8 +28,12 @@ final class LuminousEnergy private (val value: Double)
   def toLumenSeconds = to(LumenSeconds)
 }
 
-object LuminousEnergy {
+object LuminousEnergy extends QuantityCompanion[LuminousEnergy] {
   private[photo] def apply[A](n: A)(implicit num: Numeric[A]) = new LuminousEnergy(num.toDouble(n))
+  def apply(s: String) = parseString(s)
+  def name = "LuminousEnergy"
+  def valueUnit = LumenSeconds
+  def units = Set(LumenSeconds)
 }
 
 trait LuminousEnergyUnit extends UnitOfMeasure[LuminousEnergy] with UnitMultiplier
@@ -45,5 +50,5 @@ object LuminousEnergyConversions {
     def lumenSeconds = LumenSeconds(n)
   }
 
-  implicit object LuminousEnergyNumeric extends AbstractQuantityNumeric[LuminousEnergy](LumenSeconds)
+  implicit object LuminousEnergyNumeric extends AbstractQuantityNumeric[LuminousEnergy](LuminousEnergy.valueUnit)
 }

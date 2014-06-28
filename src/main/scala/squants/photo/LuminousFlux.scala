@@ -22,7 +22,7 @@ final class LuminousFlux private (val value: Double)
     extends Quantity[LuminousFlux]
     with TimeDerivative[LuminousEnergy] {
 
-  def valueUnit = Lumens
+  def valueUnit = LuminousFlux.valueUnit
 
   def /(that: Area): Illuminance = Lux(toLumens / that.toSquareMeters)
   def /(that: Illuminance): Area = SquareMeters(toLumens / that.toLux)
@@ -35,8 +35,12 @@ final class LuminousFlux private (val value: Double)
   def toLumens = to(Lumens)
 }
 
-object LuminousFlux {
+object LuminousFlux extends QuantityCompanion[LuminousFlux] {
   private[photo] def apply[A](n: A)(implicit num: Numeric[A]) = new LuminousFlux(num.toDouble(n))
+  def apply(s: String) = parseString(s)
+  def name = "LuminousFlux"
+  def valueUnit = Lumens
+  def units = Set(Lumens)
 }
 
 trait LuminousFluxUnit extends UnitOfMeasure[LuminousFlux] with UnitMultiplier
@@ -53,5 +57,5 @@ object LuminousFluxConversions {
     def lumens = Lumens(n)
   }
 
-  implicit object LuminousFluxNumeric extends AbstractQuantityNumeric[LuminousFlux](Lumens)
+  implicit object LuminousFluxNumeric extends AbstractQuantityNumeric[LuminousFlux](LuminousFlux.valueUnit)
 }
