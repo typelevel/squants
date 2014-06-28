@@ -31,6 +31,17 @@ class TemperatureSpec extends FlatSpec with Matchers {
     Celsius(1).toCelsiusDegrees should be(1)
   }
 
+  they should "create values from properly formatted Strings" in {
+    Temperature("10.22°F").get should be(Fahrenheit(10.22))
+    Temperature("10.22°K").get should be(Kelvin(10.22))
+    Temperature("10.22°C").get should be(Celsius(10.22))
+    Temperature("10.22 F").get should be(Fahrenheit(10.22))
+    Temperature("10.22 K").get should be(Kelvin(10.22))
+    Temperature("10.22 C").get should be(Celsius(10.22))
+    Temperature("10.22 Z").failed.get should be(QuantityStringParseException("Unable to parse Temperature", "10.22 Z"))
+    Temperature("ZZ F").failed.get should be(QuantityStringParseException("Unable to parse Temperature", "ZZ F"))
+  }
+
   they should "properly convert to all supported Units of Measure (Scale)" in {
     val x = Kelvin(0)
     x.toKelvinScale should be(0)
@@ -280,5 +291,6 @@ class TemperatureSpec extends FlatSpec with Matchers {
     "10.22 K".toTemperature.get should be(Kelvin(10.22))
     "10.22 C".toTemperature.get should be(Celsius(10.22))
     "10.22 Z".toTemperature.failed.get should be(QuantityStringParseException("Unable to parse Temperature", "10.22 Z"))
+    "ZZ F".toTemperature.failed.get should be(QuantityStringParseException("Unable to parse Temperature", "ZZ F"))
   }
 }

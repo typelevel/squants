@@ -114,7 +114,7 @@ sealed abstract class Temperature protected (val value: Double)
 /**
  * Temperature companion object
  */
-object Temperature {
+object Temperature extends QuantityCompanion[Temperature] {
   val scales = Seq(Fahrenheit, Celsius, Kelvin)
   val defaultScale = Fahrenheit
 
@@ -139,6 +139,10 @@ object Temperature {
       case _                               ⇒ Failure(QuantityStringParseException("Unable to parse Temperature", s))
     }
   }
+
+  def name = "Temperature"
+  def valueUnit = ???
+  def units = Set(Kelvin, Fahrenheit, Celsius)
 }
 
 final class Celsius(value: Double) extends Temperature(value) { def valueUnit = Celsius }
