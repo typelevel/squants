@@ -9,6 +9,7 @@
 package squants.electro
 
 import org.scalatest.{ Matchers, FlatSpec }
+import squants.QuantityStringParseException
 
 /**
  * @author  garyKeorkunian
@@ -21,6 +22,12 @@ class InductanceSpec extends FlatSpec with Matchers {
 
   it should "create values using UOM factories" in {
     Henry(1).toHenry should be(1)
+  }
+
+  it should "create values from properly formatted Strings" in {
+    Inductance("10.22 H").get should be(Henry(10.22))
+    Inductance("10.22 zz").failed.get should be(QuantityStringParseException("Unable to parse Inductance", "10.22 zz"))
+    Inductance("zz H").failed.get should be(QuantityStringParseException("Unable to parse Inductance", "zz H"))
   }
 
   it should "properly convert to all supported Units of Measure" in {

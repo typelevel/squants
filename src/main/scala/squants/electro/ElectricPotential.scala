@@ -21,7 +21,7 @@ import squants.time.{ Seconds, TimeDerivative }
 final class ElectricPotential private (val value: Double) extends Quantity[ElectricPotential]
     with PhysicalQuantity with TimeDerivative[MagneticFlux] {
 
-  def valueUnit = Volts
+  def valueUnit = ElectricPotential.valueUnit
   def time = Seconds(1)
   def change = Webers(value)
 
@@ -40,8 +40,12 @@ final class ElectricPotential private (val value: Double) extends Quantity[Elect
   def toMegavolts = to(Megavolts)
 }
 
-object ElectricPotential {
+object ElectricPotential extends QuantityCompanion[ElectricPotential] {
   private[electro] def apply[A](n: A)(implicit num: Numeric[A]) = new ElectricPotential(num.toDouble(n))
+  def apply(s: String) = parseString(s)
+  def name = "ElectricPotential"
+  def valueUnit = Volts
+  def units = Set(Volts, Microvolts, Millivolts, Kilovolts, Megavolts)
 }
 
 trait ElectricPotentialUnit extends UnitOfMeasure[ElectricPotential] with UnitMultiplier {
@@ -88,6 +92,6 @@ object ElectricPotentialConversions {
     def megavolts = Megavolts(n)
   }
 
-  implicit object ElectricPotentialNumeric extends AbstractQuantityNumeric[ElectricPotential](Volts)
+  implicit object ElectricPotentialNumeric extends AbstractQuantityNumeric[ElectricPotential](ElectricPotential.valueUnit)
 }
 

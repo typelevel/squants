@@ -19,7 +19,7 @@ import squants.space.Length
  */
 final class Conductivity private (val value: Double) extends Quantity[Conductivity] {
 
-  def valueUnit = SiemensPerMeter
+  def valueUnit = Conductivity.valueUnit
 
   def *(that: Length): ElectricalConductance = Siemens(toSiemensPerMeter * that.toMeters)
 
@@ -27,8 +27,12 @@ final class Conductivity private (val value: Double) extends Quantity[Conductivi
   def inOhmMeters = OhmMeters(1d / toSiemensPerMeter)
 }
 
-object Conductivity {
+object Conductivity extends QuantityCompanion[Conductivity] {
   private[electro] def apply[A](n: A)(implicit num: Numeric[A]) = new Conductivity(num.toDouble(n))
+  def apply(s: String) = parseString(s)
+  def name = "Conductivity"
+  def valueUnit = SiemensPerMeter
+  def units = Set(SiemensPerMeter)
 }
 
 trait ConductivityUnit extends UnitOfMeasure[Conductivity] with UnitMultiplier {
@@ -46,5 +50,5 @@ object ConductivityConversions {
     def siemensPerMeter = SiemensPerMeter(n)
   }
 
-  implicit object ConductivityNumeric extends AbstractQuantityNumeric[Conductivity](SiemensPerMeter)
+  implicit object ConductivityNumeric extends AbstractQuantityNumeric[Conductivity](Conductivity.valueUnit)
 }

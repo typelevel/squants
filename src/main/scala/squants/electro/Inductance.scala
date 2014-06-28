@@ -19,7 +19,7 @@ import squants._
 final class Inductance private (val value: Double) extends Quantity[Inductance]
     with PhysicalQuantity {
 
-  def valueUnit = Henry
+  def valueUnit = Inductance.valueUnit
 
   def *(that: ElectricCurrent): MagneticFlux = Webers(toHenry * that.toAmperes)
   def /(that: Length) = ??? // returns Permeability
@@ -27,8 +27,12 @@ final class Inductance private (val value: Double) extends Quantity[Inductance]
   def toHenry = to(Henry)
 }
 
-object Inductance {
+object Inductance extends QuantityCompanion[Inductance] {
   private[electro] def apply[A](n: A)(implicit num: Numeric[A]) = new Inductance(num.toDouble(n))
+  def apply(s: String) = parseString(s)
+  def name = "Inductance"
+  def valueUnit = Henry
+  def units = Set(Henry)
 }
 
 trait InductanceUnit extends UnitOfMeasure[Inductance] with UnitMultiplier
@@ -45,5 +49,5 @@ object InductanceConversions {
     def henry = Henry(n)
   }
 
-  implicit object InductanceNumeric extends AbstractQuantityNumeric[Inductance](Henry)
+  implicit object InductanceNumeric extends AbstractQuantityNumeric[Inductance](Inductance.valueUnit)
 }

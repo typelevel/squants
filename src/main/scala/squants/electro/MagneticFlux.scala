@@ -21,7 +21,7 @@ import squants.space.SquareMeters
 final class MagneticFlux private (val value: Double) extends Quantity[MagneticFlux]
     with PhysicalQuantity with TimeIntegral[ElectricPotential] {
 
-  def valueUnit = Webers
+  def valueUnit = MagneticFlux.valueUnit
 
   def /(that: ElectricPotential): Time = that.time * (this / that.change)
   def /(that: Time): ElectricPotential = Volts(toWebers / that.toSeconds)
@@ -33,8 +33,12 @@ final class MagneticFlux private (val value: Double) extends Quantity[MagneticFl
   def toWebers = to(Webers)
 }
 
-object MagneticFlux {
+object MagneticFlux extends QuantityCompanion[MagneticFlux] {
   private[electro] def apply[A](n: A)(implicit num: Numeric[A]) = new MagneticFlux(num.toDouble(n))
+  def apply(s: String) = parseString(s)
+  def name = "MagneticFlux"
+  def valueUnit = Webers
+  def units = Set(Webers)
 }
 
 trait MagneticFluxUnit extends UnitOfMeasure[MagneticFlux] with UnitMultiplier
@@ -51,5 +55,5 @@ object MagneticFluxConversions {
     def webers = Webers(n)
   }
 
-  implicit object MagneticFluxNumeric extends AbstractQuantityNumeric[MagneticFlux](Webers)
+  implicit object MagneticFluxNumeric extends AbstractQuantityNumeric[MagneticFlux](MagneticFlux.valueUnit)
 }

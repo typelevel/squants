@@ -23,7 +23,7 @@ final class ElectricCharge private (val value: Double)
     extends Quantity[ElectricCharge]
     with TimeIntegral[ElectricCurrent] {
 
-  def valueUnit = Coulombs
+  def valueUnit = ElectricCharge.valueUnit
 
   def *(that: ElectricPotential): Energy = Joules(this.toCoulombs * that.toVolts)
   def /(that: Time): ElectricCurrent = Amperes(toCoulombs / that.toSeconds)
@@ -44,8 +44,12 @@ final class ElectricCharge private (val value: Double)
   def toAmpereHours = to(AmpereHours)
 }
 
-object ElectricCharge {
+object ElectricCharge extends QuantityCompanion[ElectricCharge] {
   private[electro] def apply[A](n: A)(implicit num: Numeric[A]) = new ElectricCharge(num.toDouble(n))
+  def apply(s: String) = parseString(s)
+  def name = "ElectricCharge"
+  def valueUnit = Coulombs
+  def units = Set(Coulombs, Picocoulombs, Nanocoulombs, Microcoulombs, Millicoulombs, Abcoulombs, AmpereHours)
 }
 
 trait ElectricChargeUnit extends UnitOfMeasure[ElectricCharge] with UnitMultiplier {
@@ -106,5 +110,5 @@ object ElectricChargeConversions {
   }
 
   implicit object ElectricalChargeNumeric
-    extends AbstractQuantityNumeric[ElectricCharge](Coulombs)
+    extends AbstractQuantityNumeric[ElectricCharge](ElectricCharge.valueUnit)
 }

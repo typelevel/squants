@@ -19,7 +19,7 @@ import squants._
 final class ElectricalConductance private (val value: Double)
     extends Quantity[ElectricalConductance] {
 
-  def valueUnit = Siemens
+  def valueUnit = ElectricalConductance.valueUnit
 
   def /(that: Length): Conductivity = SiemensPerMeter(toSiemens / that.toMeters)
   def /(that: Conductivity): Length = Meters(toSiemens / that.toSiemensPerMeter)
@@ -29,8 +29,12 @@ final class ElectricalConductance private (val value: Double)
   def inOhms = Ohms(1.0 / value)
 }
 
-object ElectricalConductance {
+object ElectricalConductance extends QuantityCompanion[ElectricalConductance] {
   private[electro] def apply[A](n: A)(implicit num: Numeric[A]) = new ElectricalConductance(num.toDouble(n))
+  def apply(s: String) = parseString(s)
+  def name = "ElectricalConductance"
+  def valueUnit = Siemens
+  def units = Set(Siemens)
 }
 
 trait ElectricalConductanceUnit extends UnitOfMeasure[ElectricalConductance] with UnitMultiplier {
@@ -48,5 +52,5 @@ object ElectricalConductanceConversions {
     def siemens = Siemens(n)
   }
 
-  implicit object ElectricalConductanceNumeric extends AbstractQuantityNumeric[ElectricalConductance](Siemens)
+  implicit object ElectricalConductanceNumeric extends AbstractQuantityNumeric[ElectricalConductance](ElectricalConductance.valueUnit)
 }

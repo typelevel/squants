@@ -9,7 +9,7 @@
 package squants.electro
 
 import org.scalatest.{ Matchers, FlatSpec }
-import squants.MetricSystem
+import squants.{ QuantityStringParseException, MetricSystem }
 import squants.energy.Watts
 import squants.time.Seconds
 
@@ -20,7 +20,7 @@ import squants.time.Seconds
  */
 class ElectricPotentialSpec extends FlatSpec with Matchers {
 
-  behavior of "ElectricalPotential and its Units of Measure"
+  behavior of "ElectricPotential and its Units of Measure"
 
   it should "create values using UOM factories" in {
 
@@ -29,6 +29,16 @@ class ElectricPotentialSpec extends FlatSpec with Matchers {
     Millivolts(1).toMillivolts should be(1)
     Kilovolts(1).toKilovolts should be(1)
     Megavolts(1).toMegavolts should be(1)
+  }
+
+  it should "create values from properly formatted Strings" in {
+    ElectricPotential("10.22 V").get should be(Volts(10.22))
+    ElectricPotential("10.22 μV").get should be(Microvolts(10.22))
+    ElectricPotential("10.22 mV").get should be(Millivolts(10.22))
+    ElectricPotential("10.22 kV").get should be(Kilovolts(10.22))
+    ElectricPotential("10.22 MV").get should be(Megavolts(10.22))
+    ElectricPotential("10.22 zz").failed.get should be(QuantityStringParseException("Unable to parse ElectricPotential", "10.22 zz"))
+    ElectricPotential("zz V").failed.get should be(QuantityStringParseException("Unable to parse ElectricPotential", "zz V"))
   }
 
   it should "properly convert to all supported Units of Measure" in {

@@ -10,6 +10,7 @@ package squants.electro
 
 import org.scalatest.{ Matchers, FlatSpec }
 import squants.space.Meters
+import squants.QuantityStringParseException
 
 /**
  * @author  garyKeorkunian
@@ -22,6 +23,12 @@ class ResistivitySpec extends FlatSpec with Matchers {
 
   it should "create values using UOM factories" in {
     OhmMeters(1).toOhmMeters should be(1)
+  }
+
+  it should "create values from properly formatted Strings" in {
+    Resistivity("10.22 Ω⋅m").get should be(OhmMeters(10.22))
+    Resistivity("10.22 zz").failed.get should be(QuantityStringParseException("Unable to parse Resistivity", "10.22 zz"))
+    Resistivity("zz Ω⋅m").failed.get should be(QuantityStringParseException("Unable to parse Resistivity", "zz Ω⋅m"))
   }
 
   it should "properly convert to all supported Units of Measure" in {
