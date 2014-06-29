@@ -16,25 +16,32 @@ import squants.space.{ SquareMeters, SquaredRadians }
  * @author  garyKeorkunian
  * @since   0.1
  *
- * @param radiantIntensity RadiantIntensity
- * @param area Area
+ * @param value Double
  */
-case class Radiance(radiantIntensity: RadiantIntensity, area: Area) extends Quantity[Radiance] {
+final class Radiance private (val value: Double) extends Quantity[Radiance] {
 
-  def value = toWattsPerSteradianPerSquareMeter
-  def valueUnit = WattsPerSteradianPerSquareMeter
+  def valueUnit = Radiance.valueUnit
 
-  def *(that: Area): RadiantIntensity = radiantIntensity * (that / area)
-  def /(that: RadiantIntensity): Area = radiantIntensity / that * area
+  def *(that: Area): RadiantIntensity = WattsPerSteradian(toWattsPerSteradianPerSquareMeter * that.toSquareMeters)
+  def /(that: RadiantIntensity): Area = SquareMeters(toWattsPerSteradianPerSquareMeter / that.toWattsPerSteradian)
 
-  def toWattsPerSteradianPerSquareMeter = radiantIntensity.toWattsPerSteradian / area.toSquareMeters
+  def toWattsPerSteradianPerSquareMeter = to(WattsPerSteradianPerSquareMeter)
 }
 
-trait RadianceUnit extends UnitOfMeasure[Radiance]
+object Radiance extends QuantityCompanion[Radiance] {
+  private[radio] def apply[A](n: A)(implicit num: Numeric[A]) = new Radiance(num.toDouble(n))
+  def apply(s: String) = parseString(s)
+  def name = "Radiance"
+  def valueUnit = WattsPerSteradianPerSquareMeter
+  def units = Set(WattsPerSteradianPerSquareMeter)
+}
+
+trait RadianceUnit extends UnitOfMeasure[Radiance] {
+  def apply[A](n: A)(implicit num: Numeric[A]) = Radiance(convertFrom(n))
+}
 
 object WattsPerSteradianPerSquareMeter extends RadianceUnit with ValueUnit {
   val symbol = Watts.symbol + "/" + SquaredRadians.symbol + "/" + SquareMeters.symbol
-  def apply[A](n: A)(implicit num: Numeric[A]) = Radiance(RadiantIntensity(Watts(n), SquaredRadians(1)), SquareMeters(1))
 }
 
 object RadianceConversions {
@@ -44,6 +51,6 @@ object RadianceConversions {
     def wattsPerSteradianPerSquareMeter = WattsPerSteradianPerSquareMeter(n)
   }
 
-  implicit object RadianceNumeric extends AbstractQuantityNumeric[Radiance](WattsPerSteradianPerSquareMeter)
+  implicit object RadianceNumeric extends AbstractQuantityNumeric[Radiance](Radiance.valueUnit)
 }
 

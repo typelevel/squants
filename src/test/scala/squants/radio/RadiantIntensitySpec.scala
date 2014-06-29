@@ -12,6 +12,7 @@ import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
 import squants.energy.Watts
 import squants.space.{ SquareMeters, Meters, SquaredRadians }
+import squants.QuantityStringParseException
 
 /**
  * @author  garyKeorkunian
@@ -24,6 +25,12 @@ class RadiantIntensitySpec extends FlatSpec with Matchers {
 
   it should "create values using UOM factories" in {
     WattsPerSteradian(1).toWattsPerSteradian should be(1)
+  }
+
+  it should "create values from properly formatted Strings" in {
+    RadiantIntensity("10.22 W/sr").get should be(WattsPerSteradian(10.22))
+    RadiantIntensity("10.22 zz").failed.get should be(QuantityStringParseException("Unable to parse RadiantIntensity", "10.22 zz"))
+    RadiantIntensity("zz W/sr").failed.get should be(QuantityStringParseException("Unable to parse RadiantIntensity", "zz W/sr"))
   }
 
   it should "properly convert to all supported Units of Measure" in {
