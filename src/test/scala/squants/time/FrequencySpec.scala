@@ -10,7 +10,7 @@ package squants.time
 
 import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
-import squants.{ Each, MetricSystem }
+import squants.{ QuantityStringParseException, Each, MetricSystem }
 
 /**
  * @author  garyKeorkunian
@@ -28,6 +28,17 @@ class FrequencySpec extends FlatSpec with Matchers {
     Gigahertz(1).toGigahertz should be(1)
     Terahertz(1).toTerahertz should be(1)
     RevolutionsPerMinute(1).toRevolutionsPerMinute should be(1)
+  }
+
+  it should "create values from properly formatted Strings" in {
+    Frequency("10.22 Hz").get should be(Hertz(10.22))
+    Frequency("10.22 kHz").get should be(Kilohertz(10.22))
+    Frequency("10.22 MHz").get should be(Megahertz(10.22))
+    Frequency("10.22 GHz").get should be(Gigahertz(10.22))
+    Frequency("10.22 THz").get should be(Terahertz(10.22))
+    Frequency("10.22 rpm").get should be(RevolutionsPerMinute(10.22))
+    Frequency("10.45 zz").failed.get should be(QuantityStringParseException("Unable to parse Frequency", "10.45 zz"))
+    Frequency("zz Hz").failed.get should be(QuantityStringParseException("Unable to parse Frequency", "zz Hz"))
   }
 
   it should "properly convert to all supported Units of Measure" in {

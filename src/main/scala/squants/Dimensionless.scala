@@ -8,7 +8,7 @@
 
 package squants
 
-import squants.time.{ Frequency, TimeIntegral }
+import squants.time.{ Hertz, Frequency, TimeIntegral }
 
 /**
  * Represents a quantity of some thing for which there is no dimension.
@@ -29,7 +29,7 @@ final class Dimensionless private (val value: Double)
 
   def *(that: Dimensionless) = Each(toEach * that.toEach)
   def *(that: Quantity[_]) = that * toEach
-  def /(that: Time): Frequency = Frequency(this, that)
+  def /(that: Time): Frequency = Hertz(value / that.toSeconds)
   def /(that: Frequency): Time = that.time * (this / that.change)
 
   def toEach = to(Each)
