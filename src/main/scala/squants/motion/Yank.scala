@@ -9,42 +9,39 @@
 package squants.motion
 
 import squants._
-import squants.time.{ TimeUnit, TimeDerivative }
+import squants.time.TimeDerivative
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
- * @param force Force
- * @param time Time
+ * @param value Double
  */
-case class Yank(force: Force, time: Time) extends Quantity[Yank]
+final class Yank private (val value: Double) extends Quantity[Yank]
     with TimeDerivative[Force] {
-  def change = force
 
-  def valueUnit = NewtonsPerSecond
-  def value = toNewtonsPerSecond
+  def change = Newtons(value)
+  def time = Seconds(1)
 
-  def toString(unit: YankUnit) = to(unit) + " " + unit.symbol
+  def valueUnit = Yank.valueUnit
 
-  def to(unit: YankUnit) = force.to(unit.forceUnit) / unit.forceBase.to(unit.forceUnit) / time.to(unit.timeUnit)
-  def toNewtonsPerSecond = force.toNewtons / time.toSeconds
+  def toNewtonsPerSecond = to(NewtonsPerSecond)
 }
 
-trait YankUnit extends UnitOfMeasure[Yank] {
-  def forceUnit: ForceUnit
-  def forceBase: Force
-  def timeUnit: TimeUnit
-  def timeBase: Time
-  def apply[A](n: A)(implicit num: Numeric[A]) = Yank(forceBase * num.toDouble(n), timeBase)
+object Yank extends QuantityCompanion[Yank] {
+  private[motion] def apply[A](n: A)(implicit num: Numeric[A]) = new Yank(num.toDouble(n))
+  def apply(s: String) = parseString(s)
+  def name = "Yank"
+  def valueUnit = NewtonsPerSecond
+  def units = Set(NewtonsPerSecond)
+}
+
+trait YankUnit extends UnitOfMeasure[Yank] with UnitMultiplier {
+  def apply[A](n: A)(implicit num: Numeric[A]) = Yank(convertFrom(n))
   def unapply(yank: Yank) = Some(yank.to(this))
 }
 
 object NewtonsPerSecond extends YankUnit with ValueUnit {
-  val forceUnit = Newtons
-  val forceBase = Newtons(1)
-  val timeUnit = Seconds
-  val timeBase = Seconds(1)
   val symbol = "N/s"
 }
 
@@ -55,5 +52,5 @@ object YankConversions {
     def newtonsPerSecond = NewtonsPerSecond(n)
   }
 
-  implicit object YankNumeric extends AbstractQuantityNumeric[Yank](NewtonsPerSecond)
+  implicit object YankNumeric extends AbstractQuantityNumeric[Yank](Yank.valueUnit)
 }

@@ -9,12 +9,17 @@
 package squants.mass
 
 import scala.language.implicitConversions
-import scala.Some
 import squants._
 import squants.time.TimeIntegral
-import squants.motion.{ Momentum, Force, MassFlowRate }
+import squants.motion._
 import squants.energy.{ SpecificEnergy, Joules }
 import squants.space.{ SquareMeters, CubicMeters }
+import squants.motion.Force
+import squants.Velocity
+import scala.Some
+import squants.motion.MassFlowRate
+import squants.Acceleration
+import squants.motion.Momentum
 
 /**
  * Represents a quantity of Mass
@@ -32,11 +37,11 @@ final class Mass private (val value: Double) extends Quantity[Mass]
 
   def *(that: SpecificEnergy): Energy = Joules(toKilograms * that.toGrays)
   def *(that: Velocity): Momentum = Momentum(this, that)
-  def *(that: Acceleration): Force = Force(this, that)
+  def *(that: Acceleration): Force = Newtons(toKilograms * that.toMetersPerSecondSquared)
   def /(that: Density): Volume = CubicMeters(toKilograms / that.toKilogramsPerCubicMeter)
   def /(that: Volume): Density = Density(this, that)
   def /(that: MassFlowRate): Time = that.time * (this / that.change)
-  def /(that: Time): MassFlowRate = MassFlowRate(this, that)
+  def /(that: Time): MassFlowRate = KilogramsPerSecond(toKilograms / that.toSeconds)
   def /(that: AreaDensity): Area = SquareMeters(toKilograms / that.toKilogramsPerSquareMeter)
   def /(that: Area): AreaDensity = KilogramsPerSquareMeter(toKilograms / that.toSquareMeters)
 

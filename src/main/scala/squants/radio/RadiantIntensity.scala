@@ -16,29 +16,36 @@ import squants.space.{ SquareMeters, SquaredRadians }
  * @author  garyKeorkunian
  * @since   0.1
  *
- * @param power Power
- * @param solidAngle SolidAngle
+ * @param value Double
  */
-case class RadiantIntensity(power: Power, solidAngle: SolidAngle) extends Quantity[RadiantIntensity] {
+final class RadiantIntensity private (val value: Double) extends Quantity[RadiantIntensity] {
 
-  def value = power.toWatts / solidAngle.toSquaredRadians
-  def valueUnit = WattsPerSteradian
+  def valueUnit = RadiantIntensity.valueUnit
 
-  def *(that: SolidAngle): Power = power * (that / solidAngle)
-  def /(that: Power): SolidAngle = power / that * solidAngle
-  def /(that: Length): SpectralIntensity = SpectralIntensity(this, that)
+  def *(that: SolidAngle): Power = Watts(toWattsPerSteradian * that.toSquaredRadians)
+  def /(that: Power): SolidAngle = SquareRadians(toWattsPerSteradian / that.toWatts)
+  def /(that: Length): SpectralIntensity = WattsPerSteradianPerMeter(toWattsPerSteradian / that.toMeters)
   def /(that: SpectralIntensity): Length = Meters(toWattsPerSteradian / that.toWattsPerSteradianPerMeter)
-  def /(that: Area): Radiance = Radiance(this, that)
+  def /(that: Area): Radiance = WattsPerSteradianPerSquareMeter(toWattsPerSteradian / that.toSquareMeters)
   def /(that: Radiance): Area = SquareMeters(this.toWattsPerSteradian / that.toWattsPerSteradianPerSquareMeter)
 
-  def toWattsPerSteradian = power.toWatts
+  def toWattsPerSteradian = to(WattsPerSteradian)
 }
 
-trait RadiantIntensityUnit extends UnitOfMeasure[RadiantIntensity]
+object RadiantIntensity extends QuantityCompanion[RadiantIntensity] {
+  private[radio] def apply[A](n: A)(implicit num: Numeric[A]) = new RadiantIntensity(num.toDouble(n))
+  def apply(s: String) = parseString(s)
+  def name = "RadiantIntensity"
+  def valueUnit = WattsPerSteradian
+  def units = Set(WattsPerSteradian)
+}
+
+trait RadiantIntensityUnit extends UnitOfMeasure[RadiantIntensity] {
+  def apply[A](n: A)(implicit num: Numeric[A]) = RadiantIntensity(convertFrom(n))
+}
 
 object WattsPerSteradian extends RadiantIntensityUnit with ValueUnit {
   val symbol = Watts.symbol + "/" + SquaredRadians.symbol
-  def apply[A](n: A)(implicit num: Numeric[A]) = RadiantIntensity(Watts(n), SquaredRadians(1))
 }
 
 object RadiantIntensityConversions {
@@ -48,6 +55,6 @@ object RadiantIntensityConversions {
     def wattsPerSteradian = WattsPerSteradian(n)
   }
 
-  implicit object RadiantIntensityNumeric extends AbstractQuantityNumeric[RadiantIntensity](WattsPerSteradian)
+  implicit object RadiantIntensityNumeric extends AbstractQuantityNumeric[RadiantIntensity](RadiantIntensity.valueUnit)
 }
 

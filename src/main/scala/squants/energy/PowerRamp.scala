@@ -10,7 +10,6 @@ package squants.energy
 
 import squants._
 import squants.time.{ TimeDerivative, Hours }
-import scala.util.{ Failure, Success, Try }
 
 /**
  * Represents the rate of change of [[squants.energy.Power]] over time

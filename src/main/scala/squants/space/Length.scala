@@ -9,7 +9,6 @@
 package squants.space
 
 import squants._
-import squants.time.{ Time, TimeIntegral }
 import squants.energy.{ Watts, Joules }
 import squants.radio.WattsPerSteradian
 import squants.electro._
@@ -19,7 +18,6 @@ import squants.radio.RadiantIntensity
 import scala.Some
 import squants.radio.SpectralIntensity
 import squants.Time
-import scala.util.{ Failure, Success, Try }
 
 /**
  * Represents a quantity of length
@@ -43,7 +41,7 @@ final class Length private (val value: Double) extends Quantity[Length]
   def *(that: Conductivity): ElectricalConductance = Siemens(toMeters * that.toSiemensPerMeter)
   def *(that: ElectricalResistance): Resistivity = OhmMeters(toMeters * that.toOhms)
   def /(that: Time): Velocity = Velocity(this, that)
-  def /(that: Velocity): Time = that.time * (this / that.change)
+  def /(that: Velocity): Time = Seconds(toMeters / that.toMetersPerSecond)
 
   def squared = this * this
   def cubed = this * this * this
@@ -147,12 +145,12 @@ object Feet extends LengthUnit {
 }
 
 object Yards extends LengthUnit {
-  val multiplier = Feet.multiplier * 3
+  val multiplier = Feet.multiplier * 3D
   val symbol = "yd"
 }
 
 object UsMiles extends LengthUnit {
-  val multiplier = Feet.multiplier * 5280
+  val multiplier = Feet.multiplier * 5280D
   val symbol = "mi"
 }
 

@@ -17,7 +17,6 @@ import squants.radio.Irradiance
 import squants.radio.SpectralPower
 import squants.radio.RadiantIntensity
 import scala.Some
-import scala.util.{ Failure, Success, Try }
 
 /**
  * Represents a quantity of power / load, the rate at which energy produced or used
@@ -41,10 +40,10 @@ final class Power private (val value: Double)
   def /(that: PowerRamp): Time = Hours(value / that.value)
   def /(that: Length): SpectralPower = WattsPerMeter(toWatts / that.toMeters)
   def /(that: SpectralPower): Length = Meters(toWatts / that.toWattsPerMeter)
-  def /(that: Area): Irradiance = Irradiance(this, that)
+  def /(that: Area): Irradiance = WattsPerSquareMeter(toWatts / that.toSquareMeters)
   def /(that: Irradiance): Area = SquareMeters(this.toWatts / that.toWattsPerSquareMeter)
   def /(that: RadiantIntensity): SolidAngle = SquaredRadians(toWatts / that.toWattsPerSteradian)
-  def /(that: SolidAngle): RadiantIntensity = RadiantIntensity(this, that)
+  def /(that: SolidAngle): RadiantIntensity = WattsPerSteradian(toWatts / that.toSteradians)
   def /(that: ElectricPotential): ElectricCurrent = Amperes(toWatts / that.toVolts)
   def /(that: ElectricCurrent): ElectricPotential = Volts(toWatts / that.toAmperes)
 

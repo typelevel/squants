@@ -16,27 +16,34 @@ import squants.mass.Kilograms
  * @author  garyKeorkunian
  * @since   0.1
  *
- * @param mass Mass
- * @param velocity Velocity
+ * @param value Double
  */
-case class Momentum(mass: Mass, velocity: Velocity) extends Quantity[Momentum] with TimeIntegral[Force] {
+final class Momentum private (val value: Double) extends Quantity[Momentum] with TimeIntegral[Force] {
 
-  def valueUnit = NewtonSeconds
-  def value = toNewtonSeconds
+  def valueUnit = Momentum.valueUnit
 
-  def /(that: Time): Force = Force(mass, velocity / that)
+  def /(that: Time): Force = Newtons(toNewtonSeconds / that.toSeconds)
   def /(that: Force): Time = Seconds(toNewtonSeconds / that.toNewtons)
-  def /(that: Velocity): Mass = mass / (that / velocity)
-  def /(that: Mass): Velocity = velocity / (that / mass)
+  def /(that: Velocity): Mass = Kilograms(toNewtonSeconds / that.toMetersPerSecond)
+  def /(that: Mass): Velocity = MetersPerSecond(toNewtonSeconds / that.toKilograms)
 
-  def toNewtonSeconds = mass.toKilograms * velocity.toMetersPerSeconds
+  def toNewtonSeconds = to(NewtonSeconds)
+}
+
+object Momentum extends QuantityCompanion[Momentum] {
+  private[motion] def apply[A](n: A)(implicit num: Numeric[A]) = new Momentum(num.toDouble(n))
+  def apply(m: Mass, v: Velocity) = new Momentum(m.toKilograms * v.toMetersPerSecond)
+  def apply(s: String) = parseString(s)
+  def name = "Momentum"
+  def valueUnit = NewtonSeconds
+  def units = Set(NewtonSeconds)
 }
 
 trait MomentumUnit extends UnitOfMeasure[Momentum] {
+  def apply[A](n: A)(implicit num: Numeric[A]) = Momentum(convertFrom(n))
 }
 
 object NewtonSeconds extends MomentumUnit with ValueUnit {
-  def apply[A](n: A)(implicit num: Numeric[A]) = Momentum(Kilograms(n), MetersPerSecond(1))
   val symbol = "Ns"
 }
 
@@ -47,5 +54,5 @@ object MomentumConversions {
     def newtonSeconds = NewtonSeconds(n)
   }
 
-  implicit object MomentumNumeric extends AbstractQuantityNumeric[Momentum](NewtonSeconds)
+  implicit object MomentumNumeric extends AbstractQuantityNumeric[Momentum](Momentum.valueUnit)
 }

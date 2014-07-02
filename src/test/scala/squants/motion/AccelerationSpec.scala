@@ -13,6 +13,7 @@ import scala.language.postfixOps
 import squants.space.Meters
 import squants.time.Seconds
 import squants.mass.Kilograms
+import squants.QuantityStringParseException
 
 /**
  * @author  garyKeorkunian
@@ -28,6 +29,15 @@ class AccelerationSpec extends FlatSpec with Matchers {
     FeetPerSecondSquared(1).toFeetPerSecondSquared should be(1)
     UsMilesPerHourSquared(1).toUsMilesPerHourSquared should be(1)
     EarthGravities(1).toEarthGravities should be(1)
+  }
+
+  it should "create values from properly formatted Strings" in {
+    Acceleration("10.22 m/s²").get should be(MetersPerSecondSquared(10.22))
+    Acceleration("10.22 ft/s²").get should be(FeetPerSecondSquared(10.22))
+    Acceleration("10.22 mph²").get should be(UsMilesPerHourSquared(10.22))
+    Acceleration("10.22 g").get should be(EarthGravities(10.22))
+    Acceleration("10.22 zz").failed.get should be(QuantityStringParseException("Unable to parse Acceleration", "10.22 zz"))
+    Acceleration("zz g").failed.get should be(QuantityStringParseException("Unable to parse Acceleration", "zz g"))
   }
 
   it should "properly convert to all supported Units of Measure" in {

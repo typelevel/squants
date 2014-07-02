@@ -12,6 +12,7 @@ import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
 import squants.mass.Kilograms
 import squants.time.Seconds
+import squants.QuantityStringParseException
 
 /**
  * @author  garyKeorkunian
@@ -24,6 +25,12 @@ class MassFlowRateSpec extends FlatSpec with Matchers {
 
   it should "create values using UOM factories" in {
     KilogramsPerSecond(1).toKilogramsPerSecond should be(1)
+  }
+
+  it should "create values from properly formatted Strings" in {
+    MassFlowRate("10.22 kg/s").get should be(KilogramsPerSecond(10.22))
+    MassFlowRate("10.22 zz").failed.get should be(QuantityStringParseException("Unable to parse MassFlowRate", "10.22 zz"))
+    MassFlowRate("zz kg/s").failed.get should be(QuantityStringParseException("Unable to parse MassFlowRate", "zz kg/s"))
   }
 
   it should "properly convert to all supported Units of Measure" in {

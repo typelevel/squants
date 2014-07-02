@@ -12,6 +12,7 @@ import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
 import squants.space.Meters
 import squants.time.Seconds
+import squants.QuantityStringParseException
 
 /**
  * @author  garyKeorkunian
@@ -25,6 +26,13 @@ class JerkSpec extends FlatSpec with Matchers {
   it should "create values using UOM factories" in {
     MetersPerSecondCubed(1).toMetersPerSecondCubed should be(1)
     FeetPerSecondCubed(1).toFeetPerSecondCubed should be(1)
+  }
+
+  it should "create values from properly formatted Strings" in {
+    Jerk("10.22 m/s³").get should be(MetersPerSecondCubed(10.22))
+    Jerk("10.22 ft/s³").get should be(FeetPerSecondCubed(10.22))
+    Jerk("10.22 zz").failed.get should be(QuantityStringParseException("Unable to parse Jerk", "10.22 zz"))
+    Jerk("zz m/s³").failed.get should be(QuantityStringParseException("Unable to parse Jerk", "zz m/s³"))
   }
 
   it should "properly convert to all supported Units of Measure" in {

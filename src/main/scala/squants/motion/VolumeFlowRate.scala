@@ -9,9 +9,8 @@
 package squants.motion
 
 import squants._
-import squants.space.{ UsGallons, VolumeUnit, CubicMeters }
+import squants.space.{ UsGallons, CubicMeters }
 import squants.time._
-import squants.Time
 import squants.Seconds
 import scala.Some
 
@@ -19,65 +18,57 @@ import scala.Some
  * @author  garyKeorkunian
  * @since   0.1
  *
- * @param volume Volume
- * @param time Time
+ * @param value Double
  */
-case class VolumeFlowRate(volume: Volume, time: Time) extends Quantity[VolumeFlowRate] with TimeDerivative[Volume] {
+final class VolumeFlowRate private (val value: Double) extends Quantity[VolumeFlowRate]
+    with TimeDerivative[Volume] {
 
   def valueUnit = CubicMetersPerSecond
-  def value = to(valueUnit)
-  def change = volume
+  def change = CubicMeters(value)
+  def time = Seconds(1)
 
-  def toString(unit: VolumeFlowRateUnit) = to(unit) + " " + unit.symbol
-
-  def to(unit: VolumeFlowRateUnit) = volume / unit.volumeBase / time.to(unit.timeUnit)
   def toCubicMetersPerSecond = to(CubicMetersPerSecond)
   def toGallonsPerDay = to(GallonsPerDay)
   def toGallonsPerHour = to(GallonsPerHour)
   def toGallonsPerMinute = to(GallonsPerMinute)
+  def toGallonsPerSecond = to(GallonsPerSecond)
 }
 
-trait VolumeFlowRateUnit extends UnitOfMeasure[VolumeFlowRate] {
-  def volumeUnit: VolumeUnit
-  def volumeBase: Volume
-  def timeUnit: TimeUnit
-  def time: Time
-  def apply[A](n: A)(implicit num: Numeric[A]) = VolumeFlowRate(volumeUnit(n), time)
+object VolumeFlowRate extends QuantityCompanion[VolumeFlowRate] {
+  private[motion] def apply[A](n: A)(implicit num: Numeric[A]) = new VolumeFlowRate(num.toDouble(n))
+  def apply(s: String) = parseString(s)
+  def name = "VolumeFlowRate"
+  def valueUnit = CubicMetersPerSecond
+  def units = Set(CubicMetersPerSecond, GallonsPerDay, GallonsPerHour, GallonsPerMinute, GallonsPerSecond)
+}
+
+trait VolumeFlowRateUnit extends UnitOfMeasure[VolumeFlowRate] with UnitMultiplier {
+  def apply[A](n: A)(implicit num: Numeric[A]) = VolumeFlowRate(convertFrom(n))
   def unapply(flow: VolumeFlowRate) = Some(flow.to(this))
-  protected def converterFrom: Double ⇒ Double = ???
-  protected def converterTo: Double ⇒ Double = ???
 }
 
 object CubicMetersPerSecond extends VolumeFlowRateUnit with ValueUnit {
-  val volumeUnit = CubicMeters
-  val volumeBase = CubicMeters(1)
-  val timeUnit = Seconds
-  val time = Seconds(1)
   val symbol = "m³/s"
 }
 
 object GallonsPerDay extends VolumeFlowRateUnit {
-  val volumeUnit = UsGallons
-  val volumeBase = UsGallons(1)
-  val timeUnit = Days
-  val time = Days(1)
   val symbol = "GPD"
+  val multiplier = (CubicMeters.multiplier * UsGallons.multiplier) / (Days.multiplier / Seconds.multiplier)
 }
 
 object GallonsPerHour extends VolumeFlowRateUnit {
-  val volumeUnit = UsGallons
-  val volumeBase = UsGallons(1)
-  val timeUnit = Hours
-  val time = Hours(1)
   val symbol = "GPH"
+  val multiplier = (CubicMeters.multiplier * UsGallons.multiplier) / (Hours.multiplier / Seconds.multiplier)
 }
 
 object GallonsPerMinute extends VolumeFlowRateUnit {
-  val volumeUnit = UsGallons
-  val volumeBase = UsGallons(1)
-  val timeUnit = Minutes
-  val time = Minutes(1)
   val symbol = "GPM"
+  val multiplier = (CubicMeters.multiplier * UsGallons.multiplier) / (Minutes.multiplier / Seconds.multiplier)
+}
+
+object GallonsPerSecond extends VolumeFlowRateUnit {
+  val symbol = "GPS"
+  val multiplier = CubicMeters.multiplier * UsGallons.multiplier
 }
 
 object VolumeFlowRateConversions {
@@ -85,12 +76,14 @@ object VolumeFlowRateConversions {
   lazy val gallonPerDay = GallonsPerDay(1)
   lazy val gallonPerHour = GallonsPerHour(1)
   lazy val gallonPerMinute = GallonsPerMinute(1)
+  lazy val gallonPerSecond = GallonsPerSecond(1)
 
   implicit class VolumeFlowRateConversions[A](n: A)(implicit num: Numeric[A]) {
     def cubicMetersPerSecond = CubicMetersPerSecond(n)
     def gallonsPerDay = GallonsPerDay(n)
     def gallonsPerHour = GallonsPerHour(n)
     def gallonsPerMinute = GallonsPerMinute(n)
+    def gallonsPerSecond = GallonsPerSecond(n)
   }
 
   implicit object VolumeFlowRateNumeric extends AbstractQuantityNumeric[VolumeFlowRate](CubicMetersPerSecond)

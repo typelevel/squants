@@ -15,7 +15,6 @@ import squants.mass.{ ChemicalAmount, Kilograms }
 import squants.motion.Newtons
 import squants.thermal.{ Kelvin, ThermalCapacity, JoulesPerKelvin }
 import squants.space.CubicMeters
-import scala.util.{ Failure, Success, Try }
 
 /**
  * Represents a quantity of energy

@@ -9,7 +9,7 @@
 package squants.motion
 
 import squants._
-import squants.mass.{ Pounds, MassUnit, Kilograms }
+import squants.mass.{ Pounds, Kilograms }
 import squants.time.{ TimeIntegral, Seconds, TimeDerivative }
 import squants.energy.Joules
 import squants.space.SquareMeters
@@ -18,69 +18,55 @@ import squants.space.SquareMeters
  * @author  garyKeorkunian
  * @since   0.1
  *
- * @param mass Mass
- * @param acc Acceleration
+ * @param value Double
  */
-case class Force(mass: Mass, acc: Acceleration) extends Quantity[Force]
+final class Force private (val value: Double) extends Quantity[Force]
     with TimeDerivative[Momentum] with TimeIntegral[Yank] {
 
-  def change = Momentum(mass, acc * Seconds(1))
+  def change = NewtonSeconds(value)
   def time = Seconds(1)
 
-  def valueUnit = Newtons
-  def value = toNewtons
+  def valueUnit = Force.valueUnit
 
   /* This could also be Torque, as Energy(Work) and Torque are dimensionally equivalent */
   def *(that: Length): Energy = Joules(toNewtons * that.toMeters)
   def /(that: Length) = ??? // return SurfaceTension
-  def /(that: Mass): Acceleration = acc * (mass / that)
-  def /(that: Acceleration): Mass = mass * (acc / that)
-  def /(that: Area): Pressure = Pressure(this, that)
+  def /(that: Mass): Acceleration = MetersPerSecondSquared(toNewtons / that.toKilograms)
+  def /(that: Acceleration): Mass = Kilograms(toNewtons / that.toMetersPerSecondSquared)
+  def /(that: Area): Pressure = Pascals(toNewtons / that.toSquareMeters)
   def /(that: Pressure): Area = SquareMeters(toNewtons / that.toPascals)
   def /(that: Time): Yank = NewtonsPerSecond(toNewtons / that.toSeconds)
   def /(that: Yank): Time = Seconds(toNewtons / that.toNewtonsPerSecond)
 
-  def toString(unit: ForceUnit) = to(unit) + " " + unit.symbol
-
-  def to(unit: ForceUnit) = mass.to(unit.massUnit) / unit.massBase.to(unit.massUnit) * acc.to(unit.accUnit)
   def toNewtons = to(Newtons)
   def toKilogramForce = to(KilogramForce)
   def toPoundForce = to(PoundForce)
 }
 
-trait ForceUnit extends UnitOfMeasure[Force] {
-  def massUnit: MassUnit
-  def massBase: Mass
-  def accUnit: AccelerationUnit
-  def accBase: Acceleration
-  def apply[A](n: A)(implicit num: Numeric[A]) = Force(massBase * num.toDouble(n), accBase)
+object Force extends QuantityCompanion[Force] {
+  private[motion] def apply[A](n: A)(implicit num: Numeric[A]) = new Force(num.toDouble(n))
+  def apply(s: String) = parseString(s)
+  def name = "Force"
+  def valueUnit = Newtons
+  def units = Set(Newtons, KilogramForce, PoundForce)
+}
 
-  protected def converterFrom: Double ⇒ Double = ???
-  protected def converterTo: Double ⇒ Double = ???
+trait ForceUnit extends UnitOfMeasure[Force] with UnitMultiplier {
+  def apply[A](n: A)(implicit num: Numeric[A]) = Force(convertFrom(n))
 }
 
 object Newtons extends ForceUnit with ValueUnit {
-  val massUnit = Kilograms
-  val massBase = Kilograms(1)
-  val accUnit = MetersPerSecondSquared
-  val accBase = MetersPerSecondSquared(1)
   val symbol = "N"
 }
 
 object KilogramForce extends ForceUnit {
-  val massUnit = Kilograms
-  val massBase = Kilograms(1)
-  val accUnit = EarthGravities
-  val accBase = EarthGravities(1)
   val symbol = "kgf"
+  val multiplier = MetersPerSecondSquared.multiplier * EarthGravities.multiplier
 }
 
 object PoundForce extends ForceUnit {
-  val massUnit = Pounds
-  val massBase = Pounds(1)
-  val accUnit = EarthGravities
-  val accBase = EarthGravities(1)
   val symbol = "lbf"
+  val multiplier = Pounds.multiplier * KilogramForce.multiplier / Kilograms.multiplier
 }
 
 object ForceConversions {
@@ -95,6 +81,6 @@ object ForceConversions {
     def lbf = PoundForce(1)
   }
 
-  implicit object ForceNumeric extends AbstractQuantityNumeric[Force](Newtons)
+  implicit object ForceNumeric extends AbstractQuantityNumeric[Force](Force.valueUnit)
 }
 

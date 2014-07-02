@@ -10,7 +10,7 @@ package squants.space
 
 import squants._
 import squants.time.TimeIntegral
-import squants.motion.VolumeFlowRate
+import squants.motion.{ CubicMetersPerSecond, VolumeFlowRate }
 import squants.mass.{ ChemicalAmount, Kilograms }
 import squants.energy.{ Joules, EnergyDensity }
 
@@ -32,7 +32,7 @@ final class Volume private (val value: Double)
   def *(that: EnergyDensity): Energy = Joules(toCubicMeters * that.toJoulesPerCubicMeter)
   def /(that: Area): Length = Meters(toCubicMeters / that.toSquareMeters)
   def /(that: Length): Area = SquareMeters(toCubicMeters / that.toMeters)
-  def /(that: Time): VolumeFlowRate = VolumeFlowRate(this, that)
+  def /(that: Time): VolumeFlowRate = CubicMetersPerSecond(toCubicMeters / that.toSeconds)
   def /(that: VolumeFlowRate): Time = that.time * (this / that.change)
   def /(that: Mass) = ??? // returns SpecificVolume (inverse of Density)
   def /(that: ChemicalAmount) = ??? // return MolarVolume

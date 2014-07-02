@@ -9,71 +9,57 @@
 package squants.motion
 
 import squants._
-import squants.space.{ SquareInches, AreaUnit, SquareMeters }
+import squants.space.{ SquareInches, SquareMeters }
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
- * @param force Force
- * @param area Area
+ * @param value Double
  */
-case class Pressure(force: Force, area: Area) extends Quantity[Pressure] {
-  def value = toPascals
-  def valueUnit = Pascals
+final class Pressure private (val value: Double) extends Quantity[Pressure] {
+
+  def valueUnit = Pressure.valueUnit
 
   def *(that: Area): Force = Newtons(toPascals * that.toSquareMeters)
   def *(that: Time) = ??? // returns DynamicViscosity
 
-  def toString(unit: PressureUnit) = to(unit) + " " + unit.symbol
-
-  def to(unit: PressureUnit) = (force.to(unit.forceUnit) / unit.forceValue.to(unit.forceUnit)) / area.to(unit.areaUnit)
   def toPascals = to(Pascals)
   def toBars = to(Bars)
   def toPoundsPerSquareInch = to(PoundsPerSquareInch)
   def toStandardAtmospheres = to(StandardAtmospheres)
 }
 
-trait PressureUnit extends UnitOfMeasure[Pressure] {
-  def forceUnit: ForceUnit
-  def forceValue: Force
-  def areaUnit: AreaUnit
-  def areaValue: Area
-  def apply[A](n: A)(implicit num: Numeric[A]) = Pressure(forceValue * num.toDouble(n), areaValue)
-  protected def converterFrom: Double ⇒ Double = ???
-  protected def converterTo: Double ⇒ Double = ???
+object Pressure extends QuantityCompanion[Pressure] {
+  private[motion] def apply[A](n: A)(implicit num: Numeric[A]) = new Pressure(num.toDouble(n))
+  def apply(s: String) = parseString(s)
+  def name = "Pressure"
+  def valueUnit = Pascals
+  def units = Set(Pascals, Bars, PoundsPerSquareInch, StandardAtmospheres)
+}
+
+trait PressureUnit extends UnitOfMeasure[Pressure] with UnitMultiplier {
+  def apply[A](n: A)(implicit num: Numeric[A]) = Pressure(convertFrom(n))
+  def unapply(pressure: Pressure) = Some(pressure.to(this))
 }
 
 object Pascals extends PressureUnit with ValueUnit {
-  val forceUnit = Newtons
-  val forceValue = Newtons(1)
-  val areaUnit = SquareMeters
-  val areaValue = SquareMeters(1)
   val symbol = "Pa"
 }
 
 object Bars extends PressureUnit {
-  val forceUnit = Newtons
-  val forceValue = Newtons(100)
-  val areaUnit = SquareMeters
-  val areaValue = SquareMeters(1)
   val symbol = "bar"
+  val multiplier = 100d
 }
 
 object PoundsPerSquareInch extends PressureUnit {
-  val forceUnit = PoundForce
-  val forceValue = PoundForce(1)
-  val areaUnit = SquareInches
-  val areaValue = SquareInches(1)
   val symbol = "psi"
+  val multiplier = (Newtons.multiplier * PoundForce.multiplier) / (SquareInches.multiplier / SquareMeters.multiplier)
 }
 
 object StandardAtmospheres extends PressureUnit {
-  val forceUnit = Newtons
-  val forceValue = Newtons(101325)
-  val areaUnit = SquareMeters
-  val areaValue = SquareMeters(1)
   val symbol = "atm"
+  val multiplier = Newtons.multiplier * 101325d
 }
 
 object PressureConversions {
@@ -89,5 +75,5 @@ object PressureConversions {
     def atm = StandardAtmospheres(n)
   }
 
-  implicit object PressureNumeric extends AbstractQuantityNumeric[Pressure](Pascals)
+  implicit object PressureNumeric extends AbstractQuantityNumeric[Pressure](Pressure.valueUnit)
 }

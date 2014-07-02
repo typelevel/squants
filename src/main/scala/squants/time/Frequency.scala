@@ -16,58 +16,61 @@ import squants._
  * @author  garyKeorkunian
  * @since   0.1
  *
- * @param cycles Count the number of cycles per `time`
- * @param time Time
+ * @param value Double
  */
-case class Frequency(cycles: Dimensionless, time: Time) extends Quantity[Frequency] with TimeDerivative[Dimensionless] {
+final class Frequency private (val value: Double) extends Quantity[Frequency] with TimeDerivative[Dimensionless] {
 
-  def valueUnit = Hertz
-  def value = toHertz
-  def change = cycles
+  def valueUnit = Frequency.valueUnit
+  def change = Each(value)
+  def time = Seconds(1)
 
-  def toHertz = cycles.value / time.toSeconds
-  def toKilohertz = cycles.value / MetricSystem.Kilo / time.toSeconds
-  def toMegahertz = cycles.value / MetricSystem.Mega / time.toSeconds
-  def toGigahertz = cycles.value / MetricSystem.Giga / time.toSeconds
-  def toTerahertz = cycles.value / MetricSystem.Tera / time.toSeconds
-  def toRevolutionsPerMinute = cycles.value / time.toMinutes
+  def toHertz = to(Hertz)
+  def toKilohertz = to(Kilohertz)
+  def toMegahertz = to(Megahertz)
+  def toGigahertz = to(Gigahertz)
+  def toTerahertz = to(Terahertz)
+  def toRevolutionsPerMinute = to(RevolutionsPerMinute)
 }
 
-trait FrequencyUnit extends UnitOfMeasure[Frequency] with UnitMultiplier
+object Frequency extends QuantityCompanion[Frequency] {
+  private[time] def apply[A](n: A)(implicit num: Numeric[A]) = new Frequency(num.toDouble(n))
+  def apply(s: String) = parseString(s)
+  def name = "Frequency"
+  def valueUnit = Hertz
+  def units = Set(Hertz, Kilohertz, Megahertz, Gigahertz, Terahertz, RevolutionsPerMinute)
+}
+
+trait FrequencyUnit extends UnitOfMeasure[Frequency] with UnitMultiplier {
+  def apply[A](n: A)(implicit num: Numeric[A]) = Frequency(convertFrom(n))
+}
 
 object Hertz extends FrequencyUnit with ValueUnit {
   val symbol = "Hz"
-  def apply[A](n: A)(implicit num: Numeric[A]) = Frequency(Dimensionless(num.toDouble(n)), Seconds(1))
 }
 
 object Kilohertz extends FrequencyUnit {
   val multiplier = MetricSystem.Kilo
   val symbol = "kHz"
-  def apply[A](n: A)(implicit num: Numeric[A]) = Frequency(Dimensionless(num.toDouble(n) * MetricSystem.Kilo), Seconds(1))
 }
 
 object Megahertz extends FrequencyUnit {
   val multiplier = MetricSystem.Mega
   val symbol = "MHz"
-  def apply[A](n: A)(implicit num: Numeric[A]) = Frequency(Dimensionless(num.toDouble(n) * MetricSystem.Mega), Seconds(1))
 }
 
 object Gigahertz extends FrequencyUnit {
   val multiplier = MetricSystem.Giga
   val symbol = "GHz"
-  def apply[A](n: A)(implicit num: Numeric[A]) = Frequency(Dimensionless(num.toDouble(n) * MetricSystem.Giga), Seconds(1))
 }
 
 object Terahertz extends FrequencyUnit {
   val multiplier = MetricSystem.Tera
   val symbol = "THz"
-  def apply[A](n: A)(implicit num: Numeric[A]) = Frequency(Dimensionless(num.toDouble(n) * MetricSystem.Tera), Seconds(1))
 }
 
 object RevolutionsPerMinute extends FrequencyUnit {
   val multiplier = 1d / 60
   val symbol = "rpm"
-  def apply[A](n: A)(implicit num: Numeric[A]) = Frequency(Dimensionless(num.toDouble(n)), Minutes(1))
 }
 
 object FrequencyConversions {
@@ -80,5 +83,5 @@ object FrequencyConversions {
     def rpm = RevolutionsPerMinute(n)
   }
 
-  implicit object FrequencyNumeric extends AbstractQuantityNumeric[Frequency](Hertz)
+  implicit object FrequencyNumeric extends AbstractQuantityNumeric[Frequency](Frequency.valueUnit)
 }
