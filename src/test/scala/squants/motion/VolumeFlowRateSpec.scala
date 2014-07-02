@@ -12,13 +12,14 @@ import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
 import squants.space.CubicMeters
 import squants.time.Seconds
+import squants.{ QuantityStringParseException, CustomMatchers }
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class VolumeFlowRateSpec extends FlatSpec with Matchers {
+class VolumeFlowRateSpec extends FlatSpec with Matchers with CustomMatchers {
 
   behavior of "VolumeFlowRate and its Units of Measure"
 
@@ -27,14 +28,26 @@ class VolumeFlowRateSpec extends FlatSpec with Matchers {
     GallonsPerDay(1).toGallonsPerDay should be(1)
     GallonsPerHour(1).toGallonsPerHour should be(1)
     GallonsPerMinute(1).toGallonsPerMinute should be(1)
+    GallonsPerSecond(1).toGallonsPerSecond should be(1)
+  }
+
+  it should "create values from properly formatted Strings" in {
+    VolumeFlowRate("10.22 m³/s").get should be(CubicMetersPerSecond(10.22))
+    VolumeFlowRate("10.22 GPD").get should be(GallonsPerDay(10.22))
+    VolumeFlowRate("10.22 GPH").get should be(GallonsPerHour(10.22))
+    VolumeFlowRate("10.22 GPM").get should be(GallonsPerMinute(10.22))
+    VolumeFlowRate("10.22 GPS").get should be(GallonsPerSecond(10.22))
+    VolumeFlowRate("10.22 zz").failed.get should be(QuantityStringParseException("Unable to parse VolumeFlowRate", "10.22 zz"))
+    VolumeFlowRate("zz m³/s").failed.get should be(QuantityStringParseException("Unable to parse VolumeFlowRate", "zz m³/s"))
   }
 
   it should "properly convert to all supported Units of Measure" in {
-    val x = CubicMetersPerSecond(1)
-    x.toCubicMetersPerSecond should be(1)
-    x.toGallonsPerDay should be(CubicMeters(1).toUsGallons / Seconds(1).toDays)
-    x.toGallonsPerHour should be(CubicMeters(1).toUsGallons / Seconds(1).toHours)
-    x.toGallonsPerMinute should be(CubicMeters(1).toUsGallons / Seconds(1).toMinutes)
+    val x = CubicMetersPerSecond(10.22)
+    x.toCubicMetersPerSecond should be(10.22)
+    x.toGallonsPerDay should be(CubicMeters(10.22).toUsGallons / Seconds(1).toDays +- 0.00000001)
+    x.toGallonsPerHour should be(CubicMeters(10.22).toUsGallons / Seconds(1).toHours)
+    x.toGallonsPerMinute should be(CubicMeters(10.22).toUsGallons / Seconds(1).toMinutes +- 0.0000000001)
+    x.toGallonsPerSecond should be(CubicMeters(10.22).toUsGallons / Seconds(1).toSeconds)
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
@@ -42,6 +55,7 @@ class VolumeFlowRateSpec extends FlatSpec with Matchers {
     GallonsPerDay(1).toString(GallonsPerDay) should be("1.0 GPD")
     GallonsPerHour(1).toString(GallonsPerHour) should be("1.0 GPH")
     GallonsPerMinute(1).toString(GallonsPerMinute) should be("1.0 GPM")
+    GallonsPerSecond(1).toString(GallonsPerSecond) should be("1.0 GPS")
   }
 
   it should "return Volume when multiplied by Time" in {
@@ -71,8 +85,8 @@ class VolumeFlowRateSpec extends FlatSpec with Matchers {
 
   it should "provide Numeric support" in {
     import VolumeFlowRateConversions.VolumeFlowRateNumeric
-
+    implicit val tolerance = GallonsPerDay(0.0000000000001)
     val vfrs = List(GallonsPerDay(24), GallonsPerHour(1))
-    vfrs.sum should be(GallonsPerDay(48))
+    vfrs.sum should beApproximately(GallonsPerDay(48))
   }
 }

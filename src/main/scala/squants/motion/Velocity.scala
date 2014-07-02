@@ -23,85 +23,71 @@ import squants.Meters
  * @author  garyKeorkunian
  * @since   0.1
  *
- * @param distance The distance traveled
- * @param time The travel time
+ * @param value Double
  */
-case class Velocity(distance: Length, time: Time) extends Quantity[Velocity]
+final class Velocity private (val value: Double) extends Quantity[Velocity]
     with TimeIntegral[Acceleration] {
 
-  def valueUnit = MetersPerSecond
-  def value = toMetersPerSeconds
-  def change = distance
+  def valueUnit = Velocity.valueUnit
+  def change = Seconds(1)
 
   // TODO - Remove once TimeDerivative pairing of Length -> Velocity is fixed
-  def *(that: Time): Length = change * (that / time)
+  def *(that: Time): Length = Meters(toMetersPerSecond * that.toSeconds)
 
-  def *(that: Mass): Momentum = Momentum(that, this)
-  def /(that: Time): Acceleration = Acceleration(this, that)
+  def *(that: Mass): Momentum = NewtonSeconds(toMetersPerSecond * that.toKilograms)
+  def /(that: Time): Acceleration = MetersPerSecondSquared(toMetersPerSecond / that.toSeconds)
   def /(that: Acceleration): Time = that.time * (this / that.change)
 
-  def toString(unit: VelocityUnit) = to(unit) + " " + unit.symbol
-
-  def to(unit: VelocityUnit) = distance.to(unit.distanceUnit) / time.to(unit.timeUnit)
   def toFeetPerSecond = to(FeetPerSecond)
-  def toMetersPerSeconds = to(MetersPerSecond)
+  def toMetersPerSecond = to(MetersPerSecond)
   def toKilometersPerHour = to(KilometersPerHour)
   def toUsMilesPerHour = to(UsMilesPerHour)
   def toInternationalMilesPerHour = to(InternationalMilesPerHour)
   def toKnots = to(Knots)
 }
 
-trait VelocityUnit extends UnitOfMeasure[Velocity] {
-  def distanceUnit: DistanceUnit
-  def timeInterval: Time
-  def timeUnit: TimeUnit
-  def apply[A](n: A)(implicit num: Numeric[A]) = Velocity(distanceUnit(n), timeInterval)
-  def unapply(velocity: Velocity) = Some(velocity.to(this))
+object Velocity extends QuantityCompanion[Velocity] {
+  private[motion] def apply[A](n: A)(implicit num: Numeric[A]) = new Velocity(num.toDouble(n))
+  def apply(l: Length, t: Time) = MetersPerSecond(l.toMeters / t.toSeconds)
+  def apply(s: String) = parseString(s)
+  def name = "Velocity"
+  def valueUnit = MetersPerSecond
+  def units = Set(MetersPerSecond, FeetPerSecond, KilometersPerHour, UsMilesPerHour,
+    InternationalMilesPerHour, Knots)
+}
 
-  protected def converterFrom: Double ⇒ Double = ???
-  protected def converterTo: Double ⇒ Double = ???
+trait VelocityUnit extends UnitOfMeasure[Velocity] with UnitMultiplier {
+  def apply[A](n: A)(implicit num: Numeric[A]): Velocity = Velocity(convertFrom(n))
+  def unapply(velocity: Velocity) = Some(velocity.to(this))
 }
 
 object FeetPerSecond extends VelocityUnit {
-  val distanceUnit = Feet
-  val timeInterval = Seconds(1)
-  val timeUnit = Seconds
   val symbol = "ft/s"
+  val multiplier = Feet.multiplier * Meters.multiplier
 }
 
 object MetersPerSecond extends VelocityUnit with ValueUnit {
-  val distanceUnit = Meters
-  val timeInterval = Seconds(1)
-  val timeUnit = Seconds
   val symbol = "m/s"
 }
 
 object KilometersPerHour extends VelocityUnit {
-  val distanceUnit = Kilometers
-  val timeInterval = Hours(1)
-  val timeUnit = Hours
   val symbol = "km/s"
+  val multiplier = (Kilometers.multiplier / Meters.multiplier) / 3600d
 }
 
 object UsMilesPerHour extends VelocityUnit {
-  val distanceUnit = UsMiles
-  val timeInterval = Hours(1)
-  val timeUnit = Hours
   val symbol = "mph"
+  val multiplier = (UsMiles.multiplier * Meters.multiplier) / 3600d
 }
 
 object InternationalMilesPerHour extends VelocityUnit {
-  val distanceUnit = InternationalMiles
-  val timeInterval = Hours(1)
-  val timeUnit = Hours
-  val symbol = "mph"
+  val symbol = "imph"
+  val multiplier = (InternationalMiles.multiplier / Meters.multiplier) / 3600d
 }
 
 object Knots extends VelocityUnit {
-  val distanceUnit = NauticalMiles
-  val timeInterval = Hours(1)
-  val timeUnit = Hours
   val symbol = "kn"
+  val multiplier = (NauticalMiles.multiplier / Meters.multiplier) / 3600d
 }
 
 object VelocityConversions {
@@ -119,5 +105,5 @@ object VelocityConversions {
     def knots = Knots(n)
   }
 
-  implicit object VelocityNumeric extends AbstractQuantityNumeric[Velocity](MetersPerSecond)
+  implicit object VelocityNumeric extends AbstractQuantityNumeric[Velocity](Velocity.valueUnit)
 }

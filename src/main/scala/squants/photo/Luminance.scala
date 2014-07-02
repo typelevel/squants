@@ -8,7 +8,6 @@
 package squants.photo
 
 import squants._
-import squants.space.SquareMeters
 
 /**
  * @author  garyKeorkunian

@@ -20,7 +20,7 @@ package object motion {
 
   lazy val SpeedOfLight = Velocity(Meters(299792458), Seconds(1))
 
-  lazy val EquatorGravity = Acceleration(Velocity(Meters(9.7803), Seconds(1)), Seconds(1))
-  lazy val StandardEarthGravity = Acceleration(Velocity(Meters(9.80665), Seconds(1)), Seconds(1))
-  lazy val PoleGravity = Acceleration(Velocity(Meters(9.8322), Seconds(1)), Seconds(1))
+  lazy val EquatorGravity = MetersPerSecondSquared(9.7903)
+  lazy val StandardEarthGravity = MetersPerSecondSquared(9.80665)
+  lazy val PoleGravity = MetersPerSecondSquared(9.8322)
 }

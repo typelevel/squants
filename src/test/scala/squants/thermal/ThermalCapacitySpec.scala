@@ -11,7 +11,6 @@ package squants.thermal
 import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
 import squants.energy.Joules
-import squants.mass.Mass
 import squants.QuantityStringParseException
 
 /**

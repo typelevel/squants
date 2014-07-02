@@ -17,7 +17,6 @@ import squants.radio.Irradiance
 import squants.radio.SpectralPower
 import squants.radio.RadiantIntensity
 import scala.Some
-import scala.util.{ Failure, Success, Try }
 
 /**
  * Represents a quantity of power / load, the rate at which energy produced or used

@@ -16,23 +16,31 @@ import squants.mass.Kilograms
  * @author  garyKeorkunian
  * @since   0.1
  *
- * @param mass Mass
- * @param time Time
+ * @param value Double
  */
-case class MassFlowRate(mass: Mass, time: Time) extends Quantity[MassFlowRate] with TimeDerivative[Mass] {
+final class MassFlowRate private (val value: Double) extends Quantity[MassFlowRate] with TimeDerivative[Mass] {
 
-  def valueUnit = KilogramsPerSecond
-  def value = toKilogramsPerSecond
-  def change = mass
+  def valueUnit = MassFlowRate.valueUnit
+  def change = Kilograms(value)
+  def time = Seconds(1)
 
-  def toKilogramsPerSecond = mass.toKilograms / time.toSeconds
+  def toKilogramsPerSecond = to(KilogramsPerSecond)
 }
 
-trait MassFlowRateUnit extends UnitOfMeasure[MassFlowRate] {
+object MassFlowRate extends QuantityCompanion[MassFlowRate] {
+  private[motion] def apply[A](n: A)(implicit num: Numeric[A]) = new MassFlowRate(num.toDouble(n))
+  def apply(s: String) = parseString(s)
+  def name = "MassFlowRate"
+  def valueUnit = KilogramsPerSecond
+  def units = Set(KilogramsPerSecond)
+}
+
+trait MassFlowRateUnit extends UnitOfMeasure[MassFlowRate] with UnitMultiplier {
+  def apply[A](n: A)(implicit num: Numeric[A]) = MassFlowRate(convertFrom(n))
+  def unapply(flow: MassFlowRate) = Some(flow.to(this))
 }
 
 object KilogramsPerSecond extends MassFlowRateUnit with ValueUnit {
-  def apply[A](n: A)(implicit num: Numeric[A]) = MassFlowRate(Kilograms(n), Seconds(1))
   val symbol = "kg/s"
 }
 
@@ -43,5 +51,5 @@ object MassFlowRateConversions {
     def kilogramsPerSecond = KilogramsPerSecond(n)
   }
 
-  implicit object MassFlowRateNumeric extends AbstractQuantityNumeric[MassFlowRate](KilogramsPerSecond)
+  implicit object MassFlowRateNumeric extends AbstractQuantityNumeric[MassFlowRate](MassFlowRate.valueUnit)
 }

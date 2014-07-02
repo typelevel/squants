@@ -14,13 +14,14 @@ import squants.mass.Kilograms
 import squants.time.Seconds
 import squants.energy.Joules
 import squants.space.{ SquareMeters, Meters }
+import squants.{ QuantityStringParseException, CustomMatchers }
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class ForceSpec extends FlatSpec with Matchers {
+class ForceSpec extends FlatSpec with Matchers with CustomMatchers {
 
   behavior of "Force and its Units of Measure"
 
@@ -30,11 +31,20 @@ class ForceSpec extends FlatSpec with Matchers {
     PoundForce(1).toPoundForce should be(1)
   }
 
+  it should "create values from properly formatted Strings" in {
+    Force("10.22 N").get should be(Newtons(10.22))
+    Force("10.22 kgf").get should be(KilogramForce(10.22))
+    Force("10.22 lbf").get should be(PoundForce(10.22))
+    Force("10.22 zz").failed.get should be(QuantityStringParseException("Unable to parse Force", "10.22 zz"))
+    Force("zz N").failed.get should be(QuantityStringParseException("Unable to parse Force", "zz N"))
+  }
+
   it should "properly convert to all supported Units of Measure" in {
+    implicit val tolerance = 0.0000000000001
     val x = Newtons(1)
     x.toNewtons should be(1)
     x.toKilogramForce should be(Kilograms(1).toKilograms * MetersPerSecondSquared(1).toEarthGravities)
-    x.toPoundForce should be(Kilograms(1).toPounds * MetersPerSecondSquared(1).toEarthGravities)
+    x.toPoundForce should beApproximately(Kilograms(1).toPounds * MetersPerSecondSquared(1).toEarthGravities)
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {

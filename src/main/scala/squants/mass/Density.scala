@@ -9,7 +9,6 @@
 package squants.mass
 
 import squants._
-import squants.space.CubicMeters
 
 /**
  * @author  garyKeorkunian

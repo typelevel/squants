@@ -12,7 +12,6 @@ import scala.language.implicitConversions
 import squants._
 import scala.Some
 import scala.concurrent.duration.Duration
-import scala.util.{ Failure, Success, Try }
 
 /**
  * Represents a quantity of Time

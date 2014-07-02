@@ -11,6 +11,7 @@ package squants.motion
 import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
 import squants.space.SquareMeters
+import squants.QuantityStringParseException
 
 /**
  * @author  garyKeorkunian
@@ -28,11 +29,20 @@ class PressureSpec extends FlatSpec with Matchers {
     StandardAtmospheres(1).toStandardAtmospheres should be(1)
   }
 
+  it should "create values from properly formatted Strings" in {
+    Pressure("10.22 Pa").get should be(Pascals(10.22))
+    Pressure("10.22 bar").get should be(Bars(10.22))
+    Pressure("10.22 psi").get should be(PoundsPerSquareInch(10.22))
+    Pressure("10.22 zz").failed.get should be(QuantityStringParseException("Unable to parse Pressure", "10.22 zz"))
+    Pressure("zz Pa").failed.get should be(QuantityStringParseException("Unable to parse Pressure", "zz Pa"))
+  }
+
   it should "properly convert to all supported Units of Measure" in {
+    val tolerance = 0.0000000000000000001
     val x = Pascals(1)
     x.toPascals should be(1)
     x.toBars should be(.01)
-    x.toPoundsPerSquareInch should be(Newtons(1).toPoundForce / SquareMeters(1).toSquareInches)
+    x.toPoundsPerSquareInch should be(Newtons(1).toPoundForce / SquareMeters(1).toSquareInches +- tolerance)
     x.toStandardAtmospheres should be(1d / 101325d)
   }
 

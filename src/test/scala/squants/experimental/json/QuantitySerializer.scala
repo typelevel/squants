@@ -17,7 +17,7 @@ import org.json4s.reflect.TypeInfo
 import org.json4s.JsonAST.JString
 import org.json4s.JsonAST.JInt
 import org.json4s.JsonAST.JDecimal
-import squants.mass.{ MassConversions, Mass }
+import squants.mass.Mass
 
 /**
  * Provides JSON serialization and deserialization for Quantity types

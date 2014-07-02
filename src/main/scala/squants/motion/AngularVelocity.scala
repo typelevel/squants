@@ -9,72 +9,55 @@
 package squants.motion
 
 import squants._
-import squants.time.{ TimeUnit, Seconds }
-import squants.Angle
-import squants.space.{ Turns, Gradians, Degrees, AngleUnit }
+import squants.space.{ Turns, Gradians, Degrees }
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
- * @param angle Angle
- * @param time Time
+ * @param value Double
+ *
  */
-case class AngularVelocity(angle: Angle, time: Time) extends Quantity[AngularVelocity] {
+final class AngularVelocity private (val value: Double) extends Quantity[AngularVelocity] {
+  // TODO - Make this a TimeDerivative of Angle
+  def valueUnit = AngularVelocity.valueUnit
 
-  def value = toRadiansPerSecond
-  def valueUnit = RadiansPerSecond
-
-  def toString(unit: AngularVelocityUnit) = to(unit) + " " + unit.symbol
-
-  def to(unit: AngularVelocityUnit) = angle / unit.angleBase / time.to(unit.timeUnit)
   def toRadiansPerSecond = to(RadiansPerSecond)
   def toDegreesPerSecond = to(DegreesPerSecond)
   def toGradsPerSecond = to(GradsPerSecond)
   def toTurnsPerSecond = to(TurnsPerSecond)
 }
 
-trait AngularVelocityUnit extends UnitOfMeasure[AngularVelocity] {
-  def angleUnit: AngleUnit
-  def angleBase: Angle
-  def timeUnit: TimeUnit
-  def time: Time
-  def apply[A](n: A)(implicit num: Numeric[A]) = AngularVelocity(angleBase * num.toDouble(n), time)
+object AngularVelocity extends QuantityCompanion[AngularVelocity] {
+  private[motion] def apply[A](n: A)(implicit num: Numeric[A]) = new AngularVelocity(num.toDouble(n))
+  def apply(s: String) = parseString(s)
+  def name = "AngularVelocity"
+  def valueUnit = RadiansPerSecond
+  def units = Set(RadiansPerSecond, DegreesPerSecond, GradsPerSecond, TurnsPerSecond)
+}
 
-  protected def converterFrom: Double ⇒ Double = ???
-  protected def converterTo: Double ⇒ Double = ???
+trait AngularVelocityUnit extends UnitOfMeasure[AngularVelocity] with UnitMultiplier {
+  def apply[A](n: A)(implicit num: Numeric[A]) = AngularVelocity(convertFrom(n))
+  def unapply(angularVelocity: AngularVelocity) = Some(angularVelocity.to(this))
 }
 
 object RadiansPerSecond extends AngularVelocityUnit with ValueUnit {
-  val angleUnit = Radians
-  val angleBase = Radians(1)
-  val timeUnit = Seconds
-  val time = Seconds(1)
   val symbol = "rad/s"
 }
 
 object DegreesPerSecond extends AngularVelocityUnit {
-  val angleUnit = Degrees
-  val angleBase = Degrees(1)
-  val timeUnit = Seconds
-  val time = Seconds(1)
   val symbol = "°/s"
+  val multiplier = Degrees.multiplier * Radians.multiplier
 }
 
 object GradsPerSecond extends AngularVelocityUnit {
-  val angleUnit = Gradians
-  val angleBase = Gradians(1)
-  val timeUnit = Seconds
-  val time = Seconds(1)
   val symbol = "grad/s"
+  val multiplier = Gradians.multiplier * Radians.multiplier
 }
 
 object TurnsPerSecond extends AngularVelocityUnit {
-  val angleUnit = Turns
-  val angleBase = Turns(1)
-  val timeUnit = Seconds
-  val time = Seconds(1)
   val symbol = "turns/s"
+  val multiplier = Turns.multiplier * Radians.multiplier
 }
 
 object AngularVelocityConversions {
@@ -90,5 +73,5 @@ object AngularVelocityConversions {
     def turnsPerSecond = TurnsPerSecond(n)
   }
 
-  implicit object AngularVelocityNumeric extends AbstractQuantityNumeric[AngularVelocity](RadiansPerSecond)
+  implicit object AngularVelocityNumeric extends AbstractQuantityNumeric[AngularVelocity](AngularVelocity.valueUnit)
 }

@@ -13,6 +13,7 @@ import squants.time._
 import squants.Time
 import squants.time.Seconds
 import scala.Some
+import squants.space.{ UsMiles, Feet }
 
 /**
  * Represents a quantity of acceleration
@@ -20,27 +21,31 @@ import scala.Some
  * @author  garyKeorkunian
  * @since   0.1
  *
- * @param velocity the change in velocity
- * @param time the time interval
+ * @param value Double
  */
-case class Acceleration(velocity: Velocity, time: Time) extends Quantity[Acceleration]
+final class Acceleration private (val value: Double) extends Quantity[Acceleration]
     with TimeDerivative[Velocity] with TimeIntegral[Jerk] {
 
-  def valueUnit = MetersPerSecondSquared
-  def value = toMetersPerSecondSquared
-  def change = velocity
+  def valueUnit = Acceleration.valueUnit
+  def change = MetersPerSecond(value)
+  def time = Seconds(1)
 
-  def *(that: Mass): Force = Force(that, this)
-  def /(that: Time): Jerk = Jerk(this, that)
+  def *(that: Mass): Force = Newtons(toMetersPerSecondSquared * that.toKilograms)
+  def /(that: Time): Jerk = MetersPerSecondCubed(toMetersPerSecondSquared / that.toSeconds)
   def /(that: Jerk): Time = that.time * (this / that.change)
 
-  def toString(unit: AccelerationUnit) = to(unit) + " " + unit.symbol
-
-  def to(unit: AccelerationUnit): Double = velocity.to(unit.changeUnit) / unit.change.to(unit.changeUnit) / time.to(unit.timeUnit)
   def toFeetPerSecondSquared = to(FeetPerSecondSquared)
   def toMetersPerSecondSquared = to(MetersPerSecondSquared)
   def toUsMilesPerHourSquared = to(UsMilesPerHourSquared)
   def toEarthGravities = to(EarthGravities)
+}
+
+object Acceleration extends QuantityCompanion[Acceleration] {
+  private[motion] def apply[A](n: A)(implicit num: Numeric[A]) = new Acceleration(num.toDouble(n))
+  def apply(s: String) = parseString(s)
+  def name = "Acceleration"
+  def valueUnit = MetersPerSecondSquared
+  def units = Set(FeetPerSecondSquared, MetersPerSecondSquared, UsMilesPerHourSquared, EarthGravities)
 }
 
 /**
@@ -50,52 +55,31 @@ case class Acceleration(velocity: Velocity, time: Time) extends Quantity[Acceler
  * @since   0.1
  *
  */
-trait AccelerationUnit extends UnitOfMeasure[Acceleration] {
-  def changeUnit: VelocityUnit
-  def change: Velocity
-  def timeUnit: TimeUnit
-  def time: Time
-
-  def apply[A](n: A)(implicit num: Numeric[A]) = Acceleration(change * num.toDouble(n), time)
+trait AccelerationUnit extends UnitOfMeasure[Acceleration] with UnitMultiplier {
+  def apply[A](n: A)(implicit num: Numeric[A]) = Acceleration(convertFrom(n))
   def unapply(acceleration: Acceleration) = Some(acceleration.to(this))
-
-  protected def converterTo: Double ⇒ Double = ???
-  protected def converterFrom: Double ⇒ Double = ???
 }
 
 object MetersPerSecondSquared extends AccelerationUnit with ValueUnit {
-  val changeUnit = MetersPerSecond
-  val change = MetersPerSecond(1)
-  val timeUnit = Seconds
-  val time = Seconds(1)
   val symbol = "m/s²"
 }
 
 object FeetPerSecondSquared extends AccelerationUnit {
-  val changeUnit = FeetPerSecond
-  val change = FeetPerSecond(1)
-  val timeUnit = Seconds
-  val time = Seconds(1)
   val symbol = "ft/s²"
+  val multiplier = Feet.multiplier * Meters.multiplier
 }
 
 object UsMilesPerHourSquared extends AccelerationUnit {
-  val changeUnit = UsMilesPerHour
-  val change = UsMilesPerHour(1)
-  val timeUnit = Hours
-  val time = Hours(1)
   val symbol = "mph²"
+  val multiplier = (UsMiles.multiplier * Meters.multiplier) / 3600d / 3600d
 }
 
 /**
  * Represents acceleration in Earth gravities also knows as G-Force, or g's
  */
 object EarthGravities extends AccelerationUnit {
-  val changeUnit = MetersPerSecond
-  val change = squants.motion.StandardEarthGravity * Seconds(1)
-  val timeUnit = Seconds
-  val time = Seconds(1)
   val symbol = "g"
+  val multiplier = 9.80665 * Meters.multiplier
 }
 
 object AccelerationConversions {
@@ -105,5 +89,5 @@ object AccelerationConversions {
     def fpss = FeetPerSecondSquared(n)
   }
 
-  implicit object AccelerationNumeric extends AbstractQuantityNumeric[Acceleration](MetersPerSecondSquared)
+  implicit object AccelerationNumeric extends AbstractQuantityNumeric[Acceleration](Acceleration.valueUnit)
 }
