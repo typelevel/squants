@@ -38,7 +38,6 @@ object AngularVelocity extends QuantityCompanion[AngularVelocity] {
 
 trait AngularVelocityUnit extends UnitOfMeasure[AngularVelocity] with UnitMultiplier {
   def apply[A](n: A)(implicit num: Numeric[A]) = AngularVelocity(convertFrom(n))
-  def unapply(angularVelocity: AngularVelocity) = Some(angularVelocity.to(this))
 }
 
 object RadiansPerSecond extends AngularVelocityUnit with ValueUnit {

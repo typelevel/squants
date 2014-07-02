@@ -87,7 +87,6 @@ object Length extends QuantityCompanion[Length] {
 trait LengthUnit extends BaseQuantityUnit[Length] with UnitMultiplier {
   val dimensionSymbol = "L"
   def apply[A](n: A)(implicit num: Numeric[A]) = Length(convertFrom(n))
-  def unapply(l: Length) = Some(convertTo(l.value))
 }
 
 object Nanometers extends LengthUnit {

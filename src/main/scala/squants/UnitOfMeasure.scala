@@ -25,6 +25,13 @@ trait UnitOfMeasure[A <: Quantity[A]] extends Serializable {
   def apply[N](n: N)(implicit num: Numeric[N]): A
 
   /**
+   * Extractor method for getting the Numeric value of a Quantity in this UnitOfMeasure
+   * @param q A - The Quantity being matched
+   * @return
+   */
+  def unapply(q: A) = Some(q.to(this))
+
+  /**
    * Symbol used when representing Quantities in this UnitOfMeasure
    * @return
    */

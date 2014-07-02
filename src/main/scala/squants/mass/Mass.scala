@@ -78,7 +78,6 @@ object Mass extends QuantityCompanion[Mass] {
 trait MassUnit extends BaseQuantityUnit[Mass] with UnitMultiplier {
   def dimensionSymbol = "M"
   def apply[A](n: A)(implicit num: Numeric[A]) = Mass(convertFrom(n))
-  def unapply(m: Mass) = Some(convertTo(m.value))
 }
 
 object Grams extends MassUnit with ValueUnit {

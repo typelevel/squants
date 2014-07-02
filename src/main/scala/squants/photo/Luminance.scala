@@ -35,7 +35,6 @@ object Luminance extends QuantityCompanion[Luminance] {
 
 trait LuminanceUnit extends UnitOfMeasure[Luminance] {
   def apply[A](n: A)(implicit num: Numeric[A]) = Luminance(num.toDouble(n))
-  def unapply(l: Luminance) = Some(convertTo(l.value))
 }
 
 object CandelasPerSquareMeter extends LuminanceUnit with ValueUnit {

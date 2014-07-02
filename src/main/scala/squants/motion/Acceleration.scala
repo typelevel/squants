@@ -57,7 +57,6 @@ object Acceleration extends QuantityCompanion[Acceleration] {
  */
 trait AccelerationUnit extends UnitOfMeasure[Acceleration] with UnitMultiplier {
   def apply[A](n: A)(implicit num: Numeric[A]) = Acceleration(convertFrom(n))
-  def unapply(acceleration: Acceleration) = Some(acceleration.to(this))
 }
 
 object MetersPerSecondSquared extends AccelerationUnit with ValueUnit {

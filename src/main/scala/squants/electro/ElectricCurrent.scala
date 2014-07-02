@@ -55,7 +55,6 @@ object ElectricCurrent extends QuantityCompanion[ElectricCurrent] {
 trait ElectricCurrentUnit extends BaseQuantityUnit[ElectricCurrent] with UnitMultiplier {
   def dimensionSymbol = "I"
   def apply[A](n: A)(implicit num: Numeric[A]) = ElectricCurrent(convertFrom(n))
-  def unapply(c: ElectricCurrent) = Some(convertTo(c.value))
 }
 
 /**

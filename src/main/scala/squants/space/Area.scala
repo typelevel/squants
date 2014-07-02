@@ -68,7 +68,6 @@ object Area extends QuantityCompanion[Area] {
 
 trait AreaUnit extends UnitOfMeasure[Area] with UnitMultiplier {
   def apply[A](n: A)(implicit num: Numeric[A]) = Area(convertFrom(n))
-  def unapply(area: Area) = Some(convertTo(area.value))
 }
 
 object SquareMeters extends AreaUnit with ValueUnit {

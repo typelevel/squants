@@ -37,7 +37,6 @@ object MassFlowRate extends QuantityCompanion[MassFlowRate] {
 
 trait MassFlowRateUnit extends UnitOfMeasure[MassFlowRate] with UnitMultiplier {
   def apply[A](n: A)(implicit num: Numeric[A]) = MassFlowRate(convertFrom(n))
-  def unapply(flow: MassFlowRate) = Some(flow.to(this))
 }
 
 object KilogramsPerSecond extends MassFlowRateUnit with ValueUnit {

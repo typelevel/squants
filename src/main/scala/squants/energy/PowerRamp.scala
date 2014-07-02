@@ -51,7 +51,6 @@ object PowerRamp extends QuantityCompanion[PowerRamp] {
 
 trait PowerRampUnit extends UnitOfMeasure[PowerRamp] with UnitMultiplier {
   def apply[A](n: A)(implicit num: Numeric[A]) = PowerRamp(convertFrom(n))
-  def unapply(ramp: PowerRamp) = Some(convertTo(ramp.value))
 }
 
 object WattsPerHour extends PowerRampUnit with ValueUnit {
