@@ -42,6 +42,8 @@ final class ElectricCharge private (val value: Double)
   def toMillcoulombs = to(Millicoulombs)
   def toAbcoulombs = to(Abcoulombs)
   def toAmpereHours = to(AmpereHours)
+  def toMilliampereHours = to(MilliampereHours)
+  def toMilliampereSeconds = to(MilliampereSeconds)
 }
 
 object ElectricCharge extends QuantityCompanion[ElectricCharge] {
@@ -49,7 +51,8 @@ object ElectricCharge extends QuantityCompanion[ElectricCharge] {
   def apply(s: String) = parseString(s)
   def name = "ElectricCharge"
   def valueUnit = Coulombs
-  def units = Set(Coulombs, Picocoulombs, Nanocoulombs, Microcoulombs, Millicoulombs, Abcoulombs, AmpereHours)
+  def units = Set(Coulombs, Picocoulombs, Nanocoulombs, Microcoulombs, Millicoulombs, Abcoulombs,
+    AmpereHours, MilliampereHours, MilliampereSeconds)
 }
 
 trait ElectricChargeUnit extends UnitOfMeasure[ElectricCharge] with UnitMultiplier {
@@ -90,6 +93,16 @@ object AmpereHours extends ElectricChargeUnit {
   val multiplier = Time.SecondsPerHour
 }
 
+object MilliampereHours extends ElectricChargeUnit {
+  val symbol = "mAh"
+  val multiplier = AmpereHours.multiplier * MetricSystem.Milli
+}
+
+object MilliampereSeconds extends ElectricChargeUnit {
+  val symbol = "mAs"
+  val multiplier = Coulombs.multiplier * MetricSystem.Milli
+}
+
 object ElectricChargeConversions {
   lazy val coulomb = Coulombs(1)
   lazy val picocoulomb = Picocoulombs(1)
@@ -98,6 +111,8 @@ object ElectricChargeConversions {
   lazy val millicoulomb = Millicoulombs(1)
   lazy val abcoulomb = Abcoulombs(1)
   lazy val ampereHour = AmpereHours(1)
+  lazy val milliampereHour = MilliampereHours(1)
+  lazy val milliampereSecond = MilliampereSeconds(1)
 
   implicit class ElectricalChargeConversions[A](n: A)(implicit num: Numeric[A]) {
     def coulombs = Coulombs(n)
@@ -107,6 +122,8 @@ object ElectricChargeConversions {
     def millicoulombs = Millicoulombs(n)
     def abcoulombs = Abcoulombs(n)
     def ampereHours = AmpereHours(n)
+    def milliampereHours = MilliampereHours(n)
+    def milliampereSeconds = MilliampereSeconds(n)
   }
 
   implicit object ElectricalChargeNumeric
