@@ -79,7 +79,6 @@ object Power extends QuantityCompanion[Power] {
 
 trait PowerUnit extends UnitOfMeasure[Power] with UnitMultiplier {
   def apply[A](n: A)(implicit num: Numeric[A]) = Power(convertFrom(n))
-  def unapply(power: Power) = Some(convertTo(power.value))
 }
 
 object Milliwatts extends PowerUnit {

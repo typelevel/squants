@@ -64,7 +64,6 @@ object Time extends QuantityCompanion[Time] {
 trait TimeUnit extends BaseQuantityUnit[Time] with UnitMultiplier {
   def dimensionSymbol = "T"
   def apply[A](n: A)(implicit num: Numeric[A]) = Time(convertFrom(n))
-  def unapply(t: Time) = Some(convertTo(t.value))
 }
 
 object Microseconds extends TimeUnit {

@@ -42,7 +42,6 @@ object Jerk extends QuantityCompanion[Jerk] {
 
 trait JerkUnit extends UnitOfMeasure[Jerk] with UnitMultiplier {
   def apply[A](n: A)(implicit num: Numeric[A]) = Jerk(convertFrom(n))
-  def unapply(jerk: Jerk) = Some(jerk.to(this))
 }
 
 object MetersPerSecondCubed extends JerkUnit with ValueUnit {

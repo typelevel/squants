@@ -38,7 +38,6 @@ object Yank extends QuantityCompanion[Yank] {
 
 trait YankUnit extends UnitOfMeasure[Yank] with UnitMultiplier {
   def apply[A](n: A)(implicit num: Numeric[A]) = Yank(convertFrom(n))
-  def unapply(yank: Yank) = Some(yank.to(this))
 }
 
 object NewtonsPerSecond extends YankUnit with ValueUnit {

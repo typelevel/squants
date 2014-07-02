@@ -39,7 +39,6 @@ object AreaDensity extends QuantityCompanion[AreaDensity] {
 
 trait AreaDensityUnit extends UnitOfMeasure[AreaDensity] {
   def apply[A](n: A)(implicit num: Numeric[A]) = AreaDensity(convertFrom(n))
-  def unapply(m: AreaDensity) = Some(convertTo(m.value))
 }
 
 object KilogramsPerSquareMeter extends AreaDensityUnit with ValueUnit {

@@ -345,6 +345,19 @@ class QuantitySpec extends FlatSpec with Matchers {
     x.toString(Thangs, "%.3f") should be("1.256 th")
   }
 
+  it should "return the correct Numeric value when pattern matched against a Unit of Measure" in {
+    val x = Thangs(1200)
+    val thangs = x match {
+      case Thangs(v) ⇒ v
+    }
+    thangs should be(1200)
+
+    val kilothangs = x match {
+      case Kilothangs(v) ⇒ v
+    }
+    kilothangs should be(1.2)
+  }
+
   behavior of "SquantifiedDouble"
 
   it should "multiply by a Quantity value and return the product as a like value" in {

@@ -58,7 +58,6 @@ object Velocity extends QuantityCompanion[Velocity] {
 
 trait VelocityUnit extends UnitOfMeasure[Velocity] with UnitMultiplier {
   def apply[A](n: A)(implicit num: Numeric[A]): Velocity = Velocity(convertFrom(n))
-  def unapply(velocity: Velocity) = Some(velocity.to(this))
 }
 
 object FeetPerSecond extends VelocityUnit {

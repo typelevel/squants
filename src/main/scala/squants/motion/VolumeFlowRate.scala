@@ -44,7 +44,6 @@ object VolumeFlowRate extends QuantityCompanion[VolumeFlowRate] {
 
 trait VolumeFlowRateUnit extends UnitOfMeasure[VolumeFlowRate] with UnitMultiplier {
   def apply[A](n: A)(implicit num: Numeric[A]) = VolumeFlowRate(convertFrom(n))
-  def unapply(flow: VolumeFlowRate) = Some(flow.to(this))
 }
 
 object CubicMetersPerSecond extends VolumeFlowRateUnit with ValueUnit {

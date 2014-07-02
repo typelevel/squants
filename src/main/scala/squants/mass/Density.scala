@@ -36,7 +36,6 @@ object Density extends QuantityCompanion[Density] {
 
 trait DensityUnit extends UnitOfMeasure[Density] with UnitMultiplier {
   def apply[A](n: A)(implicit num: Numeric[A]) = Density(convertFrom(n))
-  def unapply(d: Density) = Some(convertTo(d.value))
 }
 
 object KilogramsPerCubicMeter extends DensityUnit with ValueUnit {

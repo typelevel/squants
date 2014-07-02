@@ -40,7 +40,6 @@ object LuminousIntensity extends QuantityCompanion[LuminousIntensity] {
 trait LuminousIntensityUnit extends BaseQuantityUnit[LuminousIntensity] with UnitMultiplier {
   val dimensionSymbol = "J"
   def apply[A](n: A)(implicit num: Numeric[A]) = LuminousIntensity(convertFrom(n))
-  def unapply(l: LuminousIntensity) = Some(convertTo(l.value))
 }
 
 object Candelas extends LuminousIntensityUnit with ValueUnit with BaseUnit {

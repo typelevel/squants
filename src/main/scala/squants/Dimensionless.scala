@@ -52,7 +52,6 @@ object Dimensionless {
  */
 trait DimensionlessUnit extends UnitOfMeasure[Dimensionless] with UnitMultiplier {
   def apply[A](n: A)(implicit num: Numeric[A]) = Dimensionless(convertFrom(n))
-  def unapply(c: Dimensionless) = Some(convertTo(c.value))
 }
 
 /**

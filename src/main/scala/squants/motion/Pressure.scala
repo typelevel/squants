@@ -40,7 +40,6 @@ object Pressure extends QuantityCompanion[Pressure] {
 
 trait PressureUnit extends UnitOfMeasure[Pressure] with UnitMultiplier {
   def apply[A](n: A)(implicit num: Numeric[A]) = Pressure(convertFrom(n))
-  def unapply(pressure: Pressure) = Some(pressure.to(this))
 }
 
 object Pascals extends PressureUnit with ValueUnit {

@@ -96,7 +96,6 @@ object Energy extends QuantityCompanion[Energy] {
  */
 trait EnergyUnit extends UnitOfMeasure[Energy] with UnitMultiplier {
   def apply[A](n: A)(implicit num: Numeric[A]) = Energy(convertFrom(n))
-  def unapply(energy: Energy) = Some(convertTo(energy.value))
 }
 
 object WattHours extends EnergyUnit with ValueUnit {

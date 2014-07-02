@@ -84,7 +84,6 @@ object Volume extends QuantityCompanion[Volume] {
 
 trait VolumeUnit extends UnitOfMeasure[Volume] with UnitMultiplier {
   def apply[A](n: A)(implicit num: Numeric[A]) = Volume(convertFrom(n))
-  def unapply(v: Volume) = Some(convertTo(v.value))
 }
 
 object CubicMeters extends VolumeUnit with ValueUnit {
