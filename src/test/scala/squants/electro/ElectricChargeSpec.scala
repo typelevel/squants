@@ -30,6 +30,8 @@ class ElectricChargeSpec extends FlatSpec with Matchers {
     Millicoulombs(1).toMillcoulombs should be(1)
     Abcoulombs(1).toAbcoulombs should be(1)
     AmpereHours(1).toAmpereHours should be(1)
+    MilliampereHours(1).toMilliampereHours should be(1)
+    MilliampereSeconds(1).toMilliampereSeconds should be(1)
   }
 
   it should "create values from properly formatted Strings" in {
@@ -40,6 +42,8 @@ class ElectricChargeSpec extends FlatSpec with Matchers {
     ElectricCharge("10.22 mC").get should be(Millicoulombs(10.22))
     ElectricCharge("10.22 aC").get should be(Abcoulombs(10.22))
     ElectricCharge("10.22 Ah").get should be(AmpereHours(10.22))
+    ElectricCharge("10.22 mAh").get should be(MilliampereHours(10.22))
+    ElectricCharge("10.22 mAs").get should be(MilliampereSeconds(10.22))
     ElectricCharge("10.22 zz").failed.get should be(QuantityStringParseException("Unable to parse ElectricCharge", "10.22 zz"))
     ElectricCharge("zz C").failed.get should be(QuantityStringParseException("Unable to parse ElectricCharge", "zz C"))
   }
@@ -52,6 +56,8 @@ class ElectricChargeSpec extends FlatSpec with Matchers {
     x.toMillcoulombs should be(1 / MetricSystem.Milli)
     x.toAbcoulombs should be(1 / MetricSystem.Deca)
     x.toAmpereHours should be(1 / Time.SecondsPerHour)
+    x.toMilliampereHours should be(1 / Time.SecondsPerHour / MetricSystem.Milli)
+    x.toMilliampereSeconds should be(1 / MetricSystem.Milli)
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
@@ -61,6 +67,8 @@ class ElectricChargeSpec extends FlatSpec with Matchers {
     Millicoulombs(1).toString(Millicoulombs) should be("1.0 mC")
     Abcoulombs(1).toString(Abcoulombs) should be("1.0 aC")
     AmpereHours(1).toString(AmpereHours) should be("1.0 Ah")
+    MilliampereHours(1).toString(MilliampereHours) should be("1.0 mAh")
+    MilliampereSeconds(1).toString(MilliampereSeconds) should be("1.0 mAs")
   }
 
   it should "return Energy when multiplied by ElectricalPotential" in {
@@ -95,6 +103,8 @@ class ElectricChargeSpec extends FlatSpec with Matchers {
     millicoulomb should be(Millicoulombs(1))
     abcoulomb should be(Abcoulombs(1))
     ampereHour should be(AmpereHours(1))
+    milliampereHour should be(MilliampereHours(1))
+    milliampereSecond should be(MilliampereSeconds(1))
   }
 
   it should "provide implicit conversion from Double" in {
@@ -108,6 +118,8 @@ class ElectricChargeSpec extends FlatSpec with Matchers {
     d.millicoulombs should be(Millicoulombs(d))
     d.abcoulombs should be(Abcoulombs(d))
     d.ampereHours should be(AmpereHours(d))
+    d.milliampereHours should be(MilliampereHours(d))
+    d.milliampereSeconds should be(MilliampereSeconds(d))
   }
 
   it should "provide Numeric support" in {
