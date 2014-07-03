@@ -388,6 +388,23 @@ import squants.mass.MassConversions.MassNumeric
 val sum = List(Kilograms(100), Grams(34510)).sum
 ```
 
+The MoneyNumeric implementation is a bit different than the implementations for other quantity types
+in a few important ways.
+
+1. MoneyNumeric is a class, not an object like the others.
+2. To create a MoneyNumeric value there must be an implicit MoneyContext in scope.
+3. The MoneyContext must contain applicable exchange rates if you will be applying cross-currency Numeric ops.
+
+The following code provides a basic example for creating a MoneyNumeric:
+
+```scala
+import MoneyConversions._
+implicit val moneyContext = defaultMoneyContext
+implicit val moneyNum = new MoneyNumeric()
+
+val sum = List(USD(100), USD(10)).sum
+```
+
 ## Type Hierarchy
 The type hierarchy includes two root base traits:  Quantity and UnitOfMeasure
 
