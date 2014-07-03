@@ -43,7 +43,7 @@ final class PowerRamp private (val value: Double)
 object PowerRamp extends QuantityCompanion[PowerRamp] {
   private[energy] def apply[A](n: A)(implicit num: Numeric[A]) = new PowerRamp(num.toDouble(n))
   def apply(change: Power, time: Time): PowerRamp = apply(change.toWatts / time.toHours)
-  def apply(s: String) = parseString(s)
+  def apply = parseString _
   def name = "PowerRamp"
   def valueUnit = WattsPerHour
   def units = Set(WattsPerHour, KilowattsPerHour, MegawattsPerHour, GigawattsPerHour)

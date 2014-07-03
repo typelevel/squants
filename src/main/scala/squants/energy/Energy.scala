@@ -81,7 +81,7 @@ final class Energy private (val value: Double)
 object Energy extends QuantityCompanion[Energy] {
   private[energy] def apply[A](n: A)(implicit num: Numeric[A]) = new Energy(num.toDouble(n))
   def apply(load: Power, time: Time): Energy = load * time
-  def apply(s: String) = parseString(s)
+  def apply = parseString _
 
   def name = "Energy"
   def valueUnit = WattHours

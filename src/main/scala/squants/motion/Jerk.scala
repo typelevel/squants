@@ -34,7 +34,7 @@ final class Jerk private (val value: Double) extends Quantity[Jerk]
 
 object Jerk extends QuantityCompanion[Jerk] {
   private[motion] def apply[A](n: A)(implicit num: Numeric[A]) = new Jerk(num.toDouble(n))
-  def apply(s: String) = parseString(s)
+  def apply = parseString _
   def name = "Jerk"
   def valueUnit = MetersPerSecondCubed
   def units = Set(MetersPerSecondCubed, FeetPerSecondCubed)

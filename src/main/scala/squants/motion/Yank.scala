@@ -30,7 +30,7 @@ final class Yank private (val value: Double) extends Quantity[Yank]
 
 object Yank extends QuantityCompanion[Yank] {
   private[motion] def apply[A](n: A)(implicit num: Numeric[A]) = new Yank(num.toDouble(n))
-  def apply(s: String) = parseString(s)
+  def apply = parseString _
   def name = "Yank"
   def valueUnit = NewtonsPerSecond
   def units = Set(NewtonsPerSecond)

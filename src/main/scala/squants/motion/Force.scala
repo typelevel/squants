@@ -45,7 +45,7 @@ final class Force private (val value: Double) extends Quantity[Force]
 
 object Force extends QuantityCompanion[Force] {
   private[motion] def apply[A](n: A)(implicit num: Numeric[A]) = new Force(num.toDouble(n))
-  def apply(s: String) = parseString(s)
+  def apply = parseString _
   def name = "Force"
   def valueUnit = Newtons
   def units = Set(Newtons, KilogramForce, PoundForce)

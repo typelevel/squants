@@ -25,8 +25,6 @@ class TimeDerivativeSpec extends FlatSpec with Matchers with CustomMatchers {
 
   it should "satisfy Derivative = Integral / Time" in {
     implicit val tolerance = UsMilesPerHour(0.0000000000001)
-    println(UsMilesPerHour(55))
-    println(UsMiles(55) / Hours(1) toUsMilesPerHour)
     UsMilesPerHour(55) should beApproximately(UsMiles(55) / Hours(1))
   }
 

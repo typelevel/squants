@@ -37,7 +37,7 @@ final class Angle private (val value: Double)
 
 object Angle extends QuantityCompanion[Angle] {
   private[space] def apply[A](n: A)(implicit num: Numeric[A]) = new Angle(num.toDouble(n))
-  def apply(s: String) = parseString(s)
+  def apply = parseString _
   def name = "Angle"
   def valueUnit = Radians
   def units = Set(Radians, Degrees, Gradians, Turns, Arcminutes, Arcseconds)

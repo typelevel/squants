@@ -34,7 +34,7 @@ final class RadiantIntensity private (val value: Double) extends Quantity[Radian
 
 object RadiantIntensity extends QuantityCompanion[RadiantIntensity] {
   private[radio] def apply[A](n: A)(implicit num: Numeric[A]) = new RadiantIntensity(num.toDouble(n))
-  def apply(s: String) = parseString(s)
+  def apply = parseString _
   def name = "RadiantIntensity"
   def valueUnit = WattsPerSteradian
   def units = Set(WattsPerSteradian)

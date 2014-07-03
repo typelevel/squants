@@ -34,7 +34,7 @@ final class Frequency private (val value: Double) extends Quantity[Frequency] wi
 
 object Frequency extends QuantityCompanion[Frequency] {
   private[time] def apply[A](n: A)(implicit num: Numeric[A]) = new Frequency(num.toDouble(n))
-  def apply(s: String) = parseString(s)
+  def apply = parseString _
   def name = "Frequency"
   def valueUnit = Hertz
   def units = Set(Hertz, Kilohertz, Megahertz, Gigahertz, Terahertz, RevolutionsPerMinute)

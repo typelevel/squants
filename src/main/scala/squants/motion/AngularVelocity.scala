@@ -30,7 +30,7 @@ final class AngularVelocity private (val value: Double) extends Quantity[Angular
 
 object AngularVelocity extends QuantityCompanion[AngularVelocity] {
   private[motion] def apply[A](n: A)(implicit num: Numeric[A]) = new AngularVelocity(num.toDouble(n))
-  def apply(s: String) = parseString(s)
+  def apply = parseString _
   def name = "AngularVelocity"
   def valueUnit = RadiansPerSecond
   def units = Set(RadiansPerSecond, DegreesPerSecond, GradsPerSecond, TurnsPerSecond)

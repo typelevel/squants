@@ -31,7 +31,7 @@ final class Illuminance private (val value: Double) extends Quantity[Illuminance
 
 object Illuminance extends QuantityCompanion[Illuminance] {
   private[photo] def apply[A](n: A)(implicit num: Numeric[A]) = new Illuminance(num.toDouble(n))
-  def apply(s: String) = parseString(s)
+  def apply = parseString _
   def name = "Illuminance"
   def valueUnit = Lux
   def units = Set(Lux)

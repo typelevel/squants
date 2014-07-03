@@ -42,7 +42,7 @@ final class ElectricPotential private (val value: Double) extends Quantity[Elect
 
 object ElectricPotential extends QuantityCompanion[ElectricPotential] {
   private[electro] def apply[A](n: A)(implicit num: Numeric[A]) = new ElectricPotential(num.toDouble(n))
-  def apply(s: String) = parseString(s)
+  def apply = parseString _
   def name = "ElectricPotential"
   def valueUnit = Volts
   def units = Set(Volts, Microvolts, Millivolts, Kilovolts, Megavolts)

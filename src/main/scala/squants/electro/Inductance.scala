@@ -29,7 +29,7 @@ final class Inductance private (val value: Double) extends Quantity[Inductance]
 
 object Inductance extends QuantityCompanion[Inductance] {
   private[electro] def apply[A](n: A)(implicit num: Numeric[A]) = new Inductance(num.toDouble(n))
-  def apply(s: String) = parseString(s)
+  def apply = parseString _
   def name = "Inductance"
   def valueUnit = Henry
   def units = Set(Henry)

@@ -28,7 +28,7 @@ final class SpecificEnergy private (val value: Double) extends Quantity[Specific
 
 object SpecificEnergy extends QuantityCompanion[SpecificEnergy] {
   private[energy] def apply[A](n: A)(implicit num: Numeric[A]) = new SpecificEnergy(num.toDouble(n))
-  def apply(s: String) = parseString(s)
+  def apply = parseString _
   def name = "SpecificEnergy"
   def valueUnit = Grays
   def units = Set(Grays)

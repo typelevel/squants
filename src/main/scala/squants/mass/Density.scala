@@ -28,7 +28,7 @@ case class Density(value: Double) extends Quantity[Density] {
 object Density extends QuantityCompanion[Density] {
   private[mass] def apply[A](n: A)(implicit num: Numeric[A]) = new Density(num.toDouble(n))
   def apply(m: Mass, v: Volume): Density = KilogramsPerCubicMeter(m.toKilograms / v.toCubicMeters)
-  def apply(s: String) = parseString(s)
+  def apply = parseString _
   def name = "Density"
   def valueUnit = KilogramsPerCubicMeter
   def units = Set(KilogramsPerCubicMeter)

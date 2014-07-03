@@ -30,7 +30,7 @@ final class SpectralPower private (val value: Double) extends Quantity[SpectralP
 
 object SpectralPower extends QuantityCompanion[SpectralPower] {
   private[radio] def apply[A](n: A)(implicit num: Numeric[A]) = new SpectralPower(num.toDouble(n))
-  def apply(s: String) = parseString(s)
+  def apply = parseString _
   def name = "SpectralPower"
   def valueUnit = WattsPerMeter
   def units = Set(WattsPerMeter)

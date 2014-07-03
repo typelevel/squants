@@ -19,7 +19,6 @@ import squants.radio.Irradiance
 import squants.photo.Luminance
 import squants.motion.Pressure
 import squants.radio.Radiance
-import scala.Some
 import squants.mass.AreaDensity
 
 /**
@@ -58,7 +57,7 @@ final class Area private (val value: Double)
 object Area extends QuantityCompanion[Area] {
   private[space] def apply[A](n: A)(implicit num: Numeric[A]) = new Area(num.toDouble(n))
   def apply(length1: Length, length2: Length): Area = apply(length1.toMeters * length2.toMeters)
-  def apply(s: String) = parseString(s)
+  def apply = parseString _
   def name = "Area"
   def valueUnit = SquareMeters
   def units = Set(SquareMeters, SquareCentimeters, SquareKilometers,

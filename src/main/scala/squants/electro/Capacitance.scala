@@ -34,7 +34,7 @@ final class Capacitance private (val value: Double)
 
 object Capacitance extends QuantityCompanion[Capacitance] {
   private[electro] def apply[A](n: A)(implicit num: Numeric[A]) = new Capacitance(num.toDouble(n))
-  def apply(s: String) = parseString(s)
+  def apply = parseString _
   def name = "Capacitance"
   def valueUnit = Farads
   def units = Set(Farads, Picofarads, Nanofarads, Microfarads, Millifarads, Kilofarads)

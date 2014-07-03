@@ -37,7 +37,7 @@ final class ElectricalResistance private (val value: Double)
 
 object ElectricalResistance extends QuantityCompanion[ElectricalResistance] {
   private[electro] def apply[A](n: A)(implicit num: Numeric[A]) = new ElectricalResistance(num.toDouble(n))
-  def apply(s: String) = parseString(s)
+  def apply = parseString _
   def name = "ElectricalResistance"
   def valueUnit = Ohms
   def units = Set(Ohms, Nanohms, Microohms, Milliohms, Kilohms, Megohms, Gigohms)

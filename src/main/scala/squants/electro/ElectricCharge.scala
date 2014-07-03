@@ -48,7 +48,7 @@ final class ElectricCharge private (val value: Double)
 
 object ElectricCharge extends QuantityCompanion[ElectricCharge] {
   private[electro] def apply[A](n: A)(implicit num: Numeric[A]) = new ElectricCharge(num.toDouble(n))
-  def apply(s: String) = parseString(s)
+  def apply = parseString _
   def name = "ElectricCharge"
   def valueUnit = Coulombs
   def units = Set(Coulombs, Picocoulombs, Nanocoulombs, Microcoulombs, Millicoulombs, Abcoulombs,

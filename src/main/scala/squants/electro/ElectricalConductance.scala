@@ -31,7 +31,7 @@ final class ElectricalConductance private (val value: Double)
 
 object ElectricalConductance extends QuantityCompanion[ElectricalConductance] {
   private[electro] def apply[A](n: A)(implicit num: Numeric[A]) = new ElectricalConductance(num.toDouble(n))
-  def apply(s: String) = parseString(s)
+  def apply = parseString _
   def name = "ElectricalConductance"
   def valueUnit = Siemens
   def units = Set(Siemens)

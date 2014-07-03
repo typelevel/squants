@@ -12,7 +12,6 @@ import squants._
 import squants.time._
 import squants.Time
 import squants.time.Seconds
-import scala.Some
 import squants.space.{ UsMiles, Feet }
 
 /**
@@ -42,7 +41,7 @@ final class Acceleration private (val value: Double) extends Quantity[Accelerati
 
 object Acceleration extends QuantityCompanion[Acceleration] {
   private[motion] def apply[A](n: A)(implicit num: Numeric[A]) = new Acceleration(num.toDouble(n))
-  def apply(s: String) = parseString(s)
+  def apply = parseString _
   def name = "Acceleration"
   def valueUnit = MetersPerSecondSquared
   def units = Set(FeetPerSecondSquared, MetersPerSecondSquared, UsMilesPerHourSquared, EarthGravities)

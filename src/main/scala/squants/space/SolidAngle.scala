@@ -32,7 +32,7 @@ final class SolidAngle private (val value: Double) extends Quantity[SolidAngle] 
 
 object SolidAngle extends QuantityCompanion[SolidAngle] {
   private[space] def apply[A](n: A)(implicit num: Numeric[A]) = new SolidAngle(num.toDouble(n))
-  def apply(s: String) = parseString(s)
+  def apply = parseString _
   def name = "SolidAngle"
   def valueUnit = SquareRadians
   def units = Set(SquareRadians)

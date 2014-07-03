@@ -12,7 +12,6 @@ import squants._
 import squants.space.{ UsGallons, CubicMeters }
 import squants.time._
 import squants.Seconds
-import scala.Some
 
 /**
  * @author  garyKeorkunian
@@ -36,7 +35,7 @@ final class VolumeFlowRate private (val value: Double) extends Quantity[VolumeFl
 
 object VolumeFlowRate extends QuantityCompanion[VolumeFlowRate] {
   private[motion] def apply[A](n: A)(implicit num: Numeric[A]) = new VolumeFlowRate(num.toDouble(n))
-  def apply(s: String) = parseString(s)
+  def apply = parseString _
   def name = "VolumeFlowRate"
   def valueUnit = CubicMetersPerSecond
   def units = Set(CubicMetersPerSecond, GallonsPerDay, GallonsPerHour, GallonsPerMinute, GallonsPerSecond)

@@ -32,7 +32,7 @@ final class Pressure private (val value: Double) extends Quantity[Pressure] {
 
 object Pressure extends QuantityCompanion[Pressure] {
   private[motion] def apply[A](n: A)(implicit num: Numeric[A]) = new Pressure(num.toDouble(n))
-  def apply(s: String) = parseString(s)
+  def apply = parseString _
   def name = "Pressure"
   def valueUnit = Pascals
   def units = Set(Pascals, Bars, PoundsPerSquareInch, StandardAtmospheres)

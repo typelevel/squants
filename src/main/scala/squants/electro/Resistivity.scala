@@ -29,7 +29,7 @@ final class Resistivity private (val value: Double) extends Quantity[Resistivity
 
 object Resistivity extends QuantityCompanion[Resistivity] {
   private[electro] def apply[A](n: A)(implicit num: Numeric[A]) = new Resistivity(num.toDouble(n))
-  def apply(s: String) = parseString(s)
+  def apply = parseString _
   def name = "Resistivity"
   def valueUnit = OhmMeters
   def units = Set(OhmMeters)

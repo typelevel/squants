@@ -19,13 +19,22 @@ import squants.time.Hertz
  */
 class DimensionlessSpec extends FlatSpec with Matchers {
 
-  behavior of "Count and its Units of Measure"
+  behavior of "Dimensionless and its Units of Measure"
 
   it should "create values using UOM factories" in {
     Each(1).toEach should be(1)
     Dozen(1).toDozen should be(1)
     Score(1).toScore should be(1)
     Gross(1).toGross should be(1)
+  }
+
+  it should "create values from properly formatted Strings" in {
+    Dimensionless("10.22 ea").get should be(Each(10.22))
+    Dimensionless("10.22 dz").get should be(Dozen(10.22))
+    Dimensionless("10.22 score").get should be(Score(10.22))
+    Dimensionless("10.22 gr").get should be(Gross(10.22))
+    Dimensionless("10.45 zz").failed.get should be(QuantityStringParseException("Unable to parse Dimensionless", "10.45 zz"))
+    Dimensionless("zz ea").failed.get should be(QuantityStringParseException("Unable to parse Dimensionless", "zz ea"))
   }
 
   it should "properly convert to all supported Units of Measure" in {
