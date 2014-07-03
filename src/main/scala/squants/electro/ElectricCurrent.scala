@@ -42,7 +42,7 @@ final class ElectricCurrent private (val value: Double) extends Quantity[Electri
 
 object ElectricCurrent extends QuantityCompanion[ElectricCurrent] {
   private[electro] def apply[A](n: A)(implicit num: Numeric[A]) = new ElectricCurrent(num.toDouble(n))
-  def apply(s: String) = parseString(s)
+  def apply = parseString _
   def name = "ElectricCurrent"
   def valueUnit = Amperes
   def units = Set(Amperes, Milliamperes)

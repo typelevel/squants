@@ -30,7 +30,7 @@ final class SpectralIntensity private (val value: Double) extends Quantity[Spect
 
 object SpectralIntensity extends QuantityCompanion[SpectralIntensity] {
   private[radio] def apply[A](n: A)(implicit num: Numeric[A]) = new SpectralIntensity(num.toDouble(n))
-  def apply(s: String) = parseString(s)
+  def apply = parseString _
   def name = "SpectralIntensity"
   def valueUnit = WattsPerSteradianPerMeter
   def units = Set(WattsPerSteradianPerMeter)

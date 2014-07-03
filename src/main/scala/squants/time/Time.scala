@@ -53,7 +53,7 @@ object Time extends QuantityCompanion[Time] {
   val SecondsPerDay = SecondsPerHour * 24
 
   private[time] def apply[A](n: A)(implicit num: Numeric[A]) = new Time(num.toDouble(n))
-  def apply(s: String) = parseString(s)
+  def apply = parseString _
 
   def name = "Time"
   def valueUnit = Milliseconds

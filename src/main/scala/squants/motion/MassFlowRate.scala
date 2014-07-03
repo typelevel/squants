@@ -29,7 +29,7 @@ final class MassFlowRate private (val value: Double) extends Quantity[MassFlowRa
 
 object MassFlowRate extends QuantityCompanion[MassFlowRate] {
   private[motion] def apply[A](n: A)(implicit num: Numeric[A]) = new MassFlowRate(num.toDouble(n))
-  def apply(s: String) = parseString(s)
+  def apply = parseString _
   def name = "MassFlowRate"
   def valueUnit = KilogramsPerSecond
   def units = Set(KilogramsPerSecond)

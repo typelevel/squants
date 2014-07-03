@@ -31,7 +31,7 @@ final class LuminousIntensity private (val value: Double) extends Quantity[Lumin
 
 object LuminousIntensity extends QuantityCompanion[LuminousIntensity] {
   private[photo] def apply[A](n: A)(implicit num: Numeric[A]) = new LuminousIntensity(num.toDouble(n))
-  def apply(s: String) = parseString(s)
+  def apply = parseString _
   def name = "LuminousIntensity"
   def valueUnit = Candelas
   def units = Set(Candelas)

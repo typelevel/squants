@@ -30,7 +30,7 @@ final class EnergyDensity private (val value: Double) extends Quantity[EnergyDen
 
 object EnergyDensity extends QuantityCompanion[EnergyDensity] {
   private[energy] def apply[A](n: A)(implicit num: Numeric[A]) = new EnergyDensity(num.toDouble(n))
-  def apply(s: String) = parseString(s)
+  def apply = parseString _
   def name = "EnergyDensity"
   def valueUnit = JoulesPerCubicMeter
   def units = Set(JoulesPerCubicMeter)

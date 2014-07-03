@@ -35,7 +35,7 @@ final class MagneticFlux private (val value: Double) extends Quantity[MagneticFl
 
 object MagneticFlux extends QuantityCompanion[MagneticFlux] {
   private[electro] def apply[A](n: A)(implicit num: Numeric[A]) = new MagneticFlux(num.toDouble(n))
-  def apply(s: String) = parseString(s)
+  def apply = parseString _
   def name = "MagneticFlux"
   def valueUnit = Webers
   def units = Set(Webers)

@@ -71,7 +71,7 @@ final class Length private (val value: Double) extends Quantity[Length]
  */
 object Length extends QuantityCompanion[Length] {
   private[space] def apply[A](b: A)(implicit num: Numeric[A]) = new Length(num.toDouble(b))
-  def apply(s: String) = parseString(s)
+  def apply = parseString _
   def name = "Length"
   def valueUnit = Meters
   def units = Set(Nanometers, Microns, Millimeters, Centimeters,

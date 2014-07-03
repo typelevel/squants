@@ -65,7 +65,7 @@ final class Mass private (val value: Double) extends Quantity[Mass]
  */
 object Mass extends QuantityCompanion[Mass] {
   private[mass] def apply[A](n: A)(implicit num: Numeric[A]) = new Mass(num.toDouble(n))
-  def apply(s: String) = parseString(s)
+  def apply = parseString _
   def name = "Mass"
   def valueUnit = Grams
   def units = Set(Micrograms, Milligrams, Grams, Kilograms, Tonnes, Pounds, Ounces)

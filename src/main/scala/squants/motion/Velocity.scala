@@ -48,7 +48,7 @@ final class Velocity private (val value: Double) extends Quantity[Velocity]
 object Velocity extends QuantityCompanion[Velocity] {
   private[motion] def apply[A](n: A)(implicit num: Numeric[A]) = new Velocity(num.toDouble(n))
   def apply(l: Length, t: Time) = MetersPerSecond(l.toMeters / t.toSeconds)
-  def apply(s: String) = parseString(s)
+  def apply = parseString _
   def name = "Velocity"
   def valueUnit = MetersPerSecond
   def units = Set(MetersPerSecond, FeetPerSecond, KilometersPerHour, UsMilesPerHour,

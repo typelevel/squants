@@ -30,7 +30,7 @@ final class Radiance private (val value: Double) extends Quantity[Radiance] {
 
 object Radiance extends QuantityCompanion[Radiance] {
   private[radio] def apply[A](n: A)(implicit num: Numeric[A]) = new Radiance(num.toDouble(n))
-  def apply(s: String) = parseString(s)
+  def apply = parseString _
   def name = "Radiance"
   def valueUnit = WattsPerSteradianPerSquareMeter
   def units = Set(WattsPerSteradianPerSquareMeter)

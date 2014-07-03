@@ -29,7 +29,7 @@ final class MagneticFluxDensity private (val value: Double) extends Quantity[Mag
 
 object MagneticFluxDensity extends QuantityCompanion[MagneticFluxDensity] {
   private[electro] def apply[A](n: A)(implicit num: Numeric[A]) = new MagneticFluxDensity(num.toDouble(n))
-  def apply(s: String) = parseString(s)
+  def apply = parseString _
   def name = "MagneticFluxDensity"
   def valueUnit = Teslas
   def units = Set(Teslas, Gauss)

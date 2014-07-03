@@ -33,7 +33,7 @@ final class Momentum private (val value: Double) extends Quantity[Momentum] with
 object Momentum extends QuantityCompanion[Momentum] {
   private[motion] def apply[A](n: A)(implicit num: Numeric[A]) = new Momentum(num.toDouble(n))
   def apply(m: Mass, v: Velocity) = new Momentum(m.toKilograms * v.toMetersPerSecond)
-  def apply(s: String) = parseString(s)
+  def apply = parseString _
   def name = "Momentum"
   def valueUnit = NewtonSeconds
   def units = Set(NewtonSeconds)

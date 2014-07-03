@@ -73,7 +73,7 @@ final class Volume private (val value: Double)
 object Volume extends QuantityCompanion[Volume] {
   private[space] def apply[A](n: A)(implicit num: Numeric[A]) = new Volume(num.toDouble(n))
   def apply(area: Area, length: Length): Volume = apply(area.toSquareMeters * length.toMeters)
-  def apply(s: String) = parseString(s)
+  def apply = parseString _
   def name = "Volume"
   def valueUnit = CubicMeters
   def units = Set(CubicMeters, Litres, Nanolitres, Microlitres, Millilitres, Centilitres,

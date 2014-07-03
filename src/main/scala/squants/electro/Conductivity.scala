@@ -29,7 +29,7 @@ final class Conductivity private (val value: Double) extends Quantity[Conductivi
 
 object Conductivity extends QuantityCompanion[Conductivity] {
   private[electro] def apply[A](n: A)(implicit num: Numeric[A]) = new Conductivity(num.toDouble(n))
-  def apply(s: String) = parseString(s)
+  def apply = parseString _
   def name = "Conductivity"
   def valueUnit = SiemensPerMeter
   def units = Set(SiemensPerMeter)

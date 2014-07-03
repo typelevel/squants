@@ -31,7 +31,7 @@ final class AreaDensity private (val value: Double) extends Quantity[AreaDensity
 object AreaDensity extends QuantityCompanion[AreaDensity] {
   private[mass] def apply[A](n: A)(implicit num: Numeric[A]) = new AreaDensity(num.toDouble(n))
   def apply(mass: Mass, area: Area): AreaDensity = KilogramsPerSquareMeter(mass.toKilograms / area.toSquareMeters)
-  def apply(s: String) = parseString(s)
+  def apply = parseString _
   def name = "AreaDensity"
   def valueUnit = KilogramsPerSquareMeter
   def units = Set(KilogramsPerSquareMeter)

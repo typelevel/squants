@@ -30,7 +30,7 @@ final class ChemicalAmount private (val value: Double) extends Quantity[Chemical
 
 object ChemicalAmount extends QuantityCompanion[ChemicalAmount] {
   private[mass] def apply[A](n: A)(implicit num: Numeric[A]) = new ChemicalAmount(num.toDouble(n))
-  def apply(s: String) = parseString(s)
+  def apply = parseString _
   val name = "ChemicalAmount"
   def valueUnit = Moles
   def units = Set(Moles, PoundMoles)

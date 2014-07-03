@@ -31,7 +31,7 @@ final class LuminousExposure private (val value: Double) extends Quantity[Lumino
 
 object LuminousExposure extends QuantityCompanion[LuminousExposure] {
   private[photo] def apply[A](n: A)(implicit num: Numeric[A]) = new LuminousExposure(num.toDouble(n))
-  def apply(s: String) = parseString(s)
+  def apply = parseString _
   def name = "LuminousExposure"
   def valueUnit = LuxSeconds
   def units = Set(LuxSeconds)
