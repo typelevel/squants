@@ -25,7 +25,7 @@ final class Dimensionless private (val value: Double)
     extends Quantity[Dimensionless]
     with TimeIntegral[Frequency] {
 
-  def valueUnit = Each
+  def valueUnit = Dimensionless.valueUnit
 
   def *(that: Dimensionless) = Each(toEach * that.toEach)
   def *(that: Quantity[_]) = that * toEach
@@ -41,8 +41,12 @@ final class Dimensionless private (val value: Double)
 /**
  * Factory singleton for [[squants.Dimensionless]]
  */
-object Dimensionless {
+object Dimensionless extends QuantityCompanion[Dimensionless] {
   def apply[A](n: A)(implicit num: Numeric[A]) = new Dimensionless(num.toDouble(n))
+  def apply = parseString _
+  def name = "Dimensionless"
+  def valueUnit = Each
+  def units = Set(Each, Dozen, Score, Gross)
 }
 
 /**
@@ -107,7 +111,7 @@ object DimensionlessConversions {
     def million = Each(num.toDouble(n) * 1000000D)
   }
 
-  implicit object DimensionlessNumeric extends AbstractQuantityNumeric[Dimensionless](Each) {
+  implicit object DimensionlessNumeric extends AbstractQuantityNumeric[Dimensionless](Dimensionless.valueUnit) {
     /**
      * Dimensionless quantities support the times operation.
      * This method overrides the default [[squants.AbstractQuantityNumeric.times]] which thrown an exception
