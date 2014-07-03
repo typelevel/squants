@@ -9,7 +9,6 @@
 package squants.electro
 
 import squants._
-import scala.Some
 import squants.time.{ Seconds, TimeDerivative }
 import squants.energy.Watts
 

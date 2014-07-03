@@ -16,7 +16,6 @@ import squants.electro.{ Volts, ElectricCurrent, Amperes, ElectricPotential }
 import squants.radio.Irradiance
 import squants.radio.SpectralPower
 import squants.radio.RadiantIntensity
-import scala.Some
 
 /**
  * Represents a quantity of power / load, the rate at which energy produced or used

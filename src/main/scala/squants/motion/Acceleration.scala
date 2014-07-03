@@ -12,7 +12,6 @@ import squants._
 import squants.time._
 import squants.Time
 import squants.time.Seconds
-import scala.Some
 import squants.space.{ UsMiles, Feet }
 
 /**

@@ -19,7 +19,6 @@ import squants.radio.Irradiance
 import squants.photo.Luminance
 import squants.motion.Pressure
 import squants.radio.Radiance
-import scala.Some
 import squants.mass.AreaDensity
 
 /**

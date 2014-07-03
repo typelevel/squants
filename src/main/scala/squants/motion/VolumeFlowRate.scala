@@ -12,7 +12,6 @@ import squants._
 import squants.space.{ UsGallons, CubicMeters }
 import squants.time._
 import squants.Seconds
-import scala.Some
 
 /**
  * @author  garyKeorkunian

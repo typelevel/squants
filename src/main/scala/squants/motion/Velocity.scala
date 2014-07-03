@@ -14,7 +14,6 @@ import squants.time.Seconds
 import squants._
 import squants.Time
 import squants.space.Length
-import scala.Some
 import squants.Meters
 
 /**

@@ -10,7 +10,6 @@ package squants.time
 
 import scala.language.implicitConversions
 import squants._
-import scala.Some
 import scala.concurrent.duration.Duration
 
 /**

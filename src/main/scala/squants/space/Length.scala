@@ -15,7 +15,6 @@ import squants.electro._
 import squants.radio.SpectralPower
 import squants.motion.Velocity
 import squants.radio.RadiantIntensity
-import scala.Some
 import squants.radio.SpectralIntensity
 import squants.Time
 

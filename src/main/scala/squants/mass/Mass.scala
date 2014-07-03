@@ -16,7 +16,6 @@ import squants.energy.{ SpecificEnergy, Joules }
 import squants.space.{ SquareMeters, CubicMeters }
 import squants.motion.Force
 import squants.Velocity
-import scala.Some
 import squants.motion.MassFlowRate
 import squants.Acceleration
 import squants.motion.Momentum
