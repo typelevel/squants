@@ -266,6 +266,10 @@ final class Money private (val amount: BigDecimal)(val currency: Currency)
     case this.currency ⇒ throw new IllegalArgumentException("Can not create Exchange Rate on matching currencies")
     case _             ⇒ CurrencyExchangeRate(that, this)
   }
+  /**
+   * toThe
+   */
+  def -> = toThe _
 
   /**
    * Convert this Money to a Double representing the currency unit
@@ -385,5 +389,18 @@ object MoneyConversions {
     def NZD = Money(n, squants.market.NZD)
     def BTC = Money(n, squants.market.BTC)
     def bitCoin = BTC
+  }
+
+  class MoneyNumeric()(implicit mc: MoneyContext) extends Numeric[Money] {
+    def plus(x: Money, y: Money) = x + y
+    def minus(x: Money, y: Money) = x - y
+    def times(x: Money, y: Money) = throw new UnsupportedOperationException("Numeric.times not supported for Quantities")
+    def negate(x: Money) = -x
+    def fromInt(x: Int) = mc.defaultCurrency(x)
+    def toInt(x: Money) = x.value.toInt
+    def toLong(x: Money) = x.value.toLong
+    def toFloat(x: Money) = x.value.toFloat
+    def toDouble(x: Money) = x.value
+    def compare(x: Money, y: Money) = if (x.value > y.value) 1 else if (x.value < y.value) -1 else 0
   }
 }

@@ -385,7 +385,7 @@ class QuantitySpec extends FlatSpec with Matchers {
   behavior of "SquantifiedNumeric"
 
   it should "multiply by a Quantity value and return the product as a like value" ignore {
-    // TODO - The implicit does seem to get picked up here.  Using the conversion explicitly works, but so what.
+    // TODO - The implicit does not seem to get picked up here.  Using the conversion explicitly works, but so what.
     //    val multiple = BigDecimal(10)
     //    val l = multiple * Thangs(1000)
     //    l.getClass should be(classOf[Thingee])
