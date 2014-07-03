@@ -252,14 +252,19 @@ class MoneySpec extends FlatSpec with Matchers {
     EUR(7.5) - JPY(500) should be(EUR(5)) // Uses indirect rate via USD
   }
 
-  it should "return an Exchange Rate on toThe a different currency" in {
+  it should "return an Exchange Rate on toThe (->) a different currency" in {
     JPY(100) toThe USD(1) should be(CurrencyExchangeRate(USD(1), JPY(100)))
     USD(1) toThe JPY(100) should be(CurrencyExchangeRate(JPY(100), USD(1)))
+    JPY(100) -> USD(1) should be(CurrencyExchangeRate(USD(1), JPY(100)))
+    USD(1) -> JPY(100) should be(CurrencyExchangeRate(JPY(100), USD(1)))
   }
 
-  it should "throw an IllegalArgumentException on toThe a same currency" in {
+  it should "throw an IllegalArgumentException on toThe (->) a same currency" in {
     intercept[IllegalArgumentException] {
       USD(100).toThe(USD(3)) == CurrencyExchangeRate(USD(100), USD(3))
+    }
+    intercept[IllegalArgumentException] {
+      USD(100) -> USD(3) == CurrencyExchangeRate(USD(100), USD(3))
     }
   }
 
@@ -343,5 +348,33 @@ class MoneySpec extends FlatSpec with Matchers {
     d.NZD should be(Money(d, squants.market.NZD))
     d.BTC should be(Money(d, squants.market.BTC))
     d.bitCoin should be(BTC(d))
+  }
+
+  it should "provide Numeric support within a MoneyContext with no Exchange Rates" in {
+    import MoneyConversions._
+
+    implicit val moneyContext = defaultMoneyContext
+    implicit val moneyNum = new MoneyNumeric()
+
+    val ms = List(USD(100), USD(10), USD(1))
+    ms.sum should be(USD(111))
+
+    intercept[NoSuchExchangeRateException] {
+      val ms2 = List(USD(100), CAD(100), JPY(100))
+      ms2.sum should be(USD(111))
+    }
+  }
+
+  it should "provide Numeric support within a MoneyContext with applicable Exchange Rates" in {
+    import MoneyConversions._
+
+    implicit val moneyContext = defaultMoneyContext.withExchangeRates(List(USD(1) -> CAD(10), USD(1) -> JPY(100)))
+    implicit val moneyNum = new MoneyNumeric()
+
+    val ms = List(USD(100), USD(10), USD(1))
+    ms.sum should be(USD(111))
+
+    val ms2 = List(USD(100), CAD(100), JPY(100))
+    ms2.sum should be(USD(111))
   }
 }
