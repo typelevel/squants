@@ -220,8 +220,6 @@ However, because of its lower precedence, user code may require parenthesis arou
 <h3>
 <a name="vectors" class="anchor" href="#vectors"><span class="octicon octicon-link"></span></a>Vectors</h3>
 
-<p>** EXPERIMENTAL **</p>
-
 <p>All Quantity types in Squants represent the scalar value of a quantity.
 That is, there is no direction information encoded in any of the Quantity types.
 This is true even for Quantities which are normally vector quantities (ie. Velocity, Acceleration, etc).</p>
@@ -432,6 +430,22 @@ to your code where Numeric support is required.  These follow the following patt
 <span class="k">val</span> <span class="n">sum</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="nc">Kilograms</span><span class="o">(</span><span class="mi">100</span><span class="o">),</span> <span class="nc">Grams</span><span class="o">(</span><span class="mi">34510</span><span class="o">)).</span><span class="n">sum</span>
 </pre></div>
 
+<p>The MoneyNumeric implementation is a bit different than the implementations for other quantity types
+in a few important ways.</p>
+
+<ol>
+<li>MoneyNumeric is a class, not an object like the others.</li>
+<li>To create a MoneyNumeric value there must be an implicit MoneyContext in scope.</li>
+<li>The MoneyContext must contain applicable exchange rates if you will be applying cross-currency Numeric ops.</li>
+</ol><p>The following code provides a basic example for creating a MoneyNumeric:</p>
+
+<div class="highlight highlight-scala"><pre><span class="k">import</span> <span class="nn">MoneyConversions._</span>
+<span class="k">implicit</span> <span class="k">val</span> <span class="n">moneyContext</span> <span class="k">=</span> <span class="n">defaultMoneyContext</span>
+<span class="k">implicit</span> <span class="k">val</span> <span class="n">moneyNum</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">MoneyNumeric</span><span class="o">()</span>
+
+<span class="k">val</span> <span class="n">sum</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="nc">USD</span><span class="o">(</span><span class="mi">100</span><span class="o">),</span> <span class="nc">USD</span><span class="o">(</span><span class="mi">10</span><span class="o">)).</span><span class="n">sum</span>
+</pre></div>
+
 <h2>
 <a name="type-hierarchy" class="anchor" href="#type-hierarchy"><span class="octicon octicon-link"></span></a>Type Hierarchy</h2>
 
@@ -507,7 +521,7 @@ that perform dimensional analysis.</p>
 
 <span class="k">val</span> <span class="n">dodgeViper</span><span class="k">:</span> <span class="kt">Acceleration</span> <span class="o">=</span> <span class="mf">60.</span><span class="n">miles</span> <span class="o">/</span> <span class="n">hour</span> <span class="o">/</span> <span class="mf">3.9</span><span class="o">.</span><span class="n">seconds</span>
 <span class="k">val</span> <span class="n">speedAfter5Seconds</span><span class="k">:</span> <span class="kt">Velocity</span> <span class="o">=</span> <span class="n">dodgeViper</span> <span class="o">*</span> <span class="mf">5.</span><span class="n">seconds</span>
-<span class="k">val</span> <span class="nc">TimeTo100MPH</span><span class="k">:</span> <span class="kt">Time</span> <span class="o">=</span> <span class="mf">100.</span><span class="n">miles</span> <span class="o">/</span> <span class="n">hour</span> <span class="o">/</span> <span class="n">dodgeViper</span>
+<span class="k">val</span> <span class="n">timeTo100MPH</span><span class="k">:</span> <span class="kt">Time</span> <span class="o">=</span> <span class="mf">100.</span><span class="n">miles</span> <span class="o">/</span> <span class="n">hour</span> <span class="o">/</span> <span class="n">dodgeViper</span>
 
 <span class="k">val</span> <span class="n">density</span><span class="k">:</span> <span class="kt">Density</span> <span class="o">=</span> <span class="mf">1200.</span><span class="n">kilograms</span> <span class="o">/</span> <span class="n">cubicMeter</span>
 <span class="k">val</span> <span class="n">volFlowRate</span><span class="k">:</span> <span class="kt">VolumeFlowRate</span> <span class="o">=</span> <span class="mf">10.</span><span class="n">gallons</span> <span class="o">/</span> <span class="n">minute</span>
@@ -633,9 +647,7 @@ with type and scale conversions in your application logic.</p>
 <p>The following features and improvements are planned for the 1.0 release</p>
 
 <ul>
-<li>JSON Marshalling Support perhaps with a companion project or two for specific bindings (ie, squants-json4s)</li>
 <li>Validate and improve Money and FX Support</li>
-<li>Implement improved Vector Quantity support (Velocity, Acceleration, Force, etc)</li>
 <li>Additional Quantity Types, Units and Dimensional Conversions</li>
 <li>Optimize Performance and / or Conversion Precisions
 
@@ -646,6 +658,7 @@ so that user code can choose a more precise type such as those provided by the
 <a href="https://github.com/non/spire">Spire</a> project</li>
 </ul>
 </li>
+<li>JSON Marshalling Support perhaps with a companion project or two for specific bindings (ie, squants-json4s)</li>
 <li>Enhance documentation and support presence</li>
 <li>Typesafe Activator Sample Project /  Template</li>
 </ul><h2>
