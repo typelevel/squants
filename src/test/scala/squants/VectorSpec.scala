@@ -24,17 +24,126 @@ class VectorSpec extends FlatSpec with Matchers {
 
   behavior of "DoubleVector"
 
-  it should "create a Vector with expected values" is pending
-  it should "equate to like Vectors" is pending
-  it should "not equate to dislike Vectors" is pending
-  it should "determine a magnitude" is pending
-  it should "normalize a Vector" is pending
-  it should "add two Vectors" is pending
-  it should "subtract two Vectors" is pending
-  it should "rescale a Vectors" is pending
-  it should "dotProduct two Vectors" is pending
-  it should "crossProduct two Vectors with 3 dimensions" is pending
-  it should "crossProduct two Vectors with 7 dimensions" is pending
+  it should "create a Vector with expected values" in {
+    val vector = DoubleVector(1, 10, 5)
+    vector.coordinates(0) should be(1)
+    vector.coordinates(1) should be(10)
+    vector.coordinates(2) should be(5)
+  }
+
+  it should "equate to like Vectors" in {
+    val x = 1
+    val y = 10
+    val z = 5
+    DoubleVector(x, y, z).equals(DoubleVector(x, y, z)) should be(right = true)
+    DoubleVector(x, y, z) == DoubleVector(x, y, z) should be(right = true)
+  }
+
+  it should "not equate to dislike Vectors" in {
+    val x = 1
+    val y = 10
+    val z = 5
+    DoubleVector(x, y, z).equals(DoubleVector(z, y, z)) should be(right = false)
+    DoubleVector(x, y, z) != DoubleVector(z, y, z) should be(right = true)
+  }
+
+  it should "determine a magnitude" in {
+    val vector = DoubleVector(3, 4, 5)
+    vector.magnitude should be(math.sqrt(3 * 3 + 4 * 4 + 5 * 5))
+  }
+
+  it should "normalize a Vector" in {
+    val x = 3
+    val y = 4
+    val z = 5
+    val normalized = DoubleVector(x, y, z).normalize
+    normalized.magnitude should be(1.0 +- 0.0000000000000001)
+  }
+
+  it should "add two Vectors" in {
+    val x = 1
+    val y = 2
+    val z = 3
+    val a = 5
+    DoubleVector(x, y, z).plus(DoubleVector(a, a, a)) should be(DoubleVector(x + a, y + a, z + a))
+  }
+
+  it should "subtract two Vectors" in {
+    val x = 1
+    val y = 2
+    val z = 3
+    val a = 5
+    DoubleVector(x, y, z).minus(DoubleVector(a, a, a)) should be(DoubleVector(x - a, y - a, z - a))
+  }
+
+  it should "rescale a Vector" in {
+    val x = 1
+    val y = 2
+    val z = 3
+    val r = 5d
+    DoubleVector(x, y, z).times(r) should be(DoubleVector(x * r, y * r, z * r))
+    DoubleVector(x, y, z) * r should be(DoubleVector(x * r, y * r, z * r))
+    DoubleVector(x, y, z).divide(r) should be(DoubleVector(x / r, y / r, z / r))
+    DoubleVector(x, y, z) / r should be(DoubleVector(x / r, y / r, z / r))
+  }
+
+  it should "dot product two Vectors" in {
+    val x = 1
+    val y = 2
+    val z = 3
+    val a = 5d
+    val expRes = x * a + y * a + z * a
+    DoubleVector(x, y, z).dotProduct(DoubleVector(a, a, a)) should be(expRes)
+    DoubleVector(x, y, z) * DoubleVector(a, a, a) should be(expRes)
+  }
+
+  it should "cross product two Vectors with 3 coordinates each" in {
+    val x = 1
+    val y = 2
+    val z = 3
+    val a = 5d
+    val expRes = DoubleVector(y * a - z * a, z * a - x * a, x * a - y * a)
+    DoubleVector(x, y, z).crossProduct(DoubleVector(a, a, a)) should be(expRes)
+    DoubleVector(x, y, z) #* DoubleVector(a, a, a) should be(expRes)
+
+    val up = DoubleVector(1, 2, 3)
+    val left = DoubleVector(3, 2, 1)
+    val forward = up crossProduct left
+    val back = left crossProduct up
+    // TODO Enhance these tests
+  }
+
+  it should "throw an exception on crossProduct two Vectors with 7 dimensions" in {
+    val v1 = DoubleVector(1, 2, 3, 4, 5, 6, 7)
+    val v2 = DoubleVector(1, 2, 3, 4, 5, 6, 7)
+    intercept[UnsupportedOperationException] {
+      v1 crossProduct v2
+    }
+  }
+
+  it should "throw an exception on crossProduct of arbitrary size" in {
+    val vector3 = DoubleVector(1, 2, 3)
+    val vector4 = DoubleVector(1, 2, 3, 4)
+    val vector7 = DoubleVector(1, 2, 3, 5, 6, 7)
+
+    intercept[UnsupportedOperationException] {
+      vector3 crossProduct vector4
+    }
+    intercept[UnsupportedOperationException] {
+      vector4 crossProduct vector3
+    }
+
+    intercept[UnsupportedOperationException] {
+      vector4 crossProduct vector4
+    }
+
+    intercept[UnsupportedOperationException] {
+      vector7 crossProduct vector4
+    }
+    intercept[UnsupportedOperationException] {
+      vector4 crossProduct vector7
+    }
+  }
 
   behavior of "QuantityVector"
 
@@ -102,9 +211,6 @@ class VectorSpec extends FlatSpec with Matchers {
     QuantityVector(x, y, z) / r should be(QuantityVector(x / r, y / r, z / r))
   }
 
-  it should "rescale a Vector with a Generic Numeric" in {
-  }
-
   it should "dot product two Vectors" in {
     val x = Kilometers(1)
     val y = Kilometers(2)
@@ -134,7 +240,62 @@ class VectorSpec extends FlatSpec with Matchers {
     // TODO Enhance these tests
   }
 
-  it should "cross product two Vectors with 7 coordinates each" is pending
+  it should "throw an exception on cross product two Vectors with 7 coordinates each" in {
+    import scala.language.implicitConversions
+    implicit def nToQ(d: Int) = Kilometers(d)
+    val v1 = QuantityVector[Length](1, 2, 3, 5, 6, 7)
+    val v2 = DoubleVector(1, 2, 3, 5, 6, 7)
+    intercept[UnsupportedOperationException] {
+      v1 crossProduct v2
+    }
+  }
+
+  it should "throw an exception on crossProduct of arbitrary size" in {
+    import scala.language.implicitConversions
+    implicit def nToQ(d: Int) = Kilometers(d)
+    val qv3 = QuantityVector[Length](1, 2, 3)
+    val qv4 = QuantityVector[Length](1, 2, 3, 4)
+    val qv7 = QuantityVector[Length](1, 2, 3, 5, 6, 7)
+    val dv3 = DoubleVector(1, 2, 3)
+    val dv4 = DoubleVector(1, 2, 3, 4)
+    val dv7 = DoubleVector(1, 2, 3, 5, 6, 7)
+
+    // No crossProduct 3D with other sized vectors
+    intercept[UnsupportedOperationException] {
+      qv3 crossProduct dv7
+    }
+    intercept[UnsupportedOperationException] {
+      qv3 crossProduct dv4
+    }
+    intercept[UnsupportedOperationException] {
+      dv7 crossProduct qv3
+    }
+    intercept[UnsupportedOperationException] {
+      dv4 crossProduct qv3
+    }
+
+    // NO crossProduct 7D with other sized vectors
+    intercept[UnsupportedOperationException] {
+      qv7 crossProduct dv3
+    }
+    intercept[UnsupportedOperationException] {
+      qv7 crossProduct dv4
+    }
+    intercept[UnsupportedOperationException] {
+      dv3 crossProduct qv7
+    }
+    intercept[UnsupportedOperationException] {
+      dv4 crossProduct qv7
+    }
+
+    // No crossProduct with other matching size vectors
+    intercept[UnsupportedOperationException] {
+      dv4 crossProduct qv4
+    }
+    intercept[UnsupportedOperationException] {
+      qv4 crossProduct dv4
+    }
+  }
 
   it should "convert to a DoubleVector" in {
     val x = Kilometers(1)
@@ -147,8 +308,17 @@ class VectorSpec extends FlatSpec with Matchers {
 
   behavior of "SquantifiedDoubleVector"
 
-  it should "multiply by a Vector[Quantity] and return the Dot Product as like Quantity" is pending
-  it should "crossProduct by a Vector[Quantity] and return the Cross Product as like Vector[Quantity]" is pending
+  it should "multiply by a Vector[Quantity] and return the Dot Product as like Quantity" in {
+    val dVector = DoubleVector(1, 2, 3)
+    val qVector = QuantityVector(Meters(1), Meters(2), Meters(3))
+    dVector dotProduct qVector should be(qVector dotProduct dVector)
+  }
+
+  it should "crossProduct by a Vector[Quantity] and return the Cross Product as like Vector[Quantity]" in {
+    val dVector = DoubleVector(1, 2, 3)
+    val qVector = QuantityVector(Meters(1), Meters(2), Meters(3))
+    dVector crossProduct qVector should be(qVector crossProduct dVector)
+  }
 
   behavior of "Dimensional Conversion Strategies"
 

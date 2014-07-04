@@ -11,8 +11,6 @@ package squants
 /**
  * Root trait for representing Vectors
  *
- * EXPERIMENTAL
- *
  * @author garyKeorkunian
  * @since 0.3.0
  *
@@ -96,8 +94,6 @@ trait Vector[A] {
 /**
  * Double (Real Number) Vector
  *
- * EXPERIMENTAL
- *
  * @author garyKeorkunian
  * @since 0.3.0
  *
@@ -144,8 +140,6 @@ case class DoubleVector(coordinates: Double*) extends Vector[Double] {
 
 /**
  * Quantity Vector
- *
- * EXPERIMENTAL
  *
  * @author garyKeorkunian
  * @since 0.3.0
@@ -207,6 +201,8 @@ case class QuantityVector[A <: Quantity[A]](coordinates: A*) extends Vector[A] {
   def to(unit: UnitOfMeasure[A]): DoubleVector = this / unit(1)
 
   /**
+   * EXPERIMENTAL
+   *
    * Strategy #1 Prototype for implementation that support dimensional conversion
    *
    * Implement abstract methods here that use implicit mapTo function to perform the
@@ -230,6 +226,8 @@ case class QuantityVector[A <: Quantity[A]](coordinates: A*) extends Vector[A] {
 }
 
 /**
+ * EXPERIMENTAL
+ *
  * Strategy #2 Prototype for implementations that support dimensional conversions
  *
  * Add implicit conversions to each Quantity's Conversions object that define the operations
@@ -257,6 +255,8 @@ object QuantityVectorConversion {
 }
 
 /**
+ * EXPERIMENTAL
+ *
  * Strategy #3 Prototype for implementations that support dimensional conversions
  *
  * Implement a class representing the specific Quantity Vector that define the operations

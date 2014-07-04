@@ -176,7 +176,6 @@ The `~=` is provided for those who wish to use a more natural looking approx ope
 However, because of its lower precedence, user code may require parenthesis around these comparisons
 
 ### Vectors
-** EXPERIMENTAL **
 
 All Quantity types in Squants represent the scalar value of a quantity.
 That is, there is no direction information encoded in any of the Quantity types.
@@ -474,7 +473,7 @@ val energyCost: Money = energyPrice * energyUsage
 
 val dodgeViper: Acceleration = 60.miles / hour / 3.9.seconds
 val speedAfter5Seconds: Velocity = dodgeViper * 5.seconds
-val TimeTo100MPH: Time = 100.miles / hour / dodgeViper
+val timeTo100MPH: Time = 100.miles / hour / dodgeViper
 
 val density: Density = 1200.kilograms / cubicMeter
 val volFlowRate: VolumeFlowRate = 10.gallons / minute
@@ -600,15 +599,14 @@ trait LoadRoute extends HttpService {
 
 The following features and improvements are planned for the 1.0 release
 
-* JSON Marshalling Support perhaps with a companion project or two for specific bindings (ie, squants-json4s)
 * Validate and improve Money and FX Support
-* Implement improved Vector Quantity support (Velocity, Acceleration, Force, etc)
 * Additional Quantity Types, Units and Dimensional Conversions
 * Optimize Performance and / or Conversion Precisions
   * Using a Double as the underlying value is likely providing the best performance
   * Better precision will likely take the form of replacing the underlying Double value with a Generic Type
   so that user code can choose a more precise type such as those provided by the
   [Spire](https://github.com/non/spire) project
+* JSON Marshalling Support perhaps with a companion project or two for specific bindings (ie, squants-json4s)
 * Enhance documentation and support presence
 * Typesafe Activator Sample Project /  Template
 

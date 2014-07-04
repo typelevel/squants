@@ -11,6 +11,7 @@ package squants
 import org.scalatest.{ FlatSpec, Matchers }
 import squants.thermal.{ Celsius, Fahrenheit }
 import squants.time.Hours
+import spire.math.Rational
 
 /**
  * @author  garyKeorkunian
@@ -382,18 +383,18 @@ class QuantitySpec extends FlatSpec with Matchers {
     (m to Kilograms) should be(500)
   }
 
-  behavior of "SquantifiedNumeric"
+  behavior of "SquantifiedBigDecimal"
 
-  it should "multiply by a Quantity value and return the product as a like value" ignore {
-    // TODO - The implicit does not seem to get picked up here.  Using the conversion explicitly works, but so what.
-    //    val multiple = BigDecimal(10)
-    //    val l = multiple * Thangs(1000)
-    //    l.getClass should be(classOf[Thingee])
-    //    (l to Thangs) should be(10000)
-    //
-    //    val m = multiple * Kilograms(50)
-    //    m.getClass should be(classOf[Mass])
-    //    (m to Kilograms) should be(500)
+  it should "multiply by a Quantity value and return the product as a like value" in {
+    val multiple = BigDecimal(10)
+
+    val l = multiple * Thangs(1000)
+    l.getClass should be(classOf[Thingee])
+    (l to Thangs) should be(10000)
+
+    val m = multiple * Kilograms(50)
+    m.getClass should be(classOf[Mass])
+    (m to Kilograms) should be(500)
   }
 
   behavior of "QuantityNumeric"
