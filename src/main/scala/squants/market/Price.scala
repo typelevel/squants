@@ -64,6 +64,8 @@ case class Price[A <: Quantity[A]](money: Money, quantity: A) extends Ratio[Mone
 
   override def toString = money.toString + "/" + quantity.toString
 
+  def toString(unit: UnitOfMeasure[A]) = money.toString + "/" + quantity.toString(unit)
+
   def toString(currency: Currency, unit: UnitOfMeasure[A])(implicit moneyContext: MoneyContext) =
     (money in currency).toString + "/" + quantity.toString(unit)
 }

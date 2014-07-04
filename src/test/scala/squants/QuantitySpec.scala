@@ -11,7 +11,6 @@ package squants
 import org.scalatest.{ FlatSpec, Matchers }
 import squants.thermal.{ Celsius, Fahrenheit }
 import squants.time.Hours
-import spire.math.Rational
 
 /**
  * @author  garyKeorkunian
@@ -51,34 +50,33 @@ class QuantitySpec extends FlatSpec with Matchers {
   behavior of "Quantity as implemented in Thingee"
 
   it should "create values using arbitrary numeric types" in {
-
-    // using arbitrary Numeric types
+    // import some arbitrary types
     import spire.math.Rational
     import spire.math.Real
 
+    // define Numeric for each type
     abstract class BaseNumeric[T] extends Numeric[T] {
-      def plus(x: T, y: T) = ???
-      def minus(x: T, y: T) = ???
-      def times(x: T, y: T) = ???
-      def negate(x: T) = ???
-      def fromInt(x: Int) = ???
-      def toInt(x: T) = ???
-      def toLong(x: T) = ???
-      def toFloat(x: T) = ???
-      def compare(x: T, y: T) = ???
+      def plus(x: T, y: T) = x + y
+      def minus(x: T, y: T) = x - y
+      def times(x: T, y: T) = x * y
+      def negate(x: T) = -x
+      def toInt(x: T) = x.toInt()
+      def toLong(x: T) = x.toLong()
+      def toFloat(x: T) = x.toFloat()
+      def compare(x: T, y: T) = if (x == y) 0 else if (x.toDouble() > y.toDouble()) 1 else -1
     }
 
     implicit val rationalNumeric = new BaseNumeric[Rational] {
+      def fromInt(x: Int) = Rational(x)
       def toDouble(x: Rational) = x.toDouble
     }
 
     implicit val realNumeric = new BaseNumeric[Real] {
+      def fromInt(x: Int) = Real(x)
       def toDouble(x: Real) = x.toDouble
     }
 
-    Thangs(10).toThangs should be(10)
-    Thangs(BigDecimal(10.22)).toThangs should be(10.22)
-
+    // Use them to initialize quantity values
     Thangs(Rational(10.22)).toThangs should be(10.22)
     (Thangs(Rational(10)) + Thangs(Rational(.22))).toThangs should be(10.22)
 
@@ -404,7 +402,9 @@ class QuantitySpec extends FlatSpec with Matchers {
     ThingeeNumeric.plus(Thangs(1000), Kilothangs(10)) should be(Kilothangs(11))
     ThingeeNumeric.minus(Kilothangs(10), Thangs(1000)) should be(Kilothangs(9))
 
-    an[UnsupportedOperationException] should be thrownBy ThingeeNumeric.times(Thangs(1), Thangs(2))
+    intercept[UnsupportedOperationException] {
+      ThingeeNumeric.times(Thangs(1), Thangs(2))
+    }
 
     ThingeeNumeric.negate(Thangs(10.22)) should be(Thangs(-10.22))
     ThingeeNumeric.fromInt(10) should be(Thangs(10))

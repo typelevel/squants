@@ -87,6 +87,11 @@ class PriceSpec extends FlatSpec with Matchers {
     p.toString should be(p.money.toString + "/" + p.quantity.toString)
   }
 
+  it should "return a properly formatted string in terms of the given unit" in {
+    val p = Price(Money(10.22, "USD"), Meters(1))
+    p.toString(Yards) should be(p.money.toString + "/" + p.quantity.toString(Yards))
+  }
+
   it should "convert a Price to a different currency with a valid MoneyContext" in {
     implicit val moneyContext = MoneyContext(USD, defaultCurrencySet, Seq(USD(1) toThe JPY(100)))
     val p = Price(USD(10), Meters(1))
