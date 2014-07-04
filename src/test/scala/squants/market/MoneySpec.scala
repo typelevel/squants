@@ -74,7 +74,39 @@ class MoneySpec extends FlatSpec with Matchers {
     USD(10) != JPY(10) should be(right = true)
   }
 
-  it should "return proper result when comparing dislike currencies with a MoneyContext in scope" is pending
+  it should "return proper result when comparing dislike currencies with a MoneyContext in scope" in {
+    implicit val moneyContext = defaultMoneyContext.withExchangeRates(List(USD(1) -> JPY(100)))
+
+    USD(10) moneyEquals JPY(1000) should be(right = true)
+    USD(10) ==# JPY(1000) should be(right = true)
+    USD(10) moneyEquals JPY(2000) should be(right = false)
+    USD(10) ==# JPY(2000) should be(right = false)
+
+    USD(10) moneyNotEquals JPY(1000) should be(right = false)
+    USD(10) !=# JPY(1000) should be(right = false)
+    USD(10) moneyNotEquals JPY(2000) should be(right = true)
+    USD(10) !=# JPY(2000) should be(right = true)
+
+    USD(1) moneyCompare JPY(100) should be(0)
+    USD(1) moneyCompare JPY(1000) should be(-1)
+    USD(1) moneyCompare JPY(10) should be(1)
+
+    USD(1) ># JPY(99) should be(right = true)
+    USD(1) ># JPY(100) should be(right = false)
+    USD(1) ># JPY(101) should be(right = false)
+
+    USD(1) >=# JPY(99) should be(right = true)
+    USD(1) >=# JPY(100) should be(right = true)
+    USD(1) >=# JPY(101) should be(right = false)
+
+    USD(1) <# JPY(99) should be(right = false)
+    USD(1) <# JPY(100) should be(right = false)
+    USD(1) <# JPY(101) should be(right = true)
+
+    USD(1) <=# JPY(99) should be(right = false)
+    USD(1) <=# JPY(100) should be(right = true)
+    USD(1) <=# JPY(101) should be(right = true)
+  }
 
   it should "compare a non-null Quantity to a null and return a proper result" in {
     val x = USD(2.1)

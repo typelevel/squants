@@ -213,8 +213,6 @@ package object squants {
   type Money = squants.market.Money
   type Price[A <: Quantity[A]] = squants.market.Price[A]
 
-  // TODO - the following implicits need tests
-
   /**
    * Provides implicit conversions that allow Doubles to lead in * operations
    * {{{
@@ -228,19 +226,36 @@ package object squants {
     def *[A](that: Vector[A]): Vector[A] = that * d
   }
 
+  /**
+   * Provides implicit conversions that allow Longs to lead in * operations
+   * {{{
+   *    5 * Kilometers(10) should be(Kilometers(15))
+   * }}}
+   *
+   * @param l Long
+   */
   implicit class SquantifiedLong(l: Long) {
     def *[A <: Quantity[A]](that: A): A = that * l.toDouble
     def *[A](that: Vector[A]): Vector[A] = that * l.toDouble
   }
 
-  implicit class SquantifiedNumeric[A](n: A)(implicit num: Numeric[A]) {
-    def *[B <: Quantity[B]](that: B): B = that * num.toDouble(n)
-    def *[B](that: Vector[B]): Vector[B] = that * num.toDouble(n)
+  /**
+   * Provides implicit conversions that allow BigDecimals to lead in * operations
+   * {{{
+   *    BigDecimal(1.5) * Kilometers(10) should be(Kilometers(15))
+   * }}}
+   *
+   * @param bd BigDecimal
+   */
+  implicit class SquantifiedBigDecimal(bd: BigDecimal) {
+    def *[A <: Quantity[A]](that: A): A = that * bd.toDouble
+    def *[A](that: Vector[A]): Vector[A] = that * bd.toDouble
   }
 
-  //TODO - determine if this is a better implementation for converting numeric values
-  //  implicit def SquantifyNumeric[A](n: A)(implicit num: Numeric[A]) = SquantifiedDouble(num.toDouble(n))
-
+  /**
+   * Provide implicit conversions that allow DoubleVectors to lead in vector product operations
+   * @param v Vector[Double]
+   */
   implicit class SquantifiedDoubleVector(v: Vector[Double]) {
     def dotProduct[A <: Quantity[A]](that: Vector[A]): A = that * v
     def *[A <: Quantity[A]] = dotProduct _

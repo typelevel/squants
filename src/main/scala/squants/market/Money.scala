@@ -199,17 +199,6 @@ final class Money private (val amount: BigDecimal)(val currency: Currency)
   }
 
   /**
-   * Supports max operation on Moneys of dislike Currency
-   * @param that Money
-   * @param moneyContext MoneyContext
-   * @return
-   */
-  def moneyMax(that: Money)(implicit moneyContext: MoneyContext) = moneyContext.compare(this, that) match {
-    case -1 ⇒ that
-    case _  ⇒ this
-  }
-
-  /**
    * Override for Quantity.max to only work on Moneys of like Currency
    * @param that Quantity
    * @return Int
@@ -219,18 +208,6 @@ final class Money private (val amount: BigDecimal)(val currency: Currency)
     case _                         ⇒ throw new UnsupportedOperationException("min not supported for cross-currency comparison - use moneyMin")
   }
 
-  /**
-   * Supports max operation on Moneys of dislike Currency
-   * @param that Money
-   * @param moneyContext MoneyContext
-   * @return
-   */
-  def moneyMin(that: Money)(implicit moneyContext: MoneyContext) = moneyContext.compare(this, that) match {
-    case 1 ⇒ that
-    case _ ⇒ this
-  }
-
-  // TODO implement versions of equals and compare following with implicit MoneyContext
   /**
    * Override for Quantity.equal to only match Moneys of like Currency
    * @param that Money must be of matching value and unit
@@ -252,6 +229,59 @@ final class Money private (val amount: BigDecimal)(val currency: Currency)
   }
 
   /**
+   * Supports max operation on Moneys of dislike Currency
+   * @param that Money
+   * @param moneyContext MoneyContext
+   * @return
+   */
+  def moneyMax(that: Money)(implicit moneyContext: MoneyContext) = moneyContext.compare(this, that) match {
+    case -1 ⇒ that
+    case _  ⇒ this
+  }
+
+  /**
+   * Supports min operation on Moneys of dislike Currency
+   * @param that Money
+   * @param moneyContext MoneyContext
+   * @return
+   */
+  def moneyMin(that: Money)(implicit moneyContext: MoneyContext) = moneyContext.compare(this, that) match {
+    case 1 ⇒ that
+    case _ ⇒ this
+  }
+
+  /**
+   * Supports equality comparisons on Moneys of dislike Currency
+   * @param that Money
+   * @param moneyContext MoneyContext
+   * @return
+   */
+  def moneyEquals(that: Money)(implicit moneyContext: MoneyContext) = moneyCompare(that) == 0
+
+  /**
+   * Supports non-equality comparisons on Moneys of dislike Currency
+   * @param that Money
+   * @param moneyContext MoneyContext
+   * @return
+   */
+  def moneyNotEquals(that: Money)(implicit moneyContext: MoneyContext) = moneyCompare(that) != 0
+
+  /**
+   * Supports compare operation on Moneys of dislike Currency
+   * @param that Money
+   * @param moneyContext MoneyContext
+   * @return
+   */
+  def moneyCompare(that: Money)(implicit moneyContext: MoneyContext) = moneyContext.compare(this, that)
+
+  def ==#(that: Money)(implicit moneyContext: MoneyContext) = moneyCompare(that) == 0
+  def !=#(that: Money)(implicit moneyContext: MoneyContext) = moneyCompare(that) != 0
+  def >#(that: Money)(implicit moneyContext: MoneyContext) = moneyCompare(that) > 0
+  def >=#(that: Money)(implicit moneyContext: MoneyContext) = moneyCompare(that) >= 0
+  def <#(that: Money)(implicit moneyContext: MoneyContext) = moneyCompare(that) < 0
+  def <=#(that: Money)(implicit moneyContext: MoneyContext) = moneyCompare(that) <= 0
+
+  /**
    * Combines with that Money to create an [[squants.market.CurrencyExchangeRate]]
    *
    * Exchange Rates on the same currency are not supported
@@ -260,7 +290,7 @@ final class Money private (val amount: BigDecimal)(val currency: Currency)
    *
    * @param that Money
    * @return
-   * @throws IllegalArgumentException is the that.currency matches this.currency
+   * @throws IllegalArgumentException if the that.currency matches this.currency
    */
   def toThe(that: Money) = that.currency match {
     case this.currency ⇒ throw new IllegalArgumentException("Can not create Exchange Rate on matching currencies")
