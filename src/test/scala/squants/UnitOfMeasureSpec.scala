@@ -23,7 +23,7 @@ class UnitOfMeasureSpec extends FlatSpec with Matchers {
    */
   object HorsePower extends PowerUnit {
     val symbol = "hp"
-    val multiplier = Watts.multiplier * 746d
+    val conversionFactor = Watts.conversionFactor * 746d
   }
 
   behavior of "UnitOfMeasure when extending for an existing Quantity"

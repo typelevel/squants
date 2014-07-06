@@ -54,7 +54,7 @@ object Acceleration extends QuantityCompanion[Acceleration] {
  * @since   0.1
  *
  */
-trait AccelerationUnit extends UnitOfMeasure[Acceleration] with UnitMultiplier {
+trait AccelerationUnit extends UnitOfMeasure[Acceleration] with UnitConverter {
   def apply[A](n: A)(implicit num: Numeric[A]) = Acceleration(convertFrom(n))
 }
 
@@ -64,12 +64,12 @@ object MetersPerSecondSquared extends AccelerationUnit with ValueUnit {
 
 object FeetPerSecondSquared extends AccelerationUnit {
   val symbol = "ft/s²"
-  val multiplier = Feet.multiplier * Meters.multiplier
+  val conversionFactor = Feet.conversionFactor * Meters.conversionFactor
 }
 
 object UsMilesPerHourSquared extends AccelerationUnit {
   val symbol = "mph²"
-  val multiplier = (UsMiles.multiplier * Meters.multiplier) / 3600d / 3600d
+  val conversionFactor = (UsMiles.conversionFactor * Meters.conversionFactor) / 3600d / 3600d
 }
 
 /**
@@ -77,7 +77,7 @@ object UsMilesPerHourSquared extends AccelerationUnit {
  */
 object EarthGravities extends AccelerationUnit {
   val symbol = "g"
-  val multiplier = 9.80665 * Meters.multiplier
+  val conversionFactor = 9.80665 * Meters.conversionFactor
 }
 
 object AccelerationConversions {

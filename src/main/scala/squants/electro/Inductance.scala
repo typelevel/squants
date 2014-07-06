@@ -35,7 +35,7 @@ object Inductance extends QuantityCompanion[Inductance] {
   def units = Set(Henry)
 }
 
-trait InductanceUnit extends UnitOfMeasure[Inductance] with UnitMultiplier
+trait InductanceUnit extends UnitOfMeasure[Inductance] with UnitConverter
 
 object Henry extends InductanceUnit with ValueUnit {
   val symbol = "H"

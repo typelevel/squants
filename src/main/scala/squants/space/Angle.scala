@@ -43,7 +43,7 @@ object Angle extends QuantityCompanion[Angle] {
   def units = Set(Radians, Degrees, Gradians, Turns, Arcminutes, Arcseconds)
 }
 
-trait AngleUnit extends UnitOfMeasure[Angle] with UnitMultiplier {
+trait AngleUnit extends UnitOfMeasure[Angle] with UnitConverter {
   def apply[A](n: A)(implicit num: Numeric[A]) = Angle(convertFrom(n))
 }
 
@@ -53,27 +53,27 @@ object Radians extends AngleUnit with ValueUnit {
 
 object Degrees extends AngleUnit {
   val symbol = "°"
-  val multiplier = math.Pi / 180d
+  val conversionFactor = math.Pi / 180d
 }
 
 object Gradians extends AngleUnit {
   val symbol = "grad"
-  val multiplier = Turns.multiplier / 400d
+  val conversionFactor = Turns.conversionFactor / 400d
 }
 
 object Turns extends AngleUnit {
   val symbol = "turns"
-  val multiplier = 2 * math.Pi
+  val conversionFactor = 2 * math.Pi
 }
 
 object Arcminutes extends AngleUnit {
   val symbol = "amin"
-  val multiplier = math.Pi / 10800d
+  val conversionFactor = math.Pi / 10800d
 }
 
 object Arcseconds extends AngleUnit {
   val symbol = "asec"
-  val multiplier = 1d / 60d * Arcminutes.multiplier
+  val conversionFactor = 1d / 60d * Arcminutes.conversionFactor
 }
 
 object AngleConversions {

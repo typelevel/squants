@@ -94,7 +94,7 @@ object Energy extends QuantityCompanion[Energy] {
 /**
  * Base trait for units of [[squants.energy.Energy]]
  */
-trait EnergyUnit extends UnitOfMeasure[Energy] with UnitMultiplier {
+trait EnergyUnit extends UnitOfMeasure[Energy] with UnitConverter {
   def apply[A](n: A)(implicit num: Numeric[A]) = Energy(convertFrom(n))
 }
 
@@ -103,77 +103,77 @@ object WattHours extends EnergyUnit with ValueUnit {
 }
 
 object KilowattHours extends EnergyUnit {
-  val multiplier = Watts.multiplier * MetricSystem.Kilo
+  val conversionFactor = Watts.conversionFactor * MetricSystem.Kilo
   val symbol = "kWh"
 }
 
 object MegawattHours extends EnergyUnit {
-  val multiplier = Watts.multiplier * MetricSystem.Mega
+  val conversionFactor = Watts.conversionFactor * MetricSystem.Mega
   val symbol = "MWh"
 }
 
 object GigawattHours extends EnergyUnit {
-  val multiplier = Watts.multiplier * MetricSystem.Giga
+  val conversionFactor = Watts.conversionFactor * MetricSystem.Giga
   val symbol = "GWh"
 }
 
 object Joules extends EnergyUnit {
-  val multiplier = 1.0 / Time.SecondsPerHour
+  val conversionFactor = 1.0 / Time.SecondsPerHour
   val symbol = "J"
 }
 
 object Picojoules extends EnergyUnit {
-  val multiplier = Joules.multiplier * MetricSystem.Pico
+  val conversionFactor = Joules.conversionFactor * MetricSystem.Pico
   val symbol = "pJ"
 }
 
 object Nanojoules extends EnergyUnit {
-  val multiplier = Joules.multiplier * MetricSystem.Nano
+  val conversionFactor = Joules.conversionFactor * MetricSystem.Nano
   val symbol = "nJ"
 }
 
 object Microjoules extends EnergyUnit {
-  val multiplier = Joules.multiplier * MetricSystem.Micro
+  val conversionFactor = Joules.conversionFactor * MetricSystem.Micro
   val symbol = "µJ"
 }
 
 object Millijoules extends EnergyUnit {
-  val multiplier = Joules.multiplier * MetricSystem.Milli
+  val conversionFactor = Joules.conversionFactor * MetricSystem.Milli
   val symbol = "mJ"
 }
 
 object Kilojoules extends EnergyUnit {
-  val multiplier = Joules.multiplier * MetricSystem.Kilo
+  val conversionFactor = Joules.conversionFactor * MetricSystem.Kilo
   val symbol = "kJ"
 }
 
 object Megajoules extends EnergyUnit {
-  val multiplier = Joules.multiplier * MetricSystem.Mega
+  val conversionFactor = Joules.conversionFactor * MetricSystem.Mega
   val symbol = "MJ"
 }
 
 object Gigajoules extends EnergyUnit {
-  val multiplier = Joules.multiplier * MetricSystem.Giga
+  val conversionFactor = Joules.conversionFactor * MetricSystem.Giga
   val symbol = "GJ"
 }
 
 object Terajoules extends EnergyUnit {
-  val multiplier = Joules.multiplier * MetricSystem.Tera
+  val conversionFactor = Joules.conversionFactor * MetricSystem.Tera
   val symbol = "TJ"
 }
 
 object BritishThermalUnits extends EnergyUnit {
-  val multiplier = EnergyConversions.btuMultiplier
+  val conversionFactor = EnergyConversions.btuMultiplier
   val symbol = "Btu"
 }
 
 object MBtus extends EnergyUnit {
-  val multiplier = EnergyConversions.btuMultiplier * MetricSystem.Kilo
+  val conversionFactor = EnergyConversions.btuMultiplier * MetricSystem.Kilo
   val symbol = "MBtu"
 }
 
 object MMBtus extends EnergyUnit {
-  val multiplier = EnergyConversions.btuMultiplier * MetricSystem.Mega
+  val conversionFactor = EnergyConversions.btuMultiplier * MetricSystem.Mega
   val symbol = "MMBtu"
 }
 

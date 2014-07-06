@@ -36,7 +36,7 @@ object AngularVelocity extends QuantityCompanion[AngularVelocity] {
   def units = Set(RadiansPerSecond, DegreesPerSecond, GradsPerSecond, TurnsPerSecond)
 }
 
-trait AngularVelocityUnit extends UnitOfMeasure[AngularVelocity] with UnitMultiplier {
+trait AngularVelocityUnit extends UnitOfMeasure[AngularVelocity] with UnitConverter {
   def apply[A](n: A)(implicit num: Numeric[A]) = AngularVelocity(convertFrom(n))
 }
 
@@ -46,17 +46,17 @@ object RadiansPerSecond extends AngularVelocityUnit with ValueUnit {
 
 object DegreesPerSecond extends AngularVelocityUnit {
   val symbol = "°/s"
-  val multiplier = Degrees.multiplier * Radians.multiplier
+  val conversionFactor = Degrees.conversionFactor * Radians.conversionFactor
 }
 
 object GradsPerSecond extends AngularVelocityUnit {
   val symbol = "grad/s"
-  val multiplier = Gradians.multiplier * Radians.multiplier
+  val conversionFactor = Gradians.conversionFactor * Radians.conversionFactor
 }
 
 object TurnsPerSecond extends AngularVelocityUnit {
   val symbol = "turns/s"
-  val multiplier = Turns.multiplier * Radians.multiplier
+  val conversionFactor = Turns.conversionFactor * Radians.conversionFactor
 }
 
 object AngularVelocityConversions {

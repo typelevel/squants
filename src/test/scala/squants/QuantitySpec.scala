@@ -32,7 +32,7 @@ class QuantitySpec extends FlatSpec with Matchers {
     private[squants] def apply[A](n: A)(implicit num: Numeric[A]) = new Thingee(num.toDouble(n))
   }
 
-  trait ThingeeUnit extends UnitOfMeasure[Thingee] with UnitMultiplier {
+  trait ThingeeUnit extends UnitOfMeasure[Thingee] with UnitConverter {
     def apply[A](n: A)(implicit num: Numeric[A]) = Thingee(convertFrom(n))
   }
 
@@ -42,7 +42,7 @@ class QuantitySpec extends FlatSpec with Matchers {
 
   object Kilothangs extends ThingeeUnit {
     val symbol = "kth"
-    val multiplier = Thangs.multiplier * MetricSystem.Kilo
+    val conversionFactor = Thangs.conversionFactor * MetricSystem.Kilo
   }
 
   implicit object ThingeeNumeric extends AbstractQuantityNumeric[Thingee](Thangs)

@@ -43,7 +43,7 @@ object ElectricalResistance extends QuantityCompanion[ElectricalResistance] {
   def units = Set(Ohms, Nanohms, Microohms, Milliohms, Kilohms, Megohms, Gigohms)
 }
 
-trait ElectricalResistanceUnit extends UnitOfMeasure[ElectricalResistance] with UnitMultiplier {
+trait ElectricalResistanceUnit extends UnitOfMeasure[ElectricalResistance] with UnitConverter {
   def apply[A](n: A)(implicit num: Numeric[A]) = ElectricalResistance(convertFrom(n))
 }
 
@@ -53,32 +53,32 @@ object Ohms extends ElectricalResistanceUnit with ValueUnit {
 
 object Nanohms extends ElectricalResistanceUnit {
   val symbol = "nΩ"
-  val multiplier = MetricSystem.Nano
+  val conversionFactor = MetricSystem.Nano
 }
 
 object Microohms extends ElectricalResistanceUnit {
   val symbol = "µΩ"
-  val multiplier = MetricSystem.Micro
+  val conversionFactor = MetricSystem.Micro
 }
 
 object Milliohms extends ElectricalResistanceUnit {
   val symbol = "mΩ"
-  val multiplier = MetricSystem.Milli
+  val conversionFactor = MetricSystem.Milli
 }
 
 object Kilohms extends ElectricalResistanceUnit {
   val symbol = "kΩ"
-  val multiplier = MetricSystem.Kilo
+  val conversionFactor = MetricSystem.Kilo
 }
 
 object Megohms extends ElectricalResistanceUnit {
   val symbol = "MΩ"
-  val multiplier = MetricSystem.Mega
+  val conversionFactor = MetricSystem.Mega
 }
 
 object Gigohms extends ElectricalResistanceUnit {
   val symbol = "GΩ"
-  val multiplier = MetricSystem.Giga
+  val conversionFactor = MetricSystem.Giga
 }
 
 object ElectricalResistanceConversions {

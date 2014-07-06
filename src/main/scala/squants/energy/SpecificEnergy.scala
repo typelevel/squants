@@ -34,7 +34,7 @@ object SpecificEnergy extends QuantityCompanion[SpecificEnergy] {
   def units = Set(Grays)
 }
 
-trait SpecificEnergyUnit extends UnitOfMeasure[SpecificEnergy] with UnitMultiplier {
+trait SpecificEnergyUnit extends UnitOfMeasure[SpecificEnergy] with UnitConverter {
   def apply[A](n: A)(implicit num: Numeric[A]) = SpecificEnergy(convertFrom(n))
 }
 

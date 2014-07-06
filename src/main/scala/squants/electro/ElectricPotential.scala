@@ -48,7 +48,7 @@ object ElectricPotential extends QuantityCompanion[ElectricPotential] {
   def units = Set(Volts, Microvolts, Millivolts, Kilovolts, Megavolts)
 }
 
-trait ElectricPotentialUnit extends UnitOfMeasure[ElectricPotential] with UnitMultiplier {
+trait ElectricPotentialUnit extends UnitOfMeasure[ElectricPotential] with UnitConverter {
   def apply[A](n: A)(implicit num: Numeric[A]) = ElectricPotential(convertFrom(n))
 }
 
@@ -58,22 +58,22 @@ object Volts extends ElectricPotentialUnit with ValueUnit {
 
 object Microvolts extends ElectricPotentialUnit {
   val symbol = "μV"
-  val multiplier = MetricSystem.Micro
+  val conversionFactor = MetricSystem.Micro
 }
 
 object Millivolts extends ElectricPotentialUnit {
   val symbol = "mV"
-  val multiplier = MetricSystem.Milli
+  val conversionFactor = MetricSystem.Milli
 }
 
 object Kilovolts extends ElectricPotentialUnit {
   val symbol = "kV"
-  val multiplier = MetricSystem.Kilo
+  val conversionFactor = MetricSystem.Kilo
 }
 
 object Megavolts extends ElectricPotentialUnit {
   val symbol = "MV"
-  val multiplier = MetricSystem.Mega
+  val conversionFactor = MetricSystem.Mega
 }
 
 object ElectricPotentialConversions {

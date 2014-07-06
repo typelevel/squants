@@ -36,7 +36,7 @@ object Yank extends QuantityCompanion[Yank] {
   def units = Set(NewtonsPerSecond)
 }
 
-trait YankUnit extends UnitOfMeasure[Yank] with UnitMultiplier {
+trait YankUnit extends UnitOfMeasure[Yank] with UnitConverter {
   def apply[A](n: A)(implicit num: Numeric[A]) = Yank(convertFrom(n))
 }
 

@@ -74,7 +74,7 @@ object Mass extends QuantityCompanion[Mass] {
 /**
  * Base trait for units of [[squants.mass.Mass]]
  */
-trait MassUnit extends BaseQuantityUnit[Mass] with UnitMultiplier {
+trait MassUnit extends BaseQuantityUnit[Mass] with UnitConverter {
   def dimensionSymbol = "M"
   def apply[A](n: A)(implicit num: Numeric[A]) = Mass(convertFrom(n))
 }
@@ -84,32 +84,32 @@ object Grams extends MassUnit with ValueUnit {
 }
 
 object Micrograms extends MassUnit {
-  val multiplier = MetricSystem.Micro
+  val conversionFactor = MetricSystem.Micro
   val symbol = "mcg"
 }
 
 object Milligrams extends MassUnit {
-  val multiplier = MetricSystem.Milli
+  val conversionFactor = MetricSystem.Milli
   val symbol = "mg"
 }
 
 object Kilograms extends MassUnit with BaseUnit {
-  val multiplier = MetricSystem.Kilo
+  val conversionFactor = MetricSystem.Kilo
   val symbol = "kg"
 }
 
 object Tonnes extends MassUnit {
-  val multiplier = MetricSystem.Mega
+  val conversionFactor = MetricSystem.Mega
   val symbol = "t"
 }
 
 object Pounds extends MassUnit {
-  val multiplier = Kilograms.multiplier * 0.45359237
+  val conversionFactor = Kilograms.conversionFactor * 0.45359237
   val symbol = "lb"
 }
 
 object Ounces extends MassUnit {
-  val multiplier = Pounds.multiplier / 16d
+  val conversionFactor = Pounds.conversionFactor / 16d
   val symbol = "oz"
 }
 

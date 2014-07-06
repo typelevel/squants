@@ -54,7 +54,7 @@ object Dimensionless extends QuantityCompanion[Dimensionless] {
  *
  * The DimensionlessUnit is a useful paradox
  */
-trait DimensionlessUnit extends UnitOfMeasure[Dimensionless] with UnitMultiplier {
+trait DimensionlessUnit extends UnitOfMeasure[Dimensionless] with UnitConverter {
   def apply[A](n: A)(implicit num: Numeric[A]) = Dimensionless(convertFrom(n))
 }
 
@@ -69,7 +69,7 @@ object Each extends DimensionlessUnit with ValueUnit {
  * Represents a unit of dozen (12)
  */
 object Dozen extends DimensionlessUnit {
-  val multiplier = 12D
+  val conversionFactor = 12D
   val symbol = "dz"
 }
 
@@ -77,7 +77,7 @@ object Dozen extends DimensionlessUnit {
  * Represents a unit of scores (20)
  */
 object Score extends DimensionlessUnit {
-  val multiplier = 20D
+  val conversionFactor = 20D
   val symbol = "score"
 }
 
@@ -85,7 +85,7 @@ object Score extends DimensionlessUnit {
  * Represents a unit of gross (144)
  */
 object Gross extends DimensionlessUnit {
-  val multiplier = 144D
+  val conversionFactor = 144D
   val symbol = "gr"
 }
 

@@ -37,7 +37,7 @@ object LuminousExposure extends QuantityCompanion[LuminousExposure] {
   def units = Set(LuxSeconds)
 }
 
-trait LuminousExposureUnit extends UnitOfMeasure[LuminousExposure] with UnitMultiplier {
+trait LuminousExposureUnit extends UnitOfMeasure[LuminousExposure] with UnitConverter {
   def apply[A](n: A)(implicit num: Numeric[A]) = LuminousExposure(convertFrom(n))
 }
 

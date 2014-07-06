@@ -36,7 +36,7 @@ object EnergyDensity extends QuantityCompanion[EnergyDensity] {
   def units = Set(JoulesPerCubicMeter)
 }
 
-trait EnergyDensityUnit extends UnitOfMeasure[EnergyDensity] with UnitMultiplier {
+trait EnergyDensityUnit extends UnitOfMeasure[EnergyDensity] with UnitConverter {
   def apply[A](n: A)(implicit num: Numeric[A]) = EnergyDensity(convertFrom(n))
 }
 

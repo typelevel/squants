@@ -34,7 +34,7 @@ object Density extends QuantityCompanion[Density] {
   def units = Set(KilogramsPerCubicMeter)
 }
 
-trait DensityUnit extends UnitOfMeasure[Density] with UnitMultiplier {
+trait DensityUnit extends UnitOfMeasure[Density] with UnitConverter {
   def apply[A](n: A)(implicit num: Numeric[A]) = Density(convertFrom(n))
 }
 

@@ -37,7 +37,7 @@ object Illuminance extends QuantityCompanion[Illuminance] {
   def units = Set(Lux)
 }
 
-trait IlluminanceUnit extends UnitOfMeasure[Illuminance] with UnitMultiplier {
+trait IlluminanceUnit extends UnitOfMeasure[Illuminance] with UnitConverter {
   def apply[A](n: A)(implicit num: Numeric[A]) = Illuminance(convertFrom(n))
 }
 

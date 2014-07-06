@@ -38,7 +38,7 @@ object Pressure extends QuantityCompanion[Pressure] {
   def units = Set(Pascals, Bars, PoundsPerSquareInch, StandardAtmospheres)
 }
 
-trait PressureUnit extends UnitOfMeasure[Pressure] with UnitMultiplier {
+trait PressureUnit extends UnitOfMeasure[Pressure] with UnitConverter {
   def apply[A](n: A)(implicit num: Numeric[A]) = Pressure(convertFrom(n))
 }
 
@@ -48,17 +48,17 @@ object Pascals extends PressureUnit with ValueUnit {
 
 object Bars extends PressureUnit {
   val symbol = "bar"
-  val multiplier = 100d
+  val conversionFactor = 100d
 }
 
 object PoundsPerSquareInch extends PressureUnit {
   val symbol = "psi"
-  val multiplier = (Newtons.multiplier * PoundForce.multiplier) / (SquareInches.multiplier / SquareMeters.multiplier)
+  val conversionFactor = (Newtons.conversionFactor * PoundForce.conversionFactor) / (SquareInches.conversionFactor / SquareMeters.conversionFactor)
 }
 
 object StandardAtmospheres extends PressureUnit {
   val symbol = "atm"
-  val multiplier = Newtons.multiplier * 101325d
+  val conversionFactor = Newtons.conversionFactor * 101325d
 }
 
 object PressureConversions {

@@ -35,7 +35,7 @@ object MagneticFluxDensity extends QuantityCompanion[MagneticFluxDensity] {
   def units = Set(Teslas, Gauss)
 }
 
-trait MagneticFluxDensityUnit extends UnitOfMeasure[MagneticFluxDensity] with UnitMultiplier {
+trait MagneticFluxDensityUnit extends UnitOfMeasure[MagneticFluxDensity] with UnitConverter {
   def apply[A](n: A)(implicit num: Numeric[A]) = MagneticFluxDensity(convertFrom(n))
 }
 
@@ -44,7 +44,7 @@ object Teslas extends MagneticFluxDensityUnit with ValueUnit {
 }
 
 object Gauss extends MagneticFluxDensityUnit {
-  val multiplier = 100 * MetricSystem.Micro
+  val conversionFactor = 100 * MetricSystem.Micro
   val symbol = "Gs"
 }
 

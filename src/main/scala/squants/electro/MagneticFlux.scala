@@ -41,7 +41,7 @@ object MagneticFlux extends QuantityCompanion[MagneticFlux] {
   def units = Set(Webers)
 }
 
-trait MagneticFluxUnit extends UnitOfMeasure[MagneticFlux] with UnitMultiplier
+trait MagneticFluxUnit extends UnitOfMeasure[MagneticFlux] with UnitConverter
 
 object Webers extends MagneticFluxUnit with ValueUnit {
   val symbol = "Wb"
