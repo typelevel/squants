@@ -45,11 +45,11 @@ All types are immutable and thread-safe.</p>
 <h3>
 <a name="current-versions" class="anchor" href="#current-versions"><span class="octicon octicon-link"></span></a>Current Versions</h3>
 
-<p>Current Release: <strong>0.3.3</strong>
-(<a href="https://oss.sonatype.org/service/local/repositories/releases/archive/com/squants/squants_2.10/0.3.3/squants_2.10-0.3.3-javadoc.jar/!/index.html#squants.package">API Docs</a>)</p>
+<p>Current Release: <strong>0.4.2</strong>
+(<a href="https://oss.sonatype.org/service/local/repositories/releases/archive/com/squants/squants_2.11/0.4.2/squants_2.11-0.4.2-javadoc.jar/!/index.html#squants.package">API Docs</a>)</p>
 
-<p>Development Build: <strong>0.4.1-SNAPSHOT</strong>
-(<a href="https://oss.sonatype.org/service/local/repositories/snapshots/archive/com/squants/squants_2.11/0.4.1-SNAPSHOT/squants_2.11-0.4.1-SNAPSHOT-javadoc.jar/!/index.html#squants.package">API Docs</a>)</p>
+<p>Development Build: <strong>0.5.0-SNAPSHOT</strong>
+(<a href="https://oss.sonatype.org/service/local/repositories/snapshots/archive/com/squants/squants_2.11/0.5.0-SNAPSHOT/squants_2.11-0.5.0-SNAPSHOT-javadoc.jar/!/index.html#squants.package">API Docs</a>)</p>
 
 <p><a href="https://github.com/garyKeorkunian/squants/wiki/Release-History">Release History</a></p>
 
@@ -61,20 +61,10 @@ All types are immutable and thread-safe.</p>
 <p>Repository hosting for Squants is provided by Sonatype.
 To use Squants in your SBT project you will need to add the following dependency to your build.</p>
 
-<pre><code>"com.squants"  %% "squants"  % "0.3.3"
+<pre><code>"com.squants"  %% "squants"  % "0.4.2"
 </code></pre>
 
-<p>This dependency format assumes you are using Scala 2.10, the only version for which Squants 0.3.3 is built.
-If you are using Scala 2.11, and wish to use Squants 0.3.3, use the following.</p>
-
-<pre><code>"com.squants"  % "squants_2.10"  % "0.3.3"
-</code></pre>
-
-<p>Beginning with Squants 0.4.0-SNAPSHOT, both Scala 2.10 and 2.11 builds are available.
-Therefore, the following will work for both 2.10 and 2.11 based projects.</p>
-
-<pre><code>"com.squants"  %% "squants"  % "0.4.1-SNAPSHOT"
-</code></pre>
+<p>Beginning with Squants 0.4 series, both Scala 2.10 and 2.11 builds are available.</p>
 
 <p>To use Squants interactively in the Scala REPL, clone the git repo and run <code>sbt console</code></p>
 
@@ -94,7 +84,7 @@ it can often lead to semantic and other logic issues.</p>
 
 <p>For example, when using a Double to describe quantities of Energy (kWh) and Power (kW), it is possible
 to compile a program that adds these two values together.  This is not appropriate as kW and kWh
-measure two different quantities.  The unit kWh is used to measure an amount of Energy used
+measure quantities of two different dimensions.  The unit kWh is used to measure an amount of Energy used
 or produced.  The unit kW is used to measure Power/Load, the rate at which Energy is being used
 or produced, that is, Power is the first time derivative of Energy.</p>
 
@@ -107,11 +97,14 @@ or produced, that is, Power is the first time derivative of Energy.</p>
 <span class="k">val</span> <span class="n">sumKw</span> <span class="k">=</span> <span class="n">loadKw</span> <span class="o">+</span> <span class="n">energyMwh</span>
 </pre></div>
 
-<p>which not only adds different quantity types (Power vs Energy), it also fails to convert the scales (Mega vs Kilo).
+<p>which not only adds quantities of different dimensions (Power vs Energy),
+it also fails to convert the scales implied in the val names (Mega vs Kilo).
 Because this code compiles, detection of these errors is pushed further into the development cycle.</p>
 
 <h3>
-<a name="dimensional-types" class="anchor" href="#dimensional-types"><span class="octicon octicon-link"></span></a>Dimensional Types</h3>
+<a name="dimensional-type-safety" class="anchor" href="#dimensional-type-safety"><span class="octicon octicon-link"></span></a>Dimensional Type Safety</h3>
+
+<p><em>Only quantities with the same dimensions may be compared, equated, added, or subtracted.</em></p>
 
 <p>Squants helps prevent errors like these by type checking operations at compile time and
 automatically applying scale and type conversions at run-time.  For example,</p>
@@ -127,17 +120,6 @@ automatically applying scale and type conversions at run-time.  For example,</p>
 different and the library applies an appropriate conversion.  Also, notice that keeping track of
 the scale within the value name is no longer needed.</p>
 
-<p>NOTE - Quantities can be initialized using any type T with an available implicit Numeric[T].
-In the current iteration, those values are converted to Double, which is the current type of the underlying value.
-The goal of the project is to refactor the underlying value to a Generic so that the initializing
-type is retained as the underlying value type.
-This will allow user code to use high precision types for the underlying value.</p>
-
-<h3>
-<a name="dimensional-type-safety" class="anchor" href="#dimensional-type-safety"><span class="octicon octicon-link"></span></a>Dimensional Type Safety</h3>
-
-<p>The following code highlights the type safety features.</p>
-
 <div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">load</span><span class="k">:</span> <span class="kt">Power</span> <span class="o">=</span> <span class="nc">Kilowatts</span><span class="o">(</span><span class="mf">1.2</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">energy</span><span class="k">:</span> <span class="kt">Energy</span> <span class="o">=</span> <span class="nc">KilowattHours</span><span class="o">(</span><span class="mf">23.0</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">sum</span> <span class="k">=</span> <span class="n">load</span> <span class="o">+</span> <span class="n">energy</span> <span class="c1">// Invalid operation - does not compile</span>
@@ -147,10 +129,20 @@ This will allow user code to use high precision types for the underlying value.<
 catching the error made when using Double in the example above.</p>
 
 <h3>
-<a name="smart-type-conversions" class="anchor" href="#smart-type-conversions"><span class="octicon octicon-link"></span></a>Smart Type Conversions</h3>
+<a name="dimensionally-correct-type-conversions" class="anchor" href="#dimensionally-correct-type-conversions"><span class="octicon octicon-link"></span></a>Dimensionally Correct Type Conversions</h3>
 
-<p>Dimensionally smart type conversions are a key feature of Squants.
-Most conversions are implemented by defining relationships between Quantity types using infix operators.</p>
+<p><em>One may take ratios of quantities with different dimensions, and multiply or divide them.</em></p>
+
+<p>Dimensionally correct type conversions are a key feature of Squants.
+Conversions are implemented by defining relationships between Quantity types using the * and / operators.</p>
+
+<p>The following code demonstrates creating ratio between two quantities of the same dimension:</p>
+
+<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">ratio</span><span class="k">:</span> <span class="kt">Double</span> <span class="o">=</span> <span class="nc">Days</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span> <span class="o">/</span> <span class="nc">Hours</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span>
+<span class="n">ratio</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="mf">8.0</span><span class="o">)</span>
+</pre></div>
+
+<p>This code demonstrates use of Power's <code>*</code> method that takes a Time and returns an Energy:</p>
 
 <div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">load</span><span class="k">:</span> <span class="kt">Power</span> <span class="o">=</span> <span class="nc">Kilowatts</span><span class="o">(</span><span class="mf">1.2</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">time</span><span class="k">:</span> <span class="kt">Time</span> <span class="o">=</span> <span class="nc">Hours</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span>
@@ -158,19 +150,16 @@ Most conversions are implemented by defining relationships between Quantity type
 <span class="n">energyUsed</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="nc">KilowattHours</span><span class="o">(</span><span class="mf">2.4</span><span class="o">))</span>
 </pre></div>
 
-<p>This code demonstrates use of Power's <code>*</code> method, defined as an infix operator that takes a Time
-and returns an Energy, conversely</p>
+<p>This code demonstrates use of Energy's <code>/</code> method that takes a Time and returns a Power:</p>
 
 <div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">aveLoad</span><span class="k">:</span> <span class="kt">Power</span> <span class="o">=</span> <span class="n">energyUsed</span> <span class="o">/</span> <span class="n">time</span>
 <span class="n">aveLoad</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="nc">Kilowatts</span><span class="o">(</span><span class="mf">1.2</span><span class="o">)</span>
 </pre></div>
 
-<p>demonstrates use of Energy's <code>/</code> method that takes a Time and returns a Power</p>
-
 <h3>
 <a name="unit-conversions" class="anchor" href="#unit-conversions"><span class="octicon octicon-link"></span></a>Unit Conversions</h3>
 
-<p>If necessary, the value in the desired unit can be extracted with the <code>to</code> method.</p>
+<p>If necessary, the value can be extracted in the desired unit with the <code>to</code> method.</p>
 
 <div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">load</span><span class="k">:</span> <span class="kt">Power</span> <span class="o">=</span> <span class="nc">Kilowatts</span><span class="o">(</span><span class="mi">1200</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">mw</span><span class="k">:</span> <span class="kt">Double</span> <span class="o">=</span> <span class="n">load</span> <span class="n">to</span> <span class="nc">Kilowatts</span> <span class="c1">// returns 1200.0 (default method)</span>
@@ -207,10 +196,6 @@ Use the <code>approx</code> method (<code>=~</code>, <code>~=</code>, <code>≈<
 <span class="n">load</span> <span class="o">=~</span> <span class="n">reading</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
 <span class="n">load</span> <span class="o">≈</span> <span class="n">reading</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
 <span class="n">load</span> <span class="n">approx</span> <span class="n">reading</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
-
-<span class="c1">// use instead of, or override implicit</span>
-<span class="n">load</span><span class="o">.=~(</span><span class="n">reading</span><span class="o">)(</span><span class="nc">Watts</span><span class="o">(.</span><span class="mi">01</span><span class="o">))</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
-<span class="n">load</span><span class="o">.</span><span class="n">approx</span><span class="o">(</span><span class="n">reading</span><span class="o">)(</span><span class="nc">Watts</span><span class="o">(.</span><span class="mi">01</span><span class="o">))</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
 </pre></div>
 
 <p>The <code>=~</code> and <code>≈</code> are the preferred operators as they have the correct precedence for equality operations.
@@ -245,7 +230,7 @@ Most basic vector operations are currently supported (addition, subtraction, sca
 </pre></div>
 
 <p>Dimensional conversions within Vector operations.
-This feature is currently and development and the final implementation being evaluated.
+This feature is currently under development and the final implementation being evaluated.
 This following type of operation is the goal.</p>
 
 <div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">vectorLength</span> <span class="k">=</span> <span class="nc">QuantityVector</span><span class="o">(</span><span class="nc">Kilometers</span><span class="o">(</span><span class="mf">1.2</span><span class="o">),</span> <span class="nc">Kilometers</span><span class="o">(</span><span class="mf">4.3</span><span class="o">),</span> <span class="nc">Kilometers</span><span class="o">(</span><span class="mf">2.3</span><span class="o">)</span>
@@ -258,15 +243,13 @@ This following type of operation is the goal.</p>
 <div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">vector</span> <span class="k">=</span> <span class="nc">DoubleVector</span><span class="o">(</span><span class="mf">1.2</span><span class="o">,</span> <span class="mf">4.3</span><span class="o">,</span> <span class="mf">2.3</span><span class="o">,</span> <span class="mf">5.4</span><span class="o">)</span>   <span class="c1">// a Four-dimensional vector</span>
 </pre></div>
 
-<p>These features are experimental in the current version and the API may undergo significant change before final release.</p>
-
 <h2>
 <a name="market-package" class="anchor" href="#market-package"><span class="octicon octicon-link"></span></a>Market Package</h2>
 
 <p>Market Types are similar but not quite the same as other quantities in the library.
 The primary type, Money, is derived from Quantity, and its Units of Measure are Currencies.
-However, because the conversion multipliers between units can not be predefined, many of the behaviors have been
-overridden and augmented to realize correct behavior.</p>
+However, because the conversion multipliers between units can not be predefined,
+many of the behaviors have been overridden and augmented to realize correct behavior.</p>
 
 <h3>
 <a name="money" class="anchor" href="#money"><span class="octicon octicon-link"></span></a>Money</h3>
@@ -304,6 +287,12 @@ A Price value is typed on a Quantity and can be denominated in any defined Curre
 
 <div class="highlight highlight-scala"><pre><span class="c1">// create an exchange rate</span>
 <span class="k">val</span> <span class="n">rate</span> <span class="k">=</span> <span class="nc">CurrencyExchangeRate</span><span class="o">(</span><span class="nc">USD</span><span class="o">(</span><span class="mi">1</span><span class="o">),</span> <span class="nc">JPY</span><span class="o">(</span><span class="mi">100</span><span class="o">))</span>
+<span class="c1">// OR</span>
+<span class="k">val</span> <span class="n">rate</span> <span class="k">=</span> <span class="nc">USD</span> <span class="o">/</span> <span class="nc">JPY</span><span class="o">(</span><span class="mi">100</span><span class="o">)</span>
+<span class="c1">// OR</span>
+<span class="k">val</span> <span class="n">rate</span> <span class="k">=</span> <span class="nc">JPY</span><span class="o">(</span><span class="mi">100</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="nc">USD</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+<span class="c1">// OR</span>
+<span class="k">val</span> <span class="n">rate</span> <span class="k">=</span> <span class="nc">JPY</span><span class="o">(</span><span class="mi">100</span><span class="o">)</span> <span class="n">toThe</span> <span class="nc">USD</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="n">someYen</span><span class="k">:</span> <span class="kt">Money</span> <span class="o">=</span> <span class="nc">JPY</span><span class="o">(</span><span class="mi">350</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">someBucks</span><span class="k">:</span> <span class="kt">Money</span> <span class="o">=</span> <span class="nc">USD</span><span class="o">(</span><span class="mf">23.50</span><span class="o">)</span>
@@ -320,12 +309,14 @@ A Price value is typed on a Quantity and can be denominated in any defined Curre
 <h3>
 <a name="money-context" class="anchor" href="#money-context"><span class="octicon octicon-link"></span></a>Money Context</h3>
 
-<p>A MoneyContext can be implicitly declared to define default settings and applicable exchange rates within a context.
+<p>A MoneyContext can be implicitly declared to define default settings and applicable exchange rates within its scope.
 This allows your application to work with a default currency based on an application configuration or other dynamic source.
 It also provides support for updating exchange rates and using those rates for automatic conversions between currencies.
 The technique and frequency chosen for exchange rate updates is completely in control of the application.</p>
 
-<div class="highlight highlight-scala"><pre><span class="k">implicit</span> <span class="k">val</span> <span class="n">moneyContext</span> <span class="k">=</span> <span class="nc">MoneyContext</span><span class="o">(</span><span class="n">defCur</span><span class="o">,</span> <span class="n">curList</span><span class="o">,</span> <span class="n">exchangeRates</span><span class="o">)</span>
+<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">exchangeRates</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="nc">CAD</span><span class="o">(</span><span class="mf">1.05</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="nc">USD</span><span class="o">(</span><span class="mi">1</span><span class="o">),</span> <span class="nc">MXN</span><span class="o">(</span><span class="mf">12.50</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="nc">USD</span><span class="o">(</span><span class="mi">1</span><span class="o">))</span>
+<span class="k">implicit</span> <span class="k">val</span> <span class="n">moneyContext</span> <span class="k">=</span> <span class="n">defaultMoneyContext</span> <span class="n">withExchangeRates</span> <span class="n">exchangeRates</span>
+
 <span class="k">val</span> <span class="n">someMoney</span> <span class="k">=</span> <span class="nc">Money</span><span class="o">(</span><span class="mi">350</span><span class="o">)</span> <span class="c1">// 350 in the default Cur</span>
 <span class="k">val</span> <span class="n">usdMoney</span><span class="k">:</span> <span class="kt">Money</span> <span class="o">=</span> <span class="n">someMoney</span> <span class="n">in</span> <span class="nc">USD</span>
 <span class="k">val</span> <span class="n">usdDouble</span><span class="k">:</span> <span class="kt">Double</span> <span class="o">=</span> <span class="n">someMoney</span> <span class="n">to</span> <span class="nc">USD</span>
@@ -595,16 +586,18 @@ with type and scale conversions in your application logic.</p>
 
 <p>Build Anticorruption into Akka routers</p>
 
-<div class="highlight highlight-scala"><pre><span class="c1">// LoadReading message used within the Squant’s enabled application context</span>
+<div class="highlight highlight-scala"><pre><span class="c1">// LoadReading message used within a Squants enabled application context</span>
 <span class="k">case</span> <span class="k">class</span> <span class="nc">LoadReading</span><span class="o">(</span><span class="n">meterId</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">time</span><span class="k">:</span> <span class="kt">Long</span><span class="o">,</span> <span class="n">load</span><span class="k">:</span> <span class="kt">Power</span><span class="o">)</span>
 <span class="k">class</span> <span class="nc">ScadaLoadListener</span><span class="o">(</span><span class="n">router</span><span class="k">:</span> <span class="kt">Router</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Actor</span> <span class="o">{</span>
   <span class="k">def</span> <span class="n">receive</span> <span class="k">=</span> <span class="o">{</span>
-   <span class="c1">// ScadaLoadReading, from an external service, types load as a string</span>
+   <span class="c1">// ScadaLoadReading - from an external service - sends load as a string</span>
    <span class="c1">// eg, “10.3 MW”, “345 kW”</span>
    <span class="k">case</span> <span class="n">msg</span> <span class="k">@</span> <span class="nc">ScadaLoadReading</span><span class="o">(</span><span class="n">meterId</span><span class="o">,</span> <span class="n">time</span><span class="o">,</span> <span class="n">loadString</span><span class="o">)</span> <span class="k">⇒</span>
-    <span class="c1">// This handler converts the string to a Power value and emits the events</span>
-    <span class="c1">// to the routees which are actors within an app context that uses Squants</span>
-    <span class="n">router</span><span class="o">.</span><span class="n">route</span><span class="o">(</span><span class="nc">LoadReading</span><span class="o">(</span><span class="n">meterId</span><span class="o">,</span> <span class="n">time</span><span class="o">,</span> <span class="nc">Power</span><span class="o">(</span><span class="n">loadString</span><span class="o">)),</span> <span class="n">sender</span><span class="o">())</span>
+    <span class="c1">// Parse the string and on success emit the Squants enabled event to routees</span>
+    <span class="nc">Power</span><span class="o">(</span><span class="n">loadString</span><span class="o">)</span> <span class="k">match</span> <span class="o">{</span>
+      <span class="k">case</span> <span class="nc">Success</span><span class="o">(</span><span class="n">p</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">router</span><span class="o">.</span><span class="n">route</span><span class="o">(</span><span class="nc">LoadReading</span><span class="o">(</span><span class="n">meterId</span><span class="o">,</span> <span class="n">time</span><span class="o">,</span> <span class="n">p</span><span class="o">),</span> <span class="n">sender</span><span class="o">())</span>
+      <span class="k">case</span> <span class="nc">Failure</span><span class="o">(</span><span class="n">e</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="c1">// react to QuantityStringParseException</span>
+    <span class="o">}</span>
   <span class="o">}</span>
 <span class="o">}</span>
 </pre></div>
@@ -642,26 +635,6 @@ with type and scale conversions in your application logic.</p>
 </pre></div>
 
 <h2>
-<a name="roadmap" class="anchor" href="#roadmap"><span class="octicon octicon-link"></span></a>Roadmap</h2>
-
-<p>The following features and improvements are planned for the 1.0 release</p>
-
-<ul>
-<li>Validate and improve Money and FX Support</li>
-<li>Additional Quantity Types, Units and Dimensional Conversions</li>
-<li>Optimize Performance and / or Conversion Precisions
-
-<ul>
-<li>Using a Double as the underlying value is likely providing the best performance</li>
-<li>Better precision will likely take the form of replacing the underlying Double value with a Generic Type
-so that user code can choose a more precise type such as those provided by the
-<a href="https://github.com/non/spire">Spire</a> project</li>
-</ul>
-</li>
-<li>JSON Marshalling Support perhaps with a companion project or two for specific bindings (ie, squants-json4s)</li>
-<li>Enhance documentation and support presence</li>
-<li>Typesafe Activator Sample Project /  Template</li>
-</ul><h2>
 <a name="caveats" class="anchor" href="#caveats"><span class="octicon octicon-link"></span></a>Caveats</h2>
 
 <p>Code is offered as-is, with no implied warranty of any kind.
