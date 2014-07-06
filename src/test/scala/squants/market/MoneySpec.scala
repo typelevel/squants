@@ -291,12 +291,23 @@ class MoneySpec extends FlatSpec with Matchers {
     USD(1) -> JPY(100) should be(CurrencyExchangeRate(JPY(100), USD(1)))
   }
 
-  it should "throw an IllegalArgumentException on toThe (->) a same currency" in {
+  it should "return an Exchange Rate on Currency./" in {
+    USD / CAD(1.05) should be(CurrencyExchangeRate(USD(1), CAD(1.05)))
+    USD / JPY(100) should be(CurrencyExchangeRate(USD(1), JPY(100)))
+  }
+
+  it should "throw an IllegalArgumentException on toThe (->) applied to the same currency" in {
     intercept[IllegalArgumentException] {
       USD(100).toThe(USD(3)) == CurrencyExchangeRate(USD(100), USD(3))
     }
     intercept[IllegalArgumentException] {
       USD(100) -> USD(3) == CurrencyExchangeRate(USD(100), USD(3))
+    }
+  }
+
+  it should "throw an IllegalArgumentException on Currency./ applied to the same currency" in {
+    intercept[IllegalArgumentException] {
+      USD / USD(100) == CurrencyExchangeRate(USD(1), USD(100))
     }
   }
 

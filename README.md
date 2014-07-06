@@ -57,7 +57,7 @@ it can often lead to semantic and other logic issues.
 
 For example, when using a Double to describe quantities of Energy (kWh) and Power (kW), it is possible
 to compile a program that adds these two values together.  This is not appropriate as kW and kWh
-measure two different quantities.  The unit kWh is used to measure an amount of Energy used
+measure quantities of two different dimensions.  The unit kWh is used to measure an amount of Energy used
 or produced.  The unit kW is used to measure Power/Load, the rate at which Energy is being used
 or produced, that is, Power is the first time derivative of Energy.
 
@@ -71,10 +71,14 @@ val energyMwh: Double = 24.2
 val sumKw = loadKw + energyMwh
 ```
 
-which not only adds different quantity types (Power vs Energy), it also fails to convert the scales (Mega vs Kilo).
+which not only adds quantities of different dimensions (Power vs Energy),
+it also fails to convert the scales implied in the val names (Mega vs Kilo).
 Because this code compiles, detection of these errors is pushed further into the development cycle.
 
-### Dimensional Types
+### Dimensional Type Safety
+
+_Only quantities with the same dimensions may be compared, equated, added, or subtracted._
+
 Squants helps prevent errors like these by type checking operations at compile time and
 automatically applying scale and type conversions at run-time.  For example,
 
@@ -90,15 +94,6 @@ is a valid assertion because Kilowatts and Megawatts are both units of Power.  O
 different and the library applies an appropriate conversion.  Also, notice that keeping track of
 the scale within the value name is no longer needed.
 
-NOTE - Quantities can be initialized using any type T with an available implicit Numeric[T].
-In the current iteration, those values are converted to Double, which is the current type of the underlying value.
-The goal of the project is to refactor the underlying value to a Generic so that the initializing
-type is retained as the underlying value type.
-This will allow user code to use high precision types for the underlying value.
-
-### Dimensional Type Safety
-The following code highlights the type safety features.
-
 ```scala
 val load: Power = Kilowatts(1.2)
 val energy: Energy = KilowattHours(23.0)
@@ -107,9 +102,21 @@ val sum = load + energy // Invalid operation - does not compile
 The unsupported operation in this expression prevents the code from compiling,
 catching the error made when using Double in the example above.
 
-### Smart Type Conversions
-Dimensionally smart type conversions are a key feature of Squants.
-Most conversions are implemented by defining relationships between Quantity types using infix operators.
+### Dimensionally Correct Type Conversions
+
+_One may take ratios of quantities with different dimensions, and multiply or divide them._
+
+Dimensionally correct type conversions are a key feature of Squants.
+Conversions are implemented by defining relationships between Quantity types using the * and / operators.
+
+The following code demonstrates creating ratio between two quantities of the same dimension:
+
+```scala
+val ratio: Double = Days(1) / Hours(3)
+ratio should be(8.0)
+```
+
+This code demonstrates use of Power's `*` method that takes a Time and returns an Energy:
 
 ```scala
 val load: Power = Kilowatts(1.2)
@@ -117,17 +124,16 @@ val time: Time = Hours(2)
 val energyUsed: Energy = load * time
 energyUsed should be(KilowattHours(2.4))
 ```
-This code demonstrates use of Power's `*` method, defined as an infix operator that takes a Time
-and returns an Energy, conversely
+
+This code demonstrates use of Energy's `/` method that takes a Time and returns a Power:
 
 ```scala
 val aveLoad: Power = energyUsed / time
 aveLoad should be(Kilowatts(1.2)
 ```
-demonstrates use of Energy's `/` method that takes a Time and returns a Power
 
 ### Unit Conversions
-If necessary, the value in the desired unit can be extracted with the `to` method.
+If necessary, the value can be extracted in the desired unit with the `to` method.
 
 ```scala
 val load: Power = Kilowatts(1200)
@@ -136,6 +142,7 @@ val gw: Double = load to Gigawatts // returns 0.0012
 val my: Double = load to MyPowerUnit // returns ??? Whatever you want
 val kw: Double = load toKilowatts // returns 1200.0 (convenience method)
 ```
+
 Strings formatted in the desired unit is also supported
 
 ```scala
@@ -165,10 +172,6 @@ val reading = Kilowatts(1.9999)
 load =~ reading should be(true)
 load ≈ reading should be(true)
 load approx reading should be(true)
-
-// use instead of, or override implicit
-load.=~(reading)(Watts(.01)) should be(false)
-load.approx(reading)(Watts(.01)) should be(false)
 ```
 
 The `=~` and `≈` are the preferred operators as they have the correct precedence for equality operations.
@@ -203,7 +206,7 @@ val crossProduct = vector crossProduct vectorDouble  // currently only supported
 ```
 
 Dimensional conversions within Vector operations.
-This feature is currently and development and the final implementation being evaluated.
+This feature is currently under development and the final implementation being evaluated.
 This following type of operation is the goal.
 
 ```scala
@@ -218,13 +221,11 @@ Simple non-quantity (Double based) vectors are also supported
 val vector = DoubleVector(1.2, 4.3, 2.3, 5.4)   // a Four-dimensional vector
 ```
 
-These features are experimental in the current version and the API may undergo significant change before final release.
-
 ## Market Package
 Market Types are similar but not quite the same as other quantities in the library.
 The primary type, Money, is derived from Quantity, and its Units of Measure are Currencies.
-However, because the conversion multipliers between units can not be predefined, many of the behaviors have been
-overridden and augmented to realize correct behavior.
+However, because the conversion multipliers between units can not be predefined,
+many of the behaviors have been overridden and augmented to realize correct behavior.
 
 ### Money
 A Quantity of purchasing power measured in units we call Currencies.
@@ -259,6 +260,12 @@ Currency Exchange Rates
 ```scala
 // create an exchange rate
 val rate = CurrencyExchangeRate(USD(1), JPY(100))
+// OR
+val rate = USD / JPY(100)
+// OR
+val rate = JPY(100) -> USD(1)
+// OR
+val rate = JPY(100) toThe USD(1)
 
 val someYen: Money = JPY(350)
 val someBucks: Money = USD(23.50)
@@ -273,13 +280,15 @@ val yenAmount2: Money = someBucks * rate		// returns JPY(2350)
 ```
 
 ### Money Context
-A MoneyContext can be implicitly declared to define default settings and applicable exchange rates within a context.
+A MoneyContext can be implicitly declared to define default settings and applicable exchange rates within its scope.
 This allows your application to work with a default currency based on an application configuration or other dynamic source.
 It also provides support for updating exchange rates and using those rates for automatic conversions between currencies.
 The technique and frequency chosen for exchange rate updates is completely in control of the application.
 
 ```scala
-implicit val moneyContext = MoneyContext(defCur, curList, exchangeRates)
+val exchangeRates = List(CAD(1.05) -> USD(1), MXN(12.50) -> USD(1))
+implicit val moneyContext = defaultMoneyContext withExchangeRates exchangeRates
+
 val someMoney = Money(350) // 350 in the default Cur
 val usdMoney: Money = someMoney in USD
 val usdDouble: Double = someMoney to USD
@@ -549,16 +558,18 @@ class MarketServiceAnticorruption(val service: MarketService)
 Build Anticorruption into Akka routers
 
 ```scala
-// LoadReading message used within the Squant’s enabled application context
+// LoadReading message used within a Squants enabled application context
 case class LoadReading(meterId: String, time: Long, load: Power)
 class ScadaLoadListener(router: Router) extends Actor {
   def receive = {
-   // ScadaLoadReading, from an external service, types load as a string
+   // ScadaLoadReading - from an external service - sends load as a string
    // eg, “10.3 MW”, “345 kW”
    case msg @ ScadaLoadReading(meterId, time, loadString) ⇒
-    // This handler converts the string to a Power value and emits the events
-    // to the routees which are actors within an app context that uses Squants
-    router.route(LoadReading(meterId, time, Power(loadString)), sender())
+    // Parse the string and on success emit the Squants enabled event to routees
+    Power(loadString) match {
+      case Success(p) => router.route(LoadReading(meterId, time, p), sender())
+      case Failure(e) => // react to QuantityStringParseException
+    }
   }
 }
 ```
@@ -595,20 +606,6 @@ trait LoadRoute extends HttpService {
   }
 }
 ```
-## Roadmap
-
-The following features and improvements are planned for the 1.0 release
-
-* Validate and improve Money and FX Support
-* Additional Quantity Types, Units and Dimensional Conversions
-* Optimize Performance and / or Conversion Precisions
-  * Using a Double as the underlying value is likely providing the best performance
-  * Better precision will likely take the form of replacing the underlying Double value with a Generic Type
-  so that user code can choose a more precise type such as those provided by the
-  [Spire](https://github.com/non/spire) project
-* JSON Marshalling Support perhaps with a companion project or two for specific bindings (ie, squants-json4s)
-* Enhance documentation and support presence
-* Typesafe Activator Sample Project /  Template
 
 ## Caveats
 

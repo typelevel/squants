@@ -357,6 +357,7 @@ abstract class Currency(val code: String, val name: String, val symbol: String, 
   def apply(d: BigDecimal): Money = Money(d, this)
   protected def converterFrom: Double ⇒ Double = ???
   protected def converterTo: Double ⇒ Double = ???
+  def /(that: Money): CurrencyExchangeRate = that toThe Money(1, this)
 }
 
 object USD extends Currency("USD", "US Dollar", "$", 2)
