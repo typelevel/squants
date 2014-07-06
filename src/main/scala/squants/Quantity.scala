@@ -300,11 +300,11 @@ trait QuantityCompanion[A <: Quantity[A]] {
 
   def symbolToUnit(symbol: String): Option[UnitOfMeasure[A]] = units.find(u ⇒ u.symbol == symbol)
 
+  private lazy val QuantityString = ("([-+]?[0-9]*\\.?[0-9]+) *(" + units.map { u: UnitOfMeasure[A] ⇒ u.symbol }.reduceLeft(_ + "|" + _) + ")").r
   protected def parseString(s: String): Try[A] = {
-    val regex = ("([-+]?[0-9]*\\.?[0-9]+) *(" + units.map { u: UnitOfMeasure[A] ⇒ u.symbol }.reduceLeft(_ + "|" + _) + ")").r
     s match {
-      case regex(value, symbol) ⇒ Success(symbolToUnit(symbol).get(value.toDouble))
-      case _                    ⇒ Failure(QuantityStringParseException(s"Unable to parse $name", s))
+      case QuantityString(value, symbol) ⇒ Success(symbolToUnit(symbol).get(BigDecimal(value)))
+      case _                             ⇒ Failure(QuantityStringParseException(s"Unable to parse $name", s))
     }
   }
 }
