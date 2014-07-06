@@ -36,7 +36,7 @@ object ChemicalAmount extends QuantityCompanion[ChemicalAmount] {
   def units = Set(Moles, PoundMoles)
 }
 
-trait ChemicalAmountUnit extends BaseQuantityUnit[ChemicalAmount] with UnitMultiplier {
+trait ChemicalAmountUnit extends BaseQuantityUnit[ChemicalAmount] with UnitConverter {
   def apply[A](n: A)(implicit num: Numeric[A]) = ChemicalAmount(convertFrom(n))
   def dimensionSymbol = "N"
 }
@@ -47,7 +47,7 @@ object Moles extends ChemicalAmountUnit with ValueUnit with BaseUnit {
 
 object PoundMoles extends ChemicalAmountUnit {
   val symbol = "lb-mol"
-  val multiplier = 453.59237
+  val conversionFactor = 453.59237
 }
 
 object ChemicalAmountConversions {

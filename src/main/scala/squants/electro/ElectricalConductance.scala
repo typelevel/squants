@@ -37,7 +37,7 @@ object ElectricalConductance extends QuantityCompanion[ElectricalConductance] {
   def units = Set(Siemens)
 }
 
-trait ElectricalConductanceUnit extends UnitOfMeasure[ElectricalConductance] with UnitMultiplier {
+trait ElectricalConductanceUnit extends UnitOfMeasure[ElectricalConductance] with UnitConverter {
   def apply[A](n: A)(implicit num: Numeric[A]) = ElectricalConductance(convertFrom(n))
 }
 

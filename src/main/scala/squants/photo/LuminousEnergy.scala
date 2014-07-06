@@ -36,7 +36,7 @@ object LuminousEnergy extends QuantityCompanion[LuminousEnergy] {
   def units = Set(LumenSeconds)
 }
 
-trait LuminousEnergyUnit extends UnitOfMeasure[LuminousEnergy] with UnitMultiplier
+trait LuminousEnergyUnit extends UnitOfMeasure[LuminousEnergy] with UnitConverter
 
 object LumenSeconds extends LuminousEnergyUnit with ValueUnit {
   def apply[A](n: A)(implicit num: Numeric[A]) = LuminousEnergy(n)

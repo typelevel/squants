@@ -51,7 +51,7 @@ object Force extends QuantityCompanion[Force] {
   def units = Set(Newtons, KilogramForce, PoundForce)
 }
 
-trait ForceUnit extends UnitOfMeasure[Force] with UnitMultiplier {
+trait ForceUnit extends UnitOfMeasure[Force] with UnitConverter {
   def apply[A](n: A)(implicit num: Numeric[A]) = Force(convertFrom(n))
 }
 
@@ -61,12 +61,12 @@ object Newtons extends ForceUnit with ValueUnit {
 
 object KilogramForce extends ForceUnit {
   val symbol = "kgf"
-  val multiplier = MetersPerSecondSquared.multiplier * EarthGravities.multiplier
+  val conversionFactor = MetersPerSecondSquared.conversionFactor * EarthGravities.conversionFactor
 }
 
 object PoundForce extends ForceUnit {
   val symbol = "lbf"
-  val multiplier = Pounds.multiplier * KilogramForce.multiplier / Kilograms.multiplier
+  val conversionFactor = Pounds.conversionFactor * KilogramForce.conversionFactor / Kilograms.conversionFactor
 }
 
 object ForceConversions {

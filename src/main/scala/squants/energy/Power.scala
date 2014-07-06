@@ -76,12 +76,12 @@ object Power extends QuantityCompanion[Power] {
   def units = Set(Watts, Milliwatts, Kilowatts, Megawatts, Gigawatts, BtusPerHour)
 }
 
-trait PowerUnit extends UnitOfMeasure[Power] with UnitMultiplier {
+trait PowerUnit extends UnitOfMeasure[Power] with UnitConverter {
   def apply[A](n: A)(implicit num: Numeric[A]) = Power(convertFrom(n))
 }
 
 object Milliwatts extends PowerUnit {
-  val multiplier = MetricSystem.Milli
+  val conversionFactor = MetricSystem.Milli
   val symbol = "mW"
 }
 
@@ -90,22 +90,22 @@ object Watts extends PowerUnit with ValueUnit {
 }
 
 object Kilowatts extends PowerUnit {
-  val multiplier = MetricSystem.Kilo
+  val conversionFactor = MetricSystem.Kilo
   val symbol = "kW"
 }
 
 object Megawatts extends PowerUnit {
-  val multiplier = MetricSystem.Mega
+  val conversionFactor = MetricSystem.Mega
   val symbol = "MW"
 }
 
 object Gigawatts extends PowerUnit {
-  val multiplier = MetricSystem.Giga
+  val conversionFactor = MetricSystem.Giga
   val symbol = "GW"
 }
 
 object BtusPerHour extends PowerUnit {
-  val multiplier = EnergyConversions.btuMultiplier
+  val conversionFactor = EnergyConversions.btuMultiplier
   val symbol = "Btu/hr"
 }
 

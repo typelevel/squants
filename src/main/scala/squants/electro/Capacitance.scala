@@ -40,7 +40,7 @@ object Capacitance extends QuantityCompanion[Capacitance] {
   def units = Set(Farads, Picofarads, Nanofarads, Microfarads, Millifarads, Kilofarads)
 }
 
-trait CapacitanceUnit extends UnitOfMeasure[Capacitance] with UnitMultiplier {
+trait CapacitanceUnit extends UnitOfMeasure[Capacitance] with UnitConverter {
   def apply[A](n: A)(implicit num: Numeric[A]) = Capacitance(convertFrom(n))
 }
 
@@ -50,27 +50,27 @@ object Farads extends CapacitanceUnit with ValueUnit {
 
 object Picofarads extends CapacitanceUnit {
   val symbol = "pF"
-  val multiplier = MetricSystem.Pico
+  val conversionFactor = MetricSystem.Pico
 }
 
 object Nanofarads extends CapacitanceUnit {
   val symbol = "nF"
-  val multiplier = MetricSystem.Nano
+  val conversionFactor = MetricSystem.Nano
 }
 
 object Microfarads extends CapacitanceUnit {
   val symbol = "μF"
-  val multiplier = MetricSystem.Micro
+  val conversionFactor = MetricSystem.Micro
 }
 
 object Millifarads extends CapacitanceUnit {
   val symbol = "mF"
-  val multiplier = MetricSystem.Milli
+  val conversionFactor = MetricSystem.Milli
 }
 
 object Kilofarads extends CapacitanceUnit {
   val symbol = "kF"
-  val multiplier = MetricSystem.Kilo
+  val conversionFactor = MetricSystem.Kilo
 }
 
 object CapacitanceConversions {

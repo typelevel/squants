@@ -53,8 +53,8 @@ class MassSpec extends FlatSpec with Matchers {
     x.toGrams should be(1)
     x.toKilograms should be(1 / MetricSystem.Kilo)
     x.toTonnes should be(1 / MetricSystem.Mega)
-    x.toPounds should be(1 / Pounds.multiplier)
-    x.toOunces should be(1 / Ounces.multiplier)
+    x.toPounds should be(1 / Pounds.conversionFactor)
+    x.toOunces should be(1 / Ounces.conversionFactor)
 
     Grams(1000) should be(Kilograms(1))
     Kilograms(0.45359237) should be(Pounds(1))

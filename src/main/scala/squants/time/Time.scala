@@ -60,13 +60,13 @@ object Time extends QuantityCompanion[Time] {
   def units = Set(Microseconds, Milliseconds, Seconds, Minutes, Hours, Days)
 }
 
-trait TimeUnit extends BaseQuantityUnit[Time] with UnitMultiplier {
+trait TimeUnit extends BaseQuantityUnit[Time] with UnitConverter {
   def dimensionSymbol = "T"
   def apply[A](n: A)(implicit num: Numeric[A]) = Time(convertFrom(n))
 }
 
 object Microseconds extends TimeUnit {
-  val multiplier = Milliseconds.multiplier / 1000d
+  val conversionFactor = Milliseconds.conversionFactor / 1000d
   val symbol = "µs"
 }
 
@@ -75,22 +75,22 @@ object Milliseconds extends TimeUnit with ValueUnit {
 }
 
 object Seconds extends TimeUnit with BaseUnit {
-  val multiplier = Milliseconds.multiplier * 1000d
+  val conversionFactor = Milliseconds.conversionFactor * 1000d
   val symbol = "s"
 }
 
 object Minutes extends TimeUnit {
-  val multiplier = Seconds.multiplier * 60d
+  val conversionFactor = Seconds.conversionFactor * 60d
   val symbol = "m"
 }
 
 object Hours extends TimeUnit {
-  val multiplier = Minutes.multiplier * 60d
+  val conversionFactor = Minutes.conversionFactor * 60d
   val symbol = "h"
 }
 
 object Days extends TimeUnit {
-  val multiplier = Hours.multiplier * 24d
+  val conversionFactor = Hours.conversionFactor * 24d
   val symbol = "d"
 }
 

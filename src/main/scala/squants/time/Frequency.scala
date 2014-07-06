@@ -40,7 +40,7 @@ object Frequency extends QuantityCompanion[Frequency] {
   def units = Set(Hertz, Kilohertz, Megahertz, Gigahertz, Terahertz, RevolutionsPerMinute)
 }
 
-trait FrequencyUnit extends UnitOfMeasure[Frequency] with UnitMultiplier {
+trait FrequencyUnit extends UnitOfMeasure[Frequency] with UnitConverter {
   def apply[A](n: A)(implicit num: Numeric[A]) = Frequency(convertFrom(n))
 }
 
@@ -49,27 +49,27 @@ object Hertz extends FrequencyUnit with ValueUnit {
 }
 
 object Kilohertz extends FrequencyUnit {
-  val multiplier = MetricSystem.Kilo
+  val conversionFactor = MetricSystem.Kilo
   val symbol = "kHz"
 }
 
 object Megahertz extends FrequencyUnit {
-  val multiplier = MetricSystem.Mega
+  val conversionFactor = MetricSystem.Mega
   val symbol = "MHz"
 }
 
 object Gigahertz extends FrequencyUnit {
-  val multiplier = MetricSystem.Giga
+  val conversionFactor = MetricSystem.Giga
   val symbol = "GHz"
 }
 
 object Terahertz extends FrequencyUnit {
-  val multiplier = MetricSystem.Tera
+  val conversionFactor = MetricSystem.Tera
   val symbol = "THz"
 }
 
 object RevolutionsPerMinute extends FrequencyUnit {
-  val multiplier = 1d / 60
+  val conversionFactor = 1d / 60
   val symbol = "rpm"
 }
 

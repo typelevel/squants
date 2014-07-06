@@ -86,10 +86,10 @@ class VolumeSpec extends FlatSpec with Matchers {
     x.toDecilitres should be(10000)
     x.toHectolitres should be(10)
 
-    x.toCubicMiles should be(1 / math.pow(UsMiles.multiplier, 3))
-    x.toCubicYards should be(1 / BigDecimal(Yards.multiplier).pow(3).toDouble)
-    x.toCubicFeet should be(1 / BigDecimal(Feet.multiplier).pow(3).toDouble)
-    x.toCubicInches should be(1 / math.pow(Inches.multiplier, 3))
+    x.toCubicMiles should be(1 / math.pow(UsMiles.conversionFactor, 3))
+    x.toCubicYards should be(1 / BigDecimal(Yards.conversionFactor).pow(3).toDouble)
+    x.toCubicFeet should be(1 / BigDecimal(Feet.conversionFactor).pow(3).toDouble)
+    x.toCubicInches should be(1 / math.pow(Inches.conversionFactor, 3))
 
     val litresPerUsGallon = 3.785411784
     x.toUsGallons should be(1000d / litresPerUsGallon)

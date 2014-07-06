@@ -35,7 +35,7 @@ object MassFlowRate extends QuantityCompanion[MassFlowRate] {
   def units = Set(KilogramsPerSecond)
 }
 
-trait MassFlowRateUnit extends UnitOfMeasure[MassFlowRate] with UnitMultiplier {
+trait MassFlowRateUnit extends UnitOfMeasure[MassFlowRate] with UnitConverter {
   def apply[A](n: A)(implicit num: Numeric[A]) = MassFlowRate(convertFrom(n))
 }
 

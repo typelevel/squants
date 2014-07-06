@@ -43,7 +43,7 @@ object LuminousFlux extends QuantityCompanion[LuminousFlux] {
   def units = Set(Lumens)
 }
 
-trait LuminousFluxUnit extends UnitOfMeasure[LuminousFlux] with UnitMultiplier
+trait LuminousFluxUnit extends UnitOfMeasure[LuminousFlux] with UnitConverter
 
 object Lumens extends LuminousFluxUnit with ValueUnit {
   def apply[A](n: A)(implicit num: Numeric[A]) = LuminousFlux(n)

@@ -69,18 +69,18 @@ class EnergySpec extends FlatSpec with Matchers {
     x.toMegawattHours should be(1 / MetricSystem.Mega)
     x.toGigawattHours should be(1 / MetricSystem.Giga)
 
-    x.toJoules should be(1 / Joules.multiplier)
-    x.toPicojoules should be(1 / Picojoules.multiplier)
-    x.toNanojoules should be(1 / Nanojoules.multiplier)
-    x.toMicrojoules should be(1 / Microjoules.multiplier)
-    x.toMillijoules should be(1 / Millijoules.multiplier)
-    x.toKilojoules should be(1 / Kilojoules.multiplier)
-    x.toMegajoules should be(1 / Megajoules.multiplier)
-    x.toGigajoules should be(1 / Gigajoules.multiplier)
+    x.toJoules should be(1 / Joules.conversionFactor)
+    x.toPicojoules should be(1 / Picojoules.conversionFactor)
+    x.toNanojoules should be(1 / Nanojoules.conversionFactor)
+    x.toMicrojoules should be(1 / Microjoules.conversionFactor)
+    x.toMillijoules should be(1 / Millijoules.conversionFactor)
+    x.toKilojoules should be(1 / Kilojoules.conversionFactor)
+    x.toMegajoules should be(1 / Megajoules.conversionFactor)
+    x.toGigajoules should be(1 / Gigajoules.conversionFactor)
 
-    x.toBtus should be(1 / BritishThermalUnits.multiplier)
-    x.toMBtus should be(1 / MBtus.multiplier)
-    x.toMMBtus should be(1 / MMBtus.multiplier)
+    x.toBtus should be(1 / BritishThermalUnits.conversionFactor)
+    x.toMBtus should be(1 / MBtus.conversionFactor)
+    x.toMMBtus should be(1 / MMBtus.conversionFactor)
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {

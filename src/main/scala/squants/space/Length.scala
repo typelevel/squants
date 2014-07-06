@@ -83,34 +83,34 @@ object Length extends QuantityCompanion[Length] {
 /**
  * Base trait for units of [[squants.space.Length]]
  */
-trait LengthUnit extends BaseQuantityUnit[Length] with UnitMultiplier {
+trait LengthUnit extends BaseQuantityUnit[Length] with UnitConverter {
   val dimensionSymbol = "L"
   def apply[A](n: A)(implicit num: Numeric[A]) = Length(convertFrom(n))
 }
 
 object Nanometers extends LengthUnit {
   val symbol = "nm"
-  val multiplier = MetricSystem.Nano
+  val conversionFactor = MetricSystem.Nano
 }
 
 object Microns extends LengthUnit {
   val symbol = "µm"
-  val multiplier = MetricSystem.Micro
+  val conversionFactor = MetricSystem.Micro
 }
 
 object Millimeters extends LengthUnit {
   val symbol = "mm"
-  val multiplier = MetricSystem.Milli
+  val conversionFactor = MetricSystem.Milli
 }
 
 object Centimeters extends LengthUnit {
   val symbol = "cm"
-  val multiplier = MetricSystem.Centi
+  val conversionFactor = MetricSystem.Centi
 }
 
 object Decimeters extends LengthUnit {
   val symbol = "dm"
-  val multiplier = MetricSystem.Deci
+  val conversionFactor = MetricSystem.Deci
 }
 
 object Meters extends LengthUnit with ValueUnit with BaseUnit {
@@ -119,56 +119,56 @@ object Meters extends LengthUnit with ValueUnit with BaseUnit {
 
 object Decameters extends LengthUnit {
   val symbol = "dam"
-  val multiplier = MetricSystem.Deca
+  val conversionFactor = MetricSystem.Deca
 }
 
 object Hectometers extends LengthUnit {
   val symbol = "hm"
-  val multiplier = MetricSystem.Hecto
+  val conversionFactor = MetricSystem.Hecto
 }
 
 object Kilometers extends LengthUnit {
   val symbol = "km"
-  val multiplier = MetricSystem.Kilo
+  val conversionFactor = MetricSystem.Kilo
 }
 
 object Inches extends LengthUnit {
-  val multiplier = Feet.multiplier / 12
+  val conversionFactor = Feet.conversionFactor / 12
   val symbol = "in"
 }
 
 object Feet extends LengthUnit {
-  val multiplier = 0.3048006096
+  val conversionFactor = 0.3048006096
   val symbol = "ft"
 }
 
 object Yards extends LengthUnit {
-  val multiplier = Feet.multiplier * 3D
+  val conversionFactor = Feet.conversionFactor * 3D
   val symbol = "yd"
 }
 
 object UsMiles extends LengthUnit {
-  val multiplier = Feet.multiplier * 5280D
+  val conversionFactor = Feet.conversionFactor * 5280D
   val symbol = "mi"
 }
 
 object InternationalMiles extends LengthUnit {
-  val multiplier = 1609.344
+  val conversionFactor = 1609.344
   val symbol = "mile"
 }
 
 object NauticalMiles extends LengthUnit {
-  val multiplier = 1852D
+  val conversionFactor = 1852D
   val symbol = "nmi"
 }
 
 object AstronomicalUnits extends LengthUnit {
-  val multiplier = 149597870700D
+  val conversionFactor = 149597870700D
   val symbol = "au"
 }
 
 object LightYears extends LengthUnit {
-  val multiplier = 9460730472580800D
+  val conversionFactor = 9460730472580800D
   val symbol = "ly"
 }
 

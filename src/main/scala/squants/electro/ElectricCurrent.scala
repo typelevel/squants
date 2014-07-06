@@ -51,7 +51,7 @@ object ElectricCurrent extends QuantityCompanion[ElectricCurrent] {
 /**
  * Base trait for units of [[squants.electro.ElectricCurrent]]
  */
-trait ElectricCurrentUnit extends BaseQuantityUnit[ElectricCurrent] with UnitMultiplier {
+trait ElectricCurrentUnit extends BaseQuantityUnit[ElectricCurrent] with UnitConverter {
   def dimensionSymbol = "I"
   def apply[A](n: A)(implicit num: Numeric[A]) = ElectricCurrent(convertFrom(n))
 }
@@ -68,7 +68,7 @@ object Amperes extends ElectricCurrentUnit with ValueUnit with BaseUnit {
  */
 object Milliamperes extends ElectricCurrentUnit {
   val symbol = "mA"
-  val multiplier = MetricSystem.Milli
+  val conversionFactor = MetricSystem.Milli
 }
 
 object ElectricCurrentConversions {

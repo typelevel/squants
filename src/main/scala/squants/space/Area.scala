@@ -65,7 +65,7 @@ object Area extends QuantityCompanion[Area] {
     Hectares, Acres, Barnes)
 }
 
-trait AreaUnit extends UnitOfMeasure[Area] with UnitMultiplier {
+trait AreaUnit extends UnitOfMeasure[Area] with UnitConverter {
   def apply[A](n: A)(implicit num: Numeric[A]) = Area(convertFrom(n))
 }
 
@@ -75,47 +75,47 @@ object SquareMeters extends AreaUnit with ValueUnit {
 
 object SquareCentimeters extends AreaUnit {
   val symbol = "cm²"
-  val multiplier = MetricSystem.Centi * MetricSystem.Centi
+  val conversionFactor = MetricSystem.Centi * MetricSystem.Centi
 }
 
 object SquareKilometers extends AreaUnit {
   val symbol = "km²"
-  val multiplier = MetricSystem.Kilo * MetricSystem.Kilo
+  val conversionFactor = MetricSystem.Kilo * MetricSystem.Kilo
 }
 
 object SquareUsMiles extends AreaUnit {
   val symbol = "mi²"
-  val multiplier = 2.589988110336 * SquareKilometers.multiplier
+  val conversionFactor = 2.589988110336 * SquareKilometers.conversionFactor
 }
 
 object SquareYards extends AreaUnit {
   val symbol = "yd²"
-  val multiplier = 0.83612736
+  val conversionFactor = 0.83612736
 }
 
 object SquareFeet extends AreaUnit {
   val symbol = "ft²"
-  val multiplier = .09290304
+  val conversionFactor = .09290304
 }
 
 object SquareInches extends AreaUnit {
   val symbol = "in²"
-  val multiplier = 6.4516 * SquareCentimeters.multiplier
+  val conversionFactor = 6.4516 * SquareCentimeters.conversionFactor
 }
 
 object Hectares extends AreaUnit {
   val symbol = "ha"
-  val multiplier = 10000D
+  val conversionFactor = 10000D
 }
 
 object Acres extends AreaUnit {
   val symbol = "acre"
-  val multiplier = 43560 * SquareFeet.multiplier
+  val conversionFactor = 43560 * SquareFeet.conversionFactor
 }
 
 object Barnes extends AreaUnit {
   val symbol = "b"
-  val multiplier = scala.math.pow(10, -28)
+  val conversionFactor = scala.math.pow(10, -28)
 }
 
 object AreaConversions {

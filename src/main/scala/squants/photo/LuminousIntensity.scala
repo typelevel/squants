@@ -37,7 +37,7 @@ object LuminousIntensity extends QuantityCompanion[LuminousIntensity] {
   def units = Set(Candelas)
 }
 
-trait LuminousIntensityUnit extends BaseQuantityUnit[LuminousIntensity] with UnitMultiplier {
+trait LuminousIntensityUnit extends BaseQuantityUnit[LuminousIntensity] with UnitConverter {
   val dimensionSymbol = "J"
   def apply[A](n: A)(implicit num: Numeric[A]) = LuminousIntensity(convertFrom(n))
 }

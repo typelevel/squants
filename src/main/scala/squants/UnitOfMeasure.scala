@@ -72,26 +72,26 @@ trait UnitOfMeasure[A <: Quantity[A]] extends Serializable {
 /**
  * A Unit of Measure that require a simple multiplier for converting to and from the underlying value's unit
  */
-trait UnitMultiplier { uom: UnitOfMeasure[_] ⇒
+trait UnitConverter { uom: UnitOfMeasure[_] ⇒
 
   /**
    * Defines a multiplier value relative to the Quantity's [[squants.ValueUnit]]
    *
    * @return
    */
-  def multiplier: Double
+  protected def conversionFactor: Double
 
   /**
    * Implements the converterTo method as a simple quotient of the value and the multiplier
    * @return
    */
-  def converterTo: Double ⇒ Double = value ⇒ value / multiplier
+  protected def converterTo: Double ⇒ Double = value ⇒ value / conversionFactor
 
   /**
    * Implements the converterFrom method as a simple product of the value and the multiplier
    * @return
    */
-  def converterFrom: Double ⇒ Double = value ⇒ value * multiplier
+  protected def converterFrom: Double ⇒ Double = value ⇒ value * conversionFactor
 }
 
 /**
@@ -99,7 +99,7 @@ trait UnitMultiplier { uom: UnitOfMeasure[_] ⇒
  *
  * Each Quantity should have one and only one ValueUnit
  */
-trait ValueUnit extends UnitMultiplier { uom: UnitOfMeasure[_] ⇒
+trait ValueUnit extends UnitConverter { uom: UnitOfMeasure[_] ⇒
 
   /**
    * Implements the converterTo method to just return the underlying value
@@ -116,7 +116,7 @@ trait ValueUnit extends UnitMultiplier { uom: UnitOfMeasure[_] ⇒
   /**
    * Value unit multiplier is always equal to 1
    */
-  final val multiplier = 1d
+  final val conversionFactor = 1d
 }
 
 /**

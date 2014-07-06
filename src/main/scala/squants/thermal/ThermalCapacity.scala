@@ -38,7 +38,7 @@ object ThermalCapacity extends QuantityCompanion[ThermalCapacity] {
   def units = Set(JoulesPerKelvin)
 }
 
-trait ThermalCapacityUnit extends UnitOfMeasure[ThermalCapacity] with UnitMultiplier {
+trait ThermalCapacityUnit extends UnitOfMeasure[ThermalCapacity] with UnitConverter {
   def apply[A](n: A)(implicit num: Numeric[A]) = ThermalCapacity(convertFrom(n))
 }
 

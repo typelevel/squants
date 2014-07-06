@@ -82,7 +82,7 @@ object Volume extends QuantityCompanion[Volume] {
     UsGallons, UsQuarts, UsPints, UsCups, FluidOunces, Tablespoons, Teaspoons)
 }
 
-trait VolumeUnit extends UnitOfMeasure[Volume] with UnitMultiplier {
+trait VolumeUnit extends UnitOfMeasure[Volume] with UnitConverter {
   def apply[A](n: A)(implicit num: Numeric[A]) = Volume(convertFrom(n))
 }
 
@@ -92,132 +92,132 @@ object CubicMeters extends VolumeUnit with ValueUnit {
 
 object Litres extends VolumeUnit {
   val symbol = "L"
-  val multiplier = .001
+  val conversionFactor = .001
 }
 
 object Nanolitres extends VolumeUnit {
   val symbol = "nl"
-  val multiplier = Litres.multiplier * MetricSystem.Nano
+  val conversionFactor = Litres.conversionFactor * MetricSystem.Nano
 }
 
 object Microlitres extends VolumeUnit {
   val symbol = "µl"
-  val multiplier = Litres.multiplier * MetricSystem.Micro
+  val conversionFactor = Litres.conversionFactor * MetricSystem.Micro
 }
 
 object Millilitres extends VolumeUnit {
   val symbol = "ml"
-  val multiplier = Litres.multiplier * MetricSystem.Milli
+  val conversionFactor = Litres.conversionFactor * MetricSystem.Milli
 }
 
 object Centilitres extends VolumeUnit {
   val symbol = "cl"
-  val multiplier = Litres.multiplier * MetricSystem.Centi
+  val conversionFactor = Litres.conversionFactor * MetricSystem.Centi
 }
 
 object Decilitres extends VolumeUnit {
   val symbol = "dl"
-  val multiplier = Litres.multiplier * MetricSystem.Deci
+  val conversionFactor = Litres.conversionFactor * MetricSystem.Deci
 }
 
 object Hectolitres extends VolumeUnit {
   val symbol = "hl"
-  val multiplier = Litres.multiplier * MetricSystem.Hecto
+  val conversionFactor = Litres.conversionFactor * MetricSystem.Hecto
 }
 
 object CubicMiles extends VolumeUnit {
   val symbol = "mi³"
-  val multiplier = math.pow(UsMiles.multiplier, 3)
+  val conversionFactor = math.pow(UsMiles.conversionFactor, 3)
 }
 
 object CubicYards extends VolumeUnit {
   val symbol = "yd³"
-  val multiplier = BigDecimal(Yards.multiplier).pow(3).toDouble
+  val conversionFactor = BigDecimal(Yards.conversionFactor).pow(3).toDouble
 }
 
 object CubicFeet extends VolumeUnit {
   val symbol = "ft³"
-  val multiplier = BigDecimal(Feet.multiplier).pow(3).toDouble
+  val conversionFactor = BigDecimal(Feet.conversionFactor).pow(3).toDouble
 }
 
 object CubicInches extends VolumeUnit {
   val symbol = "in³"
-  val multiplier = math.pow(Inches.multiplier, 3)
+  val conversionFactor = math.pow(Inches.conversionFactor, 3)
 }
 
 object UsGallons extends VolumeUnit {
   val symbol = "gal"
-  val multiplier = Millilitres.multiplier * 3785.411784
+  val conversionFactor = Millilitres.conversionFactor * 3785.411784
 }
 
 object UsQuarts extends VolumeUnit {
   val symbol = "qt"
-  val multiplier = UsGallons.multiplier / 4d
+  val conversionFactor = UsGallons.conversionFactor / 4d
 }
 
 object UsPints extends VolumeUnit {
   val symbol = "pt"
-  val multiplier = UsGallons.multiplier / 8d
+  val conversionFactor = UsGallons.conversionFactor / 8d
 }
 
 object UsCups extends VolumeUnit {
   val symbol = "c"
-  val multiplier = UsGallons.multiplier / 16d
+  val conversionFactor = UsGallons.conversionFactor / 16d
 }
 
 object FluidOunces extends VolumeUnit {
   val symbol = "oz"
-  val multiplier = UsGallons.multiplier / 128d
+  val conversionFactor = UsGallons.conversionFactor / 128d
 }
 
 object Tablespoons extends VolumeUnit {
   val symbol = "tbsp"
-  val multiplier = FluidOunces.multiplier / 2d
+  val conversionFactor = FluidOunces.conversionFactor / 2d
 }
 
 object Teaspoons extends VolumeUnit {
   val symbol = "tsp"
-  val multiplier = FluidOunces.multiplier / 6d
+  val conversionFactor = FluidOunces.conversionFactor / 6d
 }
 
 object UsDryGallons extends VolumeUnit {
   val symbol = "gal"
-  val multiplier = Millilitres.multiplier * 4404.8837
+  val conversionFactor = Millilitres.conversionFactor * 4404.8837
 }
 
 object UsDryQuarts extends VolumeUnit {
   val symbol = "qt"
-  val multiplier = UsDryGallons.multiplier / 4d
+  val conversionFactor = UsDryGallons.conversionFactor / 4d
 }
 
 object UsDryPints extends VolumeUnit {
   val symbol = "pt"
-  val multiplier = UsDryGallons.multiplier / 8d
+  val conversionFactor = UsDryGallons.conversionFactor / 8d
 }
 
 object UsDryCups extends VolumeUnit {
   val symbol = "c"
-  val multiplier = UsDryGallons.multiplier / 16d
+  val conversionFactor = UsDryGallons.conversionFactor / 16d
 }
 
 object ImperialGallons extends VolumeUnit {
   val symbol = "gal"
-  val multiplier = Millilitres.multiplier * 4546.09
+  val conversionFactor = Millilitres.conversionFactor * 4546.09
 }
 
 object ImperialQuarts extends VolumeUnit {
   val symbol = "qt"
-  val multiplier = ImperialGallons.multiplier / 4d
+  val conversionFactor = ImperialGallons.conversionFactor / 4d
 }
 
 object ImperialPints extends VolumeUnit {
   val symbol = "pt"
-  val multiplier = ImperialGallons.multiplier / 8d
+  val conversionFactor = ImperialGallons.conversionFactor / 8d
 }
 
 object ImperialCups extends VolumeUnit {
   val symbol = "c"
-  val multiplier = ImperialGallons.multiplier / 16d
+  val conversionFactor = ImperialGallons.conversionFactor / 16d
 }
 
 object VolumeConversions {

@@ -35,7 +35,7 @@ object Conductivity extends QuantityCompanion[Conductivity] {
   def units = Set(SiemensPerMeter)
 }
 
-trait ConductivityUnit extends UnitOfMeasure[Conductivity] with UnitMultiplier {
+trait ConductivityUnit extends UnitOfMeasure[Conductivity] with UnitConverter {
   def apply[A](n: A)(implicit num: Numeric[A]) = Conductivity(convertFrom(n))
 }
 

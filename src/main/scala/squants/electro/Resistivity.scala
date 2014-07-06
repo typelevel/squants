@@ -35,7 +35,7 @@ object Resistivity extends QuantityCompanion[Resistivity] {
   def units = Set(OhmMeters)
 }
 
-trait ResitivityUnit extends UnitOfMeasure[Resistivity] with UnitMultiplier {
+trait ResitivityUnit extends UnitOfMeasure[Resistivity] with UnitConverter {
   def apply[A](n: A)(implicit num: Numeric[A]) = Resistivity(convertFrom(n))
 }
 

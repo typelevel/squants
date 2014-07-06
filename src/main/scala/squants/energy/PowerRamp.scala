@@ -49,7 +49,7 @@ object PowerRamp extends QuantityCompanion[PowerRamp] {
   def units = Set(WattsPerHour, KilowattsPerHour, MegawattsPerHour, GigawattsPerHour)
 }
 
-trait PowerRampUnit extends UnitOfMeasure[PowerRamp] with UnitMultiplier {
+trait PowerRampUnit extends UnitOfMeasure[PowerRamp] with UnitConverter {
   def apply[A](n: A)(implicit num: Numeric[A]) = PowerRamp(convertFrom(n))
 }
 
@@ -58,17 +58,17 @@ object WattsPerHour extends PowerRampUnit with ValueUnit {
 }
 
 object KilowattsPerHour extends PowerRampUnit {
-  val multiplier = MetricSystem.Kilo
+  val conversionFactor = MetricSystem.Kilo
   val symbol = "kW/h"
 }
 
 object MegawattsPerHour extends PowerRampUnit {
-  val multiplier = MetricSystem.Mega
+  val conversionFactor = MetricSystem.Mega
   val symbol = "MW/h"
 }
 
 object GigawattsPerHour extends PowerRampUnit {
-  val multiplier = MetricSystem.Giga
+  val conversionFactor = MetricSystem.Giga
   val symbol = "GW/h"
 }
 

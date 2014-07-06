@@ -55,13 +55,13 @@ object Velocity extends QuantityCompanion[Velocity] {
     InternationalMilesPerHour, Knots)
 }
 
-trait VelocityUnit extends UnitOfMeasure[Velocity] with UnitMultiplier {
+trait VelocityUnit extends UnitOfMeasure[Velocity] with UnitConverter {
   def apply[A](n: A)(implicit num: Numeric[A]): Velocity = Velocity(convertFrom(n))
 }
 
 object FeetPerSecond extends VelocityUnit {
   val symbol = "ft/s"
-  val multiplier = Feet.multiplier * Meters.multiplier
+  val conversionFactor = Feet.conversionFactor * Meters.conversionFactor
 }
 
 object MetersPerSecond extends VelocityUnit with ValueUnit {
@@ -70,22 +70,22 @@ object MetersPerSecond extends VelocityUnit with ValueUnit {
 
 object KilometersPerHour extends VelocityUnit {
   val symbol = "km/s"
-  val multiplier = (Kilometers.multiplier / Meters.multiplier) / 3600d
+  val conversionFactor = (Kilometers.conversionFactor / Meters.conversionFactor) / 3600d
 }
 
 object UsMilesPerHour extends VelocityUnit {
   val symbol = "mph"
-  val multiplier = (UsMiles.multiplier * Meters.multiplier) / 3600d
+  val conversionFactor = (UsMiles.conversionFactor * Meters.conversionFactor) / 3600d
 }
 
 object InternationalMilesPerHour extends VelocityUnit {
   val symbol = "imph"
-  val multiplier = (InternationalMiles.multiplier / Meters.multiplier) / 3600d
+  val conversionFactor = (InternationalMiles.conversionFactor / Meters.conversionFactor) / 3600d
 }
 
 object Knots extends VelocityUnit {
   val symbol = "kn"
-  val multiplier = (NauticalMiles.multiplier / Meters.multiplier) / 3600d
+  val conversionFactor = (NauticalMiles.conversionFactor / Meters.conversionFactor) / 3600d
 }
 
 object VelocityConversions {

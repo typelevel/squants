@@ -40,7 +40,7 @@ object Jerk extends QuantityCompanion[Jerk] {
   def units = Set(MetersPerSecondCubed, FeetPerSecondCubed)
 }
 
-trait JerkUnit extends UnitOfMeasure[Jerk] with UnitMultiplier {
+trait JerkUnit extends UnitOfMeasure[Jerk] with UnitConverter {
   def apply[A](n: A)(implicit num: Numeric[A]) = Jerk(convertFrom(n))
 }
 
@@ -49,7 +49,7 @@ object MetersPerSecondCubed extends JerkUnit with ValueUnit {
 }
 object FeetPerSecondCubed extends JerkUnit {
   val symbol = "ft/s³"
-  val multiplier = Meters.multiplier * Feet.multiplier
+  val conversionFactor = Meters.conversionFactor * Feet.conversionFactor
 }
 
 object JerkConversions {

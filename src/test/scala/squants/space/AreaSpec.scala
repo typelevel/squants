@@ -58,12 +58,12 @@ class AreaSpec extends FlatSpec with Matchers {
     x.toSquareCentimeters should be(1 / (MetricSystem.Centi * MetricSystem.Centi))
     x.toSquareKilometers should be(1 / (MetricSystem.Kilo * MetricSystem.Kilo))
 
-    x.toSquareUsMiles should be(1 / SquareUsMiles.multiplier)
-    x.toSquareYards should be(1 / SquareYards.multiplier)
-    x.toSquareFeet should be(1 / SquareFeet.multiplier)
-    x.toHectares should be(1 / Hectares.multiplier)
-    x.toAcres should be(1 / Acres.multiplier)
-    x.toBarnes should be(1 / Barnes.multiplier)
+    x.toSquareUsMiles should be(1 / SquareUsMiles.conversionFactor)
+    x.toSquareYards should be(1 / SquareYards.conversionFactor)
+    x.toSquareFeet should be(1 / SquareFeet.conversionFactor)
+    x.toHectares should be(1 / Hectares.conversionFactor)
+    x.toAcres should be(1 / Acres.conversionFactor)
+    x.toBarnes should be(1 / Barnes.conversionFactor)
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {

@@ -55,7 +55,7 @@ object ElectricCharge extends QuantityCompanion[ElectricCharge] {
     AmpereHours, MilliampereHours, MilliampereSeconds)
 }
 
-trait ElectricChargeUnit extends UnitOfMeasure[ElectricCharge] with UnitMultiplier {
+trait ElectricChargeUnit extends UnitOfMeasure[ElectricCharge] with UnitConverter {
   def apply[A](n: A)(implicit num: Numeric[A]) = ElectricCharge(convertFrom(n))
 }
 
@@ -65,42 +65,42 @@ object Coulombs extends ElectricChargeUnit with ValueUnit {
 
 object Picocoulombs extends ElectricChargeUnit {
   val symbol = "pC"
-  val multiplier = MetricSystem.Pico
+  val conversionFactor = MetricSystem.Pico
 }
 
 object Nanocoulombs extends ElectricChargeUnit {
   val symbol = "nC"
-  val multiplier = MetricSystem.Nano
+  val conversionFactor = MetricSystem.Nano
 }
 
 object Microcoulombs extends ElectricChargeUnit {
   val symbol = "µC"
-  val multiplier = MetricSystem.Micro
+  val conversionFactor = MetricSystem.Micro
 }
 
 object Millicoulombs extends ElectricChargeUnit {
   val symbol = "mC"
-  val multiplier = MetricSystem.Milli
+  val conversionFactor = MetricSystem.Milli
 }
 
 object Abcoulombs extends ElectricChargeUnit {
   val symbol = "aC"
-  val multiplier = 10d
+  val conversionFactor = 10d
 }
 
 object AmpereHours extends ElectricChargeUnit {
   val symbol = "Ah"
-  val multiplier = Time.SecondsPerHour
+  val conversionFactor = Time.SecondsPerHour
 }
 
 object MilliampereHours extends ElectricChargeUnit {
   val symbol = "mAh"
-  val multiplier = AmpereHours.multiplier * MetricSystem.Milli
+  val conversionFactor = AmpereHours.conversionFactor * MetricSystem.Milli
 }
 
 object MilliampereSeconds extends ElectricChargeUnit {
   val symbol = "mAs"
-  val multiplier = Coulombs.multiplier * MetricSystem.Milli
+  val conversionFactor = Coulombs.conversionFactor * MetricSystem.Milli
 }
 
 object ElectricChargeConversions {

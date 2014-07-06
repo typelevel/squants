@@ -41,7 +41,7 @@ object VolumeFlowRate extends QuantityCompanion[VolumeFlowRate] {
   def units = Set(CubicMetersPerSecond, GallonsPerDay, GallonsPerHour, GallonsPerMinute, GallonsPerSecond)
 }
 
-trait VolumeFlowRateUnit extends UnitOfMeasure[VolumeFlowRate] with UnitMultiplier {
+trait VolumeFlowRateUnit extends UnitOfMeasure[VolumeFlowRate] with UnitConverter {
   def apply[A](n: A)(implicit num: Numeric[A]) = VolumeFlowRate(convertFrom(n))
 }
 
@@ -51,22 +51,22 @@ object CubicMetersPerSecond extends VolumeFlowRateUnit with ValueUnit {
 
 object GallonsPerDay extends VolumeFlowRateUnit {
   val symbol = "GPD"
-  val multiplier = (CubicMeters.multiplier * UsGallons.multiplier) / (Days.multiplier / Seconds.multiplier)
+  val conversionFactor = (CubicMeters.conversionFactor * UsGallons.conversionFactor) / (Days.conversionFactor / Seconds.conversionFactor)
 }
 
 object GallonsPerHour extends VolumeFlowRateUnit {
   val symbol = "GPH"
-  val multiplier = (CubicMeters.multiplier * UsGallons.multiplier) / (Hours.multiplier / Seconds.multiplier)
+  val conversionFactor = (CubicMeters.conversionFactor * UsGallons.conversionFactor) / (Hours.conversionFactor / Seconds.conversionFactor)
 }
 
 object GallonsPerMinute extends VolumeFlowRateUnit {
   val symbol = "GPM"
-  val multiplier = (CubicMeters.multiplier * UsGallons.multiplier) / (Minutes.multiplier / Seconds.multiplier)
+  val conversionFactor = (CubicMeters.conversionFactor * UsGallons.conversionFactor) / (Minutes.conversionFactor / Seconds.conversionFactor)
 }
 
 object GallonsPerSecond extends VolumeFlowRateUnit {
   val symbol = "GPS"
-  val multiplier = CubicMeters.multiplier * UsGallons.multiplier
+  val conversionFactor = CubicMeters.conversionFactor * UsGallons.conversionFactor
 }
 
 object VolumeFlowRateConversions {
