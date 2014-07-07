@@ -19,8 +19,7 @@ import squants.time.{ TimeDerivative, Hours }
  *
  * @param value value in [[squants.energy.WattsPerHour]]
  */
-final class PowerRamp private (val value: Double)
-    extends Quantity[PowerRamp] with PhysicalQuantity
+final class PowerRamp private (val value: Double) extends Quantity[PowerRamp]
     with TimeDerivative[Power] {
 
   def valueUnit = PowerRamp.valueUnit

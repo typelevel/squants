@@ -17,7 +17,7 @@ import squants._
  * @param value in [[squants.mass.Moles]]
  */
 final class ChemicalAmount private (val value: Double) extends Quantity[ChemicalAmount]
-    with BaseQuantity with PhysicalQuantity {
+    with BaseQuantity {
 
   def valueUnit = ChemicalAmount.valueUnit
   def baseUnit = Moles

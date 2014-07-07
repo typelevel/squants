@@ -19,7 +19,7 @@ import squants.space.SquareMeters
  * @param value value in [[squants.electro.Webers]]
  */
 final class MagneticFlux private (val value: Double) extends Quantity[MagneticFlux]
-    with PhysicalQuantity with TimeIntegral[ElectricPotential] {
+    with TimeIntegral[ElectricPotential] {
 
   def valueUnit = MagneticFlux.valueUnit
 

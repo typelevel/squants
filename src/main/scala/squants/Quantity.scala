@@ -249,11 +249,6 @@ abstract class Quantity[A <: Quantity[A]] extends Ordered[A] with Serializable {
 }
 
 /**
- * A base trait for measurable quantities found within physical systems
- */
-trait PhysicalQuantity { self: Quantity[_] ⇒ }
-
-/**
  * Base Quantities are the basic, directly measurable, fundamental quantities: Mass, Length, Time, etc.
  */
 trait BaseQuantity { self: Quantity[_] ⇒

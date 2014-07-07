@@ -24,8 +24,7 @@ import squants.space.CubicMeters
  *
  * @param value value in [[squants.energy.WattHours]]
  */
-final class Energy private (val value: Double)
-    extends Quantity[Energy] with PhysicalQuantity
+final class Energy private (val value: Double) extends Quantity[Energy]
     with TimeIntegral[Power] {
 
   def valueUnit = Energy.valueUnit

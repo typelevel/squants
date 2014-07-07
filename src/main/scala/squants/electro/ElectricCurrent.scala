@@ -21,7 +21,7 @@ import squants.energy.Watts
  * @param value the amount of charge in [[squants.electro.Amperes]]'s
  */
 final class ElectricCurrent private (val value: Double) extends Quantity[ElectricCurrent]
-    with PhysicalQuantity with BaseQuantity with TimeDerivative[ElectricCharge] {
+    with BaseQuantity with TimeDerivative[ElectricCharge] {
 
   def valueUnit = ElectricCurrent.valueUnit
   def baseUnit = Amperes
