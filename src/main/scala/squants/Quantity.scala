@@ -249,13 +249,6 @@ abstract class Quantity[A <: Quantity[A]] extends Ordered[A] with Serializable {
 }
 
 /**
- * Base Quantities are the basic, directly measurable, fundamental quantities: Mass, Length, Time, etc.
- */
-trait BaseQuantity { self: Quantity[_] ⇒
-  def baseUnit: BaseUnit
-}
-
-/**
  * Base class for creating objects to manage quantities as Numeric.
  *
  * One limitation is the `times` operation which is not supported by every quantity type
@@ -304,3 +297,19 @@ trait QuantityCompanion[A <: Quantity[A]] {
   }
 }
 
+/**
+ * SI Base Quantity
+ */
+trait BaseQuantity { self: QuantityCompanion[_] ⇒
+  /**
+   * SI Base Unit for this Quantity
+   * @return
+   */
+  def baseUnit: BaseUnit
+
+  /**
+   * SI Dimension Symbol
+   * @return
+   */
+  def dimensionSymbol: String
+}

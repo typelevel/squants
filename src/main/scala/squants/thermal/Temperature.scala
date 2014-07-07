@@ -55,10 +55,8 @@ import scala.util.{ Failure, Success, Try }
  *
  * @param value the value of the temperature
  */
-sealed abstract class Temperature protected (val value: Double)
-    extends Quantity[Temperature] with BaseQuantity {
+sealed abstract class Temperature protected (val value: Double) extends Quantity[Temperature] {
 
-  def baseUnit = Kelvin
   def valueUnit: TemperatureScale
 
   override def plus(that: Temperature): Temperature = Temperature(value + that.convert(valueUnit, withOffset = false).value, valueUnit)
@@ -114,7 +112,7 @@ sealed abstract class Temperature protected (val value: Double)
 /**
  * Temperature companion object
  */
-object Temperature extends QuantityCompanion[Temperature] {
+object Temperature extends QuantityCompanion[Temperature] with BaseQuantity {
   val scales = Seq(Fahrenheit, Celsius, Kelvin)
   val defaultScale = Fahrenheit
 
@@ -143,6 +141,8 @@ object Temperature extends QuantityCompanion[Temperature] {
   def name = "Temperature"
   def valueUnit = ???
   def units = Set(Kelvin, Fahrenheit, Celsius)
+  def dimensionSymbol = "Θ"
+  def baseUnit = Kelvin
 }
 
 final class Celsius(value: Double) extends Temperature(value) { def valueUnit = Celsius }
@@ -152,8 +152,7 @@ final class Kelvin(value: Double) extends Temperature(value) { def valueUnit = K
 /**
  * Base trait for units of [[squants.thermal.Temperature]]
  */
-sealed trait TemperatureScale extends BaseQuantityUnit[Temperature] {
-  def dimensionSymbol = "Θ"
+sealed trait TemperatureScale extends UnitOfMeasure[Temperature] {
   def self: TemperatureScale
 }
 

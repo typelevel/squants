@@ -26,11 +26,9 @@ import squants.Time
  *
  * @param value value in  [[squants.space.Meters]]
  */
-final class Length private (val value: Double) extends Quantity[Length]
-    with BaseQuantity {
+final class Length private (val value: Double) extends Quantity[Length] {
 
   def valueUnit = Length.valueUnit
-  def baseUnit = Meters
 
   def *(that: Length): Area = Area(this, that)
   def *(that: Area): Volume = Volume(that, this)
@@ -62,14 +60,12 @@ final class Length private (val value: Double) extends Quantity[Length]
   def toNauticalMiles = to(NauticalMiles)
   def toAstronomicalUnits = to(AstronomicalUnits)
   def toLightYears = to(LightYears)
-
-  override def toString = toString(baseUnit)
 }
 
 /**
  * Factory singleton for length
  */
-object Length extends QuantityCompanion[Length] {
+object Length extends QuantityCompanion[Length] with BaseQuantity {
   private[space] def apply[A](b: A)(implicit num: Numeric[A]) = new Length(num.toDouble(b))
   def apply = parseString _
   def name = "Length"
@@ -78,13 +74,14 @@ object Length extends QuantityCompanion[Length] {
     Decimeters, Meters, Decameters, Hectometers, Kilometers,
     Inches, Feet, Yards, UsMiles, InternationalMiles, NauticalMiles,
     AstronomicalUnits, LightYears)
+  def baseUnit = Meters
+  def dimensionSymbol = "L"
 }
 
 /**
  * Base trait for units of [[squants.space.Length]]
  */
-trait LengthUnit extends BaseQuantityUnit[Length] with UnitConverter {
-  val dimensionSymbol = "L"
+trait LengthUnit extends UnitOfMeasure[Length] with UnitConverter {
   def apply[A](n: A)(implicit num: Numeric[A]) = Length(convertFrom(n))
 }
 

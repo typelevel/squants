@@ -29,10 +29,9 @@ import squants.motion.Momentum
  * @param value the value in the [[squants.mass.Grams]]
  */
 final class Mass private (val value: Double) extends Quantity[Mass]
-    with BaseQuantity with TimeIntegral[MassFlowRate] {
+    with TimeIntegral[MassFlowRate] {
 
   def valueUnit = Mass.valueUnit
-  def baseUnit = Kilograms
 
   def *(that: SpecificEnergy): Energy = Joules(toKilograms * that.toGrays)
   def *(that: Velocity): Momentum = Momentum(this, that)
@@ -63,19 +62,20 @@ final class Mass private (val value: Double) extends Quantity[Mass]
 /**
  * Factory singleton for [[squants.mass.Mass]] values
  */
-object Mass extends QuantityCompanion[Mass] {
+object Mass extends QuantityCompanion[Mass] with BaseQuantity {
   private[mass] def apply[A](n: A)(implicit num: Numeric[A]) = new Mass(num.toDouble(n))
   def apply = parseString _
   def name = "Mass"
   def valueUnit = Grams
   def units = Set(Micrograms, Milligrams, Grams, Kilograms, Tonnes, Pounds, Ounces)
+  def dimensionSymbol = "M"
+  def baseUnit = Kilograms
 }
 
 /**
  * Base trait for units of [[squants.mass.Mass]]
  */
-trait MassUnit extends BaseQuantityUnit[Mass] with UnitConverter {
-  def dimensionSymbol = "M"
+trait MassUnit extends UnitOfMeasure[Mass] with UnitConverter {
   def apply[A](n: A)(implicit num: Numeric[A]) = Mass(convertFrom(n))
 }
 

@@ -20,10 +20,8 @@ import scala.concurrent.duration.Duration
  *
  * @param value value in [[squants.time.Milliseconds]]
  */
-final class Time private (val value: Double) extends Quantity[Time]
-    with BaseQuantity {
+final class Time private (val value: Double) extends Quantity[Time] {
 
-  def baseUnit = Seconds
   def valueUnit = Time.valueUnit
 
   def millis = toMilliseconds.toLong
@@ -41,7 +39,7 @@ final class Time private (val value: Double) extends Quantity[Time]
   def toDays = to(Days)
 }
 
-object Time extends QuantityCompanion[Time] {
+object Time extends QuantityCompanion[Time] with BaseQuantity {
   val MillisecondsPerNanosecond = 1d / 1000000d
   val MillisecondsPerMicrosecond = 1d / 1000d
   val MillisecondsPerSecond = 1000d
@@ -58,10 +56,11 @@ object Time extends QuantityCompanion[Time] {
   def name = "Time"
   def valueUnit = Milliseconds
   def units = Set(Microseconds, Milliseconds, Seconds, Minutes, Hours, Days)
+  def baseUnit = Seconds
+  def dimensionSymbol = "T"
 }
 
-trait TimeUnit extends BaseQuantityUnit[Time] with UnitConverter {
-  def dimensionSymbol = "T"
+trait TimeUnit extends UnitOfMeasure[Time] with UnitConverter {
   def apply[A](n: A)(implicit num: Numeric[A]) = Time(convertFrom(n))
 }
 
