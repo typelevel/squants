@@ -316,19 +316,19 @@ class MoneySpec extends FlatSpec with Matchers {
     val r2 = CurrencyExchangeRate(USD(1), EUR(.75))
     implicit val moneyContext = MoneyContext(USD, defaultCurrencySet, List(r1, r2))
 
-    (USD(1.5) in JPY) should be(JPY(150))
-    (USD(1) in EUR) should be(EUR(0.75))
-    (JPY(100) in USD) should be(USD(1))
-    (EUR(75) in USD) should be(USD(100))
-    (EUR(75) in JPY) should be(JPY(10000)) // Uses indirect rate via USD
-    (JPY(100) in EUR) should be(EUR(0.75)) // Uses indirect rate via USD
+    USD(1.5) in JPY should be(JPY(150))
+    USD(1) in EUR should be(EUR(0.75))
+    JPY(100) in USD should be(USD(1))
+    EUR(75) in USD should be(USD(100))
+    EUR(75) in JPY should be(JPY(10000)) // Uses indirect rate via USD
+    JPY(100) in EUR should be(EUR(0.75)) // Uses indirect rate via USD
 
-    (USD(1.5) to JPY).toDouble should be(150)
-    (USD(1) to EUR).toDouble should be(0.75)
-    (JPY(100) to USD).toDouble should be(1)
-    (EUR(75) to USD).toDouble should be(100)
-    (EUR(75) to JPY).toDouble should be(10000) // Uses indirect rate via USD
-    (JPY(100) to EUR).toDouble should be(0.75) // Uses indirect rate via USD
+    USD(1.5) to JPY should be(150)
+    USD(1) to EUR should be(0.75)
+    JPY(100) to USD should be(1)
+    EUR(75) to USD should be(100)
+    EUR(75) to JPY should be(10000) // Uses indirect rate via USD
+    JPY(100) to EUR should be(0.75) // Uses indirect rate via USD
   }
 
   it should "not compile cross currency conversions with no implicit MoneyContext in scope" in {
