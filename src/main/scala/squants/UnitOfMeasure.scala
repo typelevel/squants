@@ -120,21 +120,6 @@ trait ValueUnit extends UnitConverter { uom: UnitOfMeasure[_] ⇒
 }
 
 /**
- * A unit of measure used for Base (SI) Quantities
- * @tparam QuantityType The type of Quantity being measured
- */
-trait BaseQuantityUnit[QuantityType <: Quantity[QuantityType] with BaseQuantity]
-    extends UnitOfMeasure[QuantityType] { uom: UnitOfMeasure[_] ⇒
-
-  /**
-   * The SI symbol for base physical quantities
-   *
-   * @return the SI symbol
-   */
-  def dimensionSymbol: String
-}
-
-/**
  * A marker trait identifying SI Base Units
  */
-trait BaseUnit { uom: BaseQuantityUnit[_] ⇒ }
+trait BaseUnit { uom: UnitOfMeasure[_] ⇒ }

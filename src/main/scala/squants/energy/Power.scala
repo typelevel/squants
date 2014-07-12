@@ -27,8 +27,7 @@ import squants.radio.RadiantIntensity
  *
  * @param value value in [[squants.energy.Watts]]
  */
-final class Power private (val value: Double)
-    extends Quantity[Power] with PhysicalQuantity
+final class Power private (val value: Double) extends Quantity[Power]
     with TimeDerivative[Energy] with TimeIntegral[PowerRamp] {
 
   def valueUnit = Power.valueUnit

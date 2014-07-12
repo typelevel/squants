@@ -278,12 +278,12 @@ It also provides support for updating exchange rates and using those rates for a
 The technique and frequency chosen for exchange rate updates is completely in control of the application.
 
 ```scala
-val exchangeRates = List(CAD(1.05) -> USD(1), MXN(12.50) -> USD(1))
+val exchangeRates = List(USD / CAD(1.05), USD / MXN(12.50), USD / JPY(100))
 implicit val moneyContext = defaultMoneyContext withExchangeRates exchangeRates
 
 val someMoney = Money(350) // 350 in the default Cur
 val usdMoney: Money = someMoney in USD
-val usdDouble: Double = someMoney to USD
+val usdBigDecimal: BigDecimal = someMoney to USD
 val yenCost: Money = (energyPrice * MegawattHours(5)) in JPY
 val northAmericanSales: Money = (CAD(275) + USD(350) + MXN(290)) in USD
 ```

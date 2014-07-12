@@ -18,8 +18,7 @@ import squants._
  *
  * @param value value in [[squants.energy.WattHours]]
  */
-final class EnergyDensity private (val value: Double) extends Quantity[EnergyDensity]
-    with PhysicalQuantity {
+final class EnergyDensity private (val value: Double) extends Quantity[EnergyDensity] {
 
   def valueUnit = EnergyDensity.valueUnit
 

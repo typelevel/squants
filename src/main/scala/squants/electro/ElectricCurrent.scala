@@ -21,10 +21,9 @@ import squants.energy.Watts
  * @param value the amount of charge in [[squants.electro.Amperes]]'s
  */
 final class ElectricCurrent private (val value: Double) extends Quantity[ElectricCurrent]
-    with PhysicalQuantity with BaseQuantity with TimeDerivative[ElectricCharge] {
+    with TimeDerivative[ElectricCharge] {
 
   def valueUnit = ElectricCurrent.valueUnit
-  def baseUnit = Amperes
 
   def change = Coulombs(value)
   def time = Seconds(1)
@@ -40,19 +39,20 @@ final class ElectricCurrent private (val value: Double) extends Quantity[Electri
   def toMilliamperes = to(Milliamperes)
 }
 
-object ElectricCurrent extends QuantityCompanion[ElectricCurrent] {
+object ElectricCurrent extends QuantityCompanion[ElectricCurrent] with BaseQuantity {
   private[electro] def apply[A](n: A)(implicit num: Numeric[A]) = new ElectricCurrent(num.toDouble(n))
   def apply = parseString _
   def name = "ElectricCurrent"
   def valueUnit = Amperes
   def units = Set(Amperes, Milliamperes)
+  def dimensionSymbol = "I"
+  def baseUnit = Amperes
 }
 
 /**
  * Base trait for units of [[squants.electro.ElectricCurrent]]
  */
-trait ElectricCurrentUnit extends BaseQuantityUnit[ElectricCurrent] with UnitConverter {
-  def dimensionSymbol = "I"
+trait ElectricCurrentUnit extends UnitOfMeasure[ElectricCurrent] with UnitConverter {
   def apply[A](n: A)(implicit num: Numeric[A]) = ElectricCurrent(convertFrom(n))
 }
 

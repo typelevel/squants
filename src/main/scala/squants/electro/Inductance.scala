@@ -16,8 +16,7 @@ import squants._
  *
  * @param value value in [[squants.electro.Henry]]
  */
-final class Inductance private (val value: Double) extends Quantity[Inductance]
-    with PhysicalQuantity {
+final class Inductance private (val value: Double) extends Quantity[Inductance] {
 
   def valueUnit = Inductance.valueUnit
 
