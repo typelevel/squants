@@ -31,6 +31,20 @@ Repository hosting for Squants is provided by Sonatype.
 To use Squants in your SBT project you will need to add the following dependency to your build.
 
     "com.squants"  %% "squants"  % "0.4.2"
+or
+
+    "com.squants"  %% "squants"  % "0.5.0-SNAPSHOT"
+
+
+To use Squants in your Maven project add the following depencency to your
+
+```xml
+<dependency>
+    <groupId>com.squants</groupId>
+    <artifactId>squants_2.11</artifactId>
+    <version>0.4.2</version>
+</dependency>
+```
 
 Beginning with Squants 0.4 series, both Scala 2.10 and 2.11 builds are available.
 
@@ -318,7 +332,8 @@ range.foldLeft(10)(0) {(z, r) => ???}
 ```
 
 ## Natural Language Features
-Implicit conversions give the DSL some features that allows client code to express quantities in a more natural way.
+Implicit conversions give the DSL some features that allows user code to express quantities in a
+more naturally expressive and readable way.
 
 Create Quantities using Unit Of Measure Factory objects (no implicits required)
 
