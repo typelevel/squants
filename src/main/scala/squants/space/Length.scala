@@ -13,10 +13,10 @@ import squants.energy.{ Watts, Joules }
 import squants.radio.WattsPerSteradian
 import squants.electro._
 import squants.radio.SpectralPower
-import squants.motion.Velocity
+import squants.motion.{ MetersPerSecond, Velocity }
 import squants.radio.RadiantIntensity
 import squants.radio.SpectralIntensity
-import squants.Time
+import squants.time.{ SecondTimeIntegral, TimeSquared, TimeIntegral }
 
 /**
  * Represents a quantity of length
@@ -26,9 +26,14 @@ import squants.Time
  *
  * @param value value in  [[squants.space.Meters]]
  */
-final class Length private (val value: Double) extends Quantity[Length] {
+final class Length private (val value: Double)
+    extends Quantity[Length]
+    with TimeIntegral[Velocity]
+    with SecondTimeIntegral[Acceleration] {
 
   def valueUnit = Length.valueUnit
+  protected def timeDerived = MetersPerSecond(toMeters)
+  protected[squants] def time = Seconds(1)
 
   def *(that: Length): Area = Area(this, that)
   def *(that: Area): Volume = Volume(that, this)
@@ -37,8 +42,8 @@ final class Length private (val value: Double) extends Quantity[Length] {
   def *(that: SpectralPower): Power = Watts(toMeters * that.toWattsPerMeter)
   def *(that: Conductivity): ElectricalConductance = Siemens(toMeters * that.toSiemensPerMeter)
   def *(that: ElectricalResistance): Resistivity = OhmMeters(toMeters * that.toOhms)
-  def /(that: Time): Velocity = Velocity(this, that)
-  def /(that: Velocity): Time = Seconds(toMeters / that.toMetersPerSecond)
+
+  def /(that: TimeSquared): Acceleration = this / that.time1 / that.time2
 
   def squared = this * this
   def cubed = this * this * this

@@ -9,12 +9,10 @@
 package squants.motion
 
 import squants.time._
-import squants.space._
-import squants.time.Seconds
+import squants.space.{ Length, Feet, Kilometers, UsMiles, InternationalMiles, NauticalMiles }
 import squants._
 import squants.Time
-import squants.space.Length
-import squants.Meters
+import squants.time.Seconds
 
 /**
  * Represents a quantify of Velocity
@@ -24,18 +22,20 @@ import squants.Meters
  *
  * @param value Double
  */
-final class Velocity private (val value: Double) extends Quantity[Velocity]
-    with TimeIntegral[Acceleration] {
+final class Velocity private (val value: Double)
+    extends Quantity[Velocity]
+    with TimeIntegral[Acceleration]
+    with SecondTimeIntegral[Jerk]
+    with TimeDerivative[Length] {
 
   def valueUnit = Velocity.valueUnit
-  def change = Seconds(1)
-
-  // TODO - Remove once TimeDerivative pairing of Length -> Velocity is fixed
-  def *(that: Time): Length = Meters(toMetersPerSecond * that.toSeconds)
+  def timeDerived = MetersPerSecondSquared(toMetersPerSecond)
+  def timeIntegrated = Meters(toMetersPerSecond)
+  def time = Seconds(1)
 
   def *(that: Mass): Momentum = NewtonSeconds(toMetersPerSecond * that.toKilograms)
-  def /(that: Time): Acceleration = MetersPerSecondSquared(toMetersPerSecond / that.toSeconds)
-  def /(that: Acceleration): Time = that.time * (this / that.change)
+
+  def /(that: TimeSquared): Jerk = this / that.time1 / that.time2
 
   def toFeetPerSecond = to(FeetPerSecond)
   def toMetersPerSecond = to(MetersPerSecond)

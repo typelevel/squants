@@ -26,11 +26,11 @@ final class Dimensionless private (val value: Double)
     with TimeIntegral[Frequency] {
 
   def valueUnit = Dimensionless.valueUnit
+  protected def timeDerived = Hertz(toEach)
+  protected[squants] def time = Seconds(1)
 
   def *(that: Dimensionless) = Each(toEach * that.toEach)
   def *(that: Quantity[_]) = that * toEach
-  def /(that: Time): Frequency = Hertz(value / that.toSeconds)
-  def /(that: Frequency): Time = that.time * (this / that.change)
 
   def toEach = to(Each)
   def toDozen = to(Dozen)

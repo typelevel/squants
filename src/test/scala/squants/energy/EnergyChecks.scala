@@ -25,18 +25,22 @@ import squants.QuantityChecks
  */
 object EnergyChecks extends Properties("Energy") with QuantityChecks {
 
+  override implicit val tolTime = Hours(tol)
+  implicit val tolPower = Watts(tol)
+  implicit val tolPowerRamp = WattsPerHour(tol)
+
   property("WattHours = Watts * Hours") = forAll(posNum, posNum) { (watts: TestData, hours: TestData) ⇒
     WattHours(watts * hours) == Watts(watts) * Hours(hours) &&
       WattHours(watts * hours) == Hours(hours) * Watts(watts) &&
-      Hours(hours) == WattHours(watts * hours) / Watts(watts) &&
-      Watts(watts) == WattHours(watts * hours) / Hours(hours)
+      Hours(hours) =~ WattHours(watts * hours) / Watts(watts) &&
+      Watts(watts) =~ WattHours(watts * hours) / Hours(hours)
   }
 
   property("Watts = WattsPerHour * Hours") = forAll(posNum, posNum) { (wattsPerHour: TestData, hours: TestData) ⇒
     Watts(wattsPerHour * hours) == WattsPerHour(wattsPerHour) * Hours(hours) &&
       Watts(wattsPerHour * hours) == Hours(hours) * WattsPerHour(wattsPerHour) &&
-      Hours(hours) == Watts(wattsPerHour * hours) / WattsPerHour(wattsPerHour) &&
-      WattsPerHour(wattsPerHour) == Watts(wattsPerHour * hours) / Hours(hours)
+      Hours(hours) =~ Watts(wattsPerHour * hours) / WattsPerHour(wattsPerHour) &&
+      WattsPerHour(wattsPerHour) =~ Watts(wattsPerHour * hours) / Hours(hours)
   }
 
   property("Watts = Volts * Amps") = forAll(posNum, posNum) { (volts: TestData, amps: TestData) ⇒

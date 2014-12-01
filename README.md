@@ -19,8 +19,8 @@ All types are immutable and thread-safe.
 Current Release: **0.4.2**
 ([API Docs](https://oss.sonatype.org/service/local/repositories/releases/archive/com/squants/squants_2.11/0.4.2/squants_2.11-0.4.2-javadoc.jar/!/index.html#squants.package))
 
-Development Build: **0.5.0-SNAPSHOT**
-([API Docs](https://oss.sonatype.org/service/local/repositories/snapshots/archive/com/squants/squants_2.11/0.5.0-SNAPSHOT/squants_2.11-0.5.0-SNAPSHOT-javadoc.jar/!/index.html#squants.package))
+Development Build: **0.5.1-SNAPSHOT**
+([API Docs](https://oss.sonatype.org/service/local/repositories/snapshots/archive/com/squants/squants_2.11/0.5.1-SNAPSHOT/squants_2.11-0.5.1-SNAPSHOT-javadoc.jar/!/index.html#squants.package))
 
 [Release History](https://github.com/garyKeorkunian/squants/wiki/Release-History)
 
@@ -33,7 +33,7 @@ To use Squants in your SBT project you will need to add the following dependency
     "com.squants"  %% "squants"  % "0.4.2"
 or
 
-    "com.squants"  %% "squants"  % "0.5.0-SNAPSHOT"
+    "com.squants"  %% "squants"  % "0.5.1-SNAPSHOT"
 
 
 To use Squants in your Maven project add the following depencency to your

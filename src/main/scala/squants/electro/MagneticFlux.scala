@@ -22,9 +22,9 @@ final class MagneticFlux private (val value: Double) extends Quantity[MagneticFl
     with TimeIntegral[ElectricPotential] {
 
   def valueUnit = MagneticFlux.valueUnit
+  protected def timeDerived = Volts(toWebers)
+  protected def time = Seconds(1)
 
-  def /(that: ElectricPotential): Time = that.time * (this / that.change)
-  def /(that: Time): ElectricPotential = Volts(toWebers / that.toSeconds)
   def /(that: Area): MagneticFluxDensity = Teslas(toWebers / that.toSquareMeters)
   def /(that: MagneticFluxDensity): Area = SquareMeters(toWebers / that.toTeslas)
   def /(that: ElectricCurrent): Inductance = Henry(toWebers / that.toAmperes)

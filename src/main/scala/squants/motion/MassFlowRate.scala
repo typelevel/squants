@@ -8,9 +8,9 @@
 
 package squants.motion
 
-import squants._
 import squants.time.{ Seconds, TimeDerivative }
-import squants.mass.Kilograms
+import squants.mass.{ Mass, Kilograms }
+import squants._
 
 /**
  * @author  garyKeorkunian
@@ -21,8 +21,8 @@ import squants.mass.Kilograms
 final class MassFlowRate private (val value: Double) extends Quantity[MassFlowRate] with TimeDerivative[Mass] {
 
   def valueUnit = MassFlowRate.valueUnit
-  def change = Kilograms(value)
-  def time = Seconds(1)
+  protected def timeIntegrated = Kilograms(toKilogramsPerSecond)
+  protected[squants] def time = Seconds(1)
 
   def toKilogramsPerSecond = to(KilogramsPerSecond)
 }

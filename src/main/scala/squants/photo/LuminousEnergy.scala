@@ -21,9 +21,8 @@ final class LuminousEnergy private (val value: Double)
     with TimeIntegral[LuminousFlux] {
 
   def valueUnit = LuminousEnergy.valueUnit
-
-  def /(that: Time): LuminousFlux = Lumens(value / that.toSeconds)
-  def /(that: LuminousFlux): Time = Seconds(value / that.toLumens)
+  protected def timeDerived = Lumens(toLumenSeconds)
+  protected[squants] def time = Seconds(1)
 
   def toLumenSeconds = to(LumenSeconds)
 }

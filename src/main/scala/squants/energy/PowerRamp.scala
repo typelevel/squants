@@ -9,7 +9,7 @@
 package squants.energy
 
 import squants._
-import squants.time.{ TimeDerivative, Hours }
+import squants.time.{ SecondTimeDerivative, TimeSquared, TimeDerivative, Hours }
 
 /**
  * Represents the rate of change of [[squants.energy.Power]] over time
@@ -19,12 +19,16 @@ import squants.time.{ TimeDerivative, Hours }
  *
  * @param value value in [[squants.energy.WattsPerHour]]
  */
-final class PowerRamp private (val value: Double) extends Quantity[PowerRamp]
-    with TimeDerivative[Power] {
+final class PowerRamp private (val value: Double)
+    extends Quantity[PowerRamp]
+    with TimeDerivative[Power]
+    with SecondTimeDerivative[Energy] {
 
   def valueUnit = PowerRamp.valueUnit
-  def change = Watts(value)
-  def time = Hours(1)
+  protected def timeIntegrated = Watts(toWattsPerHour)
+  protected[squants] def time = Hours(1)
+
+  def *(that: TimeSquared): Energy = this * that.time1 * that.time2
 
   def toWattsPerHour = to(WattsPerHour)
   def toKilowattsPerHour = to(KilowattsPerHour)

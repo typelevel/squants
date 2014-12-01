@@ -23,14 +23,13 @@ final class LuminousFlux private (val value: Double)
     with TimeDerivative[LuminousEnergy] {
 
   def valueUnit = LuminousFlux.valueUnit
+  protected def timeIntegrated = LumenSeconds(toLumens)
+  protected[squants] def time = Seconds(1)
 
   def /(that: Area): Illuminance = Lux(toLumens / that.toSquareMeters)
   def /(that: Illuminance): Area = SquareMeters(toLumens / that.toLux)
   def /(that: SolidAngle): LuminousIntensity = Candelas(toLumens / that.toSquaredRadians)
   def /(that: LuminousIntensity): SolidAngle = SquaredRadians(toLumens / that.toCandelas)
-
-  def change = LumenSeconds(value)
-  def time = Seconds(1)
 
   def toLumens = to(Lumens)
 }

@@ -19,8 +19,8 @@ import squants.Quantity
  * @tparam A The type of quantity changing
  */
 trait TimeDerivative[A <: Quantity[A] with TimeIntegral[_]] { self: Quantity[_] ⇒
-  def change: A
-  def time: Time
+  protected def timeIntegrated: A
+  protected[time] def time: Time
 
   /**
    * Returns the amount of change in the integral that will happen over the given Time
@@ -28,7 +28,11 @@ trait TimeDerivative[A <: Quantity[A] with TimeIntegral[_]] { self: Quantity[_] 
    * @param that Time
    * @return
    */
-  def *(that: Time): A = change * (that / time)
+  def *(that: Time): A = timeIntegrated * (that / time)
+}
+
+trait SecondTimeDerivative[A] { self: TimeDerivative[_] ⇒
+  def *(that: TimeSquared): A
 }
 
 /**
@@ -40,6 +44,8 @@ trait TimeDerivative[A <: Quantity[A] with TimeIntegral[_]] { self: Quantity[_] 
  * @tparam A The Quantity type for the TimeDerivative for which this is the base
  */
 trait TimeIntegral[A <: Quantity[A] with TimeDerivative[_]] { self: Quantity[_] ⇒
+  protected def timeDerived: A
+  protected def time: Time
 
   /**
    * Returns the Time Derivative which represents a change of the underlying quantity equal to this
@@ -48,7 +54,8 @@ trait TimeIntegral[A <: Quantity[A] with TimeDerivative[_]] { self: Quantity[_] 
    * @param that Time
    * @return
    */
-  def /(that: Time): A
+  def /(that: Time): A = timeDerived * (time / that)
+  def per(that: Time): A = /(that)
 
   /**
    * Returns the amount time required to achieve the given change in the Derivative
@@ -56,5 +63,10 @@ trait TimeIntegral[A <: Quantity[A] with TimeDerivative[_]] { self: Quantity[_] 
    * @param that Derivative
    * @return
    */
-  def /(that: A): Time
+  def /(that: A): Time = that.time * (timeDerived / that)
+}
+
+trait SecondTimeIntegral[A] { self: TimeIntegral[_] ⇒
+  def /(that: TimeSquared): A
+  def per(that: TimeSquared): A = /(that)
 }

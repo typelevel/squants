@@ -25,8 +25,8 @@ final class ElectricCurrent private (val value: Double) extends Quantity[Electri
 
   def valueUnit = ElectricCurrent.valueUnit
 
-  def change = Coulombs(value)
-  def time = Seconds(1)
+  protected def timeIntegrated = Coulombs(toAmperes)
+  protected[squants] def time = Seconds(1)
 
   def *(that: ElectricalResistance): ElectricPotential = Volts(toAmperes * that.toOhms)
   def *(that: ElectricPotential): Power = Watts(toAmperes * that.toVolts)

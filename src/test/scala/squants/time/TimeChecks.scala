@@ -19,6 +19,8 @@ import org.scalacheck.Prop._
  */
 object TimeChecks extends Properties("Time") with QuantityChecks {
 
+  implicit val tolFreq = Hertz(tol)
+
   property("Milliseconds = Seconds * 1000") = forAll(posNum) { (seconds: TestData) ⇒
     Milliseconds(seconds * 1000) == Seconds(seconds)
   }
@@ -38,7 +40,7 @@ object TimeChecks extends Properties("Time") with QuantityChecks {
   property("Count = Frequency * Time") = forAll(posNum, posNum) { (freq: TestData, time: TestData) ⇒
     Each(freq * time) == Hertz(freq) * Seconds(time)
     Each(freq * time) == Seconds(time) * Hertz(freq)
-    Seconds(time) == Each(freq * time) / Hertz(freq)
-    Hertz(freq) == Each(freq * time) / Seconds(time)
+    Seconds(time) =~ Each(freq * time) / Hertz(freq)
+    Hertz(freq) =~ Each(freq * time) / Seconds(time)
   }
 }

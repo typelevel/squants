@@ -21,6 +21,8 @@ import squants.time.Seconds
  */
 object SpaceChecks extends Properties("Space") with QuantityChecks {
 
+  implicit val tolVfr = CubicMetersPerSecond(tol)
+
   property("Area = Length * Length") = forAll(posNum, posNum) { (length1: TestData, length2: TestData) ⇒
     SquareMeters(length1 * length2) == Meters(length1) * Meters(length2) &&
       Meters(length1) == SquareMeters(length1 * length2) / Meters(length2)
@@ -36,7 +38,7 @@ object SpaceChecks extends Properties("Space") with QuantityChecks {
   property("Volume = VolumeFlowRate * Time") = forAll(posNum, posNum) { (vfr: TestData, time: TestData) ⇒
     CubicMeters(vfr * time) == CubicMetersPerSecond(vfr) * Seconds(time) &&
       CubicMeters(vfr * time) == Seconds(time) * CubicMetersPerSecond(vfr) &&
-      Seconds(time) == CubicMeters(vfr * time) / CubicMetersPerSecond(vfr) &&
-      CubicMetersPerSecond(vfr) == CubicMeters(vfr * time) / Seconds(time)
+      Seconds(time) =~ CubicMeters(vfr * time) / CubicMetersPerSecond(vfr) &&
+      CubicMetersPerSecond(vfr) =~ CubicMeters(vfr * time) / Seconds(time)
   }
 }

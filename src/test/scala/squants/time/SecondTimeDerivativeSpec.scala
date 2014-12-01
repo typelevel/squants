@@ -1,0 +1,34 @@
+/*                                                                      *\
+** Squants                                                              **
+**                                                                      **
+** Scala Quantities and Units of Measure Library and DSL                **
+** (c) 2013-2014, Gary Keorkunian                                       **
+**                                                                      **
+\*                                                                      */
+
+package squants.time
+
+import org.scalatest.{ Matchers, FlatSpec }
+import squants.motion.MetersPerSecondSquared
+import squants.space.Meters
+import squants.CustomMatchers
+import scala.language.postfixOps
+
+/**
+ * @author  garyKeorkunian
+ * @since   0.5.0
+ *
+ */
+class SecondTimeDerivativeSpec extends FlatSpec with Matchers with CustomMatchers {
+
+  behavior of "Second Time Derivatives and Integrals as implemented in Distance and Acceleration"
+
+  it should "satisfy Derivative^2 = Integral / TimeSquared" in {
+    MetersPerSecondSquared(55) should be(Meters(55) / SecondsSquared(1))
+    MetersPerSecondSquared(55) should be(Meters(55) per SecondsSquared(1))
+  }
+
+  it should "satisfy Integral = Derivative^2 * TimeSquared" in {
+    Meters(55) should be(MetersPerSecondSquared(55) * SecondsSquared(1))
+  }
+}
