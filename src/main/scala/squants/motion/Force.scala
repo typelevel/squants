@@ -23,10 +23,10 @@ import squants.space.SquareMeters
 final class Force private (val value: Double) extends Quantity[Force]
     with TimeDerivative[Momentum] with TimeIntegral[Yank] {
 
-  def change = NewtonSeconds(value)
-  def time = Seconds(1)
-
   def valueUnit = Force.valueUnit
+  protected def timeIntegrated = NewtonSeconds(toNewtons)
+  protected def timeDerived = NewtonsPerSecond(toNewtons)
+  override def time = Seconds(1)
 
   /* This could also be Torque, as Energy(Work) and Torque are dimensionally equivalent */
   def *(that: Length): Energy = Joules(toNewtons * that.toMeters)
@@ -35,8 +35,6 @@ final class Force private (val value: Double) extends Quantity[Force]
   def /(that: Acceleration): Mass = Kilograms(toNewtons / that.toMetersPerSecondSquared)
   def /(that: Area): Pressure = Pascals(toNewtons / that.toSquareMeters)
   def /(that: Pressure): Area = SquareMeters(toNewtons / that.toPascals)
-  def /(that: Time): Yank = NewtonsPerSecond(toNewtons / that.toSeconds)
-  def /(that: Yank): Time = Seconds(toNewtons / that.toNewtonsPerSecond)
 
   def toNewtons = to(Newtons)
   def toKilogramForce = to(KilogramForce)

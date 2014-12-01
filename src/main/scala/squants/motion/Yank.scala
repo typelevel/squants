@@ -9,7 +9,7 @@
 package squants.motion
 
 import squants._
-import squants.time.TimeDerivative
+import squants.time.{ SecondTimeDerivative, TimeSquared, TimeDerivative }
 
 /**
  * @author  garyKeorkunian
@@ -17,13 +17,16 @@ import squants.time.TimeDerivative
  *
  * @param value Double
  */
-final class Yank private (val value: Double) extends Quantity[Yank]
-    with TimeDerivative[Force] {
-
-  def change = Newtons(value)
-  def time = Seconds(1)
+final class Yank private (val value: Double)
+    extends Quantity[Yank]
+    with TimeDerivative[Force]
+    with SecondTimeDerivative[Momentum] {
 
   def valueUnit = Yank.valueUnit
+  protected def timeIntegrated = Newtons(toNewtonsPerSecond)
+  protected[squants] def time = Seconds(1)
+
+  def *(that: TimeSquared): Momentum = this * that.time1 * that.time2
 
   def toNewtonsPerSecond = to(NewtonsPerSecond)
 }

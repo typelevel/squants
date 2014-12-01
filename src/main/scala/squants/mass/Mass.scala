@@ -32,14 +32,14 @@ final class Mass private (val value: Double) extends Quantity[Mass]
     with TimeIntegral[MassFlowRate] {
 
   def valueUnit = Mass.valueUnit
+  protected def timeDerived = KilogramsPerSecond(toKilograms)
+  protected def time = Seconds(1)
 
   def *(that: SpecificEnergy): Energy = Joules(toKilograms * that.toGrays)
   def *(that: Velocity): Momentum = Momentum(this, that)
   def *(that: Acceleration): Force = Newtons(toKilograms * that.toMetersPerSecondSquared)
   def /(that: Density): Volume = CubicMeters(toKilograms / that.toKilogramsPerCubicMeter)
   def /(that: Volume): Density = Density(this, that)
-  def /(that: MassFlowRate): Time = that.time * (this / that.change)
-  def /(that: Time): MassFlowRate = KilogramsPerSecond(toKilograms / that.toSeconds)
   def /(that: AreaDensity): Area = SquareMeters(toKilograms / that.toKilogramsPerSquareMeter)
   def /(that: Area): AreaDensity = KilogramsPerSquareMeter(toKilograms / that.toSquareMeters)
 

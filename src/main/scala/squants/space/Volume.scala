@@ -27,13 +27,13 @@ final class Volume private (val value: Double)
     with TimeIntegral[VolumeFlowRate] {
 
   def valueUnit = Volume.valueUnit
+  protected def timeDerived = CubicMetersPerSecond(toCubicMeters)
+  protected[squants] def time = Seconds(1)
 
   def *(that: Density): Mass = Kilograms(toCubicMeters * that.toKilogramsPerCubicMeter)
   def *(that: EnergyDensity): Energy = Joules(toCubicMeters * that.toJoulesPerCubicMeter)
   def /(that: Area): Length = Meters(toCubicMeters / that.toSquareMeters)
   def /(that: Length): Area = SquareMeters(toCubicMeters / that.toMeters)
-  def /(that: Time): VolumeFlowRate = CubicMetersPerSecond(toCubicMeters / that.toSeconds)
-  def /(that: VolumeFlowRate): Time = that.time * (this / that.change)
   def /(that: Mass) = ??? // returns SpecificVolume (inverse of Density)
   def /(that: ChemicalAmount) = ??? // return MolarVolume
 

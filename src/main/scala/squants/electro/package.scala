@@ -15,4 +15,7 @@ package squants
  */
 package object electro {
 
+  /* Known Quantities */
+  lazy val ElementaryConstant = Coulombs(BigDecimal("1.602176565E-19"))
+
 }

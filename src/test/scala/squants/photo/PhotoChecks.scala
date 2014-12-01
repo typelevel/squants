@@ -21,6 +21,9 @@ import squants.time.Seconds
  */
 object PhotoChecks extends Properties("Photo") with QuantityChecks {
 
+  implicit val tolLumFlux = Lumens(tol)
+  implicit val tolIllum = Lux(tol)
+
   property("Lumens = Lux * SquareMeters") = forAll(posNum, posNum) { (lux: TestData, sm: TestData) ⇒
     Lumens(lux * sm) == Lux(lux) * SquareMeters(sm) &&
       Lumens(lux * sm) == SquareMeters(sm) * Lux(lux) &&
@@ -31,8 +34,8 @@ object PhotoChecks extends Properties("Photo") with QuantityChecks {
   property("LuxSeconds = Lux * Seconds") = forAll(posNum, posNum) { (lux: TestData, seconds: TestData) ⇒
     LuxSeconds(lux * seconds) == Lux(lux) * Seconds(seconds) &&
       LuxSeconds(lux * seconds) == Seconds(seconds) * Lux(lux) &&
-      Lux(lux) == LuxSeconds(lux * seconds) / Seconds(seconds) &&
-      Seconds(seconds) == LuxSeconds(lux * seconds) / Lux(lux)
+      Lux(lux) =~ LuxSeconds(lux * seconds) / Seconds(seconds) &&
+      Seconds(seconds) =~ LuxSeconds(lux * seconds) / Lux(lux)
   }
 
   property("Candelas = CandelasPerSquareMeter * SquareMeters") = forAll(posNum, posNum) { (cpsm: TestData, sm: TestData) ⇒
@@ -45,8 +48,8 @@ object PhotoChecks extends Properties("Photo") with QuantityChecks {
   property("LumenSeconds = Lumens * Seconds") = forAll(posNum, posNum) { (lumens: TestData, seconds: TestData) ⇒
     LumenSeconds(lumens * seconds) == Lumens(lumens) * Seconds(seconds) &&
       LumenSeconds(lumens * seconds) == Seconds(seconds) * Lumens(lumens) &&
-      Lumens(lumens) == LumenSeconds(lumens * seconds) / Seconds(seconds) &&
-      Seconds(seconds) == LumenSeconds(lumens * seconds) / Lumens(lumens)
+      Lumens(lumens) =~ LumenSeconds(lumens * seconds) / Seconds(seconds) &&
+      Seconds(seconds) =~ LumenSeconds(lumens * seconds) / Lumens(lumens)
   }
 
   property("Lumens = Candelas * SquaredRadians") = forAll(posNum, posNum) { (candelas: TestData, sqRadians: TestData) ⇒

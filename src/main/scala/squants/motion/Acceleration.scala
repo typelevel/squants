@@ -22,16 +22,20 @@ import squants.space.{ UsMiles, Feet }
  *
  * @param value Double
  */
-final class Acceleration private (val value: Double) extends Quantity[Acceleration]
-    with TimeDerivative[Velocity] with TimeIntegral[Jerk] {
+final class Acceleration private (val value: Double)
+    extends Quantity[Acceleration]
+    with TimeDerivative[Velocity]
+    with SecondTimeDerivative[Length]
+    with TimeIntegral[Jerk] {
 
   def valueUnit = Acceleration.valueUnit
-  def change = MetersPerSecond(value)
-  def time = Seconds(1)
+  protected def timeIntegrated = MetersPerSecond(toMetersPerSecondSquared)
+  protected def timeDerived = MetersPerSecondCubed(toMetersPerSecondSquared)
+  protected[squants] def time = Seconds(1)
 
   def *(that: Mass): Force = Newtons(toMetersPerSecondSquared * that.toKilograms)
-  def /(that: Time): Jerk = MetersPerSecondCubed(toMetersPerSecondSquared / that.toSeconds)
-  def /(that: Jerk): Time = that.time * (this / that.change)
+
+  def *(that: TimeSquared): Length = this * that.time1 * that.time2
 
   def toFeetPerSecondSquared = to(FeetPerSecondSquared)
   def toMetersPerSecondSquared = to(MetersPerSecondSquared)

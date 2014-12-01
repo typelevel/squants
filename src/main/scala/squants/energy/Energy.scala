@@ -9,12 +9,13 @@
 package squants.energy
 
 import squants._
-import squants.time.{ Time, TimeIntegral, Hours }
+import squants.time._
 import squants.electro.{ Coulombs, ElectricPotential, Volts, ElectricCharge }
 import squants.mass.{ ChemicalAmount, Kilograms }
 import squants.motion.Newtons
 import squants.thermal.{ Kelvin, ThermalCapacity, JoulesPerKelvin }
 import squants.space.CubicMeters
+import squants.time.Time
 
 /**
  * Represents a quantity of energy
@@ -24,13 +25,14 @@ import squants.space.CubicMeters
  *
  * @param value value in [[squants.energy.WattHours]]
  */
-final class Energy private (val value: Double) extends Quantity[Energy]
-    with TimeIntegral[Power] {
+final class Energy private (val value: Double)
+    extends Quantity[Energy]
+    with TimeIntegral[Power]
+    with SecondTimeIntegral[PowerRamp] {
 
   def valueUnit = Energy.valueUnit
-
-  def /(that: Time): Power = Power(value / that.toHours)
-  def /(that: Power): Time = Hours(value / that.value)
+  protected def timeDerived = Watts(toWattHours)
+  protected def time = Hours(1)
 
   def /(that: Length): Force = Newtons(toJoules / that.toMeters)
   def /(that: Force): Length = Meters(toJoules / that.toNewtons)
@@ -45,6 +47,8 @@ final class Energy private (val value: Double) extends Quantity[Energy]
 
   def /(that: ChemicalAmount) = ??? // return MolarEnergy
   def /(that: Angle) = ??? // return Torque (dimensionally equivalent to energy as Angles are dimensionless)
+
+  def /(that: TimeSquared): PowerRamp = this / that.time1 / that.time2
 
   def toWattHours = to(WattHours)
   def toKilowattHours = to(KilowattHours)

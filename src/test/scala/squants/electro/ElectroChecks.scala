@@ -24,6 +24,9 @@ import squants.QuantityChecks
  */
 object ElectroChecks extends Properties("Electro") with QuantityChecks {
 
+  implicit val tolCurrent = Amperes(tol)
+  implicit val tolPotentional = Volts(tol)
+
   property("Volts = Amps * Ohms (Ohm's Law)") = forAll(posNum, posNum) { (amps: TestData, ohms: TestData) ⇒
     Volts(amps * ohms) == Amperes(amps) * Ohms(ohms) &&
       Volts(amps * ohms) == Ohms(ohms) * Amperes(amps) &&
@@ -41,8 +44,8 @@ object ElectroChecks extends Properties("Electro") with QuantityChecks {
   property("Coulombs = Amps * Seconds") = forAll(posNum, posNum) { (amps: TestData, seconds: TestData) ⇒
     Coulombs(amps * seconds) == Amperes(amps) * Seconds(seconds) &&
       Coulombs(amps * seconds) == Seconds(seconds) * Amperes(amps) &&
-      Amperes(amps) == Coulombs(amps * seconds) / Seconds(seconds) &&
-      Seconds(seconds) == Coulombs(amps * seconds) / Amperes(amps)
+      Amperes(amps) =~ Coulombs(amps * seconds) / Seconds(seconds) &&
+      Seconds(seconds) =~ Coulombs(amps * seconds) / Amperes(amps)
   }
 
   property("Coulombs = Farads * Volts") = forAll(posNum, posNum) { (farads: TestData, volts: TestData) ⇒
@@ -100,8 +103,8 @@ object ElectroChecks extends Properties("Electro") with QuantityChecks {
   property("Webers = Volts * Seconds") = forAll(posNum, posNum) { (volts: TestData, seconds: TestData) ⇒
     Webers(volts * seconds) == Volts(volts) * Seconds(seconds) &&
       Webers(volts * seconds) == Seconds(seconds) * Volts(volts) &&
-      Seconds(seconds) == Webers(volts * seconds) / Volts(volts) &&
-      Volts(volts) == Webers(volts * seconds) / Seconds(seconds)
+      Seconds(seconds) =~ Webers(volts * seconds) / Volts(volts) &&
+      Volts(volts) =~ Webers(volts * seconds) / Seconds(seconds)
   }
 
   property("Webers = Teslas * SquareMeters") = forAll(posNum, posNum) { (teslas: TestData, sqMeters: TestData) ⇒

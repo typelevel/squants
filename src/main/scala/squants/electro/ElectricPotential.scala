@@ -22,8 +22,8 @@ final class ElectricPotential private (val value: Double) extends Quantity[Elect
     with TimeDerivative[MagneticFlux] {
 
   def valueUnit = ElectricPotential.valueUnit
-  def time = Seconds(1)
-  def change = Webers(value)
+  protected def timeIntegrated = Webers(toVolts)
+  protected[squants] def time = Seconds(1)
 
   def *(that: ElectricCurrent): Power = Watts(toVolts * that.toAmperes)
   def *(that: Capacitance): ElectricCharge = Coulombs(toVolts * that.toFarads)

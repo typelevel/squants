@@ -20,8 +20,8 @@ final class Illuminance private (val value: Double) extends Quantity[Illuminance
     with TimeDerivative[LuminousExposure] {
 
   def valueUnit = Illuminance.valueUnit
-  def change = LuxSeconds(value)
-  def time = Seconds(1)
+  protected def timeIntegrated = LuxSeconds(toLux)
+  protected[squants] def time = Seconds(1)
 
   def *(that: Area): LuminousFlux = Lumens(toLux * that.toSquareMeters)
 

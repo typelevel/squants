@@ -31,11 +31,10 @@ final class Power private (val value: Double) extends Quantity[Power]
     with TimeDerivative[Energy] with TimeIntegral[PowerRamp] {
 
   def valueUnit = Power.valueUnit
-  def change = WattHours(value)
-  def time = Hours(1)
+  protected def timeIntegrated = WattHours(toWatts)
+  protected def timeDerived = WattsPerHour(toWatts)
+  protected[squants] def time = Hours(1)
 
-  def /(that: Time): PowerRamp = PowerRamp(this, that)
-  def /(that: PowerRamp): Time = Hours(value / that.value)
   def /(that: Length): SpectralPower = WattsPerMeter(toWatts / that.toMeters)
   def /(that: SpectralPower): Length = Meters(toWatts / that.toWattsPerMeter)
   def /(that: Area): Irradiance = WattsPerSquareMeter(toWatts / that.toSquareMeters)

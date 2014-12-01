@@ -8,8 +8,8 @@
 
 package squants.motion
 
+import squants.space.{ Volume, UsGallons, CubicMeters }
 import squants._
-import squants.space.{ UsGallons, CubicMeters }
 import squants.time._
 import squants.Seconds
 
@@ -23,8 +23,8 @@ final class VolumeFlowRate private (val value: Double) extends Quantity[VolumeFl
     with TimeDerivative[Volume] {
 
   def valueUnit = CubicMetersPerSecond
-  def change = CubicMeters(value)
-  def time = Seconds(1)
+  protected def timeIntegrated = CubicMeters(toCubicMetersPerSecond)
+  protected[squants] def time = Seconds(1)
 
   def toCubicMetersPerSecond = to(CubicMetersPerSecond)
   def toGallonsPerDay = to(GallonsPerDay)

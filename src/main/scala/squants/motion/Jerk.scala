@@ -9,7 +9,7 @@
 package squants.motion
 
 import squants._
-import squants.time.{ Seconds, TimeDerivative }
+import squants.time.{ SecondTimeDerivative, TimeSquared, Seconds, TimeDerivative }
 import squants.space.Feet
 
 /**
@@ -20,16 +20,19 @@ import squants.space.Feet
  *
  * @param value Double
  */
-final class Jerk private (val value: Double) extends Quantity[Jerk]
-    with TimeDerivative[Acceleration] {
-
-  def change = MetersPerSecondSquared(value)
-  def time = Seconds(1)
+final class Jerk private (val value: Double)
+    extends Quantity[Jerk]
+    with TimeDerivative[Acceleration]
+    with SecondTimeDerivative[Velocity] {
 
   def valueUnit = Jerk.valueUnit
+  protected def timeIntegrated = MetersPerSecondSquared(toMetersPerSecondCubed)
+  protected[squants] def time = Seconds(1)
 
-  def toMetersPerSecondCubed = change.toMetersPerSecondSquared / time.toSeconds
-  def toFeetPerSecondCubed = change.toFeetPerSecondSquared / time.toSeconds
+  def *(that: TimeSquared): Velocity = this * that.time1 * that.time2
+
+  def toMetersPerSecondCubed = to(MetersPerSecondCubed)
+  def toFeetPerSecondCubed = to(FeetPerSecondCubed)
 }
 
 object Jerk extends QuantityCompanion[Jerk] {

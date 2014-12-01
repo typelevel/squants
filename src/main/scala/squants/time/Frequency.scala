@@ -21,8 +21,8 @@ import squants._
 final class Frequency private (val value: Double) extends Quantity[Frequency] with TimeDerivative[Dimensionless] {
 
   def valueUnit = Frequency.valueUnit
-  def change = Each(value)
-  def time = Seconds(1)
+  protected def timeIntegrated = Each(toHertz)
+  protected[squants] def time = Seconds(1)
 
   def toHertz = to(Hertz)
   def toKilohertz = to(Kilohertz)

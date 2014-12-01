@@ -21,9 +21,8 @@ final class LuminousExposure private (val value: Double) extends Quantity[Lumino
     with TimeIntegral[Illuminance] {
 
   def valueUnit = LuminousExposure.valueUnit
-
-  def /(that: Time): Illuminance = Lux(value / that.toSeconds)
-  def /(that: Illuminance): Time = Seconds(value / that.toLux)
+  protected def timeDerived = Lux(toLuxSeconds)
+  protected[squants] def time = Seconds(1)
 
   def toLuxSeconds = to(LuxSeconds)
 }

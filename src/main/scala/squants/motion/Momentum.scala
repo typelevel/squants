@@ -9,7 +9,7 @@
 package squants.motion
 
 import squants._
-import squants.time.{ Seconds, TimeIntegral }
+import squants.time.{ SecondTimeIntegral, TimeSquared, Seconds, TimeIntegral }
 import squants.mass.Kilograms
 
 /**
@@ -18,14 +18,19 @@ import squants.mass.Kilograms
  *
  * @param value Double
  */
-final class Momentum private (val value: Double) extends Quantity[Momentum] with TimeIntegral[Force] {
+final class Momentum private (val value: Double)
+    extends Quantity[Momentum]
+    with TimeIntegral[Force]
+    with SecondTimeIntegral[Yank] {
 
   def valueUnit = Momentum.valueUnit
+  protected def timeDerived = Newtons(toNewtonSeconds)
+  protected def time = Seconds(1)
 
-  def /(that: Time): Force = Newtons(toNewtonSeconds / that.toSeconds)
-  def /(that: Force): Time = Seconds(toNewtonSeconds / that.toNewtons)
   def /(that: Velocity): Mass = Kilograms(toNewtonSeconds / that.toMetersPerSecond)
   def /(that: Mass): Velocity = MetersPerSecond(toNewtonSeconds / that.toKilograms)
+
+  def /(that: TimeSquared): Yank = this / that.time1 / that.time2
 
   def toNewtonSeconds = to(NewtonSeconds)
 }
