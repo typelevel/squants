@@ -201,12 +201,14 @@ ul, ol, dl {
 }
 
 ul {
-  list-style: inside;
+  list-style-position: inside;
+  list-style: disc;
   padding-left: 20px;
 }
 
 ol {
-  list-style: decimal inside;
+  list-style-position: inside;
+  list-style: decimal;
   padding-left: 20px;
 }
 
@@ -264,7 +266,7 @@ Full-Width Styles
 
 .inner {
   position: relative;
-  max-width: 800px;
+  max-width: 640px;
   padding: 20px 10px;
   margin: 0 auto;
 }

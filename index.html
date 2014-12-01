@@ -2,9 +2,9 @@
 <html>
 
   <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Squants : The Scala API for Quantities, Units of Measure and Dimensional Analysis" />
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Squants : The Scala API for Quantities, Units of Measure and Dimensional Analysis">
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
@@ -43,26 +43,39 @@ All types are immutable and thread-safe.</p>
 <a href="https://github.com/garyKeorkunian/squants/wiki">Wiki</a></p>
 
 <h3>
-<a name="current-versions" class="anchor" href="#current-versions"><span class="octicon octicon-link"></span></a>Current Versions</h3>
+<a id="current-versions" class="anchor" href="#current-versions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Current Versions</h3>
 
 <p>Current Release: <strong>0.4.2</strong>
 (<a href="https://oss.sonatype.org/service/local/repositories/releases/archive/com/squants/squants_2.11/0.4.2/squants_2.11-0.4.2-javadoc.jar/!/index.html#squants.package">API Docs</a>)</p>
 
-<p>Development Build: <strong>0.5.0-SNAPSHOT</strong>
-(<a href="https://oss.sonatype.org/service/local/repositories/snapshots/archive/com/squants/squants_2.11/0.5.0-SNAPSHOT/squants_2.11-0.5.0-SNAPSHOT-javadoc.jar/!/index.html#squants.package">API Docs</a>)</p>
+<p>Development Build: <strong>0.5.1-SNAPSHOT</strong>
+(<a href="https://oss.sonatype.org/service/local/repositories/snapshots/archive/com/squants/squants_2.11/0.5.1-SNAPSHOT/squants_2.11-0.5.1-SNAPSHOT-javadoc.jar/!/index.html#squants.package">API Docs</a>)</p>
 
 <p><a href="https://github.com/garyKeorkunian/squants/wiki/Release-History">Release History</a></p>
 
 <p><a href="https://travis-ci.org/garyKeorkunian/squants"><img src="https://travis-ci.org/garyKeorkunian/squants.png?branch=master" alt="Build Status"></a></p>
 
 <h2>
-<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
 
 <p>Repository hosting for Squants is provided by Sonatype.
 To use Squants in your SBT project you will need to add the following dependency to your build.</p>
 
 <pre><code>"com.squants"  %% "squants"  % "0.4.2"
 </code></pre>
+
+<p>or</p>
+
+<pre><code>"com.squants"  %% "squants"  % "0.5.1-SNAPSHOT"
+</code></pre>
+
+<p>To use Squants in your Maven project add the following depencency to your</p>
+
+<div class="highlight highlight-xml"><pre>&lt;<span class="pl-ent">dependency</span>&gt;
+    &lt;<span class="pl-ent">groupId</span>&gt;com.squants&lt;/<span class="pl-ent">groupId</span>&gt;
+    &lt;<span class="pl-ent">artifactId</span>&gt;squants_2.11&lt;/<span class="pl-ent">artifactId</span>&gt;
+    &lt;<span class="pl-ent">version</span>&gt;0.4.2&lt;/<span class="pl-ent">version</span>&gt;
+&lt;/<span class="pl-ent">dependency</span>&gt;</pre></div>
 
 <p>Beginning with Squants 0.4 series, both Scala 2.10 and 2.11 builds are available.</p>
 
@@ -74,7 +87,7 @@ sbt console
 </code></pre>
 
 <h2>
-<a name="better-dimensional-analysis" class="anchor" href="#better-dimensional-analysis"><span class="octicon octicon-link"></span></a>Better Dimensional Analysis</h2>
+<a id="better-dimensional-analysis" class="anchor" href="#better-dimensional-analysis" aria-hidden="true"><span class="octicon octicon-link"></span></a>Better Dimensional Analysis</h2>
 
 <p><em>The Trouble with Doubles</em></p>
 
@@ -92,44 +105,41 @@ or produced, that is, Power is the first time derivative of Energy.</p>
 
 <p>Consider the following code</p>
 
-<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">loadKw</span><span class="k">:</span> <span class="kt">Double</span> <span class="o">=</span> <span class="mf">1.2</span>
-<span class="k">val</span> <span class="n">energyMwh</span><span class="k">:</span> <span class="kt">Double</span> <span class="o">=</span> <span class="mf">24.2</span>
-<span class="k">val</span> <span class="n">sumKw</span> <span class="k">=</span> <span class="n">loadKw</span> <span class="o">+</span> <span class="n">energyMwh</span>
-</pre></div>
+<div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">loadKw</span><span class="pl-k">:</span> <span class="pl-st">Double</span> <span class="pl-k">=</span> <span class="pl-c1">1.2</span>
+<span class="pl-k">val</span> <span class="pl-en">energyMwh</span><span class="pl-k">:</span> <span class="pl-st">Double</span> <span class="pl-k">=</span> <span class="pl-c1">24.2</span>
+<span class="pl-k">val</span> <span class="pl-en">sumKw</span> <span class="pl-k">=</span> loadKw <span class="pl-k">+</span> energyMwh</pre></div>
 
 <p>which not only adds quantities of different dimensions (Power vs Energy),
 it also fails to convert the scales implied in the val names (Mega vs Kilo).
 Because this code compiles, detection of these errors is pushed further into the development cycle.</p>
 
 <h3>
-<a name="dimensional-type-safety" class="anchor" href="#dimensional-type-safety"><span class="octicon octicon-link"></span></a>Dimensional Type Safety</h3>
+<a id="dimensional-type-safety" class="anchor" href="#dimensional-type-safety" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dimensional Type Safety</h3>
 
 <p><em>Only quantities with the same dimensions may be compared, equated, added, or subtracted.</em></p>
 
 <p>Squants helps prevent errors like these by type checking operations at compile time and
 automatically applying scale and type conversions at run-time.  For example,</p>
 
-<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">load1</span><span class="k">:</span> <span class="kt">Power</span> <span class="o">=</span> <span class="nc">Kilowatts</span><span class="o">(</span><span class="mi">12</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">load2</span><span class="k">:</span> <span class="kt">Power</span> <span class="o">=</span> <span class="nc">Megawatts</span><span class="o">(</span><span class="mf">0.023</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">sum</span> <span class="k">=</span> <span class="n">load1</span> <span class="o">+</span> <span class="n">load2</span>
-<span class="n">sum</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="nc">Kilowatts</span><span class="o">(</span><span class="mi">35</span><span class="o">))</span>
-<span class="n">sum</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="nc">Megawatts</span><span class="o">(</span><span class="mf">0.035</span><span class="o">))</span>
-</pre></div>
+<div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">load1</span><span class="pl-k">:</span> <span class="pl-en">Power</span> <span class="pl-k">=</span> <span class="pl-en">Kilowatts</span>(<span class="pl-c1">12</span>)
+<span class="pl-k">val</span> <span class="pl-en">load2</span><span class="pl-k">:</span> <span class="pl-en">Power</span> <span class="pl-k">=</span> <span class="pl-en">Megawatts</span>(<span class="pl-c1">0.023</span>)
+<span class="pl-k">val</span> <span class="pl-en">sum</span> <span class="pl-k">=</span> load1 <span class="pl-k">+</span> load2
+sum should be(<span class="pl-en">Kilowatts</span>(<span class="pl-c1">35</span>))
+sum should be(<span class="pl-en">Megawatts</span>(<span class="pl-c1">0.035</span>))</pre></div>
 
 <p>is a valid assertion because Kilowatts and Megawatts are both units of Power.  Only the scale is
 different and the library applies an appropriate conversion.  Also, notice that keeping track of
 the scale within the value name is no longer needed.</p>
 
-<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">load</span><span class="k">:</span> <span class="kt">Power</span> <span class="o">=</span> <span class="nc">Kilowatts</span><span class="o">(</span><span class="mf">1.2</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">energy</span><span class="k">:</span> <span class="kt">Energy</span> <span class="o">=</span> <span class="nc">KilowattHours</span><span class="o">(</span><span class="mf">23.0</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">sum</span> <span class="k">=</span> <span class="n">load</span> <span class="o">+</span> <span class="n">energy</span> <span class="c1">// Invalid operation - does not compile</span>
-</pre></div>
+<div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">load</span><span class="pl-k">:</span> <span class="pl-en">Power</span> <span class="pl-k">=</span> <span class="pl-en">Kilowatts</span>(<span class="pl-c1">1.2</span>)
+<span class="pl-k">val</span> <span class="pl-en">energy</span><span class="pl-k">:</span> <span class="pl-en">Energy</span> <span class="pl-k">=</span> <span class="pl-en">KilowattHours</span>(<span class="pl-c1">23.0</span>)
+<span class="pl-k">val</span> <span class="pl-en">sum</span> <span class="pl-k">=</span> load <span class="pl-k">+</span> energy <span class="pl-c">// Invalid operation - does not compile</span></pre></div>
 
 <p>The unsupported operation in this expression prevents the code from compiling,
 catching the error made when using Double in the example above.</p>
 
 <h3>
-<a name="dimensionally-correct-type-conversions" class="anchor" href="#dimensionally-correct-type-conversions"><span class="octicon octicon-link"></span></a>Dimensionally Correct Type Conversions</h3>
+<a id="dimensionally-correct-type-conversions" class="anchor" href="#dimensionally-correct-type-conversions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dimensionally Correct Type Conversions</h3>
 
 <p><em>One may take ratios of quantities with different dimensions, and multiply or divide them.</em></p>
 
@@ -138,72 +148,65 @@ Conversions are implemented by defining relationships between Quantity types usi
 
 <p>The following code demonstrates creating ratio between two quantities of the same dimension:</p>
 
-<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">ratio</span><span class="k">:</span> <span class="kt">Double</span> <span class="o">=</span> <span class="nc">Days</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span> <span class="o">/</span> <span class="nc">Hours</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span>
-<span class="n">ratio</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="mf">8.0</span><span class="o">)</span>
-</pre></div>
+<div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">ratio</span><span class="pl-k">:</span> <span class="pl-st">Double</span> <span class="pl-k">=</span> <span class="pl-en">Days</span>(<span class="pl-c1">1</span>) <span class="pl-k">/</span> <span class="pl-en">Hours</span>(<span class="pl-c1">3</span>)
+ratio should be(<span class="pl-c1">8.0</span>)</pre></div>
 
 <p>This code demonstrates use of Power's <code>*</code> method that takes a Time and returns an Energy:</p>
 
-<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">load</span><span class="k">:</span> <span class="kt">Power</span> <span class="o">=</span> <span class="nc">Kilowatts</span><span class="o">(</span><span class="mf">1.2</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">time</span><span class="k">:</span> <span class="kt">Time</span> <span class="o">=</span> <span class="nc">Hours</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">energyUsed</span><span class="k">:</span> <span class="kt">Energy</span> <span class="o">=</span> <span class="n">load</span> <span class="o">*</span> <span class="n">time</span>
-<span class="n">energyUsed</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="nc">KilowattHours</span><span class="o">(</span><span class="mf">2.4</span><span class="o">))</span>
-</pre></div>
+<div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">load</span><span class="pl-k">:</span> <span class="pl-en">Power</span> <span class="pl-k">=</span> <span class="pl-en">Kilowatts</span>(<span class="pl-c1">1.2</span>)
+<span class="pl-k">val</span> <span class="pl-en">time</span><span class="pl-k">:</span> <span class="pl-en">Time</span> <span class="pl-k">=</span> <span class="pl-en">Hours</span>(<span class="pl-c1">2</span>)
+<span class="pl-k">val</span> <span class="pl-en">energyUsed</span><span class="pl-k">:</span> <span class="pl-en">Energy</span> <span class="pl-k">=</span> load <span class="pl-k">*</span> time
+energyUsed should be(<span class="pl-en">KilowattHours</span>(<span class="pl-c1">2.4</span>))</pre></div>
 
 <p>This code demonstrates use of Energy's <code>/</code> method that takes a Time and returns a Power:</p>
 
-<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">aveLoad</span><span class="k">:</span> <span class="kt">Power</span> <span class="o">=</span> <span class="n">energyUsed</span> <span class="o">/</span> <span class="n">time</span>
-<span class="n">aveLoad</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="nc">Kilowatts</span><span class="o">(</span><span class="mf">1.2</span><span class="o">)</span>
-</pre></div>
+<div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">aveLoad</span><span class="pl-k">:</span> <span class="pl-en">Power</span> <span class="pl-k">=</span> energyUsed <span class="pl-k">/</span> time
+aveLoad should be(<span class="pl-en">Kilowatts</span>(<span class="pl-c1">1.2</span>)</pre></div>
 
 <h3>
-<a name="unit-conversions" class="anchor" href="#unit-conversions"><span class="octicon octicon-link"></span></a>Unit Conversions</h3>
+<a id="unit-conversions" class="anchor" href="#unit-conversions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Unit Conversions</h3>
 
 <p>If necessary, the value can be extracted in the desired unit with the <code>to</code> method.</p>
 
-<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">load</span><span class="k">:</span> <span class="kt">Power</span> <span class="o">=</span> <span class="nc">Kilowatts</span><span class="o">(</span><span class="mi">1200</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">mw</span><span class="k">:</span> <span class="kt">Double</span> <span class="o">=</span> <span class="n">load</span> <span class="n">to</span> <span class="nc">Kilowatts</span> <span class="c1">// returns 1200.0 (default method)</span>
-<span class="k">val</span> <span class="n">gw</span><span class="k">:</span> <span class="kt">Double</span> <span class="o">=</span> <span class="n">load</span> <span class="n">to</span> <span class="nc">Gigawatts</span> <span class="c1">// returns 0.0012</span>
-<span class="k">val</span> <span class="n">my</span><span class="k">:</span> <span class="kt">Double</span> <span class="o">=</span> <span class="n">load</span> <span class="n">to</span> <span class="nc">MyPowerUnit</span> <span class="c1">// returns ??? Whatever you want</span>
-<span class="k">val</span> <span class="n">kw</span><span class="k">:</span> <span class="kt">Double</span> <span class="o">=</span> <span class="n">load</span> <span class="n">toKilowatts</span> <span class="c1">// returns 1200.0 (convenience method)</span>
-</pre></div>
+<div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">load</span><span class="pl-k">:</span> <span class="pl-en">Power</span> <span class="pl-k">=</span> <span class="pl-en">Kilowatts</span>(<span class="pl-c1">1200</span>)
+<span class="pl-k">val</span> <span class="pl-en">mw</span><span class="pl-k">:</span> <span class="pl-st">Double</span> <span class="pl-k">=</span> load to <span class="pl-en">Kilowatts</span> <span class="pl-c">// returns 1200.0 (default method)</span>
+<span class="pl-k">val</span> <span class="pl-en">gw</span><span class="pl-k">:</span> <span class="pl-st">Double</span> <span class="pl-k">=</span> load to <span class="pl-en">Gigawatts</span> <span class="pl-c">// returns 0.0012</span>
+<span class="pl-k">val</span> <span class="pl-en">my</span><span class="pl-k">:</span> <span class="pl-st">Double</span> <span class="pl-k">=</span> load to <span class="pl-en">MyPowerUnit</span> <span class="pl-c">// returns ??? Whatever you want</span>
+<span class="pl-k">val</span> <span class="pl-en">kw</span><span class="pl-k">:</span> <span class="pl-st">Double</span> <span class="pl-k">=</span> load toKilowatts <span class="pl-c">// returns 1200.0 (convenience method)</span></pre></div>
 
 <p>Strings formatted in the desired unit is also supported</p>
 
-<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">kw</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="n">load</span> <span class="n">toString</span> <span class="nc">Kilowatts</span> <span class="c1">// returns “1200.0 kW”</span>
-<span class="k">val</span> <span class="n">mw</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="n">load</span> <span class="n">toString</span> <span class="nc">Megawatts</span> <span class="c1">// returns “1.2 MW”</span>
-<span class="k">val</span> <span class="n">gw</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="n">load</span> <span class="n">toString</span> <span class="nc">Gigawatts</span> <span class="c1">// returns “0.0012 GW”</span>
-</pre></div>
+<div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">kw</span><span class="pl-k">:</span> <span class="pl-st">String</span> <span class="pl-k">=</span> load toString <span class="pl-en">Kilowatts</span> <span class="pl-c">// returns “1200.0 kW”</span>
+<span class="pl-k">val</span> <span class="pl-en">mw</span><span class="pl-k">:</span> <span class="pl-st">String</span> <span class="pl-k">=</span> load toString <span class="pl-en">Megawatts</span> <span class="pl-c">// returns “1.2 MW”</span>
+<span class="pl-k">val</span> <span class="pl-en">gw</span><span class="pl-k">:</span> <span class="pl-st">String</span> <span class="pl-k">=</span> load toString <span class="pl-en">Gigawatts</span> <span class="pl-c">// returns “0.0012 GW”</span></pre></div>
 
 <p>Simple console based conversions (using DSL described below)</p>
 
-<div class="highlight highlight-scala"><pre><span class="mf">1.</span><span class="n">kilograms</span> <span class="n">to</span> <span class="nc">Pounds</span>       <span class="c1">// returns 2.2046226218487757</span>
-<span class="mf">2.1</span><span class="o">.</span><span class="n">pounds</span> <span class="n">to</span> <span class="nc">Kilograms</span>     <span class="c1">// returns 0.952543977</span>
-<span class="mf">100.</span><span class="n">C</span> <span class="n">to</span> <span class="nc">Fahrenheit</span>         <span class="c1">// returns 212.0</span>
-</pre></div>
+<div class="highlight highlight-scala"><pre><span class="pl-c1">1.</span>kilograms to <span class="pl-en">Pounds</span>       <span class="pl-c">// returns 2.2046226218487757</span>
+<span class="pl-c1">2.1</span>.pounds to <span class="pl-en">Kilograms</span>     <span class="pl-c">// returns 0.952543977</span>
+<span class="pl-c1">100.</span><span class="pl-en">C</span> to <span class="pl-en">Fahrenheit</span>         <span class="pl-c">// returns 212.0</span></pre></div>
 
 <h3>
-<a name="approximations" class="anchor" href="#approximations"><span class="octicon octicon-link"></span></a>Approximations</h3>
+<a id="approximations" class="anchor" href="#approximations" aria-hidden="true"><span class="octicon octicon-link"></span></a>Approximations</h3>
 
 <p>Create an implicit Quantity value to be used as a tolerance in approximate equality comparisons.
 Use the <code>approx</code> method (<code>=~</code>, <code>~=</code>, <code>≈</code> operator) like the <code>equals</code> method (<code>==</code> operator)</p>
 
-<div class="highlight highlight-scala"><pre><span class="k">implicit</span> <span class="k">val</span> <span class="n">tolerance</span> <span class="k">=</span> <span class="nc">Watts</span><span class="o">(.</span><span class="mi">1</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">load</span> <span class="k">=</span> <span class="nc">Kilowatts</span><span class="o">(</span><span class="mf">2.0</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">reading</span> <span class="k">=</span> <span class="nc">Kilowatts</span><span class="o">(</span><span class="mf">1.9999</span><span class="o">)</span>
+<div class="highlight highlight-scala"><pre><span class="pl-s">implicit</span> <span class="pl-k">val</span> <span class="pl-en">tolerance</span> <span class="pl-k">=</span> <span class="pl-en">Watts</span>(.<span class="pl-c1">1</span>)
+<span class="pl-k">val</span> <span class="pl-en">load</span> <span class="pl-k">=</span> <span class="pl-en">Kilowatts</span>(<span class="pl-c1">2.0</span>)
+<span class="pl-k">val</span> <span class="pl-en">reading</span> <span class="pl-k">=</span> <span class="pl-en">Kilowatts</span>(<span class="pl-c1">1.9999</span>)
 
- <span class="c1">// uses implicit tolerance</span>
-<span class="n">load</span> <span class="o">=~</span> <span class="n">reading</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
-<span class="n">load</span> <span class="o">≈</span> <span class="n">reading</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
-<span class="n">load</span> <span class="n">approx</span> <span class="n">reading</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
-</pre></div>
+ <span class="pl-c">// uses implicit tolerance</span>
+load <span class="pl-k">=</span><span class="pl-k">~</span> reading should be(<span class="pl-c1">true</span>)
+load ≈ reading should be(<span class="pl-c1">true</span>)
+load approx reading should be(<span class="pl-c1">true</span>)</pre></div>
 
 <p>The <code>=~</code> and <code>≈</code> are the preferred operators as they have the correct precedence for equality operations.
 The <code>~=</code> is provided for those who wish to use a more natural looking approx operator using standard characters.
 However, because of its lower precedence, user code may require parenthesis around these comparisons</p>
 
 <h3>
-<a name="vectors" class="anchor" href="#vectors"><span class="octicon octicon-link"></span></a>Vectors</h3>
+<a id="vectors" class="anchor" href="#vectors" aria-hidden="true"><span class="octicon octicon-link"></span></a>Vectors</h3>
 
 <p>All Quantity types in Squants represent the scalar value of a quantity.
 That is, there is no direction information encoded in any of the Quantity types.
@@ -214,37 +217,34 @@ representing a set of point coordinates in Cartesian space.
 The dimensionality of the vector is determined by the number of arguments.
 Most basic vector operations are currently supported (addition, subtraction, scaling, cross and dot products)</p>
 
-<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">vector</span> <span class="k">=</span> <span class="nc">QuantityVector</span><span class="o">(</span><span class="nc">Kilometers</span><span class="o">(</span><span class="mf">1.2</span><span class="o">),</span> <span class="nc">Kilometers</span><span class="o">(</span><span class="mf">4.3</span><span class="o">),</span> <span class="nc">Kilometers</span><span class="o">(</span><span class="mf">2.3</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">magnitude</span><span class="k">:</span> <span class="kt">Length</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">magnitude</span>        <span class="c1">// returns the scalar value of the vector</span>
-<span class="k">val</span> <span class="n">normalized</span> <span class="k">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">normalize</span><span class="o">(</span><span class="nc">Kilometers</span><span class="o">)</span>   <span class="c1">// returns a corresponding vector scaled to 1 of the given unit</span>
+<div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">vector</span> <span class="pl-k">=</span> <span class="pl-en">QuantityVector</span>(<span class="pl-en">Kilometers</span>(<span class="pl-c1">1.2</span>), <span class="pl-en">Kilometers</span>(<span class="pl-c1">4.3</span>), <span class="pl-en">Kilometers</span>(<span class="pl-c1">2.3</span>)
+<span class="pl-k">val</span> <span class="pl-en">magnitude</span><span class="pl-k">:</span> <span class="pl-en">Length</span> <span class="pl-k">=</span> vector.magnitude        <span class="pl-c">// returns the scalar value of the vector</span>
+<span class="pl-k">val</span> <span class="pl-en">normalized</span> <span class="pl-k">=</span> vector.normalize(<span class="pl-en">Kilometers</span>)   <span class="pl-c">// returns a corresponding vector scaled to 1 of the given unit</span>
 
-<span class="k">val</span> <span class="n">vector2</span> <span class="k">=</span> <span class="nc">QuantityVector</span><span class="o">(</span><span class="nc">Kilometers</span><span class="o">(</span><span class="mf">1.2</span><span class="o">),</span> <span class="nc">Kilometers</span><span class="o">(</span><span class="mf">4.3</span><span class="o">),</span> <span class="nc">Kilometers</span><span class="o">(</span><span class="mf">2.3</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">vectorSum</span> <span class="k">=</span> <span class="n">vector</span> <span class="o">+</span> <span class="n">vector2</span>        <span class="c1">// returns the sum of two vectors</span>
-<span class="k">val</span> <span class="n">vectorDiff</span> <span class="k">=</span> <span class="n">vector</span> <span class="o">-</span> <span class="n">vector2</span>       <span class="c1">// return the difference of two vectors</span>
-<span class="k">val</span> <span class="n">vectorScaled</span> <span class="k">=</span> <span class="n">vector</span> <span class="o">*</span> <span class="mi">5</span>           <span class="c1">// returns vector scaled 5 times</span>
-<span class="k">val</span> <span class="n">vectorReduced</span> <span class="k">=</span> <span class="n">vector</span> <span class="o">/</span> <span class="mi">5</span>          <span class="c1">// returns vector reduced 5 time</span>
-<span class="k">val</span> <span class="n">vectorDouble</span> <span class="k">=</span> <span class="n">vector</span> <span class="o">/</span> <span class="mf">5.</span><span class="n">meters</span>    <span class="c1">// returns vector reduced and converted to DoubleVector</span>
-<span class="k">val</span> <span class="n">dotProduct</span> <span class="k">=</span> <span class="n">vector</span> <span class="o">*</span> <span class="n">vectorDouble</span>  <span class="c1">// returns the Dot Product of vector and vectorDouble</span>
+<span class="pl-k">val</span> <span class="pl-en">vector2</span> <span class="pl-k">=</span> <span class="pl-en">QuantityVector</span>(<span class="pl-en">Kilometers</span>(<span class="pl-c1">1.2</span>), <span class="pl-en">Kilometers</span>(<span class="pl-c1">4.3</span>), <span class="pl-en">Kilometers</span>(<span class="pl-c1">2.3</span>)
+<span class="pl-k">val</span> <span class="pl-en">vectorSum</span> <span class="pl-k">=</span> vector <span class="pl-k">+</span> vector2        <span class="pl-c">// returns the sum of two vectors</span>
+<span class="pl-k">val</span> <span class="pl-en">vectorDiff</span> <span class="pl-k">=</span> vector <span class="pl-k">-</span> vector2       <span class="pl-c">// return the difference of two vectors</span>
+<span class="pl-k">val</span> <span class="pl-en">vectorScaled</span> <span class="pl-k">=</span> vector <span class="pl-k">*</span> <span class="pl-c1">5</span>           <span class="pl-c">// returns vector scaled 5 times</span>
+<span class="pl-k">val</span> <span class="pl-en">vectorReduced</span> <span class="pl-k">=</span> vector <span class="pl-k">/</span> <span class="pl-c1">5</span>          <span class="pl-c">// returns vector reduced 5 time</span>
+<span class="pl-k">val</span> <span class="pl-en">vectorDouble</span> <span class="pl-k">=</span> vector <span class="pl-k">/</span> <span class="pl-c1">5.</span>meters    <span class="pl-c">// returns vector reduced and converted to DoubleVector</span>
+<span class="pl-k">val</span> <span class="pl-en">dotProduct</span> <span class="pl-k">=</span> vector <span class="pl-k">*</span> vectorDouble  <span class="pl-c">// returns the Dot Product of vector and vectorDouble</span>
 
-<span class="k">val</span> <span class="n">crossProduct</span> <span class="k">=</span> <span class="n">vector</span> <span class="n">crossProduct</span> <span class="n">vectorDouble</span>  <span class="c1">// currently only supported for 3-dimensional vectors</span>
-</pre></div>
+<span class="pl-k">val</span> <span class="pl-en">crossProduct</span> <span class="pl-k">=</span> vector crossProduct vectorDouble  <span class="pl-c">// currently only supported for 3-dimensional vectors</span></pre></div>
 
 <p>Dimensional conversions within Vector operations.
 This feature is currently under development and the final implementation being evaluated.
 This following type of operation is the goal.</p>
 
-<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">vectorLength</span> <span class="k">=</span> <span class="nc">QuantityVector</span><span class="o">(</span><span class="nc">Kilometers</span><span class="o">(</span><span class="mf">1.2</span><span class="o">),</span> <span class="nc">Kilometers</span><span class="o">(</span><span class="mf">4.3</span><span class="o">),</span> <span class="nc">Kilometers</span><span class="o">(</span><span class="mf">2.3</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">vectorArea</span><span class="k">:</span> <span class="kt">QuantityVector</span><span class="o">[</span><span class="kt">Area</span><span class="o">]</span> <span class="k">=</span> <span class="n">vectorLength</span> <span class="o">*</span> <span class="nc">Kilometers</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">vectorVelocity</span><span class="k">:</span> <span class="kt">QuantityVector</span><span class="o">[</span><span class="kt">Velocity</span><span class="o">]</span> <span class="k">=</span> <span class="n">vectorLength</span> <span class="o">/</span> <span class="nc">Seconds</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
-</pre></div>
+<div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">vectorLength</span> <span class="pl-k">=</span> <span class="pl-en">QuantityVector</span>(<span class="pl-en">Kilometers</span>(<span class="pl-c1">1.2</span>), <span class="pl-en">Kilometers</span>(<span class="pl-c1">4.3</span>), <span class="pl-en">Kilometers</span>(<span class="pl-c1">2.3</span>)
+<span class="pl-k">val</span> <span class="pl-en">vectorArea</span><span class="pl-k">:</span> <span class="pl-en">QuantityVector</span>[<span class="pl-en">Area</span>] <span class="pl-k">=</span> vectorLength <span class="pl-k">*</span> <span class="pl-en">Kilometers</span>(<span class="pl-c1">10</span>)
+<span class="pl-k">val</span> <span class="pl-en">vectorVelocity</span><span class="pl-k">:</span> <span class="pl-en">QuantityVector</span>[<span class="pl-en">Velocity</span>] <span class="pl-k">=</span> vectorLength <span class="pl-k">/</span> <span class="pl-en">Seconds</span>(<span class="pl-c1">1</span>)</pre></div>
 
 <p>Simple non-quantity (Double based) vectors are also supported</p>
 
-<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">vector</span> <span class="k">=</span> <span class="nc">DoubleVector</span><span class="o">(</span><span class="mf">1.2</span><span class="o">,</span> <span class="mf">4.3</span><span class="o">,</span> <span class="mf">2.3</span><span class="o">,</span> <span class="mf">5.4</span><span class="o">)</span>   <span class="c1">// a Four-dimensional vector</span>
-</pre></div>
+<div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">vector</span> <span class="pl-k">=</span> <span class="pl-en">DoubleVector</span>(<span class="pl-c1">1.2</span>, <span class="pl-c1">4.3</span>, <span class="pl-c1">2.3</span>, <span class="pl-c1">5.4</span>)   <span class="pl-c">// a Four-dimensional vector</span></pre></div>
 
 <h2>
-<a name="market-package" class="anchor" href="#market-package"><span class="octicon octicon-link"></span></a>Market Package</h2>
+<a id="market-package" class="anchor" href="#market-package" aria-hidden="true"><span class="octicon octicon-link"></span></a>Market Package</h2>
 
 <p>Market Types are similar but not quite the same as other quantities in the library.
 The primary type, Money, is derived from Quantity, and its Units of Measure are Currencies.
@@ -252,174 +252,160 @@ However, because the conversion multipliers between units can not be predefined,
 many of the behaviors have been overridden and augmented to realize correct behavior.</p>
 
 <h3>
-<a name="money" class="anchor" href="#money"><span class="octicon octicon-link"></span></a>Money</h3>
+<a id="money" class="anchor" href="#money" aria-hidden="true"><span class="octicon octicon-link"></span></a>Money</h3>
 
 <p>A Quantity of purchasing power measured in units we call Currencies.
 Create Money values using standard Currency codes.</p>
 
-<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">tenBucks</span><span class="k">:</span> <span class="kt">Money</span> <span class="o">=</span> <span class="nc">USD</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">someYen</span><span class="k">:</span> <span class="kt">Money</span> <span class="o">=</span> <span class="nc">JPY</span><span class="o">(</span><span class="mi">1200</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">goldStash</span><span class="k">:</span> <span class="kt">Money</span> <span class="o">=</span> <span class="nc">XAU</span><span class="o">(</span><span class="mi">50</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">digitalStash</span><span class="k">:</span> <span class="kt">Money</span> <span class="o">=</span> <span class="nc">BTC</span><span class="o">(</span><span class="mi">50</span><span class="o">)</span>
-</pre></div>
+<div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">tenBucks</span><span class="pl-k">:</span> <span class="pl-en">Money</span> <span class="pl-k">=</span> <span class="pl-en">USD</span>(<span class="pl-c1">10</span>)
+<span class="pl-k">val</span> <span class="pl-en">someYen</span><span class="pl-k">:</span> <span class="pl-en">Money</span> <span class="pl-k">=</span> <span class="pl-en">JPY</span>(<span class="pl-c1">1200</span>)
+<span class="pl-k">val</span> <span class="pl-en">goldStash</span><span class="pl-k">:</span> <span class="pl-en">Money</span> <span class="pl-k">=</span> <span class="pl-en">XAU</span>(<span class="pl-c1">50</span>)
+<span class="pl-k">val</span> <span class="pl-en">digitalStash</span><span class="pl-k">:</span> <span class="pl-en">Money</span> <span class="pl-k">=</span> <span class="pl-en">BTC</span>(<span class="pl-c1">50</span>)</pre></div>
 
 <h3>
-<a name="price" class="anchor" href="#price"><span class="octicon octicon-link"></span></a>Price</h3>
+<a id="price" class="anchor" href="#price" aria-hidden="true"><span class="octicon octicon-link"></span></a>Price</h3>
 
 <p>A Ratio between Money and another Quantity.
 A Price value is typed on a Quantity and can be denominated in any defined Currency.</p>
 
 <p><em>Price = Money / Quantity</em></p>
 
-<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">threeForADollar</span><span class="k">:</span> <span class="kt">Price</span><span class="o">[</span><span class="kt">Dimensionless</span><span class="o">]</span> <span class="k">=</span> <span class="nc">USD</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span> <span class="o">/</span> <span class="nc">Each</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">energyPrice</span><span class="k">:</span> <span class="kt">Price</span><span class="o">[</span><span class="kt">Energy</span><span class="o">]</span> <span class="k">=</span> <span class="nc">USD</span><span class="o">(</span><span class="mf">102.20</span><span class="o">)</span> <span class="o">/</span> <span class="nc">MegawattHours</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">milkPrice</span><span class="k">:</span> <span class="kt">Price</span><span class="o">[</span><span class="kt">Volume</span><span class="o">]</span> <span class="k">=</span> <span class="nc">USD</span><span class="o">(</span><span class="mi">4</span><span class="o">)</span> <span class="o">/</span> <span class="nc">UsGallons</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+<div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">threeForADollar</span><span class="pl-k">:</span> <span class="pl-en">Price</span>[<span class="pl-en">Dimensionless</span>] <span class="pl-k">=</span> <span class="pl-en">USD</span>(<span class="pl-c1">1</span>) <span class="pl-k">/</span> <span class="pl-en">Each</span>(<span class="pl-c1">3</span>)
+<span class="pl-k">val</span> <span class="pl-en">energyPrice</span><span class="pl-k">:</span> <span class="pl-en">Price</span>[<span class="pl-en">Energy</span>] <span class="pl-k">=</span> <span class="pl-en">USD</span>(<span class="pl-c1">102.20</span>) <span class="pl-k">/</span> <span class="pl-en">MegawattHours</span>(<span class="pl-c1">1</span>)
+<span class="pl-k">val</span> <span class="pl-en">milkPrice</span><span class="pl-k">:</span> <span class="pl-en">Price</span>[<span class="pl-en">Volume</span>] <span class="pl-k">=</span> <span class="pl-en">USD</span>(<span class="pl-c1">4</span>) <span class="pl-k">/</span> <span class="pl-en">UsGallons</span>(<span class="pl-c1">1</span>)
 
-<span class="k">val</span> <span class="n">costForABunch</span><span class="k">:</span> <span class="kt">Money</span> <span class="o">=</span> <span class="n">threeForADollar</span> <span class="o">*</span> <span class="nc">Dozen</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span> <span class="c1">// returns USD(40)</span>
-<span class="k">val</span> <span class="n">energyCost</span><span class="k">:</span> <span class="kt">Money</span> <span class="o">=</span> <span class="n">energyPrice</span> <span class="o">*</span> <span class="nc">MegawattHours</span><span class="o">(</span><span class="mi">4</span><span class="o">)</span> <span class="c1">// returns USD(408.80)</span>
-<span class="k">val</span> <span class="n">milkQuota</span><span class="k">:</span> <span class="kt">Volume</span> <span class="o">=</span> <span class="n">milkPrice</span> <span class="o">*</span> <span class="nc">USD</span><span class="o">(</span><span class="mi">20</span><span class="o">)</span> <span class="c1">// returns UsGallons(5)</span>
-</pre></div>
+<span class="pl-k">val</span> <span class="pl-en">costForABunch</span><span class="pl-k">:</span> <span class="pl-en">Money</span> <span class="pl-k">=</span> threeForADollar <span class="pl-k">*</span> <span class="pl-en">Dozen</span>(<span class="pl-c1">10</span>) <span class="pl-c">// returns USD(40)</span>
+<span class="pl-k">val</span> <span class="pl-en">energyCost</span><span class="pl-k">:</span> <span class="pl-en">Money</span> <span class="pl-k">=</span> energyPrice <span class="pl-k">*</span> <span class="pl-en">MegawattHours</span>(<span class="pl-c1">4</span>) <span class="pl-c">// returns USD(408.80)</span>
+<span class="pl-k">val</span> <span class="pl-en">milkQuota</span><span class="pl-k">:</span> <span class="pl-en">Volume</span> <span class="pl-k">=</span> milkPrice <span class="pl-k">*</span> <span class="pl-en">USD</span>(<span class="pl-c1">20</span>) <span class="pl-c">// returns UsGallons(5)</span></pre></div>
 
 <h3>
-<a name="fx-support" class="anchor" href="#fx-support"><span class="octicon octicon-link"></span></a>FX Support</h3>
+<a id="fx-support" class="anchor" href="#fx-support" aria-hidden="true"><span class="octicon octicon-link"></span></a>FX Support</h3>
 
 <p>Currency Exchange Rates</p>
 
-<div class="highlight highlight-scala"><pre><span class="c1">// create an exchange rate</span>
-<span class="k">val</span> <span class="n">rate</span> <span class="k">=</span> <span class="nc">CurrencyExchangeRate</span><span class="o">(</span><span class="nc">USD</span><span class="o">(</span><span class="mi">1</span><span class="o">),</span> <span class="nc">JPY</span><span class="o">(</span><span class="mi">100</span><span class="o">))</span>
-<span class="c1">// OR</span>
-<span class="k">val</span> <span class="n">rate</span> <span class="k">=</span> <span class="nc">USD</span> <span class="o">/</span> <span class="nc">JPY</span><span class="o">(</span><span class="mi">100</span><span class="o">)</span>
-<span class="c1">// OR</span>
-<span class="k">val</span> <span class="n">rate</span> <span class="k">=</span> <span class="nc">JPY</span><span class="o">(</span><span class="mi">100</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="nc">USD</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
-<span class="c1">// OR</span>
-<span class="k">val</span> <span class="n">rate</span> <span class="k">=</span> <span class="nc">JPY</span><span class="o">(</span><span class="mi">100</span><span class="o">)</span> <span class="n">toThe</span> <span class="nc">USD</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+<div class="highlight highlight-scala"><pre><span class="pl-c">// create an exchange rate</span>
+<span class="pl-k">val</span> <span class="pl-en">rate</span> <span class="pl-k">=</span> <span class="pl-en">CurrencyExchangeRate</span>(<span class="pl-en">USD</span>(<span class="pl-c1">1</span>), <span class="pl-en">JPY</span>(<span class="pl-c1">100</span>))
+<span class="pl-c">// OR</span>
+<span class="pl-k">val</span> <span class="pl-en">rate</span> <span class="pl-k">=</span> <span class="pl-en">USD</span> <span class="pl-k">/</span> <span class="pl-en">JPY</span>(<span class="pl-c1">100</span>)
+<span class="pl-c">// OR</span>
+<span class="pl-k">val</span> <span class="pl-en">rate</span> <span class="pl-k">=</span> <span class="pl-en">JPY</span>(<span class="pl-c1">100</span>) <span class="pl-k">-</span><span class="pl-k">&gt;</span> <span class="pl-en">USD</span>(<span class="pl-c1">1</span>)
+<span class="pl-c">// OR</span>
+<span class="pl-k">val</span> <span class="pl-en">rate</span> <span class="pl-k">=</span> <span class="pl-en">JPY</span>(<span class="pl-c1">100</span>) toThe <span class="pl-en">USD</span>(<span class="pl-c1">1</span>)
 
-<span class="k">val</span> <span class="n">someYen</span><span class="k">:</span> <span class="kt">Money</span> <span class="o">=</span> <span class="nc">JPY</span><span class="o">(</span><span class="mi">350</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">someBucks</span><span class="k">:</span> <span class="kt">Money</span> <span class="o">=</span> <span class="nc">USD</span><span class="o">(</span><span class="mf">23.50</span><span class="o">)</span>
+<span class="pl-k">val</span> <span class="pl-en">someYen</span><span class="pl-k">:</span> <span class="pl-en">Money</span> <span class="pl-k">=</span> <span class="pl-en">JPY</span>(<span class="pl-c1">350</span>)
+<span class="pl-k">val</span> <span class="pl-en">someBucks</span><span class="pl-k">:</span> <span class="pl-en">Money</span> <span class="pl-k">=</span> <span class="pl-en">USD</span>(<span class="pl-c1">23.50</span>)
 
-<span class="c1">// Use the convert method which automatically converts the money to the 'other' currency</span>
-<span class="k">val</span> <span class="n">dollarAmount</span><span class="k">:</span> <span class="kt">Money</span> <span class="o">=</span> <span class="n">rate</span><span class="o">.</span><span class="n">convert</span><span class="o">(</span><span class="n">someYen</span><span class="o">)</span> <span class="c1">// returns USD(3.5)</span>
-<span class="k">val</span> <span class="n">yenAmount</span><span class="k">:</span> <span class="kt">Money</span> <span class="o">=</span> <span class="n">rate</span><span class="o">.</span><span class="n">convert</span><span class="o">(</span><span class="n">someBucks</span><span class="o">)</span>  <span class="c1">// returns JPY(2350)</span>
+<span class="pl-c">// Use the convert method which automatically converts the money to the 'other' currency</span>
+<span class="pl-k">val</span> <span class="pl-en">dollarAmount</span><span class="pl-k">:</span> <span class="pl-en">Money</span> <span class="pl-k">=</span> rate.convert(someYen) <span class="pl-c">// returns USD(3.5)</span>
+<span class="pl-k">val</span> <span class="pl-en">yenAmount</span><span class="pl-k">:</span> <span class="pl-en">Money</span> <span class="pl-k">=</span> rate.convert(someBucks)  <span class="pl-c">// returns JPY(2350)</span>
 
-<span class="c1">// or just use the * operator in either direction (money * rate, or rate * money)</span>
-<span class="k">val</span> <span class="n">dollarAmount2</span><span class="k">:</span> <span class="kt">Money</span> <span class="o">=</span> <span class="n">rate</span> <span class="o">*</span> <span class="n">someYen</span>       <span class="c1">// returns USD(3.5)</span>
-<span class="k">val</span> <span class="n">yenAmount2</span><span class="k">:</span> <span class="kt">Money</span> <span class="o">=</span> <span class="n">someBucks</span> <span class="o">*</span> <span class="n">rate</span>        <span class="c1">// returns JPY(2350)</span>
-</pre></div>
+<span class="pl-c">// or just use the * operator in either direction (money * rate, or rate * money)</span>
+<span class="pl-k">val</span> <span class="pl-en">dollarAmount2</span><span class="pl-k">:</span> <span class="pl-en">Money</span> <span class="pl-k">=</span> rate <span class="pl-k">*</span> someYen       <span class="pl-c">// returns USD(3.5)</span>
+<span class="pl-k">val</span> <span class="pl-en">yenAmount2</span><span class="pl-k">:</span> <span class="pl-en">Money</span> <span class="pl-k">=</span> someBucks <span class="pl-k">*</span> rate        <span class="pl-c">// returns JPY(2350)</span></pre></div>
 
 <h3>
-<a name="money-context" class="anchor" href="#money-context"><span class="octicon octicon-link"></span></a>Money Context</h3>
+<a id="money-context" class="anchor" href="#money-context" aria-hidden="true"><span class="octicon octicon-link"></span></a>Money Context</h3>
 
 <p>A MoneyContext can be implicitly declared to define default settings and applicable exchange rates within its scope.
 This allows your application to work with a default currency based on an application configuration or other dynamic source.
 It also provides support for updating exchange rates and using those rates for automatic conversions between currencies.
 The technique and frequency chosen for exchange rate updates is completely in control of the application.</p>
 
-<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">exchangeRates</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="nc">CAD</span><span class="o">(</span><span class="mf">1.05</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="nc">USD</span><span class="o">(</span><span class="mi">1</span><span class="o">),</span> <span class="nc">MXN</span><span class="o">(</span><span class="mf">12.50</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="nc">USD</span><span class="o">(</span><span class="mi">1</span><span class="o">))</span>
-<span class="k">implicit</span> <span class="k">val</span> <span class="n">moneyContext</span> <span class="k">=</span> <span class="n">defaultMoneyContext</span> <span class="n">withExchangeRates</span> <span class="n">exchangeRates</span>
+<div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">exchangeRates</span> <span class="pl-k">=</span> <span class="pl-en">List</span>(<span class="pl-en">USD</span> <span class="pl-k">/</span> <span class="pl-en">CAD</span>(<span class="pl-c1">1.05</span>), <span class="pl-en">USD</span> <span class="pl-k">/</span> <span class="pl-en">MXN</span>(<span class="pl-c1">12.50</span>), <span class="pl-en">USD</span> <span class="pl-k">/</span> <span class="pl-en">JPY</span>(<span class="pl-c1">100</span>))
+<span class="pl-s">implicit</span> <span class="pl-k">val</span> <span class="pl-en">moneyContext</span> <span class="pl-k">=</span> defaultMoneyContext withExchangeRates exchangeRates
 
-<span class="k">val</span> <span class="n">someMoney</span> <span class="k">=</span> <span class="nc">Money</span><span class="o">(</span><span class="mi">350</span><span class="o">)</span> <span class="c1">// 350 in the default Cur</span>
-<span class="k">val</span> <span class="n">usdMoney</span><span class="k">:</span> <span class="kt">Money</span> <span class="o">=</span> <span class="n">someMoney</span> <span class="n">in</span> <span class="nc">USD</span>
-<span class="k">val</span> <span class="n">usdDouble</span><span class="k">:</span> <span class="kt">Double</span> <span class="o">=</span> <span class="n">someMoney</span> <span class="n">to</span> <span class="nc">USD</span>
-<span class="k">val</span> <span class="n">yenCost</span><span class="k">:</span> <span class="kt">Money</span> <span class="o">=</span> <span class="o">(</span><span class="n">energyPrice</span> <span class="o">*</span> <span class="nc">MegawattHours</span><span class="o">(</span><span class="mi">5</span><span class="o">))</span> <span class="n">in</span> <span class="nc">JPY</span>
-<span class="k">val</span> <span class="n">northAmericanSales</span><span class="k">:</span> <span class="kt">Money</span> <span class="o">=</span> <span class="o">(</span><span class="nc">CAD</span><span class="o">(</span><span class="mi">275</span><span class="o">)</span> <span class="o">+</span> <span class="nc">USD</span><span class="o">(</span><span class="mi">350</span><span class="o">)</span> <span class="o">+</span> <span class="nc">MXN</span><span class="o">(</span><span class="mi">290</span><span class="o">))</span> <span class="n">in</span> <span class="nc">USD</span>
-</pre></div>
+<span class="pl-k">val</span> <span class="pl-en">someMoney</span> <span class="pl-k">=</span> <span class="pl-en">Money</span>(<span class="pl-c1">350</span>) <span class="pl-c">// 350 in the default Cur</span>
+<span class="pl-k">val</span> <span class="pl-en">usdMoney</span><span class="pl-k">:</span> <span class="pl-en">Money</span> <span class="pl-k">=</span> someMoney in <span class="pl-en">USD</span>
+<span class="pl-k">val</span> <span class="pl-en">usdBigDecimal</span><span class="pl-k">:</span> <span class="pl-en">BigDecimal</span> <span class="pl-k">=</span> someMoney to <span class="pl-en">USD</span>
+<span class="pl-k">val</span> <span class="pl-en">yenCost</span><span class="pl-k">:</span> <span class="pl-en">Money</span> <span class="pl-k">=</span> (energyPrice <span class="pl-k">*</span> <span class="pl-en">MegawattHours</span>(<span class="pl-c1">5</span>)) in <span class="pl-en">JPY</span>
+<span class="pl-k">val</span> <span class="pl-en">northAmericanSales</span><span class="pl-k">:</span> <span class="pl-en">Money</span> <span class="pl-k">=</span> (<span class="pl-en">CAD</span>(<span class="pl-c1">275</span>) <span class="pl-k">+</span> <span class="pl-en">USD</span>(<span class="pl-c1">350</span>) <span class="pl-k">+</span> <span class="pl-en">MXN</span>(<span class="pl-c1">290</span>)) in <span class="pl-en">USD</span></pre></div>
 
 <h2>
-<a name="quantity-ranges" class="anchor" href="#quantity-ranges"><span class="octicon octicon-link"></span></a>Quantity Ranges</h2>
+<a id="quantity-ranges" class="anchor" href="#quantity-ranges" aria-hidden="true"><span class="octicon octicon-link"></span></a>Quantity Ranges</h2>
 
 <p>Used to represent a range of Quantity values between an upper and lower bound</p>
 
-<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">load1</span><span class="k">:</span> <span class="kt">Power</span> <span class="o">=</span> <span class="nc">Kilowatts</span><span class="o">(</span><span class="mi">1000</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">load2</span><span class="k">:</span> <span class="kt">Power</span> <span class="o">=</span> <span class="nc">Kilowatts</span><span class="o">(</span><span class="mi">5000</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">range</span><span class="k">:</span> <span class="kt">QuantityRange</span><span class="o">[</span><span class="kt">Power</span><span class="o">]</span> <span class="k">=</span> <span class="nc">QuantityRange</span><span class="o">(</span><span class="n">load1</span><span class="o">,</span> <span class="n">load2</span><span class="o">)</span>
-</pre></div>
+<div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">load1</span><span class="pl-k">:</span> <span class="pl-en">Power</span> <span class="pl-k">=</span> <span class="pl-en">Kilowatts</span>(<span class="pl-c1">1000</span>)
+<span class="pl-k">val</span> <span class="pl-en">load2</span><span class="pl-k">:</span> <span class="pl-en">Power</span> <span class="pl-k">=</span> <span class="pl-en">Kilowatts</span>(<span class="pl-c1">5000</span>)
+<span class="pl-k">val</span> <span class="pl-en">range</span><span class="pl-k">:</span> <span class="pl-en">QuantityRange</span>[<span class="pl-en">Power</span>] <span class="pl-k">=</span> <span class="pl-en">QuantityRange</span>(load1, load2)</pre></div>
 
 <p>Use multiplication and division to create a Seq of ranges from the original</p>
 
-<div class="highlight highlight-scala"><pre><span class="c1">// Create a Seq of 10 sequential ranges starting with the original and each the same size as the original</span>
-<span class="k">val</span> <span class="n">rs1</span> <span class="k">=</span> <span class="n">range</span> <span class="o">*</span> <span class="mi">10</span>
-<span class="c1">// Create a Seq of 10 sequential ranges each 1/10th of the original size</span>
-<span class="k">val</span> <span class="n">rs2</span> <span class="k">=</span> <span class="n">range</span> <span class="o">/</span> <span class="mi">10</span>
-<span class="c1">// Create a Seq of 10 sequential ranges each with a size of 400 kilowatts</span>
-<span class="k">val</span> <span class="n">rs3</span> <span class="k">=</span> <span class="n">range</span> <span class="o">/</span> <span class="nc">Kilowatts</span><span class="o">(</span><span class="mi">400</span><span class="o">)</span>
-</pre></div>
+<div class="highlight highlight-scala"><pre><span class="pl-c">// Create a Seq of 10 sequential ranges starting with the original and each the same size as the original</span>
+<span class="pl-k">val</span> <span class="pl-en">rs1</span> <span class="pl-k">=</span> range <span class="pl-k">*</span> <span class="pl-c1">10</span>
+<span class="pl-c">// Create a Seq of 10 sequential ranges each 1/10th of the original size</span>
+<span class="pl-k">val</span> <span class="pl-en">rs2</span> <span class="pl-k">=</span> range <span class="pl-k">/</span> <span class="pl-c1">10</span>
+<span class="pl-c">// Create a Seq of 10 sequential ranges each with a size of 400 kilowatts</span>
+<span class="pl-k">val</span> <span class="pl-en">rs3</span> <span class="pl-k">=</span> range <span class="pl-k">/</span> <span class="pl-en">Kilowatts</span>(<span class="pl-c1">400</span>)</pre></div>
 
 <p>Apply foreach, map and foldLeft/foldRight directly to QuantityRanges with a divisor</p>
 
-<div class="highlight highlight-scala"><pre><span class="c1">// foreach over each of the 400 kilometer ranges within the range</span>
-<span class="n">range</span><span class="o">.</span><span class="n">foreach</span><span class="o">(</span><span class="nc">Kilometers</span><span class="o">(</span><span class="mi">400</span><span class="o">))</span> <span class="o">{</span><span class="n">r</span> <span class="k">=&gt;</span> <span class="o">???}</span>
-<span class="c1">// map over each of 10 even parts of the range</span>
-<span class="n">range</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span> <span class="o">{</span><span class="n">r</span> <span class="k">=&gt;</span> <span class="o">???}</span>
-<span class="c1">// fold over each 10 even parts of the range</span>
-<span class="n">range</span><span class="o">.</span><span class="n">foldLeft</span><span class="o">(</span><span class="mi">10</span><span class="o">)(</span><span class="mi">0</span><span class="o">)</span> <span class="o">{(</span><span class="n">z</span><span class="o">,</span> <span class="n">r</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="o">???}</span>
-</pre></div>
+<div class="highlight highlight-scala"><pre><span class="pl-c">// foreach over each of the 400 kilometer ranges within the range</span>
+range.foreach(<span class="pl-en">Kilometers</span>(<span class="pl-c1">400</span>)) {r <span class="pl-k">=&gt;</span> <span class="pl-k">???</span>}
+<span class="pl-c">// map over each of 10 even parts of the range</span>
+range.map(<span class="pl-c1">10</span>) {r <span class="pl-k">=&gt;</span> <span class="pl-k">???</span>}
+<span class="pl-c">// fold over each 10 even parts of the range</span>
+range.foldLeft(<span class="pl-c1">10</span>)(<span class="pl-c1">0</span>) {(z, r) <span class="pl-k">=&gt;</span> <span class="pl-k">???</span>}</pre></div>
 
 <h2>
-<a name="natural-language-features" class="anchor" href="#natural-language-features"><span class="octicon octicon-link"></span></a>Natural Language Features</h2>
+<a id="natural-language-features" class="anchor" href="#natural-language-features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Natural Language Features</h2>
 
-<p>Implicit conversions give the DSL some features that allows client code to express quantities in a more natural way.</p>
+<p>Implicit conversions give the DSL some features that allows user code to express quantities in a
+more naturally expressive and readable way.</p>
 
 <p>Create Quantities using Unit Of Measure Factory objects (no implicits required)</p>
 
-<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">load</span> <span class="k">=</span> <span class="nc">Kilowatts</span><span class="o">(</span><span class="mi">100</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">time</span> <span class="k">=</span> <span class="nc">Hours</span><span class="o">(</span><span class="mf">3.75</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">money</span> <span class="k">=</span> <span class="nc">USD</span><span class="o">(</span><span class="mf">112.50</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">price</span> <span class="k">=</span> <span class="nc">Price</span><span class="o">(</span><span class="n">money</span><span class="o">,</span> <span class="nc">MegawattHours</span><span class="o">(</span><span class="mi">1</span><span class="o">))</span>
-</pre></div>
+<div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">load</span> <span class="pl-k">=</span> <span class="pl-en">Kilowatts</span>(<span class="pl-c1">100</span>)
+<span class="pl-k">val</span> <span class="pl-en">time</span> <span class="pl-k">=</span> <span class="pl-en">Hours</span>(<span class="pl-c1">3.75</span>)
+<span class="pl-k">val</span> <span class="pl-en">money</span> <span class="pl-k">=</span> <span class="pl-en">USD</span>(<span class="pl-c1">112.50</span>)
+<span class="pl-k">val</span> <span class="pl-en">price</span> <span class="pl-k">=</span> <span class="pl-en">Price</span>(money, <span class="pl-en">MegawattHours</span>(<span class="pl-c1">1</span>))</pre></div>
 
 <p>Create Quantities using Unit of Measure names and/or symbols (uses implicits)</p>
 
-<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">load1</span> <span class="k">=</span> <span class="mi">100</span> <span class="n">kW</span>                  <span class="c1">// Simple expressions don’t need dots</span>
-<span class="k">val</span> <span class="n">load2</span> <span class="k">=</span> <span class="mi">100</span> <span class="n">megaWatts</span>
-<span class="k">val</span> <span class="n">time</span> <span class="k">=</span> <span class="mf">3.</span><span class="n">hours</span> <span class="o">+</span> <span class="mf">45.</span><span class="n">minutes</span>     <span class="c1">// Compound expressions may need dots</span>
-</pre></div>
+<div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">load1</span> <span class="pl-k">=</span> <span class="pl-c1">100</span> kW                  <span class="pl-c">// Simple expressions don’t need dots</span>
+<span class="pl-k">val</span> <span class="pl-en">load2</span> <span class="pl-k">=</span> <span class="pl-c1">100</span> megaWatts
+<span class="pl-k">val</span> <span class="pl-en">time</span> <span class="pl-k">=</span> <span class="pl-c1">3.</span>hours <span class="pl-k">+</span> <span class="pl-c1">45.</span>minutes     <span class="pl-c">// Compound expressions may need dots</span></pre></div>
 
 <p>Create Quantities using operations between other Quantities</p>
 
-<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">energyUsed</span> <span class="k">=</span> <span class="mf">100.</span><span class="n">kilowatts</span> <span class="o">*</span> <span class="o">(</span><span class="mf">3.</span><span class="n">hours</span> <span class="o">+</span> <span class="mf">45.</span><span class="n">minutes</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">price</span> <span class="k">=</span> <span class="mf">112.50</span><span class="o">.</span><span class="nc">USD</span> <span class="o">/</span> <span class="mf">1.</span><span class="n">megawattHours</span>
-<span class="k">val</span> <span class="n">speed</span> <span class="k">=</span> <span class="mf">55.</span><span class="n">miles</span> <span class="o">/</span> <span class="mf">1.</span><span class="n">hours</span>
-</pre></div>
+<div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">energyUsed</span> <span class="pl-k">=</span> <span class="pl-c1">100.</span>kilowatts <span class="pl-k">*</span> (<span class="pl-c1">3.</span>hours <span class="pl-k">+</span> <span class="pl-c1">45.</span>minutes)
+<span class="pl-k">val</span> <span class="pl-en">price</span> <span class="pl-k">=</span> <span class="pl-c1">112.50</span>.<span class="pl-en">USD</span> <span class="pl-k">/</span> <span class="pl-c1">1.</span>megawattHours
+<span class="pl-k">val</span> <span class="pl-en">speed</span> <span class="pl-k">=</span> <span class="pl-c1">55.</span>miles <span class="pl-k">/</span> <span class="pl-c1">1.</span>hours</pre></div>
 
 <p>Create Quantities using formatted Strings</p>
 
-<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">load</span> <span class="k">=</span> <span class="nc">Power</span><span class="o">(</span><span class="s">"40 MW"</span><span class="o">)</span>       <span class="c1">// 40 MW</span>
-</pre></div>
+<div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">load</span> <span class="pl-k">=</span> <span class="pl-en">Power</span>(<span class="pl-s1"><span class="pl-pds">"</span>40 MW<span class="pl-pds">"</span></span>)       <span class="pl-c">// 40 MW</span></pre></div>
 
 <p>Use single unit values to simplify expressions</p>
 
-<div class="highlight highlight-scala"><pre><span class="c1">// Hours(1) == 1.hours == hour</span>
-<span class="k">val</span> <span class="n">ramp</span> <span class="k">=</span> <span class="mf">100.</span><span class="n">kilowatts</span> <span class="o">/</span> <span class="n">hour</span>
-<span class="k">val</span> <span class="n">speed</span> <span class="k">=</span> <span class="mf">100.</span><span class="n">kilometers</span> <span class="o">/</span> <span class="n">hour</span>
+<div class="highlight highlight-scala"><pre><span class="pl-c">// Hours(1) == 1.hours == hour</span>
+<span class="pl-k">val</span> <span class="pl-en">ramp</span> <span class="pl-k">=</span> <span class="pl-c1">100.</span>kilowatts <span class="pl-k">/</span> hour
+<span class="pl-k">val</span> <span class="pl-en">speed</span> <span class="pl-k">=</span> <span class="pl-c1">100.</span>kilometers <span class="pl-k">/</span> hour
 
-<span class="c1">// MegawattHours(1) == 1.megawattHours == megawattHour == MWh</span>
-<span class="k">val</span> <span class="n">hi</span> <span class="k">=</span> <span class="mf">100.d</span><span class="n">ollars</span> <span class="o">/</span> <span class="nc">MWh</span>
-<span class="k">val</span> <span class="n">low</span> <span class="k">=</span> <span class="mf">40.d</span><span class="n">ollars</span> <span class="o">/</span> <span class="n">megawattHour</span>
-</pre></div>
+<span class="pl-c">// MegawattHours(1) == 1.megawattHours == megawattHour == MWh</span>
+<span class="pl-k">val</span> <span class="pl-en">hi</span> <span class="pl-k">=</span> <span class="pl-c1">100.</span>dollars <span class="pl-k">/</span> <span class="pl-en">MWh</span>
+<span class="pl-k">val</span> <span class="pl-en">low</span> <span class="pl-k">=</span> <span class="pl-c1">40.</span>dollars <span class="pl-k">/</span> megawattHour</pre></div>
 
 <p>Implicit conversion support for using Double on the left side of operations</p>
 
-<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">price</span> <span class="k">=</span> <span class="mi">10</span> <span class="o">/</span> <span class="n">dollar</span>     <span class="c1">// 1 USD / 10 ea</span>
-<span class="k">val</span> <span class="n">freq</span> <span class="k">=</span> <span class="mi">60</span> <span class="o">/</span> <span class="n">second</span>      <span class="c1">// 60 Hz</span>
-<span class="k">val</span> <span class="n">load</span> <span class="k">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="mf">4.</span><span class="nc">MW</span>        <span class="c1">// 40 MW</span>
-</pre></div>
+<div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">price</span> <span class="pl-k">=</span> <span class="pl-c1">10</span> <span class="pl-k">/</span> dollar     <span class="pl-c">// 1 USD / 10 ea</span>
+<span class="pl-k">val</span> <span class="pl-en">freq</span> <span class="pl-k">=</span> <span class="pl-c1">60</span> <span class="pl-k">/</span> second      <span class="pl-c">// 60 Hz</span>
+<span class="pl-k">val</span> <span class="pl-en">load</span> <span class="pl-k">=</span> <span class="pl-c1">10</span> <span class="pl-k">*</span> <span class="pl-c1">4.</span><span class="pl-en">MW</span>        <span class="pl-c">// 40 MW</span></pre></div>
 
 <p>Create Quantity Ranges using <code>to</code> or <code>plusOrMinus</code> (<code>+-</code>) operators</p>
 
-<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">range1</span> <span class="k">=</span> <span class="mf">1000.</span><span class="n">kW</span> <span class="n">to</span> <span class="mf">5000.</span><span class="n">kW</span>     <span class="c1">// 1000.kW to 5000.kW</span>
-<span class="k">val</span> <span class="n">range2</span> <span class="k">=</span> <span class="mf">5000.</span><span class="n">kW</span> <span class="o">+-</span> <span class="mf">1000.</span><span class="n">kW</span>     <span class="c1">// 4000.kW to 6000.kW</span>
-</pre></div>
+<div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">range1</span> <span class="pl-k">=</span> <span class="pl-c1">1000.</span>kW to <span class="pl-c1">5000.</span>kW     <span class="pl-c">// 1000.kW to 5000.kW</span>
+<span class="pl-k">val</span> <span class="pl-en">range2</span> <span class="pl-k">=</span> <span class="pl-c1">5000.</span>kW <span class="pl-k">+-</span> <span class="pl-c1">1000.</span>kW     <span class="pl-c">// 4000.kW to 6000.kW</span></pre></div>
 
 <h3>
-<a name="numeric-support" class="anchor" href="#numeric-support"><span class="octicon octicon-link"></span></a>Numeric Support</h3>
+<a id="numeric-support" class="anchor" href="#numeric-support" aria-hidden="true"><span class="octicon octicon-link"></span></a>Numeric Support</h3>
 
 <p>Most Quantities that support implicit conversions also include an implicit Numeric object that can be imported
 to your code where Numeric support is required.  These follow the following pattern:</p>
 
-<div class="highlight highlight-scala"><pre><span class="k">import</span> <span class="nn">squants.mass.MassConversions.MassNumeric</span>
+<div class="highlight highlight-scala"><pre><span class="pl-k">import</span> <span class="pl-v">squants.mass.MassConversions.</span><span class="pl-v">MassNumeric</span>
 
-<span class="k">val</span> <span class="n">sum</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="nc">Kilograms</span><span class="o">(</span><span class="mi">100</span><span class="o">),</span> <span class="nc">Grams</span><span class="o">(</span><span class="mi">34510</span><span class="o">)).</span><span class="n">sum</span>
-</pre></div>
+<span class="pl-k">val</span> <span class="pl-en">sum</span> <span class="pl-k">=</span> <span class="pl-en">List</span>(<span class="pl-en">Kilograms</span>(<span class="pl-c1">100</span>), <span class="pl-en">Grams</span>(<span class="pl-c1">34510</span>)).sum</pre></div>
 
 <p>The MoneyNumeric implementation is a bit different than the implementations for other quantity types
 in a few important ways.</p>
@@ -428,22 +414,23 @@ in a few important ways.</p>
 <li>MoneyNumeric is a class, not an object like the others.</li>
 <li>To create a MoneyNumeric value there must be an implicit MoneyContext in scope.</li>
 <li>The MoneyContext must contain applicable exchange rates if you will be applying cross-currency Numeric ops.</li>
-</ol><p>The following code provides a basic example for creating a MoneyNumeric:</p>
+</ol>
 
-<div class="highlight highlight-scala"><pre><span class="k">import</span> <span class="nn">MoneyConversions._</span>
-<span class="k">implicit</span> <span class="k">val</span> <span class="n">moneyContext</span> <span class="k">=</span> <span class="n">defaultMoneyContext</span>
-<span class="k">implicit</span> <span class="k">val</span> <span class="n">moneyNum</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">MoneyNumeric</span><span class="o">()</span>
+<p>The following code provides a basic example for creating a MoneyNumeric:</p>
 
-<span class="k">val</span> <span class="n">sum</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="nc">USD</span><span class="o">(</span><span class="mi">100</span><span class="o">),</span> <span class="nc">USD</span><span class="o">(</span><span class="mi">10</span><span class="o">)).</span><span class="n">sum</span>
-</pre></div>
+<div class="highlight highlight-scala"><pre><span class="pl-k">import</span> <span class="pl-v">MoneyConversions.</span><span class="pl-v">_</span>
+<span class="pl-s">implicit</span> <span class="pl-k">val</span> <span class="pl-en">moneyContext</span> <span class="pl-k">=</span> defaultMoneyContext
+<span class="pl-s">implicit</span> <span class="pl-k">val</span> <span class="pl-en">moneyNum</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">MoneyNumeric</span>()
+
+<span class="pl-k">val</span> <span class="pl-en">sum</span> <span class="pl-k">=</span> <span class="pl-en">List</span>(<span class="pl-en">USD</span>(<span class="pl-c1">100</span>), <span class="pl-en">USD</span>(<span class="pl-c1">10</span>)).sum</pre></div>
 
 <h2>
-<a name="type-hierarchy" class="anchor" href="#type-hierarchy"><span class="octicon octicon-link"></span></a>Type Hierarchy</h2>
+<a id="type-hierarchy" class="anchor" href="#type-hierarchy" aria-hidden="true"><span class="octicon octicon-link"></span></a>Type Hierarchy</h2>
 
 <p>The type hierarchy includes two root base traits:  Quantity and UnitOfMeasure</p>
 
 <h3>
-<a name="quantity" class="anchor" href="#quantity"><span class="octicon octicon-link"></span></a>Quantity</h3>
+<a id="quantity" class="anchor" href="#quantity" aria-hidden="true"><span class="octicon octicon-link"></span></a>Quantity</h3>
 
 <p>Quantity measures the magnitude or multitude of some thing.  Classes extending Quantity represent the
 various types of quantities that can be measured.  These are our alternatives to just using Double.
@@ -453,28 +440,26 @@ Common 'Base' Quantities include Mass, Temperature, Length, Time, Energy, etc.</
 
 <p>Speed is the 1st Time Derivative of Length (Distance), Acceleration is the 2nd Time Derivative.</p>
 
-<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">distance</span><span class="k">:</span> <span class="kt">Length</span> <span class="o">=</span> <span class="nc">Kilometers</span><span class="o">(</span><span class="mi">100</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">time</span><span class="k">:</span> <span class="kt">Time</span> <span class="o">=</span> <span class="nc">Hours</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">speed</span><span class="k">:</span> <span class="kt">Speed</span> <span class="o">=</span> <span class="n">distance</span> <span class="o">/</span> <span class="n">time</span>
-<span class="n">speed</span><span class="o">.</span><span class="n">toKilometersPerHour</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="mf">50.0</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">acc</span><span class="k">:</span> <span class="kt">Acceleration</span> <span class="o">=</span> <span class="nc">Meters</span><span class="o">(</span><span class="mi">50</span><span class="o">)</span> <span class="o">/</span> <span class="nc">Second</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span> <span class="o">/</span> <span class="nc">Second</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
-<span class="n">acc</span><span class="o">.</span><span class="n">toMetersPerSecondSquared</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="mi">50</span><span class="o">)</span>
-</pre></div>
+<div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">distance</span><span class="pl-k">:</span> <span class="pl-en">Length</span> <span class="pl-k">=</span> <span class="pl-en">Kilometers</span>(<span class="pl-c1">100</span>)
+<span class="pl-k">val</span> <span class="pl-en">time</span><span class="pl-k">:</span> <span class="pl-en">Time</span> <span class="pl-k">=</span> <span class="pl-en">Hours</span>(<span class="pl-c1">2</span>)
+<span class="pl-k">val</span> <span class="pl-en">speed</span><span class="pl-k">:</span> <span class="pl-en">Speed</span> <span class="pl-k">=</span> distance <span class="pl-k">/</span> time
+speed.toKilometersPerHour should be(<span class="pl-c1">50.0</span>)
+<span class="pl-k">val</span> <span class="pl-en">acc</span><span class="pl-k">:</span> <span class="pl-en">Acceleration</span> <span class="pl-k">=</span> <span class="pl-en">Meters</span>(<span class="pl-c1">50</span>) <span class="pl-k">/</span> <span class="pl-en">Second</span>(<span class="pl-c1">1</span>) <span class="pl-k">/</span> <span class="pl-en">Second</span>(<span class="pl-c1">1</span>)
+acc.toMetersPerSecondSquared should be(<span class="pl-c1">50</span>)</pre></div>
 
 <p>Power is the 1st Time Derivative of Energy, PowerRamp is the 2nd</p>
 
-<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">energy</span><span class="k">:</span> <span class="kt">Energy</span> <span class="o">=</span> <span class="nc">KilowattHours</span><span class="o">(</span><span class="mi">100</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">time</span><span class="k">:</span> <span class="kt">Time</span> <span class="o">=</span> <span class="nc">Hours</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">power</span><span class="k">:</span> <span class="kt">Power</span> <span class="o">=</span> <span class="n">energy</span> <span class="o">/</span> <span class="n">time</span>
-<span class="n">power</span><span class="o">.</span><span class="n">toKilowatts</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="mf">50.0</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">ramp</span><span class="k">:</span> <span class="kt">PowerRamp</span> <span class="o">=</span> <span class="nc">KilowattHours</span><span class="o">(</span><span class="mi">50</span><span class="o">)</span> <span class="o">/</span> <span class="nc">Hours</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span> <span class="o">/</span> <span class="nc">Hours</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
-<span class="n">ramp</span><span class="o">.</span><span class="n">toKilowattsPerHour</span> <span class="n">should</span> <span class="n">be</span><span class="o">(</span><span class="mi">50</span><span class="o">)</span>
-</pre></div>
+<div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">energy</span><span class="pl-k">:</span> <span class="pl-en">Energy</span> <span class="pl-k">=</span> <span class="pl-en">KilowattHours</span>(<span class="pl-c1">100</span>)
+<span class="pl-k">val</span> <span class="pl-en">time</span><span class="pl-k">:</span> <span class="pl-en">Time</span> <span class="pl-k">=</span> <span class="pl-en">Hours</span>(<span class="pl-c1">2</span>)
+<span class="pl-k">val</span> <span class="pl-en">power</span><span class="pl-k">:</span> <span class="pl-en">Power</span> <span class="pl-k">=</span> energy <span class="pl-k">/</span> time
+power.toKilowatts should be(<span class="pl-c1">50.0</span>)
+<span class="pl-k">val</span> <span class="pl-en">ramp</span><span class="pl-k">:</span> <span class="pl-en">PowerRamp</span> <span class="pl-k">=</span> <span class="pl-en">KilowattHours</span>(<span class="pl-c1">50</span>) <span class="pl-k">/</span> <span class="pl-en">Hours</span>(<span class="pl-c1">1</span>) <span class="pl-k">/</span> <span class="pl-en">Hours</span>(<span class="pl-c1">1</span>)
+ramp.toKilowattsPerHour should be(<span class="pl-c1">50</span>)</pre></div>
 
 <p>Squants currently supports over 50 quantity types.</p>
 
 <h3>
-<a name="unit-of-measure" class="anchor" href="#unit-of-measure"><span class="octicon octicon-link"></span></a>Unit of Measure</h3>
+<a id="unit-of-measure" class="anchor" href="#unit-of-measure" aria-hidden="true"><span class="octicon octicon-link"></span></a>Unit of Measure</h3>
 
 <p>UnitOfMeasure is the scale or multiplier in which the Quantity is being measured.</p>
 
@@ -484,10 +469,9 @@ Factory methods in each UOM object create instances of the corresponding Quantit
 
 <p>For example UOM objects extending LengthUnit can be used to create Length quantities</p>
 
-<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">len1</span><span class="k">:</span> <span class="kt">Length</span> <span class="o">=</span> <span class="nc">Inches</span><span class="o">(</span><span class="mi">5</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">len2</span><span class="k">:</span> <span class="kt">Length</span> <span class="o">=</span> <span class="nc">Meters</span><span class="o">(</span><span class="mf">4.3</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">len3</span><span class="k">:</span> <span class="kt">Length</span> <span class="o">=</span> <span class="nc">UsMiles</span><span class="o">(</span><span class="mf">345.2</span><span class="o">)</span>
-</pre></div>
+<div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">len1</span><span class="pl-k">:</span> <span class="pl-en">Length</span> <span class="pl-k">=</span> <span class="pl-en">Inches</span>(<span class="pl-c1">5</span>)
+<span class="pl-k">val</span> <span class="pl-en">len2</span><span class="pl-k">:</span> <span class="pl-en">Length</span> <span class="pl-k">=</span> <span class="pl-en">Meters</span>(<span class="pl-c1">4.3</span>)
+<span class="pl-k">val</span> <span class="pl-en">len3</span><span class="pl-k">:</span> <span class="pl-en">Length</span> <span class="pl-k">=</span> <span class="pl-en">UsMiles</span>(<span class="pl-c1">345.2</span>)</pre></div>
 
 <p>Units of Measure for Time include Milliseconds, Seconds, Minutes, Hours, and Days</p>
 
@@ -498,144 +482,136 @@ Factory methods in each UOM object create instances of the corresponding Quantit
 <p>Squants currently supports over 150 units of measure</p>
 
 <h2>
-<a name="use-cases" class="anchor" href="#use-cases"><span class="octicon octicon-link"></span></a>Use Cases</h2>
+<a id="use-cases" class="anchor" href="#use-cases" aria-hidden="true"><span class="octicon octicon-link"></span></a>Use Cases</h2>
 
 <h3>
-<a name="dimensional-analysis" class="anchor" href="#dimensional-analysis"><span class="octicon octicon-link"></span></a>Dimensional Analysis</h3>
+<a id="dimensional-analysis" class="anchor" href="#dimensional-analysis" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dimensional Analysis</h3>
 
 <p>The primary use case for Squants, as described above, is to produce code that is typesafe with in domains
 that perform dimensional analysis.</p>
 
-<div class="highlight highlight-scala"><pre><span class="k">val</span> <span class="n">energyPrice</span><span class="k">:</span> <span class="kt">Price</span><span class="o">[</span><span class="kt">Energy</span><span class="o">]</span> <span class="k">=</span> <span class="mf">45.25</span><span class="o">.</span><span class="n">money</span> <span class="o">/</span> <span class="n">megawattHour</span>
-<span class="k">val</span> <span class="n">energyUsage</span><span class="k">:</span> <span class="kt">Energy</span> <span class="o">=</span> <span class="mf">345.</span><span class="n">kilowatts</span> <span class="o">*</span> <span class="mf">5.4</span><span class="o">.</span><span class="n">hours</span>
-<span class="k">val</span> <span class="n">energyCost</span><span class="k">:</span> <span class="kt">Money</span> <span class="o">=</span> <span class="n">energyPrice</span> <span class="o">*</span> <span class="n">energyUsage</span>
+<div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">energyPrice</span><span class="pl-k">:</span> <span class="pl-en">Price</span>[<span class="pl-en">Energy</span>] <span class="pl-k">=</span> <span class="pl-c1">45.25</span>.money <span class="pl-k">/</span> megawattHour
+<span class="pl-k">val</span> <span class="pl-en">energyUsage</span><span class="pl-k">:</span> <span class="pl-en">Energy</span> <span class="pl-k">=</span> <span class="pl-c1">345.</span>kilowatts <span class="pl-k">*</span> <span class="pl-c1">5.4</span>.hours
+<span class="pl-k">val</span> <span class="pl-en">energyCost</span><span class="pl-k">:</span> <span class="pl-en">Money</span> <span class="pl-k">=</span> energyPrice <span class="pl-k">*</span> energyUsage
 
-<span class="k">val</span> <span class="n">dodgeViper</span><span class="k">:</span> <span class="kt">Acceleration</span> <span class="o">=</span> <span class="mf">60.</span><span class="n">miles</span> <span class="o">/</span> <span class="n">hour</span> <span class="o">/</span> <span class="mf">3.9</span><span class="o">.</span><span class="n">seconds</span>
-<span class="k">val</span> <span class="n">speedAfter5Seconds</span><span class="k">:</span> <span class="kt">Velocity</span> <span class="o">=</span> <span class="n">dodgeViper</span> <span class="o">*</span> <span class="mf">5.</span><span class="n">seconds</span>
-<span class="k">val</span> <span class="n">timeTo100MPH</span><span class="k">:</span> <span class="kt">Time</span> <span class="o">=</span> <span class="mf">100.</span><span class="n">miles</span> <span class="o">/</span> <span class="n">hour</span> <span class="o">/</span> <span class="n">dodgeViper</span>
+<span class="pl-k">val</span> <span class="pl-en">dodgeViper</span><span class="pl-k">:</span> <span class="pl-en">Acceleration</span> <span class="pl-k">=</span> <span class="pl-c1">60.</span>miles <span class="pl-k">/</span> hour <span class="pl-k">/</span> <span class="pl-c1">3.9</span>.seconds
+<span class="pl-k">val</span> <span class="pl-en">speedAfter5Seconds</span><span class="pl-k">:</span> <span class="pl-en">Velocity</span> <span class="pl-k">=</span> dodgeViper <span class="pl-k">*</span> <span class="pl-c1">5.</span>seconds
+<span class="pl-k">val</span> <span class="pl-en">timeTo100MPH</span><span class="pl-k">:</span> <span class="pl-en">Time</span> <span class="pl-k">=</span> <span class="pl-c1">100.</span>miles <span class="pl-k">/</span> hour <span class="pl-k">/</span> dodgeViper
 
-<span class="k">val</span> <span class="n">density</span><span class="k">:</span> <span class="kt">Density</span> <span class="o">=</span> <span class="mf">1200.</span><span class="n">kilograms</span> <span class="o">/</span> <span class="n">cubicMeter</span>
-<span class="k">val</span> <span class="n">volFlowRate</span><span class="k">:</span> <span class="kt">VolumeFlowRate</span> <span class="o">=</span> <span class="mf">10.</span><span class="n">gallons</span> <span class="o">/</span> <span class="n">minute</span>
-<span class="k">val</span> <span class="n">flowTime</span><span class="k">:</span> <span class="kt">Time</span> <span class="o">=</span> <span class="mf">30.</span><span class="n">minutes</span>
-<span class="k">val</span> <span class="n">totalMassFlow</span><span class="k">:</span> <span class="kt">Mass</span> <span class="o">=</span> <span class="n">volFlowRate</span> <span class="o">*</span> <span class="n">flowTime</span> <span class="o">*</span> <span class="n">density</span>
-</pre></div>
+<span class="pl-k">val</span> <span class="pl-en">density</span><span class="pl-k">:</span> <span class="pl-en">Density</span> <span class="pl-k">=</span> <span class="pl-c1">1200.</span>kilograms <span class="pl-k">/</span> cubicMeter
+<span class="pl-k">val</span> <span class="pl-en">volFlowRate</span><span class="pl-k">:</span> <span class="pl-en">VolumeFlowRate</span> <span class="pl-k">=</span> <span class="pl-c1">10.</span>gallons <span class="pl-k">/</span> minute
+<span class="pl-k">val</span> <span class="pl-en">flowTime</span><span class="pl-k">:</span> <span class="pl-en">Time</span> <span class="pl-k">=</span> <span class="pl-c1">30.</span>minutes
+<span class="pl-k">val</span> <span class="pl-en">totalMassFlow</span><span class="pl-k">:</span> <span class="pl-en">Mass</span> <span class="pl-k">=</span> volFlowRate <span class="pl-k">*</span> flowTime <span class="pl-k">*</span> density</pre></div>
 
 <h3>
-<a name="domain-modeling" class="anchor" href="#domain-modeling"><span class="octicon octicon-link"></span></a>Domain Modeling</h3>
+<a id="domain-modeling" class="anchor" href="#domain-modeling" aria-hidden="true"><span class="octicon octicon-link"></span></a>Domain Modeling</h3>
 
 <p>Another excellent use case for Squants is stronger types for fields in your domain model.
 This is OK ...</p>
 
-<div class="highlight highlight-scala"><pre><span class="k">case</span> <span class="k">class</span> <span class="nc">Generator</span><span class="o">(</span><span class="n">id</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">maxLoadKW</span><span class="k">:</span> <span class="kt">Double</span><span class="o">,</span> <span class="n">rampRateKWph</span><span class="k">:</span> <span class="kt">Double</span><span class="o">,</span>
-<span class="n">operatingCostPerMWh</span><span class="k">:</span> <span class="kt">Double</span><span class="o">,</span> <span class="n">currency</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">maintenanceTimeHours</span><span class="k">:</span> <span class="kt">Double</span><span class="o">)</span>
-<span class="o">...</span>
-<span class="k">val</span> <span class="n">gen1</span> <span class="k">=</span> <span class="nc">Generator</span><span class="o">(</span><span class="s">"Gen1"</span><span class="o">,</span> <span class="mi">5000</span><span class="o">,</span> <span class="mi">7500</span><span class="o">,</span> <span class="mf">75.4</span><span class="o">,</span> <span class="s">"USD"</span><span class="o">,</span> <span class="mf">1.5</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">gen2</span> <span class="k">=</span> <span class="nc">Generator</span><span class="o">(</span><span class="s">"Gen2"</span><span class="o">,</span> <span class="mi">100</span><span class="o">,</span> <span class="mi">250</span><span class="o">,</span> <span class="mf">2944.5</span><span class="o">,</span> <span class="s">"JPY"</span><span class="o">,</span> <span class="mf">0.5</span><span class="o">)</span>
-<span class="n">assetManagementActor</span> <span class="o">!</span> <span class="nc">ManageGenerator</span><span class="o">(</span><span class="n">gen1</span><span class="o">)</span>
-</pre></div>
+<div class="highlight highlight-scala"><pre><span class="pl-k">case</span> <span class="pl-k">class</span> <span class="pl-en">Generator</span>(<span class="pl-v">id</span>: <span class="pl-st">String</span>, <span class="pl-v">maxLoadKW</span>: <span class="pl-st">Double</span>, <span class="pl-v">rampRateKWph</span>: <span class="pl-st">Double</span>,
+operatingCostPerMWh<span class="pl-k">:</span> <span class="pl-st">Double</span>, <span class="pl-v">currency</span>: <span class="pl-st">String</span>, <span class="pl-v">maintenanceTimeHours</span>: <span class="pl-st">Double</span>)
+...
+<span class="pl-k">val</span> <span class="pl-en">gen1</span> <span class="pl-k">=</span> <span class="pl-en">Generator</span>(<span class="pl-s1"><span class="pl-pds">"</span>Gen1<span class="pl-pds">"</span></span>, <span class="pl-c1">5000</span>, <span class="pl-c1">7500</span>, <span class="pl-c1">75.4</span>, <span class="pl-s1"><span class="pl-pds">"</span>USD<span class="pl-pds">"</span></span>, <span class="pl-c1">1.5</span>)
+<span class="pl-k">val</span> <span class="pl-en">gen2</span> <span class="pl-k">=</span> <span class="pl-en">Generator</span>(<span class="pl-s1"><span class="pl-pds">"</span>Gen2<span class="pl-pds">"</span></span>, <span class="pl-c1">100</span>, <span class="pl-c1">250</span>, <span class="pl-c1">2944.5</span>, <span class="pl-s1"><span class="pl-pds">"</span>JPY<span class="pl-pds">"</span></span>, <span class="pl-c1">0.5</span>)
+assetManagementActor <span class="pl-k">!</span> <span class="pl-en">ManageGenerator</span>(gen1)</pre></div>
 
 <p>… but this is much better</p>
 
-<div class="highlight highlight-scala"><pre><span class="k">case</span> <span class="k">class</span> <span class="nc">Generator</span><span class="o">(</span><span class="n">id</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">maxLoad</span><span class="k">:</span> <span class="kt">Power</span><span class="o">,</span> <span class="n">rampRate</span><span class="k">:</span> <span class="kt">PowerRamp</span><span class="o">,</span>
-<span class="n">operatingCost</span><span class="k">:</span> <span class="kt">Price</span><span class="o">[</span><span class="kt">Energy</span><span class="o">],</span> <span class="n">maintenanceTime</span><span class="k">:</span> <span class="kt">Time</span><span class="o">)</span>
-<span class="o">...</span>
-<span class="k">val</span> <span class="n">gen1</span> <span class="k">=</span> <span class="nc">Generator</span><span class="o">(</span><span class="s">"Gen1"</span><span class="o">,</span> <span class="mi">5</span> <span class="nc">MW</span><span class="o">,</span> <span class="mf">7.5</span><span class="o">.</span><span class="nc">MW</span><span class="o">/</span><span class="n">hour</span><span class="o">,</span> <span class="mf">75.4</span><span class="o">.</span><span class="nc">USD</span><span class="o">/</span><span class="nc">MWh</span><span class="o">,</span> <span class="mf">1.5</span> <span class="n">hours</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">gen2</span> <span class="k">=</span> <span class="nc">Generator</span><span class="o">(</span><span class="s">"Gen2"</span><span class="o">,</span> <span class="mi">100</span> <span class="n">kW</span><span class="o">,</span> <span class="mi">250</span> <span class="n">kWph</span><span class="o">,</span> <span class="mf">2944.5</span><span class="o">.</span><span class="nc">JPY</span><span class="o">/</span><span class="nc">MWh</span><span class="o">,</span> <span class="mi">30</span> <span class="n">minutes</span><span class="o">)</span>
-<span class="n">assetManagementActor</span> <span class="o">!</span> <span class="nc">ManageGenerator</span><span class="o">(</span><span class="n">gen1</span><span class="o">)</span>
-</pre></div>
+<div class="highlight highlight-scala"><pre><span class="pl-k">case</span> <span class="pl-k">class</span> <span class="pl-en">Generator</span>(<span class="pl-v">id</span>: <span class="pl-st">String</span>, <span class="pl-v">maxLoad</span>: <span class="pl-en">Power</span>, <span class="pl-v">rampRate</span>: <span class="pl-en">PowerRamp</span>,
+operatingCost<span class="pl-k">:</span> <span class="pl-en">Price</span>[<span class="pl-en">Energy</span>], <span class="pl-v">maintenanceTime</span>: <span class="pl-en">Time</span>)
+...
+<span class="pl-k">val</span> <span class="pl-en">gen1</span> <span class="pl-k">=</span> <span class="pl-en">Generator</span>(<span class="pl-s1"><span class="pl-pds">"</span>Gen1<span class="pl-pds">"</span></span>, <span class="pl-c1">5</span> <span class="pl-en">MW</span>, <span class="pl-c1">7.5</span>.<span class="pl-en">MW</span><span class="pl-k">/</span>hour, <span class="pl-c1">75.4</span>.<span class="pl-en">USD</span><span class="pl-k">/</span><span class="pl-en">MWh</span>, <span class="pl-c1">1.5</span> hours)
+<span class="pl-k">val</span> <span class="pl-en">gen2</span> <span class="pl-k">=</span> <span class="pl-en">Generator</span>(<span class="pl-s1"><span class="pl-pds">"</span>Gen2<span class="pl-pds">"</span></span>, <span class="pl-c1">100</span> kW, <span class="pl-c1">250</span> kWph, <span class="pl-c1">2944.5</span>.<span class="pl-en">JPY</span><span class="pl-k">/</span><span class="pl-en">MWh</span>, <span class="pl-c1">30</span> minutes)
+assetManagementActor <span class="pl-k">!</span> <span class="pl-en">ManageGenerator</span>(gen1)</pre></div>
 
 <h3>
-<a name="anticorruption-layers" class="anchor" href="#anticorruption-layers"><span class="octicon octicon-link"></span></a>Anticorruption Layers</h3>
+<a id="anticorruption-layers" class="anchor" href="#anticorruption-layers" aria-hidden="true"><span class="octicon octicon-link"></span></a>Anticorruption Layers</h3>
 
 <p>Create wrappers around external services that use basic types to represent quantities.
 Your application code then uses the ACL to communicate with that system thus eliminating the need to deal
 with type and scale conversions in your application logic.</p>
 
-<div class="highlight highlight-scala"><pre><span class="k">class</span> <span class="nc">ScadaServiceAnticorruption</span><span class="o">(</span><span class="k">val</span> <span class="n">service</span><span class="k">:</span> <span class="kt">ScadaService</span><span class="o">)</span> <span class="o">{</span>
-  <span class="c1">// ScadaService returns load as Double representing Megawatts</span>
-  <span class="k">def</span> <span class="n">getLoad</span><span class="k">:</span> <span class="kt">Power</span> <span class="o">=</span> <span class="nc">Megawatts</span><span class="o">(</span><span class="n">service</span><span class="o">.</span><span class="n">getLoad</span><span class="o">(</span><span class="n">meterId</span><span class="o">))</span>
-  <span class="o">}</span>
-  <span class="c1">// ScadaService.sendTempBias requires a Double representing Fahrenheit</span>
-  <span class="k">def</span> <span class="n">sendTempBias</span><span class="o">(</span><span class="n">temp</span><span class="k">:</span> <span class="kt">Temperature</span><span class="o">)</span> <span class="k">=</span>
-    <span class="n">service</span><span class="o">.</span><span class="n">sendTempBias</span><span class="o">(</span><span class="n">temp</span><span class="o">.</span><span class="n">to</span><span class="o">(</span><span class="nc">Fahrenheit</span><span class="o">))</span>
-<span class="o">}</span>
-</pre></div>
+<div class="highlight highlight-scala"><pre><span class="pl-k">class</span> <span class="pl-en">ScadaServiceAnticorruption</span>(<span class="pl-k">val</span> <span class="pl-en">service</span><span class="pl-k">:</span> <span class="pl-en">ScadaService</span>) {
+  <span class="pl-c">// ScadaService returns load as Double representing Megawatts</span>
+  <span class="pl-k">def</span> <span class="pl-en">getLoad</span><span class="pl-k">:</span> <span class="pl-en">Power</span> <span class="pl-k">=</span> <span class="pl-en">Megawatts</span>(service.getLoad(meterId))
+  }
+  <span class="pl-c">// ScadaService.sendTempBias requires a Double representing Fahrenheit</span>
+  <span class="pl-k">def</span> <span class="pl-en">sendTempBias</span>(<span class="pl-v">temp</span>: <span class="pl-en">Temperature</span>) <span class="pl-k">=</span>
+    service.sendTempBias(temp.to(<span class="pl-en">Fahrenheit</span>))
+}</pre></div>
 
 <p>Implement the ACL as a trait and mix in to the application's services where needed.</p>
 
-<div class="highlight highlight-scala"><pre><span class="k">trait</span> <span class="nc">WeatherServiceAntiCorruption</span> <span class="o">{</span>
-  <span class="k">val</span> <span class="n">service</span><span class="k">:</span> <span class="kt">WeatherService</span>
-  <span class="k">def</span> <span class="n">getTemperature</span><span class="k">:</span> <span class="kt">Temperature</span> <span class="o">=</span> <span class="nc">Celsius</span><span class="o">(</span><span class="n">service</span><span class="o">.</span><span class="n">getTemperature</span><span class="o">)</span>
-  <span class="k">def</span> <span class="n">getIrradiance</span><span class="k">:</span> <span class="kt">Irradiance</span> <span class="o">=</span> <span class="nc">WattsPerSquareMeter</span><span class="o">(</span><span class="n">service</span><span class="o">.</span><span class="n">getIrradiance</span><span class="o">)</span>
-<span class="o">}</span>
-</pre></div>
+<div class="highlight highlight-scala"><pre><span class="pl-k">trait</span> <span class="pl-en">WeatherServiceAntiCorruption</span> {
+  <span class="pl-k">val</span> <span class="pl-en">service</span><span class="pl-k">:</span> <span class="pl-en">WeatherService</span>
+  <span class="pl-k">def</span> <span class="pl-en">getTemperature</span><span class="pl-k">:</span> <span class="pl-en">Temperature</span> <span class="pl-k">=</span> <span class="pl-en">Celsius</span>(service.getTemperature)
+  <span class="pl-k">def</span> <span class="pl-en">getIrradiance</span><span class="pl-k">:</span> <span class="pl-en">Irradiance</span> <span class="pl-k">=</span> <span class="pl-en">WattsPerSquareMeter</span>(service.getIrradiance)
+}</pre></div>
 
 <p>Extend the pattern to provide multi-currency support</p>
 
-<div class="highlight highlight-scala"><pre><span class="k">class</span> <span class="nc">MarketServiceAnticorruption</span><span class="o">(</span><span class="k">val</span> <span class="n">service</span><span class="k">:</span> <span class="kt">MarketService</span><span class="o">)</span>
-     <span class="o">(</span><span class="k">implicit</span> <span class="k">val</span> <span class="n">moneyContext</span><span class="k">:</span> <span class="o">=</span> <span class="nc">MoneyContext</span><span class="o">)</span> <span class="o">{</span>
-  <span class="c1">// MarketService.getPrice returns a Double representing $/MegawattHour</span>
-  <span class="k">def</span> <span class="n">getPrice</span><span class="k">:</span> <span class="kt">Price</span><span class="o">[</span><span class="kt">Energy</span><span class="o">]</span> <span class="k">=</span>
-    <span class="o">(</span><span class="nc">USD</span><span class="o">(</span><span class="n">service</span><span class="o">.</span><span class="n">getPrice</span><span class="o">)</span> <span class="n">in</span> <span class="n">moneyContext</span><span class="o">.</span><span class="n">defaultCurrency</span><span class="o">)</span> <span class="o">/</span> <span class="n">megawattHour</span>
-  <span class="c1">// MarketService.sendBid requires a Double representing $/MegawattHour</span>
-  <span class="c1">// and another Double representing the max amount of energy in MegawattHours</span>
-  <span class="k">def</span> <span class="n">sendBid</span><span class="o">(</span><span class="n">bid</span><span class="k">:</span> <span class="kt">Price</span><span class="o">[</span><span class="kt">Energy</span><span class="o">],</span> <span class="n">limit</span><span class="k">:</span> <span class="kt">Energy</span><span class="o">)</span> <span class="k">=</span>
-    <span class="n">service</span><span class="o">.</span><span class="n">sendBid</span><span class="o">((</span><span class="n">bid</span> <span class="o">*</span> <span class="n">megawattHour</span><span class="o">)</span> <span class="n">to</span> <span class="nc">USD</span><span class="o">,</span> <span class="n">limit</span> <span class="n">to</span> <span class="nc">MegawattHours</span><span class="o">)</span>
-<span class="o">}</span>
-</pre></div>
+<div class="highlight highlight-scala"><pre><span class="pl-k">class</span> <span class="pl-en">MarketServiceAnticorruption</span>(<span class="pl-k">val</span> <span class="pl-en">service</span><span class="pl-k">:</span> <span class="pl-en">MarketService</span>)
+     (<span class="pl-s">implicit</span> <span class="pl-k">val</span> <span class="pl-en">moneyContext</span><span class="pl-k">:</span> <span class="pl-k">=</span> <span class="pl-en">MoneyContext</span>) {
+  <span class="pl-c">// MarketService.getPrice returns a Double representing $/MegawattHour</span>
+  <span class="pl-k">def</span> <span class="pl-en">getPrice</span><span class="pl-k">:</span> <span class="pl-en">Price</span>[<span class="pl-en">Energy</span>] <span class="pl-k">=</span>
+    (<span class="pl-en">USD</span>(service.getPrice) in moneyContext.defaultCurrency) <span class="pl-k">/</span> megawattHour
+  <span class="pl-c">// MarketService.sendBid requires a Double representing $/MegawattHour</span>
+  <span class="pl-c">// and another Double representing the max amount of energy in MegawattHours</span>
+  <span class="pl-k">def</span> <span class="pl-en">sendBid</span>(<span class="pl-v">bid</span>: <span class="pl-en">Price</span>[<span class="pl-en">Energy</span>], <span class="pl-v">limit</span>: <span class="pl-en">Energy</span>) <span class="pl-k">=</span>
+    service.sendBid((bid <span class="pl-k">*</span> megawattHour) to <span class="pl-en">USD</span>, limit to <span class="pl-en">MegawattHours</span>)
+}</pre></div>
 
 <p>Build Anticorruption into Akka routers</p>
 
-<div class="highlight highlight-scala"><pre><span class="c1">// LoadReading message used within a Squants enabled application context</span>
-<span class="k">case</span> <span class="k">class</span> <span class="nc">LoadReading</span><span class="o">(</span><span class="n">meterId</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">time</span><span class="k">:</span> <span class="kt">Long</span><span class="o">,</span> <span class="n">load</span><span class="k">:</span> <span class="kt">Power</span><span class="o">)</span>
-<span class="k">class</span> <span class="nc">ScadaLoadListener</span><span class="o">(</span><span class="n">router</span><span class="k">:</span> <span class="kt">Router</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Actor</span> <span class="o">{</span>
-  <span class="k">def</span> <span class="n">receive</span> <span class="k">=</span> <span class="o">{</span>
-   <span class="c1">// ScadaLoadReading - from an external service - sends load as a string</span>
-   <span class="c1">// eg, “10.3 MW”, “345 kW”</span>
-   <span class="k">case</span> <span class="n">msg</span> <span class="k">@</span> <span class="nc">ScadaLoadReading</span><span class="o">(</span><span class="n">meterId</span><span class="o">,</span> <span class="n">time</span><span class="o">,</span> <span class="n">loadString</span><span class="o">)</span> <span class="k">⇒</span>
-    <span class="c1">// Parse the string and on success emit the Squants enabled event to routees</span>
-    <span class="nc">Power</span><span class="o">(</span><span class="n">loadString</span><span class="o">)</span> <span class="k">match</span> <span class="o">{</span>
-      <span class="k">case</span> <span class="nc">Success</span><span class="o">(</span><span class="n">p</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">router</span><span class="o">.</span><span class="n">route</span><span class="o">(</span><span class="nc">LoadReading</span><span class="o">(</span><span class="n">meterId</span><span class="o">,</span> <span class="n">time</span><span class="o">,</span> <span class="n">p</span><span class="o">),</span> <span class="n">sender</span><span class="o">())</span>
-      <span class="k">case</span> <span class="nc">Failure</span><span class="o">(</span><span class="n">e</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="c1">// react to QuantityStringParseException</span>
-    <span class="o">}</span>
-  <span class="o">}</span>
-<span class="o">}</span>
-</pre></div>
+<div class="highlight highlight-scala"><pre><span class="pl-c">// LoadReading message used within a Squants enabled application context</span>
+<span class="pl-k">case</span> <span class="pl-k">class</span> <span class="pl-en">LoadReading</span>(<span class="pl-v">meterId</span>: <span class="pl-st">String</span>, <span class="pl-v">time</span>: <span class="pl-st">Long</span>, <span class="pl-v">load</span>: <span class="pl-en">Power</span>)
+<span class="pl-k">class</span> <span class="pl-en">ScadaLoadListener</span>(<span class="pl-v">router</span>: <span class="pl-en">Router</span>) <span class="pl-k">extends</span> <span class="pl-e">Actor</span> {
+  <span class="pl-k">def</span> <span class="pl-en">receive</span> <span class="pl-k">=</span> {
+   <span class="pl-c">// ScadaLoadReading - from an external service - sends load as a string</span>
+   <span class="pl-c">// eg, “10.3 MW”, “345 kW”</span>
+   <span class="pl-k">case</span> msg <span class="pl-k">@</span> <span class="pl-en">ScadaLoadReading</span>(meterId, time, loadString) <span class="pl-k">⇒</span>
+    <span class="pl-c">// Parse the string and on success emit the Squants enabled event to routees</span>
+    <span class="pl-en">Power</span>(loadString) <span class="pl-k">match</span> {
+      <span class="pl-k">case</span> <span class="pl-en">Success</span>(p) <span class="pl-k">=&gt;</span> router.route(<span class="pl-en">LoadReading</span>(meterId, time, p), sender())
+      <span class="pl-k">case</span> <span class="pl-en">Failure</span>(e) <span class="pl-k">=&gt;</span> <span class="pl-c">// react to QuantityStringParseException</span>
+    }
+  }
+}</pre></div>
 
 <p>... and REST API's with contracts that require basic types</p>
 
-<div class="highlight highlight-scala"><pre><span class="k">trait</span> <span class="nc">LoadRoute</span> <span class="k">extends</span> <span class="nc">HttpService</span> <span class="o">{</span>
-  <span class="k">def</span> <span class="n">repo</span><span class="k">:</span> <span class="kt">LoadRepository</span>
-  <span class="k">val</span> <span class="n">loadRoute</span> <span class="k">=</span> <span class="o">{</span>
-    <span class="n">path</span><span class="o">(</span><span class="s">"meter-reading"</span><span class="o">)</span> <span class="o">{</span>
-      <span class="c1">// REST API contract requires load value and units in different fields</span>
-      <span class="c1">// Units are string values that may be 'kW' or 'MW'</span>
-      <span class="n">post</span> <span class="o">{</span>
-        <span class="n">parameters</span><span class="o">(</span><span class="n">meterId</span><span class="o">,</span> <span class="n">time</span><span class="o">,</span> <span class="n">loadDouble</span><span class="o">,</span> <span class="n">unit</span><span class="o">)</span> <span class="o">{</span> <span class="o">(</span><span class="n">meterId</span><span class="o">,</span> <span class="n">time</span><span class="o">,</span> <span class="n">loadDouble</span><span class="o">,</span> <span class="n">unit</span><span class="o">)</span> <span class="k">=&gt;</span>
-          <span class="n">complete</span> <span class="o">{</span>
-            <span class="k">val</span> <span class="n">load</span> <span class="k">=</span> <span class="n">unit</span> <span class="k">match</span> <span class="o">{</span>
-              <span class="k">case</span> <span class="s">"kW"</span> <span class="k">=&gt;</span> <span class="nc">Kilowatts</span><span class="o">(</span><span class="n">loadDouble</span><span class="o">)</span>
-              <span class="k">case</span> <span class="s">"MW"</span> <span class="k">=&gt;</span> <span class="nc">Megawatts</span><span class="o">(</span><span class="n">loadDouble</span><span class="o">)</span>
-            <span class="o">}</span>
-            <span class="n">repo</span><span class="o">.</span><span class="n">saveLoad</span><span class="o">(</span><span class="n">meterId</span><span class="o">,</span> <span class="n">time</span><span class="o">,</span> <span class="n">load</span><span class="o">)</span>
-          <span class="o">}</span>
-        <span class="o">}</span>
-      <span class="o">}</span> <span class="o">~</span>
-      <span class="c1">// REST API contract requires load returned as a number representing megawatts</span>
-      <span class="n">get</span> <span class="o">{</span>
-        <span class="n">parameters</span><span class="o">(</span><span class="n">meterId</span><span class="o">,</span> <span class="n">time</span><span class="o">)</span> <span class="o">{</span> <span class="o">(</span><span class="n">meterId</span><span class="o">,</span> <span class="n">time</span><span class="o">)</span> <span class="k">=&gt;</span>
-          <span class="n">complete</span> <span class="o">{</span>
-            <span class="n">repo</span><span class="o">.</span><span class="n">getLoad</span><span class="o">(</span><span class="n">meterId</span><span class="o">,</span> <span class="n">time</span><span class="o">)</span> <span class="n">to</span> <span class="nc">Megawatts</span>
-          <span class="o">}</span>
-        <span class="o">}</span>
-      <span class="o">}</span>
-    <span class="o">}</span>
-  <span class="o">}</span>
-<span class="o">}</span>
-</pre></div>
+<div class="highlight highlight-scala"><pre><span class="pl-k">trait</span> <span class="pl-en">LoadRoute</span> <span class="pl-k">extends</span> <span class="pl-e">HttpService</span> {
+  <span class="pl-k">def</span> <span class="pl-en">repo</span><span class="pl-k">:</span> <span class="pl-en">LoadRepository</span>
+  <span class="pl-k">val</span> <span class="pl-en">loadRoute</span> <span class="pl-k">=</span> {
+    path(<span class="pl-s1"><span class="pl-pds">"</span>meter-reading<span class="pl-pds">"</span></span>) {
+      <span class="pl-c">// REST API contract requires load value and units in different fields</span>
+      <span class="pl-c">// Units are string values that may be 'kW' or 'MW'</span>
+      post {
+        parameters(meterId, time, loadDouble, unit) { (meterId, time, loadDouble, unit) <span class="pl-k">=&gt;</span>
+          complete {
+            <span class="pl-k">val</span> <span class="pl-en">load</span> <span class="pl-k">=</span> unit <span class="pl-k">match</span> {
+              <span class="pl-k">case</span> <span class="pl-s1"><span class="pl-pds">"</span>kW<span class="pl-pds">"</span></span> <span class="pl-k">=&gt;</span> <span class="pl-en">Kilowatts</span>(loadDouble)
+              <span class="pl-k">case</span> <span class="pl-s1"><span class="pl-pds">"</span>MW<span class="pl-pds">"</span></span> <span class="pl-k">=&gt;</span> <span class="pl-en">Megawatts</span>(loadDouble)
+            }
+            repo.saveLoad(meterId, time, load)
+          }
+        }
+      } <span class="pl-k">~</span>
+      <span class="pl-c">// REST API contract requires load returned as a number representing megawatts</span>
+      get {
+        parameters(meterId, time) { (meterId, time) <span class="pl-k">=&gt;</span>
+          complete {
+            repo.getLoad(meterId, time) to <span class="pl-en">Megawatts</span>
+          }
+        }
+      }
+    }
+  }
+}</pre></div>
 
 <h2>
-<a name="caveats" class="anchor" href="#caveats"><span class="octicon octicon-link"></span></a>Caveats</h2>
+<a id="caveats" class="anchor" href="#caveats" aria-hidden="true"><span class="octicon octicon-link"></span></a>Caveats</h2>
 
 <p>Code is offered as-is, with no implied warranty of any kind.
 Comments, criticisms, and/or praise are welcome, especially from scientists, engineers and the like.</p>
