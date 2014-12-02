@@ -14,7 +14,7 @@ import squants.{ QuantityStringParseException, MetricSystem }
 import squants.time.Hours
 import squants.electro.{ Coulombs, Volts }
 import squants.space.{ CubicMeters, Meters }
-import squants.motion.Newtons
+import squants.motion.{ NewtonSeconds, MetersPerSecond, Newtons }
 import squants.mass.Kilograms
 import squants.thermal.{ Kelvin, JoulesPerKelvin }
 
@@ -142,6 +142,18 @@ class EnergySpec extends FlatSpec with Matchers {
 
   it should "return Temperature when divided by ThermalCapacity" in {
     Joules(10) / Kelvin(2) should be(JoulesPerKelvin(5))
+  }
+
+  behavior of "KineticEnergyCalculations"
+
+  it should "calculate Kinetic Energy from Mass and Velocity" in {
+    KineticEnergy(Kilograms(10), MetersPerSecond(5)) should be(Joules(125))
+    KineticEnergy(Kilograms(5), MetersPerSecond(10)) should be(Joules(250))
+  }
+
+  it should "calculate Kinetic Energy from Mass and Momentum" in {
+    KineticEnergy(Kilograms(10), NewtonSeconds(5)) should be(Joules(.25))
+    KineticEnergy(Kilograms(5), NewtonSeconds(10)) should be(Joules(1))
   }
 
   behavior of "EnergyConversions"
