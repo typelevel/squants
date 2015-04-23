@@ -8,8 +8,8 @@
 
 package squants.motion
 
-import squants.time.{ Seconds, TimeDerivative }
-import squants.mass.{ Mass, Kilograms }
+import squants.time.{ Hours, Seconds, TimeDerivative }
+import squants.mass.{ Pounds, Mass, Kilograms }
 import squants._
 
 /**
@@ -25,6 +25,8 @@ final class MassFlowRate private (val value: Double) extends Quantity[MassFlowRa
   protected[squants] def time = Seconds(1)
 
   def toKilogramsPerSecond = to(KilogramsPerSecond)
+  def toPoundsPerSecond = to(PoundsPerSecond)
+  def toKilopoundsPerHour = to(KilopoundsPerHour)
 }
 
 object MassFlowRate extends QuantityCompanion[MassFlowRate] {
@@ -32,7 +34,7 @@ object MassFlowRate extends QuantityCompanion[MassFlowRate] {
   def apply = parseString _
   def name = "MassFlowRate"
   def valueUnit = KilogramsPerSecond
-  def units = Set(KilogramsPerSecond)
+  def units = Set(KilogramsPerSecond, PoundsPerSecond, KilopoundsPerHour)
 }
 
 trait MassFlowRateUnit extends UnitOfMeasure[MassFlowRate] with UnitConverter {
@@ -43,11 +45,25 @@ object KilogramsPerSecond extends MassFlowRateUnit with ValueUnit {
   val symbol = "kg/s"
 }
 
+object PoundsPerSecond extends MassFlowRateUnit {
+  val symbol = "lbs/s"
+  val conversionFactor = Pounds.conversionFactor / Kilograms.conversionFactor
+}
+
+object KilopoundsPerHour extends MassFlowRateUnit {
+  val symbol = "Mlbs/hr"
+  val conversionFactor = PoundsPerSecond.conversionFactor * 1000 / 3600
+}
+
 object MassFlowRateConversions {
   lazy val kilogramPerSecond = KilogramsPerSecond(1)
+  lazy val poundsPerSecond = PoundsPerSecond(1)
+  lazy val kilopoundsPerHour = KilopoundsPerHour(1)
 
   implicit class MassFlowRateConversions[A](n: A)(implicit num: Numeric[A]) {
     def kilogramsPerSecond = KilogramsPerSecond(n)
+    def poundsPerSecond = PoundsPerSecond(n)
+    def kilopoundsPerHour = KilopoundsPerHour(n)
   }
 
   implicit object MassFlowRateNumeric extends AbstractQuantityNumeric[MassFlowRate](MassFlowRate.valueUnit)
