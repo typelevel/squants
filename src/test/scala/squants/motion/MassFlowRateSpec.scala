@@ -10,7 +10,7 @@ package squants.motion
 
 import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
-import squants.mass.Kilograms
+import squants.mass.{ Pounds, Kilograms }
 import squants.time.Seconds
 import squants.QuantityStringParseException
 
@@ -24,11 +24,15 @@ class MassFlowRateSpec extends FlatSpec with Matchers {
   behavior of "MassFlowRate and its Units of Measure"
 
   it should "create values using UOM factories" in {
-    KilogramsPerSecond(1).toKilogramsPerSecond should be(1)
+    KilogramsPerSecond(10.22).toKilogramsPerSecond should be(10.22)
+    PoundsPerSecond(10.22).toPoundsPerSecond should be(10.22 +- 1e-15)
+    KilopoundsPerHour(10.22).toKilopoundsPerHour should be(10.22 +- 1e-15)
   }
 
   it should "create values from properly formatted Strings" in {
     MassFlowRate("10.22 kg/s").get should be(KilogramsPerSecond(10.22))
+    MassFlowRate("10.22 lbs/s").get should be(PoundsPerSecond(10.22))
+    MassFlowRate("10.22 Mlbs/hr").get should be(KilopoundsPerHour(10.22))
     MassFlowRate("10.22 zz").failed.get should be(QuantityStringParseException("Unable to parse MassFlowRate", "10.22 zz"))
     MassFlowRate("zz kg/s").failed.get should be(QuantityStringParseException("Unable to parse MassFlowRate", "zz kg/s"))
   }
@@ -36,6 +40,8 @@ class MassFlowRateSpec extends FlatSpec with Matchers {
   it should "properly convert to all supported Units of Measure" in {
     val x = KilogramsPerSecond(1)
     x.toKilogramsPerSecond should be(1)
+    x.toPoundsPerSecond should be(1 / PoundsPerSecond.conversionFactor)
+    x.toKilopoundsPerHour should be(1 / (PoundsPerSecond.conversionFactor * 1000 / 3600))
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
