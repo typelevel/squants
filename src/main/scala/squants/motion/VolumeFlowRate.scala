@@ -19,10 +19,12 @@ import squants.Seconds
  *
  * @param value Double
  */
-final class VolumeFlowRate private (val value: Double) extends Quantity[VolumeFlowRate]
+final class VolumeFlowRate private (val value: Double, val unit: VolumeFlowRateUnit)
+    extends Quantity[VolumeFlowRate]
     with TimeDerivative[Volume] {
 
-  def valueUnit = CubicMetersPerSecond
+  def dimension = VolumeFlowRate
+
   protected def timeIntegrated = CubicMeters(toCubicMetersPerSecond)
   protected[squants] def time = Seconds(1)
 
@@ -33,19 +35,20 @@ final class VolumeFlowRate private (val value: Double) extends Quantity[VolumeFl
   def toGallonsPerSecond = to(GallonsPerSecond)
 }
 
-object VolumeFlowRate extends QuantityCompanion[VolumeFlowRate] {
-  private[motion] def apply[A](n: A)(implicit num: Numeric[A]) = new VolumeFlowRate(num.toDouble(n))
+object VolumeFlowRate extends Dimension[VolumeFlowRate] {
+  private[motion] def apply[A](n: A, unit: VolumeFlowRateUnit)(implicit num: Numeric[A]) = new VolumeFlowRate(num.toDouble(n), unit)
   def apply = parseString _
   def name = "VolumeFlowRate"
-  def valueUnit = CubicMetersPerSecond
+  def primaryUnit = CubicMetersPerSecond
+  def siUnit = CubicMetersPerSecond
   def units = Set(CubicMetersPerSecond, GallonsPerDay, GallonsPerHour, GallonsPerMinute, GallonsPerSecond)
 }
 
 trait VolumeFlowRateUnit extends UnitOfMeasure[VolumeFlowRate] with UnitConverter {
-  def apply[A](n: A)(implicit num: Numeric[A]) = VolumeFlowRate(convertFrom(n))
+  def apply[A](n: A)(implicit num: Numeric[A]) = VolumeFlowRate(n, this)
 }
 
-object CubicMetersPerSecond extends VolumeFlowRateUnit with ValueUnit {
+object CubicMetersPerSecond extends VolumeFlowRateUnit with PrimaryUnit with SiUnit {
   val symbol = "m³/s"
 }
 

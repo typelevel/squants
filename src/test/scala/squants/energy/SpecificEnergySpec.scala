@@ -52,14 +52,14 @@ class SpecificEnergySpec extends FlatSpec with Matchers {
   it should "provide aliases for single unit values" in {
     import SpecificEnergyConversions._
 
-    gray should be(SpecificEnergy(1))
+    gray should be(Grays(1))
   }
 
   it should "provide implicit conversion from Double" in {
     import SpecificEnergyConversions._
 
     val d = 10d
-    d.grays should be(SpecificEnergy(d))
+    d.grays should be(Grays(d))
   }
 
   it should "provide Numeric support" in {

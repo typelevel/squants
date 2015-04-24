@@ -17,12 +17,13 @@ import squants.time.{ SecondTimeDerivative, TimeSquared, TimeDerivative }
  *
  * @param value Double
  */
-final class Yank private (val value: Double)
+final class Yank private (val value: Double, val unit: YankUnit)
     extends Quantity[Yank]
     with TimeDerivative[Force]
     with SecondTimeDerivative[Momentum] {
 
-  def valueUnit = Yank.valueUnit
+  def dimension = Yank
+
   protected def timeIntegrated = Newtons(toNewtonsPerSecond)
   protected[squants] def time = Seconds(1)
 
@@ -31,19 +32,20 @@ final class Yank private (val value: Double)
   def toNewtonsPerSecond = to(NewtonsPerSecond)
 }
 
-object Yank extends QuantityCompanion[Yank] {
-  private[motion] def apply[A](n: A)(implicit num: Numeric[A]) = new Yank(num.toDouble(n))
+object Yank extends Dimension[Yank] {
+  private[motion] def apply[A](n: A, unit: YankUnit)(implicit num: Numeric[A]) = new Yank(num.toDouble(n), unit)
   def apply = parseString _
   def name = "Yank"
-  def valueUnit = NewtonsPerSecond
+  def primaryUnit = NewtonsPerSecond
+  def siUnit = NewtonsPerSecond
   def units = Set(NewtonsPerSecond)
 }
 
 trait YankUnit extends UnitOfMeasure[Yank] with UnitConverter {
-  def apply[A](n: A)(implicit num: Numeric[A]) = Yank(convertFrom(n))
+  def apply[A](n: A)(implicit num: Numeric[A]) = Yank(n, this)
 }
 
-object NewtonsPerSecond extends YankUnit with ValueUnit {
+object NewtonsPerSecond extends YankUnit with PrimaryUnit with SiUnit {
   val symbol = "N/s"
 }
 
@@ -54,5 +56,5 @@ object YankConversions {
     def newtonsPerSecond = NewtonsPerSecond(n)
   }
 
-  implicit object YankNumeric extends AbstractQuantityNumeric[Yank](Yank.valueUnit)
+  implicit object YankNumeric extends AbstractQuantityNumeric[Yank](Yank.primaryUnit)
 }

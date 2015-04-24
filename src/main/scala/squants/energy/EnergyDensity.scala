@@ -18,28 +18,30 @@ import squants._
  *
  * @param value value in [[squants.energy.WattHours]]
  */
-final class EnergyDensity private (val value: Double) extends Quantity[EnergyDensity] {
+final class EnergyDensity private (val value: Double, val unit: EnergyDensityUnit)
+    extends Quantity[EnergyDensity] {
 
-  def valueUnit = EnergyDensity.valueUnit
+  def dimension = EnergyDensity
 
   def *(that: Volume): Energy = Joules(toJoulesPerCubicMeter * that.toCubicMeters)
 
   def toJoulesPerCubicMeter = to(JoulesPerCubicMeter)
 }
 
-object EnergyDensity extends QuantityCompanion[EnergyDensity] {
-  private[energy] def apply[A](n: A)(implicit num: Numeric[A]) = new EnergyDensity(num.toDouble(n))
+object EnergyDensity extends Dimension[EnergyDensity] {
+  private[energy] def apply[A](n: A, unit: EnergyDensityUnit)(implicit num: Numeric[A]) = new EnergyDensity(num.toDouble(n), unit)
   def apply = parseString _
   def name = "EnergyDensity"
-  def valueUnit = JoulesPerCubicMeter
+  def primaryUnit = JoulesPerCubicMeter
+  def siUnit = JoulesPerCubicMeter
   def units = Set(JoulesPerCubicMeter)
 }
 
 trait EnergyDensityUnit extends UnitOfMeasure[EnergyDensity] with UnitConverter {
-  def apply[A](n: A)(implicit num: Numeric[A]) = EnergyDensity(convertFrom(n))
+  def apply[A](n: A)(implicit num: Numeric[A]) = EnergyDensity(n, this)
 }
 
-object JoulesPerCubicMeter extends EnergyDensityUnit with ValueUnit {
+object JoulesPerCubicMeter extends EnergyDensityUnit with PrimaryUnit with SiUnit {
   val symbol = "j/m³"
 }
 
@@ -50,5 +52,5 @@ object EnergyDensityConversions {
     def joulesPerCubicMeter = JoulesPerCubicMeter(n)
   }
 
-  implicit object EnergyDensityNumeric extends AbstractQuantityNumeric[EnergyDensity](EnergyDensity.valueUnit)
+  implicit object EnergyDensityNumeric extends AbstractQuantityNumeric[EnergyDensity](EnergyDensity.primaryUnit)
 }

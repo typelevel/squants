@@ -25,12 +25,13 @@ import squants.time.Time
  *
  * @param value value in [[squants.energy.WattHours]]
  */
-final class Energy private (val value: Double)
+final class Energy private (val value: Double, val unit: EnergyUnit)
     extends Quantity[Energy]
     with TimeIntegral[Power]
     with SecondTimeIntegral[PowerRamp] {
 
-  def valueUnit = Energy.valueUnit
+  def dimension = Energy
+
   protected def timeDerived = Watts(toWattHours)
   protected def time = Hours(1)
 
@@ -68,26 +69,19 @@ final class Energy private (val value: Double)
   def toBtus = to(BritishThermalUnits)
   def toMBtus = to(MBtus)
   def toMMBtus = to(MMBtus)
-
-  override def toString = toString(this match {
-    case GigawattHours(gwh) if gwh >= 1.0 ⇒ GigawattHours
-    case MegawattHours(mwh) if mwh >= 1.0 ⇒ MegawattHours
-    case KilowattHours(kwh) if kwh >= 1.0 ⇒ KilowattHours
-    case WattHours(wh) if wh >= 1.0       ⇒ WattHours
-    case _                                ⇒ Joules
-  })
 }
 
 /**
  * Companion object for [[squants.energy.Energy]]
  */
-object Energy extends QuantityCompanion[Energy] {
-  private[energy] def apply[A](n: A)(implicit num: Numeric[A]) = new Energy(num.toDouble(n))
+object Energy extends Dimension[Energy] {
+  private[energy] def apply[A](n: A, unit: EnergyUnit)(implicit num: Numeric[A]) = new Energy(num.toDouble(n), unit)
   def apply(load: Power, time: Time): Energy = load * time
   def apply = parseString _
 
   def name = "Energy"
-  def valueUnit = WattHours
+  def primaryUnit = WattHours
+  def siUnit = Joules
   def units = Set(WattHours, KilowattHours, MegawattHours, GigawattHours,
     Joules, Picojoules, Nanojoules, Microjoules, Millijoules,
     Kilojoules, Megajoules, Gigajoules, Terajoules,
@@ -98,10 +92,10 @@ object Energy extends QuantityCompanion[Energy] {
  * Base trait for units of [[squants.energy.Energy]]
  */
 trait EnergyUnit extends UnitOfMeasure[Energy] with UnitConverter {
-  def apply[A](n: A)(implicit num: Numeric[A]) = Energy(convertFrom(n))
+  def apply[A](n: A)(implicit num: Numeric[A]) = Energy(n, this)
 }
 
-object WattHours extends EnergyUnit with ValueUnit {
+object WattHours extends EnergyUnit with PrimaryUnit {
   val symbol = "Wh"
 }
 
@@ -120,7 +114,7 @@ object GigawattHours extends EnergyUnit {
   val symbol = "GWh"
 }
 
-object Joules extends EnergyUnit {
+object Joules extends EnergyUnit with SiUnit {
   val conversionFactor = 1.0 / Time.SecondsPerHour
   val symbol = "J"
 }
@@ -201,7 +195,7 @@ object EnergyConversions {
   lazy val terajoule = Terajoules(1)
 
   lazy val btu = BritishThermalUnits(1)
-  lazy val btuMultiplier = joule.value * 1055.05585262
+  lazy val btuMultiplier = 0.2930710701722222
 
   implicit class EnergyConversions[A](n: A)(implicit num: Numeric[A]) {
     def J = Joules(n)
@@ -240,5 +234,5 @@ object EnergyConversions {
     def toEnergy = Energy(s)
   }
 
-  implicit object EnergyNumeric extends AbstractQuantityNumeric[Energy](Energy.valueUnit)
+  implicit object EnergyNumeric extends AbstractQuantityNumeric[Energy](Energy.primaryUnit)
 }

@@ -41,7 +41,9 @@ import scala.util.{ Failure, Success, Try }
 final class Money private (val amount: BigDecimal)(val currency: Currency)
     extends Quantity[Money] {
 
-  def valueUnit = currency
+  def dimension = Money
+
+  def unit = currency
   def value = amount.toDouble
 
   /**
@@ -325,7 +327,7 @@ final class Money private (val amount: BigDecimal)(val currency: Currency)
 /**
  * Factory singleton for Money
  */
-object Money {
+object Money extends Dimension[Money] {
   def apply(value: Double)(implicit fxContext: MoneyContext) = new Money(BigDecimal(value))(fxContext.defaultCurrency)
   def apply(value: BigDecimal)(implicit fxContext: MoneyContext) = new Money(value)(fxContext.defaultCurrency)
 
@@ -342,6 +344,11 @@ object Money {
       case _                      ⇒ Failure(QuantityStringParseException("Unable to parse Money", s))
     }
   }
+  def name = "Money"
+
+  def primaryUnit = ??? // Should not be used with Money - drawn from MoneyContext instead
+  def siUnit = ??? // Should not be used with Money - drawn from MoneyContext instead
+  def units = ??? // Should not be used with Money - drawn from MoneyContext instead
 }
 
 /**

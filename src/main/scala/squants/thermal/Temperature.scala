@@ -55,24 +55,20 @@ import scala.util.{ Failure, Success, Try }
  *
  * @param value the value of the temperature
  */
-sealed abstract class Temperature protected (val value: Double) extends Quantity[Temperature] {
+final class Temperature private (val value: Double, val unit: TemperatureScale)
+    extends Quantity[Temperature] {
 
-  def valueUnit: TemperatureScale
+  def dimension = Temperature
 
-  override def plus(that: Temperature): Temperature = Temperature(value + that.convert(valueUnit, withOffset = false).value, valueUnit)
-  override def minus(that: Temperature): Temperature = Temperature(value - that.convert(valueUnit, withOffset = false).value, valueUnit)
-  override def compare(that: Temperature): Int = if (this.value > that.toScale(valueUnit)) 1 else if (this.value < that.toScale(valueUnit)) -1 else 0
-  override def equals(that: Any) = that match {
-    case t: Temperature ⇒ value == t.toScale(valueUnit)
-    case _              ⇒ false
-  }
+  override def plus(that: Temperature): Temperature = Temperature(value + that.convert(unit, withOffset = false).value, unit)
+  override def minus(that: Temperature): Temperature = Temperature(value - that.convert(unit, withOffset = false).value, unit)
 
   def *(that: ThermalCapacity) = Joules(toKelvinScale * that.toJoulesPerKelvin)
 
-  override def toString: String = value + valueUnit.symbol
+  override def toString: String = value + unit.symbol
   def toString(unit: TemperatureScale): String = in(unit).toString
 
-  private def convert(toScale: TemperatureScale, withOffset: Boolean = true): Temperature = (valueUnit, toScale, withOffset) match {
+  private def convert(toScale: TemperatureScale, withOffset: Boolean = true): Temperature = (unit, toScale, withOffset) match {
     case (Fahrenheit, Fahrenheit, _)  ⇒ this
     case (Celsius, Celsius, _)        ⇒ this
     case (Kelvin, Kelvin, _)          ⇒ this
@@ -112,16 +108,9 @@ sealed abstract class Temperature protected (val value: Double) extends Quantity
 /**
  * Temperature companion object
  */
-object Temperature extends QuantityCompanion[Temperature] with BaseQuantity {
-  val scales = Seq(Fahrenheit, Celsius, Kelvin)
-  val defaultScale = Fahrenheit
+object Temperature extends Dimension[Temperature] with BaseDimension {
+  def apply[A](n: A, scale: TemperatureScale)(implicit num: Numeric[A]) = new Temperature(num.toDouble(n), scale)
 
-  def apply[A](n: A)(implicit num: Numeric[A]): Temperature = defaultScale(n)
-  def apply[A](n: A, scale: TemperatureScale)(implicit num: Numeric[A]) = scale match {
-    case Fahrenheit ⇒ Fahrenheit(n)
-    case Celsius    ⇒ Celsius(n)
-    case Kelvin     ⇒ Kelvin(n)
-  }
   def apply(s: String): Try[Temperature] = {
     val regex = "([-+]?[0-9]*\\.?[0-9]+)[ °]*(f|F|c|C|k|K)".r
     s match {
@@ -139,21 +128,18 @@ object Temperature extends QuantityCompanion[Temperature] with BaseQuantity {
   }
 
   def name = "Temperature"
-  def valueUnit = ???
+  def primaryUnit = Kelvin
+  def siUnit = Kelvin
   def units = Set(Kelvin, Fahrenheit, Celsius)
   def dimensionSymbol = "Θ"
-  def baseUnit = Kelvin
 }
-
-final class Celsius(value: Double) extends Temperature(value) { def valueUnit = Celsius }
-final class Fahrenheit(value: Double) extends Temperature(value) { def valueUnit = Fahrenheit }
-final class Kelvin(value: Double) extends Temperature(value) { def valueUnit = Kelvin }
 
 /**
  * Base trait for units of [[squants.thermal.Temperature]]
  */
 sealed trait TemperatureScale extends UnitOfMeasure[Temperature] {
   def self: TemperatureScale
+  def apply[A](n: A)(implicit num: Numeric[A]) = Temperature(num.toDouble(n), this)
 }
 
 object Celsius extends TemperatureScale {
@@ -162,7 +148,6 @@ object Celsius extends TemperatureScale {
   protected def converterFrom = TemperatureConversions.celsiusToKelvinScale
   protected def converterTo = TemperatureConversions.kelvinToCelsiusScale
   def apply(temperature: Temperature): Temperature = temperature.inCelsius
-  def apply[A](n: A)(implicit num: Numeric[A]) = new Celsius(num.toDouble(n))
 }
 
 object Fahrenheit extends TemperatureScale {
@@ -171,14 +156,12 @@ object Fahrenheit extends TemperatureScale {
   protected def converterFrom = TemperatureConversions.fahrenheitToKelvinScale
   protected def converterTo = TemperatureConversions.kelvinToFahrenheitScale
   def apply(temperature: Temperature): Temperature = temperature.inFahrenheit
-  def apply[A](n: A)(implicit num: Numeric[A]) = new Fahrenheit(num.toDouble(n))
 }
 
-object Kelvin extends TemperatureScale with ValueUnit with BaseUnit {
+object Kelvin extends TemperatureScale with PrimaryUnit with SiBaseUnit {
   val symbol = "°K"
   val self = this
   def apply(temperature: Temperature): Temperature = temperature.inKelvin
-  def apply[A](n: A)(implicit num: Numeric[A]) = new Kelvin(num.toDouble(n))
 }
 
 object TemperatureConversions {

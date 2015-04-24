@@ -17,9 +17,10 @@ import squants.space.{ SquareInches, SquareMeters }
  *
  * @param value Double
  */
-final class Pressure private (val value: Double) extends Quantity[Pressure] {
+final class Pressure private (val value: Double, val unit: PressureUnit)
+    extends Quantity[Pressure] {
 
-  def valueUnit = Pressure.valueUnit
+  def dimension = Pressure
 
   def *(that: Area): Force = Newtons(toPascals * that.toSquareMeters)
   def *(that: Time) = ??? // returns DynamicViscosity
@@ -30,19 +31,20 @@ final class Pressure private (val value: Double) extends Quantity[Pressure] {
   def toStandardAtmospheres = to(StandardAtmospheres)
 }
 
-object Pressure extends QuantityCompanion[Pressure] {
-  private[motion] def apply[A](n: A)(implicit num: Numeric[A]) = new Pressure(num.toDouble(n))
+object Pressure extends Dimension[Pressure] {
+  private[motion] def apply[A](n: A, unit: PressureUnit)(implicit num: Numeric[A]) = new Pressure(num.toDouble(n), unit)
   def apply = parseString _
   def name = "Pressure"
-  def valueUnit = Pascals
+  def primaryUnit = Pascals
+  def siUnit = Pascals
   def units = Set(Pascals, Bars, PoundsPerSquareInch, StandardAtmospheres)
 }
 
 trait PressureUnit extends UnitOfMeasure[Pressure] with UnitConverter {
-  def apply[A](n: A)(implicit num: Numeric[A]) = Pressure(convertFrom(n))
+  def apply[A](n: A)(implicit num: Numeric[A]) = Pressure(n, this)
 }
 
-object Pascals extends PressureUnit with ValueUnit {
+object Pascals extends PressureUnit with PrimaryUnit with SiUnit {
   val symbol = "Pa"
 }
 
@@ -74,5 +76,5 @@ object PressureConversions {
     def atm = StandardAtmospheres(n)
   }
 
-  implicit object PressureNumeric extends AbstractQuantityNumeric[Pressure](Pressure.valueUnit)
+  implicit object PressureNumeric extends AbstractQuantityNumeric[Pressure](Pressure.primaryUnit)
 }

@@ -22,21 +22,26 @@ class QuantitySpec extends FlatSpec with Matchers {
   /*
     Create a Quantity with two Units of Measure
    */
-  final class Thingee private (val value: Double) extends Quantity[Thingee] {
-    def valueUnit = Thangs
+  final class Thingee private (val value: Double, val unit: ThingeeUnit)
+      extends Quantity[Thingee] {
+    def dimension = Thingee
     def toThangs = to(Thangs)
     def toKilothangs = to(Kilothangs)
   }
 
-  object Thingee {
-    private[squants] def apply[A](n: A)(implicit num: Numeric[A]) = new Thingee(num.toDouble(n))
+  object Thingee extends Dimension[Thingee] {
+    private[squants] def apply[A](n: A, unit: ThingeeUnit)(implicit num: Numeric[A]) = new Thingee(num.toDouble(n), unit)
+    def name = "Thingee"
+    def primaryUnit = Thangs
+    def siUnit = Thangs
+    def units = Set(Thangs, Kilothangs)
   }
 
   trait ThingeeUnit extends UnitOfMeasure[Thingee] with UnitConverter {
-    def apply[A](n: A)(implicit num: Numeric[A]) = Thingee(convertFrom(n))
+    def apply[A](n: A)(implicit num: Numeric[A]) = Thingee(n, this)
   }
 
-  object Thangs extends ThingeeUnit with ValueUnit {
+  object Thangs extends ThingeeUnit with PrimaryUnit with SiUnit {
     val symbol = "th"
   }
 

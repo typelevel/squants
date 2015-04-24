@@ -16,9 +16,10 @@ import squants._
  *
  * @param value Double
  */
-final class AreaDensity private (val value: Double) extends Quantity[AreaDensity] {
+final class AreaDensity private (val value: Double, val unit: AreaDensityUnit)
+    extends Quantity[AreaDensity] {
 
-  def valueUnit = AreaDensity.valueUnit
+  def dimension = AreaDensity
 
   def *(that: Area): Mass = Kilograms(value * that.toSquareMeters)
 
@@ -28,20 +29,21 @@ final class AreaDensity private (val value: Double) extends Quantity[AreaDensity
 /**
  * Factory singleton for [[squants.mass.AreaDensity]] values
  */
-object AreaDensity extends QuantityCompanion[AreaDensity] {
-  private[mass] def apply[A](n: A)(implicit num: Numeric[A]) = new AreaDensity(num.toDouble(n))
+object AreaDensity extends Dimension[AreaDensity] {
+  private[mass] def apply[A](n: A, unit: AreaDensityUnit)(implicit num: Numeric[A]) = new AreaDensity(num.toDouble(n), unit)
   def apply(mass: Mass, area: Area): AreaDensity = KilogramsPerSquareMeter(mass.toKilograms / area.toSquareMeters)
   def apply = parseString _
   def name = "AreaDensity"
-  def valueUnit = KilogramsPerSquareMeter
+  def primaryUnit = KilogramsPerSquareMeter
+  def siUnit = KilogramsPerSquareMeter
   def units = Set(KilogramsPerSquareMeter)
 }
 
 trait AreaDensityUnit extends UnitOfMeasure[AreaDensity] {
-  def apply[A](n: A)(implicit num: Numeric[A]) = AreaDensity(convertFrom(n))
+  def apply[A](n: A)(implicit num: Numeric[A]) = AreaDensity(n, this)
 }
 
-object KilogramsPerSquareMeter extends AreaDensityUnit with ValueUnit {
+object KilogramsPerSquareMeter extends AreaDensityUnit with PrimaryUnit with SiUnit {
   val symbol = "kg/m²"
 }
 
@@ -52,5 +54,5 @@ object AreaDensityConversions {
     def kilogramsPerSquareMeter = KilogramsPerSquareMeter(n)
   }
 
-  implicit object AreaDensityNumeric extends AbstractQuantityNumeric[AreaDensity](AreaDensity.valueUnit)
+  implicit object AreaDensityNumeric extends AbstractQuantityNumeric[AreaDensity](AreaDensity.primaryUnit)
 }

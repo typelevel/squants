@@ -18,9 +18,10 @@ import squants.space.{ Meters, SquaredRadians }
  *
  * @param value Double
  */
-final class SpectralIntensity private (val value: Double) extends Quantity[SpectralIntensity] {
+final class SpectralIntensity private (val value: Double, val unit: SpectralIntensityUnit)
+    extends Quantity[SpectralIntensity] {
 
-  def valueUnit = SpectralIntensity.valueUnit
+  def dimension = SpectralIntensity
 
   def *(that: Length): RadiantIntensity = WattsPerSteradian(toWattsPerSteradianPerMeter * that.toMeters)
   def /(that: RadiantIntensity): Length = Meters(toWattsPerSteradianPerMeter / that.toWattsPerSteradian)
@@ -28,19 +29,20 @@ final class SpectralIntensity private (val value: Double) extends Quantity[Spect
   def toWattsPerSteradianPerMeter = to(WattsPerSteradianPerMeter)
 }
 
-object SpectralIntensity extends QuantityCompanion[SpectralIntensity] {
-  private[radio] def apply[A](n: A)(implicit num: Numeric[A]) = new SpectralIntensity(num.toDouble(n))
+object SpectralIntensity extends Dimension[SpectralIntensity] {
+  private[radio] def apply[A](n: A, unit: SpectralIntensityUnit)(implicit num: Numeric[A]) = new SpectralIntensity(num.toDouble(n), unit)
   def apply = parseString _
   def name = "SpectralIntensity"
-  def valueUnit = WattsPerSteradianPerMeter
+  def primaryUnit = WattsPerSteradianPerMeter
+  def siUnit = WattsPerSteradianPerMeter
   def units = Set(WattsPerSteradianPerMeter)
 }
 
 trait SpectralIntensityUnit extends UnitOfMeasure[SpectralIntensity] {
-  def apply[A](n: A)(implicit num: Numeric[A]) = SpectralIntensity(convertFrom(n))
+  def apply[A](n: A)(implicit num: Numeric[A]) = SpectralIntensity(n, this)
 }
 
-object WattsPerSteradianPerMeter extends SpectralIntensityUnit with ValueUnit {
+object WattsPerSteradianPerMeter extends SpectralIntensityUnit with PrimaryUnit with SiUnit {
   val symbol = Watts.symbol + "/" + SquaredRadians.symbol + "/" + Meters.symbol
 }
 
@@ -51,6 +53,6 @@ object SpectralIntensityConversions {
     def wattsPerSteradianPerMeter = WattsPerSteradianPerMeter(n)
   }
 
-  implicit object SpectralIntensityNumeric extends AbstractQuantityNumeric[SpectralIntensity](SpectralIntensity.valueUnit)
+  implicit object SpectralIntensityNumeric extends AbstractQuantityNumeric[SpectralIntensity](SpectralIntensity.primaryUnit)
 }
 

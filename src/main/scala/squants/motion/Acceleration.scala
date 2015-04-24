@@ -22,13 +22,14 @@ import squants.space.{ UsMiles, Feet }
  *
  * @param value Double
  */
-final class Acceleration private (val value: Double)
+final class Acceleration private (val value: Double, val unit: AccelerationUnit)
     extends Quantity[Acceleration]
     with TimeDerivative[Velocity]
     with SecondTimeDerivative[Length]
     with TimeIntegral[Jerk] {
 
-  def valueUnit = Acceleration.valueUnit
+  def dimension = Acceleration
+
   protected def timeIntegrated = MetersPerSecond(toMetersPerSecondSquared)
   protected def timeDerived = MetersPerSecondCubed(toMetersPerSecondSquared)
   protected[squants] def time = Seconds(1)
@@ -43,11 +44,12 @@ final class Acceleration private (val value: Double)
   def toEarthGravities = to(EarthGravities)
 }
 
-object Acceleration extends QuantityCompanion[Acceleration] {
-  private[motion] def apply[A](n: A)(implicit num: Numeric[A]) = new Acceleration(num.toDouble(n))
+object Acceleration extends Dimension[Acceleration] {
+  private[motion] def apply[A](n: A, unit: AccelerationUnit)(implicit num: Numeric[A]) = new Acceleration(num.toDouble(n), unit)
   def apply = parseString _
   def name = "Acceleration"
-  def valueUnit = MetersPerSecondSquared
+  def primaryUnit = MetersPerSecondSquared
+  def siUnit = MetersPerSecondSquared
   def units = Set(FeetPerSecondSquared, MetersPerSecondSquared, UsMilesPerHourSquared, EarthGravities)
 }
 
@@ -59,10 +61,10 @@ object Acceleration extends QuantityCompanion[Acceleration] {
  *
  */
 trait AccelerationUnit extends UnitOfMeasure[Acceleration] with UnitConverter {
-  def apply[A](n: A)(implicit num: Numeric[A]) = Acceleration(convertFrom(n))
+  def apply[A](n: A)(implicit num: Numeric[A]) = Acceleration(n, this)
 }
 
-object MetersPerSecondSquared extends AccelerationUnit with ValueUnit {
+object MetersPerSecondSquared extends AccelerationUnit with PrimaryUnit with SiUnit {
   val symbol = "m/s²"
 }
 
@@ -91,5 +93,5 @@ object AccelerationConversions {
     def fpss = FeetPerSecondSquared(n)
   }
 
-  implicit object AccelerationNumeric extends AbstractQuantityNumeric[Acceleration](Acceleration.valueUnit)
+  implicit object AccelerationNumeric extends AbstractQuantityNumeric[Acceleration](Acceleration.primaryUnit)
 }

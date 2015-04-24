@@ -19,11 +19,12 @@ import squants.Time
  *
  * @param value value in [[squants.electro.Coulombs]]
  */
-final class ElectricCharge private (val value: Double)
+final class ElectricCharge private (val value: Double, val unit: ElectricChargeUnit)
     extends Quantity[ElectricCharge]
     with TimeIntegral[ElectricCurrent] {
 
-  def valueUnit = ElectricCharge.valueUnit
+  def dimension = ElectricCharge
+
   protected def timeDerived = Amperes(toCoulombs)
   protected def time = Seconds(1)
 
@@ -46,20 +47,21 @@ final class ElectricCharge private (val value: Double)
   def toMilliampereSeconds = to(MilliampereSeconds)
 }
 
-object ElectricCharge extends QuantityCompanion[ElectricCharge] {
-  private[electro] def apply[A](n: A)(implicit num: Numeric[A]) = new ElectricCharge(num.toDouble(n))
+object ElectricCharge extends Dimension[ElectricCharge] {
+  private[electro] def apply[A](n: A, unit: ElectricChargeUnit)(implicit num: Numeric[A]) = new ElectricCharge(num.toDouble(n), unit)
   def apply = parseString _
   def name = "ElectricCharge"
-  def valueUnit = Coulombs
+  def primaryUnit = Coulombs
+  def siUnit = Coulombs
   def units = Set(Coulombs, Picocoulombs, Nanocoulombs, Microcoulombs, Millicoulombs, Abcoulombs,
     AmpereHours, MilliampereHours, MilliampereSeconds)
 }
 
 trait ElectricChargeUnit extends UnitOfMeasure[ElectricCharge] with UnitConverter {
-  def apply[A](n: A)(implicit num: Numeric[A]) = ElectricCharge(convertFrom(n))
+  def apply[A](n: A)(implicit num: Numeric[A]) = ElectricCharge(n, this)
 }
 
-object Coulombs extends ElectricChargeUnit with ValueUnit {
+object Coulombs extends ElectricChargeUnit with PrimaryUnit with SiUnit {
   val symbol = "C"
 }
 
@@ -127,5 +129,5 @@ object ElectricChargeConversions {
   }
 
   implicit object ElectricalChargeNumeric
-    extends AbstractQuantityNumeric[ElectricCharge](ElectricCharge.valueUnit)
+    extends AbstractQuantityNumeric[ElectricCharge](ElectricCharge.primaryUnit)
 }

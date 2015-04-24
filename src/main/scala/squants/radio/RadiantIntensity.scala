@@ -18,9 +18,10 @@ import squants.space.{ SquareMeters, SquaredRadians }
  *
  * @param value Double
  */
-final class RadiantIntensity private (val value: Double) extends Quantity[RadiantIntensity] {
+final class RadiantIntensity private (val value: Double, val unit: RadiantIntensityUnit)
+    extends Quantity[RadiantIntensity] {
 
-  def valueUnit = RadiantIntensity.valueUnit
+  def dimension = RadiantIntensity
 
   def *(that: SolidAngle): Power = Watts(toWattsPerSteradian * that.toSquaredRadians)
   def /(that: Power): SolidAngle = SquareRadians(toWattsPerSteradian / that.toWatts)
@@ -32,19 +33,20 @@ final class RadiantIntensity private (val value: Double) extends Quantity[Radian
   def toWattsPerSteradian = to(WattsPerSteradian)
 }
 
-object RadiantIntensity extends QuantityCompanion[RadiantIntensity] {
-  private[radio] def apply[A](n: A)(implicit num: Numeric[A]) = new RadiantIntensity(num.toDouble(n))
+object RadiantIntensity extends Dimension[RadiantIntensity] {
+  private[radio] def apply[A](n: A, unit: RadiantIntensityUnit)(implicit num: Numeric[A]) = new RadiantIntensity(num.toDouble(n), unit)
   def apply = parseString _
   def name = "RadiantIntensity"
-  def valueUnit = WattsPerSteradian
+  def primaryUnit = WattsPerSteradian
+  def siUnit = WattsPerSteradian
   def units = Set(WattsPerSteradian)
 }
 
 trait RadiantIntensityUnit extends UnitOfMeasure[RadiantIntensity] {
-  def apply[A](n: A)(implicit num: Numeric[A]) = RadiantIntensity(convertFrom(n))
+  def apply[A](n: A)(implicit num: Numeric[A]) = RadiantIntensity(n, this)
 }
 
-object WattsPerSteradian extends RadiantIntensityUnit with ValueUnit {
+object WattsPerSteradian extends RadiantIntensityUnit with PrimaryUnit with SiUnit {
   val symbol = Watts.symbol + "/" + SquaredRadians.symbol
 }
 
@@ -55,6 +57,6 @@ object RadiantIntensityConversions {
     def wattsPerSteradian = WattsPerSteradian(n)
   }
 
-  implicit object RadiantIntensityNumeric extends AbstractQuantityNumeric[RadiantIntensity](RadiantIntensity.valueUnit)
+  implicit object RadiantIntensityNumeric extends AbstractQuantityNumeric[RadiantIntensity](RadiantIntensity.primaryUnit)
 }
 

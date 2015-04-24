@@ -20,10 +20,12 @@ import squants.space.SquareMeters
  *
  * @param value Double
  */
-final class Force private (val value: Double) extends Quantity[Force]
+final class Force private (val value: Double, val unit: ForceUnit)
+    extends Quantity[Force]
     with TimeDerivative[Momentum] with TimeIntegral[Yank] {
 
-  def valueUnit = Force.valueUnit
+  def dimension = Force
+
   protected def timeIntegrated = NewtonSeconds(toNewtons)
   protected def timeDerived = NewtonsPerSecond(toNewtons)
   override def time = Seconds(1)
@@ -41,19 +43,20 @@ final class Force private (val value: Double) extends Quantity[Force]
   def toPoundForce = to(PoundForce)
 }
 
-object Force extends QuantityCompanion[Force] {
-  private[motion] def apply[A](n: A)(implicit num: Numeric[A]) = new Force(num.toDouble(n))
+object Force extends Dimension[Force] {
+  private[motion] def apply[A](n: A, unit: ForceUnit)(implicit num: Numeric[A]) = new Force(num.toDouble(n), unit)
   def apply = parseString _
   def name = "Force"
-  def valueUnit = Newtons
+  def primaryUnit = Newtons
+  def siUnit = Newtons
   def units = Set(Newtons, KilogramForce, PoundForce)
 }
 
 trait ForceUnit extends UnitOfMeasure[Force] with UnitConverter {
-  def apply[A](n: A)(implicit num: Numeric[A]) = Force(convertFrom(n))
+  def apply[A](n: A)(implicit num: Numeric[A]) = Force(n, this)
 }
 
-object Newtons extends ForceUnit with ValueUnit {
+object Newtons extends ForceUnit with PrimaryUnit with SiUnit {
   val symbol = "N"
 }
 
@@ -79,6 +82,6 @@ object ForceConversions {
     def lbf = PoundForce(1)
   }
 
-  implicit object ForceNumeric extends AbstractQuantityNumeric[Force](Force.valueUnit)
+  implicit object ForceNumeric extends AbstractQuantityNumeric[Force](Force.primaryUnit)
 }
 

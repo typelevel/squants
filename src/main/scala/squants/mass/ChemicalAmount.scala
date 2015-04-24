@@ -16,9 +16,10 @@ import squants._
  *
  * @param value in [[squants.mass.Moles]]
  */
-final class ChemicalAmount private (val value: Double) extends Quantity[ChemicalAmount] {
+final class ChemicalAmount private (val value: Double, val unit: ChemicalAmountUnit)
+    extends Quantity[ChemicalAmount] {
 
-  def valueUnit = ChemicalAmount.valueUnit
+  def dimension = ChemicalAmount
 
   def /(that: Volume) = ??? // returns SubstanceConcentration
 
@@ -26,21 +27,21 @@ final class ChemicalAmount private (val value: Double) extends Quantity[Chemical
   def toPoundMoles = to(PoundMoles)
 }
 
-object ChemicalAmount extends QuantityCompanion[ChemicalAmount] with BaseQuantity {
-  private[mass] def apply[A](n: A)(implicit num: Numeric[A]) = new ChemicalAmount(num.toDouble(n))
+object ChemicalAmount extends Dimension[ChemicalAmount] with BaseDimension {
+  private[mass] def apply[A](n: A, unit: ChemicalAmountUnit)(implicit num: Numeric[A]) = new ChemicalAmount(num.toDouble(n), unit)
   def apply = parseString _
   val name = "ChemicalAmount"
-  def valueUnit = Moles
+  def primaryUnit = Moles
+  def siUnit = Moles
   def units = Set(Moles, PoundMoles)
   def dimensionSymbol = "N"
-  def baseUnit = Moles
 }
 
 trait ChemicalAmountUnit extends UnitOfMeasure[ChemicalAmount] with UnitConverter {
-  def apply[A](n: A)(implicit num: Numeric[A]) = ChemicalAmount(convertFrom(n))
+  def apply[A](n: A)(implicit num: Numeric[A]) = ChemicalAmount(n, this)
 }
 
-object Moles extends ChemicalAmountUnit with ValueUnit with BaseUnit {
+object Moles extends ChemicalAmountUnit with PrimaryUnit with SiBaseUnit {
   val symbol = "mol"
 }
 
@@ -58,5 +59,5 @@ object ChemicalAmountConversions {
     def poundMoles = PoundMoles(n)
   }
 
-  implicit object ChemicalAmountNumeric extends AbstractQuantityNumeric[ChemicalAmount](ChemicalAmount.valueUnit)
+  implicit object ChemicalAmountNumeric extends AbstractQuantityNumeric[ChemicalAmount](ChemicalAmount.primaryUnit)
 }

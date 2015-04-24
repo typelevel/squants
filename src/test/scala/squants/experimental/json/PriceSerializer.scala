@@ -6,20 +6,21 @@
 **                                                                      **
 \*                                                                      */
 
-package squants.json
+package squants.experimental.json
 
-import squants.{ UnitOfMeasure, Quantity }
+import squants.Quantity
 import org.json4s.{ Formats, Serializer }
 import squants.market.Money
 import org.json4s.JsonAST._
 import squants.energy._
-import squants.time.{ Hours, Time }
+import squants.time.Time
 import squants.market.Price
 import org.json4s.JsonAST.JString
 import org.json4s.reflect.TypeInfo
 import org.json4s.JsonAST.JInt
 import org.json4s.JsonAST.JDecimal
-import squants.mass.{ Kilograms, Mass }
+import squants.mass.Mass
+import scala.util.Try
 
 /**
  * Provides JSON serialization and deserialization for Price type
@@ -28,8 +29,9 @@ import squants.mass.{ Kilograms, Mass }
 trait PriceSerializerT[A <: Quantity[A]] extends Serializer[Price[A]] {
 
   protected def Clazz = classOf[Price[A]]
-  def QuantityValidator: String ⇒ Boolean
-  def StringToQuantity: String ⇒ A
+  def parseQuantity: String ⇒ Try[A]
+  private def QuantityValidator(s: String) = parseQuantity(s).isSuccess
+  private def StringToQuantity(s: String) = parseQuantity(s).get
 
   /**
    * Implementation
@@ -64,19 +66,22 @@ trait PriceSerializerT[A <: Quantity[A]] extends Serializer[Price[A]] {
       Price(Money(amount.toDouble, currency), stringToQuantity(per))
   }
 
+  def serialize(implicit format: Formats) = {
+    case p: Price[_] ⇒ serializePrice(p)
+  }
+
   /**
    * Helper function for serializing a Price of any Quantity Type
    * @param price Price
-   * @param unit Unit used for serializing the Quantity part of the price
    * @tparam B Quantity Type
    * @return
    */
-  def serializePrice[B <: Quantity[B]](price: Price[B], unit: UnitOfMeasure[B]) = {
+  def serializePrice[B <: Quantity[B]](price: Price[B]) = {
     JObject(
       List(
         "amount" -> JDecimal(price.money.value),
-        "currency" -> JString(price.money.valueUnit.code),
-        "per" -> JString(price.quantity.toString(unit))))
+        "currency" -> JString(price.money.unit.code),
+        "per" -> JString(price.quantity.toString)))
   }
 
   /**
@@ -100,29 +105,14 @@ trait PriceSerializerT[A <: Quantity[A]] extends Serializer[Price[A]] {
 /*
  * Serializers for Prices of specific Quantity types
  */
-class EnergyPriceSerializer(unitOfMeasure: UnitOfMeasure[Energy])
-    extends PriceSerializerT[Energy] {
-  def StringToQuantity = s ⇒ Energy(s).get
-  def QuantityValidator = s ⇒ Energy(s).isSuccess
-  def serialize(implicit format: Formats) = {
-    case p @ Price(_, MegawattHours(_)) ⇒ serializePrice(p.asInstanceOf[Price[Energy]], unitOfMeasure)
-  }
+class EnergyPriceSerializer extends PriceSerializerT[Energy] {
+  def parseQuantity = s ⇒ Energy(s)
 }
 
-class MassPriceSerializer(unitOfMeasure: UnitOfMeasure[Mass])
-    extends PriceSerializerT[Mass] {
-  def StringToQuantity = s ⇒ Mass(s).get
-  def QuantityValidator = s ⇒ Mass(s).isSuccess
-  def serialize(implicit format: Formats) = {
-    case p @ Price(_, Kilograms(_)) ⇒ serializePrice(p.asInstanceOf[Price[Mass]], unitOfMeasure)
-  }
+class MassPriceSerializer extends PriceSerializerT[Mass] {
+  def parseQuantity = s ⇒ Mass(s)
 }
 
-class TimePriceSerializer(unitOfMeasure: UnitOfMeasure[Time])
-    extends PriceSerializerT[Time] {
-  def StringToQuantity = s ⇒ Time(s).get
-  def QuantityValidator = s ⇒ Time(s).isSuccess
-  def serialize(implicit format: Formats) = {
-    case p @ Price(_, Hours(_)) ⇒ serializePrice(p.asInstanceOf[Price[Time]], unitOfMeasure)
-  }
+class TimePriceSerializer extends PriceSerializerT[Time] {
+  def parseQuantity = s ⇒ Time(s)
 }

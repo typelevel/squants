@@ -16,10 +16,10 @@ import squants._
  *
  * @param value value in [[squants.electro.Siemens]]
  */
-final class ElectricalConductance private (val value: Double)
+final class ElectricalConductance private (val value: Double, val unit: ElectricalConductanceUnit)
     extends Quantity[ElectricalConductance] {
 
-  def valueUnit = ElectricalConductance.valueUnit
+  def dimension = ElectricalConductance
 
   def /(that: Length): Conductivity = SiemensPerMeter(toSiemens / that.toMeters)
   def /(that: Conductivity): Length = Meters(toSiemens / that.toSiemensPerMeter)
@@ -29,19 +29,20 @@ final class ElectricalConductance private (val value: Double)
   def inOhms = Ohms(1.0 / value)
 }
 
-object ElectricalConductance extends QuantityCompanion[ElectricalConductance] {
-  private[electro] def apply[A](n: A)(implicit num: Numeric[A]) = new ElectricalConductance(num.toDouble(n))
+object ElectricalConductance extends Dimension[ElectricalConductance] {
+  private[electro] def apply[A](n: A, unit: ElectricalConductanceUnit)(implicit num: Numeric[A]) = new ElectricalConductance(num.toDouble(n), unit)
   def apply = parseString _
   def name = "ElectricalConductance"
-  def valueUnit = Siemens
+  def primaryUnit = Siemens
+  def siUnit = Siemens
   def units = Set(Siemens)
 }
 
 trait ElectricalConductanceUnit extends UnitOfMeasure[ElectricalConductance] with UnitConverter {
-  def apply[A](n: A)(implicit num: Numeric[A]) = ElectricalConductance(convertFrom(n))
+  def apply[A](n: A)(implicit num: Numeric[A]) = ElectricalConductance(n, this)
 }
 
-object Siemens extends ElectricalConductanceUnit with ValueUnit {
+object Siemens extends ElectricalConductanceUnit with PrimaryUnit with SiUnit {
   val symbol = "S"
 }
 
@@ -52,5 +53,5 @@ object ElectricalConductanceConversions {
     def siemens = Siemens(n)
   }
 
-  implicit object ElectricalConductanceNumeric extends AbstractQuantityNumeric[ElectricalConductance](ElectricalConductance.valueUnit)
+  implicit object ElectricalConductanceNumeric extends AbstractQuantityNumeric[ElectricalConductance](ElectricalConductance.primaryUnit)
 }

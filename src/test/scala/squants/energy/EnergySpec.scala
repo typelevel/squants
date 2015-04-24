@@ -181,7 +181,7 @@ class EnergySpec extends FlatSpec with Matchers {
     terajoule should be(Terajoules(1))
 
     btu should be(BritishThermalUnits(1))
-    btuMultiplier should be(joule.value * 1055.05585262)
+    btuMultiplier should be(0.2930710701722222)
   }
 
   it should "provide implicit conversion from Double" in {

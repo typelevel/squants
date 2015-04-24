@@ -75,7 +75,7 @@ trait UnitOfMeasureX[A <: QuantityX[A]] extends Serializable {
 trait UnitConverterX { uom: UnitOfMeasureX[_] ⇒
 
   /**
-   * Defines a multiplier value relative to the Quantity's [[squants.ValueUnit]]
+   * Defines a multiplier value relative to the Quantity's [[squants.PrimaryUnit]]
    *
    * @return
    */

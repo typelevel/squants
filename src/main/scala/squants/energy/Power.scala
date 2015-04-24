@@ -27,10 +27,13 @@ import squants.radio.RadiantIntensity
  *
  * @param value value in [[squants.energy.Watts]]
  */
-final class Power private (val value: Double) extends Quantity[Power]
-    with TimeDerivative[Energy] with TimeIntegral[PowerRamp] {
+final class Power private (val value: Double, val unit: PowerUnit)
+    extends Quantity[Power]
+    with TimeDerivative[Energy]
+    with TimeIntegral[PowerRamp] {
 
-  def valueUnit = Power.valueUnit
+  def dimension = Power
+
   protected def timeIntegrated = WattHours(toWatts)
   protected def timeDerived = WattsPerHour(toWatts)
   protected[squants] def time = Hours(1)
@@ -50,32 +53,24 @@ final class Power private (val value: Double) extends Quantity[Power]
   def toMegawatts = to(Megawatts)
   def toGigawatts = to(Gigawatts)
   def toBtusPerHour = to(BtusPerHour)
-
-  override def toString = toString(this match {
-    case Gigawatts(gw) if gw >= 1.0 ⇒ Gigawatts
-    case Megawatts(mw) if mw >= 1.0 ⇒ Megawatts
-    case Kilowatts(kw) if kw >= 1.0 ⇒ Kilowatts
-    case Watts(w) if w >= 1.0       ⇒ Watts
-    case Watts(0)                   ⇒ Watts
-    case _                          ⇒ Milliwatts
-  })
 }
 
 /**
  * Companion object for [[squants.energy.Power]]
  */
-object Power extends QuantityCompanion[Power] {
-  private[energy] def apply[A](n: A)(implicit num: Numeric[A]) = new Power(num.toDouble(n))
-  def apply(energy: Energy, time: Time): Power = apply(energy.toWattHours / time.toHours)
+object Power extends Dimension[Power] {
+  private[energy] def apply[A](n: A, unit: PowerUnit)(implicit num: Numeric[A]) = new Power(num.toDouble(n), unit)
+  def apply(energy: Energy, time: Time): Power = apply(energy.toWattHours / time.toHours, Watts)
   def apply = parseString _
 
   def name = "Power"
-  def valueUnit = Watts
+  def primaryUnit = Watts
+  def siUnit = Watts
   def units = Set(Watts, Milliwatts, Kilowatts, Megawatts, Gigawatts, BtusPerHour)
 }
 
 trait PowerUnit extends UnitOfMeasure[Power] with UnitConverter {
-  def apply[A](n: A)(implicit num: Numeric[A]) = Power(convertFrom(n))
+  def apply[A](n: A)(implicit num: Numeric[A]) = Power(n, this)
 }
 
 object Milliwatts extends PowerUnit {
@@ -83,7 +78,7 @@ object Milliwatts extends PowerUnit {
   val symbol = "mW"
 }
 
-object Watts extends PowerUnit with ValueUnit {
+object Watts extends PowerUnit with PrimaryUnit with SiUnit {
   val symbol = "W"
 }
 
@@ -137,6 +132,6 @@ object PowerConversions {
     def toPower = Power(s)
   }
 
-  implicit object PowerNumeric extends AbstractQuantityNumeric[Power](Power.valueUnit)
+  implicit object PowerNumeric extends AbstractQuantityNumeric[Power](Power.primaryUnit)
 }
 

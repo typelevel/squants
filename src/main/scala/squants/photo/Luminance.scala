@@ -15,29 +15,31 @@ import squants._
  *
  * @param value Double
  */
-final class Luminance private (val value: Double) extends Quantity[Luminance] {
+final class Luminance private (val value: Double, val unit: LuminanceUnit)
+    extends Quantity[Luminance] {
 
-  def valueUnit = Luminance.valueUnit
+  def dimension = Luminance
 
   def *(that: Area): LuminousIntensity = Candelas(value * that.toSquareMeters)
 
   def toCandelasPerSquareMeters = to(CandelasPerSquareMeter)
 }
 
-object Luminance extends QuantityCompanion[Luminance] {
-  private[photo] def apply[A](n: A)(implicit num: Numeric[A]) = new Luminance(num.toDouble(n))
+object Luminance extends Dimension[Luminance] {
+  private[photo] def apply[A](n: A, unit: LuminanceUnit)(implicit num: Numeric[A]) = new Luminance(num.toDouble(n), unit)
   def apply = parseString _
 
   def name = "Luminance"
-  def valueUnit = CandelasPerSquareMeter
+  def primaryUnit = CandelasPerSquareMeter
+  def siUnit = CandelasPerSquareMeter
   def units = Set(CandelasPerSquareMeter)
 }
 
 trait LuminanceUnit extends UnitOfMeasure[Luminance] {
-  def apply[A](n: A)(implicit num: Numeric[A]) = Luminance(num.toDouble(n))
+  def apply[A](n: A)(implicit num: Numeric[A]) = Luminance(num.toDouble(n), this)
 }
 
-object CandelasPerSquareMeter extends LuminanceUnit with ValueUnit {
+object CandelasPerSquareMeter extends LuminanceUnit with PrimaryUnit with SiUnit {
   val symbol = "cd/m²"
 }
 
@@ -48,6 +50,6 @@ object LuminanceConversions {
     def candelasPerSquareMeter = CandelasPerSquareMeter(n)
   }
 
-  implicit object LuminanceNumeric extends AbstractQuantityNumeric[Luminance](Luminance.valueUnit)
+  implicit object LuminanceNumeric extends AbstractQuantityNumeric[Luminance](Luminance.primaryUnit)
 }
 

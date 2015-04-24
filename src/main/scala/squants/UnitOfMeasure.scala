@@ -75,7 +75,7 @@ trait UnitOfMeasure[A <: Quantity[A]] extends Serializable {
 trait UnitConverter { uom: UnitOfMeasure[_] ⇒
 
   /**
-   * Defines a multiplier value relative to the Quantity's [[squants.ValueUnit]]
+   * Defines a multiplier value relative to the Quantity's [[squants.PrimaryUnit]]
    *
    * @return
    */
@@ -95,11 +95,13 @@ trait UnitConverter { uom: UnitOfMeasure[_] ⇒
 }
 
 /**
- * Identifies the Unit of Measure used for storing the quantity's underlying value
+ * Identifies the Unit of Measure with a conversionFactor of 1.0.
+ *
+ * It is used as the intermediary unit during conversions
  *
  * Each Quantity should have one and only one ValueUnit
  */
-trait ValueUnit extends UnitConverter { uom: UnitOfMeasure[_] ⇒
+trait PrimaryUnit extends UnitConverter { uom: UnitOfMeasure[_] ⇒
 
   /**
    * Implements the converterTo method to just return the underlying value
@@ -120,6 +122,11 @@ trait ValueUnit extends UnitConverter { uom: UnitOfMeasure[_] ⇒
 }
 
 /**
+ * A market trait identifying SI Units
+ */
+trait SiUnit
+
+/**
  * A marker trait identifying SI Base Units
  */
-trait BaseUnit { uom: UnitOfMeasure[_] ⇒ }
+trait SiBaseUnit extends SiUnit

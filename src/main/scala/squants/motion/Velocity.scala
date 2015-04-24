@@ -22,13 +22,14 @@ import squants.time.Seconds
  *
  * @param value Double
  */
-final class Velocity private (val value: Double)
+final class Velocity private (val value: Double, val unit: VelocityUnit)
     extends Quantity[Velocity]
     with TimeIntegral[Acceleration]
     with SecondTimeIntegral[Jerk]
     with TimeDerivative[Length] {
 
-  def valueUnit = Velocity.valueUnit
+  def dimension = Velocity
+
   def timeDerived = MetersPerSecondSquared(toMetersPerSecond)
   def timeIntegrated = Meters(toMetersPerSecond)
   def time = Seconds(1)
@@ -45,18 +46,19 @@ final class Velocity private (val value: Double)
   def toKnots = to(Knots)
 }
 
-object Velocity extends QuantityCompanion[Velocity] {
-  private[motion] def apply[A](n: A)(implicit num: Numeric[A]) = new Velocity(num.toDouble(n))
+object Velocity extends Dimension[Velocity] {
+  private[motion] def apply[A](n: A, unit: VelocityUnit)(implicit num: Numeric[A]) = new Velocity(num.toDouble(n), unit)
   def apply(l: Length, t: Time) = MetersPerSecond(l.toMeters / t.toSeconds)
   def apply = parseString _
   def name = "Velocity"
-  def valueUnit = MetersPerSecond
+  def primaryUnit = MetersPerSecond
+  def siUnit = MetersPerSecond
   def units = Set(MetersPerSecond, FeetPerSecond, KilometersPerHour, UsMilesPerHour,
     InternationalMilesPerHour, Knots)
 }
 
 trait VelocityUnit extends UnitOfMeasure[Velocity] with UnitConverter {
-  def apply[A](n: A)(implicit num: Numeric[A]): Velocity = Velocity(convertFrom(n))
+  def apply[A](n: A)(implicit num: Numeric[A]): Velocity = Velocity(n, this)
 }
 
 object FeetPerSecond extends VelocityUnit {
@@ -64,7 +66,7 @@ object FeetPerSecond extends VelocityUnit {
   val conversionFactor = Feet.conversionFactor * Meters.conversionFactor
 }
 
-object MetersPerSecond extends VelocityUnit with ValueUnit {
+object MetersPerSecond extends VelocityUnit with PrimaryUnit with SiUnit {
   val symbol = "m/s"
 }
 
@@ -103,5 +105,5 @@ object VelocityConversions {
     def knots = Knots(n)
   }
 
-  implicit object VelocityNumeric extends AbstractQuantityNumeric[Velocity](Velocity.valueUnit)
+  implicit object VelocityNumeric extends AbstractQuantityNumeric[Velocity](Velocity.primaryUnit)
 }

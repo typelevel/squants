@@ -18,9 +18,10 @@ import squants.space.{ SquareMeters, SquaredRadians }
  *
  * @param value Double
  */
-final class Radiance private (val value: Double) extends Quantity[Radiance] {
+final class Radiance private (val value: Double, val unit: RadianceUnit)
+    extends Quantity[Radiance] {
 
-  def valueUnit = Radiance.valueUnit
+  def dimension = Radiance
 
   def *(that: Area): RadiantIntensity = WattsPerSteradian(toWattsPerSteradianPerSquareMeter * that.toSquareMeters)
   def /(that: RadiantIntensity): Area = SquareMeters(toWattsPerSteradianPerSquareMeter / that.toWattsPerSteradian)
@@ -28,19 +29,20 @@ final class Radiance private (val value: Double) extends Quantity[Radiance] {
   def toWattsPerSteradianPerSquareMeter = to(WattsPerSteradianPerSquareMeter)
 }
 
-object Radiance extends QuantityCompanion[Radiance] {
-  private[radio] def apply[A](n: A)(implicit num: Numeric[A]) = new Radiance(num.toDouble(n))
+object Radiance extends Dimension[Radiance] {
+  private[radio] def apply[A](n: A, unit: RadianceUnit)(implicit num: Numeric[A]) = new Radiance(num.toDouble(n), unit)
   def apply = parseString _
   def name = "Radiance"
-  def valueUnit = WattsPerSteradianPerSquareMeter
+  def primaryUnit = WattsPerSteradianPerSquareMeter
+  def siUnit = WattsPerSteradianPerSquareMeter
   def units = Set(WattsPerSteradianPerSquareMeter)
 }
 
 trait RadianceUnit extends UnitOfMeasure[Radiance] {
-  def apply[A](n: A)(implicit num: Numeric[A]) = Radiance(convertFrom(n))
+  def apply[A](n: A)(implicit num: Numeric[A]) = Radiance(n, this)
 }
 
-object WattsPerSteradianPerSquareMeter extends RadianceUnit with ValueUnit {
+object WattsPerSteradianPerSquareMeter extends RadianceUnit with PrimaryUnit with SiUnit {
   val symbol = Watts.symbol + "/" + SquaredRadians.symbol + "/" + SquareMeters.symbol
 }
 
@@ -51,6 +53,6 @@ object RadianceConversions {
     def wattsPerSteradianPerSquareMeter = WattsPerSteradianPerSquareMeter(n)
   }
 
-  implicit object RadianceNumeric extends AbstractQuantityNumeric[Radiance](Radiance.valueUnit)
+  implicit object RadianceNumeric extends AbstractQuantityNumeric[Radiance](Radiance.primaryUnit)
 }
 

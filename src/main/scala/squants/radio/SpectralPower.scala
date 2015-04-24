@@ -18,9 +18,10 @@ import squants.space.Meters
  *
  * @param value Double
  */
-final class SpectralPower private (val value: Double) extends Quantity[SpectralPower] {
+final class SpectralPower private (val value: Double, val unit: SpectralPowerUnit)
+    extends Quantity[SpectralPower] {
 
-  def valueUnit = SpectralPower.valueUnit
+  def dimension = SpectralPower
 
   def *(that: Length): Power = Watts(toWattsPerMeter * that.toMeters)
   def /(that: Power): Length = Meters(toWattsPerMeter / that.toWatts)
@@ -28,19 +29,20 @@ final class SpectralPower private (val value: Double) extends Quantity[SpectralP
   def toWattsPerMeter = value
 }
 
-object SpectralPower extends QuantityCompanion[SpectralPower] {
-  private[radio] def apply[A](n: A)(implicit num: Numeric[A]) = new SpectralPower(num.toDouble(n))
+object SpectralPower extends Dimension[SpectralPower] {
+  private[radio] def apply[A](n: A, unit: SpectralPowerUnit)(implicit num: Numeric[A]) = new SpectralPower(num.toDouble(n), unit)
   def apply = parseString _
   def name = "SpectralPower"
-  def valueUnit = WattsPerMeter
+  def primaryUnit = WattsPerMeter
+  def siUnit = WattsPerMeter
   def units = Set(WattsPerMeter)
 }
 
 trait SpectralPowerUnit extends UnitOfMeasure[SpectralPower] {
-  def apply[A](n: A)(implicit num: Numeric[A]) = SpectralPower(convertFrom(n))
+  def apply[A](n: A)(implicit num: Numeric[A]) = SpectralPower(n, this)
 }
 
-object WattsPerMeter extends SpectralPowerUnit with ValueUnit {
+object WattsPerMeter extends SpectralPowerUnit with PrimaryUnit with SiUnit {
   val symbol = Watts.symbol + "/" + Meters.symbol
 }
 
@@ -51,6 +53,6 @@ object SpectralPowerConversions {
     def wattsPerMeter = WattsPerMeter(n)
   }
 
-  implicit object SpectralPowerNumeric extends AbstractQuantityNumeric[SpectralPower](SpectralPower.valueUnit)
+  implicit object SpectralPowerNumeric extends AbstractQuantityNumeric[SpectralPower](SpectralPower.primaryUnit)
 }
 

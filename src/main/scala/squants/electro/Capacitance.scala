@@ -16,10 +16,10 @@ import squants._
  *
  * @param value value in [[squants.electro.Farads]]
  */
-final class Capacitance private (val value: Double)
+final class Capacitance private (val value: Double, val unit: CapacitanceUnit)
     extends Quantity[Capacitance] {
 
-  def valueUnit = Capacitance.valueUnit
+  def dimension = Capacitance
 
   def *(that: ElectricPotential): ElectricCharge = Coulombs(this.toFarads * that.toVolts)
   def /(that: Length) = ??? // returns Permittivity
@@ -32,19 +32,20 @@ final class Capacitance private (val value: Double)
   def toKilofarads = to(Kilofarads)
 }
 
-object Capacitance extends QuantityCompanion[Capacitance] {
-  private[electro] def apply[A](n: A)(implicit num: Numeric[A]) = new Capacitance(num.toDouble(n))
+object Capacitance extends Dimension[Capacitance] {
+  private[electro] def apply[A](n: A, unit: CapacitanceUnit)(implicit num: Numeric[A]) = new Capacitance(num.toDouble(n), unit)
   def apply = parseString _
   def name = "Capacitance"
-  def valueUnit = Farads
+  def primaryUnit = Farads
+  def siUnit = Farads
   def units = Set(Farads, Picofarads, Nanofarads, Microfarads, Millifarads, Kilofarads)
 }
 
 trait CapacitanceUnit extends UnitOfMeasure[Capacitance] with UnitConverter {
-  def apply[A](n: A)(implicit num: Numeric[A]) = Capacitance(convertFrom(n))
+  def apply[A](n: A)(implicit num: Numeric[A]) = Capacitance(n, this)
 }
 
-object Farads extends CapacitanceUnit with ValueUnit {
+object Farads extends CapacitanceUnit with PrimaryUnit with SiUnit {
   val symbol = "F"
 }
 
@@ -90,5 +91,5 @@ object CapacitanceConversions {
     def kilofarads = Kilofarads(n)
   }
 
-  implicit object CapacitanceNumeric extends AbstractQuantityNumeric[Capacitance](Capacitance.valueUnit)
+  implicit object CapacitanceNumeric extends AbstractQuantityNumeric[Capacitance](Capacitance.primaryUnit)
 }

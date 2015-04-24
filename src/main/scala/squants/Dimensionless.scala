@@ -21,11 +21,12 @@ import squants.time.{ Hertz, Frequency, TimeIntegral }
  *
  * @param value Double the amount
  */
-final class Dimensionless private (val value: Double)
+final class Dimensionless private (val value: Double, val unit: DimensionlessUnit)
     extends Quantity[Dimensionless]
     with TimeIntegral[Frequency] {
 
-  def valueUnit = Dimensionless.valueUnit
+  def dimension = Dimensionless
+
   protected def timeDerived = Hertz(toEach)
   protected[squants] def time = Seconds(1)
 
@@ -41,11 +42,12 @@ final class Dimensionless private (val value: Double)
 /**
  * Factory singleton for [[squants.Dimensionless]]
  */
-object Dimensionless extends QuantityCompanion[Dimensionless] {
-  def apply[A](n: A)(implicit num: Numeric[A]) = new Dimensionless(num.toDouble(n))
+object Dimensionless extends Dimension[Dimensionless] {
+  def apply[A](n: A, unit: DimensionlessUnit)(implicit num: Numeric[A]) = new Dimensionless(num.toDouble(n), unit)
   def apply = parseString _
   def name = "Dimensionless"
-  def valueUnit = Each
+  def primaryUnit = Each
+  def siUnit = Each
   def units = Set(Each, Dozen, Score, Gross)
 }
 
@@ -55,13 +57,13 @@ object Dimensionless extends QuantityCompanion[Dimensionless] {
  * The DimensionlessUnit is a useful paradox
  */
 trait DimensionlessUnit extends UnitOfMeasure[Dimensionless] with UnitConverter {
-  def apply[A](n: A)(implicit num: Numeric[A]) = Dimensionless(convertFrom(n))
+  def apply[A](n: A)(implicit num: Numeric[A]) = Dimensionless(n, this)
 }
 
 /**
  * Represents a unit of singles
  */
-object Each extends DimensionlessUnit with ValueUnit {
+object Each extends DimensionlessUnit with PrimaryUnit with SiUnit {
   val symbol = "ea"
 }
 
@@ -111,7 +113,7 @@ object DimensionlessConversions {
     def million = Each(num.toDouble(n) * 1000000D)
   }
 
-  implicit object DimensionlessNumeric extends AbstractQuantityNumeric[Dimensionless](Dimensionless.valueUnit) {
+  implicit object DimensionlessNumeric extends AbstractQuantityNumeric[Dimensionless](Dimensionless.primaryUnit) {
     /**
      * Dimensionless quantities support the times operation.
      * This method overrides the default [[squants.AbstractQuantityNumeric.times]] which thrown an exception
