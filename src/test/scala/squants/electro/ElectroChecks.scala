@@ -26,6 +26,7 @@ object ElectroChecks extends Properties("Electro") with QuantityChecks {
 
   implicit val tolCurrent = Amperes(tol)
   implicit val tolPotentional = Volts(tol)
+  implicit val tolEnergy = Joules(1e-12)
 
   property("Volts = Amps * Ohms (Ohm's Law)") = forAll(posNum, posNum) { (amps: TestData, ohms: TestData) ⇒
     Volts(amps * ohms) == Amperes(amps) * Ohms(ohms) &&
@@ -56,15 +57,15 @@ object ElectroChecks extends Properties("Electro") with QuantityChecks {
   }
 
   property("Joules = Newtons * Meters") = forAll(posNum, posNum) { (newtons: TestData, meters: TestData) ⇒
-    Joules(newtons * meters) == Newtons(newtons) * Meters(meters) &&
-      Joules(newtons * meters) == Meters(meters) * Newtons(newtons) &&
+    Joules(newtons * meters) =~ Newtons(newtons) * Meters(meters) &&
+      Joules(newtons * meters) =~ Meters(meters) * Newtons(newtons) &&
       Newtons(newtons).plusOrMinus(Newtons(tol)).contains(Joules(newtons * meters) / Meters(meters)) &&
       Meters(meters).plusOrMinus(Meters(tol)).contains(Joules(newtons * meters) / Newtons(newtons))
   }
 
   property("Joules = Kilograms * Grays") = forAll(posNum, posNum) { (kilograms: TestData, grays: TestData) ⇒
-    Joules(kilograms * grays) == Kilograms(kilograms) * Grays(grays) &&
-      Joules(kilograms * grays) == Grays(grays) * Kilograms(kilograms) &&
+    Joules(kilograms * grays) =~ Kilograms(kilograms) * Grays(grays) &&
+      Joules(kilograms * grays) =~ Grays(grays) * Kilograms(kilograms) &&
       Kilograms(kilograms).plusOrMinus(Kilograms(tol)).contains(Joules(kilograms * grays) / Grays(grays)) &&
       Grays(grays).plusOrMinus(Grays(tol)).contains(Joules(kilograms * grays) / Kilograms(kilograms))
   }

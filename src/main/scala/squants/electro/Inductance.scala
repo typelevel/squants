@@ -16,9 +16,10 @@ import squants._
  *
  * @param value value in [[squants.electro.Henry]]
  */
-final class Inductance private (val value: Double) extends Quantity[Inductance] {
+final class Inductance private (val value: Double, val unit: InductanceUnit)
+    extends Quantity[Inductance] {
 
-  def valueUnit = Inductance.valueUnit
+  def dimension = Inductance
 
   def *(that: ElectricCurrent): MagneticFlux = Webers(toHenry * that.toAmperes)
   def /(that: Length) = ??? // returns Permeability
@@ -26,19 +27,21 @@ final class Inductance private (val value: Double) extends Quantity[Inductance] 
   def toHenry = to(Henry)
 }
 
-object Inductance extends QuantityCompanion[Inductance] {
-  private[electro] def apply[A](n: A)(implicit num: Numeric[A]) = new Inductance(num.toDouble(n))
+object Inductance extends Dimension[Inductance] {
+  private[electro] def apply[A](n: A, unit: InductanceUnit)(implicit num: Numeric[A]) = new Inductance(num.toDouble(n), unit)
   def apply = parseString _
   def name = "Inductance"
-  def valueUnit = Henry
+  def primaryUnit = Henry
+  def siUnit = Henry
   def units = Set(Henry)
 }
 
-trait InductanceUnit extends UnitOfMeasure[Inductance] with UnitConverter
+trait InductanceUnit extends UnitOfMeasure[Inductance] with UnitConverter {
+  def apply[A](n: A)(implicit num: Numeric[A]) = Inductance(n, this)
+}
 
-object Henry extends InductanceUnit with ValueUnit {
+object Henry extends InductanceUnit with PrimaryUnit with SiUnit {
   val symbol = "H"
-  def apply[A](n: A)(implicit num: Numeric[A]) = Inductance(n)
 }
 
 object InductanceConversions {
@@ -48,5 +51,5 @@ object InductanceConversions {
     def henry = Henry(n)
   }
 
-  implicit object InductanceNumeric extends AbstractQuantityNumeric[Inductance](Inductance.valueUnit)
+  implicit object InductanceNumeric extends AbstractQuantityNumeric[Inductance](Inductance.primaryUnit)
 }

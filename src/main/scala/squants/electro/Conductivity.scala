@@ -17,9 +17,10 @@ import squants.space.Length
  *
  * @param value value in [[squants.electro.SiemensPerMeter]]
  */
-final class Conductivity private (val value: Double) extends Quantity[Conductivity] {
+final class Conductivity private (val value: Double, val unit: ConductivityUnit)
+    extends Quantity[Conductivity] {
 
-  def valueUnit = Conductivity.valueUnit
+  def dimension = Conductivity
 
   def *(that: Length): ElectricalConductance = Siemens(toSiemensPerMeter * that.toMeters)
 
@@ -27,19 +28,20 @@ final class Conductivity private (val value: Double) extends Quantity[Conductivi
   def inOhmMeters = OhmMeters(1d / toSiemensPerMeter)
 }
 
-object Conductivity extends QuantityCompanion[Conductivity] {
-  private[electro] def apply[A](n: A)(implicit num: Numeric[A]) = new Conductivity(num.toDouble(n))
+object Conductivity extends Dimension[Conductivity] {
+  private[electro] def apply[A](n: A, unit: ConductivityUnit)(implicit num: Numeric[A]) = new Conductivity(num.toDouble(n), unit)
   def apply = parseString _
   def name = "Conductivity"
-  def valueUnit = SiemensPerMeter
+  def primaryUnit = SiemensPerMeter
+  def siUnit = SiemensPerMeter
   def units = Set(SiemensPerMeter)
 }
 
 trait ConductivityUnit extends UnitOfMeasure[Conductivity] with UnitConverter {
-  def apply[A](n: A)(implicit num: Numeric[A]) = Conductivity(convertFrom(n))
+  def apply[A](n: A)(implicit num: Numeric[A]) = Conductivity(n, this)
 }
 
-object SiemensPerMeter extends ConductivityUnit with ValueUnit {
+object SiemensPerMeter extends ConductivityUnit with PrimaryUnit with SiUnit {
   val symbol = "S/m"
 }
 
@@ -50,5 +52,5 @@ object ConductivityConversions {
     def siemensPerMeter = SiemensPerMeter(n)
   }
 
-  implicit object ConductivityNumeric extends AbstractQuantityNumeric[Conductivity](Conductivity.valueUnit)
+  implicit object ConductivityNumeric extends AbstractQuantityNumeric[Conductivity](Conductivity.primaryUnit)
 }

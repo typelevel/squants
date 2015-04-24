@@ -16,10 +16,12 @@ import squants.time.TimeDerivative
  *
  * @param value value in [[squants.photo.Lux]]
  */
-final class Illuminance private (val value: Double) extends Quantity[Illuminance]
+final class Illuminance private (val value: Double, val unit: IlluminanceUnit)
+    extends Quantity[Illuminance]
     with TimeDerivative[LuminousExposure] {
 
-  def valueUnit = Illuminance.valueUnit
+  def dimension = Illuminance
+
   protected def timeIntegrated = LuxSeconds(toLux)
   protected[squants] def time = Seconds(1)
 
@@ -28,19 +30,20 @@ final class Illuminance private (val value: Double) extends Quantity[Illuminance
   def toLux = to(Lux)
 }
 
-object Illuminance extends QuantityCompanion[Illuminance] {
-  private[photo] def apply[A](n: A)(implicit num: Numeric[A]) = new Illuminance(num.toDouble(n))
+object Illuminance extends Dimension[Illuminance] {
+  private[photo] def apply[A](n: A, unit: IlluminanceUnit)(implicit num: Numeric[A]) = new Illuminance(num.toDouble(n), unit)
   def apply = parseString _
   def name = "Illuminance"
-  def valueUnit = Lux
+  def primaryUnit = Lux
+  def siUnit = Lux
   def units = Set(Lux)
 }
 
 trait IlluminanceUnit extends UnitOfMeasure[Illuminance] with UnitConverter {
-  def apply[A](n: A)(implicit num: Numeric[A]) = Illuminance(convertFrom(n))
+  def apply[A](n: A)(implicit num: Numeric[A]) = Illuminance(n, this)
 }
 
-object Lux extends IlluminanceUnit with ValueUnit {
+object Lux extends IlluminanceUnit with PrimaryUnit with SiUnit {
   val symbol = "lx"
 }
 
@@ -51,5 +54,5 @@ object IlluminanceConversions {
     def lux = Lux(n)
   }
 
-  implicit object IlluminanceNumeric extends AbstractQuantityNumeric[Illuminance](Illuminance.valueUnit)
+  implicit object IlluminanceNumeric extends AbstractQuantityNumeric[Illuminance](Illuminance.primaryUnit)
 }

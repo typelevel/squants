@@ -20,12 +20,13 @@ import squants.Time
  *
  * @param value value in [[squants.energy.WattsPerHour]]
  */
-final class PowerRamp private (val value: Double)
+final class PowerRamp private (val value: Double, val unit: PowerRampUnit)
     extends Quantity[PowerRamp]
     with TimeDerivative[Power]
     with SecondTimeDerivative[Energy] {
 
-  def valueUnit = PowerRamp.valueUnit
+  def dimension = PowerRamp
+
   protected def timeIntegrated = Watts(toWattsPerHour)
   protected[squants] def time = Hours(1)
 
@@ -37,29 +38,23 @@ final class PowerRamp private (val value: Double)
   def toKilowattsPerMinute = to(KilowattsPerMinute)
   def toMegawattsPerHour = to(MegawattsPerHour)
   def toGigawattsPerHour = to(GigawattsPerHour)
-
-  override def toString = toString(this match {
-    case GigawattsPerHour(gwh) if gwh > 1.0 ⇒ GigawattsPerHour
-    case MegawattsPerHour(mwh) if mwh > 1.0 ⇒ MegawattsPerHour
-    case KilowattsPerHour(kwh) if kwh > 1.0 ⇒ KilowattsPerHour
-    case _                                  ⇒ WattsPerHour
-  })
 }
 
-object PowerRamp extends QuantityCompanion[PowerRamp] {
-  private[energy] def apply[A](n: A)(implicit num: Numeric[A]) = new PowerRamp(num.toDouble(n))
-  def apply(change: Power, time: Time): PowerRamp = apply(change.toWatts / time.toHours)
+object PowerRamp extends Dimension[PowerRamp] {
+  private[energy] def apply[A](n: A, unit: PowerRampUnit)(implicit num: Numeric[A]) = new PowerRamp(num.toDouble(n), unit)
+  def apply(change: Power, time: Time): PowerRamp = apply(change.toWatts / time.toHours, WattsPerHour)
   def apply = parseString _
   def name = "PowerRamp"
-  def valueUnit = WattsPerHour
+  def primaryUnit = WattsPerHour
+  def siUnit = WattsPerHour
   def units = Set(WattsPerHour, WattsPerMinute, KilowattsPerHour, KilowattsPerMinute, MegawattsPerHour, GigawattsPerHour)
 }
 
 trait PowerRampUnit extends UnitOfMeasure[PowerRamp] with UnitConverter {
-  def apply[A](n: A)(implicit num: Numeric[A]) = PowerRamp(convertFrom(n))
+  def apply[A](n: A)(implicit num: Numeric[A]) = PowerRamp(n, this)
 }
 
-object WattsPerHour extends PowerRampUnit with ValueUnit {
+object WattsPerHour extends PowerRampUnit with PrimaryUnit with SiUnit {
   val symbol = "W/h"
 }
 
@@ -115,5 +110,5 @@ object PowerRampConversions {
     def toPowerRamp = PowerRamp(s)
   }
 
-  implicit object PowerRampNumeric extends AbstractQuantityNumeric[PowerRamp](PowerRamp.valueUnit)
+  implicit object PowerRampNumeric extends AbstractQuantityNumeric[PowerRamp](PowerRamp.primaryUnit)
 }

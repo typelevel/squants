@@ -18,9 +18,10 @@ import squants.space.SquareMeters
  *
  * @param value Double
  */
-final class Irradiance private (val value: Double) extends Quantity[Irradiance] {
+final class Irradiance private (val value: Double, val unit: IrradianceUnit)
+    extends Quantity[Irradiance] {
 
-  def valueUnit = Irradiance.valueUnit
+  def dimension = Irradiance
 
   def *(that: Area): Power = Watts(toWattsPerSquareMeter * that.toSquareMeters)
   def /(that: Power): Area = SquareMeters(toWattsPerSquareMeter / that.toWatts)
@@ -28,19 +29,20 @@ final class Irradiance private (val value: Double) extends Quantity[Irradiance] 
   def toWattsPerSquareMeter = to(WattsPerSquareMeter)
 }
 
-object Irradiance extends QuantityCompanion[Irradiance] {
-  private[radio] def apply[A](n: A)(implicit num: Numeric[A]) = new Irradiance(num.toDouble(n))
+object Irradiance extends Dimension[Irradiance] {
+  private[radio] def apply[A](n: A, unit: IrradianceUnit)(implicit num: Numeric[A]) = new Irradiance(num.toDouble(n), unit)
   def apply = parseString _
   def name = "Irradiance"
-  def valueUnit = WattsPerSquareMeter
+  def primaryUnit = WattsPerSquareMeter
+  def siUnit = WattsPerSquareMeter
   def units = Set(WattsPerSquareMeter)
 }
 
 trait IrradianceUnit extends UnitOfMeasure[Irradiance] {
-  def apply[A](n: A)(implicit num: Numeric[A]) = Irradiance(convertFrom(n))
+  def apply[A](n: A)(implicit num: Numeric[A]) = Irradiance(n, this)
 }
 
-object WattsPerSquareMeter extends IrradianceUnit with ValueUnit {
+object WattsPerSquareMeter extends IrradianceUnit with PrimaryUnit with SiUnit {
   val symbol = Watts.symbol + "/" + SquareMeters.symbol
 }
 
@@ -51,5 +53,5 @@ object IrradianceConversions {
     def wattsPerSquareMeter = WattsPerSquareMeter(n)
   }
 
-  implicit object IrradianceNumeric extends AbstractQuantityNumeric[Irradiance](Irradiance.valueUnit)
+  implicit object IrradianceNumeric extends AbstractQuantityNumeric[Irradiance](Irradiance.primaryUnit)
 }

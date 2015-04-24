@@ -19,7 +19,7 @@ trait QuantityChecks {
 
   type TestData = Int
   val posNum = Gen.posNum[TestData]
-  val tol = 0.0000000000001
+  val tol = 1e-13
   implicit val tolTime = Seconds(tol)
 
 }

@@ -20,12 +20,13 @@ import squants.space.Feet
  *
  * @param value Double
  */
-final class Jerk private (val value: Double)
+final class Jerk private (val value: Double, val unit: JerkUnit)
     extends Quantity[Jerk]
     with TimeDerivative[Acceleration]
     with SecondTimeDerivative[Velocity] {
 
-  def valueUnit = Jerk.valueUnit
+  def dimension = Jerk
+
   protected def timeIntegrated = MetersPerSecondSquared(toMetersPerSecondCubed)
   protected[squants] def time = Seconds(1)
 
@@ -35,19 +36,20 @@ final class Jerk private (val value: Double)
   def toFeetPerSecondCubed = to(FeetPerSecondCubed)
 }
 
-object Jerk extends QuantityCompanion[Jerk] {
-  private[motion] def apply[A](n: A)(implicit num: Numeric[A]) = new Jerk(num.toDouble(n))
+object Jerk extends Dimension[Jerk] {
+  private[motion] def apply[A](n: A, unit: JerkUnit)(implicit num: Numeric[A]) = new Jerk(num.toDouble(n), unit)
   def apply = parseString _
   def name = "Jerk"
-  def valueUnit = MetersPerSecondCubed
+  def primaryUnit = MetersPerSecondCubed
+  def siUnit = MetersPerSecondCubed
   def units = Set(MetersPerSecondCubed, FeetPerSecondCubed)
 }
 
 trait JerkUnit extends UnitOfMeasure[Jerk] with UnitConverter {
-  def apply[A](n: A)(implicit num: Numeric[A]) = Jerk(convertFrom(n))
+  def apply[A](n: A)(implicit num: Numeric[A]) = Jerk(n, this)
 }
 
-object MetersPerSecondCubed extends JerkUnit with ValueUnit {
+object MetersPerSecondCubed extends JerkUnit with PrimaryUnit with SiUnit {
   val symbol = "m/s³"
 }
 object FeetPerSecondCubed extends JerkUnit {
@@ -64,5 +66,5 @@ object JerkConversions {
     def feetPerSecondCubed = FeetPerSecondCubed(n)
   }
 
-  implicit object JerkNumeric extends AbstractQuantityNumeric[Jerk](Jerk.valueUnit)
+  implicit object JerkNumeric extends AbstractQuantityNumeric[Jerk](Jerk.primaryUnit)
 }

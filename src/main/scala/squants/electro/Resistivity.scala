@@ -16,9 +16,10 @@ import squants._
  *
  * @param value value in [[squants.electro.OhmMeters]]
  */
-final class Resistivity private (val value: Double) extends Quantity[Resistivity] {
+final class Resistivity private (val value: Double, val unit: ResistivityUnit)
+    extends Quantity[Resistivity] {
 
-  def valueUnit = Resistivity.valueUnit
+  def dimension = Resistivity
 
   def /(that: Length): ElectricalResistance = Ohms(toOhmMeters / that.toMeters)
   def /(that: ElectricalResistance): Length = Meters(toOhmMeters / that.toOhms)
@@ -27,19 +28,20 @@ final class Resistivity private (val value: Double) extends Quantity[Resistivity
   def inSiemensPerMeter = SiemensPerMeter(1d / toOhmMeters)
 }
 
-object Resistivity extends QuantityCompanion[Resistivity] {
-  private[electro] def apply[A](n: A)(implicit num: Numeric[A]) = new Resistivity(num.toDouble(n))
+object Resistivity extends Dimension[Resistivity] {
+  private[electro] def apply[A](n: A, unit: ResistivityUnit)(implicit num: Numeric[A]) = new Resistivity(num.toDouble(n), unit)
   def apply = parseString _
   def name = "Resistivity"
-  def valueUnit = OhmMeters
+  def primaryUnit = OhmMeters
+  def siUnit = OhmMeters
   def units = Set(OhmMeters)
 }
 
-trait ResitivityUnit extends UnitOfMeasure[Resistivity] with UnitConverter {
-  def apply[A](n: A)(implicit num: Numeric[A]) = Resistivity(convertFrom(n))
+trait ResistivityUnit extends UnitOfMeasure[Resistivity] with UnitConverter {
+  def apply[A](n: A)(implicit num: Numeric[A]) = Resistivity(n, this)
 }
 
-object OhmMeters extends ResitivityUnit with ValueUnit {
+object OhmMeters extends ResistivityUnit with PrimaryUnit with SiUnit {
   def symbol = "Ω⋅m"
 }
 
@@ -50,5 +52,5 @@ object ResistivityConversions {
     def ohmMeters = OhmMeters(n)
   }
 
-  implicit object ResistivityNumeric extends AbstractQuantityNumeric[Resistivity](Resistivity.valueUnit)
+  implicit object ResistivityNumeric extends AbstractQuantityNumeric[Resistivity](Resistivity.primaryUnit)
 }

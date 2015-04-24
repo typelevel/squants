@@ -18,9 +18,10 @@ import squants.space.{ Turns, Gradians, Degrees }
  * @param value Double
  *
  */
-final class AngularVelocity private (val value: Double) extends Quantity[AngularVelocity] {
+final class AngularVelocity private (val value: Double, val unit: AngularVelocityUnit)
+    extends Quantity[AngularVelocity] {
   // TODO - Make this a TimeDerivative of Angle
-  def valueUnit = AngularVelocity.valueUnit
+  def dimension = AngularVelocity
 
   def toRadiansPerSecond = to(RadiansPerSecond)
   def toDegreesPerSecond = to(DegreesPerSecond)
@@ -28,19 +29,20 @@ final class AngularVelocity private (val value: Double) extends Quantity[Angular
   def toTurnsPerSecond = to(TurnsPerSecond)
 }
 
-object AngularVelocity extends QuantityCompanion[AngularVelocity] {
-  private[motion] def apply[A](n: A)(implicit num: Numeric[A]) = new AngularVelocity(num.toDouble(n))
+object AngularVelocity extends Dimension[AngularVelocity] {
+  private[motion] def apply[A](n: A, unit: AngularVelocityUnit)(implicit num: Numeric[A]) = new AngularVelocity(num.toDouble(n), unit)
   def apply = parseString _
   def name = "AngularVelocity"
-  def valueUnit = RadiansPerSecond
+  def primaryUnit = RadiansPerSecond
+  def siUnit = RadiansPerSecond
   def units = Set(RadiansPerSecond, DegreesPerSecond, GradsPerSecond, TurnsPerSecond)
 }
 
 trait AngularVelocityUnit extends UnitOfMeasure[AngularVelocity] with UnitConverter {
-  def apply[A](n: A)(implicit num: Numeric[A]) = AngularVelocity(convertFrom(n))
+  def apply[A](n: A)(implicit num: Numeric[A]) = AngularVelocity(n, this)
 }
 
-object RadiansPerSecond extends AngularVelocityUnit with ValueUnit {
+object RadiansPerSecond extends AngularVelocityUnit with PrimaryUnit with SiUnit {
   val symbol = "rad/s"
 }
 
@@ -72,5 +74,5 @@ object AngularVelocityConversions {
     def turnsPerSecond = TurnsPerSecond(n)
   }
 
-  implicit object AngularVelocityNumeric extends AbstractQuantityNumeric[AngularVelocity](AngularVelocity.valueUnit)
+  implicit object AngularVelocityNumeric extends AbstractQuantityNumeric[AngularVelocity](AngularVelocity.primaryUnit)
 }

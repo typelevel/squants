@@ -48,10 +48,11 @@ object ThermalChecks extends Properties("Thermal") with QuantityChecks {
 
     implicit val tempTol = Kelvin(tol)
     implicit val thermTol = JoulesPerKelvin(tol)
+    implicit val energyTol = Joules(1e-12)
 
-    JoulesPerKelvin(thermCap) * Kelvin(temp) == Joules(thermCap * temp) &&
-      Kelvin(temp) * JoulesPerKelvin(thermCap) == Joules(thermCap * temp) &&
-      Joules(thermCap * temp) / JoulesPerKelvin(thermCap) =~ Kelvin(temp) &&
-      Joules(thermCap * temp) / Kelvin(temp) =~ JoulesPerKelvin(thermCap)
+    Joules(thermCap * temp) =~ JoulesPerKelvin(thermCap) * Kelvin(temp) &&
+      Joules(thermCap * temp) =~ Kelvin(temp) * JoulesPerKelvin(thermCap) &&
+      Kelvin(temp) =~ Joules(thermCap * temp) / JoulesPerKelvin(thermCap) &&
+      JoulesPerKelvin(thermCap) =~ Joules(thermCap * temp) / Kelvin(temp)
   }
 }

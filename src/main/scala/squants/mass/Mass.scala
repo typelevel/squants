@@ -9,10 +9,10 @@
 package squants.mass
 
 import scala.language.implicitConversions
-import squants._
+import squants.{ Energy ⇒ _, _ }
 import squants.time.TimeIntegral
 import squants.motion._
-import squants.energy.{ SpecificEnergy, Joules }
+import squants.energy.{ SpecificEnergy, Energy, Joules }
 import squants.space.{ SquareMeters, CubicMeters }
 import squants.motion.Force
 import squants.Velocity
@@ -28,10 +28,12 @@ import squants.motion.Momentum
  *
  * @param value the value in the [[squants.mass.Grams]]
  */
-final class Mass private (val value: Double) extends Quantity[Mass]
+final class Mass private (val value: Double, val unit: MassUnit)
+    extends Quantity[Mass]
     with TimeIntegral[MassFlowRate] {
 
-  def valueUnit = Mass.valueUnit
+  def dimension = Mass
+
   protected def timeDerived = KilogramsPerSecond(toKilograms)
   protected def time = Seconds(1)
 
@@ -50,36 +52,29 @@ final class Mass private (val value: Double) extends Quantity[Mass]
   def toTonnes = to(Tonnes)
   def toPounds = to(Pounds)
   def toOunces = to(Ounces)
-
-  override def toString = toString(this match {
-    case Tonnes(t) if t >= 1.0      ⇒ Tonnes
-    case Kilograms(kg) if kg >= 1.0 ⇒ Kilograms
-    case Grams(g) if g >= 1.0       ⇒ Grams
-    case _                          ⇒ Milligrams
-  })
 }
 
 /**
  * Factory singleton for [[squants.mass.Mass]] values
  */
-object Mass extends QuantityCompanion[Mass] with BaseQuantity {
-  private[mass] def apply[A](n: A)(implicit num: Numeric[A]) = new Mass(num.toDouble(n))
+object Mass extends Dimension[Mass] with BaseDimension {
+  private[mass] def apply[A](n: A, unit: MassUnit)(implicit num: Numeric[A]) = new Mass(num.toDouble(n), unit)
   def apply = parseString _
   def name = "Mass"
-  def valueUnit = Grams
+  def primaryUnit = Grams
+  def siUnit = Kilograms
   def units = Set(Micrograms, Milligrams, Grams, Kilograms, Tonnes, Pounds, Ounces)
   def dimensionSymbol = "M"
-  def baseUnit = Kilograms
 }
 
 /**
  * Base trait for units of [[squants.mass.Mass]]
  */
 trait MassUnit extends UnitOfMeasure[Mass] with UnitConverter {
-  def apply[A](n: A)(implicit num: Numeric[A]) = Mass(convertFrom(n))
+  def apply[A](n: A)(implicit num: Numeric[A]) = Mass(n, this)
 }
 
-object Grams extends MassUnit with ValueUnit {
+object Grams extends MassUnit with PrimaryUnit {
   val symbol = "g"
 }
 
@@ -93,7 +88,7 @@ object Milligrams extends MassUnit {
   val symbol = "mg"
 }
 
-object Kilograms extends MassUnit with BaseUnit {
+object Kilograms extends MassUnit with SiBaseUnit {
   val conversionFactor = MetricSystem.Kilo
   val symbol = "kg"
 }
@@ -144,6 +139,6 @@ object MassConversions {
     def toMass = Mass(s)
   }
 
-  implicit object MassNumeric extends AbstractQuantityNumeric[Mass](Mass.valueUnit)
+  implicit object MassNumeric extends AbstractQuantityNumeric[Mass](Mass.primaryUnit)
 }
 

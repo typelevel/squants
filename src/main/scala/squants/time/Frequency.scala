@@ -18,9 +18,11 @@ import squants._
  *
  * @param value Double
  */
-final class Frequency private (val value: Double) extends Quantity[Frequency] with TimeDerivative[Dimensionless] {
+final class Frequency private (val value: Double, val unit: FrequencyUnit)
+    extends Quantity[Frequency] with TimeDerivative[Dimensionless] {
 
-  def valueUnit = Frequency.valueUnit
+  def dimension = Frequency
+
   protected def timeIntegrated = Each(toHertz)
   protected[squants] def time = Seconds(1)
 
@@ -32,19 +34,20 @@ final class Frequency private (val value: Double) extends Quantity[Frequency] wi
   def toRevolutionsPerMinute = to(RevolutionsPerMinute)
 }
 
-object Frequency extends QuantityCompanion[Frequency] {
-  private[time] def apply[A](n: A)(implicit num: Numeric[A]) = new Frequency(num.toDouble(n))
+object Frequency extends Dimension[Frequency] {
+  private[time] def apply[A](n: A, unit: FrequencyUnit)(implicit num: Numeric[A]) = new Frequency(num.toDouble(n), unit)
   def apply = parseString _
   def name = "Frequency"
-  def valueUnit = Hertz
+  def primaryUnit = Hertz
+  def siUnit = Hertz
   def units = Set(Hertz, Kilohertz, Megahertz, Gigahertz, Terahertz, RevolutionsPerMinute)
 }
 
 trait FrequencyUnit extends UnitOfMeasure[Frequency] with UnitConverter {
-  def apply[A](n: A)(implicit num: Numeric[A]) = Frequency(convertFrom(n))
+  def apply[A](n: A)(implicit num: Numeric[A]) = Frequency(n, this)
 }
 
-object Hertz extends FrequencyUnit with ValueUnit {
+object Hertz extends FrequencyUnit with PrimaryUnit with SiUnit {
   val symbol = "Hz"
 }
 
@@ -83,5 +86,5 @@ object FrequencyConversions {
     def rpm = RevolutionsPerMinute(n)
   }
 
-  implicit object FrequencyNumeric extends AbstractQuantityNumeric[Frequency](Frequency.valueUnit)
+  implicit object FrequencyNumeric extends AbstractQuantityNumeric[Frequency](Frequency.primaryUnit)
 }

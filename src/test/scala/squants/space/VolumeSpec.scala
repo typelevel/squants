@@ -35,7 +35,7 @@ class VolumeSpec extends FlatSpec with Matchers {
     Decilitres(1).toDecilitres should be(1)
     Hectolitres(1).toHectolitres should be(1)
 
-    CubicMiles(1).toCubicMiles should be(1)
+    CubicUsMiles(1).toCubicMiles should be(1)
     CubicYards(1).toCubicYards should be(1)
     CubicFeet(1).toCubicFeet should be(1)
     CubicInches(1).toCubicInches should be(1)
@@ -59,7 +59,7 @@ class VolumeSpec extends FlatSpec with Matchers {
     Volume("10.22 cl").get should be(Centilitres(10.22))
     Volume("10.22 dl").get should be(Decilitres(10.22))
     Volume("10.22 hl").get should be(Hectolitres(10.22))
-    Volume("10.22 mi³").get should be(CubicMiles(10.22))
+    Volume("10.22 mi³").get should be(CubicUsMiles(10.22))
     Volume("10.22 yd³").get should be(CubicYards(10.22))
     Volume("10.22 ft³").get should be(CubicFeet(10.22))
     Volume("10.22 in³").get should be(CubicInches(10.22))
@@ -123,7 +123,7 @@ class VolumeSpec extends FlatSpec with Matchers {
     Decilitres(1).toString(Decilitres) should be("1.0 dl")
     Hectolitres(1).toString(Hectolitres) should be("1.0 hl")
 
-    CubicMiles(1).toString(CubicMiles) should be("1.0 mi³")
+    CubicUsMiles(1).toString(CubicUsMiles) should be("1.0 mi³")
     CubicYards(1).toString(CubicYards) should be("1.0 yd³")
     CubicFeet(1).toString(CubicFeet) should be("1.0 ft³")
     CubicInches(1).toString(CubicInches) should be("1.0 in³")
@@ -178,7 +178,7 @@ class VolumeSpec extends FlatSpec with Matchers {
     hectoliter should be(Hectolitres(1))
     hectolitre should be(Hectolitres(1))
 
-    cubicMile should be(CubicMiles(1))
+    cubicMile should be(CubicUsMiles(1))
     cubicYard should be(CubicYards(1))
     cubicFoot should be(CubicFeet(1))
     cubicInch should be(CubicInches(1))
@@ -213,7 +213,7 @@ class VolumeSpec extends FlatSpec with Matchers {
     d.hectoliters should be(Hectolitres(d))
     d.hectolitres should be(Hectolitres(d))
 
-    d.cubicMiles should be(CubicMiles(d))
+    d.cubicMiles should be(CubicUsMiles(d))
     d.cubicYards should be(CubicYards(d))
     d.cubicFeet should be(CubicFeet(d))
     d.cubicInches should be(CubicInches(d))

@@ -148,7 +148,7 @@ case class DoubleVector(coordinates: Double*) extends Vector[Double] {
  * @tparam A QuantityType
  */
 case class QuantityVector[A <: Quantity[A]](coordinates: A*) extends Vector[A] {
-  def valueUnit = coordinates(0).valueUnit
+  def valueUnit = coordinates(0).unit
   def magnitude: A = valueUnit(math.sqrt(coordinates.toTraversable.map(v ⇒ v.to(valueUnit) * v.to(valueUnit)).sum))
   def normalize: Vector[A] = this / magnitude.to(valueUnit)
 
@@ -222,7 +222,7 @@ case class QuantityVector[A <: Quantity[A]](coordinates: A*) extends Vector[A] {
   def /[B <: Quantity[B], C <: Quantity[C]](that: B)(implicit mapTo: (A, B) ⇒ C) = divide(that)
 
   def dotProduct[B <: Quantity[B], C <: Quantity[C]](that: Vector[B])(implicit mapTo: (A, B) ⇒ C, num: Numeric[C]): C =
-    coordinates.toIterable.zipAll(that.coordinates.toIterable, valueUnit(0), that.coordinates(0).valueUnit(0)).toTraversable.map(v ⇒ mapTo(v._1, v._2)).sum
+    coordinates.toIterable.zipAll(that.coordinates.toIterable, valueUnit(0), that.coordinates(0).unit(0)).toTraversable.map(v ⇒ mapTo(v._1, v._2)).sum
 }
 
 /**

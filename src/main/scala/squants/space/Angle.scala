@@ -16,10 +16,10 @@ import squants._
  *
  * @param value value in [[squants.space.Radians]]
  */
-final class Angle private (val value: Double)
+final class Angle private (val value: Double, val unit: AngleUnit)
     extends Quantity[Angle] {
 
-  def valueUnit = Angle.valueUnit
+  def dimension = Angle
 
   def toRadians = to(Radians)
   def toDegrees = to(Degrees)
@@ -35,19 +35,20 @@ final class Angle private (val value: Double)
   def acos = math.acos(toRadians)
 }
 
-object Angle extends QuantityCompanion[Angle] {
-  private[space] def apply[A](n: A)(implicit num: Numeric[A]) = new Angle(num.toDouble(n))
+object Angle extends Dimension[Angle] {
+  private[space] def apply[A](n: A, unit: AngleUnit)(implicit num: Numeric[A]) = new Angle(num.toDouble(n), unit)
   def apply = parseString _
   def name = "Angle"
-  def valueUnit = Radians
+  def primaryUnit = Radians
+  def siUnit = Radians
   def units = Set(Radians, Degrees, Gradians, Turns, Arcminutes, Arcseconds)
 }
 
 trait AngleUnit extends UnitOfMeasure[Angle] with UnitConverter {
-  def apply[A](n: A)(implicit num: Numeric[A]) = Angle(convertFrom(n))
+  def apply[A](n: A)(implicit num: Numeric[A]) = Angle(n, this)
 }
 
-object Radians extends AngleUnit with ValueUnit {
+object Radians extends AngleUnit with PrimaryUnit with SiUnit {
   val symbol = "rad"
 }
 
@@ -93,5 +94,5 @@ object AngleConversions {
     def arcseconds = Arcseconds(n)
   }
 
-  implicit object AngleNumeric extends AbstractQuantityNumeric[Angle](Angle.valueUnit)
+  implicit object AngleNumeric extends AbstractQuantityNumeric[Angle](Angle.primaryUnit)
 }

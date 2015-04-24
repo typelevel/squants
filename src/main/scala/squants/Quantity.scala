@@ -17,10 +17,10 @@ import scala.util.{ Failure, Success, Try }
  * @since   0.1
  *
  */
-abstract class Quantity[A <: Quantity[A]] extends Ordered[A] with Serializable { self: A ⇒
+abstract class Quantity[A <: Quantity[A]] extends Serializable with Ordered[A] { self: A ⇒
 
   /**
-   * The value of the quantity given the valueUnits
+   * The value of the quantity given the unit
    * @return Double
    */
   def value: Double
@@ -29,14 +29,20 @@ abstract class Quantity[A <: Quantity[A]] extends Ordered[A] with Serializable {
    * The Unit of Measure used for the quantity's underlying value
    * @return UnitOfMeasure[A]
    */
-  def valueUnit: UnitOfMeasure[A]
+  def unit: UnitOfMeasure[A]
+
+  /**
+   * The Dimension this quantity contains a measure for
+   * @return
+   */
+  def dimension: Dimension[A]
 
   /**
    * Add two like quantities
    * @param that Quantity
    * @return Quantity
    */
-  def plus(that: A): A = valueUnit(value + that.value)
+  def plus(that: A): A = unit(value + that.to(unit))
   def +(that: A): A = plus(that)
 
   /**
@@ -52,7 +58,7 @@ abstract class Quantity[A <: Quantity[A]] extends Ordered[A] with Serializable {
    * @param that Double
    * @return Quantity
    */
-  def times(that: Double): A = valueUnit(value * that)
+  def times(that: Double): A = unit(value * that)
   def *(that: Double): A = times(that)
 
   /**
@@ -60,7 +66,7 @@ abstract class Quantity[A <: Quantity[A]] extends Ordered[A] with Serializable {
    * @param that Double
    * @return Quantity
    */
-  def divide(that: Double): A = valueUnit(value / that)
+  def divide(that: Double): A = unit(value / that)
   def /(that: Double): A = divide(that)
 
   /**
@@ -68,7 +74,7 @@ abstract class Quantity[A <: Quantity[A]] extends Ordered[A] with Serializable {
    * @param that Quantity
    * @return Double
    */
-  def divide(that: A): Double = value / that.value
+  def divide(that: A): Double = value / that.to(unit)
   def /(that: A): Double = divide(that)
 
   /**
@@ -76,7 +82,7 @@ abstract class Quantity[A <: Quantity[A]] extends Ordered[A] with Serializable {
    * @param that Quantity
    * @return Quantity
    */
-  def remainder(that: Double): A = valueUnit(value % that)
+  def remainder(that: Double): A = unit(value % that)
   def %(that: Double): A = remainder(that)
 
   /**
@@ -84,7 +90,7 @@ abstract class Quantity[A <: Quantity[A]] extends Ordered[A] with Serializable {
    * @param that Quantity
    * @return Double
    */
-  def remainder(that: A): Double = value % that.value
+  def remainder(that: A): Double = value % that.to(unit)
   def %(that: A): Double = remainder(that)
 
   /**
@@ -93,7 +99,7 @@ abstract class Quantity[A <: Quantity[A]] extends Ordered[A] with Serializable {
    * @return (Quantity, Quantity)
    */
   def divideAndRemainder(that: Double): (A, A) = BigDecimal(value) /% that match {
-    case (q, r) ⇒ (valueUnit(q.toDouble), valueUnit(r.toDouble))
+    case (q, r) ⇒ (unit(q.toDouble), unit(r.toDouble))
   }
   def /%(that: Double) = divideAndRemainder(that)
 
@@ -102,8 +108,8 @@ abstract class Quantity[A <: Quantity[A]] extends Ordered[A] with Serializable {
    * @param that Quantity
    * @return (Double, Quantity)
    */
-  def divideAndRemainder(that: A): (Double, A) = BigDecimal(value) /% that.value match {
-    case (q, r) ⇒ (q.toDouble, valueUnit(r.toDouble))
+  def divideAndRemainder(that: A): (Double, A) = BigDecimal(value) /% that.to(unit) match {
+    case (q, r) ⇒ (q.toDouble, unit(r.toDouble))
   }
   def /%(that: A) = divideAndRemainder(that)
 
@@ -111,14 +117,14 @@ abstract class Quantity[A <: Quantity[A]] extends Ordered[A] with Serializable {
    * Returns the negative value of this Quantity
    * @return Quantity
    */
-  def negate: A = valueUnit(-value)
+  def negate: A = unit(-value)
   def unary_-(): A = negate
 
   /**
    * Returns the absolute value of this Quantity
    * @return Quantity
    */
-  def abs: A = valueUnit(math.abs(value))
+  def abs: A = unit(math.abs(value))
 
   /**
    * Override of equals method
@@ -127,10 +133,8 @@ abstract class Quantity[A <: Quantity[A]] extends Ordered[A] with Serializable {
    * @return
    */
   override def equals(that: Any) = that match {
-    // TODO Refactor so it also works for UnitBoxed types like Temperature, which may require change to UOM def
-    // Currently this is satisfied by overrides in those classes
-    case x: Quantity[A] ⇒ value == x.value && valueUnit == x.valueUnit
-    case _              ⇒ false
+    case x: Quantity[A] if x.dimension == dimension ⇒ value == x.to(unit)
+    case _ ⇒ false
   }
 
   /**
@@ -159,21 +163,21 @@ abstract class Quantity[A <: Quantity[A]] extends Ordered[A] with Serializable {
    * @param that Quantity
    * @return Int
    */
-  def compare(that: A) = if (value > that.value) 1 else if (value < that.value) -1 else 0
+  def compare(that: A) = if (value > that.to(unit)) 1 else if (value < that.to(unit)) -1 else 0
 
   /**
    * Returns the max of this and that Quantity
    * @param that Quantity
    * @return Quantity
    */
-  def max(that: A): A = if (value >= that.value) this else that
+  def max(that: A): A = if (value >= that.to(unit)) this else that
 
   /**
    * Returns the min of this and that Quantity
    * @param that Quantity
    * @return Quantity
    */
-  def min(that: A): A = if (value <= that.value) this else that
+  def min(that: A): A = if (value <= that.to(unit)) this else that
 
   /**
    * Returns a QuantityRange representing the range for this value +- that
@@ -213,7 +217,10 @@ abstract class Quantity[A <: Quantity[A]] extends Ordered[A] with Serializable {
    * @param unit UnitOfMeasure[A]
    * @return Double
    */
-  def to(unit: UnitOfMeasure[A]): Double = unit.convertTo(valueUnit.convertFrom(value))
+  def to(unit: UnitOfMeasure[A]): Double = unit match {
+    case u if u == this.unit ⇒ value
+    case _                   ⇒ unit.convertTo(this.unit.convertFrom(value))
+  }
 
   /**
    * Returns an equivalent Quantity boxed with the supplied Unit
@@ -224,13 +231,16 @@ abstract class Quantity[A <: Quantity[A]] extends Ordered[A] with Serializable {
    * @param unit UnitOfMeasure[A]
    * @return Quantity
    */
-  def in(unit: UnitOfMeasure[A]) = unit(unit.convertTo(valueUnit.convertFrom(value)))
+  def in(unit: UnitOfMeasure[A]) = unit match {
+    case u if u == this.unit ⇒ this
+    case _                   ⇒ unit(unit.convertTo(this.unit.convertFrom(value)))
+  }
 
   /**
    * Returns a string representing the quantity's value in valueUnits
    * @return String
    */
-  override def toString = value + " " + valueUnit.symbol
+  override def toString = value + " " + unit.symbol
 
   /**
    * Returns a string representing the quantity's value in the given `unit`
@@ -255,7 +265,7 @@ abstract class Quantity[A <: Quantity[A]] extends Ordered[A] with Serializable {
  *
  * @tparam A Quantity type
  */
-abstract class AbstractQuantityNumeric[A <: Quantity[A]](val valueUnit: UnitOfMeasure[A] with ValueUnit) extends Numeric[A] {
+abstract class AbstractQuantityNumeric[A <: Quantity[A]](val unit: UnitOfMeasure[A] with PrimaryUnit) extends Numeric[A] {
   def plus(x: A, y: A) = x + y
   def minus(x: A, y: A) = x - y
 
@@ -271,19 +281,27 @@ abstract class AbstractQuantityNumeric[A <: Quantity[A]](val valueUnit: UnitOfMe
    */
   def times(x: A, y: A): A = throw new UnsupportedOperationException("Numeric.times not supported for Quantities")
   def negate(x: A) = -x
-  def fromInt(x: Int) = valueUnit(x)
-  def toInt(x: A) = x.value.toInt
-  def toLong(x: A) = x.value.toLong
-  def toFloat(x: A) = x.value.toFloat
-  def toDouble(x: A) = x.value
-  def compare(x: A, y: A) = if (x.value > y.value) 1 else if (x.value < y.value) -1 else 0
+  def fromInt(x: Int) = unit(x)
+  def toInt(x: A) = x.to(unit).toInt
+  def toLong(x: A) = x.to(unit).toLong
+  def toFloat(x: A) = x.to(unit).toFloat
+  def toDouble(x: A) = x.to(unit)
+  def compare(x: A, y: A) = if (x.to(unit) > y.to(unit)) 1 else if (x.to(unit) < y.to(unit)) -1 else 0
 }
 
 case class QuantityStringParseException(message: String, expression: String) extends Exception
 
-trait QuantityCompanion[A <: Quantity[A]] {
+/**
+ * Represents a Physical Dimension
+ *
+ * This trait should be mixed into the Companion Objects of specific Quantity Types.
+ *
+ * @tparam A Quantity Type
+ */
+trait Dimension[A <: Quantity[A]] {
   def name: String
-  def valueUnit: UnitOfMeasure[A] with ValueUnit
+  def primaryUnit: UnitOfMeasure[A] with PrimaryUnit
+  def siUnit: UnitOfMeasure[A] with SiUnit
   def units: Set[UnitOfMeasure[A]]
 
   def symbolToUnit(symbol: String): Option[UnitOfMeasure[A]] = units.find(u ⇒ u.symbol == symbol)
@@ -300,12 +318,12 @@ trait QuantityCompanion[A <: Quantity[A]] {
 /**
  * SI Base Quantity
  */
-trait BaseQuantity { self: QuantityCompanion[_] ⇒
+trait BaseDimension { self: Dimension[_] ⇒
   /**
    * SI Base Unit for this Quantity
    * @return
    */
-  def baseUnit: BaseUnit
+  def siUnit: SiBaseUnit
 
   /**
    * SI Dimension Symbol

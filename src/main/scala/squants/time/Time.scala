@@ -20,9 +20,10 @@ import scala.concurrent.duration.Duration
  *
  * @param value value in [[squants.time.Milliseconds]]
  */
-final class Time private (val value: Double) extends Quantity[Time] {
+final class Time private (val value: Double, val unit: TimeUnit)
+    extends Quantity[Time] {
 
-  def valueUnit = Time.valueUnit
+  def dimension = Time
 
   def millis = toMilliseconds.toLong
 
@@ -39,7 +40,7 @@ final class Time private (val value: Double) extends Quantity[Time] {
   def toDays = to(Days)
 }
 
-object Time extends QuantityCompanion[Time] with BaseQuantity {
+object Time extends Dimension[Time] with BaseDimension {
   val MillisecondsPerNanosecond = 1d / 1000000d
   val MillisecondsPerMicrosecond = 1d / 1000d
   val MillisecondsPerSecond = 1000d
@@ -50,18 +51,18 @@ object Time extends QuantityCompanion[Time] with BaseQuantity {
   val SecondsPerHour = SecondsPerMinutes * 60d
   val SecondsPerDay = SecondsPerHour * 24
 
-  private[time] def apply[A](n: A)(implicit num: Numeric[A]) = new Time(num.toDouble(n))
+  private[time] def apply[A](n: A, unit: TimeUnit)(implicit num: Numeric[A]) = new Time(num.toDouble(n), unit)
   def apply = parseString _
 
   def name = "Time"
-  def valueUnit = Milliseconds
+  def primaryUnit = Milliseconds
+  def siUnit = Seconds
   def units = Set(Microseconds, Milliseconds, Seconds, Minutes, Hours, Days)
-  def baseUnit = Seconds
   def dimensionSymbol = "T"
 }
 
 trait TimeUnit extends UnitOfMeasure[Time] with UnitConverter {
-  def apply[A](n: A)(implicit num: Numeric[A]) = Time(convertFrom(n))
+  def apply[A](n: A)(implicit num: Numeric[A]) = Time(n, this)
 }
 
 object Microseconds extends TimeUnit {
@@ -69,11 +70,11 @@ object Microseconds extends TimeUnit {
   val symbol = "µs"
 }
 
-object Milliseconds extends TimeUnit with ValueUnit {
+object Milliseconds extends TimeUnit with PrimaryUnit {
   val symbol = "ms"
 }
 
-object Seconds extends TimeUnit with BaseUnit {
+object Seconds extends TimeUnit with SiBaseUnit {
   val conversionFactor = Milliseconds.conversionFactor * 1000d
   val symbol = "s"
 }
@@ -115,7 +116,7 @@ object TimeConversions {
     def toTime = Time(s)
   }
 
-  implicit object TimeNumeric extends AbstractQuantityNumeric[Time](Time.valueUnit)
+  implicit object TimeNumeric extends AbstractQuantityNumeric[Time](Time.primaryUnit)
 
   implicit def timeToScalaDuration(time: Time) = Duration(time.toString)
   implicit def scalaDurationToTime(duration: Duration) = Milliseconds(duration.toMillis)

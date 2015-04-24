@@ -22,18 +22,34 @@ import squants.energy.{ Joules, EnergyDensity }
  *
  * @param value value in [[squants.space.CubicMeters]]
  */
-final class Volume private (val value: Double)
+final class Volume private (val value: Double, val unit: VolumeUnit)
     extends Quantity[Volume]
     with TimeIntegral[VolumeFlowRate] {
 
-  def valueUnit = Volume.valueUnit
+  def dimension = Volume
+
   protected def timeDerived = CubicMetersPerSecond(toCubicMeters)
   protected[squants] def time = Seconds(1)
 
   def *(that: Density): Mass = Kilograms(toCubicMeters * that.toKilogramsPerCubicMeter)
   def *(that: EnergyDensity): Energy = Joules(toCubicMeters * that.toJoulesPerCubicMeter)
-  def /(that: Area): Length = Meters(toCubicMeters / that.toSquareMeters)
-  def /(that: Length): Area = SquareMeters(toCubicMeters / that.toMeters)
+
+  def /(that: Area): Length = unit match {
+    case CubicUsMiles ⇒ UsMiles(value / that.toSquareUsMiles)
+    case CubicYards   ⇒ Yards(value / that.toSquareYards)
+    case CubicFeet    ⇒ Feet(value / that.toSquareFeet)
+    case CubicInches  ⇒ Inches(value / that.toSquareInches)
+    case _            ⇒ Meters(toCubicMeters / that.toSquareMeters)
+  }
+
+  def /(that: Length): Area = unit match {
+    case CubicUsMiles ⇒ SquareUsMiles(value / that.toUsMiles)
+    case CubicYards   ⇒ SquareYards(value / that.toYards)
+    case CubicFeet    ⇒ SquareFeet(value / that.toFeet)
+    case CubicInches  ⇒ SquareInches(value / that.toInches)
+    case _            ⇒ SquareMeters(toCubicMeters / that.toMeters)
+  }
+
   def /(that: Mass) = ??? // returns SpecificVolume (inverse of Density)
   def /(that: ChemicalAmount) = ??? // return MolarVolume
 
@@ -46,7 +62,7 @@ final class Volume private (val value: Double)
   def toDecilitres = to(Decilitres)
   def toHectolitres = to(Hectolitres)
 
-  def toCubicMiles = to(CubicMiles)
+  def toCubicMiles = to(CubicUsMiles)
   def toCubicYards = to(CubicYards)
   def toCubicFeet = to(CubicFeet)
   def toCubicInches = to(CubicInches)
@@ -70,23 +86,23 @@ final class Volume private (val value: Double)
   def toImperialCups = to(ImperialCups)
 }
 
-object Volume extends QuantityCompanion[Volume] {
-  private[space] def apply[A](n: A)(implicit num: Numeric[A]) = new Volume(num.toDouble(n))
-  def apply(area: Area, length: Length): Volume = apply(area.toSquareMeters * length.toMeters)
+object Volume extends Dimension[Volume] {
+  private[space] def apply[A](n: A, unit: VolumeUnit)(implicit num: Numeric[A]) = new Volume(num.toDouble(n), unit)
   def apply = parseString _
   def name = "Volume"
-  def valueUnit = CubicMeters
+  def primaryUnit = CubicMeters
+  def siUnit = CubicMeters
   def units = Set(CubicMeters, Litres, Nanolitres, Microlitres, Millilitres, Centilitres,
     Decilitres, Hectolitres,
-    CubicMiles, CubicYards, CubicFeet, CubicInches,
+    CubicUsMiles, CubicYards, CubicFeet, CubicInches,
     UsGallons, UsQuarts, UsPints, UsCups, FluidOunces, Tablespoons, Teaspoons)
 }
 
 trait VolumeUnit extends UnitOfMeasure[Volume] with UnitConverter {
-  def apply[A](n: A)(implicit num: Numeric[A]) = Volume(convertFrom(n))
+  def apply[A](n: A)(implicit num: Numeric[A]) = Volume(n, this)
 }
 
-object CubicMeters extends VolumeUnit with ValueUnit {
+object CubicMeters extends VolumeUnit with PrimaryUnit with SiUnit {
   val symbol = "m³"
 }
 
@@ -125,7 +141,7 @@ object Hectolitres extends VolumeUnit {
   val conversionFactor = Litres.conversionFactor * MetricSystem.Hecto
 }
 
-object CubicMiles extends VolumeUnit {
+object CubicUsMiles extends VolumeUnit {
   val symbol = "mi³"
   val conversionFactor = math.pow(UsMiles.conversionFactor, 3)
 }
@@ -237,7 +253,7 @@ object VolumeConversions {
   lazy val hectolitre = Hectolitres(1)
   lazy val hectoliter = Hectolitres(1)
 
-  lazy val cubicMile = CubicMiles(1)
+  lazy val cubicMile = CubicUsMiles(1)
   lazy val cubicYard = CubicYards(1)
   lazy val cubicFoot = CubicFeet(1)
   lazy val cubicInch = CubicInches(1)
@@ -269,7 +285,7 @@ object VolumeConversions {
     def hectolitres = Hectolitres(n)
     def hectoliters = Hectolitres(n)
 
-    def cubicMiles = CubicMiles(n)
+    def cubicMiles = CubicUsMiles(n)
     def cubicYards = CubicYards(n)
     def cubicFeet = CubicFeet(n)
     def cubicInches = CubicInches(n)
@@ -283,5 +299,5 @@ object VolumeConversions {
     def teaspoons = Teaspoons(n)
   }
 
-  implicit object VolumeNumeric extends AbstractQuantityNumeric[Volume](Volume.valueUnit)
+  implicit object VolumeNumeric extends AbstractQuantityNumeric[Volume](Volume.primaryUnit)
 }

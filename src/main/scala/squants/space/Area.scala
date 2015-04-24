@@ -27,12 +27,19 @@ import squants.mass.AreaDensity
  *
  * @param value value in [[squants.space.SquareMeters]]
  */
-final class Area private (val value: Double)
+final class Area private (val value: Double, val unit: AreaUnit)
     extends Quantity[Area] {
 
-  def valueUnit = Area.valueUnit
+  def dimension = Area
 
-  def *(that: Length): Volume = CubicMeters(toSquareMeters * that.toMeters)
+  def *(that: Length): Volume = unit match {
+    case SquareUsMiles ⇒ CubicUsMiles(value * that.toUsMiles)
+    case SquareYards   ⇒ CubicYards(value * that.toYards)
+    case SquareFeet    ⇒ CubicFeet(value * that.toFeet)
+    case SquareInches  ⇒ CubicInches(value * that.toInches)
+    case _             ⇒ CubicMeters(toSquareMeters * that.toMeters)
+  }
+
   def *(that: AreaDensity): Mass = Kilograms(toSquareMeters * that.toKilogramsPerSquareMeter)
   def *(that: Pressure): Force = Newtons(toSquareMeters * that.toPascals)
   def *(that: Illuminance): LuminousFlux = Lumens(toSquareMeters * that.toLux)
@@ -40,7 +47,14 @@ final class Area private (val value: Double)
   def *(that: MagneticFluxDensity): MagneticFlux = Webers(toSquareMeters * that.toTeslas)
   def *(that: Irradiance): Power = Watts(toSquareMeters * that.toWattsPerSquareMeter)
   def *(that: Radiance): RadiantIntensity = WattsPerSteradian(toSquareMeters * that.toWattsPerSteradianPerSquareMeter)
-  def /(that: Length): Length = Meters(toSquareMeters / that.toMeters)
+
+  def /(that: Length): Length = unit match {
+    case SquareUsMiles ⇒ UsMiles(value / that.toUsMiles)
+    case SquareYards   ⇒ Yards(value / that.toYards)
+    case SquareFeet    ⇒ Feet(value / that.toFeet)
+    case SquareInches  ⇒ Inches(value / that.toInches)
+    case _             ⇒ Meters(toSquareMeters / that.toMeters)
+  }
 
   def toSquareMeters = to(SquareMeters)
   def toSquareCentimeters = to(SquareCentimeters)
@@ -54,22 +68,22 @@ final class Area private (val value: Double)
   def toBarnes = to(Barnes)
 }
 
-object Area extends QuantityCompanion[Area] {
-  private[space] def apply[A](n: A)(implicit num: Numeric[A]) = new Area(num.toDouble(n))
-  def apply(length1: Length, length2: Length): Area = apply(length1.toMeters * length2.toMeters)
+object Area extends Dimension[Area] {
+  private[space] def apply[A](n: A, unit: AreaUnit)(implicit num: Numeric[A]) = new Area(num.toDouble(n), unit)
   def apply = parseString _
   def name = "Area"
-  def valueUnit = SquareMeters
+  def primaryUnit = SquareMeters
+  def siUnit = SquareMeters
   def units = Set(SquareMeters, SquareCentimeters, SquareKilometers,
     SquareUsMiles, SquareYards, SquareFeet, SquareInches,
     Hectares, Acres, Barnes)
 }
 
 trait AreaUnit extends UnitOfMeasure[Area] with UnitConverter {
-  def apply[A](n: A)(implicit num: Numeric[A]) = Area(convertFrom(n))
+  def apply[A](n: A)(implicit num: Numeric[A]) = Area(n, this)
 }
 
-object SquareMeters extends AreaUnit with ValueUnit {
+object SquareMeters extends AreaUnit with PrimaryUnit with SiUnit {
   val symbol = "m²"
 }
 
@@ -143,5 +157,5 @@ object AreaConversions {
     def barnes = Barnes(n)
   }
 
-  implicit object AreaNumeric extends AbstractQuantityNumeric[Area](Area.valueUnit)
+  implicit object AreaNumeric extends AbstractQuantityNumeric[Area](Area.primaryUnit)
 }

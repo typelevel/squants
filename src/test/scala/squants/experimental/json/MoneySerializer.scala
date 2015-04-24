@@ -6,7 +6,7 @@
 **                                                                      **
 \*                                                                      */
 
-package squants.json
+package squants.experimental.json
 
 import org.json4s.{ Formats, Serializer }
 import squants.market.Money
@@ -43,7 +43,7 @@ class MoneySerializer extends Serializer[Money] {
       JObject(
         List(
           "amount" -> JDecimal(money.amount),
-          "currency" -> JString(money.valueUnit.code)))
+          "currency" -> JString(money.unit.code)))
   }
 }
 

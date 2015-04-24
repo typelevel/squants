@@ -16,10 +16,10 @@ import squants._
  *
  * @param value value in [[squants.electro.Ohms]]
  */
-final class ElectricalResistance private (val value: Double)
+final class ElectricalResistance private (val value: Double, val unit: ElectricalResistanceUnit)
     extends Quantity[ElectricalResistance] {
 
-  def valueUnit = ElectricalResistance.valueUnit
+  def dimension = ElectricalResistance
 
   def *(that: ElectricCurrent): ElectricPotential = Volts(toOhms * that.toAmperes)
   def *(that: Length): Resistivity = OhmMeters(toOhms * that.toMeters)
@@ -35,19 +35,20 @@ final class ElectricalResistance private (val value: Double)
   def inSiemens = Siemens(1.0 / to(Ohms))
 }
 
-object ElectricalResistance extends QuantityCompanion[ElectricalResistance] {
-  private[electro] def apply[A](n: A)(implicit num: Numeric[A]) = new ElectricalResistance(num.toDouble(n))
+object ElectricalResistance extends Dimension[ElectricalResistance] {
+  private[electro] def apply[A](n: A, unit: ElectricalResistanceUnit)(implicit num: Numeric[A]) = new ElectricalResistance(num.toDouble(n), unit)
   def apply = parseString _
   def name = "ElectricalResistance"
-  def valueUnit = Ohms
+  def primaryUnit = Ohms
+  def siUnit = Ohms
   def units = Set(Ohms, Nanohms, Microohms, Milliohms, Kilohms, Megohms, Gigohms)
 }
 
 trait ElectricalResistanceUnit extends UnitOfMeasure[ElectricalResistance] with UnitConverter {
-  def apply[A](n: A)(implicit num: Numeric[A]) = ElectricalResistance(convertFrom(n))
+  def apply[A](n: A)(implicit num: Numeric[A]) = ElectricalResistance(n, this)
 }
 
-object Ohms extends ElectricalResistanceUnit with ValueUnit {
+object Ohms extends ElectricalResistanceUnit with PrimaryUnit with SiUnit {
   val symbol = "Ω"
 }
 
@@ -101,5 +102,5 @@ object ElectricalResistanceConversions {
   }
 
   implicit object ElectricalResistanceNumeric
-    extends AbstractQuantityNumeric[ElectricalResistance](ElectricalResistance.valueUnit)
+    extends AbstractQuantityNumeric[ElectricalResistance](ElectricalResistance.primaryUnit)
 }

@@ -26,17 +26,33 @@ import squants.time.{ SecondTimeIntegral, TimeSquared, TimeIntegral }
  *
  * @param value value in  [[squants.space.Meters]]
  */
-final class Length private (val value: Double)
+final class Length private (val value: Double, val unit: LengthUnit)
     extends Quantity[Length]
     with TimeIntegral[Velocity]
     with SecondTimeIntegral[Acceleration] {
 
-  def valueUnit = Length.valueUnit
+  def dimension = Length
+
   protected def timeDerived = MetersPerSecond(toMeters)
   protected[squants] def time = Seconds(1)
 
-  def *(that: Length): Area = Area(this, that)
-  def *(that: Area): Volume = Volume(that, this)
+  def *(that: Length): Area = unit match {
+    case Centimeters ⇒ SquareCentimeters(value * that.toCentimeters)
+    case Kilometers  ⇒ SquareKilometers(value * that.toKilometers)
+    case UsMiles     ⇒ SquareUsMiles(value * that.toUsMiles)
+    case Yards       ⇒ SquareYards(value * that.toYards)
+    case Feet        ⇒ SquareFeet(value * that.toFeet)
+    case Inches      ⇒ SquareInches(value * that.toInches)
+    case _           ⇒ SquareMeters(toMeters * that.toMeters)
+  }
+
+  def *(that: Area): Volume = unit match {
+    case Yards  ⇒ CubicYards(value * that.toSquareYards)
+    case Feet   ⇒ CubicFeet(value * that.toSquareFeet)
+    case Inches ⇒ CubicInches(value * that.toSquareInches)
+    case _      ⇒ CubicMeters(toMeters * that.toSquareMeters)
+  }
+
   def *(that: Force): Energy = Joules(toMeters * that.toNewtons)
   def *(that: SpectralIntensity): RadiantIntensity = WattsPerSteradian(toMeters * that.toWattsPerSteradianPerMeter)
   def *(that: SpectralPower): Power = Watts(toMeters * that.toWattsPerMeter)
@@ -70,16 +86,16 @@ final class Length private (val value: Double)
 /**
  * Factory singleton for length
  */
-object Length extends QuantityCompanion[Length] with BaseQuantity {
-  private[space] def apply[A](b: A)(implicit num: Numeric[A]) = new Length(num.toDouble(b))
+object Length extends Dimension[Length] with BaseDimension {
+  private[space] def apply[A](n: A, unit: LengthUnit)(implicit num: Numeric[A]) = new Length(num.toDouble(n), unit)
   def apply = parseString _
   def name = "Length"
-  def valueUnit = Meters
+  def primaryUnit = Meters
+  def siUnit = Meters
   def units = Set(Nanometers, Microns, Millimeters, Centimeters,
     Decimeters, Meters, Decameters, Hectometers, Kilometers,
     Inches, Feet, Yards, UsMiles, InternationalMiles, NauticalMiles,
     AstronomicalUnits, LightYears)
-  def baseUnit = Meters
   def dimensionSymbol = "L"
 }
 
@@ -87,7 +103,7 @@ object Length extends QuantityCompanion[Length] with BaseQuantity {
  * Base trait for units of [[squants.space.Length]]
  */
 trait LengthUnit extends UnitOfMeasure[Length] with UnitConverter {
-  def apply[A](n: A)(implicit num: Numeric[A]) = Length(convertFrom(n))
+  def apply[A](n: A)(implicit num: Numeric[A]) = Length(n, this)
 }
 
 object Nanometers extends LengthUnit {
@@ -115,7 +131,7 @@ object Decimeters extends LengthUnit {
   val conversionFactor = MetricSystem.Deci
 }
 
-object Meters extends LengthUnit with ValueUnit with BaseUnit {
+object Meters extends LengthUnit with PrimaryUnit with SiBaseUnit {
   val symbol = "m"
 }
 
@@ -240,6 +256,6 @@ object LengthConversions {
     def toLength = Length(s)
   }
 
-  implicit object LengthNumeric extends AbstractQuantityNumeric[Length](Length.valueUnit)
+  implicit object LengthNumeric extends AbstractQuantityNumeric[Length](Length.primaryUnit)
 }
 

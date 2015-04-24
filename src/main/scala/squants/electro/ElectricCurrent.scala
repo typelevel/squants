@@ -20,10 +20,11 @@ import squants.energy.Watts
  *
  * @param value the amount of charge in [[squants.electro.Amperes]]'s
  */
-final class ElectricCurrent private (val value: Double) extends Quantity[ElectricCurrent]
+final class ElectricCurrent private (val value: Double, val unit: ElectricCurrentUnit)
+    extends Quantity[ElectricCurrent]
     with TimeDerivative[ElectricCharge] {
 
-  def valueUnit = ElectricCurrent.valueUnit
+  def dimension = ElectricCurrent
 
   protected def timeIntegrated = Coulombs(toAmperes)
   protected[squants] def time = Seconds(1)
@@ -39,27 +40,27 @@ final class ElectricCurrent private (val value: Double) extends Quantity[Electri
   def toMilliamperes = to(Milliamperes)
 }
 
-object ElectricCurrent extends QuantityCompanion[ElectricCurrent] with BaseQuantity {
-  private[electro] def apply[A](n: A)(implicit num: Numeric[A]) = new ElectricCurrent(num.toDouble(n))
+object ElectricCurrent extends Dimension[ElectricCurrent] with BaseDimension {
+  private[electro] def apply[A](n: A, unit: ElectricCurrentUnit)(implicit num: Numeric[A]) = new ElectricCurrent(num.toDouble(n), unit)
   def apply = parseString _
   def name = "ElectricCurrent"
-  def valueUnit = Amperes
+  def primaryUnit = Amperes
+  def siUnit = Amperes
   def units = Set(Amperes, Milliamperes)
   def dimensionSymbol = "I"
-  def baseUnit = Amperes
 }
 
 /**
  * Base trait for units of [[squants.electro.ElectricCurrent]]
  */
 trait ElectricCurrentUnit extends UnitOfMeasure[ElectricCurrent] with UnitConverter {
-  def apply[A](n: A)(implicit num: Numeric[A]) = ElectricCurrent(convertFrom(n))
+  def apply[A](n: A)(implicit num: Numeric[A]) = ElectricCurrent(n, this)
 }
 
 /**
  * Amperes
  */
-object Amperes extends ElectricCurrentUnit with ValueUnit with BaseUnit {
+object Amperes extends ElectricCurrentUnit with PrimaryUnit with SiBaseUnit {
   val symbol = "A"
 }
 
@@ -87,5 +88,5 @@ object ElectricCurrentConversions {
   }
 
   implicit object ElectricCurrentNumeric
-    extends AbstractQuantityNumeric[ElectricCurrent](ElectricCurrent.valueUnit)
+    extends AbstractQuantityNumeric[ElectricCurrent](ElectricCurrent.primaryUnit)
 }

@@ -25,9 +25,21 @@ import squants.QuantityChecks
  */
 object EnergyChecks extends Properties("Energy") with QuantityChecks {
 
+  override val tol = 1e-12
   override implicit val tolTime = Hours(tol)
   implicit val tolPower = Watts(tol)
   implicit val tolPowerRamp = WattsPerHour(tol)
+  implicit val tolEnergy = Joules(tol)
+  implicit val tolLength = Meters(tol)
+  implicit val tolForce = Newtons(tol)
+  implicit val tolSpecificEnergy = Grays(tol)
+  implicit val tolMass = Kilograms(tol)
+  implicit val tolEnergyDensity = JoulesPerCubicMeter(tol)
+  implicit val tolTemp = Kelvin(tol)
+  implicit val tolElectricCharge = Coulombs(tol)
+  implicit val tolVolume = CubicMeters(tol)
+  implicit val tolThermalCap = JoulesPerKelvin(tol)
+  implicit val tolElectricPotential = Volts(tol)
 
   property("WattHours = Watts * Hours") = forAll(posNum, posNum) { (watts: TestData, hours: TestData) ⇒
     WattHours(watts * hours) == Watts(watts) * Hours(hours) &&
@@ -51,37 +63,37 @@ object EnergyChecks extends Properties("Energy") with QuantityChecks {
   }
 
   property("Joules = Newtons * Meters") = forAll(posNum, posNum) { (newtons: TestData, meters: TestData) ⇒
-    Joules(newtons * meters) == Newtons(newtons) * Meters(meters) &&
-      Joules(newtons * meters) == Meters(meters) * Newtons(newtons) &&
-      Meters(meters).plusOrMinus(Meters(tol)).contains(Joules(newtons * meters) / Newtons(newtons)) &&
-      Newtons(newtons).plusOrMinus(Newtons(tol)).contains(Joules(newtons * meters) / Meters(meters))
+    Joules(newtons * meters) =~ (Newtons(newtons) * Meters(meters)) &&
+      Joules(newtons * meters) =~ (Meters(meters) * Newtons(newtons)) &&
+      Meters(meters) =~ (Joules(newtons * meters) / Newtons(newtons)) &&
+      Newtons(newtons) =~ (Joules(newtons * meters) / Meters(meters))
   }
 
   property("Joules = Kilograms * Grays") = forAll(posNum, posNum) { (kilograms: TestData, grays: TestData) ⇒
-    Joules(kilograms * grays) == Kilograms(kilograms) * Grays(grays) &&
-      Joules(kilograms * grays) == Grays(grays) * Kilograms(kilograms) &&
-      Grays(grays).plusOrMinus(Grays(tol)).contains(Joules(kilograms * grays) / Kilograms(kilograms)) &&
-      Kilograms(kilograms).plusOrMinus(Kilograms(tol)).contains(Joules(kilograms * grays) / Grays(grays))
+    Joules(kilograms * grays) =~ (Kilograms(kilograms) * Grays(grays)) &&
+      Joules(kilograms * grays) =~ (Grays(grays) * Kilograms(kilograms)) &&
+      Grays(grays) =~ (Joules(kilograms * grays) / Kilograms(kilograms)) &&
+      Kilograms(kilograms) =~ (Joules(kilograms * grays) / Grays(grays))
   }
 
   property("Joules = CubicMeters * JoulesPerCubicMeter") = forAll(posNum, posNum) { (cubicMeters: TestData, jpcm: TestData) ⇒
-    Joules(cubicMeters * jpcm) == CubicMeters(cubicMeters) * JoulesPerCubicMeter(jpcm) &&
-      Joules(cubicMeters * jpcm) == JoulesPerCubicMeter(jpcm) * CubicMeters(cubicMeters) &&
-      JoulesPerCubicMeter(jpcm).plusOrMinus(JoulesPerCubicMeter(tol)).contains(Joules(cubicMeters * jpcm) / CubicMeters(cubicMeters)) &&
-      CubicMeters(cubicMeters).plusOrMinus(CubicMeters(tol)).contains(Joules(cubicMeters * jpcm) / JoulesPerCubicMeter(jpcm))
+    Joules(cubicMeters * jpcm) =~ (CubicMeters(cubicMeters) * JoulesPerCubicMeter(jpcm)) &&
+      Joules(cubicMeters * jpcm) =~ (JoulesPerCubicMeter(jpcm) * CubicMeters(cubicMeters)) &&
+      JoulesPerCubicMeter(jpcm) =~ (Joules(cubicMeters * jpcm) / CubicMeters(cubicMeters)) &&
+      CubicMeters(cubicMeters) =~ (Joules(cubicMeters * jpcm) / JoulesPerCubicMeter(jpcm))
   }
 
   property("Joules = JoulesPerKelvin * Kelvin") = forAll(posNum, posNum) { (joulesPerKelvin: TestData, kelvin: TestData) ⇒
-    Joules(joulesPerKelvin * kelvin) == JoulesPerKelvin(joulesPerKelvin) * Kelvin(kelvin) &&
-      Joules(joulesPerKelvin * kelvin) == Kelvin(kelvin) * JoulesPerKelvin(joulesPerKelvin) &&
-      Kelvin(kelvin).plusOrMinus(Kelvin(tol)).contains(Joules(joulesPerKelvin * kelvin) / JoulesPerKelvin(joulesPerKelvin)) &&
-      JoulesPerKelvin(joulesPerKelvin).plusOrMinus(JoulesPerKelvin(tol)).contains(Joules(joulesPerKelvin * kelvin) / Kelvin(kelvin))
+    Joules(joulesPerKelvin * kelvin) =~ (JoulesPerKelvin(joulesPerKelvin) * Kelvin(kelvin)) &&
+      Joules(joulesPerKelvin * kelvin) =~ (Kelvin(kelvin) * JoulesPerKelvin(joulesPerKelvin)) &&
+      Kelvin(kelvin) =~ (Joules(joulesPerKelvin * kelvin) / JoulesPerKelvin(joulesPerKelvin)) &&
+      JoulesPerKelvin(joulesPerKelvin) =~ (Joules(joulesPerKelvin * kelvin) / Kelvin(kelvin))
   }
 
   property("Joules = Volt * Coulombs") = forAll(posNum, posNum) { (volts: TestData, coulombs: TestData) ⇒
-    Joules(volts * coulombs) == Volts(volts) * Coulombs(coulombs) &&
-      Joules(volts * coulombs) == Coulombs(coulombs) * Volts(volts) &&
-      Coulombs(coulombs).plusOrMinus(Coulombs(tol)).contains(Joules(volts * coulombs) / Volts(volts)) &&
-      Volts(volts).plusOrMinus(Volts(tol)).contains(Joules(volts * coulombs) / Coulombs(coulombs))
+    Joules(volts * coulombs) =~ (Volts(volts) * Coulombs(coulombs)) &&
+      Joules(volts * coulombs) =~ (Coulombs(coulombs) * Volts(volts)) &&
+      Coulombs(coulombs) =~ (Joules(volts * coulombs) / Volts(volts)) &&
+      Volts(volts) =~ (Joules(volts * coulombs) / Coulombs(coulombs))
   }
 }

@@ -18,10 +18,12 @@ import squants.time.{ Seconds, TimeDerivative }
  *
  * @param value value in [[squants.electro.Volts]]
  */
-final class ElectricPotential private (val value: Double) extends Quantity[ElectricPotential]
+final class ElectricPotential private (val value: Double, val unit: ElectricPotentialUnit)
+    extends Quantity[ElectricPotential]
     with TimeDerivative[MagneticFlux] {
 
-  def valueUnit = ElectricPotential.valueUnit
+  def dimension = ElectricPotential
+
   protected def timeIntegrated = Webers(toVolts)
   protected[squants] def time = Seconds(1)
 
@@ -40,19 +42,20 @@ final class ElectricPotential private (val value: Double) extends Quantity[Elect
   def toMegavolts = to(Megavolts)
 }
 
-object ElectricPotential extends QuantityCompanion[ElectricPotential] {
-  private[electro] def apply[A](n: A)(implicit num: Numeric[A]) = new ElectricPotential(num.toDouble(n))
+object ElectricPotential extends Dimension[ElectricPotential] {
+  private[electro] def apply[A](n: A, unit: ElectricPotentialUnit)(implicit num: Numeric[A]) = new ElectricPotential(num.toDouble(n), unit)
   def apply = parseString _
   def name = "ElectricPotential"
-  def valueUnit = Volts
+  def primaryUnit = Volts
+  def siUnit = Volts
   def units = Set(Volts, Microvolts, Millivolts, Kilovolts, Megavolts)
 }
 
 trait ElectricPotentialUnit extends UnitOfMeasure[ElectricPotential] with UnitConverter {
-  def apply[A](n: A)(implicit num: Numeric[A]) = ElectricPotential(convertFrom(n))
+  def apply[A](n: A)(implicit num: Numeric[A]) = ElectricPotential(n, this)
 }
 
-object Volts extends ElectricPotentialUnit with ValueUnit {
+object Volts extends ElectricPotentialUnit with PrimaryUnit with SiUnit {
   val symbol = "V"
 }
 
@@ -92,6 +95,6 @@ object ElectricPotentialConversions {
     def megavolts = Megavolts(n)
   }
 
-  implicit object ElectricPotentialNumeric extends AbstractQuantityNumeric[ElectricPotential](ElectricPotential.valueUnit)
+  implicit object ElectricPotentialNumeric extends AbstractQuantityNumeric[ElectricPotential](ElectricPotential.primaryUnit)
 }
 

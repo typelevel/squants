@@ -149,7 +149,6 @@ class VectorSpec extends FlatSpec with Matchers {
 
   it should "create a Vector with expected values" in {
     val vector = QuantityVector(Kilometers(1), Kilometers(10), Kilometers(5))
-    vector.valueUnit should be(Meters)
     vector.coordinates(0) should be(Kilometers(1))
     vector.coordinates(1) should be(Kilometers(10))
     vector.coordinates(2) should be(Kilometers(5))
@@ -177,11 +176,12 @@ class VectorSpec extends FlatSpec with Matchers {
   }
 
   it should "normalize a Vector" in {
+    implicit val tol = Kilometers(1e-15)
     val x = Kilometers(3)
     val y = Kilometers(4)
     val z = Kilometers(5)
     val normalized = QuantityVector(x, y, z).normalize(Kilometers)
-    normalized.magnitude should be(Kilometers(1.0))
+    normalized.magnitude =~ Kilometers(1.0) should be(right = true)
   }
 
   it should "add two Vectors" in {

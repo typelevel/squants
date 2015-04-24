@@ -18,11 +18,12 @@ import squants.space.{ SquaredRadians, SquareMeters }
  *
  * @param value value in [[squants.photo.Lumens]]
  */
-final class LuminousFlux private (val value: Double)
+final class LuminousFlux private (val value: Double, val unit: LuminousFluxUnit)
     extends Quantity[LuminousFlux]
     with TimeDerivative[LuminousEnergy] {
 
-  def valueUnit = LuminousFlux.valueUnit
+  def dimension = LuminousFlux
+
   protected def timeIntegrated = LumenSeconds(toLumens)
   protected[squants] def time = Seconds(1)
 
@@ -34,18 +35,20 @@ final class LuminousFlux private (val value: Double)
   def toLumens = to(Lumens)
 }
 
-object LuminousFlux extends QuantityCompanion[LuminousFlux] {
-  private[photo] def apply[A](n: A)(implicit num: Numeric[A]) = new LuminousFlux(num.toDouble(n))
+object LuminousFlux extends Dimension[LuminousFlux] {
+  private[photo] def apply[A](n: A, unit: LuminousFluxUnit)(implicit num: Numeric[A]) = new LuminousFlux(num.toDouble(n), unit)
   def apply = parseString _
   def name = "LuminousFlux"
-  def valueUnit = Lumens
+  def primaryUnit = Lumens
+  def siUnit = Lumens
   def units = Set(Lumens)
 }
 
-trait LuminousFluxUnit extends UnitOfMeasure[LuminousFlux] with UnitConverter
+trait LuminousFluxUnit extends UnitOfMeasure[LuminousFlux] with UnitConverter {
+  def apply[A](n: A)(implicit num: Numeric[A]) = LuminousFlux(n, this)
+}
 
-object Lumens extends LuminousFluxUnit with ValueUnit {
-  def apply[A](n: A)(implicit num: Numeric[A]) = LuminousFlux(n)
+object Lumens extends LuminousFluxUnit with PrimaryUnit with SiUnit {
   val symbol = "lm"
 }
 
@@ -56,5 +59,5 @@ object LuminousFluxConversions {
     def lumens = Lumens(n)
   }
 
-  implicit object LuminousFluxNumeric extends AbstractQuantityNumeric[LuminousFlux](LuminousFlux.valueUnit)
+  implicit object LuminousFluxNumeric extends AbstractQuantityNumeric[LuminousFlux](LuminousFlux.primaryUnit)
 }

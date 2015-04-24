@@ -16,9 +16,9 @@ import squants._
  *
  * @param value value in [[squants.energy.Grays]]
  */
-final class SpecificEnergy private (val value: Double) extends Quantity[SpecificEnergy] {
+final class SpecificEnergy private (val value: Double, val unit: SpecificEnergyUnit) extends Quantity[SpecificEnergy] {
 
-  def valueUnit = SpecificEnergy.valueUnit
+  def dimension = SpecificEnergy
 
   def *(that: Mass): Energy = Joules(toGrays * that.toKilograms)
   def /(that: Time) = ??? // returns AbsorbedEnergyRate
@@ -26,19 +26,20 @@ final class SpecificEnergy private (val value: Double) extends Quantity[Specific
   def toGrays = to(Grays)
 }
 
-object SpecificEnergy extends QuantityCompanion[SpecificEnergy] {
-  private[energy] def apply[A](n: A)(implicit num: Numeric[A]) = new SpecificEnergy(num.toDouble(n))
+object SpecificEnergy extends Dimension[SpecificEnergy] {
+  private[energy] def apply[A](n: A, unit: SpecificEnergyUnit)(implicit num: Numeric[A]) = new SpecificEnergy(num.toDouble(n), unit)
   def apply = parseString _
   def name = "SpecificEnergy"
-  def valueUnit = Grays
+  def primaryUnit = Grays
+  def siUnit = Grays
   def units = Set(Grays)
 }
 
 trait SpecificEnergyUnit extends UnitOfMeasure[SpecificEnergy] with UnitConverter {
-  def apply[A](n: A)(implicit num: Numeric[A]) = SpecificEnergy(convertFrom(n))
+  def apply[A](n: A)(implicit num: Numeric[A]) = SpecificEnergy(n, this)
 }
 
-object Grays extends SpecificEnergyUnit with ValueUnit {
+object Grays extends SpecificEnergyUnit with PrimaryUnit with SiUnit {
   val symbol = "Gy"
 }
 
@@ -49,6 +50,6 @@ object SpecificEnergyConversions {
     def grays = Grays(n)
   }
 
-  implicit object SpecificEnergyNumeric extends AbstractQuantityNumeric[SpecificEnergy](SpecificEnergy.valueUnit)
+  implicit object SpecificEnergyNumeric extends AbstractQuantityNumeric[SpecificEnergy](SpecificEnergy.primaryUnit)
 }
 

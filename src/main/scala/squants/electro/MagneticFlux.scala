@@ -18,10 +18,12 @@ import squants.space.SquareMeters
  *
  * @param value value in [[squants.electro.Webers]]
  */
-final class MagneticFlux private (val value: Double) extends Quantity[MagneticFlux]
+final class MagneticFlux private (val value: Double, val unit: MagneticFluxUnit)
+    extends Quantity[MagneticFlux]
     with TimeIntegral[ElectricPotential] {
 
-  def valueUnit = MagneticFlux.valueUnit
+  def dimension = MagneticFlux
+
   protected def timeDerived = Volts(toWebers)
   protected def time = Seconds(1)
 
@@ -33,19 +35,21 @@ final class MagneticFlux private (val value: Double) extends Quantity[MagneticFl
   def toWebers = to(Webers)
 }
 
-object MagneticFlux extends QuantityCompanion[MagneticFlux] {
-  private[electro] def apply[A](n: A)(implicit num: Numeric[A]) = new MagneticFlux(num.toDouble(n))
+object MagneticFlux extends Dimension[MagneticFlux] {
+  private[electro] def apply[A](n: A, unit: MagneticFluxUnit)(implicit num: Numeric[A]) = new MagneticFlux(num.toDouble(n), unit)
   def apply = parseString _
   def name = "MagneticFlux"
-  def valueUnit = Webers
+  def primaryUnit = Webers
+  def siUnit = Webers
   def units = Set(Webers)
 }
 
-trait MagneticFluxUnit extends UnitOfMeasure[MagneticFlux] with UnitConverter
+trait MagneticFluxUnit extends UnitOfMeasure[MagneticFlux] with UnitConverter {
+  def apply[A](n: A)(implicit num: Numeric[A]) = MagneticFlux(n, this)
+}
 
-object Webers extends MagneticFluxUnit with ValueUnit {
+object Webers extends MagneticFluxUnit with PrimaryUnit with SiUnit {
   val symbol = "Wb"
-  def apply[A](n: A)(implicit num: Numeric[A]) = MagneticFlux(n)
 }
 
 object MagneticFluxConversions {
@@ -55,5 +59,5 @@ object MagneticFluxConversions {
     def webers = Webers(n)
   }
 
-  implicit object MagneticFluxNumeric extends AbstractQuantityNumeric[MagneticFlux](MagneticFlux.valueUnit)
+  implicit object MagneticFluxNumeric extends AbstractQuantityNumeric[MagneticFlux](MagneticFlux.primaryUnit)
 }

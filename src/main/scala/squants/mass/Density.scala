@@ -16,29 +16,31 @@ import squants._
  *
  * @param value Double
  */
-case class Density(value: Double) extends Quantity[Density] {
+final class Density private (val value: Double, val unit: DensityUnit)
+    extends Quantity[Density] {
 
-  def valueUnit = KilogramsPerCubicMeter
+  def dimension = Density
 
   def *(that: Volume): Mass = Kilograms(value * that.toCubicMeters)
 
   def toKilogramsPerCubicMeter = to(KilogramsPerCubicMeter)
 }
 
-object Density extends QuantityCompanion[Density] {
-  private[mass] def apply[A](n: A)(implicit num: Numeric[A]) = new Density(num.toDouble(n))
+object Density extends Dimension[Density] {
+  private[mass] def apply[A](n: A, unit: DensityUnit)(implicit num: Numeric[A]) = new Density(num.toDouble(n), unit)
   def apply(m: Mass, v: Volume): Density = KilogramsPerCubicMeter(m.toKilograms / v.toCubicMeters)
   def apply = parseString _
   def name = "Density"
-  def valueUnit = KilogramsPerCubicMeter
+  def primaryUnit = KilogramsPerCubicMeter
+  def siUnit = KilogramsPerCubicMeter
   def units = Set(KilogramsPerCubicMeter)
 }
 
-trait DensityUnit extends UnitOfMeasure[Density] with UnitConverter {
-  def apply[A](n: A)(implicit num: Numeric[A]) = Density(convertFrom(n))
+trait DensityUnit extends UnitOfMeasure[Density] with UnitConverter with SiUnit {
+  def apply[A](n: A)(implicit num: Numeric[A]) = Density(n, this)
 }
 
-object KilogramsPerCubicMeter extends DensityUnit with ValueUnit {
+object KilogramsPerCubicMeter extends DensityUnit with PrimaryUnit {
   val symbol = "kg/m³"
 }
 

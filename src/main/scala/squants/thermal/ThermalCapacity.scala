@@ -21,28 +21,30 @@ import squants.energy.{ Energy, Joules }
  *
  * @param value the value in [[squants.thermal.JoulesPerKelvin]]
  */
-final class ThermalCapacity private (val value: Double) extends Quantity[ThermalCapacity] {
+final class ThermalCapacity private (val value: Double, val unit: ThermalCapacityUnit)
+    extends Quantity[ThermalCapacity] {
 
-  def valueUnit = ThermalCapacity.valueUnit
+  def dimension = ThermalCapacity
 
   def *(that: Temperature): Energy = Joules(toJoulesPerKelvin * that.toKelvinScale)
 
   def toJoulesPerKelvin = to(JoulesPerKelvin)
 }
 
-object ThermalCapacity extends QuantityCompanion[ThermalCapacity] {
-  private[thermal] def apply[A](n: A)(implicit num: Numeric[A]) = new ThermalCapacity(num.toDouble(n))
+object ThermalCapacity extends Dimension[ThermalCapacity] {
+  private[thermal] def apply[A](n: A, unit: ThermalCapacityUnit)(implicit num: Numeric[A]) = new ThermalCapacity(num.toDouble(n), unit)
   def apply = parseString _
   def name = "ThermalCapacity"
-  def valueUnit = JoulesPerKelvin
+  def primaryUnit = JoulesPerKelvin
+  def siUnit = JoulesPerKelvin
   def units = Set(JoulesPerKelvin)
 }
 
 trait ThermalCapacityUnit extends UnitOfMeasure[ThermalCapacity] with UnitConverter {
-  def apply[A](n: A)(implicit num: Numeric[A]) = ThermalCapacity(convertFrom(n))
+  def apply[A](n: A)(implicit num: Numeric[A]) = ThermalCapacity(n, this)
 }
 
-object JoulesPerKelvin extends ThermalCapacityUnit with ValueUnit {
+object JoulesPerKelvin extends ThermalCapacityUnit with PrimaryUnit with SiUnit {
   def symbol = "J/K"
 }
 
@@ -53,5 +55,5 @@ object ThermalCapacityConversions {
     def joulesPerKelvin = JoulesPerKelvin(n)
   }
 
-  implicit object ThermalCapacityNumeric extends AbstractQuantityNumeric[ThermalCapacity](ThermalCapacity.valueUnit)
+  implicit object ThermalCapacityNumeric extends AbstractQuantityNumeric[ThermalCapacity](ThermalCapacity.primaryUnit)
 }

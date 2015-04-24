@@ -19,9 +19,10 @@ import squants.radio.RadiantIntensity
  *
  * @param value value in [[squants.space.SquaredRadians]]
  */
-final class SolidAngle private (val value: Double) extends Quantity[SolidAngle] {
+final class SolidAngle private (val value: Double, val unit: SolidAngleUnit)
+    extends Quantity[SolidAngle] {
 
-  def valueUnit = SolidAngle.valueUnit
+  def dimension = SolidAngle
 
   def *(that: LuminousIntensity): LuminousFlux = Lumens(toSquaredRadians * that.toCandelas)
   def *(that: RadiantIntensity): Power = Watts(toSquaredRadians * that.toWattsPerSteradian)
@@ -30,18 +31,20 @@ final class SolidAngle private (val value: Double) extends Quantity[SolidAngle] 
   def toSteradians = value
 }
 
-object SolidAngle extends QuantityCompanion[SolidAngle] {
-  private[space] def apply[A](n: A)(implicit num: Numeric[A]) = new SolidAngle(num.toDouble(n))
+object SolidAngle extends Dimension[SolidAngle] {
+  private[space] def apply[A](n: A, unit: SolidAngleUnit)(implicit num: Numeric[A]) = new SolidAngle(num.toDouble(n), unit)
   def apply = parseString _
   def name = "SolidAngle"
-  def valueUnit = SquareRadians
+  def primaryUnit = SquareRadians
+  def siUnit = SquareRadians
   def units = Set(SquareRadians)
 }
 
-trait SolidAngleUnit extends UnitOfMeasure[SolidAngle]
+trait SolidAngleUnit extends UnitOfMeasure[SolidAngle] {
+  def apply[A](n: A)(implicit num: Numeric[A]) = SolidAngle(n, this)
+}
 
-object SquaredRadians extends SolidAngleUnit with ValueUnit {
-  def apply[A](n: A)(implicit num: Numeric[A]) = SolidAngle(n)
+object SquaredRadians extends SolidAngleUnit with PrimaryUnit with SiUnit {
   val symbol = "sr"
 }
 
@@ -54,6 +57,6 @@ object SolidAngleConversions {
     def steradians = SquaredRadians(n)
   }
 
-  implicit object SolidAngleNumeric extends AbstractQuantityNumeric[SolidAngle](SolidAngle.valueUnit)
+  implicit object SolidAngleNumeric extends AbstractQuantityNumeric[SolidAngle](SolidAngle.primaryUnit)
 }
 
