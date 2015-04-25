@@ -2,7 +2,7 @@
 ** Squants                                                              **
 **                                                                      **
 ** Scala Quantities and Units of Measure Library and DSL                **
-** (c) 2013-2014, Gary Keorkunian                                       **
+** (c) 2013-2015, Gary Keorkunian                                       **
 **                                                                      **
 \*                                                                      */
 
@@ -10,7 +10,6 @@ package squants.motion
 
 import squants._
 import squants.time._
-import squants.Time
 import squants.time.Seconds
 import squants.space.{ UsMiles, Feet }
 
@@ -30,18 +29,33 @@ final class Acceleration private (val value: Double, val unit: AccelerationUnit)
 
   def dimension = Acceleration
 
-  protected def timeIntegrated = MetersPerSecond(toMetersPerSecondSquared)
-  protected def timeDerived = MetersPerSecondCubed(toMetersPerSecondSquared)
+  protected[squants] def timeIntegrated = MetersPerSecond(toMetersPerSecondSquared)
+  protected[squants] def timeDerived = MetersPerSecondCubed(toMetersPerSecondSquared)
   protected[squants] def time = Seconds(1)
 
   def *(that: Mass): Force = Newtons(toMetersPerSecondSquared * that.toKilograms)
-
   def *(that: TimeSquared): Length = this * that.time1 * that.time2
 
   def toFeetPerSecondSquared = to(FeetPerSecondSquared)
   def toMetersPerSecondSquared = to(MetersPerSecondSquared)
   def toUsMilesPerHourSquared = to(UsMilesPerHourSquared)
   def toEarthGravities = to(EarthGravities)
+
+  def analyze(distance: Length): (Time, Velocity) = {
+    val timeToDistance = (distance * 2 / this).squareRoot
+    val finalVelocity = this * timeToDistance
+    (timeToDistance, finalVelocity)
+  }
+  def analyze(accelerationTime: Time): (Length, Velocity) = {
+    val finalVelocity = this * accelerationTime
+    val distance = this * accelerationTime.squared * 0.5
+    (distance, finalVelocity)
+  }
+  def analyze(velocity: Velocity): (Time, Length) = {
+    val timeToVelocity = velocity / this
+    val distance = this * timeToVelocity.squared * 0.5
+    (timeToVelocity, distance)
+  }
 }
 
 object Acceleration extends Dimension[Acceleration] {

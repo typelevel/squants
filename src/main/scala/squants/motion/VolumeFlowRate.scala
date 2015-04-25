@@ -2,13 +2,13 @@
 ** Squants                                                              **
 **                                                                      **
 ** Scala Quantities and Units of Measure Library and DSL                **
-** (c) 2013-2014, Gary Keorkunian                                       **
+** (c) 2013-2015, Gary Keorkunian                                       **
 **                                                                      **
 \*                                                                      */
 
 package squants.motion
 
-import squants.space.{ Volume, UsGallons, CubicMeters }
+import squants.space.{ UsGallons, CubicMeters }
 import squants._
 import squants.time._
 import squants.Seconds
@@ -25,7 +25,7 @@ final class VolumeFlowRate private (val value: Double, val unit: VolumeFlowRateU
 
   def dimension = VolumeFlowRate
 
-  protected def timeIntegrated = CubicMeters(toCubicMetersPerSecond)
+  protected[squants] def timeIntegrated = CubicMeters(toCubicMetersPerSecond)
   protected[squants] def time = Seconds(1)
 
   def toCubicMetersPerSecond = to(CubicMetersPerSecond)

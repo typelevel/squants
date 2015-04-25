@@ -2,14 +2,14 @@
 ** Squants                                                              **
 **                                                                      **
 ** Scala Quantities and Units of Measure Library and DSL                **
-** (c) 2013-2014, Gary Keorkunian                                       **
+** (c) 2013-2015, Gary Keorkunian                                       **
 **                                                                      **
 \*                                                                      */
 
 package squants.motion
 
 import squants.time._
-import squants.space.{ Length, Feet, Kilometers, UsMiles, InternationalMiles, NauticalMiles }
+import squants.space.{ Feet, Kilometers, UsMiles, InternationalMiles, NauticalMiles }
 import squants._
 import squants.Time
 import squants.time.Seconds
@@ -31,12 +31,13 @@ final class Velocity private (val value: Double, val unit: VelocityUnit)
   def dimension = Velocity
 
   def timeDerived = MetersPerSecondSquared(toMetersPerSecond)
-  def timeIntegrated = Meters(toMetersPerSecond)
-  def time = Seconds(1)
+  protected[squants] def timeIntegrated = Meters(toMetersPerSecond)
+  protected[squants] def time = Seconds(1)
 
   def *(that: Mass): Momentum = NewtonSeconds(toMetersPerSecond * that.toKilograms)
 
   def /(that: TimeSquared): Jerk = this / that.time1 / that.time2
+  def /(that: Jerk): TimeSquared = (this / that.timeIntegrated) * time
 
   def toFeetPerSecond = to(FeetPerSecond)
   def toMetersPerSecond = to(MetersPerSecond)

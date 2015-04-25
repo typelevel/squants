@@ -2,16 +2,14 @@
 ** Squants                                                              **
 **                                                                      **
 ** Scala Quantities and Units of Measure Library and DSL                **
-** (c) 2013-2014, Gary Keorkunian                                       **
+** (c) 2013-2015, Gary Keorkunian                                       **
 **                                                                      **
 \*                                                                      */
 
 package squants
 
-import scala.util.{ Failure, Success, Try }
-
 /**
- * A base trait for measurable quantities
+ * A base class for measurable quantities, instances of which contain a value and a unit
  *
  * @author  garyKeorkunian
  * @since   0.1
@@ -26,13 +24,13 @@ abstract class Quantity[A <: Quantity[A]] extends Serializable with Ordered[A] {
   def value: Double
 
   /**
-   * The Unit of Measure used for the quantity's underlying value
+   * The Unit of Measure the value represents
    * @return UnitOfMeasure[A]
    */
   def unit: UnitOfMeasure[A]
 
   /**
-   * The Dimension this quantity contains a measure for
+   * The Dimension this quantity represents
    * @return
    */
   def dimension: Dimension[A]
@@ -224,10 +222,6 @@ abstract class Quantity[A <: Quantity[A]] extends Serializable with Ordered[A] {
 
   /**
    * Returns an equivalent Quantity boxed with the supplied Unit
-   *
-   * This is really only useful for Quantity classes that box at the UOM level
-   * e.g. Temperature and currently Time
-   *
    * @param unit UnitOfMeasure[A]
    * @return Quantity
    */
@@ -256,78 +250,4 @@ abstract class Quantity[A <: Quantity[A]] extends Serializable with Ordered[A] {
    * @return String
    */
   def toString(unit: UnitOfMeasure[A], format: String): String = "%s %s".format(format.format(to(unit)), unit.symbol)
-}
-
-/**
- * Base class for creating objects to manage quantities as Numeric.
- *
- * One limitation is the `times` operation which is not supported by every quantity type
- *
- * @tparam A Quantity type
- */
-abstract class AbstractQuantityNumeric[A <: Quantity[A]](val unit: UnitOfMeasure[A] with PrimaryUnit) extends Numeric[A] {
-  def plus(x: A, y: A) = x + y
-  def minus(x: A, y: A) = x - y
-
-  /**
-   * `times` is not a supported Numeric operation for Quantities.
-   * It is not possible to multiply a dimensional quantity by a like quantity and get another like quantity.
-   * Applying this class in a way that uses this method will result in an UnsupportedOperationException being thrown.
-   *
-   * @param x Quantity[A]
-   * @param y Quantity[A]
-   * @return
-   * @throws UnsupportedOperationException for most types
-   */
-  def times(x: A, y: A): A = throw new UnsupportedOperationException("Numeric.times not supported for Quantities")
-  def negate(x: A) = -x
-  def fromInt(x: Int) = unit(x)
-  def toInt(x: A) = x.to(unit).toInt
-  def toLong(x: A) = x.to(unit).toLong
-  def toFloat(x: A) = x.to(unit).toFloat
-  def toDouble(x: A) = x.to(unit)
-  def compare(x: A, y: A) = if (x.to(unit) > y.to(unit)) 1 else if (x.to(unit) < y.to(unit)) -1 else 0
-}
-
-case class QuantityStringParseException(message: String, expression: String) extends Exception
-
-/**
- * Represents a Physical Dimension
- *
- * This trait should be mixed into the Companion Objects of specific Quantity Types.
- *
- * @tparam A Quantity Type
- */
-trait Dimension[A <: Quantity[A]] {
-  def name: String
-  def primaryUnit: UnitOfMeasure[A] with PrimaryUnit
-  def siUnit: UnitOfMeasure[A] with SiUnit
-  def units: Set[UnitOfMeasure[A]]
-
-  def symbolToUnit(symbol: String): Option[UnitOfMeasure[A]] = units.find(u ⇒ u.symbol == symbol)
-
-  private lazy val QuantityString = ("([-+]?[0-9]*\\.?[0-9]+) *(" + units.map { u: UnitOfMeasure[A] ⇒ u.symbol }.reduceLeft(_ + "|" + _) + ")").r
-  protected def parseString(s: String): Try[A] = {
-    s match {
-      case QuantityString(value, symbol) ⇒ Success(symbolToUnit(symbol).get(BigDecimal(value)))
-      case _                             ⇒ Failure(QuantityStringParseException(s"Unable to parse $name", s))
-    }
-  }
-}
-
-/**
- * SI Base Quantity
- */
-trait BaseDimension { self: Dimension[_] ⇒
-  /**
-   * SI Base Unit for this Quantity
-   * @return
-   */
-  def siUnit: SiBaseUnit
-
-  /**
-   * SI Dimension Symbol
-   * @return
-   */
-  def dimensionSymbol: String
 }

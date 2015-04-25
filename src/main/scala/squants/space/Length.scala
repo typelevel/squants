@@ -2,7 +2,7 @@
 ** Squants                                                              **
 **                                                                      **
 ** Scala Quantities and Units of Measure Library and DSL                **
-** (c) 2013-2014, Gary Keorkunian                                       **
+** (c) 2013-2015, Gary Keorkunian                                       **
 **                                                                      **
 \*                                                                      */
 
@@ -60,6 +60,7 @@ final class Length private (val value: Double, val unit: LengthUnit)
   def *(that: ElectricalResistance): Resistivity = OhmMeters(toMeters * that.toOhms)
 
   def /(that: TimeSquared): Acceleration = this / that.time1 / that.time2
+  def /(that: Acceleration): TimeSquared = (this / that.timeIntegrated) * time
 
   def squared = this * this
   def cubed = this * this * this

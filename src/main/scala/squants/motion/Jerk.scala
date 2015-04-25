@@ -2,7 +2,7 @@
 ** Squants                                                              **
 **                                                                      **
 ** Scala Quantities and Units of Measure Library and DSL                **
-** (c) 2013-2014, Gary Keorkunian                                       **
+** (c) 2013-2015, Gary Keorkunian                                       **
 **                                                                      **
 \*                                                                      */
 
@@ -27,7 +27,7 @@ final class Jerk private (val value: Double, val unit: JerkUnit)
 
   def dimension = Jerk
 
-  protected def timeIntegrated = MetersPerSecondSquared(toMetersPerSecondCubed)
+  protected[squants] def timeIntegrated = MetersPerSecondSquared(toMetersPerSecondCubed)
   protected[squants] def time = Seconds(1)
 
   def *(that: TimeSquared): Velocity = this * that.time1 * that.time2

@@ -2,7 +2,7 @@
 ** Squants                                                              **
 **                                                                      **
 ** Scala Quantities and Units of Measure Library and DSL                **
-** (c) 2013-2014, Gary Keorkunian                                       **
+** (c) 2013-2015, Gary Keorkunian                                       **
 **                                                                      **
 \*                                                                      */
 
@@ -19,8 +19,8 @@ import squants.Quantity
  * @tparam A The type of quantity changing
  */
 trait TimeDerivative[A <: Quantity[A] with TimeIntegral[_]] { self: Quantity[_] ⇒
-  protected def timeIntegrated: A
-  protected[time] def time: Time
+  protected[squants] def timeIntegrated: A
+  protected[squants] def time: Time
 
   /**
    * Returns the amount of change in the integral that will happen over the given Time
@@ -31,7 +31,8 @@ trait TimeDerivative[A <: Quantity[A] with TimeIntegral[_]] { self: Quantity[_] 
   def *(that: Time): A = timeIntegrated * (that / time)
 }
 
-trait SecondTimeDerivative[A] { self: TimeDerivative[_] ⇒
+trait SecondTimeDerivative[A <: SecondTimeIntegral[_]] { self: TimeDerivative[_] ⇒
+  protected[squants] def time: Time
   def *(that: TimeSquared): A
 }
 
@@ -66,7 +67,8 @@ trait TimeIntegral[A <: Quantity[A] with TimeDerivative[_]] { self: Quantity[_] 
   def /(that: A): Time = that.time * (timeDerived / that)
 }
 
-trait SecondTimeIntegral[A] { self: TimeIntegral[_] ⇒
+trait SecondTimeIntegral[A <: SecondTimeDerivative[_]] { self: TimeIntegral[_] ⇒
+  def /(that: A): TimeSquared
   def /(that: TimeSquared): A
   def per(that: TimeSquared): A = /(that)
 }

@@ -2,7 +2,7 @@
 ** Squants                                                              **
 **                                                                      **
 ** Scala Quantities and Units of Measure Library and DSL                **
-** (c) 2013-2014, Gary Keorkunian                                       **
+** (c) 2013-2015, Gary Keorkunian                                       **
 **                                                                      **
 \*                                                                      */
 
@@ -24,7 +24,7 @@ final class Yank private (val value: Double, val unit: YankUnit)
 
   def dimension = Yank
 
-  protected def timeIntegrated = Newtons(toNewtonsPerSecond)
+  protected[squants] def timeIntegrated = Newtons(toNewtonsPerSecond)
   protected[squants] def time = Seconds(1)
 
   def *(that: TimeSquared): Momentum = this * that.time1 * that.time2

@@ -2,7 +2,7 @@
 ** Squants                                                              **
 **                                                                      **
 ** Scala Quantities and Units of Measure Library and DSL                **
-** (c) 2013-2014, Gary Keorkunian                                       **
+** (c) 2013-2015, Gary Keorkunian                                       **
 **                                                                      **
 \*                                                                      */
 
@@ -23,7 +23,7 @@ final class Frequency private (val value: Double, val unit: FrequencyUnit)
 
   def dimension = Frequency
 
-  protected def timeIntegrated = Each(toHertz)
+  protected[squants] def timeIntegrated = Each(toHertz)
   protected[squants] def time = Seconds(1)
 
   def toHertz = to(Hertz)
