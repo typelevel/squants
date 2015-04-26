@@ -33,6 +33,7 @@ final class Dimensionless private (val value: Double, val unit: DimensionlessUni
   def *(that: Dimensionless) = Each(toEach * that.toEach)
   def *(that: Quantity[_]) = that * toEach
 
+  def toPercent = to(Percent)
   def toEach = to(Each)
   def toDozen = to(Dozen)
   def toScore = to(Score)
@@ -48,7 +49,7 @@ object Dimensionless extends Dimension[Dimensionless] {
   def name = "Dimensionless"
   def primaryUnit = Each
   def siUnit = Each
-  def units = Set(Each, Dozen, Score, Gross)
+  def units = Set(Each, Percent, Dozen, Score, Gross)
 }
 
 /**
@@ -65,6 +66,14 @@ trait DimensionlessUnit extends UnitOfMeasure[Dimensionless] with UnitConverter 
  */
 object Each extends DimensionlessUnit with PrimaryUnit with SiUnit {
   val symbol = "ea"
+}
+
+/**
+ * Represents a number of hundredths (0.01)
+ */
+object Percent extends DimensionlessUnit {
+  val conversionFactor = 1e-2
+  val symbol = "%"
 }
 
 /**
@@ -92,6 +101,7 @@ object Gross extends DimensionlessUnit {
 }
 
 object DimensionlessConversions {
+  lazy val percent = Percent(1)
   lazy val each = Each(1)
   lazy val dozen = Dozen(1)
   lazy val score = Score(1)
@@ -101,6 +111,7 @@ object DimensionlessConversions {
   lazy val million = Each(1e6)
 
   implicit class DimensionlessConversions[A](n: A)(implicit num: Numeric[A]) {
+    def percent = Percent(n)
     def each = Each(n)
     def ea = Each(n)
     def dozen = Dozen(n)
