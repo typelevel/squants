@@ -2,7 +2,7 @@
 ** Squants                                                              **
 **                                                                      **
 ** Scala Quantities and Units of Measure Library and DSL                **
-** (c) 2013-2014, Gary Keorkunian                                       **
+** (c) 2013-2015, Gary Keorkunian                                       **
 **                                                                      **
 \*                                                                      */
 
@@ -24,7 +24,7 @@ final class ElectricPotential private (val value: Double, val unit: ElectricPote
 
   def dimension = ElectricPotential
 
-  protected def timeIntegrated = Webers(toVolts)
+  protected[squants] def timeIntegrated = Webers(toVolts)
   protected[squants] def time = Seconds(1)
 
   def *(that: ElectricCurrent): Power = Watts(toVolts * that.toAmperes)

@@ -2,7 +2,7 @@
 ** Squants                                                              **
 **                                                                      **
 ** Scala Quantities and Units of Measure Library and DSL                **
-** (c) 2013-2014, Gary Keorkunian                                       **
+** (c) 2013-2015, Gary Keorkunian                                       **
 **                                                                      **
 \*                                                                      */
 
@@ -48,8 +48,10 @@ final class Energy private (val value: Double, val unit: EnergyUnit)
 
   def /(that: ChemicalAmount) = ??? // return MolarEnergy
   def /(that: Angle) = ??? // return Torque (dimensionally equivalent to energy as Angles are dimensionless)
+  def /(that: Area) = ??? // Insolation, Energy Area Density
 
   def /(that: TimeSquared): PowerRamp = this / that.time1 / that.time2
+  def /(that: PowerRamp): TimeSquared = (this / that.timeIntegrated) * time
 
   def toWattHours = to(WattHours)
   def toKilowattHours = to(KilowattHours)

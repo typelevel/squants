@@ -2,7 +2,7 @@
 ** Squants                                                              **
 **                                                                      **
 ** Scala Quantities and Units of Measure Library and DSL                **
-** (c) 2013-2014, Gary Keorkunian                                       **
+** (c) 2013-2015, Gary Keorkunian                                       **
 **                                                                      **
 \*                                                                      */
 
@@ -10,15 +10,6 @@ package squants.experimental
 
 import scala.language.implicitConversions
 import squants._
-import squants.time.TimeIntegral
-import squants.motion._
-import squants.energy.{ SpecificEnergy, Joules }
-import squants.space.{ SquareMeters, CubicMeters }
-import squants.motion.Force
-import squants.Velocity
-import squants.motion.MassFlowRate
-import squants.Acceleration
-import squants.motion.Momentum
 
 /**
  * Represents a quantity of Mass

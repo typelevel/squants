@@ -421,59 +421,86 @@ val sum = List(USD(100), USD(10)).sum
 ```
 
 ## Type Hierarchy
-The type hierarchy includes two root base traits:  Quantity and UnitOfMeasure
+The type hierarchy includes two root base traits:  Dimension, UnitOfMeasure and Quantity
 
-### Quantity
-Quantity measures the magnitude or multitude of some thing.  Classes extending Quantity represent the
-various types of quantities that can be measured.  These are our alternatives to just using Double.
-Common 'Base' Quantities include Mass, Temperature, Length, Time, Energy, etc.
+### Quantity and Dimension
 
-Derived Quantities are based on one or more other quantities.  Typical examples include Time Derivatives.
+A Dimension represents a type of Quantity. For example: Mass, Length, Time, etc.
 
-Speed is the 1st Time Derivative of Length (Distance), Acceleration is the 2nd Time Derivative.
+A Quantity represents a dimensional value or measurement.  A Quantity is a combination of a numeric value and a unit.
+For example:  2 lb, 10 km, 3.4 hr.
+
+Squants has built in support for 52 quantity dimensions.
+
+### Unit of Measure
+UnitOfMeasure is the scale or multiplier in which the Quantity is being measured.
+Squants has built in support for 230 different units of measure
+
+For each Dimension a set of UOM objects implement a primary UOM trait typed to that Quantity.
+The UOM objects define the unit symbols and conversion factors.
+
+For example UOM objects extending LengthUnit can be used to create Length quantities
+
+### Quantity Implementations
+
+Specific implementations include
+
+* A class representing the Quantity including cross-dimensional operations
+* A companion object representing the Dimension and set of available units
+* A base trait for its Units
+* A set of objects defining specific units, their symbols and conversion factors
+
+This is an abbreviated example of how a Quantity type is constructed:
+
+```scala
+class Length extends Quantity[Length]  { ... }
+object Length extends Dimension[Length]  { ... }
+trait LengthUnit extends UnitOfMeasure[Length]  { ... }
+object Meters extends LengthUnit { ... }
+object Yards extends LengthUnit { ... }
+```
+
+The apply method of the UOM objects are implemented as factories for creating Quantity values.
+
+```scala
+val len1: Length = Meters(4.3)
+val len2: Length = Yards(5)
+```
+
+Squants currently supports 230 units of measure
+
+### Time Derivatives
+
+Special traits are used to establish a time derivative relationship between quantities.
+
+For example Velocity is the 1st Time Derivative of Length (Distance), Acceleration is the 2nd Time Derivative.
+
+```scala
+class Length extends Quantity[Length] with TimeIntegral[Velocity]
+...
+class Velocity extends Quantity[Velocity] with TimeDerivative[Length] with TimeIntegral[Acceleration]
+...
+class Acceleration extends Quantity[Acceleration] with TimeDerivative[Velocity]
+```
+
+These traits provide operations with time operands which result in correct dimensional transformation.
 
 ```scala
 val distance: Length = Kilometers(100)
 val time: Time = Hours(2)
-val speed: Speed = distance / time
-speed.toKilometersPerHour should be(50.0)
-val acc: Acceleration = Meters(50) / Second(1) / Second(1)
-acc.toMetersPerSecondSquared should be(50)
+val velocity: Velocity = distance / time
+val acc: Acceleration = velocity / Seconds(1)
+
+val gravity = 32.feet / second.squared
 ```
-Power is the 1st Time Derivative of Energy, PowerRamp is the 2nd
 
 ```scala
-val energy: Energy = KilowattHours(100)
+// Power is the 1st Time Derivative of Energy, PowerRamp is the 2nd
+val power = Kilowatts(100)
 val time: Time = Hours(2)
-val power: Power = energy / time
-power.toKilowatts should be(50.0)
-val ramp: PowerRamp = KilowattHours(50) / Hours(1) / Hours(1)
-ramp.toKilowattsPerHour should be(50)
+val energy = power * time
+val ramp = Kilowatt(50) / Hours(1)
 ```
-
-Squants currently supports over 50 quantity types.
-
-### Unit of Measure
-UnitOfMeasure is the scale or multiplier in which the Quantity is being measured.
-
-For each Quantity a series of UOM objects implement a base UOM trait typed to that Quantity.
-The UOM objects define the unit symbols and conversion settings.
-Factory methods in each UOM object create instances of the corresponding Quantity.
-
-For example UOM objects extending LengthUnit can be used to create Length quantities
-
-```scala
-val len1: Length = Inches(5)
-val len2: Length = Meters(4.3)
-val len3: Length = UsMiles(345.2)
-```
-Units of Measure for Time include Milliseconds, Seconds, Minutes, Hours, and Days
-
-Units of Measure for Temperature include Celsius, Kelvin, and Fahrenheit
-
-Units of Measure for Mass include Grams, Kilograms, etc.
-
-Squants currently supports over 150 units of measure
 
 ## Use Cases
 

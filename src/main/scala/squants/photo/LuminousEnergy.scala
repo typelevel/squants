@@ -2,13 +2,13 @@
 ** Squants                                                              **
 **                                                                      **
 ** Scala Quantities and Units of Measure Library and DSL                **
-** (c) 2013-2014, Gary Keorkunian                                       **
+** (c) 2013-2015, Gary Keorkunian                                       **
 **                                                                      **
 \*                                                                      */
 package squants.photo
 
 import squants._
-import squants.time.{ Seconds, Time, TimeIntegral }
+import squants.time.{ Seconds, TimeIntegral }
 
 /**
  * @author  garyKeorkunian

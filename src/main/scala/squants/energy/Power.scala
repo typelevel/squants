@@ -2,7 +2,7 @@
 ** Squants                                                              **
 **                                                                      **
 ** Scala Quantities and Units of Measure Library and DSL                **
-** (c) 2013-2014, Gary Keorkunian                                       **
+** (c) 2013-2015, Gary Keorkunian                                       **
 **                                                                      **
 \*                                                                      */
 
@@ -34,7 +34,7 @@ final class Power private (val value: Double, val unit: PowerUnit)
 
   def dimension = Power
 
-  protected def timeIntegrated = WattHours(toWatts)
+  protected[squants] def timeIntegrated = WattHours(toWatts)
   protected def timeDerived = WattsPerHour(toWatts)
   protected[squants] def time = Hours(1)
 
@@ -46,6 +46,7 @@ final class Power private (val value: Double, val unit: PowerUnit)
   def /(that: SolidAngle): RadiantIntensity = WattsPerSteradian(toWatts / that.toSteradians)
   def /(that: ElectricPotential): ElectricCurrent = Amperes(toWatts / that.toVolts)
   def /(that: ElectricCurrent): ElectricPotential = Volts(toWatts / that.toAmperes)
+  def /(that: Volume) = ??? // Power Density
 
   def toMilliwatts = to(Milliwatts)
   def toWatts = to(Watts)

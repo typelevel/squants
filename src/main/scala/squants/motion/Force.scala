@@ -2,7 +2,7 @@
 ** Squants                                                              **
 **                                                                      **
 ** Scala Quantities and Units of Measure Library and DSL                **
-** (c) 2013-2014, Gary Keorkunian                                       **
+** (c) 2013-2015, Gary Keorkunian                                       **
 **                                                                      **
 \*                                                                      */
 
@@ -26,7 +26,7 @@ final class Force private (val value: Double, val unit: ForceUnit)
 
   def dimension = Force
 
-  protected def timeIntegrated = NewtonSeconds(toNewtons)
+  protected[squants] def timeIntegrated = NewtonSeconds(toNewtons)
   protected def timeDerived = NewtonsPerSecond(toNewtons)
   override def time = Seconds(1)
 

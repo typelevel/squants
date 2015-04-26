@@ -2,15 +2,15 @@
 ** Squants                                                              **
 **                                                                      **
 ** Scala Quantities and Units of Measure Library and DSL                **
-** (c) 2013-2014, Gary Keorkunian                                       **
+** (c) 2013-2015, Gary Keorkunian                                       **
 **                                                                      **
 \*                                                                      */
 
 package squants.motion
 
-import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
-import squants.mass.{ Pounds, Kilograms }
+import org.scalatest.{ Matchers, FlatSpec }
+import squants.mass.Kilograms
 import squants.time.Seconds
 import squants.QuantityStringParseException
 

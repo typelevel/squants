@@ -2,7 +2,7 @@
 ** Squants                                                              **
 **                                                                      **
 ** Scala Quantities and Units of Measure Library and DSL                **
-** (c) 2013-2014, Gary Keorkunian                                       **
+** (c) 2013-2015, Gary Keorkunian                                       **
 **                                                                      **
 \*                                                                      */
 package squants.photo
@@ -22,7 +22,7 @@ final class Illuminance private (val value: Double, val unit: IlluminanceUnit)
 
   def dimension = Illuminance
 
-  protected def timeIntegrated = LuxSeconds(toLux)
+  protected[squants] def timeIntegrated = LuxSeconds(toLux)
   protected[squants] def time = Seconds(1)
 
   def *(that: Area): LuminousFlux = Lumens(toLux * that.toSquareMeters)

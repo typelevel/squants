@@ -2,14 +2,14 @@
 ** Squants                                                              **
 **                                                                      **
 ** Scala Quantities and Units of Measure Library and DSL                **
-** (c) 2013-2014, Gary Keorkunian                                       **
+** (c) 2013-2015, Gary Keorkunian                                       **
 **                                                                      **
 \*                                                                      */
 
 package squants.motion
 
-import squants.time.{ Hours, Seconds, TimeDerivative }
-import squants.mass.{ Pounds, Mass, Kilograms }
+import squants.time.{ Seconds, TimeDerivative }
+import squants.mass.{ Pounds, Kilograms }
 import squants._
 
 /**
@@ -24,7 +24,7 @@ final class MassFlowRate private (val value: Double, val unit: MassFlowRateUnit)
 
   def dimension = MassFlowRate
 
-  protected def timeIntegrated = Kilograms(toKilogramsPerSecond)
+  protected[squants] def timeIntegrated = Kilograms(toKilogramsPerSecond)
   protected[squants] def time = Seconds(1)
 
   def toKilogramsPerSecond = to(KilogramsPerSecond)

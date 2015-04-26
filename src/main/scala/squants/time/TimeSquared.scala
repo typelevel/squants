@@ -2,7 +2,7 @@
 ** Squants                                                              **
 **                                                                      **
 ** Scala Quantities and Units of Measure Library and DSL                **
-** (c) 2013-2014, Gary Keorkunian                                       **
+** (c) 2013-2015, Gary Keorkunian                                       **
 **                                                                      **
 \*                                                                      */
 
@@ -30,7 +30,11 @@ package squants.time
  * @author garyKeorkunian
  * @since 0.5.1
  */
-case class TimeSquared(time1: Time, time2: Time)
+case class TimeSquared(time1: Time, time2: Time) {
+  def squareRoot = time1.unit(math.sqrt(time1.value * time2.to(time1.unit)))
+  def *(that: SecondTimeDerivative[_]) = that * (time1 * time2)
+}
+
 object TimeSquared {
   def apply(time: Time): TimeSquared = TimeSquared(time, time)
 }

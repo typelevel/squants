@@ -2,7 +2,7 @@
 ** Squants                                                              **
 **                                                                      **
 ** Scala Quantities and Units of Measure Library and DSL                **
-** (c) 2013-2014, Gary Keorkunian                                       **
+** (c) 2013-2015, Gary Keorkunian                                       **
 **                                                                      **
 \*                                                                      */
 
@@ -70,6 +70,8 @@ class AccelerationSpec extends FlatSpec with Matchers {
   it should "return Time when divided by Jerk" in {
     MetersPerSecondSquared(1) / MetersPerSecondCubed(1) should be(Seconds(1))
   }
+
+  it should "return proper results on analyze" is pending
 
   behavior of "VelocityConversions"
 

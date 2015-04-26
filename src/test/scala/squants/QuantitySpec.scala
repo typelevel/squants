@@ -2,7 +2,7 @@
 ** Squants                                                              **
 **                                                                      **
 ** Scala Quantities and Units of Measure Library and DSL                **
-** (c) 2013-2014, Gary Keorkunian                                       **
+** (c) 2013-2015, Gary Keorkunian                                       **
 **                                                                      **
 \*                                                                      */
 
@@ -95,6 +95,12 @@ class QuantitySpec extends FlatSpec with Matchers {
     x.equals(y) should be(right = true)
   }
 
+  it should "equal an equivalent value in a different unit" in {
+    val x = Thangs(2100)
+    val y = Kilothangs(2.1)
+    x.equals(y) should be(right = true)
+  }
+
   it should "compare a non-null Quantity to a null and return a proper result" in {
     val x = Thangs(2.1)
     x == null should be(right = false)
@@ -165,11 +171,25 @@ class QuantitySpec extends FlatSpec with Matchers {
     x + y should be(Thangs(15))
   }
 
+  it should "add two like value in different units and result in a like value" in {
+    val x = Kilothangs(14.999)
+    val y = Thangs(1)
+    x plus y should be(Kilothangs(15))
+    x + y should be(Kilothangs(15))
+  }
+
   it should "minus two like values and result in a like value" in {
     val x = Thangs(15.0)
     val y = Thangs(0.001)
     (x minus y) should be(Thangs(14.999))
     x - y should be(Thangs(14.999))
+  }
+
+  it should "minus two like value in different units and result in a like value" in {
+    val x = Kilothangs(15)
+    val y = Thangs(1)
+    x minus y should be(Kilothangs(14.999))
+    x - y should be(Kilothangs(14.999))
   }
 
   it should "times by a Double and result in a like value" in {
@@ -191,6 +211,13 @@ class QuantitySpec extends FlatSpec with Matchers {
     val y = Thangs(2.0)
     (x divide y) should be(4.5)
     x / y should be(4.5)
+  }
+
+  it should "divide by a like value in different units and result in a Double" in {
+    val x = Kilothangs(9)
+    val y = Thangs(2)
+    x divide y should be(4500.0)
+    x / y should be(4500.0)
   }
 
   it should "remainder by a Double and result in a like value" in {
@@ -262,10 +289,14 @@ class QuantitySpec extends FlatSpec with Matchers {
   }
 
   it should "compare a like value values and return 1, 0, or -1" in {
-    val x = Thangs(5)
-    (x compare Thangs(4.999)) should be(1)
-    (x compare Thangs(5)) should be(0)
-    (x compare Thangs(5.001)) should be(-1)
+    val x = Kilothangs(5)
+    (x compare Kilothangs(4.999)) should be(1)
+    (x compare Kilothangs(5)) should be(0)
+    (x compare Kilothangs(5.001)) should be(-1)
+
+    (x compare Thangs(4999.0)) should be(1)
+    (x compare Thangs(5000.0)) should be(0)
+    (x compare Thangs(5001.0)) should be(-1)
   }
 
   it should "max a like value and return the greater of the two" in {

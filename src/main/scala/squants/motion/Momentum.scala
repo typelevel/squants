@@ -2,7 +2,7 @@
 ** Squants                                                              **
 **                                                                      **
 ** Scala Quantities and Units of Measure Library and DSL                **
-** (c) 2013-2014, Gary Keorkunian                                       **
+** (c) 2013-2015, Gary Keorkunian                                       **
 **                                                                      **
 \*                                                                      */
 
@@ -32,6 +32,7 @@ final class Momentum private (val value: Double, val unit: MomentumUnit)
   def /(that: Mass): Velocity = MetersPerSecond(toNewtonSeconds / that.toKilograms)
 
   def /(that: TimeSquared): Yank = this / that.time1 / that.time2
+  def /(that: Yank): TimeSquared = (this / that.timeIntegrated) * time
 
   def toNewtonSeconds = to(NewtonSeconds)
 }

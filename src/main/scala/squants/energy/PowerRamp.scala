@@ -2,7 +2,7 @@
 ** Squants                                                              **
 **                                                                      **
 ** Scala Quantities and Units of Measure Library and DSL                **
-** (c) 2013-2014, Gary Keorkunian                                       **
+** (c) 2013-2015, Gary Keorkunian                                       **
 **                                                                      **
 \*                                                                      */
 
@@ -27,7 +27,7 @@ final class PowerRamp private (val value: Double, val unit: PowerRampUnit)
 
   def dimension = PowerRamp
 
-  protected def timeIntegrated = Watts(toWattsPerHour)
+  protected[squants] def timeIntegrated = Watts(toWattsPerHour)
   protected[squants] def time = Hours(1)
 
   def *(that: TimeSquared): Energy = this * that.time1 * that.time2
