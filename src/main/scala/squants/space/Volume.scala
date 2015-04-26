@@ -163,7 +163,7 @@ object CubicInches extends VolumeUnit {
 
 object UsGallons extends VolumeUnit {
   val symbol = "gal"
-  val conversionFactor = Millilitres.conversionFactor * 3785.411784
+  val conversionFactor = Millilitres.conversionFactor * 3.785411784e3
 }
 
 object UsQuarts extends VolumeUnit {
@@ -198,7 +198,7 @@ object Teaspoons extends VolumeUnit {
 
 object UsDryGallons extends VolumeUnit {
   val symbol = "gal"
-  val conversionFactor = Millilitres.conversionFactor * 4404.8837
+  val conversionFactor = Millilitres.conversionFactor * 4.4048837e3
 }
 
 object UsDryQuarts extends VolumeUnit {
@@ -218,7 +218,7 @@ object UsDryCups extends VolumeUnit {
 
 object ImperialGallons extends VolumeUnit {
   val symbol = "gal"
-  val conversionFactor = Millilitres.conversionFactor * 4546.09
+  val conversionFactor = Millilitres.conversionFactor * 4.54609e3
 }
 
 object ImperialQuarts extends VolumeUnit {

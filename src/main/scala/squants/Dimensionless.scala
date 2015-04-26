@@ -71,7 +71,7 @@ object Each extends DimensionlessUnit with PrimaryUnit with SiUnit {
  * Represents a unit of dozen (12)
  */
 object Dozen extends DimensionlessUnit {
-  val conversionFactor = 12D
+  val conversionFactor = 12d
   val symbol = "dz"
 }
 
@@ -79,7 +79,7 @@ object Dozen extends DimensionlessUnit {
  * Represents a unit of scores (20)
  */
 object Score extends DimensionlessUnit {
-  val conversionFactor = 20D
+  val conversionFactor = 20d
   val symbol = "score"
 }
 
@@ -87,7 +87,7 @@ object Score extends DimensionlessUnit {
  * Represents a unit of gross (144)
  */
 object Gross extends DimensionlessUnit {
-  val conversionFactor = 144D
+  val conversionFactor = 144d
   val symbol = "gr"
 }
 
@@ -96,9 +96,9 @@ object DimensionlessConversions {
   lazy val dozen = Dozen(1)
   lazy val score = Score(1)
   lazy val gross = Gross(1)
-  lazy val hundred = Each(100)
-  lazy val thousand = Each(1000)
-  lazy val million = Each(1000000)
+  lazy val hundred = Each(1e2)
+  lazy val thousand = Each(1e3)
+  lazy val million = Each(1e6)
 
   implicit class DimensionlessConversions[A](n: A)(implicit num: Numeric[A]) {
     def each = Each(n)
@@ -108,9 +108,9 @@ object DimensionlessConversions {
     def score = Score(n)
     def gross = Gross(n)
     def gr = Gross(n)
-    def hundred = Each(num.toDouble(n) * 100)
-    def thousand = Each(num.toDouble(n) * 1000)
-    def million = Each(num.toDouble(n) * 1000000D)
+    def hundred = Each(num.toDouble(n) * 1e2)
+    def thousand = Each(num.toDouble(n) * 1e3)
+    def million = Each(num.toDouble(n) * 1e6)
   }
 
   implicit object DimensionlessNumeric extends AbstractQuantityNumeric[Dimensionless](Dimensionless.primaryUnit) {

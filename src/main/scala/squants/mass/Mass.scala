@@ -99,7 +99,7 @@ object Tonnes extends MassUnit {
 }
 
 object Pounds extends MassUnit {
-  val conversionFactor = Kilograms.conversionFactor * 0.45359237
+  val conversionFactor = Kilograms.conversionFactor * 4.5359237e-1
   val symbol = "lb"
 }
 

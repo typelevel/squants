@@ -41,15 +41,17 @@ final class Time private (val value: Double, val unit: TimeUnit)
 }
 
 object Time extends Dimension[Time] with BaseDimension {
-  val MillisecondsPerNanosecond = 1d / 1000000d
-  val MillisecondsPerMicrosecond = 1d / 1000d
+  val MillisecondsPerNanosecond = 1.0e-6
+  val MillisecondsPerMicrosecond = 1.0e-3
   val MillisecondsPerSecond = 1000d
   val MillisecondsPerMinute = MillisecondsPerSecond * 60d
   val MillisecondsPerHour = MillisecondsPerMinute * 60d
   val MillisecondsPerDay = MillisecondsPerHour * 24d
-  val SecondsPerMinutes = 60d
-  val SecondsPerHour = SecondsPerMinutes * 60d
+  val SecondsPerMinute = 60d
+  val SecondsPerHour = SecondsPerMinute * 60d
   val SecondsPerDay = SecondsPerHour * 24
+  val MinutesPerHour = 60d
+  val HoursPerDay = 24d
 
   private[time] def apply[A](n: A, unit: TimeUnit)(implicit num: Numeric[A]) = new Time(num.toDouble(n), unit)
   def apply = parseString _
@@ -66,7 +68,7 @@ trait TimeUnit extends UnitOfMeasure[Time] with UnitConverter {
 }
 
 object Microseconds extends TimeUnit {
-  val conversionFactor = Milliseconds.conversionFactor / 1000d
+  val conversionFactor = Milliseconds.conversionFactor / Time.MillisecondsPerSecond
   val symbol = "µs"
 }
 
@@ -75,22 +77,22 @@ object Milliseconds extends TimeUnit with PrimaryUnit {
 }
 
 object Seconds extends TimeUnit with SiBaseUnit {
-  val conversionFactor = Milliseconds.conversionFactor * 1000d
+  val conversionFactor = Milliseconds.conversionFactor * Time.MillisecondsPerSecond
   val symbol = "s"
 }
 
 object Minutes extends TimeUnit {
-  val conversionFactor = Seconds.conversionFactor * 60d
+  val conversionFactor = Seconds.conversionFactor * Time.SecondsPerMinute
   val symbol = "m"
 }
 
 object Hours extends TimeUnit {
-  val conversionFactor = Minutes.conversionFactor * 60d
+  val conversionFactor = Minutes.conversionFactor * Time.MinutesPerHour
   val symbol = "h"
 }
 
 object Days extends TimeUnit {
-  val conversionFactor = Hours.conversionFactor * 24d
+  val conversionFactor = Hours.conversionFactor * Time.HoursPerDay
   val symbol = "d"
 }
 

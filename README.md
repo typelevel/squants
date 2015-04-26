@@ -36,7 +36,7 @@ or
     "com.squants"  %% "squants"  % "0.5.2-SNAPSHOT"
 
 
-To use Squants in your Maven project add the following depencency to your
+To use Squants in your Maven project add the following dependency to your
 
 ```xml
 <dependency>
@@ -139,7 +139,31 @@ aveLoad should be(Kilowatts(1.2)
 ```
 
 ### Unit Conversions
-If necessary, the value can be extracted in the desired unit with the `to` method.
+
+Quantity values are based in the units used to create them.
+
+```scala
+val loadA: Power = Kilowatts(1200)  // returns Power: 1200.0 kW
+val loadB: Power = Megawatts(1200)  // returns Power: 1.2 MW
+```
+
+Since Squants properly equates values of a similar dimension, regardless of the unit, there is typically no reason to convert.
+This is especially true if the user code is primarily performing dimensional analysis.
+
+However, there are times when you may need to set a Quantity value to a specific unit (eg, for proper JSON encoding).
+
+When necessary, a quantity can be converted to another unit using the `in` method.
+
+```scala
+val loadA = Kilowatts(1200)    // returns Power: 1200.0 kW
+val loadB = loadA in Megawatts // returns Power: 1.2 MW
+val loadC = loadA in Gigawatts // returns Power: 0.0012 GW
+```
+
+Sometimes you need to get the numeric portion of the quantity
+(eg, for submission to an external service that requires a numeric in a specific unit)
+
+When necessary, the value can be extracted in the desired unit with the `to` method.
 
 ```scala
 val load: Power = Kilowatts(1200)
@@ -149,7 +173,11 @@ val my: Double = load to MyPowerUnit // returns ??? Whatever you want
 val kw: Double = load toKilowatts // returns 1200.0 (convenience method)
 ```
 
-Strings formatted in the desired unit is also supported
+NOTE - It is important to use the `to` method for extracting the numeric value and not the `Quantity.value`, as this
+ensures you will be getting the numeric value for the desired unit.
+To prevent improper usage, access to the `Quantity.value` field may be deprecated future versions.
+
+Creating strings formatted in the desired unit is also supported
 
 ```scala
 val kw: String = load toString Kilowatts // returns “1200.0 kW”
@@ -421,7 +449,7 @@ val sum = List(USD(100), USD(10)).sum
 ```
 
 ## Type Hierarchy
-The type hierarchy includes two root base traits:  Dimension, UnitOfMeasure and Quantity
+The type hierarchy includes the following core types:  Quantity, Dimension, and UnitOfMeasure
 
 ### Quantity and Dimension
 
@@ -437,9 +465,7 @@ UnitOfMeasure is the scale or multiplier in which the Quantity is being measured
 Squants has built in support for 230 different units of measure
 
 For each Dimension a set of UOM objects implement a primary UOM trait typed to that Quantity.
-The UOM objects define the unit symbols and conversion factors.
-
-For example UOM objects extending LengthUnit can be used to create Length quantities
+The UOM objects define the unit symbols, conversion factors, and factory methods for creating Quantities in that unit.
 
 ### Quantity Implementations
 
@@ -453,7 +479,7 @@ Specific implementations include
 This is an abbreviated example of how a Quantity type is constructed:
 
 ```scala
-class Length extends Quantity[Length]  { ... }
+class Length(val value: Double, val unit: LengthUnit) extends Quantity[Length]  { ... }
 object Length extends Dimension[Length]  { ... }
 trait LengthUnit extends UnitOfMeasure[Length]  { ... }
 object Meters extends LengthUnit { ... }
@@ -476,11 +502,11 @@ Special traits are used to establish a time derivative relationship between quan
 For example Velocity is the 1st Time Derivative of Length (Distance), Acceleration is the 2nd Time Derivative.
 
 ```scala
-class Length extends Quantity[Length] with TimeIntegral[Velocity]
+class Length( ... ) extends Quantity[Length] with TimeIntegral[Velocity]
 ...
-class Velocity extends Quantity[Velocity] with TimeDerivative[Length] with TimeIntegral[Acceleration]
+class Velocity( ... ) extends Quantity[Velocity] with TimeDerivative[Length] with TimeIntegral[Acceleration]
 ...
-class Acceleration extends Quantity[Acceleration] with TimeDerivative[Velocity]
+class Acceleration( ... ) extends Quantity[Acceleration] with TimeDerivative[Velocity]
 ```
 
 These traits provide operations with time operands which result in correct dimensional transformation.
@@ -525,22 +551,32 @@ val totalMassFlow: Mass = volFlowRate * flowTime * density
 ```
 
 ### Domain Modeling
-Another excellent use case for Squants is stronger types for fields in your domain model.
+Another excellent use case for Squants is stronger typing for fields in your domain model.
 This is OK ...
 
 ```scala
-case class Generator(id: String, maxLoadKW: Double, rampRateKWph: Double,
-operatingCostPerMWh: Double, currency: String, maintenanceTimeHours: Double)
+case class Generator(
+  id: String,
+  maxLoadKW: Double,
+  rampRateKWph: Double,
+  operatingCostPerMWh: Double,
+  currency: String,
+  maintenanceTimeHours: Double)
 ...
 val gen1 = Generator("Gen1", 5000, 7500, 75.4, "USD", 1.5)
 val gen2 = Generator("Gen2", 100, 250, 2944.5, "JPY", 0.5)
 assetManagementActor ! ManageGenerator(gen1)
 ```
-… but this is much better
+
+... but this is much better
 
 ```scala
-case class Generator(id: String, maxLoad: Power, rampRate: PowerRamp,
-operatingCost: Price[Energy], maintenanceTime: Time)
+case class Generator(
+  id: String,
+  maxLoad: Power,
+  rampRate: PowerRamp,
+  operatingCost: Price[Energy],
+  maintenanceTime: Time)
 ...
 val gen1 = Generator("Gen1", 5 MW, 7.5.MW/hour, 75.4.USD/MWh, 1.5 hours)
 val gen2 = Generator("Gen2", 100 kW, 250 kWph, 2944.5.JPY/MWh, 30 minutes)
@@ -551,11 +587,11 @@ assetManagementActor ! ManageGenerator(gen1)
 
 Create wrappers around external services that use basic types to represent quantities.
 Your application code then uses the ACL to communicate with that system thus eliminating the need to deal
-with type and scale conversions in your application logic.
+with type and scale conversions in multiple places throughout your application logic.
 
 ```scala
 class ScadaServiceAnticorruption(val service: ScadaService) {
-  // ScadaService returns load as Double representing Megawatts
+  // ScadaService returns meter load as Double representing Megawatts
   def getLoad: Power = Megawatts(service.getLoad(meterId))
   }
   // ScadaService.sendTempBias requires a Double representing Fahrenheit
@@ -579,9 +615,11 @@ Extend the pattern to provide multi-currency support
 ```scala
 class MarketServiceAnticorruption(val service: MarketService)
      (implicit val moneyContext: = MoneyContext) {
+
   // MarketService.getPrice returns a Double representing $/MegawattHour
   def getPrice: Price[Energy] =
     (USD(service.getPrice) in moneyContext.defaultCurrency) / megawattHour
+
   // MarketService.sendBid requires a Double representing $/MegawattHour
   // and another Double representing the max amount of energy in MegawattHours
   def sendBid(bid: Price[Energy], limit: Energy) =

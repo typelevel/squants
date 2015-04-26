@@ -8,7 +8,7 @@
 
 package squants.motion
 
-import squants.time.{ Seconds, TimeDerivative }
+import squants.time.{ Time, Seconds, TimeDerivative }
 import squants.mass.{ Pounds, Kilograms }
 import squants._
 
@@ -56,7 +56,7 @@ object PoundsPerSecond extends MassFlowRateUnit {
 
 object KilopoundsPerHour extends MassFlowRateUnit {
   val symbol = "Mlbs/hr"
-  val conversionFactor = PoundsPerSecond.conversionFactor * 1000 / 3600
+  val conversionFactor = PoundsPerSecond.conversionFactor * MetricSystem.Kilo / Time.SecondsPerHour
 }
 
 object MassFlowRateConversions {

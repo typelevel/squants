@@ -197,7 +197,7 @@ object EnergyConversions {
   lazy val terajoule = Terajoules(1)
 
   lazy val btu = BritishThermalUnits(1)
-  lazy val btuMultiplier = 0.2930710701722222
+  lazy val btuMultiplier = 2.930710701722222e-1
 
   implicit class EnergyConversions[A](n: A)(implicit num: Numeric[A]) {
     def J = Joules(n)

@@ -60,7 +60,7 @@ object PoundsPerSquareInch extends PressureUnit {
 
 object StandardAtmospheres extends PressureUnit {
   val symbol = "atm"
-  val conversionFactor = Newtons.conversionFactor * 101325d
+  val conversionFactor = Newtons.conversionFactor * 1.01325e5
 }
 
 object PressureConversions {
