@@ -10,7 +10,7 @@ package squants.space
 
 import squants._
 import squants.time.TimeIntegral
-import squants.motion.{ CubicMetersPerSecond, VolumeFlowRate }
+import squants.motion.{ CubicMetersPerSecond, VolumeFlow }
 import squants.mass.{ ChemicalAmount, Kilograms }
 import squants.energy.{ Joules, EnergyDensity }
 
@@ -24,7 +24,7 @@ import squants.energy.{ Joules, EnergyDensity }
  */
 final class Volume private (val value: Double, val unit: VolumeUnit)
     extends Quantity[Volume]
-    with TimeIntegral[VolumeFlowRate] {
+    with TimeIntegral[VolumeFlow] {
 
   def dimension = Volume
 

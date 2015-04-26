@@ -11,6 +11,9 @@ package squants
 /**
  * A Unit of Measure is used to define the scale of a quantity measurement
  *
+ * Each Quantity Dimension must include at least one Unit of Measure, and one and only Primary.
+ * Other units of measure are defined with conversionFactors relative to the Primary.
+ *
  * @author  garyKeorkunian
  * @since   0.1
  *

@@ -19,11 +19,11 @@ import squants.Seconds
  *
  * @param value Double
  */
-final class VolumeFlowRate private (val value: Double, val unit: VolumeFlowRateUnit)
-    extends Quantity[VolumeFlowRate]
+final class VolumeFlow private (val value: Double, val unit: VolumeFlowRateUnit)
+    extends Quantity[VolumeFlow]
     with TimeDerivative[Volume] {
 
-  def dimension = VolumeFlowRate
+  def dimension = VolumeFlow
 
   protected[squants] def timeIntegrated = CubicMeters(toCubicMetersPerSecond)
   protected[squants] def time = Seconds(1)
@@ -35,17 +35,17 @@ final class VolumeFlowRate private (val value: Double, val unit: VolumeFlowRateU
   def toGallonsPerSecond = to(GallonsPerSecond)
 }
 
-object VolumeFlowRate extends Dimension[VolumeFlowRate] {
-  private[motion] def apply[A](n: A, unit: VolumeFlowRateUnit)(implicit num: Numeric[A]) = new VolumeFlowRate(num.toDouble(n), unit)
+object VolumeFlow extends Dimension[VolumeFlow] {
+  private[motion] def apply[A](n: A, unit: VolumeFlowRateUnit)(implicit num: Numeric[A]) = new VolumeFlow(num.toDouble(n), unit)
   def apply = parseString _
-  def name = "VolumeFlowRate"
+  def name = "VolumeFlow"
   def primaryUnit = CubicMetersPerSecond
   def siUnit = CubicMetersPerSecond
   def units = Set(CubicMetersPerSecond, GallonsPerDay, GallonsPerHour, GallonsPerMinute, GallonsPerSecond)
 }
 
-trait VolumeFlowRateUnit extends UnitOfMeasure[VolumeFlowRate] with UnitConverter {
-  def apply[A](n: A)(implicit num: Numeric[A]) = VolumeFlowRate(n, this)
+trait VolumeFlowRateUnit extends UnitOfMeasure[VolumeFlow] with UnitConverter {
+  def apply[A](n: A)(implicit num: Numeric[A]) = VolumeFlow(n, this)
 }
 
 object CubicMetersPerSecond extends VolumeFlowRateUnit with PrimaryUnit with SiUnit {
@@ -72,14 +72,14 @@ object GallonsPerSecond extends VolumeFlowRateUnit {
   val conversionFactor = CubicMeters.conversionFactor * UsGallons.conversionFactor
 }
 
-object VolumeFlowRateConversions {
+object VolumeFlowConversions {
   lazy val cubicMeterPerSecond = CubicMetersPerSecond(1)
   lazy val gallonPerDay = GallonsPerDay(1)
   lazy val gallonPerHour = GallonsPerHour(1)
   lazy val gallonPerMinute = GallonsPerMinute(1)
   lazy val gallonPerSecond = GallonsPerSecond(1)
 
-  implicit class VolumeFlowRateConversions[A](n: A)(implicit num: Numeric[A]) {
+  implicit class VolumeFlowConversions[A](n: A)(implicit num: Numeric[A]) {
     def cubicMetersPerSecond = CubicMetersPerSecond(n)
     def gallonsPerDay = GallonsPerDay(n)
     def gallonsPerHour = GallonsPerHour(n)
@@ -87,5 +87,5 @@ object VolumeFlowRateConversions {
     def gallonsPerSecond = GallonsPerSecond(n)
   }
 
-  implicit object VolumeFlowRateNumeric extends AbstractQuantityNumeric[VolumeFlowRate](CubicMetersPerSecond)
+  implicit object VolumeFlowNumeric extends AbstractQuantityNumeric[VolumeFlow](CubicMetersPerSecond)
 }

@@ -202,8 +202,8 @@ package object squants {
   type Jerk = squants.motion.Jerk
   type Momentum = squants.motion.Momentum
   type Force = squants.motion.Force
-  type MassFlowRate = squants.motion.MassFlowRate
-  type VolumeFlowRate = squants.motion.VolumeFlowRate
+  type MassFlow = squants.motion.MassFlow
+  type VolumeFlow = squants.motion.VolumeFlow
 
   type Energy = squants.energy.Energy
   type Power = squants.energy.Power

@@ -6,14 +6,14 @@
 **                                                                      **
 \*                                                                      */
 
-import squants.motion.{GallonsPerDay, VolumeFlowRate}
+import squants.motion.{GallonsPerDay, VolumeFlow}
 import squants.space.UsGallons
 import squants.space.VolumeConversions._
 import squants.motion.VolumeFlowRateConversions._
 import squants.time.TimeConversions._
 import squants.market.MoneyConversions._
 
-case class Brady(name: String, milkConsumption: VolumeFlowRate)
+case class Brady(name: String, milkConsumption: VolumeFlow)
 
 // Given
 val theBradyBunch = List(

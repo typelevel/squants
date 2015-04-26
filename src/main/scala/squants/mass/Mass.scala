@@ -16,7 +16,7 @@ import squants.energy.{ SpecificEnergy, Energy, Joules }
 import squants.space.{ SquareMeters, CubicMeters }
 import squants.motion.Force
 import squants.Velocity
-import squants.motion.MassFlowRate
+import squants.motion.MassFlow
 import squants.Acceleration
 import squants.motion.Momentum
 
@@ -30,7 +30,7 @@ import squants.motion.Momentum
  */
 final class Mass private (val value: Double, val unit: MassUnit)
     extends Quantity[Mass]
-    with TimeIntegral[MassFlowRate] {
+    with TimeIntegral[MassFlow] {
 
   def dimension = Mass
 
