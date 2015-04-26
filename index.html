@@ -1,37 +1,25 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en-us">
   <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="Squants : The Scala API for Quantities, Units of Measure and Dimensional Analysis">
-
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>Squants</title>
+    <meta charset="UTF-8">
+    <title>Squants by garyKeorkunian</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
   </head>
-
   <body>
+    <section class="page-header">
+      <h1 class="project-name">Squants</h1>
+      <h2 class="project-tagline">The Scala API for Quantities, Units of Measure and Dimensional Analysis</h2>
+      <a href="https://github.com/garyKeorkunian/squants" class="btn">View on GitHub</a>
+      <a href="https://github.com/garyKeorkunian/squants/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/garyKeorkunian/squants/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/garyKeorkunian/squants">View on GitHub</a>
-
-          <h1 id="project_title">Squants</h1>
-          <h2 id="project_tagline">The Scala API for Quantities, Units of Measure and Dimensional Analysis</h2>
-
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/garyKeorkunian/squants/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/garyKeorkunian/squants/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
-
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <p>Squants is a framework of data types and a domain specific language (DSL) for representing Quantities,
+    <section class="main-content">
+      <p>Squants is a framework of data types and a domain specific language (DSL) for representing Quantities,
 their Units of Measure, and their Dimensional relationships.
 The API supports typesafe dimensional analysis, improved domain models and more.
 All types are immutable and thread-safe.</p>
@@ -427,59 +415,83 @@ in a few important ways.</p>
 <h2>
 <a id="type-hierarchy" class="anchor" href="#type-hierarchy" aria-hidden="true"><span class="octicon octicon-link"></span></a>Type Hierarchy</h2>
 
-<p>The type hierarchy includes two root base traits:  Quantity and UnitOfMeasure</p>
+<p>The type hierarchy includes two root base traits:  Dimension, UnitOfMeasure and Quantity</p>
 
 <h3>
-<a id="quantity" class="anchor" href="#quantity" aria-hidden="true"><span class="octicon octicon-link"></span></a>Quantity</h3>
+<a id="quantity-and-dimension" class="anchor" href="#quantity-and-dimension" aria-hidden="true"><span class="octicon octicon-link"></span></a>Quantity and Dimension</h3>
 
-<p>Quantity measures the magnitude or multitude of some thing.  Classes extending Quantity represent the
-various types of quantities that can be measured.  These are our alternatives to just using Double.
-Common 'Base' Quantities include Mass, Temperature, Length, Time, Energy, etc.</p>
+<p>A Dimension represents a type of Quantity. For example: Mass, Length, Time, etc.</p>
 
-<p>Derived Quantities are based on one or more other quantities.  Typical examples include Time Derivatives.</p>
+<p>A Quantity represents a dimensional value or measurement.  A Quantity is a combination of a numeric value and a unit.
+For example:  2 lb, 10 km, 3.4 hr.</p>
 
-<p>Speed is the 1st Time Derivative of Length (Distance), Acceleration is the 2nd Time Derivative.</p>
-
-<div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">distance</span><span class="pl-k">:</span> <span class="pl-en">Length</span> <span class="pl-k">=</span> <span class="pl-en">Kilometers</span>(<span class="pl-c1">100</span>)
-<span class="pl-k">val</span> <span class="pl-en">time</span><span class="pl-k">:</span> <span class="pl-en">Time</span> <span class="pl-k">=</span> <span class="pl-en">Hours</span>(<span class="pl-c1">2</span>)
-<span class="pl-k">val</span> <span class="pl-en">speed</span><span class="pl-k">:</span> <span class="pl-en">Speed</span> <span class="pl-k">=</span> distance <span class="pl-k">/</span> time
-speed.toKilometersPerHour should be(<span class="pl-c1">50.0</span>)
-<span class="pl-k">val</span> <span class="pl-en">acc</span><span class="pl-k">:</span> <span class="pl-en">Acceleration</span> <span class="pl-k">=</span> <span class="pl-en">Meters</span>(<span class="pl-c1">50</span>) <span class="pl-k">/</span> <span class="pl-en">Second</span>(<span class="pl-c1">1</span>) <span class="pl-k">/</span> <span class="pl-en">Second</span>(<span class="pl-c1">1</span>)
-acc.toMetersPerSecondSquared should be(<span class="pl-c1">50</span>)</pre></div>
-
-<p>Power is the 1st Time Derivative of Energy, PowerRamp is the 2nd</p>
-
-<div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">energy</span><span class="pl-k">:</span> <span class="pl-en">Energy</span> <span class="pl-k">=</span> <span class="pl-en">KilowattHours</span>(<span class="pl-c1">100</span>)
-<span class="pl-k">val</span> <span class="pl-en">time</span><span class="pl-k">:</span> <span class="pl-en">Time</span> <span class="pl-k">=</span> <span class="pl-en">Hours</span>(<span class="pl-c1">2</span>)
-<span class="pl-k">val</span> <span class="pl-en">power</span><span class="pl-k">:</span> <span class="pl-en">Power</span> <span class="pl-k">=</span> energy <span class="pl-k">/</span> time
-power.toKilowatts should be(<span class="pl-c1">50.0</span>)
-<span class="pl-k">val</span> <span class="pl-en">ramp</span><span class="pl-k">:</span> <span class="pl-en">PowerRamp</span> <span class="pl-k">=</span> <span class="pl-en">KilowattHours</span>(<span class="pl-c1">50</span>) <span class="pl-k">/</span> <span class="pl-en">Hours</span>(<span class="pl-c1">1</span>) <span class="pl-k">/</span> <span class="pl-en">Hours</span>(<span class="pl-c1">1</span>)
-ramp.toKilowattsPerHour should be(<span class="pl-c1">50</span>)</pre></div>
-
-<p>Squants currently supports over 50 quantity types.</p>
+<p>Squants has built in support for 52 quantity dimensions.</p>
 
 <h3>
 <a id="unit-of-measure" class="anchor" href="#unit-of-measure" aria-hidden="true"><span class="octicon octicon-link"></span></a>Unit of Measure</h3>
 
-<p>UnitOfMeasure is the scale or multiplier in which the Quantity is being measured.</p>
+<p>UnitOfMeasure is the scale or multiplier in which the Quantity is being measured.
+Squants has built in support for 230 different units of measure</p>
 
-<p>For each Quantity a series of UOM objects implement a base UOM trait typed to that Quantity.
-The UOM objects define the unit symbols and conversion settings.
-Factory methods in each UOM object create instances of the corresponding Quantity.</p>
+<p>For each Dimension a set of UOM objects implement a primary UOM trait typed to that Quantity.
+The UOM objects define the unit symbols and conversion factors.</p>
 
 <p>For example UOM objects extending LengthUnit can be used to create Length quantities</p>
 
-<div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">len1</span><span class="pl-k">:</span> <span class="pl-en">Length</span> <span class="pl-k">=</span> <span class="pl-en">Inches</span>(<span class="pl-c1">5</span>)
-<span class="pl-k">val</span> <span class="pl-en">len2</span><span class="pl-k">:</span> <span class="pl-en">Length</span> <span class="pl-k">=</span> <span class="pl-en">Meters</span>(<span class="pl-c1">4.3</span>)
-<span class="pl-k">val</span> <span class="pl-en">len3</span><span class="pl-k">:</span> <span class="pl-en">Length</span> <span class="pl-k">=</span> <span class="pl-en">UsMiles</span>(<span class="pl-c1">345.2</span>)</pre></div>
+<h3>
+<a id="quantity-implementations" class="anchor" href="#quantity-implementations" aria-hidden="true"><span class="octicon octicon-link"></span></a>Quantity Implementations</h3>
 
-<p>Units of Measure for Time include Milliseconds, Seconds, Minutes, Hours, and Days</p>
+<p>Specific implementations include</p>
 
-<p>Units of Measure for Temperature include Celsius, Kelvin, and Fahrenheit</p>
+<ul>
+<li>A class representing the Quantity including cross-dimensional operations</li>
+<li>A companion object representing the Dimension and set of available units</li>
+<li>A base trait for its Units</li>
+<li>A set of objects defining specific units, their symbols and conversion factors</li>
+</ul>
 
-<p>Units of Measure for Mass include Grams, Kilograms, etc.</p>
+<p>This is an abbreviated example of how a Quantity type is constructed:</p>
 
-<p>Squants currently supports over 150 units of measure</p>
+<div class="highlight highlight-scala"><pre><span class="pl-k">class</span> <span class="pl-en">Length</span> <span class="pl-k">extends</span> <span class="pl-e">Quantity</span>[<span class="pl-en">Length</span>]  { ... }
+<span class="pl-k">object</span> <span class="pl-en">Length</span> <span class="pl-k">extends</span> <span class="pl-e">Dimension</span>[<span class="pl-en">Length</span>]  { ... }
+<span class="pl-k">trait</span> <span class="pl-en">LengthUnit</span> <span class="pl-k">extends</span> <span class="pl-e">UnitOfMeasure</span>[<span class="pl-en">Length</span>]  { ... }
+<span class="pl-k">object</span> <span class="pl-en">Meters</span> <span class="pl-k">extends</span> <span class="pl-e">LengthUnit</span> { ... }
+<span class="pl-k">object</span> <span class="pl-en">Yards</span> <span class="pl-k">extends</span> <span class="pl-e">LengthUnit</span> { ... }</pre></div>
+
+<p>The apply method of the UOM objects are implemented as factories for creating Quantity values.</p>
+
+<div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">len1</span><span class="pl-k">:</span> <span class="pl-en">Length</span> <span class="pl-k">=</span> <span class="pl-en">Meters</span>(<span class="pl-c1">4.3</span>)
+<span class="pl-k">val</span> <span class="pl-en">len2</span><span class="pl-k">:</span> <span class="pl-en">Length</span> <span class="pl-k">=</span> <span class="pl-en">Yards</span>(<span class="pl-c1">5</span>)</pre></div>
+
+<p>Squants currently supports 230 units of measure</p>
+
+<h3>
+<a id="time-derivatives" class="anchor" href="#time-derivatives" aria-hidden="true"><span class="octicon octicon-link"></span></a>Time Derivatives</h3>
+
+<p>Special traits are used to establish a time derivative relationship between quantities.</p>
+
+<p>For example Velocity is the 1st Time Derivative of Length (Distance), Acceleration is the 2nd Time Derivative.</p>
+
+<div class="highlight highlight-scala"><pre><span class="pl-k">class</span> <span class="pl-en">Length</span> <span class="pl-k">extends</span> <span class="pl-e">Quantity</span>[<span class="pl-en">Length</span>] <span class="pl-k">with</span> <span class="pl-e">TimeIntegral</span>[<span class="pl-en">Velocity</span>]
+...
+<span class="pl-k">class</span> <span class="pl-en">Velocity</span> <span class="pl-k">extends</span> <span class="pl-e">Quantity</span>[<span class="pl-en">Velocity</span>] <span class="pl-k">with</span> <span class="pl-e">TimeDerivative</span>[<span class="pl-en">Length</span>] <span class="pl-k">with</span> <span class="pl-e">TimeIntegral</span>[<span class="pl-en">Acceleration</span>]
+...
+<span class="pl-k">class</span> <span class="pl-en">Acceleration</span> <span class="pl-k">extends</span> <span class="pl-e">Quantity</span>[<span class="pl-en">Acceleration</span>] <span class="pl-k">with</span> <span class="pl-e">TimeDerivative</span>[<span class="pl-en">Velocity</span>]</pre></div>
+
+<p>These traits provide operations with time operands which result in correct dimensional transformation.</p>
+
+<div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">distance</span><span class="pl-k">:</span> <span class="pl-en">Length</span> <span class="pl-k">=</span> <span class="pl-en">Kilometers</span>(<span class="pl-c1">100</span>)
+<span class="pl-k">val</span> <span class="pl-en">time</span><span class="pl-k">:</span> <span class="pl-en">Time</span> <span class="pl-k">=</span> <span class="pl-en">Hours</span>(<span class="pl-c1">2</span>)
+<span class="pl-k">val</span> <span class="pl-en">velocity</span><span class="pl-k">:</span> <span class="pl-en">Velocity</span> <span class="pl-k">=</span> distance <span class="pl-k">/</span> time
+<span class="pl-k">val</span> <span class="pl-en">acc</span><span class="pl-k">:</span> <span class="pl-en">Acceleration</span> <span class="pl-k">=</span> velocity <span class="pl-k">/</span> <span class="pl-en">Seconds</span>(<span class="pl-c1">1</span>)
+
+<span class="pl-k">val</span> <span class="pl-en">gravity</span> <span class="pl-k">=</span> <span class="pl-c1">32.</span>feet <span class="pl-k">/</span> second.squared</pre></div>
+
+<div class="highlight highlight-scala"><pre><span class="pl-c">// Power is the 1st Time Derivative of Energy, PowerRamp is the 2nd</span>
+<span class="pl-k">val</span> <span class="pl-en">power</span> <span class="pl-k">=</span> <span class="pl-en">Kilowatts</span>(<span class="pl-c1">100</span>)
+<span class="pl-k">val</span> <span class="pl-en">time</span><span class="pl-k">:</span> <span class="pl-en">Time</span> <span class="pl-k">=</span> <span class="pl-en">Hours</span>(<span class="pl-c1">2</span>)
+<span class="pl-k">val</span> <span class="pl-en">energy</span> <span class="pl-k">=</span> power <span class="pl-k">*</span> time
+<span class="pl-k">val</span> <span class="pl-en">ramp</span> <span class="pl-k">=</span> <span class="pl-en">Kilowatt</span>(<span class="pl-c1">50</span>) <span class="pl-k">/</span> <span class="pl-en">Hours</span>(<span class="pl-c1">1</span>)</pre></div>
 
 <h2>
 <a id="use-cases" class="anchor" href="#use-cases" aria-hidden="true"><span class="octicon octicon-link"></span></a>Use Cases</h2>
@@ -615,18 +627,16 @@ with type and scale conversions in your application logic.</p>
 
 <p>Code is offered as-is, with no implied warranty of any kind.
 Comments, criticisms, and/or praise are welcome, especially from scientists, engineers and the like.</p>
-      </section>
-    </div>
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Squants maintained by <a href="https://github.com/garyKeorkunian">garyKeorkunian</a></p>
-        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/garyKeorkunian/squants">Squants</a> is maintained by <a href="https://github.com/garyKeorkunian">garyKeorkunian</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
       </footer>
-    </div>
 
-    
+    </section>
 
+  
   </body>
 </html>
+
