@@ -57,7 +57,7 @@ To use Squants in your SBT project you will need to add the following dependency
 <pre><code>"com.squants"  %% "squants"  % "0.5.2-SNAPSHOT"
 </code></pre>
 
-<p>To use Squants in your Maven project add the following depencency to your</p>
+<p>To use Squants in your Maven project add the following dependency to your</p>
 
 <div class="highlight highlight-xml"><pre>&lt;<span class="pl-ent">dependency</span>&gt;
     &lt;<span class="pl-ent">groupId</span>&gt;com.squants&lt;/<span class="pl-ent">groupId</span>&gt;
@@ -154,7 +154,26 @@ aveLoad should be(<span class="pl-en">Kilowatts</span>(<span class="pl-c1">1.2</
 <h3>
 <a id="unit-conversions" class="anchor" href="#unit-conversions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Unit Conversions</h3>
 
-<p>If necessary, the value can be extracted in the desired unit with the <code>to</code> method.</p>
+<p>Quantity values are based in the units used to create them.</p>
+
+<div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">loadA</span><span class="pl-k">:</span> <span class="pl-en">Power</span> <span class="pl-k">=</span> <span class="pl-en">Kilowatts</span>(<span class="pl-c1">1200</span>)  <span class="pl-c">// returns Power: 1200.0 kW</span>
+<span class="pl-k">val</span> <span class="pl-en">loadB</span><span class="pl-k">:</span> <span class="pl-en">Power</span> <span class="pl-k">=</span> <span class="pl-en">Megawatts</span>(<span class="pl-c1">1200</span>)  <span class="pl-c">// returns Power: 1.2 MW</span></pre></div>
+
+<p>Since Squants properly equates values of a similar dimension, regardless of the unit, there is typically no reason to convert.
+This is especially true if the user code is primarily performing dimensional analysis.</p>
+
+<p>However, there are times when you may need to set a Quantity value to a specific unit (eg, for proper JSON encoding).</p>
+
+<p>When necessary, a quantity can be converted to another unit using the <code>in</code> method.</p>
+
+<div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">loadA</span> <span class="pl-k">=</span> <span class="pl-en">Kilowatts</span>(<span class="pl-c1">1200</span>)    <span class="pl-c">// returns Power: 1200.0 kW</span>
+<span class="pl-k">val</span> <span class="pl-en">loadB</span> <span class="pl-k">=</span> loadA in <span class="pl-en">Megawatts</span> <span class="pl-c">// returns Power: 1.2 MW</span>
+<span class="pl-k">val</span> <span class="pl-en">loadC</span> <span class="pl-k">=</span> loadA in <span class="pl-en">Gigawatts</span> <span class="pl-c">// returns Power: 0.0012 GW</span></pre></div>
+
+<p>Sometimes you need to get the numeric portion of the quantity
+(eg, for submission to an external service that requires a numeric in a specific unit)</p>
+
+<p>When necessary, the value can be extracted in the desired unit with the <code>to</code> method.</p>
 
 <div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">load</span><span class="pl-k">:</span> <span class="pl-en">Power</span> <span class="pl-k">=</span> <span class="pl-en">Kilowatts</span>(<span class="pl-c1">1200</span>)
 <span class="pl-k">val</span> <span class="pl-en">mw</span><span class="pl-k">:</span> <span class="pl-k">Double</span> <span class="pl-k">=</span> load to <span class="pl-en">Kilowatts</span> <span class="pl-c">// returns 1200.0 (default method)</span>
@@ -162,7 +181,11 @@ aveLoad should be(<span class="pl-en">Kilowatts</span>(<span class="pl-c1">1.2</
 <span class="pl-k">val</span> <span class="pl-en">my</span><span class="pl-k">:</span> <span class="pl-k">Double</span> <span class="pl-k">=</span> load to <span class="pl-en">MyPowerUnit</span> <span class="pl-c">// returns ??? Whatever you want</span>
 <span class="pl-k">val</span> <span class="pl-en">kw</span><span class="pl-k">:</span> <span class="pl-k">Double</span> <span class="pl-k">=</span> load toKilowatts <span class="pl-c">// returns 1200.0 (convenience method)</span></pre></div>
 
-<p>Strings formatted in the desired unit is also supported</p>
+<p>NOTE - It is important to use the <code>to</code> method for extracting the numeric value and not the <code>Quantity.value</code>, as this
+ensures you will be getting the numeric value for the desired unit.
+To prevent improper usage, access to the <code>Quantity.value</code> field may be deprecated future versions.</p>
+
+<p>Creating strings formatted in the desired unit is also supported</p>
 
 <div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">kw</span><span class="pl-k">:</span> <span class="pl-k">String</span> <span class="pl-k">=</span> load toString <span class="pl-en">Kilowatts</span> <span class="pl-c">// returns “1200.0 kW”</span>
 <span class="pl-k">val</span> <span class="pl-en">mw</span><span class="pl-k">:</span> <span class="pl-k">String</span> <span class="pl-k">=</span> load toString <span class="pl-en">Megawatts</span> <span class="pl-c">// returns “1.2 MW”</span>
@@ -415,7 +438,7 @@ in a few important ways.</p>
 <h2>
 <a id="type-hierarchy" class="anchor" href="#type-hierarchy" aria-hidden="true"><span class="octicon octicon-link"></span></a>Type Hierarchy</h2>
 
-<p>The type hierarchy includes two root base traits:  Dimension, UnitOfMeasure and Quantity</p>
+<p>The type hierarchy includes the following core types:  Quantity, Dimension, and UnitOfMeasure</p>
 
 <h3>
 <a id="quantity-and-dimension" class="anchor" href="#quantity-and-dimension" aria-hidden="true"><span class="octicon octicon-link"></span></a>Quantity and Dimension</h3>
@@ -434,9 +457,7 @@ For example:  2 lb, 10 km, 3.4 hr.</p>
 Squants has built in support for 230 different units of measure</p>
 
 <p>For each Dimension a set of UOM objects implement a primary UOM trait typed to that Quantity.
-The UOM objects define the unit symbols and conversion factors.</p>
-
-<p>For example UOM objects extending LengthUnit can be used to create Length quantities</p>
+The UOM objects define the unit symbols, conversion factors, and factory methods for creating Quantities in that unit.</p>
 
 <h3>
 <a id="quantity-implementations" class="anchor" href="#quantity-implementations" aria-hidden="true"><span class="octicon octicon-link"></span></a>Quantity Implementations</h3>
@@ -452,7 +473,7 @@ The UOM objects define the unit symbols and conversion factors.</p>
 
 <p>This is an abbreviated example of how a Quantity type is constructed:</p>
 
-<div class="highlight highlight-scala"><pre><span class="pl-k">class</span> <span class="pl-en">Length</span> <span class="pl-k">extends</span> <span class="pl-e">Quantity</span>[<span class="pl-en">Length</span>]  { ... }
+<div class="highlight highlight-scala"><pre><span class="pl-k">class</span> <span class="pl-en">Length</span>(<span class="pl-k">val</span> <span class="pl-en">value</span><span class="pl-k">:</span> <span class="pl-k">Double</span>, <span class="pl-k">val</span> <span class="pl-en">unit</span><span class="pl-k">:</span> <span class="pl-en">LengthUnit</span>) <span class="pl-k">extends</span> <span class="pl-e">Quantity</span>[<span class="pl-en">Length</span>]  { ... }
 <span class="pl-k">object</span> <span class="pl-en">Length</span> <span class="pl-k">extends</span> <span class="pl-e">Dimension</span>[<span class="pl-en">Length</span>]  { ... }
 <span class="pl-k">trait</span> <span class="pl-en">LengthUnit</span> <span class="pl-k">extends</span> <span class="pl-e">UnitOfMeasure</span>[<span class="pl-en">Length</span>]  { ... }
 <span class="pl-k">object</span> <span class="pl-en">Meters</span> <span class="pl-k">extends</span> <span class="pl-e">LengthUnit</span> { ... }
@@ -472,11 +493,11 @@ The UOM objects define the unit symbols and conversion factors.</p>
 
 <p>For example Velocity is the 1st Time Derivative of Length (Distance), Acceleration is the 2nd Time Derivative.</p>
 
-<div class="highlight highlight-scala"><pre><span class="pl-k">class</span> <span class="pl-en">Length</span> <span class="pl-k">extends</span> <span class="pl-e">Quantity</span>[<span class="pl-en">Length</span>] <span class="pl-k">with</span> <span class="pl-e">TimeIntegral</span>[<span class="pl-en">Velocity</span>]
+<div class="highlight highlight-scala"><pre><span class="pl-k">class</span> <span class="pl-en">Length</span>( ... ) <span class="pl-k">extends</span> <span class="pl-e">Quantity</span>[<span class="pl-en">Length</span>] <span class="pl-k">with</span> <span class="pl-e">TimeIntegral</span>[<span class="pl-en">Velocity</span>]
 ...
-<span class="pl-k">class</span> <span class="pl-en">Velocity</span> <span class="pl-k">extends</span> <span class="pl-e">Quantity</span>[<span class="pl-en">Velocity</span>] <span class="pl-k">with</span> <span class="pl-e">TimeDerivative</span>[<span class="pl-en">Length</span>] <span class="pl-k">with</span> <span class="pl-e">TimeIntegral</span>[<span class="pl-en">Acceleration</span>]
+<span class="pl-k">class</span> <span class="pl-en">Velocity</span>( ... ) <span class="pl-k">extends</span> <span class="pl-e">Quantity</span>[<span class="pl-en">Velocity</span>] <span class="pl-k">with</span> <span class="pl-e">TimeDerivative</span>[<span class="pl-en">Length</span>] <span class="pl-k">with</span> <span class="pl-e">TimeIntegral</span>[<span class="pl-en">Acceleration</span>]
 ...
-<span class="pl-k">class</span> <span class="pl-en">Acceleration</span> <span class="pl-k">extends</span> <span class="pl-e">Quantity</span>[<span class="pl-en">Acceleration</span>] <span class="pl-k">with</span> <span class="pl-e">TimeDerivative</span>[<span class="pl-en">Velocity</span>]</pre></div>
+<span class="pl-k">class</span> <span class="pl-en">Acceleration</span>( ... ) <span class="pl-k">extends</span> <span class="pl-e">Quantity</span>[<span class="pl-en">Acceleration</span>] <span class="pl-k">with</span> <span class="pl-e">TimeDerivative</span>[<span class="pl-en">Velocity</span>]</pre></div>
 
 <p>These traits provide operations with time operands which result in correct dimensional transformation.</p>
 
@@ -518,20 +539,29 @@ that perform dimensional analysis.</p>
 <h3>
 <a id="domain-modeling" class="anchor" href="#domain-modeling" aria-hidden="true"><span class="octicon octicon-link"></span></a>Domain Modeling</h3>
 
-<p>Another excellent use case for Squants is stronger types for fields in your domain model.
+<p>Another excellent use case for Squants is stronger typing for fields in your domain model.
 This is OK ...</p>
 
-<div class="highlight highlight-scala"><pre><span class="pl-k">case</span> <span class="pl-k">class</span> <span class="pl-en">Generator</span>(<span class="pl-v">id</span>: <span class="pl-k">String</span>, <span class="pl-v">maxLoadKW</span>: <span class="pl-k">Double</span>, <span class="pl-v">rampRateKWph</span>: <span class="pl-k">Double</span>,
-operatingCostPerMWh<span class="pl-k">:</span> <span class="pl-k">Double</span>, <span class="pl-v">currency</span>: <span class="pl-k">String</span>, <span class="pl-v">maintenanceTimeHours</span>: <span class="pl-k">Double</span>)
+<div class="highlight highlight-scala"><pre><span class="pl-k">case</span> <span class="pl-k">class</span> <span class="pl-en">Generator</span>(
+  <span class="pl-v">id</span>: <span class="pl-k">String</span>,
+  <span class="pl-v">maxLoadKW</span>: <span class="pl-k">Double</span>,
+  <span class="pl-v">rampRateKWph</span>: <span class="pl-k">Double</span>,
+  <span class="pl-v">operatingCostPerMWh</span>: <span class="pl-k">Double</span>,
+  <span class="pl-v">currency</span>: <span class="pl-k">String</span>,
+  <span class="pl-v">maintenanceTimeHours</span>: <span class="pl-k">Double</span>)
 ...
 <span class="pl-k">val</span> <span class="pl-en">gen1</span> <span class="pl-k">=</span> <span class="pl-en">Generator</span>(<span class="pl-s"><span class="pl-pds">"</span>Gen1<span class="pl-pds">"</span></span>, <span class="pl-c1">5000</span>, <span class="pl-c1">7500</span>, <span class="pl-c1">75.4</span>, <span class="pl-s"><span class="pl-pds">"</span>USD<span class="pl-pds">"</span></span>, <span class="pl-c1">1.5</span>)
 <span class="pl-k">val</span> <span class="pl-en">gen2</span> <span class="pl-k">=</span> <span class="pl-en">Generator</span>(<span class="pl-s"><span class="pl-pds">"</span>Gen2<span class="pl-pds">"</span></span>, <span class="pl-c1">100</span>, <span class="pl-c1">250</span>, <span class="pl-c1">2944.5</span>, <span class="pl-s"><span class="pl-pds">"</span>JPY<span class="pl-pds">"</span></span>, <span class="pl-c1">0.5</span>)
 assetManagementActor <span class="pl-k">!</span> <span class="pl-en">ManageGenerator</span>(gen1)</pre></div>
 
-<p>… but this is much better</p>
+<p>... but this is much better</p>
 
-<div class="highlight highlight-scala"><pre><span class="pl-k">case</span> <span class="pl-k">class</span> <span class="pl-en">Generator</span>(<span class="pl-v">id</span>: <span class="pl-k">String</span>, <span class="pl-v">maxLoad</span>: <span class="pl-en">Power</span>, <span class="pl-v">rampRate</span>: <span class="pl-en">PowerRamp</span>,
-operatingCost<span class="pl-k">:</span> <span class="pl-en">Price</span>[<span class="pl-en">Energy</span>], <span class="pl-v">maintenanceTime</span>: <span class="pl-en">Time</span>)
+<div class="highlight highlight-scala"><pre><span class="pl-k">case</span> <span class="pl-k">class</span> <span class="pl-en">Generator</span>(
+  <span class="pl-v">id</span>: <span class="pl-k">String</span>,
+  <span class="pl-v">maxLoad</span>: <span class="pl-en">Power</span>,
+  <span class="pl-v">rampRate</span>: <span class="pl-en">PowerRamp</span>,
+  <span class="pl-v">operatingCost</span>: <span class="pl-en">Price</span>[<span class="pl-en">Energy</span>],
+  <span class="pl-v">maintenanceTime</span>: <span class="pl-en">Time</span>)
 ...
 <span class="pl-k">val</span> <span class="pl-en">gen1</span> <span class="pl-k">=</span> <span class="pl-en">Generator</span>(<span class="pl-s"><span class="pl-pds">"</span>Gen1<span class="pl-pds">"</span></span>, <span class="pl-c1">5</span> <span class="pl-en">MW</span>, <span class="pl-c1">7.5</span>.<span class="pl-en">MW</span><span class="pl-k">/</span>hour, <span class="pl-c1">75.4</span>.<span class="pl-en">USD</span><span class="pl-k">/</span><span class="pl-en">MWh</span>, <span class="pl-c1">1.5</span> hours)
 <span class="pl-k">val</span> <span class="pl-en">gen2</span> <span class="pl-k">=</span> <span class="pl-en">Generator</span>(<span class="pl-s"><span class="pl-pds">"</span>Gen2<span class="pl-pds">"</span></span>, <span class="pl-c1">100</span> kW, <span class="pl-c1">250</span> kWph, <span class="pl-c1">2944.5</span>.<span class="pl-en">JPY</span><span class="pl-k">/</span><span class="pl-en">MWh</span>, <span class="pl-c1">30</span> minutes)
@@ -542,10 +572,10 @@ assetManagementActor <span class="pl-k">!</span> <span class="pl-en">ManageGener
 
 <p>Create wrappers around external services that use basic types to represent quantities.
 Your application code then uses the ACL to communicate with that system thus eliminating the need to deal
-with type and scale conversions in your application logic.</p>
+with type and scale conversions in multiple places throughout your application logic.</p>
 
 <div class="highlight highlight-scala"><pre><span class="pl-k">class</span> <span class="pl-en">ScadaServiceAnticorruption</span>(<span class="pl-k">val</span> <span class="pl-en">service</span><span class="pl-k">:</span> <span class="pl-en">ScadaService</span>) {
-  <span class="pl-c">// ScadaService returns load as Double representing Megawatts</span>
+  <span class="pl-c">// ScadaService returns meter load as Double representing Megawatts</span>
   <span class="pl-k">def</span> <span class="pl-en">getLoad</span><span class="pl-k">:</span> <span class="pl-en">Power</span> <span class="pl-k">=</span> <span class="pl-en">Megawatts</span>(service.getLoad(meterId))
   }
   <span class="pl-c">// ScadaService.sendTempBias requires a Double representing Fahrenheit</span>
@@ -565,9 +595,11 @@ with type and scale conversions in your application logic.</p>
 
 <div class="highlight highlight-scala"><pre><span class="pl-k">class</span> <span class="pl-en">MarketServiceAnticorruption</span>(<span class="pl-k">val</span> <span class="pl-en">service</span><span class="pl-k">:</span> <span class="pl-en">MarketService</span>)
      (<span class="pl-k">implicit</span> <span class="pl-k">val</span> <span class="pl-en">moneyContext</span><span class="pl-k">:</span> <span class="pl-k">=</span> <span class="pl-en">MoneyContext</span>) {
+
   <span class="pl-c">// MarketService.getPrice returns a Double representing $/MegawattHour</span>
   <span class="pl-k">def</span> <span class="pl-en">getPrice</span><span class="pl-k">:</span> <span class="pl-en">Price</span>[<span class="pl-en">Energy</span>] <span class="pl-k">=</span>
     (<span class="pl-en">USD</span>(service.getPrice) in moneyContext.defaultCurrency) <span class="pl-k">/</span> megawattHour
+
   <span class="pl-c">// MarketService.sendBid requires a Double representing $/MegawattHour</span>
   <span class="pl-c">// and another Double representing the max amount of energy in MegawattHours</span>
   <span class="pl-k">def</span> <span class="pl-en">sendBid</span>(<span class="pl-v">bid</span>: <span class="pl-en">Price</span>[<span class="pl-en">Energy</span>], <span class="pl-v">limit</span>: <span class="pl-en">Energy</span>) <span class="pl-k">=</span>
