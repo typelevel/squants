@@ -9,6 +9,7 @@
 package squants.space
 
 import squants._
+import squants.time.Time
 
 /**
  * @author  garyKeorkunian
@@ -74,7 +75,7 @@ object Arcminutes extends AngleUnit {
 
 object Arcseconds extends AngleUnit {
   val symbol = "asec"
-  val conversionFactor = 1d / 60d * Arcminutes.conversionFactor
+  val conversionFactor = 1d / Time.SecondsPerMinute * Arcminutes.conversionFactor
 }
 
 object AngleConversions {

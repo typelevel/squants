@@ -72,7 +72,7 @@ object Terahertz extends FrequencyUnit {
 }
 
 object RevolutionsPerMinute extends FrequencyUnit {
-  val conversionFactor = 1d / 60
+  val conversionFactor = 1d / 60d
   val symbol = "rpm"
 }
 

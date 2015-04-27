@@ -152,42 +152,42 @@ object Kilometers extends LengthUnit {
 }
 
 object Inches extends LengthUnit {
-  val conversionFactor = Feet.conversionFactor / 12
+  val conversionFactor = Feet.conversionFactor / 12d
   val symbol = "in"
 }
 
 object Feet extends LengthUnit {
-  val conversionFactor = 0.3048006096
+  val conversionFactor = 3.048006096e-1
   val symbol = "ft"
 }
 
 object Yards extends LengthUnit {
-  val conversionFactor = Feet.conversionFactor * 3D
+  val conversionFactor = Feet.conversionFactor * 3d
   val symbol = "yd"
 }
 
 object UsMiles extends LengthUnit {
-  val conversionFactor = Feet.conversionFactor * 5280D
+  val conversionFactor = Feet.conversionFactor * 5.28e3
   val symbol = "mi"
 }
 
 object InternationalMiles extends LengthUnit {
-  val conversionFactor = 1609.344
+  val conversionFactor = 1.609344e3
   val symbol = "mile"
 }
 
 object NauticalMiles extends LengthUnit {
-  val conversionFactor = 1852D
+  val conversionFactor = 1.852e3
   val symbol = "nmi"
 }
 
 object AstronomicalUnits extends LengthUnit {
-  val conversionFactor = 149597870700D
+  val conversionFactor = 1.495978707e11
   val symbol = "au"
 }
 
 object LightYears extends LengthUnit {
-  val conversionFactor = 9460730472580800D
+  val conversionFactor = 9.4607304725808e15
   val symbol = "ly"
 }
 

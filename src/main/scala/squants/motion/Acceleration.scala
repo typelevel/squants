@@ -89,7 +89,7 @@ object FeetPerSecondSquared extends AccelerationUnit {
 
 object UsMilesPerHourSquared extends AccelerationUnit {
   val symbol = "mph²"
-  val conversionFactor = (UsMiles.conversionFactor * Meters.conversionFactor) / 3600d / 3600d
+  val conversionFactor = (UsMiles.conversionFactor * Meters.conversionFactor) / math.pow(Time.SecondsPerHour, 2)
 }
 
 /**

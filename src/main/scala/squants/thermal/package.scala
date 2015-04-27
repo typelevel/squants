@@ -15,4 +15,8 @@ package squants
  */
 package object thermal {
 
+  lazy val AbsoluteZero = Kelvin(0)
+  lazy val FreezingTemperatureWater = Celsius(0)
+  lazy val BoilingTemperatureWater = Celsius(100)
+
 }

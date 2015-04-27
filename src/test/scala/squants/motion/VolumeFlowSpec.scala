@@ -19,9 +19,9 @@ import squants.{ QuantityStringParseException, CustomMatchers }
  * @since   0.1
  *
  */
-class VolumeFlowRateSpec extends FlatSpec with Matchers with CustomMatchers {
+class VolumeFlowSpec extends FlatSpec with Matchers with CustomMatchers {
 
-  behavior of "VolumeFlowRate and its Units of Measure"
+  behavior of "VolumeFlow and its Units of Measure"
 
   it should "create values using UOM factories" in {
     CubicMetersPerSecond(1).toCubicMetersPerSecond should be(1)
@@ -32,13 +32,13 @@ class VolumeFlowRateSpec extends FlatSpec with Matchers with CustomMatchers {
   }
 
   it should "create values from properly formatted Strings" in {
-    VolumeFlowRate("10.22 m³/s").get should be(CubicMetersPerSecond(10.22))
-    VolumeFlowRate("10.22 GPD").get should be(GallonsPerDay(10.22))
-    VolumeFlowRate("10.22 GPH").get should be(GallonsPerHour(10.22))
-    VolumeFlowRate("10.22 GPM").get should be(GallonsPerMinute(10.22))
-    VolumeFlowRate("10.22 GPS").get should be(GallonsPerSecond(10.22))
-    VolumeFlowRate("10.22 zz").failed.get should be(QuantityStringParseException("Unable to parse VolumeFlowRate", "10.22 zz"))
-    VolumeFlowRate("zz m³/s").failed.get should be(QuantityStringParseException("Unable to parse VolumeFlowRate", "zz m³/s"))
+    VolumeFlow("10.22 m³/s").get should be(CubicMetersPerSecond(10.22))
+    VolumeFlow("10.22 GPD").get should be(GallonsPerDay(10.22))
+    VolumeFlow("10.22 GPH").get should be(GallonsPerHour(10.22))
+    VolumeFlow("10.22 GPM").get should be(GallonsPerMinute(10.22))
+    VolumeFlow("10.22 GPS").get should be(GallonsPerSecond(10.22))
+    VolumeFlow("10.22 zz").failed.get should be(QuantityStringParseException("Unable to parse VolumeFlow", "10.22 zz"))
+    VolumeFlow("zz m³/s").failed.get should be(QuantityStringParseException("Unable to parse VolumeFlow", "zz m³/s"))
   }
 
   it should "properly convert to all supported Units of Measure" in {
@@ -62,10 +62,10 @@ class VolumeFlowRateSpec extends FlatSpec with Matchers with CustomMatchers {
     CubicMetersPerSecond(1) * Seconds(1) should be(CubicMeters(1))
   }
 
-  behavior of "VolumeFlowRateConversions"
+  behavior of "VolumeFlowConversions"
 
   it should "provide aliases for single unit values" in {
-    import VolumeFlowRateConversions._
+    import VolumeFlowConversions._
 
     cubicMeterPerSecond should be(CubicMetersPerSecond(1))
     gallonPerDay should be(GallonsPerDay(1))
@@ -74,7 +74,7 @@ class VolumeFlowRateSpec extends FlatSpec with Matchers with CustomMatchers {
   }
 
   it should "provide implicit conversion from Double" in {
-    import VolumeFlowRateConversions._
+    import VolumeFlowConversions._
 
     val d = 10.22d
     d.cubicMetersPerSecond should be(CubicMetersPerSecond(d))
@@ -84,7 +84,7 @@ class VolumeFlowRateSpec extends FlatSpec with Matchers with CustomMatchers {
   }
 
   it should "provide Numeric support" in {
-    import VolumeFlowRateConversions.VolumeFlowRateNumeric
+    import VolumeFlowConversions.VolumeFlowNumeric
     implicit val tolerance = GallonsPerDay(0.0000000000001)
     val vfrs = List(GallonsPerDay(24), GallonsPerHour(1))
     vfrs.sum should beApproximately(GallonsPerDay(48))

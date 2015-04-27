@@ -19,34 +19,45 @@ import scala.util.{ Failure, Success, Try }
  * Temperatures are somewhat unique in the world of quantities for a couple of reasons.
  *
  * First, different units (scales) have different "zero" values.  This means that these scales
- * are not simple multiples of the others.  There is also an "zero offset" that must be applied to conversions
+ * are not simple multiples of the others.  There is a "zero offset" that must be applied to conversions
  * from one scale to another.
  *
  * Second, temperatures are often quoted as though they were quantities, when in fact they are just points
  * on a scale.  Similar to a mile marker on a highway, the quantity represented is the number degrees (miles)
- * from a specific epoch on the scale.
+ * from a specific "zero" value on the scale.
  *
  * In fact an absolute quantity of thermodynamic temperature should be measured from absolute zero.
- * Thus, kelvinDegrees, is the SI Base unit for temperature.
+ * Thus, Kelvin, is the SI Base unit for temperature.
  *
  * The other scales supported here, Celsius and Fahrenheit, are known as empirical scales.
+ * Of course, these scales set their respective zero values well above absolute zero.
+ * This is done to provide a granular and reasonably sized ranges of values for dealing with everyday temperatures.
  *
- * Two conversion types are supported: Degrees and Scale.  Degrees based conversions DO NOT adjust
- * for the zero point.  Thus 5 degrees C|K is the same amount of temperature as 9 degrees F.
+ * In consideration of these more unique scale conversions, two conversion types are supported: Degrees and Scale.
  *
- * Scale based conversions DO adjust for the zero offset.  Thus 5 degrees C is the same as 41 degrees F
- * on the thermometer.
+ * Scale based conversions DO adjust for the zero offset.
+ * Thus 5 degrees C is the same as 41 degrees F on the thermometer.
  *
- * When creating a temperature it is not important to consider these differences.  It is also irrelevant
- * when performing operation on temperatures in the same scale.  However, when performing
- * operations on two temperatures of different scales these factors do become important.
+ * Degrees based conversions DO NOT adjust for the zero point.
+ * Thus 5 degrees C|K is the same amount of temperature as 9 degrees F.
  *
- * The Quantity.to(unit) and Quantity.in(unit) methods are implemented to use Scale conversions
+ * When creating a temperature it is not important to consider these differences.
+ * It is also irrelevant when performing operation on temperatures in the same scale.
+ * However, when performing operations on two temperatures of different scales these factors do become important.
+ *
+ * The Quantity.to(unit) and Quantity.in(unit) methods are overridden to use Scale conversions for convenience
  *
  * The Ordered.compare method is implemented to use Scale conversions
  *
- * The Quantity.plus and Quantity.minus methods are implemented to use Degree conversions.
- * (This supports creating quantity ranges with Fahrenheit(60) +- Celsius(5)
+ * The Quantity.plus and Quantity.minus methods are implemented to treat right operands as Quantity of Degrees and not a scale Temperature.
+ * Operands that differ in scale will use Degree conversions.
+ * This supports mixed scale expressions:
+ *
+ * val temp = Fahrenheit(100) - Celsius(5) // returns Fahrenheit(91)
+ *
+ * This also supports declaring temperature ranges using typical nomenclature:
+ *
+ * val tempRange = 65.F +- 5.C // returns QuantityRange(56.0°F,74.0°F)
  *
  * The toDegrees(unit) methods are implemented to use Degree conversions.
  *
@@ -55,6 +66,7 @@ import scala.util.{ Failure, Success, Try }
  *
  * @param value the value of the temperature
  */
+
 final class Temperature private (val value: Double, val unit: TemperatureScale)
     extends Quantity[Temperature] {
 
@@ -168,10 +180,6 @@ object TemperatureConversions {
   lazy val kelvin = Kelvin(1)
   lazy val fahrenheit = Fahrenheit(1)
   lazy val celsius = Celsius(1)
-  lazy val freezingTemp = Celsius(0d)
-  lazy val boilingTemp = Celsius(100d)
-  lazy val normalBodyTemp = Fahrenheit(98.6)
-  lazy val absoluteZero = Kelvin(0d)
 
   /*
    * Degree conversions are used to convert a quantity of degrees from one scale to another.

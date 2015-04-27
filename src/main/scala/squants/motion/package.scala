@@ -18,7 +18,7 @@ package object motion {
   type Distance = squants.space.Length
   type DistanceUnit = squants.space.LengthUnit
 
-  lazy val SpeedOfLight = Velocity(Meters(299792458), Seconds(1))
+  lazy val SpeedOfLight = Velocity(Meters(2.99792458e8), Seconds(1))
 
   lazy val EquatorGravity = MetersPerSecondSquared(9.7903)
   lazy val StandardEarthGravity = MetersPerSecondSquared(9.80665)

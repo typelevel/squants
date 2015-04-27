@@ -104,12 +104,12 @@ object SquareUsMiles extends AreaUnit {
 
 object SquareYards extends AreaUnit {
   val symbol = "yd²"
-  val conversionFactor = 0.83612736
+  val conversionFactor = 8.3612736e-1
 }
 
 object SquareFeet extends AreaUnit {
   val symbol = "ft²"
-  val conversionFactor = .09290304
+  val conversionFactor = 9.290304e-2
 }
 
 object SquareInches extends AreaUnit {
@@ -119,12 +119,12 @@ object SquareInches extends AreaUnit {
 
 object Hectares extends AreaUnit {
   val symbol = "ha"
-  val conversionFactor = 10000D
+  val conversionFactor = 10000d
 }
 
 object Acres extends AreaUnit {
   val symbol = "acre"
-  val conversionFactor = 43560 * SquareFeet.conversionFactor
+  val conversionFactor = 43560d * SquareFeet.conversionFactor
 }
 
 object Barnes extends AreaUnit {

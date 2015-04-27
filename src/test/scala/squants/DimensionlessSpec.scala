@@ -22,6 +22,7 @@ class DimensionlessSpec extends FlatSpec with Matchers {
   behavior of "Dimensionless and its Units of Measure"
 
   it should "create values using UOM factories" in {
+    Percent(1).toPercent should be(1)
     Each(1).toEach should be(1)
     Dozen(1).toDozen should be(1)
     Score(1).toScore should be(1)
@@ -29,6 +30,7 @@ class DimensionlessSpec extends FlatSpec with Matchers {
   }
 
   it should "create values from properly formatted Strings" in {
+    Dimensionless("10.22 %").get should be(Percent(10.22))
     Dimensionless("10.22 ea").get should be(Each(10.22))
     Dimensionless("10.22 dz").get should be(Dozen(10.22))
     Dimensionless("10.22 score").get should be(Score(10.22))
@@ -39,6 +41,7 @@ class DimensionlessSpec extends FlatSpec with Matchers {
 
   it should "properly convert to all supported Units of Measure" in {
     val x = Gross(1)
+    x.toPercent should be(14400)
     x.toEach should be(144)
     x.toDozen should be(12)
     x.toScore should be(144d / 20)
@@ -46,6 +49,7 @@ class DimensionlessSpec extends FlatSpec with Matchers {
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
+    Percent(1).toString(Percent) should be("1.0 %")
     Each(1).toString(Each) should be("1.0 ea")
     Dozen(1).toString(Dozen) should be("1.0 dz")
     Score(1).toString(Score) should be("1.0 score")
@@ -54,6 +58,7 @@ class DimensionlessSpec extends FlatSpec with Matchers {
 
   it should "return another Dimensionless  when multiplied by a Dimensionless" in {
     Each(2) * Dozen(1) should be(Dozen(2))
+    Dozen(5) * Percent(10) should be(Each(6))
   }
 
   it should "return a Frequency when divided by Time" in {
@@ -69,19 +74,21 @@ class DimensionlessSpec extends FlatSpec with Matchers {
   it should "provide aliases for single unit values" in {
     import DimensionlessConversions._
 
+    percent should be(Percent(1))
     each should be(Each(1))
     dozen should be(Dozen(1))
     score should be(Score(1))
     gross should be(Gross(1))
-    hundred should be(Each(100))
-    thousand should be(Each(1000))
-    million should be(Each(1000000))
+    hundred should be(Each(1e2))
+    thousand should be(Each(1e3))
+    million should be(Each(1e6))
   }
 
   it should "provide implicit conversion from Double" in {
     import DimensionlessConversions._
 
     val coefficient = 10d
+    coefficient.percent should be(Percent(coefficient))
     coefficient.each should be(Each(coefficient))
     coefficient.ea should be(Each(coefficient))
     coefficient.dozen should be(Dozen(coefficient))
@@ -89,9 +96,9 @@ class DimensionlessSpec extends FlatSpec with Matchers {
     coefficient.score should be(Score(coefficient))
     coefficient.gross should be(Gross(coefficient))
     coefficient.gr should be(Gross(coefficient))
-    coefficient.hundred should be(Each(coefficient * 100))
-    coefficient.thousand should be(Each(coefficient * 1000))
-    coefficient.million should be(Each(coefficient * 1000000D))
+    coefficient.hundred should be(Each(coefficient * 1e2))
+    coefficient.thousand should be(Each(coefficient * 1e3))
+    coefficient.million should be(Each(coefficient * 1e6))
   }
 
   it should "provide Numeric support" in {

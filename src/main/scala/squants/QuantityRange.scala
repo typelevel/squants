@@ -42,11 +42,12 @@ case class QuantityRange[A <: Quantity[A]](lower: A, upper: A) {
   def *(multiple: Double) = times(multiple)
 
   /**
-   * Divides the range in Seq of ranges each with a range with a Quantity of `that`
+   * Divides the range into a Series of ranges each with a range of size `that`
    * The Seq will begin at `from` and go till `to`.  If the range is not evenly divisible
    * by `that`, the last item in the list will contain the remainder
    *
-   * QuantityRange(Count(1), Count(4) / Count(1) => Seq(Count(1), Count(2), Count(3), Count(4))
+   * QuantityRange(Each(1), Each(4)) / Each(1) =>
+   *   Vector(QuantityRange(1.0 ea,2.0 ea), QuantityRange(2.0 ea,3.0 ea), QuantityRange(3.0 ea,4.0 ea))
    *
    * @param that Quantity
    * @return
@@ -68,6 +69,9 @@ case class QuantityRange[A <: Quantity[A]](lower: A, upper: A) {
    * If `that` is an integer value, the range will evenly divided at all points.
    * If `that` has a fractional component, the first n-1 ranges will be evenly divided by the `that`
    * and the last range in the list will contain the remainder.
+   *
+   * QuantityRange(Each(1), Each(4)) / 3 =>
+   *   Vector(QuantityRange(1.0 ea,2.0 ea), QuantityRange(2.0 ea,3.0 ea), QuantityRange(3.0 ea,4.0 ea))
    *
    * @param that Double
    * @return
