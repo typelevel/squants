@@ -10,7 +10,7 @@ package squants.space
 
 import org.scalatest.{ Matchers, FlatSpec }
 import squants.photo.{ Lumens, Candelas }
-import squants.QuantityStringParseException
+import squants.QuantityParseException
 
 /**
  * @author  garyKeorkunian
@@ -27,8 +27,8 @@ class SolidAngleSpec extends FlatSpec with Matchers {
 
   it should "create values from properly formatted Strings" in {
     SolidAngle("10.22 sr").get should be(SquaredRadians(10.22))
-    SolidAngle("10.22 zz").failed.get should be(QuantityStringParseException("Unable to parse SolidAngle", "10.22 zz"))
-    SolidAngle("ZZ sr").failed.get should be(QuantityStringParseException("Unable to parse SolidAngle", "ZZ sr"))
+    SolidAngle("10.22 zz").failed.get should be(QuantityParseException("Unable to parse SolidAngle", "10.22 zz"))
+    SolidAngle("ZZ sr").failed.get should be(QuantityParseException("Unable to parse SolidAngle", "ZZ sr"))
   }
 
   it should "properly convert to all supported Units of Measure" in {

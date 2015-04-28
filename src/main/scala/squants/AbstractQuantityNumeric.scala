@@ -27,7 +27,7 @@ abstract class AbstractQuantityNumeric[A <: Quantity[A]](val unit: UnitOfMeasure
    * @param x Quantity[A]
    * @param y Quantity[A]
    * @return
-   * @throws UnsupportedOperationException for most types
+   * @throws scala.UnsupportedOperationException for most types
    */
   def times(x: A, y: A): A = throw new UnsupportedOperationException("Numeric.times not supported for Quantities")
   def negate(x: A) = -x

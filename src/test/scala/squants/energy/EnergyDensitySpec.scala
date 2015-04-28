@@ -11,7 +11,7 @@ package squants.energy
 import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
 import squants.space.CubicMeters
-import squants.QuantityStringParseException
+import squants.QuantityParseException
 
 /**
  * @author  garyKeorkunian
@@ -28,8 +28,8 @@ class EnergyDensitySpec extends FlatSpec with Matchers {
 
   it should "create values from properly formatted Strings" in {
     EnergyDensity("10.22 j/m³").get should be(JoulesPerCubicMeter(10.22))
-    EnergyDensity("10.22 zz").failed.get should be(QuantityStringParseException("Unable to parse EnergyDensity", "10.22 zz"))
-    EnergyDensity("ZZ j/m³").failed.get should be(QuantityStringParseException("Unable to parse EnergyDensity", "ZZ j/m³"))
+    EnergyDensity("10.22 zz").failed.get should be(QuantityParseException("Unable to parse EnergyDensity", "10.22 zz"))
+    EnergyDensity("ZZ j/m³").failed.get should be(QuantityParseException("Unable to parse EnergyDensity", "ZZ j/m³"))
   }
 
   it should "properly convert to all supported Units of Measure" in {

@@ -9,7 +9,7 @@
 package squants.space
 
 import org.scalatest.{ Matchers, FlatSpec }
-import squants.{ QuantityStringParseException, MetricSystem }
+import squants.{ QuantityParseException, MetricSystem }
 import squants.motion.{ MetersPerSecond, Newtons }
 import squants.energy.Joules
 import squants.time.Seconds
@@ -64,8 +64,8 @@ class LengthSpec extends FlatSpec with Matchers {
     Length("10.33 nmi").get should be(NauticalMiles(10.33))
     Length("10.33 au").get should be(AstronomicalUnits(10.33))
     Length("10.33 ly").get should be(LightYears(10.33))
-    Length("10.33 zz").failed.get should be(QuantityStringParseException("Unable to parse Length", "10.33 zz"))
-    Length("ZZ m").failed.get should be(QuantityStringParseException("Unable to parse Length", "ZZ m"))
+    Length("10.33 zz").failed.get should be(QuantityParseException("Unable to parse Length", "10.33 zz"))
+    Length("ZZ m").failed.get should be(QuantityParseException("Unable to parse Length", "ZZ m"))
   }
 
   it should "properly convert to all supported Units of Measure" in {
@@ -236,8 +236,8 @@ class LengthSpec extends FlatSpec with Matchers {
     "10.33 nmi".toLength.get should be(NauticalMiles(10.33))
     "10.33 au".toLength.get should be(AstronomicalUnits(10.33))
     "10.33 ly".toLength.get should be(LightYears(10.33))
-    "10.33 zz".toLength.failed.get should be(QuantityStringParseException("Unable to parse Length", "10.33 zz"))
-    "ZZ m".toLength.failed.get should be(QuantityStringParseException("Unable to parse Length", "ZZ m"))
+    "10.33 zz".toLength.failed.get should be(QuantityParseException("Unable to parse Length", "10.33 zz"))
+    "ZZ m".toLength.failed.get should be(QuantityParseException("Unable to parse Length", "ZZ m"))
   }
 
   it should "provide Numeric support" in {

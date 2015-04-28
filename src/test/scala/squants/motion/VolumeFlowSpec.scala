@@ -12,7 +12,7 @@ import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
 import squants.space.CubicMeters
 import squants.time.Seconds
-import squants.{ QuantityStringParseException, CustomMatchers }
+import squants.{ QuantityParseException, CustomMatchers }
 
 /**
  * @author  garyKeorkunian
@@ -37,8 +37,8 @@ class VolumeFlowSpec extends FlatSpec with Matchers with CustomMatchers {
     VolumeFlow("10.22 GPH").get should be(GallonsPerHour(10.22))
     VolumeFlow("10.22 GPM").get should be(GallonsPerMinute(10.22))
     VolumeFlow("10.22 GPS").get should be(GallonsPerSecond(10.22))
-    VolumeFlow("10.22 zz").failed.get should be(QuantityStringParseException("Unable to parse VolumeFlow", "10.22 zz"))
-    VolumeFlow("zz m³/s").failed.get should be(QuantityStringParseException("Unable to parse VolumeFlow", "zz m³/s"))
+    VolumeFlow("10.22 zz").failed.get should be(QuantityParseException("Unable to parse VolumeFlow", "10.22 zz"))
+    VolumeFlow("zz m³/s").failed.get should be(QuantityParseException("Unable to parse VolumeFlow", "zz m³/s"))
   }
 
   it should "properly convert to all supported Units of Measure" in {

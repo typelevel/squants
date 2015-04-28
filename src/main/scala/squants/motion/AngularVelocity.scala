@@ -31,7 +31,7 @@ final class AngularVelocity private (val value: Double, val unit: AngularVelocit
 
 object AngularVelocity extends Dimension[AngularVelocity] {
   private[motion] def apply[A](n: A, unit: AngularVelocityUnit)(implicit num: Numeric[A]) = new AngularVelocity(num.toDouble(n), unit)
-  def apply = parseString _
+  def apply = parse _
   def name = "AngularVelocity"
   def primaryUnit = RadiansPerSecond
   def siUnit = RadiansPerSecond

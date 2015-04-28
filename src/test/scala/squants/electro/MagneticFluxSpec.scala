@@ -11,7 +11,7 @@ package squants.electro
 import org.scalatest.{ Matchers, FlatSpec }
 import squants.time.Seconds
 import squants.space.SquareMeters
-import squants.QuantityStringParseException
+import squants.QuantityParseException
 
 /**
  * @author  garyKeorkunian
@@ -28,8 +28,8 @@ class MagneticFluxSpec extends FlatSpec with Matchers {
 
   it should "create values from properly formatted Strings" in {
     MagneticFlux("10.22 Wb").get should be(Webers(10.22))
-    MagneticFlux("10.22 zz").failed.get should be(QuantityStringParseException("Unable to parse MagneticFlux", "10.22 zz"))
-    MagneticFlux("zz Wb").failed.get should be(QuantityStringParseException("Unable to parse MagneticFlux", "zz Wb"))
+    MagneticFlux("10.22 zz").failed.get should be(QuantityParseException("Unable to parse MagneticFlux", "10.22 zz"))
+    MagneticFlux("zz Wb").failed.get should be(QuantityParseException("Unable to parse MagneticFlux", "zz Wb"))
   }
 
   it should "properly convert to all supported Units of Measure" in {

@@ -37,7 +37,7 @@ final class MagneticFlux private (val value: Double, val unit: MagneticFluxUnit)
 
 object MagneticFlux extends Dimension[MagneticFlux] {
   private[electro] def apply[A](n: A, unit: MagneticFluxUnit)(implicit num: Numeric[A]) = new MagneticFlux(num.toDouble(n), unit)
-  def apply = parseString _
+  def apply = parse _
   def name = "MagneticFlux"
   def primaryUnit = Webers
   def siUnit = Webers

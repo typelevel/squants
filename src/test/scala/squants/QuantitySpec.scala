@@ -11,6 +11,7 @@ package squants
 import org.scalatest.{ FlatSpec, Matchers }
 import squants.thermal.{ Celsius, Fahrenheit }
 import squants.time.Hours
+import scala.util.Failure
 
 /**
  * @author  garyKeorkunian
@@ -31,6 +32,7 @@ class QuantitySpec extends FlatSpec with Matchers {
 
   object Thingee extends Dimension[Thingee] {
     private[squants] def apply[A](n: A, unit: ThingeeUnit)(implicit num: Numeric[A]) = new Thingee(num.toDouble(n), unit)
+    def apply = parse _
     def name = "Thingee"
     def primaryUnit = Thangs
     def siUnit = Thangs
@@ -87,6 +89,31 @@ class QuantitySpec extends FlatSpec with Matchers {
 
     Thangs(Real(10.22)).toThangs should be(10.22)
     (Thangs(Real(10)) + Thangs(Real(.22))).toThangs should be(10.22)
+  }
+
+  it should "create values from properly formatted Strings" in {
+    Thingee("10.22 th").get should be(Thangs(10.22))
+    Thingee("10.22 kth").get should be(Kilothangs(10.22))
+  }
+
+  it should "return failure on improperly formatted Strings" in {
+    Thingee("10.22 xx") should be(Failure(QuantityParseException("Unable to parse Thingee", "10.22 xx")))
+    Thingee("10.xx th") should be(Failure(QuantityParseException("Unable to parse Thingee", "10.xx th")))
+  }
+
+  it should "create values from properly formatted Tuples" in {
+    Thingee((10.22, "th")).get should be(Thangs(10.22))
+    Thingee((10.22, "kth")).get should be(Kilothangs(10.22))
+
+    // Using tuples created from quantities (round trip)
+    Thingee(Thangs(10.22).toTuple).get should be(Thangs(10.22))
+    Thingee(Kilothangs(10.22).toTuple).get should be(Kilothangs(10.22))
+    Thingee(Thangs(10.22).toTuple(Kilothangs)).get should be(Thangs(10.22))
+    Thingee(Kilothangs(10.22).toTuple(Thangs)).get should be(Kilothangs(10.22))
+  }
+
+  it should "return failure on an improperly formatted Tuple" in {
+    Thingee((10.22, "xx")) should be(Failure(QuantityParseException("Unable to identify Thingee unit xx", "(10.22,xx)")))
   }
 
   it should "equal an equivalent like value" in {
@@ -378,6 +405,16 @@ class QuantitySpec extends FlatSpec with Matchers {
     val x = Thangs(1.2555555)
     x.toString(Thangs, "%.2f") should be("1.26 th")
     x.toString(Thangs, "%.3f") should be("1.256 th")
+  }
+
+  it should "toTuple and return a tuple including the value and the unit's symbol" in {
+    val x = Thangs(10.22)
+    x.toTuple should be(10.22, "th")
+  }
+
+  it should "toPair a unit and return a tuple including the value in the supplied unit and that unit's symbol" in {
+    val x = Kilothangs(10.22)
+    x.toTuple(Thangs) should be(10220, "th")
   }
 
   it should "return the correct Numeric value when pattern matched against a Unit of Measure" in {

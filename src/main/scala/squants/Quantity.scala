@@ -212,42 +212,55 @@ abstract class Quantity[A <: Quantity[A]] extends Serializable with Ordered[A] {
    *   val d = Feet(3)
    *   (d to Inches) should be(36)
    * }}}
-   * @param unit UnitOfMeasure[A]
+   * @param uom UnitOfMeasure[A]
    * @return Double
    */
-  def to(unit: UnitOfMeasure[A]): Double = unit match {
+  def to(uom: UnitOfMeasure[A]): Double = uom match {
     case u if u == this.unit ⇒ value
-    case _                   ⇒ unit.convertTo(this.unit.convertFrom(value))
+    case _                   ⇒ uom.convertTo(this.unit.convertFrom(value))
   }
 
   /**
    * Returns an equivalent Quantity boxed with the supplied Unit
-   * @param unit UnitOfMeasure[A]
+   * @param uom UnitOfMeasure[A]
    * @return Quantity
    */
-  def in(unit: UnitOfMeasure[A]) = unit match {
+  def in(uom: UnitOfMeasure[A]) = uom match {
     case u if u == this.unit ⇒ this
-    case _                   ⇒ unit(unit.convertTo(this.unit.convertFrom(value)))
+    case _                   ⇒ uom(uom.convertTo(this.unit.convertFrom(value)))
   }
 
   /**
-   * Returns a string representing the quantity's value in valueUnits
+   * Returns a string representing the quantity's value in unit
    * @return String
    */
   override def toString = value + " " + unit.symbol
 
   /**
    * Returns a string representing the quantity's value in the given `unit`
-   * @param unit UnitOfMeasure[A] with UnitConverter
+   * @param uom UnitOfMeasure[A] with UnitConverter
    * @return String
    */
-  def toString(unit: UnitOfMeasure[A]): String = to(unit) + " " + unit.symbol
+  def toString(uom: UnitOfMeasure[A]): String = to(uom) + " " + uom.symbol
 
   /**
    * Returns a string representing the quantity's value in the given `unit` in the given `format`
-   * @param unit UnitOfMeasure[A] with UnitConverter
+   * @param uom UnitOfMeasure[A] with UnitConverter
    * @param format String containing the format for the value (ie "%.3f")
    * @return String
    */
-  def toString(unit: UnitOfMeasure[A], format: String): String = "%s %s".format(format.format(to(unit)), unit.symbol)
+  def toString(uom: UnitOfMeasure[A], format: String): String = "%s %s".format(format.format(to(uom)), uom.symbol)
+
+  /**
+   * Returns a tuple representing the numeric value and the unit's symbol
+   * @return
+   */
+  def toTuple: (Double, String) = (value, unit.symbol)
+
+  /**
+   * Returns a pair representing the numeric value and the uom's symbol
+   * @param uom
+   * @return
+   */
+  def toTuple(uom: UnitOfMeasure[A]): (Double, String) = (to(uom), uom.symbol)
 }

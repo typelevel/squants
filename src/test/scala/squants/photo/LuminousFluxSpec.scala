@@ -12,7 +12,7 @@ import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
 import squants.time.Seconds
 import squants.space.{ SquaredRadians, SquareMeters }
-import squants.QuantityStringParseException
+import squants.QuantityParseException
 
 /**
  * @author  garyKeorkunian
@@ -29,8 +29,8 @@ class LuminousFluxSpec extends FlatSpec with Matchers {
 
   it should "create values from properly formatted Strings" in {
     LuminousFlux("10.22 lm").get should be(Lumens(10.22))
-    LuminousFlux("10.45 zz").failed.get should be(QuantityStringParseException("Unable to parse LuminousFlux", "10.45 zz"))
-    LuminousFlux("zz lm").failed.get should be(QuantityStringParseException("Unable to parse LuminousFlux", "zz lm"))
+    LuminousFlux("10.45 zz").failed.get should be(QuantityParseException("Unable to parse LuminousFlux", "10.45 zz"))
+    LuminousFlux("zz lm").failed.get should be(QuantityParseException("Unable to parse LuminousFlux", "zz lm"))
   }
 
   it should "properly convert to all supported Units of Measure" in {

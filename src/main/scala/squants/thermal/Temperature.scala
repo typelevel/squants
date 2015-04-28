@@ -135,7 +135,7 @@ object Temperature extends Dimension[Temperature] with BaseDimension {
       case regex(value, Kelvin.symbol)     ⇒ Success(Kelvin(value.toDouble))
       case regex(value, "k")               ⇒ Success(Kelvin(value.toDouble))
       case regex(value, "K")               ⇒ Success(Kelvin(value.toDouble))
-      case _                               ⇒ Failure(QuantityStringParseException("Unable to parse Temperature", s))
+      case _                               ⇒ Failure(QuantityParseException("Unable to parse Temperature", s))
     }
   }
 

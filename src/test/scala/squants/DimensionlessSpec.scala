@@ -35,8 +35,8 @@ class DimensionlessSpec extends FlatSpec with Matchers {
     Dimensionless("10.22 dz").get should be(Dozen(10.22))
     Dimensionless("10.22 score").get should be(Score(10.22))
     Dimensionless("10.22 gr").get should be(Gross(10.22))
-    Dimensionless("10.45 zz").failed.get should be(QuantityStringParseException("Unable to parse Dimensionless", "10.45 zz"))
-    Dimensionless("zz ea").failed.get should be(QuantityStringParseException("Unable to parse Dimensionless", "zz ea"))
+    Dimensionless("10.45 zz").failed.get should be(QuantityParseException("Unable to parse Dimensionless", "10.45 zz"))
+    Dimensionless("zz ea").failed.get should be(QuantityParseException("Unable to parse Dimensionless", "zz ea"))
   }
 
   it should "properly convert to all supported Units of Measure" in {

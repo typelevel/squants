@@ -10,7 +10,7 @@ package squants.energy
 
 import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
-import squants.{ QuantityStringParseException, MetricSystem }
+import squants.{ QuantityParseException, MetricSystem }
 import squants.time.Hours
 
 /**
@@ -38,8 +38,8 @@ class PowerRampSpec extends FlatSpec with Matchers {
     PowerRamp("10.22 kW/m").get should be(KilowattsPerMinute(10.22))
     PowerRamp("10.22 MW/h").get should be(MegawattsPerHour(10.22))
     PowerRamp("10.22 GW/h").get should be(GigawattsPerHour(10.22))
-    PowerRamp("10.22 zz").failed.get should be(QuantityStringParseException("Unable to parse PowerRamp", "10.22 zz"))
-    PowerRamp("ZZ W/h").failed.get should be(QuantityStringParseException("Unable to parse PowerRamp", "ZZ W/h"))
+    PowerRamp("10.22 zz").failed.get should be(QuantityParseException("Unable to parse PowerRamp", "10.22 zz"))
+    PowerRamp("ZZ W/h").failed.get should be(QuantityParseException("Unable to parse PowerRamp", "ZZ W/h"))
   }
 
   it should "properly convert to all supported Units of Measure" in {
@@ -108,8 +108,8 @@ class PowerRampSpec extends FlatSpec with Matchers {
     "10.22 kW/m".toPowerRamp.get should be(KilowattsPerMinute(10.22))
     "10.22 MW/h".toPowerRamp.get should be(MegawattsPerHour(10.22))
     "10.22 GW/h".toPowerRamp.get should be(GigawattsPerHour(10.22))
-    "10.22 zz".toPowerRamp.failed.get should be(QuantityStringParseException("Unable to parse PowerRamp", "10.22 zz"))
-    "ZZ W/h".toPowerRamp.failed.get should be(QuantityStringParseException("Unable to parse PowerRamp", "ZZ W/h"))
+    "10.22 zz".toPowerRamp.failed.get should be(QuantityParseException("Unable to parse PowerRamp", "10.22 zz"))
+    "ZZ W/h".toPowerRamp.failed.get should be(QuantityParseException("Unable to parse PowerRamp", "ZZ W/h"))
   }
 
   it should "provide Numeric support" in {

@@ -9,7 +9,7 @@
 package squants.electro
 
 import org.scalatest.{ Matchers, FlatSpec }
-import squants.{ QuantityStringParseException, MetricSystem }
+import squants.{ QuantityParseException, MetricSystem }
 import squants.time.{ Seconds, Time }
 import squants.energy.Joules
 
@@ -44,8 +44,8 @@ class ElectricChargeSpec extends FlatSpec with Matchers {
     ElectricCharge("10.22 Ah").get should be(AmpereHours(10.22))
     ElectricCharge("10.22 mAh").get should be(MilliampereHours(10.22))
     ElectricCharge("10.22 mAs").get should be(MilliampereSeconds(10.22))
-    ElectricCharge("10.22 zz").failed.get should be(QuantityStringParseException("Unable to parse ElectricCharge", "10.22 zz"))
-    ElectricCharge("zz C").failed.get should be(QuantityStringParseException("Unable to parse ElectricCharge", "zz C"))
+    ElectricCharge("10.22 zz").failed.get should be(QuantityParseException("Unable to parse ElectricCharge", "10.22 zz"))
+    ElectricCharge("zz C").failed.get should be(QuantityParseException("Unable to parse ElectricCharge", "zz C"))
   }
 
   it should "properly convert to all supported Units of Measure" in {

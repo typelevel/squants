@@ -70,7 +70,7 @@ final class Area private (val value: Double, val unit: AreaUnit)
 
 object Area extends Dimension[Area] {
   private[space] def apply[A](n: A, unit: AreaUnit)(implicit num: Numeric[A]) = new Area(num.toDouble(n), unit)
-  def apply = parseString _
+  def apply = parse _
   def name = "Area"
   def primaryUnit = SquareMeters
   def siUnit = SquareMeters

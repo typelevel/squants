@@ -11,7 +11,7 @@ package squants.market
 import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
 import squants.mass.Kilograms
-import squants.QuantityStringParseException
+import squants.QuantityParseException
 
 /**
  * @author  garyKeorkunian
@@ -50,7 +50,7 @@ class MoneySpec extends FlatSpec with Matchers {
     Money("500 EUR").get should be(EUR(500))
     Money("10000.0 JPY").get should be(JPY(10000))
     Money("23.45 CAD").get should be(CAD(23.45))
-    Money("23.45 ZZZ").failed.get should be(QuantityStringParseException("Unable to parse Money", "23.45 ZZZ"))
+    Money("23.45 ZZZ").failed.get should be(QuantityParseException("Unable to parse Money", "23.45 ZZZ"))
   }
 
   it should "return proper result when comparing like currencies" in {

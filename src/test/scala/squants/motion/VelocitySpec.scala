@@ -13,7 +13,7 @@ import scala.language.postfixOps
 import squants.time.Seconds
 import squants.space.Meters
 import squants.mass.Kilograms
-import squants.QuantityStringParseException
+import squants.QuantityParseException
 
 /**
  * @author  garyKeorkunian
@@ -37,8 +37,8 @@ class VelocitySpec extends FlatSpec with Matchers {
     Velocity("10.22 ft/s").get should be(FeetPerSecond(10.22))
     Velocity("10.22 km/s").get should be(KilometersPerHour(10.22))
     Velocity("10.22 mph").get should be(UsMilesPerHour(10.22))
-    Velocity("10.22 zz").failed.get should be(QuantityStringParseException("Unable to parse Velocity", "10.22 zz"))
-    Velocity("zz m/s").failed.get should be(QuantityStringParseException("Unable to parse Velocity", "zz m/s"))
+    Velocity("10.22 zz").failed.get should be(QuantityParseException("Unable to parse Velocity", "10.22 zz"))
+    Velocity("zz m/s").failed.get should be(QuantityParseException("Unable to parse Velocity", "zz m/s"))
   }
 
   it should "properly convert to all supported Units of Measure" in {

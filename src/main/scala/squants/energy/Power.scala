@@ -62,7 +62,7 @@ final class Power private (val value: Double, val unit: PowerUnit)
 object Power extends Dimension[Power] {
   private[energy] def apply[A](n: A, unit: PowerUnit)(implicit num: Numeric[A]) = new Power(num.toDouble(n), unit)
   def apply(energy: Energy, time: Time): Power = apply(energy.toWattHours / time.toHours, Watts)
-  def apply = parseString _
+  def apply = parse _
 
   def name = "Power"
   def primaryUnit = Watts

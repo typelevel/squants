@@ -12,7 +12,7 @@ import scala.language.postfixOps
 import org.scalatest.{ Matchers, FlatSpec }
 import squants.mass.Kilograms
 import squants.time.Seconds
-import squants.QuantityStringParseException
+import squants.QuantityParseException
 
 /**
  * @author  garyKeorkunian
@@ -33,8 +33,8 @@ class MassFlowSpec extends FlatSpec with Matchers {
     MassFlow("10.22 kg/s").get should be(KilogramsPerSecond(10.22))
     MassFlow("10.22 lbs/s").get should be(PoundsPerSecond(10.22))
     MassFlow("10.22 Mlbs/hr").get should be(KilopoundsPerHour(10.22))
-    MassFlow("10.22 zz").failed.get should be(QuantityStringParseException("Unable to parse MassFlow", "10.22 zz"))
-    MassFlow("zz kg/s").failed.get should be(QuantityStringParseException("Unable to parse MassFlow", "zz kg/s"))
+    MassFlow("10.22 zz").failed.get should be(QuantityParseException("Unable to parse MassFlow", "10.22 zz"))
+    MassFlow("zz kg/s").failed.get should be(QuantityParseException("Unable to parse MassFlow", "zz kg/s"))
   }
 
   it should "properly convert to all supported Units of Measure" in {

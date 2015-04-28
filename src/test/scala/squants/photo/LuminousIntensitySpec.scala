@@ -11,7 +11,7 @@ package squants.photo
 import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
 import squants.space.{ SquaredRadians, SquareMeters }
-import squants.QuantityStringParseException
+import squants.QuantityParseException
 
 /**
  * @author  garyKeorkunian
@@ -28,8 +28,8 @@ class LuminousIntensitySpec extends FlatSpec with Matchers {
 
   it should "create values from properly formatted Strings" in {
     LuminousIntensity("10.22 cd").get should be(Candelas(10.22))
-    LuminousIntensity("10.45 zz").failed.get should be(QuantityStringParseException("Unable to parse LuminousIntensity", "10.45 zz"))
-    LuminousIntensity("zz cd").failed.get should be(QuantityStringParseException("Unable to parse LuminousIntensity", "zz cd"))
+    LuminousIntensity("10.45 zz").failed.get should be(QuantityParseException("Unable to parse LuminousIntensity", "10.45 zz"))
+    LuminousIntensity("zz cd").failed.get should be(QuantityParseException("Unable to parse LuminousIntensity", "zz cd"))
   }
 
   it should "properly convert to all supported Units of Measure" in {

@@ -11,7 +11,7 @@ package squants.radio
 import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
 import squants.space.SquareMeters
-import squants.QuantityStringParseException
+import squants.QuantityParseException
 
 /**
  * @author  garyKeorkunian
@@ -28,8 +28,8 @@ class RadianceSpec extends FlatSpec with Matchers {
 
   it should "create values from properly formatted Strings" in {
     Radiance("10.22 W/sr/m²").get should be(WattsPerSteradianPerSquareMeter(10.22))
-    Radiance("10.22 zz").failed.get should be(QuantityStringParseException("Unable to parse Radiance", "10.22 zz"))
-    Radiance("zz W/sr/m²").failed.get should be(QuantityStringParseException("Unable to parse Radiance", "zz W/sr/m²"))
+    Radiance("10.22 zz").failed.get should be(QuantityParseException("Unable to parse Radiance", "10.22 zz"))
+    Radiance("zz W/sr/m²").failed.get should be(QuantityParseException("Unable to parse Radiance", "zz W/sr/m²"))
   }
 
   it should "properly convert to all supported Units of Measure" in {

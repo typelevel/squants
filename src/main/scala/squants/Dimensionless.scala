@@ -45,7 +45,7 @@ final class Dimensionless private (val value: Double, val unit: DimensionlessUni
  */
 object Dimensionless extends Dimension[Dimensionless] {
   def apply[A](n: A, unit: DimensionlessUnit)(implicit num: Numeric[A]) = new Dimensionless(num.toDouble(n), unit)
-  def apply = parseString _
+  def apply = parse _
   def name = "Dimensionless"
   def primaryUnit = Each
   def siUnit = Each

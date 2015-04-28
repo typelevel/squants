@@ -43,7 +43,7 @@ final class PowerRamp private (val value: Double, val unit: PowerRampUnit)
 object PowerRamp extends Dimension[PowerRamp] {
   private[energy] def apply[A](n: A, unit: PowerRampUnit)(implicit num: Numeric[A]) = new PowerRamp(num.toDouble(n), unit)
   def apply(change: Power, time: Time): PowerRamp = apply(change.toWatts / time.toHours, WattsPerHour)
-  def apply = parseString _
+  def apply = parse _
   def name = "PowerRamp"
   def primaryUnit = WattsPerHour
   def siUnit = WattsPerHour
