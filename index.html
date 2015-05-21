@@ -47,7 +47,7 @@ All types are immutable and thread-safe.</p>
 <a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
 
 <p>Repository hosting for Squants is provided by Sonatype.
-To use Squants in your SBT project you will need to add the following dependency to your build.</p>
+To use Squants in your SBT project add the following dependency to your build.</p>
 
 <pre><code>"com.squants"  %% "squants"  % "0.4.2"
 </code></pre>
@@ -57,7 +57,7 @@ To use Squants in your SBT project you will need to add the following dependency
 <pre><code>"com.squants"  %% "squants"  % "0.5.2-SNAPSHOT"
 </code></pre>
 
-<p>To use Squants in your Maven project add the following dependency to your</p>
+<p>To use Squants in your Maven project add the following dependency</p>
 
 <div class="highlight highlight-xml"><pre>&lt;<span class="pl-ent">dependency</span>&gt;
     &lt;<span class="pl-ent">groupId</span>&gt;com.squants&lt;/<span class="pl-ent">groupId</span>&gt;
@@ -65,7 +65,7 @@ To use Squants in your SBT project you will need to add the following dependency
     &lt;<span class="pl-ent">version</span>&gt;0.4.2&lt;/<span class="pl-ent">version</span>&gt;
 &lt;/<span class="pl-ent">dependency</span>&gt;</pre></div>
 
-<p>Beginning with Squants 0.4 series, both Scala 2.10 and 2.11 builds are available.</p>
+<p>Beginning with Squants 0.4.x series, both Scala 2.10 and 2.11 builds are available.</p>
 
 <p>To use Squants interactively in the Scala REPL, clone the git repo and run <code>sbt console</code></p>
 
@@ -129,7 +129,7 @@ catching the error made when using Double in the example above.</p>
 <h3>
 <a id="dimensionally-correct-type-conversions" class="anchor" href="#dimensionally-correct-type-conversions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dimensionally Correct Type Conversions</h3>
 
-<p><em>One may take ratios of quantities with different dimensions, and multiply or divide them.</em></p>
+<p><em>One may take quantities with different dimensions, and multiply or divide them.</em></p>
 
 <p>Dimensionally correct type conversions are a key feature of Squants.
 Conversions are implemented by defining relationships between Quantity types using the * and / operators.</p>
@@ -157,9 +157,10 @@ aveLoad should be(<span class="pl-en">Kilowatts</span>(<span class="pl-c1">1.2</
 <p>Quantity values are based in the units used to create them.</p>
 
 <div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">loadA</span><span class="pl-k">:</span> <span class="pl-en">Power</span> <span class="pl-k">=</span> <span class="pl-en">Kilowatts</span>(<span class="pl-c1">1200</span>)  <span class="pl-c">// returns Power: 1200.0 kW</span>
-<span class="pl-k">val</span> <span class="pl-en">loadB</span><span class="pl-k">:</span> <span class="pl-en">Power</span> <span class="pl-k">=</span> <span class="pl-en">Megawatts</span>(<span class="pl-c1">1200</span>)  <span class="pl-c">// returns Power: 1.2 MW</span></pre></div>
+<span class="pl-k">val</span> <span class="pl-en">loadB</span><span class="pl-k">:</span> <span class="pl-en">Power</span> <span class="pl-k">=</span> <span class="pl-en">Megawatts</span>(<span class="pl-c1">1200</span>)  <span class="pl-c">// returns Power: 1200.0 MW</span></pre></div>
 
-<p>Since Squants properly equates values of a similar dimension, regardless of the unit, there is typically no reason to convert.
+<p>Since Squants properly equates values of a similar dimension, regardless of the unit,
+there is typically no reason to explicitly convert from one to the other.
 This is especially true if the user code is primarily performing dimensional analysis.</p>
 
 <p>However, there are times when you may need to set a Quantity value to a specific unit (eg, for proper JSON encoding).</p>
@@ -171,19 +172,27 @@ This is especially true if the user code is primarily performing dimensional ana
 <span class="pl-k">val</span> <span class="pl-en">loadC</span> <span class="pl-k">=</span> loadA in <span class="pl-en">Gigawatts</span> <span class="pl-c">// returns Power: 0.0012 GW</span></pre></div>
 
 <p>Sometimes you need to get the numeric portion of the quantity
-(eg, for submission to an external service that requires a numeric in a specific unit)</p>
+(eg, for submission to an external service that requires a numeric in a specific unit or to perform analysis
+beyond Squant's existing capabilities)</p>
 
 <p>When necessary, the value can be extracted in the desired unit with the <code>to</code> method.</p>
 
 <div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">load</span><span class="pl-k">:</span> <span class="pl-en">Power</span> <span class="pl-k">=</span> <span class="pl-en">Kilowatts</span>(<span class="pl-c1">1200</span>)
-<span class="pl-k">val</span> <span class="pl-en">mw</span><span class="pl-k">:</span> <span class="pl-k">Double</span> <span class="pl-k">=</span> load to <span class="pl-en">Kilowatts</span> <span class="pl-c">// returns 1200.0 (default method)</span>
-<span class="pl-k">val</span> <span class="pl-en">gw</span><span class="pl-k">:</span> <span class="pl-k">Double</span> <span class="pl-k">=</span> load to <span class="pl-en">Gigawatts</span> <span class="pl-c">// returns 0.0012</span>
-<span class="pl-k">val</span> <span class="pl-en">my</span><span class="pl-k">:</span> <span class="pl-k">Double</span> <span class="pl-k">=</span> load to <span class="pl-en">MyPowerUnit</span> <span class="pl-c">// returns ??? Whatever you want</span>
-<span class="pl-k">val</span> <span class="pl-en">kw</span><span class="pl-k">:</span> <span class="pl-k">Double</span> <span class="pl-k">=</span> load toKilowatts <span class="pl-c">// returns 1200.0 (convenience method)</span></pre></div>
+<span class="pl-k">val</span> <span class="pl-en">kw</span><span class="pl-k">:</span> <span class="pl-k">Double</span> <span class="pl-k">=</span> load to <span class="pl-en">Kilowatts</span> <span class="pl-c">// returns 1200.0</span>
+<span class="pl-k">val</span> <span class="pl-en">mw</span><span class="pl-k">:</span> <span class="pl-k">Double</span> <span class="pl-k">=</span> load to <span class="pl-en">Megawatts</span> <span class="pl-c">// returns 1.2</span>
+<span class="pl-k">val</span> <span class="pl-en">gw</span><span class="pl-k">:</span> <span class="pl-k">Double</span> <span class="pl-k">=</span> load to <span class="pl-en">Gigawatts</span> <span class="pl-c">// returns 0.0012</span></pre></div>
 
-<p>NOTE - It is important to use the <code>to</code> method for extracting the numeric value and not the <code>Quantity.value</code>, as this
-ensures you will be getting the numeric value for the desired unit.
-To prevent improper usage, access to the <code>Quantity.value</code> field may be deprecated future versions.</p>
+<p>Most types include methods with convenient aliases for the <code>to</code> methods.</p>
+
+<pre><code>val kw: Double = load toKilowatts // returns 1200.0
+val mw: Double = load toMegawatts // returns 1.20
+val gw: Double = load toGigawatts // returns 0.0012
+</code></pre>
+
+<p>NOTE - It is important to use the <code>to</code> method for extracting the numeric value,
+as this ensures you will be getting the numeric value for the desired unit.
+<code>Quantity.value</code> should not accessed directly.
+To prevent improper usage, direct access to the <code>Quantity.value</code> field may be deprecated in a future version.</p>
 
 <p>Creating strings formatted in the desired unit is also supported</p>
 
@@ -242,9 +251,11 @@ Most basic vector operations are currently supported (addition, subtraction, sca
 
 <span class="pl-k">val</span> <span class="pl-en">crossProduct</span> <span class="pl-k">=</span> vector crossProduct vectorDouble  <span class="pl-c">// currently only supported for 3-dimensional vectors</span></pre></div>
 
-<p>Dimensional conversions within Vector operations.
-This feature is currently under development and the final implementation being evaluated.
-This following type of operation is the goal.</p>
+<h4>
+<a id="dimensional-conversions-within-vector-operations" class="anchor" href="#dimensional-conversions-within-vector-operations" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dimensional conversions within Vector operations.</h4>
+
+<p>This feature is currently under development and the final implementation being evaluated.
+The following type of operation is the goal.</p>
 
 <div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">vectorLength</span> <span class="pl-k">=</span> <span class="pl-en">QuantityVector</span>(<span class="pl-en">Kilometers</span>(<span class="pl-c1">1.2</span>), <span class="pl-en">Kilometers</span>(<span class="pl-c1">4.3</span>), <span class="pl-en">Kilometers</span>(<span class="pl-c1">2.3</span>)
 <span class="pl-k">val</span> <span class="pl-en">vectorArea</span><span class="pl-k">:</span> <span class="pl-en">QuantityVector</span>[<span class="pl-en">Area</span>] <span class="pl-k">=</span> vectorLength <span class="pl-k">*</span> <span class="pl-en">Kilometers</span>(<span class="pl-c1">10</span>)
@@ -259,14 +270,14 @@ This following type of operation is the goal.</p>
 
 <p>Market Types are similar but not quite the same as other quantities in the library.
 The primary type, Money, is derived from Quantity, and its Units of Measure are Currencies.
-However, because the conversion multipliers between units can not be predefined,
+However, because the conversion multipliers between currency units can not be predefined,
 many of the behaviors have been overridden and augmented to realize correct behavior.</p>
 
 <h3>
 <a id="money" class="anchor" href="#money" aria-hidden="true"><span class="octicon octicon-link"></span></a>Money</h3>
 
-<p>A Quantity of purchasing power measured in units we call Currencies.
-Create Money values using standard Currency codes.</p>
+<p>A Quantity of purchasing power measured in units called Currencies.
+Like other quantities, the Unit of Measures are used to create Money values.</p>
 
 <div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">tenBucks</span><span class="pl-k">:</span> <span class="pl-en">Money</span> <span class="pl-k">=</span> <span class="pl-en">USD</span>(<span class="pl-c1">10</span>)
 <span class="pl-k">val</span> <span class="pl-en">someYen</span><span class="pl-k">:</span> <span class="pl-en">Money</span> <span class="pl-k">=</span> <span class="pl-en">JPY</span>(<span class="pl-c1">1200</span>)
@@ -292,7 +303,7 @@ A Price value is typed on a Quantity and can be denominated in any defined Curre
 <h3>
 <a id="fx-support" class="anchor" href="#fx-support" aria-hidden="true"><span class="octicon octicon-link"></span></a>FX Support</h3>
 
-<p>Currency Exchange Rates</p>
+<p>Currency Exchange Rates are used to define the conversion factors between currencies</p>
 
 <div class="highlight highlight-scala"><pre><span class="pl-c">// create an exchange rate</span>
 <span class="pl-k">val</span> <span class="pl-en">rate</span> <span class="pl-k">=</span> <span class="pl-en">CurrencyExchangeRate</span>(<span class="pl-en">USD</span>(<span class="pl-c1">1</span>), <span class="pl-en">JPY</span>(<span class="pl-c1">100</span>))
@@ -358,8 +369,11 @@ range.map(<span class="pl-c1">10</span>) {r <span class="pl-k">=&gt;</span> <spa
 <span class="pl-c">// fold over each 10 even parts of the range</span>
 range.foldLeft(<span class="pl-c1">10</span>)(<span class="pl-c1">0</span>) {(z, r) <span class="pl-k">=&gt;</span> <span class="pl-k">???</span>}</pre></div>
 
+<p>NOTE - Because these implementations of foreach, map and fold* take a parameter (the divisor), these methods
+are not compatible with Scala's for comprehensions.</p>
+
 <h2>
-<a id="natural-language-features" class="anchor" href="#natural-language-features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Natural Language Features</h2>
+<a id="natural-language-dsl" class="anchor" href="#natural-language-dsl" aria-hidden="true"><span class="octicon octicon-link"></span></a>Natural Language DSL</h2>
 
 <p>Implicit conversions give the DSL some features that allows user code to express quantities in a
 more naturally expressive and readable way.</p>
@@ -405,8 +419,9 @@ more naturally expressive and readable way.</p>
 
 <p>Create Quantity Ranges using <code>to</code> or <code>plusOrMinus</code> (<code>+-</code>) operators</p>
 
-<div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">range1</span> <span class="pl-k">=</span> <span class="pl-c1">1000.</span>kW to <span class="pl-c1">5000.</span>kW     <span class="pl-c">// 1000.kW to 5000.kW</span>
-<span class="pl-k">val</span> <span class="pl-en">range2</span> <span class="pl-k">=</span> <span class="pl-c1">5000.</span>kW <span class="pl-k">+-</span> <span class="pl-c1">1000.</span>kW     <span class="pl-c">// 4000.kW to 6000.kW</span></pre></div>
+<div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">range1</span> <span class="pl-k">=</span> <span class="pl-c1">1000.</span>kW to <span class="pl-c1">5000.</span>kW              <span class="pl-c">// 1000.kW to 5000.kW</span>
+<span class="pl-k">val</span> <span class="pl-en">range2</span> <span class="pl-k">=</span> <span class="pl-c1">5000.</span>kW plusOrMinus <span class="pl-c1">1000.</span>kW     <span class="pl-c">// 4000.kW to 6000.kW</span>
+<span class="pl-k">val</span> <span class="pl-en">range2</span> <span class="pl-k">=</span> <span class="pl-c1">5000.</span>kW <span class="pl-k">+-</span> <span class="pl-c1">1000.</span>kW              <span class="pl-c">// 4000.kW to 6000.kW</span></pre></div>
 
 <h3>
 <a id="numeric-support" class="anchor" href="#numeric-support" aria-hidden="true"><span class="octicon octicon-link"></span></a>Numeric Support</h3>
@@ -417,6 +432,9 @@ to your code where Numeric support is required.  These follow the following patt
 <div class="highlight highlight-scala"><pre><span class="pl-k">import</span> <span class="pl-v">squants.mass.MassConversions.</span><span class="pl-v">MassNumeric</span>
 
 <span class="pl-k">val</span> <span class="pl-en">sum</span> <span class="pl-k">=</span> <span class="pl-en">List</span>(<span class="pl-en">Kilograms</span>(<span class="pl-c1">100</span>), <span class="pl-en">Grams</span>(<span class="pl-c1">34510</span>)).sum</pre></div>
+
+<p>NOTE - Because a quantity can not be multiplied by a like quantity and return a like quantity, the <code>Numeric.times</code>
+operation of numeric is implemented to through an UnsupportedOperationException for all types except <code>Dimensionless</code>.</p>
 
 <p>The MoneyNumeric implementation is a bit different than the implementations for other quantity types
 in a few important ways.</p>
@@ -462,7 +480,7 @@ The UOM objects define the unit symbols, conversion factors, and factory methods
 <h3>
 <a id="quantity-implementations" class="anchor" href="#quantity-implementations" aria-hidden="true"><span class="octicon octicon-link"></span></a>Quantity Implementations</h3>
 
-<p>Specific implementations include</p>
+<p>The code for specific implementations include</p>
 
 <ul>
 <li>A class representing the Quantity including cross-dimensional operations</li>
@@ -499,7 +517,7 @@ The UOM objects define the unit symbols, conversion factors, and factory methods
 ...
 <span class="pl-k">class</span> <span class="pl-en">Acceleration</span>( ... ) <span class="pl-k">extends</span> <span class="pl-e">Quantity</span>[<span class="pl-en">Acceleration</span>] <span class="pl-k">with</span> <span class="pl-e">TimeDerivative</span>[<span class="pl-en">Velocity</span>]</pre></div>
 
-<p>These traits provide operations with time operands which result in correct dimensional transformation.</p>
+<p>These traits provide operations with time operands which result in correct dimensional transformations.</p>
 
 <div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">distance</span><span class="pl-k">:</span> <span class="pl-en">Length</span> <span class="pl-k">=</span> <span class="pl-en">Kilometers</span>(<span class="pl-c1">100</span>)
 <span class="pl-k">val</span> <span class="pl-en">time</span><span class="pl-k">:</span> <span class="pl-en">Time</span> <span class="pl-k">=</span> <span class="pl-en">Hours</span>(<span class="pl-c1">2</span>)
@@ -520,7 +538,7 @@ The UOM objects define the unit symbols, conversion factors, and factory methods
 <h3>
 <a id="dimensional-analysis" class="anchor" href="#dimensional-analysis" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dimensional Analysis</h3>
 
-<p>The primary use case for Squants, as described above, is to produce code that is typesafe with in domains
+<p>The primary use case for Squants, as described above, is to produce code that is typesafe within domains
 that perform dimensional analysis.</p>
 
 <div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">energyPrice</span><span class="pl-k">:</span> <span class="pl-en">Price</span>[<span class="pl-en">Energy</span>] <span class="pl-k">=</span> <span class="pl-c1">45.25</span>.money <span class="pl-k">/</span> megawattHour
@@ -653,6 +671,14 @@ with type and scale conversions in multiple places throughout your application l
     }
   }
 }</pre></div>
+
+<h2>
+<a id="contributors" class="anchor" href="#contributors" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contributors</h2>
+
+<ul>
+<li>Gary Keorkunian (<a href="https://github.com/garyKeorkunian">garyKeorkunian</a>)</li>
+<li>Jeremy Apthorp (<a href="https://github.com/nornagon">nornagon</a>)</li>
+</ul>
 
 <h2>
 <a id="caveats" class="anchor" href="#caveats" aria-hidden="true"><span class="octicon octicon-link"></span></a>Caveats</h2>
