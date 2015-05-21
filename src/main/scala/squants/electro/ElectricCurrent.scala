@@ -42,7 +42,7 @@ final class ElectricCurrent private (val value: Double, val unit: ElectricCurren
 
 object ElectricCurrent extends Dimension[ElectricCurrent] with BaseDimension {
   private[electro] def apply[A](n: A, unit: ElectricCurrentUnit)(implicit num: Numeric[A]) = new ElectricCurrent(num.toDouble(n), unit)
-  def apply = parseString _
+  def apply = parse _
   def name = "ElectricCurrent"
   def primaryUnit = Amperes
   def siUnit = Amperes

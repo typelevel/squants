@@ -10,7 +10,7 @@ package squants.mass
 
 import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
-import squants.{ QuantityStringParseException, MetricSystem }
+import squants.{ QuantityParseException, MetricSystem }
 import squants.motion._
 import squants.time.Seconds
 import squants.space.{ SquareMeters, CubicMeters }
@@ -42,8 +42,8 @@ class MassSpec extends FlatSpec with Matchers {
     Mass("10.22 t").get should be(Tonnes(10.22))
     Mass("10.22 lb").get should be(Pounds(10.22))
     Mass("10.22 oz").get should be(Ounces(10.22))
-    Mass("10.45 zz").failed.get should be(QuantityStringParseException("Unable to parse Mass", "10.45 zz"))
-    Mass("zz g").failed.get should be(QuantityStringParseException("Unable to parse Mass", "zz g"))
+    Mass("10.45 zz").failed.get should be(QuantityParseException("Unable to parse Mass", "10.45 zz"))
+    Mass("zz g").failed.get should be(QuantityParseException("Unable to parse Mass", "zz g"))
   }
 
   it should "properly convert to all supported Units of Measure" in {
@@ -153,8 +153,8 @@ class MassSpec extends FlatSpec with Matchers {
     "10.45 t".toMass.get should be(Tonnes(10.45))
     "10.45 lb".toMass.get should be(Pounds(10.45))
     "10.45 oz".toMass.get should be(Ounces(10.45))
-    "10.45 zz".toMass.failed.get should be(QuantityStringParseException("Unable to parse Mass", "10.45 zz"))
-    "zz oz".toMass.failed.get should be(QuantityStringParseException("Unable to parse Mass", "zz oz"))
+    "10.45 zz".toMass.failed.get should be(QuantityParseException("Unable to parse Mass", "10.45 zz"))
+    "zz oz".toMass.failed.get should be(QuantityParseException("Unable to parse Mass", "zz oz"))
   }
 
   it should "provide Numeric support" in {

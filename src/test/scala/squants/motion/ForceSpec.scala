@@ -14,7 +14,7 @@ import squants.mass.Kilograms
 import squants.time.Seconds
 import squants.energy.Joules
 import squants.space.{ SquareMeters, Meters }
-import squants.{ QuantityStringParseException, CustomMatchers }
+import squants.{ QuantityParseException, CustomMatchers }
 
 /**
  * @author  garyKeorkunian
@@ -35,8 +35,8 @@ class ForceSpec extends FlatSpec with Matchers with CustomMatchers {
     Force("10.22 N").get should be(Newtons(10.22))
     Force("10.22 kgf").get should be(KilogramForce(10.22))
     Force("10.22 lbf").get should be(PoundForce(10.22))
-    Force("10.22 zz").failed.get should be(QuantityStringParseException("Unable to parse Force", "10.22 zz"))
-    Force("zz N").failed.get should be(QuantityStringParseException("Unable to parse Force", "zz N"))
+    Force("10.22 zz").failed.get should be(QuantityParseException("Unable to parse Force", "10.22 zz"))
+    Force("zz N").failed.get should be(QuantityParseException("Unable to parse Force", "zz N"))
   }
 
   it should "properly convert to all supported Units of Measure" in {

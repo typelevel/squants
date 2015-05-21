@@ -11,7 +11,7 @@ package squants.thermal
 import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
 import squants.energy.Joules
-import squants.QuantityStringParseException
+import squants.QuantityParseException
 
 /**
  * @author  garyKeorkunian
@@ -28,8 +28,8 @@ class ThermalCapacitySpec extends FlatSpec with Matchers {
 
   it should "create values from properly formatted Strings" in {
     ThermalCapacity("10.22 J/K").get should be(JoulesPerKelvin(10.22))
-    ThermalCapacity("10.22 zz").failed.get should be(QuantityStringParseException("Unable to parse ThermalCapacity", "10.22 zz"))
-    ThermalCapacity("zz J/K").failed.get should be(QuantityStringParseException("Unable to parse ThermalCapacity", "zz J/K"))
+    ThermalCapacity("10.22 zz").failed.get should be(QuantityParseException("Unable to parse ThermalCapacity", "10.22 zz"))
+    ThermalCapacity("zz J/K").failed.get should be(QuantityParseException("Unable to parse ThermalCapacity", "zz J/K"))
   }
 
   it should "properly convert to all supported Units of Measure" in {

@@ -86,7 +86,7 @@ final class Money private (val amount: BigDecimal)(val currency: Currency)
    *
    * @param that Money
    * @return Money
-   * @throws UnsupportedOperationException when attempted on cross currencies
+   * @throws scala.UnsupportedOperationException when attempted on cross currencies
    */
   override def plus(that: Money): Money = that.currency match {
     case this.currency ⇒ new Money(amount + that.amount)(currency)
@@ -111,7 +111,7 @@ final class Money private (val amount: BigDecimal)(val currency: Currency)
    *
    * @param that Money
    * @return Money
-   * @throws UnsupportedOperationException when attempted on cross currencies
+   * @throws scala.UnsupportedOperationException when attempted on cross currencies
    */
   override def minus(that: Money): Money = that.currency match {
     case this.currency ⇒ new Money(amount - that.amount)(currency)
@@ -292,7 +292,7 @@ final class Money private (val amount: BigDecimal)(val currency: Currency)
    *
    * @param that Money
    * @return
-   * @throws IllegalArgumentException if the that.currency matches this.currency
+   * @throws scala.IllegalArgumentException if the that.currency matches this.currency
    */
   def toThe(that: Money) = that.currency match {
     case this.currency ⇒ throw new IllegalArgumentException("Can not create Exchange Rate on matching currencies")
@@ -341,7 +341,7 @@ object Money extends Dimension[Money] {
     lazy val regex = ("([-+]?[0-9]*\\.?[0-9]+) *(" + defaultCurrencySet.map(_.code).reduceLeft(_ + "|" + _) + ")").r
     s match {
       case regex(value, currency) ⇒ Success(Money(value.toDouble, defaultCurrencyMap(currency)))
-      case _                      ⇒ Failure(QuantityStringParseException("Unable to parse Money", s))
+      case _                      ⇒ Failure(QuantityParseException("Unable to parse Money", s))
     }
   }
   def name = "Money"

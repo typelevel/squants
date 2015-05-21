@@ -13,7 +13,7 @@ import scala.language.postfixOps
 import squants.motion.{ MetersPerSecond, MetersPerSecondCubed, MetersPerSecondSquared }
 import squants.space.Meters
 import scala.concurrent.duration.Duration
-import squants.QuantityStringParseException
+import squants.QuantityParseException
 
 /**
  * @author  garyKeorkunian
@@ -39,8 +39,8 @@ class TimeSpec extends FlatSpec with Matchers {
     Time("10.22 m").get should be(Minutes(10.22))
     Time("10.22 h").get should be(Hours(10.22))
     Time("10.22 d").get should be(Days(10.22))
-    Time("10.22 z").failed.get should be(QuantityStringParseException("Unable to parse Time", "10.22 z"))
-    Time("ZZ ms").failed.get should be(QuantityStringParseException("Unable to parse Time", "ZZ ms"))
+    Time("10.22 z").failed.get should be(QuantityParseException("Unable to parse Time", "10.22 z"))
+    Time("ZZ ms").failed.get should be(QuantityParseException("Unable to parse Time", "ZZ ms"))
   }
 
   it should "return equality for units in different units" in {
@@ -122,8 +122,8 @@ class TimeSpec extends FlatSpec with Matchers {
     "10.22 m".toTime.get should be(Minutes(10.22))
     "10.22 h".toTime.get should be(Hours(10.22))
     "10.22 d".toTime.get should be(Days(10.22))
-    "10.22 z".toTime.failed.get should be(QuantityStringParseException("Unable to parse Time", "10.22 z"))
-    "ZZ ms".toTime.failed.get should be(QuantityStringParseException("Unable to parse Time", "ZZ ms"))
+    "10.22 z".toTime.failed.get should be(QuantityParseException("Unable to parse Time", "10.22 z"))
+    "ZZ ms".toTime.failed.get should be(QuantityParseException("Unable to parse Time", "ZZ ms"))
   }
 
   it should "convert a Scala Concurrent Duration to a Time" in {

@@ -10,7 +10,7 @@ package squants.electro
 
 import org.scalatest.{ Matchers, FlatSpec }
 import squants.space.Meters
-import squants.QuantityStringParseException
+import squants.QuantityParseException
 
 /**
  * @author  garyKeorkunian
@@ -27,8 +27,8 @@ class ConductivitySpec extends FlatSpec with Matchers {
 
   it should "create values from properly formatted Strings" in {
     Conductivity("10.22 S/m").get should be(SiemensPerMeter(10.22))
-    Conductivity("10.22 zz").failed.get should be(QuantityStringParseException("Unable to parse Conductivity", "10.22 zz"))
-    Conductivity("zz S/m").failed.get should be(QuantityStringParseException("Unable to parse Conductivity", "zz S/m"))
+    Conductivity("10.22 zz").failed.get should be(QuantityParseException("Unable to parse Conductivity", "10.22 zz"))
+    Conductivity("zz S/m").failed.get should be(QuantityParseException("Unable to parse Conductivity", "zz S/m"))
   }
 
   it should "properly convert to all supported Units of Measure" in {

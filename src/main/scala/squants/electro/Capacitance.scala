@@ -34,7 +34,7 @@ final class Capacitance private (val value: Double, val unit: CapacitanceUnit)
 
 object Capacitance extends Dimension[Capacitance] {
   private[electro] def apply[A](n: A, unit: CapacitanceUnit)(implicit num: Numeric[A]) = new Capacitance(num.toDouble(n), unit)
-  def apply = parseString _
+  def apply = parse _
   def name = "Capacitance"
   def primaryUnit = Farads
   def siUnit = Farads

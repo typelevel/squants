@@ -13,7 +13,7 @@ import squants.motion.CubicMetersPerSecond
 import squants.time.Seconds
 import squants.mass.{ Kilograms, KilogramsPerCubicMeter }
 import squants.energy.{ Joules, JoulesPerCubicMeter }
-import squants.QuantityStringParseException
+import squants.QuantityParseException
 
 /**
  * @author  garyKeorkunian
@@ -70,8 +70,8 @@ class VolumeSpec extends FlatSpec with Matchers {
     Volume("10.22 oz").get should be(FluidOunces(10.22))
     Volume("10.22 tbsp").get should be(Tablespoons(10.22))
     Volume("10.22 tsp").get should be(Teaspoons(10.22))
-    Volume("10.22 zz").failed.get should be(QuantityStringParseException("Unable to parse Volume", "10.22 zz"))
-    Volume("ZZ L").failed.get should be(QuantityStringParseException("Unable to parse Volume", "ZZ L"))
+    Volume("10.22 zz").failed.get should be(QuantityParseException("Unable to parse Volume", "10.22 zz"))
+    Volume("ZZ L").failed.get should be(QuantityParseException("Unable to parse Volume", "ZZ L"))
   }
 
   it should "properly convert to all supported Units of Measure" in {

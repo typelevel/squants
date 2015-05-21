@@ -11,7 +11,7 @@ package squants.radio
 import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
 import squants.space.Meters
-import squants.QuantityStringParseException
+import squants.QuantityParseException
 
 /**
  * @author  garyKeorkunian
@@ -28,8 +28,8 @@ class SpectralIntensitySpec extends FlatSpec with Matchers {
 
   it should "create values from properly formatted Strings" in {
     SpectralIntensity("10.22 W/sr/m").get should be(WattsPerSteradianPerMeter(10.22))
-    SpectralIntensity("10.22 zz").failed.get should be(QuantityStringParseException("Unable to parse SpectralIntensity", "10.22 zz"))
-    SpectralIntensity("zz W/sr/m").failed.get should be(QuantityStringParseException("Unable to parse SpectralIntensity", "zz W/sr/m"))
+    SpectralIntensity("10.22 zz").failed.get should be(QuantityParseException("Unable to parse SpectralIntensity", "10.22 zz"))
+    SpectralIntensity("zz W/sr/m").failed.get should be(QuantityParseException("Unable to parse SpectralIntensity", "zz W/sr/m"))
   }
 
   it should "properly convert to all supported Units of Measure" in {

@@ -48,7 +48,7 @@ final class ElectricCharge private (val value: Double, val unit: ElectricChargeU
 
 object ElectricCharge extends Dimension[ElectricCharge] {
   private[electro] def apply[A](n: A, unit: ElectricChargeUnit)(implicit num: Numeric[A]) = new ElectricCharge(num.toDouble(n), unit)
-  def apply = parseString _
+  def apply = parse _
   def name = "ElectricCharge"
   def primaryUnit = Coulombs
   def siUnit = Coulombs

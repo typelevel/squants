@@ -11,7 +11,7 @@ package squants.photo
 import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
 import squants.time.Seconds
-import squants.QuantityStringParseException
+import squants.QuantityParseException
 
 /**
  * @author  garyKeorkunian
@@ -28,8 +28,8 @@ class LuminousExposureSpec extends FlatSpec with Matchers {
 
   it should "create values from properly formatted Strings" in {
     LuminousExposure("10.22 lx⋅s").get should be(LuxSeconds(10.22))
-    LuminousExposure("10.45 zz").failed.get should be(QuantityStringParseException("Unable to parse LuminousExposure", "10.45 zz"))
-    LuminousExposure("zz lx⋅s").failed.get should be(QuantityStringParseException("Unable to parse LuminousExposure", "zz lx⋅s"))
+    LuminousExposure("10.45 zz").failed.get should be(QuantityParseException("Unable to parse LuminousExposure", "10.45 zz"))
+    LuminousExposure("zz lx⋅s").failed.get should be(QuantityParseException("Unable to parse LuminousExposure", "zz lx⋅s"))
   }
 
   it should "properly convert to all supported Units of Measure" in {

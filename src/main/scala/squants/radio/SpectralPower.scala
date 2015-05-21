@@ -31,7 +31,7 @@ final class SpectralPower private (val value: Double, val unit: SpectralPowerUni
 
 object SpectralPower extends Dimension[SpectralPower] {
   private[radio] def apply[A](n: A, unit: SpectralPowerUnit)(implicit num: Numeric[A]) = new SpectralPower(num.toDouble(n), unit)
-  def apply = parseString _
+  def apply = parse _
   def name = "SpectralPower"
   def primaryUnit = WattsPerMeter
   def siUnit = WattsPerMeter

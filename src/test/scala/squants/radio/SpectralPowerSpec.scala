@@ -12,7 +12,7 @@ import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
 import squants.energy.Watts
 import squants.space.Meters
-import squants.QuantityStringParseException
+import squants.QuantityParseException
 
 /**
  * @author  garyKeorkunian
@@ -29,8 +29,8 @@ class SpectralPowerSpec extends FlatSpec with Matchers {
 
   it should "create values from properly formatted Strings" in {
     SpectralPower("10.22 W/m").get should be(WattsPerMeter(10.22))
-    SpectralPower("10.22 zz").failed.get should be(QuantityStringParseException("Unable to parse SpectralPower", "10.22 zz"))
-    SpectralPower("zz W/m").failed.get should be(QuantityStringParseException("Unable to parse SpectralPower", "zz W/m"))
+    SpectralPower("10.22 zz").failed.get should be(QuantityParseException("Unable to parse SpectralPower", "10.22 zz"))
+    SpectralPower("zz W/m").failed.get should be(QuantityParseException("Unable to parse SpectralPower", "zz W/m"))
   }
 
   it should "properly convert to all supported Units of Measure" in {

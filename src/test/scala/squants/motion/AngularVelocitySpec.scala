@@ -11,7 +11,7 @@ package squants.motion
 import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
 import squants.space.Radians
-import squants.QuantityStringParseException
+import squants.QuantityParseException
 
 /**
  * @author  garyKeorkunian
@@ -34,8 +34,8 @@ class AngularVelocitySpec extends FlatSpec with Matchers {
     AngularVelocity("10.22 °/s").get should be(DegreesPerSecond(10.22))
     AngularVelocity("10.22 grad/s").get should be(GradsPerSecond(10.22))
     AngularVelocity("10.22 turns/s").get should be(TurnsPerSecond(10.22))
-    AngularVelocity("10.22 zz").failed.get should be(QuantityStringParseException("Unable to parse AngularVelocity", "10.22 zz"))
-    AngularVelocity("zz rad/s").failed.get should be(QuantityStringParseException("Unable to parse AngularVelocity", "zz rad/s"))
+    AngularVelocity("10.22 zz").failed.get should be(QuantityParseException("Unable to parse AngularVelocity", "10.22 zz"))
+    AngularVelocity("zz rad/s").failed.get should be(QuantityParseException("Unable to parse AngularVelocity", "zz rad/s"))
   }
 
   it should "properly convert to all supported Units of Measure" in {

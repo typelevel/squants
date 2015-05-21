@@ -54,7 +54,7 @@ object Time extends Dimension[Time] with BaseDimension {
   val HoursPerDay = 24d
 
   private[time] def apply[A](n: A, unit: TimeUnit)(implicit num: Numeric[A]) = new Time(num.toDouble(n), unit)
-  def apply = parseString _
+  def apply = parse _
 
   def name = "Time"
   def primaryUnit = Milliseconds

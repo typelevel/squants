@@ -9,7 +9,7 @@
 package squants.electro
 
 import org.scalatest.{ Matchers, FlatSpec }
-import squants.{ QuantityStringParseException, MetricSystem }
+import squants.{ QuantityParseException, MetricSystem }
 import squants.space.Meters
 
 /**
@@ -39,8 +39,8 @@ class ElectricalResistanceSpec extends FlatSpec with Matchers {
     ElectricalResistance("10.22 kΩ").get should be(Kilohms(10.22))
     ElectricalResistance("10.22 MΩ").get should be(Megohms(10.22))
     ElectricalResistance("10.22 GΩ").get should be(Gigohms(10.22))
-    ElectricalResistance("10.22 zz").failed.get should be(QuantityStringParseException("Unable to parse ElectricalResistance", "10.22 zz"))
-    ElectricalResistance("zz Ω").failed.get should be(QuantityStringParseException("Unable to parse ElectricalResistance", "zz Ω"))
+    ElectricalResistance("10.22 zz").failed.get should be(QuantityParseException("Unable to parse ElectricalResistance", "10.22 zz"))
+    ElectricalResistance("zz Ω").failed.get should be(QuantityParseException("Unable to parse ElectricalResistance", "zz Ω"))
   }
 
   it should "properly convert to all supported Units of Measure" in {

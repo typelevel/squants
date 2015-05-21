@@ -89,7 +89,7 @@ final class Length private (val value: Double, val unit: LengthUnit)
  */
 object Length extends Dimension[Length] with BaseDimension {
   private[space] def apply[A](n: A, unit: LengthUnit)(implicit num: Numeric[A]) = new Length(num.toDouble(n), unit)
-  def apply = parseString _
+  def apply = parse _
   def name = "Length"
   def primaryUnit = Meters
   def siUnit = Meters

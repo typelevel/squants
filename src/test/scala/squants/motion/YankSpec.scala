@@ -11,7 +11,7 @@ package squants.motion
 import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
 import squants.time.Seconds
-import squants.QuantityStringParseException
+import squants.QuantityParseException
 
 /**
  * @author  garyKeorkunian
@@ -28,8 +28,8 @@ class YankSpec extends FlatSpec with Matchers {
 
   it should "create values from properly formatted Strings" in {
     Yank("10.22 N/s").get should be(NewtonsPerSecond(10.22))
-    Yank("10.22 zz").failed.get should be(QuantityStringParseException("Unable to parse Yank", "10.22 zz"))
-    Yank("zz N/s").failed.get should be(QuantityStringParseException("Unable to parse Yank", "zz N/s"))
+    Yank("10.22 zz").failed.get should be(QuantityParseException("Unable to parse Yank", "10.22 zz"))
+    Yank("zz N/s").failed.get should be(QuantityParseException("Unable to parse Yank", "zz N/s"))
   }
 
   it should "properly convert to all supported Units of Measure" in {

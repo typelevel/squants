@@ -27,7 +27,7 @@ final class Luminance private (val value: Double, val unit: LuminanceUnit)
 
 object Luminance extends Dimension[Luminance] {
   private[photo] def apply[A](n: A, unit: LuminanceUnit)(implicit num: Numeric[A]) = new Luminance(num.toDouble(n), unit)
-  def apply = parseString _
+  def apply = parse _
 
   def name = "Luminance"
   def primaryUnit = CandelasPerSquareMeter

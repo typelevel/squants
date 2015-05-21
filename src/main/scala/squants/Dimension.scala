@@ -51,20 +51,32 @@ trait Dimension[A <: Quantity[A]] {
   def symbolToUnit(symbol: String): Option[UnitOfMeasure[A]] = units.find(u ⇒ u.symbol == symbol)
 
   /**
-   * Tries to map a string to Quantity of this Dimension
-   * @param s the source string
+   * Tries to map a string or tuple value to Quantity of this Dimension
+   * @param value the source string (ie, "10 kW") or tuple (ie, (10, "kW"))
    * @return Try[A]
    */
-  protected def parseString(s: String): Try[A] = {
+  protected def parse(value: Any) = value match {
+    case s: String              ⇒ parseString(s)
+    case (v: Double, u: String) ⇒ parseTuple(v, u)
+  }
+
+  private def parseString(s: String): Try[A] = {
     s match {
       case QuantityString(value, symbol) ⇒ Success(symbolToUnit(symbol).get(BigDecimal(value)))
-      case _                             ⇒ Failure(QuantityStringParseException(s"Unable to parse $name", s))
+      case _                             ⇒ Failure(QuantityParseException(s"Unable to parse $name", s))
     }
   }
   private lazy val QuantityString = ("([-+]?[0-9]*\\.?[0-9]+) *(" + units.map { u: UnitOfMeasure[A] ⇒ u.symbol }.reduceLeft(_ + "|" + _) + ")").r
+
+  private def parseTuple(value: Double, symbol: String): Try[A] = {
+    symbolToUnit(symbol) match {
+      case Some(unit) ⇒ Success(unit(value))
+      case None       ⇒ Failure(QuantityParseException(s"Unable to identify $name unit $symbol", (value, symbol).toString()))
+    }
+  }
 }
 
-case class QuantityStringParseException(message: String, expression: String) extends Exception
+case class QuantityParseException(message: String, expression: String) extends Exception
 
 /**
  * SI Base Quantity

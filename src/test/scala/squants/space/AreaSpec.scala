@@ -9,7 +9,7 @@
 package squants.space
 
 import org.scalatest.{ Matchers, FlatSpec }
-import squants.{ QuantityStringParseException, MetricSystem }
+import squants.{ QuantityParseException, MetricSystem }
 import squants.motion.{ Pascals, Newtons }
 import squants.photo.{ Candelas, CandelasPerSquareMeter, Lumens, Lux }
 import squants.mass.{ Kilograms, KilogramsPerSquareMeter }
@@ -48,8 +48,8 @@ class AreaSpec extends FlatSpec with Matchers {
     Area("10.22 ha").get should be(Hectares(10.22))
     Area("10.22 acre").get should be(Acres(10.22))
     Area("10.22 b").get should be(Barnes(10.22))
-    Area("10.22 zz").failed.get should be(QuantityStringParseException("Unable to parse Area", "10.22 zz"))
-    Area("ZZ m²").failed.get should be(QuantityStringParseException("Unable to parse Area", "ZZ m²"))
+    Area("10.22 zz").failed.get should be(QuantityParseException("Unable to parse Area", "10.22 zz"))
+    Area("ZZ m²").failed.get should be(QuantityParseException("Unable to parse Area", "ZZ m²"))
   }
 
   it should "properly convert to all supported Units of Measure" in {

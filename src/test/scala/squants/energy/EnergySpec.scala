@@ -10,7 +10,7 @@ package squants.energy
 
 import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
-import squants.{ QuantityStringParseException, MetricSystem }
+import squants.{ QuantityParseException, MetricSystem }
 import squants.time.Hours
 import squants.electro.{ Coulombs, Volts }
 import squants.space.{ CubicMeters, Meters }
@@ -57,8 +57,8 @@ class EnergySpec extends FlatSpec with Matchers {
     Energy("10.22 Btu").get should be(BritishThermalUnits(10.22))
     Energy("10.22 MBtu").get should be(MBtus(10.22))
     Energy("10.22 MMBtu").get should be(MMBtus(10.22))
-    Energy("10.22 zz").failed.get should be(QuantityStringParseException("Unable to parse Energy", "10.22 zz"))
-    Energy("ZZ J").failed.get should be(QuantityStringParseException("Unable to parse Energy", "ZZ J"))
+    Energy("10.22 zz").failed.get should be(QuantityParseException("Unable to parse Energy", "10.22 zz"))
+    Energy("ZZ J").failed.get should be(QuantityParseException("Unable to parse Energy", "ZZ J"))
   }
 
   it should "properly convert to all supported Units of Measure" in {
@@ -223,8 +223,8 @@ class EnergySpec extends FlatSpec with Matchers {
     "10.22 Btu".toEnergy.get should be(BritishThermalUnits(10.22))
     "10.22 MBtu".toEnergy.get should be(MBtus(10.22))
     "10.22 MMBtu".toEnergy.get should be(MMBtus(10.22))
-    "10.22 zz".toEnergy.failed.get should be(QuantityStringParseException("Unable to parse Energy", "10.22 zz"))
-    "ZZ J".toEnergy.failed.get should be(QuantityStringParseException("Unable to parse Energy", "ZZ J"))
+    "10.22 zz".toEnergy.failed.get should be(QuantityParseException("Unable to parse Energy", "10.22 zz"))
+    "ZZ J".toEnergy.failed.get should be(QuantityParseException("Unable to parse Energy", "ZZ J"))
   }
 
   it should "provide Numeric support" in {

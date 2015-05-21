@@ -10,7 +10,7 @@ package squants.electro
 
 import org.scalatest.{ Matchers, FlatSpec }
 import squants.space.Meters
-import squants.QuantityStringParseException
+import squants.QuantityParseException
 
 /**
  * @author  garyKeorkunian
@@ -27,8 +27,8 @@ class ElectricalConductanceSpec extends FlatSpec with Matchers {
 
   it should "create values from properly formatted Strings" in {
     ElectricalConductance("10.22 S").get should be(Siemens(10.22))
-    ElectricalConductance("10.22 zz").failed.get should be(QuantityStringParseException("Unable to parse ElectricalConductance", "10.22 zz"))
-    ElectricalConductance("zz S").failed.get should be(QuantityStringParseException("Unable to parse ElectricalConductance", "zz S"))
+    ElectricalConductance("10.22 zz").failed.get should be(QuantityParseException("Unable to parse ElectricalConductance", "10.22 zz"))
+    ElectricalConductance("zz S").failed.get should be(QuantityParseException("Unable to parse ElectricalConductance", "zz S"))
   }
 
   it should "properly convert to all supported Units of Measure" in {

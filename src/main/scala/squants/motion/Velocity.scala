@@ -50,7 +50,7 @@ final class Velocity private (val value: Double, val unit: VelocityUnit)
 object Velocity extends Dimension[Velocity] {
   private[motion] def apply[A](n: A, unit: VelocityUnit)(implicit num: Numeric[A]) = new Velocity(num.toDouble(n), unit)
   def apply(l: Length, t: Time) = MetersPerSecond(l.toMeters / t.toSeconds)
-  def apply = parseString _
+  def apply = parse _
   def name = "Velocity"
   def primaryUnit = MetersPerSecond
   def siUnit = MetersPerSecond

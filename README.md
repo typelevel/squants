@@ -28,7 +28,7 @@ Development Build: **0.5.2-SNAPSHOT**
 
 ## Installation
 Repository hosting for Squants is provided by Sonatype.
-To use Squants in your SBT project you will need to add the following dependency to your build.
+To use Squants in your SBT project add the following dependency to your build.
 
     "com.squants"  %% "squants"  % "0.4.2"
 or
@@ -36,7 +36,7 @@ or
     "com.squants"  %% "squants"  % "0.5.2-SNAPSHOT"
 
 
-To use Squants in your Maven project add the following dependency to your
+To use Squants in your Maven project add the following dependency
 
 ```xml
 <dependency>
@@ -46,7 +46,7 @@ To use Squants in your Maven project add the following dependency to your
 </dependency>
 ```
 
-Beginning with Squants 0.4 series, both Scala 2.10 and 2.11 builds are available.
+Beginning with Squants 0.4.x series, both Scala 2.10 and 2.11 builds are available.
 
 To use Squants interactively in the Scala REPL, clone the git repo and run `sbt console`
 
@@ -110,7 +110,7 @@ catching the error made when using Double in the example above.
 
 ### Dimensionally Correct Type Conversions
 
-_One may take ratios of quantities with different dimensions, and multiply or divide them._
+_One may take quantities with different dimensions, and multiply or divide them._
 
 Dimensionally correct type conversions are a key feature of Squants.
 Conversions are implemented by defining relationships between Quantity types using the * and / operators.
@@ -144,10 +144,11 @@ Quantity values are based in the units used to create them.
 
 ```scala
 val loadA: Power = Kilowatts(1200)  // returns Power: 1200.0 kW
-val loadB: Power = Megawatts(1200)  // returns Power: 1.2 MW
+val loadB: Power = Megawatts(1200)  // returns Power: 1200.0 MW
 ```
 
-Since Squants properly equates values of a similar dimension, regardless of the unit, there is typically no reason to convert.
+Since Squants properly equates values of a similar dimension, regardless of the unit,
+there is typically no reason to explicitly convert from one to the other.
 This is especially true if the user code is primarily performing dimensional analysis.
 
 However, there are times when you may need to set a Quantity value to a specific unit (eg, for proper JSON encoding).
@@ -161,21 +162,30 @@ val loadC = loadA in Gigawatts // returns Power: 0.0012 GW
 ```
 
 Sometimes you need to get the numeric portion of the quantity
-(eg, for submission to an external service that requires a numeric in a specific unit)
+(eg, for submission to an external service that requires a numeric in a specific unit or to perform analysis
+beyond Squant's existing capabilities)
 
 When necessary, the value can be extracted in the desired unit with the `to` method.
 
 ```scala
 val load: Power = Kilowatts(1200)
-val mw: Double = load to Kilowatts // returns 1200.0 (default method)
+val kw: Double = load to Kilowatts // returns 1200.0
+val mw: Double = load to Megawatts // returns 1.2
 val gw: Double = load to Gigawatts // returns 0.0012
-val my: Double = load to MyPowerUnit // returns ??? Whatever you want
-val kw: Double = load toKilowatts // returns 1200.0 (convenience method)
 ```
 
-NOTE - It is important to use the `to` method for extracting the numeric value and not the `Quantity.value`, as this
-ensures you will be getting the numeric value for the desired unit.
-To prevent improper usage, access to the `Quantity.value` field may be deprecated future versions.
+Most types include methods with convenient aliases for the `to` methods.
+
+```
+val kw: Double = load toKilowatts // returns 1200.0
+val mw: Double = load toMegawatts // returns 1.20
+val gw: Double = load toGigawatts // returns 0.0012
+```
+
+NOTE - It is important to use the `to` method for extracting the numeric value,
+as this ensures you will be getting the numeric value for the desired unit.
+`Quantity.value` should not accessed directly.
+To prevent improper usage, direct access to the `Quantity.value` field may be deprecated in a future version.
 
 Creating strings formatted in the desired unit is also supported
 
@@ -239,9 +249,9 @@ val dotProduct = vector * vectorDouble  // returns the Dot Product of vector and
 val crossProduct = vector crossProduct vectorDouble  // currently only supported for 3-dimensional vectors
 ```
 
-Dimensional conversions within Vector operations.
+#### Dimensional conversions within Vector operations.
 This feature is currently under development and the final implementation being evaluated.
-This following type of operation is the goal.
+The following type of operation is the goal.
 
 ```scala
 val vectorLength = QuantityVector(Kilometers(1.2), Kilometers(4.3), Kilometers(2.3)
@@ -258,12 +268,12 @@ val vector = DoubleVector(1.2, 4.3, 2.3, 5.4)   // a Four-dimensional vector
 ## Market Package
 Market Types are similar but not quite the same as other quantities in the library.
 The primary type, Money, is derived from Quantity, and its Units of Measure are Currencies.
-However, because the conversion multipliers between units can not be predefined,
+However, because the conversion multipliers between currency units can not be predefined,
 many of the behaviors have been overridden and augmented to realize correct behavior.
 
 ### Money
-A Quantity of purchasing power measured in units we call Currencies.
-Create Money values using standard Currency codes.
+A Quantity of purchasing power measured in units called Currencies.
+Like other quantities, the Unit of Measures are used to create Money values.
 
 ```scala
 val tenBucks: Money = USD(10)
@@ -289,7 +299,7 @@ val milkQuota: Volume = milkPrice * USD(20) // returns UsGallons(5)
 ```
 
 ### FX Support
-Currency Exchange Rates
+Currency Exchange Rates are used to define the conversion factors between currencies
 
 ```scala
 // create an exchange rate
@@ -359,7 +369,10 @@ range.map(10) {r => ???}
 range.foldLeft(10)(0) {(z, r) => ???}
 ```
 
-## Natural Language Features
+NOTE - Because these implementations of foreach, map and fold* take a parameter (the divisor), these methods
+are not compatible with Scala's for comprehensions.
+
+## Natural Language DSL
 Implicit conversions give the DSL some features that allows user code to express quantities in a
 more naturally expressive and readable way.
 
@@ -417,8 +430,9 @@ val load = 10 * 4.MW		// 40 MW
 Create Quantity Ranges using `to` or `plusOrMinus` (`+-`) operators
 
 ```scala
-val range1 = 1000.kW to 5000.kW	    // 1000.kW to 5000.kW
-val range2 = 5000.kW +- 1000.kW     // 4000.kW to 6000.kW
+val range1 = 1000.kW to 5000.kW	             // 1000.kW to 5000.kW
+val range2 = 5000.kW plusOrMinus 1000.kW     // 4000.kW to 6000.kW
+val range2 = 5000.kW +- 1000.kW              // 4000.kW to 6000.kW
 ```
 
 ### Numeric Support
@@ -430,6 +444,9 @@ import squants.mass.MassConversions.MassNumeric
 
 val sum = List(Kilograms(100), Grams(34510)).sum
 ```
+
+NOTE - Because a quantity can not be multiplied by a like quantity and return a like quantity, the `Numeric.times`
+operation of numeric is implemented to through an UnsupportedOperationException for all types except `Dimensionless`.
 
 The MoneyNumeric implementation is a bit different than the implementations for other quantity types
 in a few important ways.
@@ -469,7 +486,7 @@ The UOM objects define the unit symbols, conversion factors, and factory methods
 
 ### Quantity Implementations
 
-Specific implementations include
+The code for specific implementations include
 
 * A class representing the Quantity including cross-dimensional operations
 * A companion object representing the Dimension and set of available units
@@ -509,7 +526,7 @@ class Velocity( ... ) extends Quantity[Velocity] with TimeDerivative[Length] wit
 class Acceleration( ... ) extends Quantity[Acceleration] with TimeDerivative[Velocity]
 ```
 
-These traits provide operations with time operands which result in correct dimensional transformation.
+These traits provide operations with time operands which result in correct dimensional transformations.
 
 ```scala
 val distance: Length = Kilometers(100)
@@ -532,7 +549,7 @@ val ramp = Kilowatt(50) / Hours(1)
 
 ### Dimensional Analysis
 
-The primary use case for Squants, as described above, is to produce code that is typesafe with in domains
+The primary use case for Squants, as described above, is to produce code that is typesafe within domains
 that perform dimensional analysis.
 
 ```scala
@@ -678,6 +695,11 @@ trait LoadRoute extends HttpService {
   }
 }
 ```
+
+## Contributors
+
+* Gary Keorkunian ([garyKeorkunian](https://github.com/garyKeorkunian))
+* Jeremy Apthorp ([nornagon](https://github.com/nornagon))
 
 ## Caveats
 
