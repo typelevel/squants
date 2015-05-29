@@ -10,6 +10,7 @@ package squants.motion
 
 import squants._
 import squants.space.{ SquareInches, SquareMeters }
+import squants.time.TimeIntegral
 
 /**
  * @author  garyKeorkunian
@@ -18,9 +19,13 @@ import squants.space.{ SquareInches, SquareMeters }
  * @param value Double
  */
 final class Pressure private (val value: Double, val unit: PressureUnit)
-    extends Quantity[Pressure] {
+    extends Quantity[Pressure]
+    with TimeIntegral[PressureChange] {
 
   def dimension = Pressure
+
+  override protected def timeDerived: PressureChange = PascalsPerSecond(toPascals)
+  override protected def time: Time = Seconds(1)
 
   def *(that: Area): Force = Newtons(toPascals * that.toSquareMeters)
   def *(that: Time) = ??? // returns DynamicViscosity
@@ -50,7 +55,7 @@ object Pascals extends PressureUnit with PrimaryUnit with SiUnit {
 
 object Bars extends PressureUnit {
   val symbol = "bar"
-  val conversionFactor = 100d
+  val conversionFactor = 100000d
 }
 
 object PoundsPerSquareInch extends PressureUnit {

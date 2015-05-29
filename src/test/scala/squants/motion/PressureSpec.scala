@@ -41,7 +41,7 @@ class PressureSpec extends FlatSpec with Matchers {
     val tolerance = 0.0000000000000000001
     val x = Pascals(1)
     x.toPascals should be(1)
-    x.toBars should be(.01)
+    x.toBars should be(1e-5)
     x.toPoundsPerSquareInch should be(Newtons(1).toPoundForce / SquareMeters(1).toSquareInches +- tolerance)
     x.toStandardAtmospheres should be(1d / 101325d)
   }
