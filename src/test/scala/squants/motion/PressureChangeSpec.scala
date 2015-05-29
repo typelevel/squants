@@ -16,8 +16,8 @@ import squants.time.Seconds
 import scala.language.postfixOps
 
 /**
- * @author  garyKeorkunian
- * @since   0.1
+ * @author  stevebarham
+ * @since   0.5.2
  *
  */
 class PressureChangeSpec extends FlatSpec with Matchers {
