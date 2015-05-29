@@ -194,11 +194,21 @@ as this ensures you will be getting the numeric value for the desired unit.
 <code>Quantity.value</code> should not accessed directly.
 To prevent improper usage, direct access to the <code>Quantity.value</code> field may be deprecated in a future version.</p>
 
-<p>Creating strings formatted in the desired unit is also supported</p>
+<p>Creating strings formatted in the desired unit:</p>
 
 <div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">kw</span><span class="pl-k">:</span> <span class="pl-k">String</span> <span class="pl-k">=</span> load toString <span class="pl-en">Kilowatts</span> <span class="pl-c">// returns “1200.0 kW”</span>
 <span class="pl-k">val</span> <span class="pl-en">mw</span><span class="pl-k">:</span> <span class="pl-k">String</span> <span class="pl-k">=</span> load toString <span class="pl-en">Megawatts</span> <span class="pl-c">// returns “1.2 MW”</span>
 <span class="pl-k">val</span> <span class="pl-en">gw</span><span class="pl-k">:</span> <span class="pl-k">String</span> <span class="pl-k">=</span> load toString <span class="pl-en">Gigawatts</span> <span class="pl-c">// returns “0.0012 GW”</span></pre></div>
+
+<p>Creating Tuple2(Double, String) that includes a numeric value and unit symbol:</p>
+
+<div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">load</span><span class="pl-k">:</span> <span class="pl-en">Power</span> <span class="pl-k">=</span> <span class="pl-en">Kilowatts</span>(<span class="pl-c1">1200</span>)
+<span class="pl-k">val</span> <span class="pl-en">kw</span><span class="pl-k">:</span> <span class="pl-en">Tuple2</span> <span class="pl-k">=</span> load toTuple               <span class="pl-c">// returns (1200, "kW")</span>
+<span class="pl-k">val</span> <span class="pl-en">mw</span><span class="pl-k">:</span> <span class="pl-en">Tuple2</span> <span class="pl-k">=</span> load toTuple <span class="pl-en">Megawatts</span>     <span class="pl-c">// returns (1.2, "MW)</span>
+<span class="pl-k">val</span> <span class="pl-en">gw</span><span class="pl-k">:</span> <span class="pl-en">Tuple2</span> <span class="pl-k">=</span> load toTuple <span class="pl-en">Gigawatts</span>     <span class="pl-c">// returns (0.0012, "GW")</span></pre></div>
+
+<p>This can be useful for passing properly scaled quantities using to other processes
+that do not use Squants, but need to know the value and unit using primitive types (Double, String)</p>
 
 <p>Simple console based conversions (using DSL described below)</p>
 
@@ -400,6 +410,10 @@ more naturally expressive and readable way.</p>
 <p>Create Quantities using formatted Strings</p>
 
 <div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">load</span> <span class="pl-k">=</span> <span class="pl-en">Power</span>(<span class="pl-s"><span class="pl-pds">"</span>40 MW<span class="pl-pds">"</span></span>)       <span class="pl-c">// 40 MW</span></pre></div>
+
+<p>Create Quantities using Tuples</p>
+
+<div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">load</span> <span class="pl-k">=</span> <span class="pl-en">Power</span>((<span class="pl-c1">40</span>, <span class="pl-s"><span class="pl-pds">"</span>MW<span class="pl-pds">"</span></span>))    <span class="pl-c">// 40 MW</span></pre></div>
 
 <p>Use single unit values to simplify expressions</p>
 
@@ -678,6 +692,7 @@ with type and scale conversions in multiple places throughout your application l
 <ul>
 <li>Gary Keorkunian (<a href="https://github.com/garyKeorkunian">garyKeorkunian</a>)</li>
 <li>Jeremy Apthorp (<a href="https://github.com/nornagon">nornagon</a>)</li>
+<li>Steve Barham (<a href="https://github.com/stevebarham">stevebarham</a>)</li>
 </ul>
 
 <h2>
