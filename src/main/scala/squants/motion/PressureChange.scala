@@ -14,7 +14,7 @@ import squants._
 
 /**
  * @author  stevebarham
- * @since   0.1
+ * @since   0.5.2
  *
  * @param value Double
  */

@@ -187,13 +187,25 @@ as this ensures you will be getting the numeric value for the desired unit.
 `Quantity.value` should not accessed directly.
 To prevent improper usage, direct access to the `Quantity.value` field may be deprecated in a future version.
 
-Creating strings formatted in the desired unit is also supported
+Creating strings formatted in the desired unit:
 
 ```scala
 val kw: String = load toString Kilowatts // returns “1200.0 kW”
 val mw: String = load toString Megawatts // returns “1.2 MW”
 val gw: String = load toString Gigawatts // returns “0.0012 GW”
 ```
+
+Creating Tuple2(Double, String) that includes a numeric value and unit symbol:
+
+```scala
+val load: Power = Kilowatts(1200)
+val kw: Tuple2 = load toTuple               // returns (1200, "kW")
+val mw: Tuple2 = load toTuple Megawatts     // returns (1.2, "MW)
+val gw: Tuple2 = load toTuple Gigawatts     // returns (0.0012, "GW")
+```
+
+This can be useful for passing properly scaled quantities using to other processes
+that do not use Squants, but need to know the value and unit using primitive types (Double, String)
 
 Simple console based conversions (using DSL described below)
 
@@ -405,6 +417,12 @@ Create Quantities using formatted Strings
 
 ```scala
 val load = Power("40 MW")		// 40 MW
+```
+
+Create Quantities using Tuples
+
+```scala
+val load = Power((40, "MW"))    // 40 MW
 ```
 
 Use single unit values to simplify expressions
@@ -700,6 +718,7 @@ trait LoadRoute extends HttpService {
 
 * Gary Keorkunian ([garyKeorkunian](https://github.com/garyKeorkunian))
 * Jeremy Apthorp ([nornagon](https://github.com/nornagon))
+* Steve Barham ([stevebarham](https://github.com/stevebarham))
 
 ## Caveats
 
