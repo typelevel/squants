@@ -8,7 +8,7 @@
 
 package squants.motion
 
-import squants.space.{ UsGallons, CubicMeters }
+import squants.space.{ CubicFeet, UsGallons, CubicMeters }
 import squants._
 import squants.time._
 import squants.Seconds
@@ -29,6 +29,7 @@ final class VolumeFlow private (val value: Double, val unit: VolumeFlowRateUnit)
   protected[squants] def time = Seconds(1)
 
   def toCubicMetersPerSecond = to(CubicMetersPerSecond)
+  def toCubicFeetPerHour = to(CubicFeetPerHour)
   def toGallonsPerDay = to(GallonsPerDay)
   def toGallonsPerHour = to(GallonsPerHour)
   def toGallonsPerMinute = to(GallonsPerMinute)
@@ -41,7 +42,7 @@ object VolumeFlow extends Dimension[VolumeFlow] {
   def name = "VolumeFlow"
   def primaryUnit = CubicMetersPerSecond
   def siUnit = CubicMetersPerSecond
-  def units = Set(CubicMetersPerSecond, GallonsPerDay, GallonsPerHour, GallonsPerMinute, GallonsPerSecond)
+  def units = Set(CubicMetersPerSecond, CubicFeetPerHour, GallonsPerDay, GallonsPerHour, GallonsPerMinute, GallonsPerSecond)
 }
 
 trait VolumeFlowRateUnit extends UnitOfMeasure[VolumeFlow] with UnitConverter {
@@ -52,19 +53,24 @@ object CubicMetersPerSecond extends VolumeFlowRateUnit with PrimaryUnit with SiU
   val symbol = "m³/s"
 }
 
+object CubicFeetPerHour extends VolumeFlowRateUnit {
+  val symbol = "ft³/hr"
+  val conversionFactor = (CubicMeters.conversionFactor * CubicFeet.conversionFactor) / Time.SecondsPerHour
+}
+
 object GallonsPerDay extends VolumeFlowRateUnit {
   val symbol = "GPD"
-  val conversionFactor = (CubicMeters.conversionFactor * UsGallons.conversionFactor) / (Days.conversionFactor / Seconds.conversionFactor)
+  val conversionFactor = (CubicMeters.conversionFactor * UsGallons.conversionFactor) / Time.SecondsPerDay
 }
 
 object GallonsPerHour extends VolumeFlowRateUnit {
   val symbol = "GPH"
-  val conversionFactor = (CubicMeters.conversionFactor * UsGallons.conversionFactor) / (Hours.conversionFactor / Seconds.conversionFactor)
+  val conversionFactor = (CubicMeters.conversionFactor * UsGallons.conversionFactor) / Time.SecondsPerHour
 }
 
 object GallonsPerMinute extends VolumeFlowRateUnit {
   val symbol = "GPM"
-  val conversionFactor = (CubicMeters.conversionFactor * UsGallons.conversionFactor) / (Minutes.conversionFactor / Seconds.conversionFactor)
+  val conversionFactor = (CubicMeters.conversionFactor * UsGallons.conversionFactor) / Time.SecondsPerMinute
 }
 
 object GallonsPerSecond extends VolumeFlowRateUnit {
@@ -74,6 +80,7 @@ object GallonsPerSecond extends VolumeFlowRateUnit {
 
 object VolumeFlowConversions {
   lazy val cubicMeterPerSecond = CubicMetersPerSecond(1)
+  lazy val cubicFeetPerHour = CubicFeetPerHour(1)
   lazy val gallonPerDay = GallonsPerDay(1)
   lazy val gallonPerHour = GallonsPerHour(1)
   lazy val gallonPerMinute = GallonsPerMinute(1)
@@ -81,6 +88,7 @@ object VolumeFlowConversions {
 
   implicit class VolumeFlowConversions[A](n: A)(implicit num: Numeric[A]) {
     def cubicMetersPerSecond = CubicMetersPerSecond(n)
+    def cubicFeetPerHour = CubicFeetPerHour(n)
     def gallonsPerDay = GallonsPerDay(n)
     def gallonsPerHour = GallonsPerHour(n)
     def gallonsPerMinute = GallonsPerMinute(n)
