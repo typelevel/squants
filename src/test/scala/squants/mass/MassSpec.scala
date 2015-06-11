@@ -30,8 +30,10 @@ class MassSpec extends FlatSpec with Matchers {
     Grams(10.22).toGrams should be(10.22)
     Kilograms(10.22).toKilograms should be(10.22)
     Tonnes(10.22).toTonnes should be(10.22)
-    Pounds(10.22).toPounds should be(10.22)
     Ounces(10.22).toOunces should be(10.22)
+    Pounds(10.22).toPounds should be(10.22)
+    Kilopounds(10.22).toKilopounds should be(10.22)
+    Megapounds(10.22).toMegapounds should be(10.22)
   }
 
   it should "create values from properly formatted Strings" in {
@@ -40,8 +42,10 @@ class MassSpec extends FlatSpec with Matchers {
     Mass("10.22 g").get should be(Grams(10.22))
     Mass("10.22 kg").get should be(Kilograms(10.22))
     Mass("10.22 t").get should be(Tonnes(10.22))
-    Mass("10.22 lb").get should be(Pounds(10.22))
     Mass("10.22 oz").get should be(Ounces(10.22))
+    Mass("10.22 lb").get should be(Pounds(10.22))
+    Mass("10.22 klb").get should be(Kilopounds(10.22))
+    Mass("10.22 Mlb").get should be(Megapounds(10.22))
     Mass("10.45 zz").failed.get should be(QuantityParseException("Unable to parse Mass", "10.45 zz"))
     Mass("zz g").failed.get should be(QuantityParseException("Unable to parse Mass", "zz g"))
   }

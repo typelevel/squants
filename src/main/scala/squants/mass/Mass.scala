@@ -50,8 +50,10 @@ final class Mass private (val value: Double, val unit: MassUnit)
   def toGrams = to(Grams)
   def toKilograms = to(Kilograms)
   def toTonnes = to(Tonnes)
-  def toPounds = to(Pounds)
   def toOunces = to(Ounces)
+  def toPounds = to(Pounds)
+  def toKilopounds = to(Kilopounds)
+  def toMegapounds = to(Megapounds)
 }
 
 /**
@@ -63,7 +65,7 @@ object Mass extends Dimension[Mass] with BaseDimension {
   def name = "Mass"
   def primaryUnit = Grams
   def siUnit = Kilograms
-  def units = Set(Micrograms, Milligrams, Grams, Kilograms, Tonnes, Pounds, Ounces)
+  def units = Set(Micrograms, Milligrams, Grams, Kilograms, Tonnes, Ounces, Pounds, Kilopounds, Megapounds)
   def dimensionSymbol = "M"
 }
 
@@ -98,14 +100,24 @@ object Tonnes extends MassUnit {
   val symbol = "t"
 }
 
+object Ounces extends MassUnit {
+  val conversionFactor = Pounds.conversionFactor / 16d
+  val symbol = "oz"
+}
+
 object Pounds extends MassUnit {
   val conversionFactor = Kilograms.conversionFactor * 4.5359237e-1
   val symbol = "lb"
 }
 
-object Ounces extends MassUnit {
-  val conversionFactor = Pounds.conversionFactor / 16d
-  val symbol = "oz"
+object Kilopounds extends MassUnit {
+  val conversionFactor = Pounds.conversionFactor * MetricSystem.Kilo
+  val symbol = "klb"
+}
+
+object Megapounds extends MassUnit {
+  val conversionFactor = Pounds.conversionFactor * MetricSystem.Kilo
+  val symbol = "Mlb"
 }
 
 /**
@@ -119,8 +131,10 @@ object MassConversions {
   lazy val gram = Grams(1)
   lazy val kilogram = Kilograms(1)
   lazy val tonne = Tonnes(1)
-  lazy val pound = Pounds(1)
   lazy val ounce = Ounces(1)
+  lazy val pound = Pounds(1)
+  lazy val kilopound = Kilopounds(1)
+  lazy val megapound = Megapounds(1)
 
   implicit class MassConversions[A](n: A)(implicit num: Numeric[A]) {
     def mcg = Micrograms(n)
@@ -131,8 +145,10 @@ object MassConversions {
     def kg = Kilograms(n)
     def kilograms = kg
     def tonnes = Tonnes(n)
-    def pounds = Pounds(n)
     def ounces = Ounces(n)
+    def pounds = Pounds(n)
+    def kilopounds = Kilopounds(n)
+    def megapounds = Megapounds(n)
   }
 
   implicit class MassStringConversions(val s: String) {

@@ -16,11 +16,11 @@ All types are immutable and thread-safe.
 [Wiki](https://github.com/garyKeorkunian/squants/wiki)
 
 ### Current Versions
-Current Release: **0.4.2**
-([API Docs](https://oss.sonatype.org/service/local/repositories/releases/archive/com/squants/squants_2.11/0.4.2/squants_2.11-0.4.2-javadoc.jar/!/index.html#squants.package))
+Current Release: **0.5.3**
+([API Docs](https://oss.sonatype.org/service/local/repositories/releases/archive/com/squants/squants_2.11/0.5.3/squants_2.11-0.5.3-javadoc.jar/!/index.html#squants.package))
 
-Development Build: **0.5.2-SNAPSHOT**
-([API Docs](https://oss.sonatype.org/service/local/repositories/snapshots/archive/com/squants/squants_2.11/0.5.2-SNAPSHOT/squants_2.11-0.5.2-SNAPSHOT-javadoc.jar/!/index.html#squants.package))
+Development Build: **0.6.0-SNAPSHOT**
+([API Docs](https://oss.sonatype.org/service/local/repositories/snapshots/archive/com/squants/squants_2.11/0.6.0-SNAPSHOT/squants_2.11-0.6.0-SNAPSHOT-javadoc.jar/!/index.html#squants.package))
 
 [Release History](https://github.com/garyKeorkunian/squants/wiki/Release-History)
 
@@ -30,10 +30,10 @@ Development Build: **0.5.2-SNAPSHOT**
 Repository hosting for Squants is provided by Sonatype.
 To use Squants in your SBT project add the following dependency to your build.
 
-    "com.squants"  %% "squants"  % "0.4.2"
+    "com.squants"  %% "squants"  % "0.5.3"
 or
 
-    "com.squants"  %% "squants"  % "0.5.2-SNAPSHOT"
+    "com.squants"  %% "squants"  % "0.6.0-SNAPSHOT"
 
 
 To use Squants in your Maven project add the following dependency
@@ -42,7 +42,7 @@ To use Squants in your Maven project add the following dependency
 <dependency>
     <groupId>com.squants</groupId>
     <artifactId>squants_2.11</artifactId>
-    <version>0.4.2</version>
+    <version>0.5.3</version>
 </dependency>
 ```
 
@@ -497,7 +497,7 @@ Squants has built in support for 52 quantity dimensions.
 
 ### Unit of Measure
 UnitOfMeasure is the scale or multiplier in which the Quantity is being measured.
-Squants has built in support for 230 different units of measure
+Squants has built in support for over 230 different units of measure
 
 For each Dimension a set of UOM objects implement a primary UOM trait typed to that Quantity.
 The UOM objects define the unit symbols, conversion factors, and factory methods for creating Quantities in that unit.

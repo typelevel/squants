@@ -1,7 +1,7 @@
 import sbt._
 
 object Versions {
-  val Squants = "0.5.2-SNAPSHOT"
+  val Squants = "0.5.3"
   val Scala = "2.11.6"
   val ScalaCross = Seq("2.11.6", "2.10.5")
 
