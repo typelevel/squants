@@ -33,11 +33,11 @@ All types are immutable and thread-safe.</p>
 <h3>
 <a id="current-versions" class="anchor" href="#current-versions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Current Versions</h3>
 
-<p>Current Release: <strong>0.4.2</strong>
-(<a href="https://oss.sonatype.org/service/local/repositories/releases/archive/com/squants/squants_2.11/0.4.2/squants_2.11-0.4.2-javadoc.jar/!/index.html#squants.package">API Docs</a>)</p>
+<p>Current Release: <strong>0.5.3</strong>
+(<a href="https://oss.sonatype.org/service/local/repositories/releases/archive/com/squants/squants_2.11/0.5.3/squants_2.11-0.5.3-javadoc.jar/!/index.html#squants.package">API Docs</a>)</p>
 
-<p>Development Build: <strong>0.5.2-SNAPSHOT</strong>
-(<a href="https://oss.sonatype.org/service/local/repositories/snapshots/archive/com/squants/squants_2.11/0.5.2-SNAPSHOT/squants_2.11-0.5.2-SNAPSHOT-javadoc.jar/!/index.html#squants.package">API Docs</a>)</p>
+<p>Development Build: <strong>0.6.0-SNAPSHOT</strong>
+(<a href="https://oss.sonatype.org/service/local/repositories/snapshots/archive/com/squants/squants_2.11/0.6.0-SNAPSHOT/squants_2.11-0.6.0-SNAPSHOT-javadoc.jar/!/index.html#squants.package">API Docs</a>)</p>
 
 <p><a href="https://github.com/garyKeorkunian/squants/wiki/Release-History">Release History</a></p>
 
@@ -49,12 +49,12 @@ All types are immutable and thread-safe.</p>
 <p>Repository hosting for Squants is provided by Sonatype.
 To use Squants in your SBT project add the following dependency to your build.</p>
 
-<pre><code>"com.squants"  %% "squants"  % "0.4.2"
+<pre><code>"com.squants"  %% "squants"  % "0.5.3"
 </code></pre>
 
 <p>or</p>
 
-<pre><code>"com.squants"  %% "squants"  % "0.5.2-SNAPSHOT"
+<pre><code>"com.squants"  %% "squants"  % "0.6.0-SNAPSHOT"
 </code></pre>
 
 <p>To use Squants in your Maven project add the following dependency</p>
@@ -62,7 +62,7 @@ To use Squants in your SBT project add the following dependency to your build.</
 <div class="highlight highlight-xml"><pre>&lt;<span class="pl-ent">dependency</span>&gt;
     &lt;<span class="pl-ent">groupId</span>&gt;com.squants&lt;/<span class="pl-ent">groupId</span>&gt;
     &lt;<span class="pl-ent">artifactId</span>&gt;squants_2.11&lt;/<span class="pl-ent">artifactId</span>&gt;
-    &lt;<span class="pl-ent">version</span>&gt;0.4.2&lt;/<span class="pl-ent">version</span>&gt;
+    &lt;<span class="pl-ent">version</span>&gt;0.5.3&lt;/<span class="pl-ent">version</span>&gt;
 &lt;/<span class="pl-ent">dependency</span>&gt;</pre></div>
 
 <p>Beginning with Squants 0.4.x series, both Scala 2.10 and 2.11 builds are available.</p>
@@ -486,7 +486,7 @@ For example:  2 lb, 10 km, 3.4 hr.</p>
 <a id="unit-of-measure" class="anchor" href="#unit-of-measure" aria-hidden="true"><span class="octicon octicon-link"></span></a>Unit of Measure</h3>
 
 <p>UnitOfMeasure is the scale or multiplier in which the Quantity is being measured.
-Squants has built in support for 230 different units of measure</p>
+Squants has built in support for over 230 different units of measure</p>
 
 <p>For each Dimension a set of UOM objects implement a primary UOM trait typed to that Quantity.
 The UOM objects define the unit symbols, conversion factors, and factory methods for creating Quantities in that unit.</p>
