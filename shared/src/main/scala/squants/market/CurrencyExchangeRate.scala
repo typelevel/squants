@@ -8,7 +8,7 @@
 
 package squants.market
 
-import squants.Ratio
+import squants.{Ratio, crossFormat}
 
 /**
  * Represent the rate of exchange between two currencies
@@ -46,5 +46,5 @@ case class CurrencyExchangeRate(base: Money, counter: Money) extends Ratio[Money
    * Returns the rate formatted in as standard FX Quote"
    * @return
    */
-  override def toString = s"${base.currency.code}/${counter.currency.code} $rate"
+  override def toString = s"${base.currency.code}/${counter.currency.code} ${crossFormat(rate)}"
 }

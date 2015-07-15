@@ -121,4 +121,8 @@ package object squants {
     def crossProduct[A <: Quantity[A]](that: Vector[A]): Vector[A] = that crossProduct v
     def #*[A <: Quantity[A]] = crossProduct _
   }
+
+  // Helper function to achieve uniform Double formatting over JVM and JS platforms.
+  // Simple Double.toString will format 1.0 as "1.0" on JVM and as "1" on JS
+  private[squants] def crossFormat(d: Double): String = if (d.toLong == d) { "%.1f".format(d) } else { d.toString }
 }

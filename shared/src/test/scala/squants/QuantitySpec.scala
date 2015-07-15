@@ -57,10 +57,6 @@ class QuantitySpec extends FlatSpec with Matchers {
   behavior of "Quantity as implemented in Thingee"
 
   it should "create values using arbitrary numeric types" in {
-    // import some arbitrary types
-    import spire.math.Rational
-    import spire.math.Real
-
     // define Numeric for each type
     abstract class BaseNumeric[T] extends Numeric[T] {
       def plus(x: T, y: T) = x + y
@@ -73,22 +69,14 @@ class QuantitySpec extends FlatSpec with Matchers {
       def compare(x: T, y: T) = if (x == y) 0 else if (x.toDouble() > y.toDouble()) 1 else -1
     }
 
-    implicit val rationalNumeric = new BaseNumeric[Rational] {
-      def fromInt(x: Int) = Rational(x)
-      def toDouble(x: Rational) = x.toDouble
-    }
-
-    implicit val realNumeric = new BaseNumeric[Real] {
-      def fromInt(x: Int) = Real(x)
-      def toDouble(x: Real) = x.toDouble
+    implicit val stringNumeric = new BaseNumeric[String] {
+      def fromInt(x: Int) = x.toString
+      def toDouble(x: String) = augmentString(x).toDouble   // augmentString is used to disambiguate implicit conversion
     }
 
     // Use them to initialize quantity values
-    Thangs(Rational(10.22)).toThangs should be(10.22)
-    (Thangs(Rational(10)) + Thangs(Rational(.22))).toThangs should be(10.22)
-
-    Thangs(Real(10.22)).toThangs should be(10.22)
-    (Thangs(Real(10)) + Thangs(Real(.22))).toThangs should be(10.22)
+    Thangs("10.22").toThangs should be(10.22)
+    (Thangs("10") + Thangs("0.22")).toThangs should be(10.22)
   }
 
   it should "create values from properly formatted Strings" in {
@@ -483,7 +471,7 @@ class QuantitySpec extends FlatSpec with Matchers {
     ThingeeNumeric.fromInt(10) should be(Thangs(10))
     ThingeeNumeric.toInt(Thangs(10)) should be(10)
     ThingeeNumeric.toLong(Thangs(10)) should be(10L)
-    ThingeeNumeric.toFloat(Thangs(10.22)) should be(10.22F)
+    ThingeeNumeric.toFloat(Thangs(10.22)) should be (10.22F +- 0.000001F)
     ThingeeNumeric.toDouble(Thangs(10.22)) should be(10.22)
 
     ThingeeNumeric.compare(Thangs(1000), Kilothangs(2)) < 0 should be(right = true)
