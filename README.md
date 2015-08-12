@@ -719,6 +719,7 @@ trait LoadRoute extends HttpService {
 * Gary Keorkunian ([garyKeorkunian](https://github.com/garyKeorkunian))
 * Jeremy Apthorp ([nornagon](https://github.com/nornagon))
 * Steve Barham ([stevebarham](https://github.com/stevebarham))
+* Derek Morr ([derekmorr](https://github.com/derekmorr))
 
 ## Caveats
 
