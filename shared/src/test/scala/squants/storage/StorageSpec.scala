@@ -8,12 +8,12 @@
 
 package squants.storage
 
-import org.scalatest.{ Matchers, FlatSpec }
-import squants.{ QuantityParseException, BinarySystem, MetricSystem }
+import org.scalatest.{FlatSpec, Matchers}
+import squants.{BinarySystem, MetricSystem, QuantityParseException}
 
 /**
  * @author  Derek Morr
- * @since   XXX
+ * @since   0.6.0
  *
  */
 class StorageSpec extends FlatSpec with Matchers {

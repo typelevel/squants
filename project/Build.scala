@@ -4,7 +4,7 @@ import org.scalajs.sbtplugin.ScalaJSPlugin.autoImport._
 
 
 object Versions {
-  val Squants = "0.6.0-SNAPSHOT"
+  val Squants = "0.6.1-SNAPSHOT"
   val Scala = "2.11.7"
   val ScalaCross = Seq("2.11.7", "2.10.5")
 
@@ -138,6 +138,7 @@ object Console {
                                      squants.photo._,
                                      squants.radio._,
                                      squants.space._,
+                                     squants.storage._,
                                      squants.thermal._,
                                      squants.time._,
                                      squants.DimensionlessConversions._,
@@ -188,6 +189,7 @@ object Console {
                                      squants.space.LengthConversions._,
                                      squants.space.SolidAngleConversions._,
                                      squants.space.VolumeConversions._,
+                                     squants.storage.StorageConversions._,
                                      squants.thermal.TemperatureConversions._,
                                      squants.thermal.ThermalCapacityConversions._,
                                      squants.time.FrequencyConversions._,

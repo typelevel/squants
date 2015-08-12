@@ -14,7 +14,7 @@ import squants._
  * Represents computer storage.
  *
  * @author Derek Morr
- * @since XXX
+ * @since 0.6.0
  *
  * @param value value in [[squants.storage.Bytes]]
  */
