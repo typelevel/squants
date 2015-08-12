@@ -66,7 +66,7 @@ trait Dimension[A <: Quantity[A]] {
       case _                             ⇒ Failure(QuantityParseException(s"Unable to parse $name", s))
     }
   }
-  private lazy val QuantityString = ("([-+]?[0-9]*\\.?[0-9]+) *(" + units.map { u: UnitOfMeasure[A] ⇒ u.symbol }.reduceLeft(_ + "|" + _) + ")").r
+  private lazy val QuantityString = ("^([-+]?[0-9]*\\.?[0-9]+) *(" + units.map { u: UnitOfMeasure[A] ⇒ u.symbol }.reduceLeft(_ + "|" + _) + ")$").r
 
   private def parseTuple(value: Double, symbol: String): Try[A] = {
     symbolToUnit(symbol) match {

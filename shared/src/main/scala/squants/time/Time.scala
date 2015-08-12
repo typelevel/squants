@@ -10,7 +10,7 @@ package squants.time
 
 import scala.language.implicitConversions
 import squants._
-import scala.concurrent.duration.Duration
+import scala.concurrent.duration.{Duration, MILLISECONDS}
 
 /**
  * Represents a quantity of Time
@@ -120,7 +120,7 @@ object TimeConversions {
 
   implicit object TimeNumeric extends AbstractQuantityNumeric[Time](Time.primaryUnit)
 
-  implicit def timeToScalaDuration(time: Time) = Duration(time.toString)
+  implicit def timeToScalaDuration(time: Time) = Duration(time.millis, MILLISECONDS)
   implicit def scalaDurationToTime(duration: Duration) = Milliseconds(duration.toMillis)
 }
 

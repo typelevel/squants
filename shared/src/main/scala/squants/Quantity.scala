@@ -234,14 +234,14 @@ abstract class Quantity[A <: Quantity[A]] extends Serializable with Ordered[A] {
    * Returns a string representing the quantity's value in unit
    * @return String
    */
-  override def toString = value + " " + unit.symbol
+  override def toString = toString(unit)
 
   /**
    * Returns a string representing the quantity's value in the given `unit`
    * @param uom UnitOfMeasure[A] with UnitConverter
    * @return String
    */
-  def toString(uom: UnitOfMeasure[A]): String = to(uom) + " " + uom.symbol
+  def toString(uom: UnitOfMeasure[A]): String = s"${crossFormat(to(uom))} ${uom.symbol}"
 
   /**
    * Returns a string representing the quantity's value in the given `unit` in the given `format`

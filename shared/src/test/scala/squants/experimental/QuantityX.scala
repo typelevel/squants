@@ -10,6 +10,8 @@ package squants.experimental
 
 import scala.util.{ Failure, Success, Try }
 
+import squants.crossFormat
+
 /**
  * A base trait for measurable quantities
  *
@@ -230,14 +232,14 @@ abstract class QuantityX[A <: QuantityX[A]] extends Ordered[A] with Serializable
    * Returns a string representing the quantity's value in valueUnits
    * @return String
    */
-  override def toString = value + " " + valueUnit.symbol
+  override def toString = toString(valueUnit)
 
   /**
    * Returns a string representing the quantity's value in the given `unit`
    * @param unit UnitOfMeasure[A] with UnitConverter
    * @return String
    */
-  def toString(unit: UnitOfMeasureX[A]): String = to(unit) + " " + unit.symbol
+  def toString(unit: UnitOfMeasureX[A]): String = s"${crossFormat(to(unit))} ${unit.symbol}"
 
   /**
    * Returns a string representing the quantity's value in the given `unit` in the given `format`
