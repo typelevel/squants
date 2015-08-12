@@ -19,8 +19,8 @@ All types are immutable and thread-safe.
 Current Release: **0.5.3**
 ([API Docs](https://oss.sonatype.org/service/local/repositories/releases/archive/com/squants/squants_2.11/0.5.3/squants_2.11-0.5.3-javadoc.jar/!/index.html#squants.package))
 
-Development Build: **0.6.0-SNAPSHOT**
-([API Docs](https://oss.sonatype.org/service/local/repositories/snapshots/archive/com/squants/squants_2.11/0.6.0-SNAPSHOT/squants_2.11-0.6.0-SNAPSHOT-javadoc.jar/!/index.html#squants.package))
+Development Build: **0.6.1-SNAPSHOT**
+([API Docs](https://oss.sonatype.org/service/local/repositories/snapshots/archive/com/squants/squants_2.11/0.6.1-SNAPSHOT/squants_2.11-0.6.1-SNAPSHOT-javadoc.jar/!/index.html#squants.package))
 
 [Release History](https://github.com/garyKeorkunian/squants/wiki/Release-History)
 
@@ -33,7 +33,7 @@ To use Squants in your SBT project add the following dependency to your build.
     "com.squants"  %% "squants"  % "0.5.3"
 or
 
-    "com.squants"  %% "squants"  % "0.6.0-SNAPSHOT"
+    "com.squants"  %% "squants"  % "0.6.1-SNAPSHOT"
 
 
 To use Squants in your Maven project add the following dependency
@@ -720,6 +720,7 @@ trait LoadRoute extends HttpService {
 * Jeremy Apthorp ([nornagon](https://github.com/nornagon))
 * Steve Barham ([stevebarham](https://github.com/stevebarham))
 * Derek Morr ([derekmorr](https://github.com/derekmorr))
+* rmihael ([rmihael](https://github.com/rmihael))
 
 ## Caveats
 
