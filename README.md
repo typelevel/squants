@@ -52,7 +52,7 @@ To use Squants interactively in the Scala REPL, clone the git repo and run `sbt 
 
     git clone https://github.com/garyKeorkunian/squants
     cd squants
-    sbt console
+    sbt squantsJVM/console
 
 ## Better Dimensional Analysis
 *The Trouble with Doubles*
