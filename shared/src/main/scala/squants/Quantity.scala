@@ -259,8 +259,16 @@ abstract class Quantity[A <: Quantity[A]] extends Serializable with Ordered[A] {
 
   /**
    * Returns a pair representing the numeric value and the uom's symbol
-   * @param uom
+   * @param uom UnitOfMeasure[A]
    * @return
    */
   def toTuple(uom: UnitOfMeasure[A]): (Double, String) = (to(uom), uom.symbol)
+
+  /**
+   * Applies a function to the underlying value of the Quantity, returning a new Quantity in the same unit
+   * @param f Double => Double function
+   * @return
+   */
+  def map(f: Double => Double) = unit(f(value))
+
 }
