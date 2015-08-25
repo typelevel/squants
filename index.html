@@ -67,7 +67,7 @@ To use Squants in your SBT project add the following dependency to your build.</
 
 <p>Beginning with Squants 0.4.x series, both Scala 2.10 and 2.11 builds are available.</p>
 
-<p>To use Squants interactively in the Scala REPL, clone the git repo and run <code>sbt console</code></p>
+<p>To use Squants interactively in the Scala REPL, clone the git repo and run <code>sbt squantsJVM/console</code></p>
 
 <pre><code>git clone https://github.com/garyKeorkunian/squants
 cd squants
@@ -75,7 +75,7 @@ sbt squantsJVM/console
 </code></pre>
 
 <h2>
-<a id="better-dimensional-analysis" class="anchor" href="#better-dimensional-analysis" aria-hidden="true"><span class="octicon octicon-link"></span></a>Better Dimensional Analysis</h2>
+<a id="type-safe-dimensional-analysis" class="anchor" href="#type-safe-dimensional-analysis" aria-hidden="true"><span class="octicon octicon-link"></span></a>Type Safe Dimensional Analysis</h2>
 
 <p><em>The Trouble with Doubles</em></p>
 
@@ -139,14 +139,14 @@ Conversions are implemented by defining relationships between Quantity types usi
 <div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">ratio</span><span class="pl-k">:</span> <span class="pl-k">Double</span> <span class="pl-k">=</span> <span class="pl-en">Days</span>(<span class="pl-c1">1</span>) <span class="pl-k">/</span> <span class="pl-en">Hours</span>(<span class="pl-c1">3</span>)
 ratio should be(<span class="pl-c1">8.0</span>)</pre></div>
 
-<p>This code demonstrates use of Power's <code>*</code> method that takes a Time and returns an Energy:</p>
+<p>This code demonstrates use of the <code>Power.*</code> method that takes a <code>Time</code> and returns an <code>Energy</code>:</p>
 
 <div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">load</span><span class="pl-k">:</span> <span class="pl-en">Power</span> <span class="pl-k">=</span> <span class="pl-en">Kilowatts</span>(<span class="pl-c1">1.2</span>)
 <span class="pl-k">val</span> <span class="pl-en">time</span><span class="pl-k">:</span> <span class="pl-en">Time</span> <span class="pl-k">=</span> <span class="pl-en">Hours</span>(<span class="pl-c1">2</span>)
 <span class="pl-k">val</span> <span class="pl-en">energyUsed</span><span class="pl-k">:</span> <span class="pl-en">Energy</span> <span class="pl-k">=</span> load <span class="pl-k">*</span> time
 energyUsed should be(<span class="pl-en">KilowattHours</span>(<span class="pl-c1">2.4</span>))</pre></div>
 
-<p>This code demonstrates use of Energy's <code>/</code> method that takes a Time and returns a Power:</p>
+<p>This code demonstrates use of the <code>Energy./</code> method that takes a <code>Time</code> and returns a <code>Power</code>:</p>
 
 <div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">aveLoad</span><span class="pl-k">:</span> <span class="pl-en">Power</span> <span class="pl-k">=</span> energyUsed <span class="pl-k">/</span> time
 aveLoad should be(<span class="pl-en">Kilowatts</span>(<span class="pl-c1">1.2</span>)</pre></div>
@@ -173,7 +173,7 @@ This is especially true if the user code is primarily performing dimensional ana
 
 <p>Sometimes you need to get the numeric portion of the quantity
 (eg, for submission to an external service that requires a numeric in a specific unit or to perform analysis
-beyond Squant's existing capabilities)</p>
+beyond Squant's domain)</p>
 
 <p>When necessary, the value can be extracted in the desired unit with the <code>to</code> method.</p>
 
@@ -191,7 +191,7 @@ val gw: Double = load toGigawatts // returns 0.0012
 
 <p>NOTE - It is important to use the <code>to</code> method for extracting the numeric value,
 as this ensures you will be getting the numeric value for the desired unit.
-<code>Quantity.value</code> should not accessed directly.
+<code>Quantity.value</code> should not be accessed directly.
 To prevent improper usage, direct access to the <code>Quantity.value</code> field may be deprecated in a future version.</p>
 
 <p>Creating strings formatted in the desired unit:</p>
@@ -212,9 +212,19 @@ that do not use Squants, but need to know the value and unit using primitive typ
 
 <p>Simple console based conversions (using DSL described below)</p>
 
-<div class="highlight highlight-scala"><pre><span class="pl-c1">1.</span>kilograms to <span class="pl-en">Pounds</span>       <span class="pl-c">// returns 2.2046226218487757</span>
-<span class="pl-c1">2.1</span>.pounds to <span class="pl-en">Kilograms</span>     <span class="pl-c">// returns 0.952543977</span>
+<div class="highlight highlight-scala"><pre><span class="pl-c1">1.</span>kilograms to <span class="pl-en">Pounds</span>       <span class="pl-c">// returns 2.2046226218487757 (or use kilogram / pound)</span>
+<span class="pl-c1">2.1</span>.pounds to <span class="pl-en">Kilograms</span>     <span class="pl-c">// returns 0.952543977 (or use 2.1.pounds / kilogram)</span>
 <span class="pl-c1">100.</span><span class="pl-en">C</span> to <span class="pl-en">Fahrenheit</span>         <span class="pl-c">// returns 212.0</span></pre></div>
+
+<h3>
+<a id="mapping-over-quantity-values" class="anchor" href="#mapping-over-quantity-values" aria-hidden="true"><span class="octicon octicon-link"></span></a>Mapping over Quantity values</h3>
+
+<p>Apply a <code>Double =&gt; Double</code> operation to the underlying value of a quantity, while preserving its type and unit.</p>
+
+<div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">load</span> <span class="pl-k">=</span> <span class="pl-en">Kilowatts</span>(<span class="pl-c1">2.0</span>)
+<span class="pl-k">val</span> <span class="pl-en">newLoad</span> <span class="pl-k">=</span> load.map(v <span class="pl-k">=&gt;</span> v <span class="pl-k">*</span> <span class="pl-c1">2</span> <span class="pl-k">+</span> <span class="pl-c1">10</span>)     <span class="pl-c">// returns 14.0 kW</span></pre></div>
+
+<p>The q.map(f) method effectively expands to q.unit(f(q.to(q.unit))</p>
 
 <h3>
 <a id="approximations" class="anchor" href="#approximations" aria-hidden="true"><span class="octicon octicon-link"></span></a>Approximations</h3>
@@ -261,19 +271,34 @@ Most basic vector operations are currently supported (addition, subtraction, sca
 
 <span class="pl-k">val</span> <span class="pl-en">crossProduct</span> <span class="pl-k">=</span> vector crossProduct vectorDouble  <span class="pl-c">// currently only supported for 3-dimensional vectors</span></pre></div>
 
+<p>Simple non-quantity (Double based) vectors are also supported.</p>
+
+<div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">vector</span> <span class="pl-k">=</span> <span class="pl-en">DoubleVector</span>(<span class="pl-c1">1.2</span>, <span class="pl-c1">4.3</span>, <span class="pl-c1">2.3</span>, <span class="pl-c1">5.4</span>)   <span class="pl-c">// a Four-dimensional vector</span></pre></div>
+
 <h4>
 <a id="dimensional-conversions-within-vector-operations" class="anchor" href="#dimensional-conversions-within-vector-operations" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dimensional conversions within Vector operations.</h4>
 
-<p>This feature is currently under development and the final implementation being evaluated.
+<p>NOTE - This feature is currently under development and the final implementation being evaluated.
 The following type of operation is the goal.</p>
 
 <div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">vectorLength</span> <span class="pl-k">=</span> <span class="pl-en">QuantityVector</span>(<span class="pl-en">Kilometers</span>(<span class="pl-c1">1.2</span>), <span class="pl-en">Kilometers</span>(<span class="pl-c1">4.3</span>), <span class="pl-en">Kilometers</span>(<span class="pl-c1">2.3</span>)
 <span class="pl-k">val</span> <span class="pl-en">vectorArea</span><span class="pl-k">:</span> <span class="pl-en">QuantityVector</span>[<span class="pl-en">Area</span>] <span class="pl-k">=</span> vectorLength <span class="pl-k">*</span> <span class="pl-en">Kilometers</span>(<span class="pl-c1">10</span>)
 <span class="pl-k">val</span> <span class="pl-en">vectorVelocity</span><span class="pl-k">:</span> <span class="pl-en">QuantityVector</span>[<span class="pl-en">Velocity</span>] <span class="pl-k">=</span> vectorLength <span class="pl-k">/</span> <span class="pl-en">Seconds</span>(<span class="pl-c1">1</span>)</pre></div>
 
-<p>Simple non-quantity (Double based) vectors are also supported</p>
+<p>Currently dimensional conversions are supported by using the map method</p>
 
-<div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">vector</span> <span class="pl-k">=</span> <span class="pl-en">DoubleVector</span>(<span class="pl-c1">1.2</span>, <span class="pl-c1">4.3</span>, <span class="pl-c1">2.3</span>, <span class="pl-c1">5.4</span>)   <span class="pl-c">// a Four-dimensional vector</span></pre></div>
+<div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">vectorLength</span> <span class="pl-k">=</span> <span class="pl-en">QuantityVector</span>(<span class="pl-en">Kilometers</span>(<span class="pl-c1">1.2</span>), <span class="pl-en">Kilometers</span>(<span class="pl-c1">4.3</span>), <span class="pl-en">Kilometers</span>(<span class="pl-c1">2.3</span>))
+<span class="pl-k">val</span> <span class="pl-en">vectorArea</span> <span class="pl-k">=</span> vectorLength.map[<span class="pl-en">Area</span>](_ <span class="pl-k">*</span> <span class="pl-en">Kilometers</span>(<span class="pl-c1">2</span>))  <span class="pl-c">// returns QuantityVector(2.4 km², 8.6 km², 4.6 km²)</span>
+<span class="pl-k">val</span> <span class="pl-en">vectorVelocity</span> <span class="pl-k">=</span> vectorLength.map[<span class="pl-en">Velocity</span>](_ <span class="pl-k">/</span> <span class="pl-en">Seconds</span>(<span class="pl-c1">1</span>)) <span class="pl-c">// returns QuantityVector(1200.0 m/s, 4300.0 m/s, 2300.0 m/s)</span>
+
+<span class="pl-k">val</span> <span class="pl-en">vectorDouble</span> <span class="pl-k">=</span> <span class="pl-en">DoubleVector</span>(<span class="pl-c1">1.2</span>, <span class="pl-c1">4.3</span>, <span class="pl-c1">2.3</span>)
+<span class="pl-k">val</span> <span class="pl-en">vectorLength</span> <span class="pl-k">=</span> vectorDouble.map[<span class="pl-en">Length</span>](<span class="pl-en">Kilometers</span>(_)) <span class="pl-c">// returns QuantityVector(1.2 km, 4.3 km, 2.3 km)</span></pre></div>
+
+<p>Convert QuantityVectors to specific units using the <code>to</code> or <code>in</code> method - much like Quantities.</p>
+
+<div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">vectorLength</span> <span class="pl-k">=</span> <span class="pl-en">QuantityVector</span>(<span class="pl-en">Kilometers</span>(<span class="pl-c1">1.2</span>), <span class="pl-en">Kilometers</span>(<span class="pl-c1">4.3</span>), <span class="pl-en">Kilometers</span>(<span class="pl-c1">2.3</span>))
+<span class="pl-k">val</span> <span class="pl-en">vectorMetersNum</span> <span class="pl-k">=</span> vectorLength.to(<span class="pl-en">Meters</span>)   <span class="pl-c">// returns DoubleVector(1200.0, 4300.0, 2300.0)</span>
+<span class="pl-k">val</span> <span class="pl-en">vectorMeters</span> <span class="pl-k">=</span> vectorLength.in(<span class="pl-en">Meters</span>)      <span class="pl-c">// returns QuantityVector(1200.0 m, 4300.0 m, 2300.0 m)</span></pre></div>
 
 <h2>
 <a id="market-package" class="anchor" href="#market-package" aria-hidden="true"><span class="octicon octicon-link"></span></a>Market Package</h2>
@@ -448,7 +473,7 @@ to your code where Numeric support is required.  These follow the following patt
 <span class="pl-k">val</span> <span class="pl-en">sum</span> <span class="pl-k">=</span> <span class="pl-en">List</span>(<span class="pl-en">Kilograms</span>(<span class="pl-c1">100</span>), <span class="pl-en">Grams</span>(<span class="pl-c1">34510</span>)).sum</pre></div>
 
 <p>NOTE - Because a quantity can not be multiplied by a like quantity and return a like quantity, the <code>Numeric.times</code>
-operation of numeric is implemented to through an UnsupportedOperationException for all types except <code>Dimensionless</code>.</p>
+operation of numeric is implemented to throw an UnsupportedOperationException for all types except <code>Dimensionless</code>.</p>
 
 <p>The MoneyNumeric implementation is a bit different than the implementations for other quantity types
 in a few important ways.</p>
@@ -480,13 +505,13 @@ in a few important ways.</p>
 <p>A Quantity represents a dimensional value or measurement.  A Quantity is a combination of a numeric value and a unit.
 For example:  2 lb, 10 km, 3.4 hr.</p>
 
-<p>Squants has built in support for 52 quantity dimensions.</p>
+<p>Squants has built in support for 54 quantity dimensions.</p>
 
 <h3>
 <a id="unit-of-measure" class="anchor" href="#unit-of-measure" aria-hidden="true"><span class="octicon octicon-link"></span></a>Unit of Measure</h3>
 
 <p>UnitOfMeasure is the scale or multiplier in which the Quantity is being measured.
-Squants has built in support for over 230 different units of measure</p>
+Squants has built in support for over 257 units of measure</p>
 
 <p>For each Dimension a set of UOM objects implement a primary UOM trait typed to that Quantity.
 The UOM objects define the unit symbols, conversion factors, and factory methods for creating Quantities in that unit.</p>
@@ -516,7 +541,7 @@ The UOM objects define the unit symbols, conversion factors, and factory methods
 <div class="highlight highlight-scala"><pre><span class="pl-k">val</span> <span class="pl-en">len1</span><span class="pl-k">:</span> <span class="pl-en">Length</span> <span class="pl-k">=</span> <span class="pl-en">Meters</span>(<span class="pl-c1">4.3</span>)
 <span class="pl-k">val</span> <span class="pl-en">len2</span><span class="pl-k">:</span> <span class="pl-en">Length</span> <span class="pl-k">=</span> <span class="pl-en">Yards</span>(<span class="pl-c1">5</span>)</pre></div>
 
-<p>Squants currently supports 230 units of measure</p>
+<p>Squants currently supports 257 units of measure</p>
 
 <h3>
 <a id="time-derivatives" class="anchor" href="#time-derivatives" aria-hidden="true"><span class="octicon octicon-link"></span></a>Time Derivatives</h3>
