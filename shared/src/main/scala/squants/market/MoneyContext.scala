@@ -43,7 +43,7 @@ case class MoneyContext(
   def directRateFor(curA: Currency, curB: Currency): Option[CurrencyExchangeRate] = {
     rates.find(r ⇒
       r.base.currency == curA && r.counter.currency == curB ||
-        r.base.currency == curB && r.counter.currency == curA).headOption
+        r.base.currency == curB && r.counter.currency == curA)
   }
 
   /**

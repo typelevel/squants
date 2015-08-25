@@ -115,14 +115,18 @@ package object squants {
    * Provide implicit conversions that allow DoubleVectors to lead in vector product operations
    * @param v Vector[Double]
    */
-  implicit class SquantifiedDoubleVector(v: Vector[Double]) {
-    def dotProduct[A <: Quantity[A]](that: Vector[A]): A = that * v
-    def *[A <: Quantity[A]] = dotProduct _
-    def crossProduct[A <: Quantity[A]](that: Vector[A]): Vector[A] = that crossProduct v
-    def #*[A <: Quantity[A]] = crossProduct _
-  }
+//  implicit class SquantifiedDoubleVector(v: DoubleVector) {
+//    def dotProduct[A <: Quantity[A]](that: Vector[A]): A = that * v
+//    def *[A <: Quantity[A]] = dotProduct _
+//    def crossProduct[A <: Quantity[A]](that: Vector[A]): Vector[A] = that crossProduct v
+//    def #*[A <: Quantity[A]] = crossProduct _
+//  }
 
-  // Helper function to achieve uniform Double formatting over JVM and JS platforms.
-  // Simple Double.toString will format 1.0 as "1.0" on JVM and as "1" on JS
+  /**
+   * Helper function to achieve uniform Double formatting over JVM and JS platforms.
+   * Simple Double.toString will format 1.0 as "1.0" on JVM and as "1" on JS
+   * @param d Double number to be formatted
+   * @return
+   */
   private[squants] def crossFormat(d: Double): String = if (d.toLong == d) { "%.1f".format(d) } else { d.toString }
 }

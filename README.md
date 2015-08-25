@@ -48,13 +48,13 @@ To use Squants in your Maven project add the following dependency
 
 Beginning with Squants 0.4.x series, both Scala 2.10 and 2.11 builds are available.
 
-To use Squants interactively in the Scala REPL, clone the git repo and run `sbt console`
+To use Squants interactively in the Scala REPL, clone the git repo and run `sbt squantsJVM/console`
 
     git clone https://github.com/garyKeorkunian/squants
     cd squants
     sbt squantsJVM/console
 
-## Better Dimensional Analysis
+## Type Safe Dimensional Analysis
 *The Trouble with Doubles*
 
 When building programs that perform dimensional analysis, developers are quick to declare
@@ -122,7 +122,7 @@ val ratio: Double = Days(1) / Hours(3)
 ratio should be(8.0)
 ```
 
-This code demonstrates use of Power's `*` method that takes a Time and returns an Energy:
+This code demonstrates use of the `Power.*` method that takes a `Time` and returns an `Energy`:
 
 ```scala
 val load: Power = Kilowatts(1.2)
@@ -131,7 +131,7 @@ val energyUsed: Energy = load * time
 energyUsed should be(KilowattHours(2.4))
 ```
 
-This code demonstrates use of Energy's `/` method that takes a Time and returns a Power:
+This code demonstrates use of the `Energy./` method that takes a `Time` and returns a `Power`:
 
 ```scala
 val aveLoad: Power = energyUsed / time
@@ -163,7 +163,7 @@ val loadC = loadA in Gigawatts // returns Power: 0.0012 GW
 
 Sometimes you need to get the numeric portion of the quantity
 (eg, for submission to an external service that requires a numeric in a specific unit or to perform analysis
-beyond Squant's existing capabilities)
+beyond Squant's domain)
 
 When necessary, the value can be extracted in the desired unit with the `to` method.
 
@@ -184,7 +184,7 @@ val gw: Double = load toGigawatts // returns 0.0012
 
 NOTE - It is important to use the `to` method for extracting the numeric value,
 as this ensures you will be getting the numeric value for the desired unit.
-`Quantity.value` should not accessed directly.
+`Quantity.value` should not be accessed directly.
 To prevent improper usage, direct access to the `Quantity.value` field may be deprecated in a future version.
 
 Creating strings formatted in the desired unit:
@@ -210,10 +210,20 @@ that do not use Squants, but need to know the value and unit using primitive typ
 Simple console based conversions (using DSL described below)
 
 ```scala
-1.kilograms to Pounds       // returns 2.2046226218487757
-2.1.pounds to Kilograms     // returns 0.952543977
+1.kilograms to Pounds       // returns 2.2046226218487757 (or use kilogram / pound)
+2.1.pounds to Kilograms     // returns 0.952543977 (or use 2.1.pounds / kilogram)
 100.C to Fahrenheit         // returns 212.0
 ```
+
+### Mapping over Quantity values
+Apply a `Double => Double` operation to the underlying value of a quantity, while preserving its type and unit.
+
+```scala
+val load = Kilowatts(2.0)
+val newLoad = load.map(v => v * 2 + 10)     // returns 14.0 kW
+```
+
+The q.map(f) method effectively expands to q.unit(f(q.to(q.unit))
 
 ### Approximations
 Create an implicit Quantity value to be used as a tolerance in approximate equality comparisons.
@@ -261,8 +271,14 @@ val dotProduct = vector * vectorDouble  // returns the Dot Product of vector and
 val crossProduct = vector crossProduct vectorDouble  // currently only supported for 3-dimensional vectors
 ```
 
+Simple non-quantity (Double based) vectors are also supported.
+
+```scala
+val vector = DoubleVector(1.2, 4.3, 2.3, 5.4)   // a Four-dimensional vector
+```
+
 #### Dimensional conversions within Vector operations.
-This feature is currently under development and the final implementation being evaluated.
+NOTE - This feature is currently under development and the final implementation being evaluated.
 The following type of operation is the goal.
 
 ```scala
@@ -271,12 +287,25 @@ val vectorArea: QuantityVector[Area] = vectorLength * Kilometers(10)
 val vectorVelocity: QuantityVector[Velocity] = vectorLength / Seconds(1)
 ```
 
-Simple non-quantity (Double based) vectors are also supported
-
+Currently dimensional conversions are supported by using the map method
+ 
 ```scala
-val vector = DoubleVector(1.2, 4.3, 2.3, 5.4)   // a Four-dimensional vector
+val vectorLength = QuantityVector(Kilometers(1.2), Kilometers(4.3), Kilometers(2.3))
+val vectorArea = vectorLength.map[Area](_ * Kilometers(2))  // returns QuantityVector(2.4 km², 8.6 km², 4.6 km²)
+val vectorVelocity = vectorLength.map[Velocity](_ / Seconds(1)) // returns QuantityVector(1200.0 m/s, 4300.0 m/s, 2300.0 m/s)
+
+val vectorDouble = DoubleVector(1.2, 4.3, 2.3)
+val vectorLength = vectorDouble.map[Length](Kilometers(_)) // returns QuantityVector(1.2 km, 4.3 km, 2.3 km)
 ```
 
+Convert QuantityVectors to specific units using the `to` or `in` method - much like Quantities.
+
+```scala
+val vectorLength = QuantityVector(Kilometers(1.2), Kilometers(4.3), Kilometers(2.3))
+val vectorMetersNum = vectorLength.to(Meters)   // returns DoubleVector(1200.0, 4300.0, 2300.0)
+val vectorMeters = vectorLength.in(Meters)      // returns QuantityVector(1200.0 m, 4300.0 m, 2300.0 m)
+```
+ 
 ## Market Package
 Market Types are similar but not quite the same as other quantities in the library.
 The primary type, Money, is derived from Quantity, and its Units of Measure are Currencies.
@@ -464,7 +493,7 @@ val sum = List(Kilograms(100), Grams(34510)).sum
 ```
 
 NOTE - Because a quantity can not be multiplied by a like quantity and return a like quantity, the `Numeric.times`
-operation of numeric is implemented to through an UnsupportedOperationException for all types except `Dimensionless`.
+operation of numeric is implemented to throw an UnsupportedOperationException for all types except `Dimensionless`.
 
 The MoneyNumeric implementation is a bit different than the implementations for other quantity types
 in a few important ways.
@@ -493,11 +522,11 @@ A Dimension represents a type of Quantity. For example: Mass, Length, Time, etc.
 A Quantity represents a dimensional value or measurement.  A Quantity is a combination of a numeric value and a unit.
 For example:  2 lb, 10 km, 3.4 hr.
 
-Squants has built in support for 52 quantity dimensions.
+Squants has built in support for 54 quantity dimensions.
 
 ### Unit of Measure
 UnitOfMeasure is the scale or multiplier in which the Quantity is being measured.
-Squants has built in support for over 230 different units of measure
+Squants has built in support for over 257 units of measure
 
 For each Dimension a set of UOM objects implement a primary UOM trait typed to that Quantity.
 The UOM objects define the unit symbols, conversion factors, and factory methods for creating Quantities in that unit.
@@ -528,7 +557,7 @@ val len1: Length = Meters(4.3)
 val len2: Length = Yards(5)
 ```
 
-Squants currently supports 230 units of measure
+Squants currently supports 257 units of measure
 
 ### Time Derivatives
 
