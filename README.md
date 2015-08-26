@@ -26,6 +26,9 @@ Development Build: **0.6.1-SNAPSHOT**
 
 [![Build Status](https://travis-ci.org/garyKeorkunian/squants.png?branch=master)](https://travis-ci.org/garyKeorkunian/squants)
 
+NOTE - This README reflects feature set in the branch it can be found.  
+For more information on feature availability of a specific version see the Release History or the README for a that version 
+
 ## Installation
 Repository hosting for Squants is provided by Sonatype.
 To use Squants in your SBT project add the following dependency to your build.
@@ -72,9 +75,9 @@ or produced, that is, Power is the first time derivative of Energy.
 Consider the following code
 
 ```scala
-val loadKw: Double = 1.2
-val energyMwh: Double = 24.2
-val sumKw = loadKw + energyMwh
+val loadKw = 1.2                    // Double: 1.2
+val energyMwh = 24.2                // Double: 24.2        
+val sumKw = loadKw + energyMwh      // Double: 25.4
 ```
 
 which not only adds quantities of different dimensions (Power vs Energy),
@@ -89,21 +92,21 @@ Squants helps prevent errors like these by type checking operations at compile t
 automatically applying scale and type conversions at run-time.  For example,
 
 ```scala
-val load1: Power = Kilowatts(12)
-val load2: Power = Megawatts(0.023)
-val sum = load1 + load2
-sum should be(Kilowatts(35))
-sum should be(Megawatts(0.035))
+val load1: Power = Kilowatts(12)        // returns Power(12, Kilowatts) or 12 kW
+val load2: Power = Megawatts(0.023)     // Power: 0.023 MW
+val sum = load1 + load2                 // Power: 35 kW - unit on left side is preserved
+sum should be(Kilowatts(35))            
+sum should be(Megawatts(0.035))         // comparisons automatically convert scale 
 ```
 
-is a valid assertion because Kilowatts and Megawatts are both units of Power.  Only the scale is
+works because Kilowatts and Megawatts are both units of Power.  Only the scale is
 different and the library applies an appropriate conversion.  Also, notice that keeping track of
 the scale within the value name is no longer needed.
 
 ```scala
-val load: Power = Kilowatts(1.2)
-val energy: Energy = KilowattHours(23.0)
-val sum = load + energy // Invalid operation - does not compile
+val load: Power = Kilowatts(1.2)            // Power: 1.2 kW
+val energy: Energy = KilowattHours(23.0)    // Energy: 23 kWH
+val sum = load + energy                     // Invalid operation - does not compile
 ```
 The unsupported operation in this expression prevents the code from compiling,
 catching the error made when using Double in the example above.
@@ -115,27 +118,25 @@ _One may take quantities with different dimensions, and multiply or divide them.
 Dimensionally correct type conversions are a key feature of Squants.
 Conversions are implemented by defining relationships between Quantity types using the * and / operators.
 
-The following code demonstrates creating ratio between two quantities of the same dimension:
+The following code demonstrates creating ratio between two quantities of the same dimension, 
+resulting in a dimensionless value:
 
 ```scala
-val ratio: Double = Days(1) / Hours(3)
-ratio should be(8.0)
+val ratio = Days(1) / Hours(3)  // Double: 8.0
 ```
 
 This code demonstrates use of the `Power.*` method that takes a `Time` and returns an `Energy`:
 
 ```scala
-val load: Power = Kilowatts(1.2)
-val time: Time = Hours(2)
-val energyUsed: Energy = load * time
-energyUsed should be(KilowattHours(2.4))
+val load = Kilowatts(1.2)                   // Power: 1.2 kW
+val time = Hours(2)                         // Time: 2 h
+val energyUsed = load * time                // Energy: 2.4 kWh
 ```
 
 This code demonstrates use of the `Energy./` method that takes a `Time` and returns a `Power`:
 
 ```scala
-val aveLoad: Power = energyUsed / time
-aveLoad should be(Kilowatts(1.2)
+val aveLoad: Power = energyUsed / time      // Power: 1.2 kW
 ```
 
 ### Unit Conversions
@@ -143,12 +144,12 @@ aveLoad should be(Kilowatts(1.2)
 Quantity values are based in the units used to create them.
 
 ```scala
-val loadA: Power = Kilowatts(1200)  // returns Power: 1200.0 kW
-val loadB: Power = Megawatts(1200)  // returns Power: 1200.0 MW
+val loadA: Power = Kilowatts(1200)  // Power: 1200.0 kW
+val loadB: Power = Megawatts(1200)  // Power: 1200.0 MW
 ```
 
-Since Squants properly equates values of a similar dimension, regardless of the unit,
-there is typically no reason to explicitly convert from one to the other.
+Since Squants properly equates values of a like dimension, regardless of the unit,
+there is usually no reason to explicitly convert from one to the other.
 This is especially true if the user code is primarily performing dimensional analysis.
 
 However, there are times when you may need to set a Quantity value to a specific unit (eg, for proper JSON encoding).
@@ -156,30 +157,30 @@ However, there are times when you may need to set a Quantity value to a specific
 When necessary, a quantity can be converted to another unit using the `in` method.
 
 ```scala
-val loadA = Kilowatts(1200)    // returns Power: 1200.0 kW
-val loadB = loadA in Megawatts // returns Power: 1.2 MW
-val loadC = loadA in Gigawatts // returns Power: 0.0012 GW
+val loadA = Kilowatts(1200)    // Power: 1200.0 kW
+val loadB = loadA in Megawatts // Power: 1.2 MW
+val loadC = loadA in Gigawatts // Power: 0.0012 GW
 ```
 
-Sometimes you need to get the numeric portion of the quantity
-(eg, for submission to an external service that requires a numeric in a specific unit or to perform analysis
-beyond Squant's domain)
+Sometimes you need to get the numeric value of the quantity in a specific unit
+(eg, for submission to an external service that requires a numeric in a specified unit 
+or to perform analysis beyond Squant's domain)
 
 When necessary, the value can be extracted in the desired unit with the `to` method.
 
 ```scala
 val load: Power = Kilowatts(1200)
-val kw: Double = load to Kilowatts // returns 1200.0
-val mw: Double = load to Megawatts // returns 1.2
-val gw: Double = load to Gigawatts // returns 0.0012
+val kw: Double = load to Kilowatts // Double: 1200.0
+val mw: Double = load to Megawatts // Double: 1.2
+val gw: Double = load to Gigawatts // Double: 0.0012
 ```
 
 Most types include methods with convenient aliases for the `to` methods.
 
 ```
-val kw: Double = load toKilowatts // returns 1200.0
-val mw: Double = load toMegawatts // returns 1.20
-val gw: Double = load toGigawatts // returns 0.0012
+val kw: Double = load toKilowatts // Double: 1200.0
+val mw: Double = load toMegawatts // Double: 1.20
+val gw: Double = load toGigawatts // Double: 0.0012
 ```
 
 NOTE - It is important to use the `to` method for extracting the numeric value,
@@ -190,49 +191,53 @@ To prevent improper usage, direct access to the `Quantity.value` field may be de
 Creating strings formatted in the desired unit:
 
 ```scala
-val kw: String = load toString Kilowatts // returns “1200.0 kW”
-val mw: String = load toString Megawatts // returns “1.2 MW”
-val gw: String = load toString Gigawatts // returns “0.0012 GW”
+val kw: String = load toString Kilowatts // String: “1200.0 kW”
+val mw: String = load toString Megawatts // String: “1.2 MW”
+val gw: String = load toString Gigawatts // String: “0.0012 GW”
 ```
 
 Creating Tuple2(Double, String) that includes a numeric value and unit symbol:
 
 ```scala
 val load: Power = Kilowatts(1200)
-val kw: Tuple2 = load toTuple               // returns (1200, "kW")
-val mw: Tuple2 = load toTuple Megawatts     // returns (1.2, "MW)
-val gw: Tuple2 = load toTuple Gigawatts     // returns (0.0012, "GW")
+val kw: Tuple2 = load toTuple               // Tuple2: (1200, "kW")
+val mw: Tuple2 = load toTuple Megawatts     // Tuple2: (1.2, "MW)
+val gw: Tuple2 = load toTuple Gigawatts     // Tuple2: (0.0012, "GW")
 ```
 
-This can be useful for passing properly scaled quantities using to other processes
-that do not use Squants, but need to know the value and unit using primitive types (Double, String)
+This can be useful for passing properly scaled quantities to other processes
+that do not use Squants, or require use of more basic types (Double, String)
 
 Simple console based conversions (using DSL described below)
 
 ```scala
-1.kilograms to Pounds       // returns 2.2046226218487757 (or use kilogram / pound)
-2.1.pounds to Kilograms     // returns 0.952543977 (or use 2.1.pounds / kilogram)
-100.C to Fahrenheit         // returns 212.0
+1.kilograms to Pounds       // Double: 2.2046226218487757 
+kilogram / pound            // Double: 2.2046226218487757
+ 
+2.1.pounds to Kilograms     // Double: 0.952543977 
+2.1.pounds / kilogram)      // Double: 0.952543977
+
+100.C to Fahrenheit         // Double: 212.0
 ```
 
 ### Mapping over Quantity values
 Apply a `Double => Double` operation to the underlying value of a quantity, while preserving its type and unit.
 
 ```scala
-val load = Kilowatts(2.0)
-val newLoad = load.map(v => v * 2 + 10)     // returns 14.0 kW
+val load = Kilowatts(2.0)                   // 2.0 kW
+val newLoad = load.map(v => v * 2 + 10)     // Power: 14.0 kW
 ```
 
 The q.map(f) method effectively expands to q.unit(f(q.to(q.unit))
 
 ### Approximations
-Create an implicit Quantity value to be used as a tolerance in approximate equality comparisons.
-Use the `approx` method (`=~`, `~=`, `≈` operator) like the `equals` method (`==` operator)
+Create an implicit Quantity value to be used as a tolerance in approximations.
+Then use the `approx` method (or `=~`, `~=`, `≈` operators) like you would use the `equals` method (`==` operator).
 
 ```scala
-implicit val tolerance = Watts(.1)
-val load = Kilowatts(2.0)
-val reading = Kilowatts(1.9999)
+implicit val tolerance = Watts(.1)      // implicit Power: 0.1 W 
+val load = Kilowatts(2.0)               // Power: 2.0 kW
+val reading = Kilowatts(1.9999)         // Power: 1.9999 kW
 
  // uses implicit tolerance
 load =~ reading should be(true)
@@ -242,11 +247,11 @@ load approx reading should be(true)
 
 The `=~` and `≈` are the preferred operators as they have the correct precedence for equality operations.
 The `~=` is provided for those who wish to use a more natural looking approx operator using standard characters.
-However, because of its lower precedence, user code may require parenthesis around these comparisons
+However, because of its lower precedence, user code may require parenthesis around these comparisons.
 
 ### Vectors
 
-All Quantity types in Squants represent the scalar value of a quantity.
+All `Quantity` types in Squants represent the scalar value of a quantity.
 That is, there is no direction information encoded in any of the Quantity types.
 This is true even for Quantities which are normally vector quantities (ie. Velocity, Acceleration, etc).
 
@@ -283,44 +288,47 @@ The following type of operation is the goal.
 
 ```scala
 val vectorLength = QuantityVector(Kilometers(1.2), Kilometers(4.3), Kilometers(2.3)
-val vectorArea: QuantityVector[Area] = vectorLength * Kilometers(10)
-val vectorVelocity: QuantityVector[Velocity] = vectorLength / Seconds(1)
+val vectorArea = vectorLength * Kilometers(2)   // QuantityVector(2.4 km², 8.6 km², 4.6 km²)
+val vectorVelocity = vectorLength / Seconds(1)  // QuantityVector(1200.0 m/s, 4300.0 m/s, 2300.0 m/s)
+
+val vectorDouble = DoubleVector(1.2, 4.3, 2.3)
+val vectorLength = vectorDouble.to(Kilometers)  // QuantityVector(1.2 km, 4.3 km, 2.3 km)
 ```
 
-Currently dimensional conversions are supported by using the map method
+Currently dimensional conversions are supported by using the slightly verbose, but flexible map method
  
 ```scala
 val vectorLength = QuantityVector(Kilometers(1.2), Kilometers(4.3), Kilometers(2.3))
-val vectorArea = vectorLength.map[Area](_ * Kilometers(2))  // returns QuantityVector(2.4 km², 8.6 km², 4.6 km²)
-val vectorVelocity = vectorLength.map[Velocity](_ / Seconds(1)) // returns QuantityVector(1200.0 m/s, 4300.0 m/s, 2300.0 m/s)
+val vectorArea = vectorLength.map[Area](_ * Kilometers(2))      // QuantityVector(2.4 km², 8.6 km², 4.6 km²)
+val vectorVelocity = vectorLength.map[Velocity](_ / Seconds(1)) // QuantityVector(1200.0 m/s, 4300.0 m/s, 2300.0 m/s)
 
 val vectorDouble = DoubleVector(1.2, 4.3, 2.3)
-val vectorLength = vectorDouble.map[Length](Kilometers(_)) // returns QuantityVector(1.2 km, 4.3 km, 2.3 km)
+val vectorLength = vectorDouble.map[Length](Kilometers(_))      // QuantityVector(1.2 km, 4.3 km, 2.3 km)
 ```
 
 Convert QuantityVectors to specific units using the `to` or `in` method - much like Quantities.
 
 ```scala
 val vectorLength = QuantityVector(Kilometers(1.2), Kilometers(4.3), Kilometers(2.3))
-val vectorMetersNum = vectorLength.to(Meters)   // returns DoubleVector(1200.0, 4300.0, 2300.0)
-val vectorMeters = vectorLength.in(Meters)      // returns QuantityVector(1200.0 m, 4300.0 m, 2300.0 m)
+val vectorMetersNum = vectorLength.to(Meters)   // DoubleVector(1200.0, 4300.0, 2300.0)
+val vectorMeters = vectorLength.in(Meters)      // QuantityVector(1200.0 m, 4300.0 m, 2300.0 m)
 ```
  
 ## Market Package
 Market Types are similar but not quite the same as other quantities in the library.
-The primary type, Money, is derived from Quantity, and its Units of Measure are Currencies.
+The primary type, Money, is a Dimensional Quantity, and its Units of Measure are Currencies.
 However, because the conversion multipliers between currency units can not be predefined,
 many of the behaviors have been overridden and augmented to realize correct behavior.
 
 ### Money
-A Quantity of purchasing power measured in units called Currencies.
+A Quantity of purchasing power measured in Currency units.
 Like other quantities, the Unit of Measures are used to create Money values.
 
 ```scala
-val tenBucks: Money = USD(10)
-val someYen: Money = JPY(1200)
-val goldStash: Money = XAU(50)
-val digitalStash: Money = BTC(50)
+val tenBucks = USD(10)      // Money: 10 USD
+val someYen = JPY(1200)     // Money: 1200 JPY
+val goldStash = XAU(50)     // Money: 50 XAU
+val digitalCache = BTC(50)  // Money: 50 BTC
 ```
 
 ### Price
@@ -330,13 +338,13 @@ A Price value is typed on a Quantity and can be denominated in any defined Curre
 *Price = Money / Quantity*
 
 ```scala
-val threeForADollar: Price[Dimensionless] = USD(1) / Each(3)
-val energyPrice: Price[Energy] = USD(102.20) / MegawattHours(1)
-val milkPrice: Price[Volume] = USD(4) / UsGallons(1)
+val threeForADollar = USD(1) / Each(3)              // Price[Dimensionless]: 1 USD / 3 ea
+val energyPrice = USD(102.20) / MegawattHours(1)    // Price[Energy]: 102.20 USD / megawattHour
+val milkPrice = USD(4) / UsGallons(1)               // Price[Volume]: 4 USD / gallon
 
-val costForABunch: Money = threeForADollar * Dozen(10) // returns USD(40)
-val energyCost: Money = energyPrice * MegawattHours(4) // returns USD(408.80)
-val milkQuota: Volume = milkPrice * USD(20) // returns UsGallons(5)
+val costForABunch = threeForADollar * Dozen(10) // Money: 40 USD
+val energyCost = energyPrice * MegawattHours(4) // Money: 408.80 USD
+val milkQuota = milkPrice * USD(20)             // Volume: 5 gal
 ```
 
 ### FX Support
@@ -356,12 +364,12 @@ val someYen: Money = JPY(350)
 val someBucks: Money = USD(23.50)
 
 // Use the convert method which automatically converts the money to the 'other' currency
-val dollarAmount: Money = rate.convert(someYen) // returns USD(3.5)
-val yenAmount: Money = rate.convert(someBucks)  // returns JPY(2350)
+val dollarAmount: Money = rate.convert(someYen) // Money: 3.5 USD
+val yenAmount: Money = rate.convert(someBucks)  // Money: 2360 JPY
 
 // or just use the * operator in either direction (money * rate, or rate * money)
-val dollarAmount2: Money = rate * someYen       // returns USD(3.5)
-val yenAmount2: Money = someBucks * rate		// returns JPY(2350)
+val dollarAmount2: Money = rate * someYen       // Money: 3.5 USD
+val yenAmount2: Money = someBucks * rate		// Money: 2360 JPY
 ```
 
 ### Money Context
@@ -389,6 +397,7 @@ val load1: Power = Kilowatts(1000)
 val load2: Power = Kilowatts(5000)
 val range: QuantityRange[Power] = QuantityRange(load1, load2)
 ```
+
 Use multiplication and division to create a Seq of ranges from the original
 
 ```scala
@@ -411,7 +420,15 @@ range.foldLeft(10)(0) {(z, r) => ???}
 ```
 
 NOTE - Because these implementations of foreach, map and fold* take a parameter (the divisor), these methods
-are not compatible with Scala's for comprehensions.
+are not directly compatible with Scala's for comprehensions. 
+To use in a for comprehension, apply the * or / operators as described above to create a Seq from the Range.
+
+```scala
+for {
+    interval <- (0.seconds to 1.seconds) * 60  // 60 time ranges, 0s to 1s, 1s to 2s, ...., 59s to 60s
+    ...
+} yield ...
+```
 
 ## Natural Language DSL
 Implicit conversions give the DSL some features that allows user code to express quantities in a
@@ -629,7 +646,6 @@ case class Generator(
 ...
 val gen1 = Generator("Gen1", 5000, 7500, 75.4, "USD", 1.5)
 val gen2 = Generator("Gen2", 100, 250, 2944.5, "JPY", 0.5)
-assetManagementActor ! ManageGenerator(gen1)
 ```
 
 ... but this is much better
@@ -644,7 +660,6 @@ case class Generator(
 ...
 val gen1 = Generator("Gen1", 5 MW, 7.5.MW/hour, 75.4.USD/MWh, 1.5 hours)
 val gen2 = Generator("Gen2", 100 kW, 250 kWph, 2944.5.JPY/MWh, 30 minutes)
-assetManagementActor ! ManageGenerator(gen1)
 ```
 
 ### Anticorruption Layers
