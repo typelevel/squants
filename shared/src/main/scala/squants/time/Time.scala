@@ -10,7 +10,7 @@ package squants.time
 
 import scala.language.implicitConversions
 import squants._
-import scala.concurrent.duration.{Duration, MILLISECONDS}
+import scala.concurrent.duration.{Duration, NANOSECONDS, MICROSECONDS, MILLISECONDS, SECONDS, MINUTES, HOURS, DAYS}
 
 /**
  * Represents a quantity of Time
@@ -32,6 +32,7 @@ final class Time private (val value: Double, val unit: TimeUnit)
   def *(that: Time) = TimeSquared(this, that)
   def squared = TimeSquared(this)
 
+  def toNanoseconds = to(Nanoseconds)
   def toMicroseconds = to(Microseconds)
   def toMilliseconds = to(Milliseconds)
   def toSeconds = to(Seconds)
@@ -41,9 +42,11 @@ final class Time private (val value: Double, val unit: TimeUnit)
 }
 
 object Time extends Dimension[Time] with BaseDimension {
+  val NanosecondsPerSecond = 1.0e9
+  val MicrosecondsPerSecond = 1.0e6
   val MillisecondsPerNanosecond = 1.0e-6
   val MillisecondsPerMicrosecond = 1.0e-3
-  val MillisecondsPerSecond = 1000d
+  val MillisecondsPerSecond = 1e3
   val MillisecondsPerMinute = MillisecondsPerSecond * 60d
   val MillisecondsPerHour = MillisecondsPerMinute * 60d
   val MillisecondsPerDay = MillisecondsPerHour * 24d
@@ -55,16 +58,30 @@ object Time extends Dimension[Time] with BaseDimension {
 
   private[time] def apply[A](n: A, unit: TimeUnit)(implicit num: Numeric[A]) = new Time(num.toDouble(n), unit)
   def apply = parse _
+  def apply(duration: Duration): Time = duration.unit match {
+    case NANOSECONDS => Nanoseconds(duration.length)
+    case MICROSECONDS => Microseconds(duration.length)
+    case MILLISECONDS => Milliseconds(duration.length)
+    case SECONDS => Seconds(duration.length)
+    case MINUTES => Minutes(duration.length)
+    case HOURS => Hours(duration.length)
+    case DAYS => Days(duration.length)
+  }
 
   def name = "Time"
   def primaryUnit = Milliseconds
   def siUnit = Seconds
-  def units = Set(Microseconds, Milliseconds, Seconds, Minutes, Hours, Days)
+  def units = Set(Nanoseconds, Microseconds, Milliseconds, Seconds, Minutes, Hours, Days)
   def dimensionSymbol = "T"
 }
 
 trait TimeUnit extends UnitOfMeasure[Time] with UnitConverter {
   def apply[A](n: A)(implicit num: Numeric[A]) = Time(n, this)
+}
+
+object Nanoseconds extends TimeUnit {
+  val conversionFactor = Milliseconds.conversionFactor / Time.MicrosecondsPerSecond
+  val symbol = "ns"
 }
 
 object Microseconds extends TimeUnit {
@@ -97,6 +114,7 @@ object Days extends TimeUnit {
 }
 
 object TimeConversions {
+  lazy val nanosecond = Nanoseconds(1)
   lazy val microsecond = Microseconds(1)
   lazy val millisecond = Milliseconds(1)
   lazy val second = Seconds(1)
@@ -106,6 +124,7 @@ object TimeConversions {
   lazy val day = Days(1)
 
   implicit class TimeConversions[A](n: A)(implicit num: Numeric[A]) {
+    def nanoseconds = Nanoseconds(n)
     def microseconds = Microseconds(n)
     def milliseconds = Milliseconds(n)
     def seconds = Seconds(n)
@@ -120,7 +139,24 @@ object TimeConversions {
 
   implicit object TimeNumeric extends AbstractQuantityNumeric[Time](Time.primaryUnit)
 
-  implicit def timeToScalaDuration(time: Time) = Duration(time.millis, MILLISECONDS)
-  implicit def scalaDurationToTime(duration: Duration) = Milliseconds(duration.toMillis)
+  /**
+   * Converts a Squants Time to Scala Duration
+   *
+   * NOTE - Because Scala Durations require a Long, the Squants Time value most be converted / rounded
+   *
+   * @param time
+   * @return
+   */
+  implicit def timeToScalaDuration(time: Time): Duration = time.unit match {
+    case Nanoseconds => Duration(time.value.toLong, NANOSECONDS)
+    case Microseconds => Duration(time.value.toLong, MICROSECONDS)
+    case Milliseconds => Duration(time.value.toLong, MILLISECONDS)
+    case Seconds => Duration(time.value.toLong, SECONDS)
+    case Minutes => Duration(time.value.toLong, MINUTES)
+    case Hours => Duration(time.value.toLong, HOURS)
+    case Days => Duration(time.value.toLong, DAYS)
+  }
+
+  implicit def scalaDurationToTime(duration: Duration): Time = Time(duration)
 }
 
