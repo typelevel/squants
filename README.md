@@ -26,11 +26,13 @@ Development Build: **0.6.1-SNAPSHOT**
 
 [![Build Status](https://travis-ci.org/garyKeorkunian/squants.png?branch=master)](https://travis-ci.org/garyKeorkunian/squants)
 
+Build services provided by [Travis CI](https://travis-ci.com/) 
+
 NOTE - This README reflects feature set in the branch it can be found.  
 For more information on feature availability of a specific version see the Release History or the README for a that version 
 
 ## Installation
-Repository hosting for Squants is provided by Sonatype.
+Repository hosting for Squants is provided by [Sonatype](https://oss.sonatype.org/).
 To use Squants in your SBT project add the following dependency to your build.
 
     "com.squants"  %% "squants"  % "0.5.3"
