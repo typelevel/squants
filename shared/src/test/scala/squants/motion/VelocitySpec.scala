@@ -27,6 +27,7 @@ class VelocitySpec extends FlatSpec with Matchers {
   it should "create values using UOM factories" in {
     MetersPerSecond(1).toMetersPerSecond should be(1)
     FeetPerSecond(1).toFeetPerSecond should be(1)
+    KilometersPerSecond(1).toKilometersPerSecond should be(1)
     KilometersPerHour(1).toKilometersPerHour should be(1)
     UsMilesPerHour(1).toUsMilesPerHour should be(1)
     InternationalMilesPerHour(1).toInternationalMilesPerHour should be(1)
@@ -35,7 +36,8 @@ class VelocitySpec extends FlatSpec with Matchers {
   it should "create values from properly formatted Strings" in {
     Velocity("10.22 m/s").get should be(MetersPerSecond(10.22))
     Velocity("10.22 ft/s").get should be(FeetPerSecond(10.22))
-    Velocity("10.22 km/s").get should be(KilometersPerHour(10.22))
+    Velocity("10.22 km/s").get should be(KilometersPerSecond(10.22))
+    Velocity("10.22 km/h").get should be(KilometersPerHour(10.22))
     Velocity("10.22 mph").get should be(UsMilesPerHour(10.22))
     Velocity("10.22 zz").failed.get should be(QuantityParseException("Unable to parse Velocity", "10.22 zz"))
     Velocity("zz m/s").failed.get should be(QuantityParseException("Unable to parse Velocity", "zz m/s"))
@@ -55,7 +57,8 @@ class VelocitySpec extends FlatSpec with Matchers {
   it should "return properly formatted strings for all supported Units of Measure" in {
     MetersPerSecond(1).toString(MetersPerSecond) should be("1.0 m/s")
     FeetPerSecond(1).toString(FeetPerSecond) should be("1.0 ft/s")
-    KilometersPerHour(1).toString(KilometersPerHour) should be("1.0 km/s")
+    KilometersPerSecond(1).toString(KilometersPerSecond) should be("1.0 km/s")
+    KilometersPerHour(1).toString(KilometersPerHour) should be("1.0 km/h")
     UsMilesPerHour(1).toString(UsMilesPerHour) should be("1.0 mph")
     InternationalMilesPerHour(1).toString(InternationalMilesPerHour) should be("1.0 imph")
     Knots(1).toString(Knots) should be("1.0 kn")
@@ -84,7 +87,8 @@ class VelocitySpec extends FlatSpec with Matchers {
 
     meterPerSecond should be(MetersPerSecond(1))
     footPerSecond should be(FeetPerSecond(1))
-    kilometerPerSecond should be(KilogramsPerSecond(1))
+    kilometerPerSecond should be(KilometersPerSecond(1))
+    kilometerPerHour should be(KilometersPerHour(1))
     milePerHour should be(UsMilesPerHour(1))
     knot should be(Knots(1))
   }
@@ -95,6 +99,7 @@ class VelocitySpec extends FlatSpec with Matchers {
     val d = 10d
     d.fps should be(FeetPerSecond(d))
     d.mps should be(MetersPerSecond(d))
+    d.kps should be(KilometersPerSecond(d))
     d.kph should be(KilometersPerHour(d))
     d.mph should be(UsMilesPerHour(d))
     d.knots should be(Knots(d))

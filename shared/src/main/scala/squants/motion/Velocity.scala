@@ -41,6 +41,7 @@ final class Velocity private (val value: Double, val unit: VelocityUnit)
 
   def toFeetPerSecond = to(FeetPerSecond)
   def toMetersPerSecond = to(MetersPerSecond)
+  def toKilometersPerSecond = to(KilometersPerSecond)
   def toKilometersPerHour = to(KilometersPerHour)
   def toUsMilesPerHour = to(UsMilesPerHour)
   def toInternationalMilesPerHour = to(InternationalMilesPerHour)
@@ -54,7 +55,7 @@ object Velocity extends Dimension[Velocity] {
   def name = "Velocity"
   def primaryUnit = MetersPerSecond
   def siUnit = MetersPerSecond
-  def units = Set(MetersPerSecond, FeetPerSecond, KilometersPerHour, UsMilesPerHour,
+  def units = Set(MetersPerSecond, FeetPerSecond, KilometersPerSecond, KilometersPerHour, UsMilesPerHour,
     InternationalMilesPerHour, Knots)
 }
 
@@ -71,8 +72,13 @@ object MetersPerSecond extends VelocityUnit with PrimaryUnit with SiUnit {
   val symbol = "m/s"
 }
 
-object KilometersPerHour extends VelocityUnit {
+object KilometersPerSecond extends VelocityUnit {
   val symbol = "km/s"
+  val conversionFactor = Kilometers.conversionFactor / Meters.conversionFactor
+}
+
+object KilometersPerHour extends VelocityUnit {
+  val symbol = "km/h"
   val conversionFactor = (Kilometers.conversionFactor / Meters.conversionFactor) / Time.SecondsPerHour
 }
 
@@ -94,13 +100,15 @@ object Knots extends VelocityUnit {
 object VelocityConversions {
   lazy val footPerSecond = FeetPerSecond(1)
   lazy val meterPerSecond = MetersPerSecond(1)
-  lazy val kilometerPerSecond = KilogramsPerSecond(1)
+  lazy val kilometerPerSecond = KilometersPerSecond(1)
+  lazy val kilometerPerHour = KilometersPerHour(1)
   lazy val milePerHour = UsMilesPerHour(1)
   lazy val knot = Knots(1)
 
   implicit class VelocityConversions[A](n: A)(implicit num: Numeric[A]) {
     def fps = FeetPerSecond(n)
     def mps = MetersPerSecond(n)
+    def kps = KilometersPerSecond(n)
     def kph = KilometersPerHour(n)
     def mph = UsMilesPerHour(n)
     def knots = Knots(n)
