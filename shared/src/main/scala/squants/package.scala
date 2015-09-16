@@ -82,7 +82,7 @@ package object squants {
    */
   implicit class SquantifiedDouble(d: Double) {
     def *[A <: Quantity[A]](that: A): A = that * d
-    def *[A](that: Vector[A]): Vector[A] = that * d
+    def *[A](that: SVector[A]): SVector[A] = that * d
   }
 
   /**
@@ -95,7 +95,7 @@ package object squants {
    */
   implicit class SquantifiedLong(l: Long) {
     def *[A <: Quantity[A]](that: A): A = that * l.toDouble
-    def *[A](that: Vector[A]): Vector[A] = that * l.toDouble
+    def *[A](that: SVector[A]): SVector[A] = that * l.toDouble
   }
 
   /**
@@ -108,19 +108,8 @@ package object squants {
    */
   implicit class SquantifiedBigDecimal(bd: BigDecimal) {
     def *[A <: Quantity[A]](that: A): A = that * bd.toDouble
-    def *[A](that: Vector[A]): Vector[A] = that * bd.toDouble
+    def *[A](that: SVector[A]): SVector[A] = that * bd.toDouble
   }
-
-  /**
-   * Provide implicit conversions that allow DoubleVectors to lead in vector product operations
-   * @param v Vector[Double]
-   */
-//  implicit class SquantifiedDoubleVector(v: DoubleVector) {
-//    def dotProduct[A <: Quantity[A]](that: Vector[A]): A = that * v
-//    def *[A <: Quantity[A]] = dotProduct _
-//    def crossProduct[A <: Quantity[A]](that: Vector[A]): Vector[A] = that crossProduct v
-//    def #*[A <: Quantity[A]] = crossProduct _
-//  }
 
   /**
    * Helper function to achieve uniform Double formatting over JVM and JS platforms.

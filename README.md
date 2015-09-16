@@ -179,7 +179,7 @@ val gw: Double = load to Gigawatts // Double: 0.0012
 
 Most types include methods with convenient aliases for the `to` methods.
 
-```
+```scala
 val kw: Double = load toKilowatts // Double: 1200.0
 val mw: Double = load toMegawatts // Double: 1.20
 val gw: Double = load toGigawatts // Double: 0.0012
@@ -217,7 +217,7 @@ Simple console based conversions (using DSL described below)
 kilogram / pound            // Double: 2.2046226218487757
  
 2.1.pounds to Kilograms     // Double: 0.952543977 
-2.1.pounds / kilogram)      // Double: 0.952543977
+2.1.pounds / kilogram       // Double: 0.952543977
 
 100.C to Fahrenheit         // Double: 212.0
 ```
@@ -257,17 +257,18 @@ All `Quantity` types in Squants represent the scalar value of a quantity.
 That is, there is no direction information encoded in any of the Quantity types.
 This is true even for Quantities which are normally vector quantities (ie. Velocity, Acceleration, etc).
 
-Vector quantities in Squants are implemented as a case class that takes a variable parameter list of like quantities
-representing a set of point coordinates in Cartesian space.
+Vector quantities in Squants are implemented as case classes that takes a variable parameter list of like quantities
+representing a set of point coordinates in Cartesian space.  
+The SVector object is a factory for creating DoubleVectors and QuantityVectors.
 The dimensionality of the vector is determined by the number of arguments.
 Most basic vector operations are currently supported (addition, subtraction, scaling, cross and dot products)
 
 ```scala
-val vector = QuantityVector(Kilometers(1.2), Kilometers(4.3), Kilometers(2.3)
+val vector: QuantityVector[Length] = SVector(Kilometers(1.2), Kilometers(4.3), Kilometers(2.3)
 val magnitude: Length = vector.magnitude        // returns the scalar value of the vector
 val normalized = vector.normalize(Kilometers)   // returns a corresponding vector scaled to 1 of the given unit
 
-val vector2 = QuantityVector(Kilometers(1.2), Kilometers(4.3), Kilometers(2.3)
+val vector2: QuantityVector[Length] = SVector(Kilometers(1.2), Kilometers(4.3), Kilometers(2.3)
 val vectorSum = vector + vector2        // returns the sum of two vectors
 val vectorDiff = vector - vector2       // return the difference of two vectors
 val vectorScaled = vector * 5           // returns vector scaled 5 times
@@ -281,7 +282,7 @@ val crossProduct = vector crossProduct vectorDouble  // currently only supported
 Simple non-quantity (Double based) vectors are also supported.
 
 ```scala
-val vector = DoubleVector(1.2, 4.3, 2.3, 5.4)   // a Four-dimensional vector
+val vector: DoubleVector = SVector(1.2, 4.3, 2.3, 5.4)   // a Four-dimensional vector
 ```
 
 #### Dimensional conversions within Vector operations.
@@ -297,7 +298,7 @@ val vectorDouble = DoubleVector(1.2, 4.3, 2.3)
 val vectorLength = vectorDouble.to(Kilometers)  // QuantityVector(1.2 km, 4.3 km, 2.3 km)
 ```
 
-Currently dimensional conversions are supported by using the slightly verbose, but flexible map method
+Currently dimensional conversions are supported by using the slightly verbose, but flexible map method.
  
 ```scala
 val vectorLength = QuantityVector(Kilometers(1.2), Kilometers(4.3), Kilometers(2.3))
@@ -760,7 +761,7 @@ trait LoadRoute extends HttpService {
 }
 ```
 
-## Contributors
+## Contributors                            `
 
 * Gary Keorkunian ([garyKeorkunian](https://github.com/garyKeorkunian))
 * Jeremy Apthorp ([nornagon](https://github.com/nornagon))
