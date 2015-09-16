@@ -8,11 +8,11 @@
 
 package squants.space
 
-import org.scalatest.{ Matchers, FlatSpec }
-import squants.{ QuantityParseException, MetricSystem }
-import squants.motion.{ Pascals, Newtons }
-import squants.photo.{ Candelas, CandelasPerSquareMeter, Lumens, Lux }
+import org.scalatest.{ FlatSpec, Matchers }
 import squants.mass.{ Kilograms, KilogramsPerSquareMeter }
+import squants.motion.{ Newtons, Pascals }
+import squants.photo.{ Candelas, CandelasPerSquareMeter, Lumens, Lux }
+import squants.{ MetricSystem, QuantityParseException }
 
 /**
  * @author  garyKeorkunian

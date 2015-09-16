@@ -8,12 +8,12 @@
 
 package squants.space
 
-import org.scalatest.{ Matchers, FlatSpec }
-import squants.{ QuantityParseException, MetricSystem }
-import squants.motion.{ MetersPerSecond, Newtons }
+import org.scalatest.{ FlatSpec, Matchers }
+import squants.electro.{ OhmMeters, Ohms, Siemens, SiemensPerMeter }
 import squants.energy.Joules
+import squants.motion.{ MetersPerSecond, Newtons }
 import squants.time.Seconds
-import squants.electro.{ Ohms, OhmMeters, Siemens, SiemensPerMeter }
+import squants.{ MetricSystem, QuantityParseException }
 
 /**
  * @author  garyKeorkunian

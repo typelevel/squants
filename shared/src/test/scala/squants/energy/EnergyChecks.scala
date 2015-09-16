@@ -8,15 +8,15 @@
 
 package squants.energy
 
-import org.scalacheck.Properties
 import org.scalacheck.Prop.forAll
-import squants.time.Hours
-import squants.motion.Newtons
-import squants.mass.Kilograms
-import squants.space.{ CubicMeters, Meters }
-import squants.electro.{ Coulombs, Volts, Amperes }
-import squants.thermal.{ Kelvin, JoulesPerKelvin }
+import org.scalacheck.Properties
 import squants.QuantityChecks
+import squants.electro.{ Amperes, Coulombs, Volts }
+import squants.mass.Kilograms
+import squants.motion.Newtons
+import squants.space.{ CubicMeters, Meters }
+import squants.thermal.{ JoulesPerKelvin, Kelvin }
+import squants.time.Hours
 
 /**
  * @author  garyKeorkunian

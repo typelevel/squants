@@ -8,10 +8,9 @@
 
 package squants.motion
 
-import squants.space.{ CubicFeet, UsGallons, CubicMeters }
-import squants._
+import squants.{ Seconds, _ }
+import squants.space.{ CubicFeet, CubicMeters, UsGallons }
 import squants.time._
-import squants.Seconds
 
 /**
  * @author  garyKeorkunian

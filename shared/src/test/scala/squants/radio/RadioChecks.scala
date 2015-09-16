@@ -8,11 +8,11 @@
 
 package squants.radio
 
+import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import squants.QuantityChecks
-import org.scalacheck.Prop._
 import squants.energy.Watts
-import squants.space.{ Meters, SquaredRadians, SquareMeters }
+import squants.space.{ Meters, SquareMeters, SquaredRadians }
 
 /**
  * @author  garyKeorkunian

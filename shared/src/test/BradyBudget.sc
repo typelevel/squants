@@ -6,12 +6,11 @@
 **                                                                      **
 \*                                                                      */
 
-import squants.motion.{GallonsPerDay, VolumeFlow}
+import squants.market.MoneyConversions._
+import squants.motion.{ GallonsPerDay, VolumeFlow }
 import squants.space.UsGallons
 import squants.space.VolumeConversions._
-import squants.motion.VolumeFlowRateConversions._
 import squants.time.TimeConversions._
-import squants.market.MoneyConversions._
 
 case class Brady(name: String, milkConsumption: VolumeFlow)
 

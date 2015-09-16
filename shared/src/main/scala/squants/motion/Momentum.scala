@@ -9,8 +9,8 @@
 package squants.motion
 
 import squants._
-import squants.time.{ SecondTimeIntegral, TimeSquared, Seconds, TimeIntegral }
 import squants.mass.Kilograms
+import squants.time.{ SecondTimeIntegral, Seconds, TimeIntegral, TimeSquared }
 
 /**
  * @author  garyKeorkunian

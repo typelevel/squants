@@ -8,8 +8,8 @@
 
 package squants
 
-import org.scalatest.{ Matchers, FlatSpec }
-import squants.energy.{ Kilowatts, Watts, PowerUnit }
+import org.scalatest.{ FlatSpec, Matchers }
+import squants.energy.{ Kilowatts, PowerUnit, Watts }
 
 /**
  * @author  garyKeorkunian

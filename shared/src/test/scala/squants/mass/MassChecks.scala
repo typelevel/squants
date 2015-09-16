@@ -8,10 +8,10 @@
 
 package squants.mass
 
-import squants.space.{ SquareMeters, CubicMeters }
+import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import squants.QuantityChecks
-import org.scalacheck.Prop._
+import squants.space.{ CubicMeters, SquareMeters }
 
 /**
  * @author  garyKeorkunian

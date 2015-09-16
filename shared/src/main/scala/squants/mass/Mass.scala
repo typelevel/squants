@@ -8,17 +8,11 @@
 
 package squants.mass
 
-import scala.language.implicitConversions
-import squants.{ Energy ⇒ _, _ }
+import squants.energy.{ Energy, Joules, SpecificEnergy }
+import squants.motion.{ Force, MassFlow, Momentum, _ }
+import squants.space.{ CubicMeters, SquareMeters }
 import squants.time.TimeIntegral
-import squants.motion._
-import squants.energy.{ SpecificEnergy, Energy, Joules }
-import squants.space.{ SquareMeters, CubicMeters }
-import squants.motion.Force
-import squants.Velocity
-import squants.motion.MassFlow
-import squants.Acceleration
-import squants.motion.Momentum
+import squants.{ Acceleration, Energy ⇒ _, Velocity, _ }
 
 /**
  * Represents a quantity of Mass

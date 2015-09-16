@@ -8,7 +8,7 @@
 package squants.photo
 
 import squants._
-import squants.space.{ SquareMeters, SolidAngle }
+import squants.space.{ SolidAngle, SquareMeters }
 
 /**
  * @author  garyKeorkunian

@@ -8,7 +8,7 @@
 
 package squants.market
 
-import squants.{Ratio, crossFormat}
+import squants.{ Ratio, crossFormat }
 
 /**
  * Represent the rate of exchange between two currencies

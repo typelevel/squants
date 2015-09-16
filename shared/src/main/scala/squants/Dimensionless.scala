@@ -8,7 +8,7 @@
 
 package squants
 
-import squants.time.{ Hertz, Frequency, TimeIntegral }
+import squants.time.{ Frequency, Hertz, TimeIntegral }
 
 /**
  * Represents a quantity of some thing for which there is no dimension.

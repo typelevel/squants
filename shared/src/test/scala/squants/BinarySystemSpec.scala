@@ -8,7 +8,7 @@
 
 package squants
 
-import org.scalatest.{ Matchers, FlatSpec }
+import org.scalatest.{ FlatSpec, Matchers }
 
 /**
  * Singleton defining Metric System multipliers

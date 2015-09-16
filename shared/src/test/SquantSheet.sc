@@ -1,9 +1,9 @@
 
+import squants.market.MoneyConversions._
 import squants.market._
 import squants.mass.MassConversions._
 import squants.mass.Pounds
 import squants.time.TimeConversions._
-import squants.market.MoneyConversions._
 
 implicit val moneyContext =
   MoneyContext(
@@ -12,8 +12,7 @@ implicit val moneyContext =
     rates = List(
       JPY(102.59) toThe USD(1),
       CAD(1.1034) toThe USD(1),
-      USD(1.6828) toThe GBP(1))
-  )
+      USD(1.6828) toThe GBP(1)))
 
 val usageRate = 10.kilograms / hour
 val duration = 3.hours + 15.minutes

@@ -264,11 +264,11 @@ The dimensionality of the vector is determined by the number of arguments.
 Most basic vector operations are currently supported (addition, subtraction, scaling, cross and dot products)
 
 ```scala
-val vector: QuantityVector[Length] = SVector(Kilometers(1.2), Kilometers(4.3), Kilometers(2.3)
+val vector: QuantityVector[Length] = SVector(Kilometers(1.2), Kilometers(4.3), Kilometers(2.3))
 val magnitude: Length = vector.magnitude        // returns the scalar value of the vector
 val normalized = vector.normalize(Kilometers)   // returns a corresponding vector scaled to 1 of the given unit
 
-val vector2: QuantityVector[Length] = SVector(Kilometers(1.2), Kilometers(4.3), Kilometers(2.3)
+val vector2: QuantityVector[Length] = SVector(Kilometers(1.2), Kilometers(4.3), Kilometers(2.3))
 val vectorSum = vector + vector2        // returns the sum of two vectors
 val vectorDiff = vector - vector2       // return the difference of two vectors
 val vectorScaled = vector * 5           // returns vector scaled 5 times
@@ -290,7 +290,7 @@ NOTE - This feature is currently under development and the final implementation 
 The following type of operation is the goal.
 
 ```scala
-val vectorLength = QuantityVector(Kilometers(1.2), Kilometers(4.3), Kilometers(2.3)
+val vectorLength = QuantityVector(Kilometers(1.2), Kilometers(4.3), Kilometers(2.3))
 val vectorArea = vectorLength * Kilometers(2)   // QuantityVector(2.4 km², 8.6 km², 4.6 km²)
 val vectorVelocity = vectorLength / Seconds(1)  // QuantityVector(1200.0 m/s, 4300.0 m/s, 2300.0 m/s)
 
@@ -761,7 +761,7 @@ trait LoadRoute extends HttpService {
 }
 ```
 
-## Contributors                            `
+## Contributors
 
 * Gary Keorkunian ([garyKeorkunian](https://github.com/garyKeorkunian))
 * Jeremy Apthorp ([nornagon](https://github.com/nornagon))

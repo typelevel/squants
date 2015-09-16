@@ -8,15 +8,16 @@
 
 package squants.energy
 
-import org.scalatest.{ Matchers, FlatSpec }
-import scala.language.postfixOps
-import squants.{ QuantityParseException, MetricSystem }
-import squants.time.Hours
+import org.scalatest.{ FlatSpec, Matchers }
 import squants.electro.{ Coulombs, Volts }
-import squants.space.{ CubicMeters, Meters }
-import squants.motion.{ NewtonSeconds, MetersPerSecond, Newtons }
 import squants.mass.Kilograms
-import squants.thermal.{ Kelvin, JoulesPerKelvin }
+import squants.motion.{ MetersPerSecond, NewtonSeconds, Newtons }
+import squants.space.{ CubicMeters, Meters }
+import squants.thermal.{ JoulesPerKelvin, Kelvin }
+import squants.time.Hours
+import squants.{ MetricSystem, QuantityParseException }
+
+import scala.language.postfixOps
 
 /**
  * @author  garyKeorkunian

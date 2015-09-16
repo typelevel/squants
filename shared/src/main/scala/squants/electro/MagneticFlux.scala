@@ -9,8 +9,8 @@
 package squants.electro
 
 import squants._
-import squants.time.TimeIntegral
 import squants.space.SquareMeters
+import squants.time.TimeIntegral
 
 /**
  * @author  garyKeorkunian

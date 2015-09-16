@@ -9,17 +9,12 @@
 package squants.space
 
 import squants._
-import squants.motion.Newtons
-import squants.electro.{ MagneticFlux, Webers, MagneticFluxDensity }
-import squants.photo._
+import squants.electro.{ MagneticFlux, MagneticFluxDensity, Webers }
 import squants.energy.Watts
-import squants.radio._
-import squants.Candelas
-import squants.radio.Irradiance
-import squants.photo.Luminance
-import squants.motion.Pressure
-import squants.radio.Radiance
 import squants.mass.AreaDensity
+import squants.motion.{ Newtons, Pressure }
+import squants.photo.{ Candelas, _ }
+import squants.radio._
 
 /**
  * @author  garyKeorkunian

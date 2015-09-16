@@ -8,9 +8,10 @@
 
 package squants
 
-import org.scalatest.{ Matchers, FlatSpec }
-import scala.language.postfixOps
+import org.scalatest.{ FlatSpec, Matchers }
 import squants.time.Hertz
+
+import scala.language.postfixOps
 
 /**
  * @author  garyKeorkunian

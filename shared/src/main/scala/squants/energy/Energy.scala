@@ -9,13 +9,12 @@
 package squants.energy
 
 import squants._
-import squants.time._
-import squants.electro.{ Coulombs, ElectricPotential, Volts, ElectricCharge }
+import squants.electro.{ Coulombs, ElectricCharge, ElectricPotential, Volts }
 import squants.mass.{ ChemicalAmount, Kilograms }
 import squants.motion.Newtons
-import squants.thermal.{ Kelvin, ThermalCapacity, JoulesPerKelvin }
 import squants.space.CubicMeters
-import squants.time.Time
+import squants.thermal.{ JoulesPerKelvin, Kelvin, ThermalCapacity }
+import squants.time.{ Time, _ }
 
 /**
  * Represents a quantity of energy

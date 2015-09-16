@@ -9,8 +9,8 @@
 package squants.photo
 
 import squants._
+import squants.space.{ SquareMeters, SquaredRadians }
 import squants.time.{ Seconds, TimeDerivative }
-import squants.space.{ SquaredRadians, SquareMeters }
 
 /**
  * @author  garyKeorkunian
