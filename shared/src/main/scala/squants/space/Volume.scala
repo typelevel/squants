@@ -9,10 +9,10 @@
 package squants.space
 
 import squants._
-import squants.time.TimeIntegral
-import squants.motion.{ CubicMetersPerSecond, VolumeFlow }
+import squants.energy.{ EnergyDensity, Joules }
 import squants.mass.{ ChemicalAmount, Kilograms }
-import squants.energy.{ Joules, EnergyDensity }
+import squants.motion.{ CubicMetersPerSecond, VolumeFlow }
+import squants.time.TimeIntegral
 
 /**
  * Represents a quantity of Volume (three-dimensional space)

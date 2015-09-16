@@ -9,14 +9,11 @@
 package squants.space
 
 import squants._
-import squants.energy.{ Watts, Joules }
-import squants.radio.WattsPerSteradian
 import squants.electro._
-import squants.radio.SpectralPower
+import squants.energy.{ Joules, Watts }
 import squants.motion.{ MetersPerSecond, Velocity }
-import squants.radio.RadiantIntensity
-import squants.radio.SpectralIntensity
-import squants.time.{ SecondTimeIntegral, TimeSquared, TimeIntegral }
+import squants.radio.{ RadiantIntensity, SpectralIntensity, SpectralPower, WattsPerSteradian }
+import squants.time.{ SecondTimeIntegral, TimeIntegral, TimeSquared }
 
 /**
  * Represents a quantity of length

@@ -8,8 +8,8 @@
 
 package squants
 
-import org.scalatest.{ Matchers, FlatSpec }
-import squants.thermal.{ Fahrenheit, Celsius }
+import org.scalatest.{ FlatSpec, Matchers }
+import squants.thermal.{ Celsius, Fahrenheit }
 
 /**
  * @author  garyKeorkunian

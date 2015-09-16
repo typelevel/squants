@@ -8,10 +8,11 @@
 
 package squants.time
 
-import org.scalatest.{ Matchers, FlatSpec }
+import org.scalatest.{ FlatSpec, Matchers }
+import squants.CustomMatchers
 import squants.motion.MetersPerSecondSquared
 import squants.space.Meters
-import squants.CustomMatchers
+
 import scala.language.postfixOps
 
 /**

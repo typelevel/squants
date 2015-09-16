@@ -8,10 +8,11 @@
 
 package squants.photo
 
-import org.scalatest.{ Matchers, FlatSpec }
-import scala.language.postfixOps
-import squants.space.SquareMeters
+import org.scalatest.{ FlatSpec, Matchers }
 import squants.QuantityParseException
+import squants.space.SquareMeters
+
+import scala.language.postfixOps
 
 /**
  * @author  garyKeorkunian

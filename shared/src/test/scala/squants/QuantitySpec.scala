@@ -11,6 +11,7 @@ package squants
 import org.scalatest.{ FlatSpec, Matchers }
 import squants.thermal.{ Celsius, Fahrenheit }
 import squants.time.Hours
+
 import scala.util.Failure
 
 /**
@@ -71,7 +72,7 @@ class QuantitySpec extends FlatSpec with Matchers {
 
     implicit val stringNumeric = new BaseNumeric[String] {
       def fromInt(x: Int) = x.toString
-      def toDouble(x: String) = augmentString(x).toDouble   // augmentString is used to disambiguate implicit conversion
+      def toDouble(x: String) = augmentString(x).toDouble // augmentString is used to disambiguate implicit conversion
     }
 
     // Use them to initialize quantity values
@@ -476,7 +477,7 @@ class QuantitySpec extends FlatSpec with Matchers {
     ThingeeNumeric.fromInt(10) should be(Thangs(10))
     ThingeeNumeric.toInt(Thangs(10)) should be(10)
     ThingeeNumeric.toLong(Thangs(10)) should be(10L)
-    ThingeeNumeric.toFloat(Thangs(10.22)) should be (10.22F +- 0.000001F)
+    ThingeeNumeric.toFloat(Thangs(10.22)) should be(10.22F +- 0.000001F)
     ThingeeNumeric.toDouble(Thangs(10.22)) should be(10.22)
 
     ThingeeNumeric.compare(Thangs(1000), Kilothangs(2)) < 0 should be(right = true)

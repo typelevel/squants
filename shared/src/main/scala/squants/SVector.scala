@@ -8,6 +8,8 @@
 
 package squants
 
+import squants.space.AngleUnit
+
 /**
  * Root trait for representing Vectors
  *
@@ -16,12 +18,12 @@ package squants
  *
  * @tparam A Type for the Vector's coordinate values
  */
-trait Vector[A] {
+trait SVector[A] {
 
-  type VectorType <: Vector[A]
+  type SVectorType <: SVector[A]
 
   /**
-   * The list values that makeup Vector's coordinates
+   * The list of values that makeup the Vector's Cartesian coordinates
    * @return
    */
   def coordinates: Seq[A]
@@ -33,17 +35,35 @@ trait Vector[A] {
   def magnitude: A
 
   /**
+   * The angle between the two Cartesian coordinates at the supplied indices
+   * @param coordinateX index of the abscissa coordinate (defaults to 0)
+   * @param coordinateY index of the ordinate coordinate (defaults to 1)
+   * @param unit unit for the angle (theta) component (defaults to Radians)
+   * @return Angle
+   */
+  def angle(coordinateX: Int = 0, coordinateY: Int = 1, unit: AngleUnit = Radians): Angle
+
+  /**
+   * The polar coordinates (r, theta) of the two Cartesian coordinates at the supplied indices
+   * @param coordinateX index of the abscissa coordinate (defaults to 0)
+   * @param coordinateY index of the ordinate coordinate (defaults to 1)
+   * @param unit unit for the angle (theta) component (defaults to Radians)
+   * @return (A, Angle)
+   */
+  def polar(coordinateX: Int = 0, coordinateY: Int = 1, unit: AngleUnit = Radians): (A, Angle) = (magnitude, angle(coordinateX, coordinateY, unit))
+
+  /**
    * Creates the Unit Vector which corresponds to this vector
    * @return
    */
-  def normalize: VectorType
+  def normalize: SVectorType
 
   /**
    * Add two Vectors
    * @param that Vector[A]
    * @return
    */
-  def plus(that: VectorType): VectorType
+  def plus(that: SVectorType): SVectorType
   def + = plus _
 
   /**
@@ -51,7 +71,7 @@ trait Vector[A] {
    * @param that Vector[A]
    * @return
    */
-  def minus(that: VectorType): VectorType
+  def minus(that: SVectorType): SVectorType
   def - = minus _
 
   /**
@@ -59,7 +79,7 @@ trait Vector[A] {
    * @param that Double
    * @return
    */
-  def times(that: Double): VectorType
+  def times(that: Double): SVectorType
   def * = times _
 
   /**
@@ -68,7 +88,7 @@ trait Vector[A] {
    * @param that Double
    * @return
    */
-  def divide(that: Double): VectorType
+  def divide(that: Double): SVectorType
   def /(that: Double) = divide(that)
 
   /**
@@ -77,16 +97,39 @@ trait Vector[A] {
    * @return
    */
   def dotProduct(that: DoubleVector): A
-  def *(that:DoubleVector) = dotProduct(that)
+  def *(that: DoubleVector) = dotProduct(that)
 
   /**
    * Create the Cross Product of two Vectors
    * @param that Vector[A]
    * @return
    */
-  def crossProduct(that: DoubleVector): Vector[A]
+  def crossProduct(that: DoubleVector): SVector[A]
   def #* = crossProduct _
 
+}
+
+object SVector {
+
+  def apply(coordinates: Double*): DoubleVector = DoubleVector(coordinates: _*)
+  def apply[A <: Quantity[A]](coordinates: A*): QuantityVector[A] = QuantityVector[A](coordinates: _*)
+
+  /**
+   * Create a 2-dimensional DoubleVector from Polar Coordinates
+   * @param radius the magnitude of the vector
+   * @param theta the angle from the polar axis
+   * @return
+   */
+  def apply(radius: Double, theta: Angle): DoubleVector = apply(radius * theta.cos, radius * theta.sin)
+
+  /**
+   * Create a 2-dimensional QuantityVector[A] from Polar Coordinates
+   * @param radius the magnitude of the vector
+   * @param theta the angle from the polar axis
+   * @tparam A Quantity type
+   * @return
+   */
+  def apply[A <: Quantity[A]](radius: A, theta: Angle): QuantityVector[A] = apply(radius * theta.cos, radius * theta.sin)
 }
 
 /**
@@ -97,19 +140,22 @@ trait Vector[A] {
  *
  * @param coordinates Double*
  */
-case class DoubleVector(coordinates: Double*) extends Vector[Double] {
+case class DoubleVector(coordinates: Double*) extends SVector[Double] {
 
-  type VectorType = DoubleVector
+  type SVectorType = DoubleVector
 
   def magnitude: Double = math.sqrt(coordinates.toTraversable.map(v ⇒ v * v).sum)
-  def normalize: VectorType = this.divide(magnitude)
+  def angle(coordinateX: Int = 0, coordinateY: Int = 1, unit: AngleUnit = Radians): Angle =
+    Radians(math.atan2(coordinates(coordinateY), coordinates(coordinateX))) in unit
+
+  def normalize: SVectorType = this.divide(magnitude)
 
   /**
    * Creates a DoubleVector by mapping over each coordinate with the supplied function
    * @param f A => Double map function
    * @return
    */
-  def map[A <: Double](f: Double => Double): DoubleVector = DoubleVector(coordinates.toTraversable.map(f).toSeq: _*)
+  def map[A <: Double](f: Double ⇒ Double): DoubleVector = DoubleVector(coordinates.toTraversable.map(f).toSeq: _*)
 
   /**
    * Creates a QuantityVector by mapping over each coordinate with the supplied function
@@ -117,25 +163,25 @@ case class DoubleVector(coordinates: Double*) extends Vector[Double] {
    * @tparam A <: Quantity
    * @return
    */
-  def map[A <: Quantity[A]](f: Double => A): QuantityVector[A] = QuantityVector(coordinates.toTraversable.map(f).toSeq: _*)
+  def map[A <: Quantity[A]](f: Double ⇒ A): QuantityVector[A] = QuantityVector(coordinates.toTraversable.map(f).toSeq: _*)
 
-  def plus(that: VectorType): VectorType =
+  def plus(that: SVectorType): SVectorType =
     DoubleVector(coordinates.toIterable.zipAll(that.coordinates.toIterable, 0d, 0d).toTraversable.map(v ⇒ v._1 + v._2).toSeq: _*)
 
-  def minus(that: VectorType): VectorType =
+  def minus(that: SVectorType): SVectorType =
     DoubleVector(coordinates.toIterable.zipAll(that.coordinates.toIterable, 0d, 0d).toTraversable.map(v ⇒ v._1 - v._2).toSeq: _*)
 
-  def times(that: Double): VectorType = map(_ * that)
+  def times(that: Double): SVectorType = map(_ * that)
   def times[A <: Quantity[A]](that: A): QuantityVector[A] = map(_ * that)
 
-  def divide(that: Double): VectorType = map(_ / that)
+  def divide(that: Double): SVectorType = map(_ / that)
 
-  def dotProduct(that: VectorType): Double =
+  def dotProduct(that: SVectorType): Double =
     coordinates.toIterable.zipAll(that.coordinates.toIterable, 0d, 0d).toTraversable.map(v ⇒ v._1 * v._2).sum
 
   def dotProduct[B <: Quantity[B]](that: QuantityVector[B]) = that dotProduct this
 
-  def crossProduct(that: VectorType) = (this.coordinates.length, that.coordinates.length) match {
+  def crossProduct(that: SVectorType) = (this.coordinates.length, that.coordinates.length) match {
     case (3, 3) ⇒
       DoubleVector(coordinates(1) * that.coordinates(2) - coordinates(2) * that.coordinates(1),
         coordinates(2) * that.coordinates(0) - coordinates(0) * that.coordinates(2),
@@ -157,25 +203,28 @@ case class DoubleVector(coordinates: Double*) extends Vector[Double] {
  * @param coordinates Variable list of A
  * @tparam A QuantityType
  */
-case class QuantityVector[A <: Quantity[A]](coordinates: A*) extends Vector[A] {
-  type VectorType = QuantityVector[A]
+case class QuantityVector[A <: Quantity[A]](coordinates: A*) extends SVector[A] {
+  type SVectorType = QuantityVector[A]
 
   def valueUnit = coordinates(0).unit
   def magnitude: A = valueUnit(math.sqrt(coordinates.toTraversable.map(v ⇒ v.to(valueUnit) * v.to(valueUnit)).sum))
-  def normalize:VectorType = this / magnitude.to(valueUnit)
+  def angle(coordinateX: Int = 0, coordinateY: Int = 1, unit: AngleUnit = Radians): Angle =
+    Radians(math.atan(coordinates(coordinateY) / coordinates(coordinateX))) in unit
+
+  def normalize: SVectorType = this / magnitude.to(valueUnit)
 
   /**
    * Creates the Unit Vector which corresponds to this vector using the given unit
    * @return
    */
-  def normalize(unit: UnitOfMeasure[A]):VectorType = this / magnitude.to(unit)
+  def normalize(unit: UnitOfMeasure[A]): SVectorType = this / magnitude.to(unit)
 
   /**
    * Creates a DoubleVector by mapping over each coordinate with the supplied function
    * @param f A => Double map function
    * @return
    */
-  def map[B <: Double](f: A => Double): DoubleVector = DoubleVector(coordinates.toTraversable.map(f).toSeq: _*)
+  def map[B <: Double](f: A ⇒ Double): DoubleVector = DoubleVector(coordinates.toTraversable.map(f).toSeq: _*)
 
   /**
    * Creates a QuantityVector by mapping over each coordinate with the supplied function
@@ -183,32 +232,32 @@ case class QuantityVector[A <: Quantity[A]](coordinates: A*) extends Vector[A] {
    * @tparam B <: Quantity
    * @return
    */
-  def map[B <: Quantity[B]](f: A => B): QuantityVector[B] = QuantityVector(coordinates.toTraversable.map(f).toSeq: _*)
+  def map[B <: Quantity[B]](f: A ⇒ B): QuantityVector[B] = QuantityVector(coordinates.toTraversable.map(f).toSeq: _*)
 
-  def plus(that: VectorType): VectorType =
+  def plus(that: SVectorType): SVectorType =
     QuantityVector(coordinates.toIterable.zipAll(that.coordinates.toIterable, valueUnit(0), valueUnit(0)).toTraversable.map(v ⇒ v._1 + v._2).toSeq: _*)
-  def minus(that: VectorType):VectorType =
+  def minus(that: SVectorType): SVectorType =
     QuantityVector(coordinates.toIterable.zipAll(that.coordinates.toIterable, valueUnit(0), valueUnit(0)).toTraversable.map(v ⇒ v._1 - v._2).toSeq: _*)
 
-  def times(that: Double): VectorType = map(_ * that)
-  def *(that: Double): VectorType = times(that)
+  def times(that: Double): SVectorType = map(_ * that)
+  def *(that: Double): SVectorType = times(that)
 
-  def times[B <: Quantity[B], C <: Quantity[C]](quantTimes: A => C): QuantityVector[C] = map(quantTimes)
+  def times[B <: Quantity[B], C <: Quantity[C]](quantTimes: A ⇒ C): QuantityVector[C] = map(quantTimes)
 
-  def divide(that: Double): VectorType = map(_ / that)
+  def divide(that: Double): SVectorType = map(_ / that)
 
   def divide(that: A): DoubleVector = map(_ / that)
   def /(that: A) = divide(that)
 
-  def divide[B <: Quantity[B], C <: Quantity[C]](quantDiv: A => C): QuantityVector[C] = map(quantDiv(_))
+  def divide[B <: Quantity[B], C <: Quantity[C]](quantDiv: A ⇒ C): QuantityVector[C] = map(quantDiv(_))
 
   def dotProduct(that: DoubleVector): A =
     valueUnit(coordinates.toIterable.zipAll(that.coordinates.toIterable, valueUnit(0), 0d).toTraversable.map(v ⇒ v._1.to(valueUnit) * v._2).sum)
 
-  def dotProduct[B <: Quantity[B], C <: Quantity[C]](that: Vector[B], quantTimes: (A, B) ⇒ C)(implicit num: Numeric[C]): C =
+  def dotProduct[B <: Quantity[B], C <: Quantity[C]](that: SVector[B], quantTimes: (A, B) ⇒ C)(implicit num: Numeric[C]): C =
     coordinates.toIterable.zipAll(that.coordinates.toIterable, valueUnit(0), that.coordinates.head.unit(0)).toTraversable.map(v ⇒ quantTimes(v._1, v._2)).sum
 
-  def crossProduct(that: DoubleVector): VectorType = (this.coordinates.length, that.coordinates.length) match {
+  def crossProduct(that: DoubleVector): SVectorType = (this.coordinates.length, that.coordinates.length) match {
     case (3, 3) ⇒
       QuantityVector(
         (coordinates(1) * that.coordinates(2)) - (coordinates(2) * that.coordinates(1)),
@@ -218,7 +267,7 @@ case class QuantityVector[A <: Quantity[A]](coordinates: A*) extends Vector[A] {
     case _      ⇒ throw new UnsupportedOperationException("Cross Product is not supported on vectors with an arbitrary number of dimensions")
   }
 
-  def crossProduct[B <: Quantity[B], C <: Quantity[C]](that: Vector[B], quantTimes: (A, B) ⇒ C)(implicit num: Numeric[C]): QuantityVector[C] = {
+  def crossProduct[B <: Quantity[B], C <: Quantity[C]](that: SVector[B], quantTimes: (A, B) ⇒ C)(implicit num: Numeric[C]): QuantityVector[C] = {
     (this.coordinates.length, that.coordinates.length) match {
       case (3, 3) ⇒
         QuantityVector(
@@ -238,10 +287,10 @@ case class QuantityVector[A <: Quantity[A]](coordinates: A*) extends Vector[A] {
   def to(uom: UnitOfMeasure[A]): DoubleVector = this / uom(1)
 
   /**
-   * Returns a QuantityVector with all coordinates set the supplied unit
+   * Returns a QuantityVector with all coordinates set to the supplied unit
    * @param uom UnitOfMeasure[A]
    * @return
    */
-  def in(uom: UnitOfMeasure[A]): QuantityVector[A] = this.map[A](_.in(uom))
+  def in(uom: UnitOfMeasure[A]): QuantityVector[A] = map[A](_.in(uom))
 
- }
+}

@@ -9,10 +9,10 @@
 package squants.motion
 
 import squants._
-import squants.mass.{ Pounds, Kilograms }
-import squants.time.{ TimeIntegral, Seconds, TimeDerivative }
 import squants.energy.Joules
+import squants.mass.{ Kilograms, Pounds }
 import squants.space.SquareMeters
+import squants.time.{ Seconds, TimeDerivative, TimeIntegral }
 
 /**
  * @author  garyKeorkunian

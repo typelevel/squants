@@ -8,9 +8,10 @@
 
 package squants.time
 
-import org.scalatest.{ Matchers, FlatSpec }
+import org.scalatest.{ FlatSpec, Matchers }
+import squants.{ Each, MetricSystem, QuantityParseException }
+
 import scala.language.postfixOps
-import squants.{ QuantityParseException, Each, MetricSystem }
 
 /**
  * @author  garyKeorkunian

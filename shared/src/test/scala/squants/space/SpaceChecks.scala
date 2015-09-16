@@ -8,9 +8,9 @@
 
 package squants.space
 
+import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import squants.QuantityChecks
-import org.scalacheck.Prop._
 import squants.motion.CubicMetersPerSecond
 import squants.time.Seconds
 

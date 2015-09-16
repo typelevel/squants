@@ -1,6 +1,6 @@
+import org.scalajs.sbtplugin.ScalaJSPlugin.autoImport._
 import sbt.Keys._
 import sbt._
-import org.scalajs.sbtplugin.ScalaJSPlugin.autoImport._
 
 
 object Versions {

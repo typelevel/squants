@@ -8,10 +8,11 @@
 
 package squants.energy
 
-import org.scalatest.{ Matchers, FlatSpec }
-import scala.language.postfixOps
-import squants.{ QuantityParseException, MetricSystem }
+import org.scalatest.{ FlatSpec, Matchers }
 import squants.time.Hours
+import squants.{ MetricSystem, QuantityParseException }
+
+import scala.language.postfixOps
 
 /**
  * @author  garyKeorkunian

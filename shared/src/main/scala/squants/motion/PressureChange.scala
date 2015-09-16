@@ -8,9 +8,8 @@
 
 package squants.motion
 
-import squants.time.{ Time, Seconds, TimeDerivative }
-import squants.mass.{ Pounds, Kilograms }
 import squants._
+import squants.time.{ Seconds, TimeDerivative }
 
 /**
  * @author  stevebarham

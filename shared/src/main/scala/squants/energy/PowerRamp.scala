@@ -8,9 +8,8 @@
 
 package squants.energy
 
-import squants._
+import squants.{ Time, _ }
 import squants.time._
-import squants.Time
 
 /**
  * Represents the rate of change of [[squants.energy.Power]] over time

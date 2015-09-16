@@ -8,9 +8,10 @@
 
 package squants.market
 
-import scala.language.implicitConversions
 import squants._
 import scala.util.{ Failure, Success, Try }
+
+import scala.language.implicitConversions
 
 /**
  * Represents a quantity of Money.

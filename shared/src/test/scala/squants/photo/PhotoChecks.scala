@@ -8,10 +8,10 @@
 
 package squants.photo
 
+import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import squants.QuantityChecks
-import org.scalacheck.Prop._
-import squants.space.{ SquaredRadians, SquareMeters }
+import squants.space.{ SquareMeters, SquaredRadians }
 import squants.time.Seconds
 
 /**

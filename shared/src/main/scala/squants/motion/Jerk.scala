@@ -9,8 +9,8 @@
 package squants.motion
 
 import squants._
-import squants.time.{ SecondTimeDerivative, TimeSquared, Seconds, TimeDerivative }
 import squants.space.Feet
+import squants.time.{ SecondTimeDerivative, Seconds, TimeDerivative, TimeSquared }
 
 /**
  * Represents the third time derivative of position after Velocity and Acceleration

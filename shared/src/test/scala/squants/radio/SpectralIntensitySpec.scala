@@ -8,10 +8,11 @@
 
 package squants.radio
 
-import org.scalatest.{ Matchers, FlatSpec }
-import scala.language.postfixOps
-import squants.space.Meters
+import org.scalatest.{ FlatSpec, Matchers }
 import squants.QuantityParseException
+import squants.space.Meters
+
+import scala.language.postfixOps
 
 /**
  * @author  garyKeorkunian

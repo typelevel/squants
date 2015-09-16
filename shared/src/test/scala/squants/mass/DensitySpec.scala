@@ -8,10 +8,11 @@
 
 package squants.mass
 
-import org.scalatest.{ Matchers, FlatSpec }
-import scala.language.postfixOps
-import squants.space.CubicMeters
+import org.scalatest.{ FlatSpec, Matchers }
 import squants.QuantityParseException
+import squants.space.CubicMeters
+
+import scala.language.postfixOps
 
 /**
  * @author  garyKeorkunian

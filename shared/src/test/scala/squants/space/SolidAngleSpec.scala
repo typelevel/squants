@@ -8,9 +8,9 @@
 
 package squants.space
 
-import org.scalatest.{ Matchers, FlatSpec }
-import squants.photo.{ Lumens, Candelas }
+import org.scalatest.{ FlatSpec, Matchers }
 import squants.QuantityParseException
+import squants.photo.{ Candelas, Lumens }
 
 /**
  * @author  garyKeorkunian

@@ -1,6 +1,6 @@
 package squants.time
 
-import org.scalatest.{ Matchers, FlatSpec }
+import org.scalatest.{ FlatSpec, Matchers }
 import squants.CustomMatchers
 
 /**

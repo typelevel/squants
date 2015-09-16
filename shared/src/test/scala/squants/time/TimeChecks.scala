@@ -8,9 +8,9 @@
 
 package squants.time
 
+import org.scalacheck.Prop._
 import org.scalacheck.Properties
 import squants.{ Each, QuantityChecks }
-import org.scalacheck.Prop._
 
 /**
  * @author  garyKeorkunian

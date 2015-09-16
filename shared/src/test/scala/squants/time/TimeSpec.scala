@@ -8,12 +8,13 @@
 
 package squants.time
 
-import scala.language.postfixOps
-import scala.concurrent.duration.{Duration, NANOSECONDS, MICROSECONDS, MILLISECONDS, SECONDS, MINUTES, HOURS, DAYS}
+import org.scalatest.{ FlatSpec, Matchers }
+import squants.QuantityParseException
 import squants.motion.{ MetersPerSecond, MetersPerSecondCubed, MetersPerSecondSquared }
 import squants.space.Meters
-import squants.QuantityParseException
-import org.scalatest.{ Matchers, FlatSpec }
+
+import scala.concurrent.duration.{ DAYS, Duration, HOURS, MICROSECONDS, MILLISECONDS, MINUTES, NANOSECONDS, SECONDS }
+import scala.language.postfixOps
 
 /**
  * @author  garyKeorkunian
