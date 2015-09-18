@@ -81,7 +81,18 @@ class QuantitySpec extends FlatSpec with Matchers {
   }
 
   it should "create values from properly formatted Strings" in {
+    Thingee("42 th").get should be(Thangs(42))
     Thingee("10.22 th").get should be(Thangs(10.22))
+    Thingee("1e5 th").get should be(Thangs(1e5))
+    Thingee("1E5 th").get should be(Thangs(1E5))
+    Thingee("1e+5 th").get should be(Thangs(1e+5))
+    Thingee("1e-5 th").get should be(Thangs(1e-5))
+    Thingee("1.0e5 th").get should be(Thangs(1.0e5))
+    Thingee("1.0E5 th").get should be(Thangs(1.0E5))
+    Thingee("1.0e+5 th").get should be(Thangs(1.0e+5))
+    Thingee("1.01E+5 th").get should be(Thangs(1.01E+5))
+    Thingee("1.012e-5 th").get should be(Thangs(1.012e-5))
+    Thingee("12.0123E-5 th").get should be(Thangs(12.0123E-5))
     Thingee("10.22 kth").get should be(Kilothangs(10.22))
   }
 
