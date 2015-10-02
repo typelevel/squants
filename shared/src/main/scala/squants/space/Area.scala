@@ -51,6 +51,8 @@ final class Area private (val value: Double, val unit: AreaUnit)
     case _             ⇒ Meters(toSquareMeters / that.toMeters)
   }
 
+  def squareRoot = Meters(math.sqrt(toSquareMeters))
+
   def toSquareMeters = to(SquareMeters)
   def toSquareCentimeters = to(SquareCentimeters)
   def toSquareKilometers = to(SquareKilometers)
