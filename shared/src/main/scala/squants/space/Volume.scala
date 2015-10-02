@@ -53,6 +53,8 @@ final class Volume private (val value: Double, val unit: VolumeUnit)
   def /(that: Mass) = ??? // returns SpecificVolume (inverse of Density)
   def /(that: ChemicalAmount) = ??? // return MolarVolume
 
+  def cubeRoot = Meters(math.cbrt(toCubicMeters))
+
   def toCubicMeters = to(CubicMeters)
   def toLitres = to(Litres)
   def toNanolitres = to(Nanolitres)

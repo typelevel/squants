@@ -103,6 +103,10 @@ class AreaSpec extends FlatSpec with Matchers {
     SquareMeters(1) / Meters(1) should be(Meters(1))
   }
 
+  it should "return Length when square rooted" in {
+    SquareMeters(4).squareRoot should be(Meters(2))
+  }
+
   behavior of "AreaConversion"
 
   it should "provide aliases for single unit values" in {

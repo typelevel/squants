@@ -158,6 +158,10 @@ class VolumeSpec extends FlatSpec with Matchers {
     CubicMeters(1) / CubicMetersPerSecond(1) should be(Seconds(1))
   }
 
+  it should "return Length when cube rooted" in {
+    CubicMeters(27).cubeRoot should be(Meters(3))
+  }
+
   behavior of "VolumeConversions"
 
   it should "provide aliases for single unit values" in {
