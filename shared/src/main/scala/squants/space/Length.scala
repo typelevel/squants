@@ -62,6 +62,7 @@ final class Length private (val value: Double, val unit: LengthUnit)
   def squared = this * this
   def cubed = this * this * this
 
+  def toAngstroms = to(Angstroms)
   def toNanometers = to(Nanometers)
   def toMicrons = to(Microns)
   def toMillimeters = to(Millimeters)
@@ -90,7 +91,7 @@ object Length extends Dimension[Length] with BaseDimension {
   def name = "Length"
   def primaryUnit = Meters
   def siUnit = Meters
-  def units = Set(Nanometers, Microns, Millimeters, Centimeters,
+  def units = Set(Angstroms, Nanometers, Microns, Millimeters, Centimeters,
     Decimeters, Meters, Decameters, Hectometers, Kilometers,
     Inches, Feet, Yards, UsMiles, InternationalMiles, NauticalMiles,
     AstronomicalUnits, LightYears)
@@ -102,6 +103,13 @@ object Length extends Dimension[Length] with BaseDimension {
  */
 trait LengthUnit extends UnitOfMeasure[Length] with UnitConverter {
   def apply[A](n: A)(implicit num: Numeric[A]) = Length(n, this)
+}
+
+object Angstroms extends LengthUnit {
+  // note: the symbol used here is the letter "\u00C5" which is to be preferred over the angstrom sign "\u212B"
+  // see also: https://en.wikipedia.org/wiki/Å and http://www.fileformat.info/info/unicode/char/00c5/index.htm
+  val symbol = "Å"
+  val conversionFactor = 100 * MetricSystem.Pico
 }
 
 object Nanometers extends LengthUnit {
@@ -189,6 +197,7 @@ object LightYears extends LengthUnit {
 }
 
 object LengthConversions {
+  lazy val angstrom = Angstroms(1)
   lazy val nanometer = Nanometers(1)
   lazy val nanometre = Nanometers(1)
   lazy val micron = Microns(1)
@@ -217,6 +226,8 @@ object LengthConversions {
   lazy val lightYear = LightYears(1)
 
   implicit class LengthConversions[A](n: A)(implicit num: Numeric[A]) {
+    def Å = Angstroms(n)
+    def angstroms = Angstroms(n)
     def nm = Nanometers(n)
     def nanometers = Nanometers(n)
     def nanometres = Nanometers(n)
