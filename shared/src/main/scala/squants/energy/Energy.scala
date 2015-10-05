@@ -70,6 +70,7 @@ final class Energy private (val value: Double, val unit: EnergyUnit)
   def toBtus = to(BritishThermalUnits)
   def toMBtus = to(MBtus)
   def toMMBtus = to(MMBtus)
+  def toErgs = to(Ergs)
 }
 
 /**
@@ -86,7 +87,7 @@ object Energy extends Dimension[Energy] {
   def units = Set(WattHours, KilowattHours, MegawattHours, GigawattHours,
     Joules, Picojoules, Nanojoules, Microjoules, Millijoules,
     Kilojoules, Megajoules, Gigajoules, Terajoules,
-    BritishThermalUnits, MBtus, MMBtus)
+    BritishThermalUnits, MBtus, MMBtus, Ergs)
 }
 
 /**
@@ -175,6 +176,11 @@ object MMBtus extends EnergyUnit {
   val symbol = "MMBtu"
 }
 
+object Ergs extends EnergyUnit {
+  val conversionFactor = 100.0 * Nanojoules.conversionFactor
+  val symbol = "erg"
+}
+
 object EnergyConversions {
   lazy val wattHour = WattHours(1)
   lazy val Wh = wattHour
@@ -225,6 +231,7 @@ object EnergyConversions {
     def Btu = BritishThermalUnits(n)
     def MBtu = MBtus(n)
     def MMBtu = MMBtus(n)
+    def ergs = Ergs(n)
     def wattHours = WattHours(n)
     def kilowattHours = KilowattHours(n)
     def megawattHours = MegawattHours(n)
