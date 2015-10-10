@@ -47,6 +47,7 @@ class EnergySpec extends FlatSpec with Matchers {
     BritishThermalUnits(1).toBtus should be(1)
     MBtus(1).toMBtus should be(1)
     MMBtus(1).toMMBtus should be(1)
+    Ergs(1).toErgs should be(1)
   }
 
   it should "create values from properly formatted Strings" in {
@@ -58,6 +59,7 @@ class EnergySpec extends FlatSpec with Matchers {
     Energy("10.22 Btu").get should be(BritishThermalUnits(10.22))
     Energy("10.22 MBtu").get should be(MBtus(10.22))
     Energy("10.22 MMBtu").get should be(MMBtus(10.22))
+    Energy("10.22 erg").get should be(Ergs(10.22))
     Energy("10.22 zz").failed.get should be(QuantityParseException("Unable to parse Energy", "10.22 zz"))
     Energy("ZZ J").failed.get should be(QuantityParseException("Unable to parse Energy", "ZZ J"))
   }
@@ -82,6 +84,7 @@ class EnergySpec extends FlatSpec with Matchers {
     x.toBtus should be(1 / BritishThermalUnits.conversionFactor)
     x.toMBtus should be(1 / MBtus.conversionFactor)
     x.toMMBtus should be(1 / MMBtus.conversionFactor)
+    x.toErgs should be(1 / Ergs.conversionFactor)
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
@@ -103,6 +106,7 @@ class EnergySpec extends FlatSpec with Matchers {
     BritishThermalUnits(1).toString(BritishThermalUnits) should be("1.0 Btu")
     MBtus(1).toString(MBtus) should be("1.0 MBtu")
     MMBtus(1).toString(MMBtus) should be("1.0 MMBtu")
+    Ergs(1).toString(Ergs) should be ("1.0 erg")
   }
 
   it should "return Power when divided by Time" in {
@@ -211,6 +215,7 @@ class EnergySpec extends FlatSpec with Matchers {
     d.Btu should be(BritishThermalUnits(d))
     d.MBtu should be(MBtus(d))
     d.MMBtu should be(MMBtus(d))
+    d.ergs should be(Ergs(d))
   }
 
   it should "provide implicit conversions from String" in {
@@ -224,6 +229,7 @@ class EnergySpec extends FlatSpec with Matchers {
     "10.22 Btu".toEnergy.get should be(BritishThermalUnits(10.22))
     "10.22 MBtu".toEnergy.get should be(MBtus(10.22))
     "10.22 MMBtu".toEnergy.get should be(MMBtus(10.22))
+    "10.22 erg".toEnergy.get should be(Ergs(10.22))
     "10.22 zz".toEnergy.failed.get should be(QuantityParseException("Unable to parse Energy", "10.22 zz"))
     "ZZ J".toEnergy.failed.get should be(QuantityParseException("Unable to parse Energy", "ZZ J"))
   }

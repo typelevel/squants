@@ -30,6 +30,7 @@ class PowerSpec extends FlatSpec with Matchers {
     Megawatts(1).toMegawatts should be(1)
     Gigawatts(1).toGigawatts should be(1)
     BtusPerHour(1).toBtusPerHour should be(1)
+    ErgsPerSecond(1).toErgsPerSecond should be(1)
   }
 
   it should "create values from properly formatted Strings" in {
@@ -39,6 +40,7 @@ class PowerSpec extends FlatSpec with Matchers {
     Power("10.22 MW").get should be(Megawatts(10.22))
     Power("10.22 GW").get should be(Gigawatts(10.22))
     Power("10.22 Btu/hr").get should be(BtusPerHour(10.22))
+    Power("10.22 erg/s").get should be(ErgsPerSecond(10.22))
     Power("10.22 zz").failed.get should be(QuantityParseException("Unable to parse Power", "10.22 zz"))
     Power("ZZ W").failed.get should be(QuantityParseException("Unable to parse Power", "ZZ W"))
   }
@@ -52,6 +54,7 @@ class PowerSpec extends FlatSpec with Matchers {
     x.toMegawatts should be(1 / MetricSystem.Mega)
     x.toGigawatts should be(1 / MetricSystem.Giga)
     x.toBtusPerHour should be(1 / EnergyConversions.btuMultiplier)
+    x.toErgsPerSecond should be(1 / 1e-7)
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
@@ -61,6 +64,7 @@ class PowerSpec extends FlatSpec with Matchers {
     Megawatts(1).toString(Megawatts) should be("1.0 MW")
     Gigawatts(1).toString(Gigawatts) should be("1.0 GW")
     BtusPerHour(1).toString(BtusPerHour) should be("1.0 Btu/hr")
+    ErgsPerSecond(1).toString(ErgsPerSecond) should be("1.0 erg/s")
   }
 
   it should "return Energy when multiplied by Time" in {
@@ -99,6 +103,7 @@ class PowerSpec extends FlatSpec with Matchers {
     d.megawatts should be(Megawatts(d))
     d.gigawatts should be(Gigawatts(d))
     d.BTUph should be(BtusPerHour(d))
+    d.ergsPerSecond should be(ErgsPerSecond(d))
   }
 
   it should "provide implicit conversions from String" in {
@@ -110,6 +115,7 @@ class PowerSpec extends FlatSpec with Matchers {
     "10.22 MW".toPower.get should be(Megawatts(10.22))
     "10.22 GW".toPower.get should be(Gigawatts(10.22))
     "10.22 Btu/hr".toPower.get should be(BtusPerHour(10.22))
+    "10.22 erg/s".toPower.get should be(ErgsPerSecond(10.22))
     "10.22 zz".toPower.failed.get should be(QuantityParseException("Unable to parse Power", "10.22 zz"))
     "ZZ W".toPower.failed.get should be(QuantityParseException("Unable to parse Power", "ZZ W"))
   }

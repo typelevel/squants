@@ -51,6 +51,7 @@ final class Power private (val value: Double, val unit: PowerUnit)
   def toMegawatts = to(Megawatts)
   def toGigawatts = to(Gigawatts)
   def toBtusPerHour = to(BtusPerHour)
+  def toErgsPerSecond = to(ErgsPerSecond)
 }
 
 /**
@@ -64,7 +65,7 @@ object Power extends Dimension[Power] {
   def name = "Power"
   def primaryUnit = Watts
   def siUnit = Watts
-  def units = Set(Watts, Milliwatts, Kilowatts, Megawatts, Gigawatts, BtusPerHour)
+  def units = Set(Watts, Milliwatts, Kilowatts, Megawatts, Gigawatts, BtusPerHour, ErgsPerSecond)
 }
 
 trait PowerUnit extends UnitOfMeasure[Power] with UnitConverter {
@@ -100,6 +101,11 @@ object BtusPerHour extends PowerUnit {
   val symbol = "Btu/hr"
 }
 
+object ErgsPerSecond extends PowerUnit {
+  val conversionFactor = 1e-7
+  val symbol = Ergs.symbol + "/" + Seconds.symbol
+}
+
 object PowerConversions {
   lazy val milliwatt = Milliwatts(1)
   lazy val mW = milliwatt
@@ -124,6 +130,7 @@ object PowerConversions {
     def megawatts = Megawatts(n)
     def gigawatts = Gigawatts(n)
     def BTUph = BtusPerHour(n)
+    def ergsPerSecond = ErgsPerSecond(n)
   }
 
   implicit class PowerStringConversions(s: String) {
