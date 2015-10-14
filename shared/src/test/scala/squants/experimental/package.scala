@@ -19,6 +19,14 @@ package squants
  */
 package object experimental {
 
-  type QuantitySeriesX[A <: QuantityX[A]] = IndexedSeq[QuantityRangeX[A]]
+//  type QuantitySeries[A <: Quantity[A, _]] = IndexedSeq[QuantityRange[A, _]]
+
+  /**
+   * Helper function to achieve uniform Double formatting over JVM and JS platforms.
+   * Simple Double.toString will format 1.0 as "1.0" on JVM and as "1" on JS
+   * @param d Double number to be formatted
+   * @return
+   */
+  private[squants] def crossFormat[N](d: N)(implicit sqNum: SquantsNumeric[N]): String = if (d == sqNum.toLong(d)) { "%.1f".format(sqNum.toDouble(d)) } else { d.toString }
 
 }
