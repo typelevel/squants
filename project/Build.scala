@@ -6,11 +6,11 @@ import sbt._
 object Versions {
   val Squants = "0.6.1-SNAPSHOT"
   val Scala = "2.11.7"
-  val ScalaCross = Seq("2.11.7", "2.10.5")
+  val ScalaCross = Seq("2.11.7", "2.10.6")
 
-  val ScalaTest = "3.0.0-M7"
-  val ScalaCheck = "1.12.4"
-  val Json4s = "3.2.9"
+  val ScalaTest = "3.0.0-M12"
+  val ScalaCheck = "1.12.5"
+  val Json4s = "3.3.0"
 }
 
 object Dependencies {
