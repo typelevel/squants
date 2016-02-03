@@ -10,7 +10,7 @@ package squants.mass
 
 import org.scalatest.{ FlatSpec, Matchers }
 import squants.QuantityParseException
-import squants.space.SquareMeters
+import squants.space.{Hectares, SquareMeters}
 
 import scala.language.postfixOps
 
@@ -25,25 +25,35 @@ class AreaDensitySpec extends FlatSpec with Matchers {
 
   it should "create values using UOM factories" in {
     KilogramsPerSquareMeter(1).toKilogramsPerSquareMeter should be(1)
+	  KilogramsPerHectare(1).toKilogramsPerHectare should be(1)
+	  GramsPerSquareCentimeter(1).toGramsPerSquareCentimeter should be(1)
   }
 
   it should "create values from properly formatted Strings" in {
     AreaDensity("10.22 kg/m²").get should be(KilogramsPerSquareMeter(10.22))
     AreaDensity("10.45 zz").failed.get should be(QuantityParseException("Unable to parse AreaDensity", "10.45 zz"))
     AreaDensity("zz kg/m²").failed.get should be(QuantityParseException("Unable to parse AreaDensity", "zz kg/m²"))
+	  AreaDensity("10.33 kg/hectare").get should be(KilogramsPerHectare(10.33))
+	  AreaDensity("10.19 g/cm²").get should be(GramsPerSquareCentimeter(10.19))
   }
 
   it should "properly convert to all supported Units of Measure" in {
     val x = KilogramsPerSquareMeter(1)
     x.toKilogramsPerSquareMeter should be(1)
+	  x.toKilogramsPerHectare should be(1e4)
+	  x.toGramsPerSquareCentimeter should be(0.1)
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
     KilogramsPerSquareMeter(1).toString should be("1.0 kg/m²")
+	  KilogramsPerHectare(1).toString should be("1.0 kg/hectare")
+	  GramsPerSquareCentimeter(1).toString should be("1.0 g/cm²")
   }
 
   it should "return Mass when multiplied by Volume" in {
     KilogramsPerSquareMeter(1) * SquareMeters(1) should be(Kilograms(1))
+	  KilogramsPerHectare(1) * Hectares(1) should be(Kilograms(1))
+	  GramsPerSquareCentimeter(1000) * SquareMeters(1e-4) should be(Kilograms(1))
   }
 
   behavior of "AreaDensityConversion"
@@ -52,6 +62,8 @@ class AreaDensitySpec extends FlatSpec with Matchers {
     import AreaDensityConversions._
 
     kilogramPerSquareMeter should be(KilogramsPerSquareMeter(1))
+	  kilogramPerHectare should be(KilogramsPerHectare(1))
+	  gramPerSquareCentimeter should be(GramsPerSquareCentimeter(1))
   }
 
   it should "provide implicit conversion from Double" in {
@@ -59,6 +71,8 @@ class AreaDensitySpec extends FlatSpec with Matchers {
 
     val d = 10.22d
     d.kilogramsPerSquareMeter should be(KilogramsPerSquareMeter(d))
+	  d.kilogramsPerHectare should be(KilogramsPerHectare(d))
+	  d.gramsPerSquareCentimeter should be(GramsPerSquareCentimeter(d))
   }
 
   it should "provide Numeric support" in {

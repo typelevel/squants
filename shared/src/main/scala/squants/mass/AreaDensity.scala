@@ -21,9 +21,11 @@ final class AreaDensity private (val value: Double, val unit: AreaDensityUnit)
 
   def dimension = AreaDensity
 
-  def *(that: Area): Mass = Kilograms(value * that.toSquareMeters)
+  def *(that: Area): Mass = Kilograms(toKilogramsPerSquareMeter * that.toSquareMeters)
 
   def toKilogramsPerSquareMeter = to(KilogramsPerSquareMeter)
+	def toGramsPerSquareCentimeter = to(GramsPerSquareCentimeter)
+	def toKilogramsPerHectare = to(KilogramsPerHectare)
 }
 
 /**
@@ -36,7 +38,7 @@ object AreaDensity extends Dimension[AreaDensity] {
   def name = "AreaDensity"
   def primaryUnit = KilogramsPerSquareMeter
   def siUnit = KilogramsPerSquareMeter
-  def units = Set(KilogramsPerSquareMeter)
+  def units = Set(KilogramsPerSquareMeter, KilogramsPerHectare, GramsPerSquareCentimeter)
 }
 
 trait AreaDensityUnit extends UnitOfMeasure[AreaDensity] {
@@ -47,11 +49,25 @@ object KilogramsPerSquareMeter extends AreaDensityUnit with PrimaryUnit with SiU
   val symbol = "kg/m²"
 }
 
+object KilogramsPerHectare extends AreaDensityUnit with UnitConverter {
+	val symbol = "kg/hectare"
+	val conversionFactor = 1/(100*100d)
+}
+
+object GramsPerSquareCentimeter extends AreaDensityUnit with UnitConverter {
+	val symbol = "g/cm²"
+	val conversionFactor = (100*100d)/1000d
+}
+
 object AreaDensityConversions {
   lazy val kilogramPerSquareMeter = KilogramsPerSquareMeter(1)
+	lazy val kilogramPerHectare = KilogramsPerHectare(1)
+	lazy val gramPerSquareCentimeter = GramsPerSquareCentimeter(1)
 
   implicit class AreaDensityConversions[A](n: A)(implicit num: Numeric[A]) {
     def kilogramsPerSquareMeter = KilogramsPerSquareMeter(n)
+	  def kilogramsPerHectare = KilogramsPerHectare(n)
+	  def gramsPerSquareCentimeter = GramsPerSquareCentimeter(n)
   }
 
   implicit object AreaDensityNumeric extends AbstractQuantityNumeric[AreaDensity](AreaDensity.primaryUnit)
