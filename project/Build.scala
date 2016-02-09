@@ -197,6 +197,16 @@ object Console {
   )
 }
 
+object Docs {
+  private def gitHash = sys.process.Process("git rev-parse HEAD").lines_!.head
+  val defaultSettings = Seq(
+    scalacOptions in (Compile, doc) <++= (baseDirectory in LocalRootProject, version) map {(bd, v) =>
+      val tagOrBranch = if(v endsWith "SNAPSHOT") gitHash else "v" + v
+      Seq("-sourcepath", bd.getAbsolutePath, "-doc-source-url", "https://github.com/garyKeorkunian/squants/tree/" + tagOrBranch + "€{FILE_PATH}.scala")
+    }
+  )
+}
+
 object SquantsBuild extends Build {
 
   lazy val defaultSettings =
@@ -205,7 +215,8 @@ object SquantsBuild extends Build {
     Publish.defaultSettings ++
     Tests.defaultSettings ++
     Formatting.defaultSettings ++
-    Console.defaultSettings
+    Console.defaultSettings ++
+    Docs.defaultSettings
 
   lazy val squants = crossProject
     .crossType(CrossType.Full)
