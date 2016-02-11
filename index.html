@@ -31,7 +31,7 @@ All types are immutable and thread-safe.</p>
 <a href="https://github.com/garyKeorkunian/squants/wiki">Wiki</a></p>
 
 <h3>
-<a id="current-versions" class="anchor" href="#current-versions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Current Versions</h3>
+<a id="current-versions" class="anchor" href="#current-versions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Current Versions</h3>
 
 <p>Current Release: <strong>0.5.3</strong>
 (<a href="https://oss.sonatype.org/service/local/repositories/releases/archive/com/squants/squants_2.11/0.5.3/squants_2.11-0.5.3-javadoc.jar/!/index.html#squants.package">API Docs</a>)</p>
@@ -49,7 +49,7 @@ All types are immutable and thread-safe.</p>
 For more information on feature availability of a specific version see the Release History or the README for a that version </p>
 
 <h2>
-<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h2>
 
 <p>Repository hosting for Squants is provided by <a href="https://oss.sonatype.org/">Sonatype</a>.
 To use Squants in your SBT project add the following dependency to your build.</p>
@@ -80,7 +80,7 @@ sbt squantsJVM/console
 </code></pre>
 
 <h2>
-<a id="type-safe-dimensional-analysis" class="anchor" href="#type-safe-dimensional-analysis" aria-hidden="true"><span class="octicon octicon-link"></span></a>Type Safe Dimensional Analysis</h2>
+<a id="type-safe-dimensional-analysis" class="anchor" href="#type-safe-dimensional-analysis" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Type Safe Dimensional Analysis</h2>
 
 <p><em>The Trouble with Doubles</em></p>
 
@@ -107,7 +107,7 @@ it also fails to convert the scales implied in the val names (Mega vs Kilo).
 Because this code compiles, detection of these errors is pushed further into the development cycle.</p>
 
 <h3>
-<a id="dimensional-type-safety" class="anchor" href="#dimensional-type-safety" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dimensional Type Safety</h3>
+<a id="dimensional-type-safety" class="anchor" href="#dimensional-type-safety" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dimensional Type Safety</h3>
 
 <p><em>Only quantities with the same dimensions may be compared, equated, added, or subtracted.</em></p>
 
@@ -132,7 +132,7 @@ the scale within the value name is no longer needed.</p>
 catching the error made when using Double in the example above.</p>
 
 <h3>
-<a id="dimensionally-correct-type-conversions" class="anchor" href="#dimensionally-correct-type-conversions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dimensionally Correct Type Conversions</h3>
+<a id="dimensionally-correct-type-conversions" class="anchor" href="#dimensionally-correct-type-conversions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dimensionally Correct Type Conversions</h3>
 
 <p><em>One may take quantities with different dimensions, and multiply or divide them.</em></p>
 
@@ -155,7 +155,7 @@ resulting in a dimensionless value:</p>
 <div class="highlight highlight-source-scala"><pre><span class="pl-k">val</span> <span class="pl-en">aveLoad</span><span class="pl-k">:</span> <span class="pl-en">Power</span> <span class="pl-k">=</span> energyUsed <span class="pl-k">/</span> time      <span class="pl-c">// Power: 1.2 kW</span></pre></div>
 
 <h3>
-<a id="unit-conversions" class="anchor" href="#unit-conversions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Unit Conversions</h3>
+<a id="unit-conversions" class="anchor" href="#unit-conversions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Unit Conversions</h3>
 
 <p>Quantity values are based in the units used to create them.</p>
 
@@ -223,7 +223,7 @@ kilogram <span class="pl-k">/</span> pound            <span class="pl-c">// Doub
 <span class="pl-c1">100.</span><span class="pl-en">C</span> to <span class="pl-en">Fahrenheit</span>         <span class="pl-c">// Double: 212.0</span></pre></div>
 
 <h3>
-<a id="mapping-over-quantity-values" class="anchor" href="#mapping-over-quantity-values" aria-hidden="true"><span class="octicon octicon-link"></span></a>Mapping over Quantity values</h3>
+<a id="mapping-over-quantity-values" class="anchor" href="#mapping-over-quantity-values" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Mapping over Quantity values</h3>
 
 <p>Apply a <code>Double =&gt; Double</code> operation to the underlying value of a quantity, while preserving its type and unit.</p>
 
@@ -233,7 +233,7 @@ kilogram <span class="pl-k">/</span> pound            <span class="pl-c">// Doub
 <p>The q.map(f) method effectively expands to q.unit(f(q.to(q.unit))</p>
 
 <h3>
-<a id="approximations" class="anchor" href="#approximations" aria-hidden="true"><span class="octicon octicon-link"></span></a>Approximations</h3>
+<a id="approximations" class="anchor" href="#approximations" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Approximations</h3>
 
 <p>Create an implicit Quantity value to be used as a tolerance in approximations.
 Then use the <code>approx</code> method (or <code>=~</code>, <code>~=</code>, <code>≈</code> operators) like you would use the <code>equals</code> method (<code>==</code> operator).</p>
@@ -252,7 +252,7 @@ The <code>~=</code> is provided for those who wish to use a more natural looking
 However, because of its lower precedence, user code may require parenthesis around these comparisons.</p>
 
 <h3>
-<a id="vectors" class="anchor" href="#vectors" aria-hidden="true"><span class="octicon octicon-link"></span></a>Vectors</h3>
+<a id="vectors" class="anchor" href="#vectors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Vectors</h3>
 
 <p>All <code>Quantity</code> types in Squants represent the scalar value of a quantity.
 That is, there is no direction information encoded in any of the Quantity types.
@@ -283,7 +283,7 @@ Most basic vector operations are currently supported (addition, subtraction, sca
 <div class="highlight highlight-source-scala"><pre><span class="pl-k">val</span> <span class="pl-en">vector</span><span class="pl-k">:</span> <span class="pl-en">DoubleVector</span> <span class="pl-k">=</span> <span class="pl-en">SVector</span>(<span class="pl-c1">1.2</span>, <span class="pl-c1">4.3</span>, <span class="pl-c1">2.3</span>, <span class="pl-c1">5.4</span>)   <span class="pl-c">// a Four-dimensional vector</span></pre></div>
 
 <h4>
-<a id="dimensional-conversions-within-vector-operations" class="anchor" href="#dimensional-conversions-within-vector-operations" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dimensional conversions within Vector operations.</h4>
+<a id="dimensional-conversions-within-vector-operations" class="anchor" href="#dimensional-conversions-within-vector-operations" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dimensional conversions within Vector operations.</h4>
 
 <p>NOTE - This feature is currently under development and the final implementation being evaluated.
 The following type of operation is the goal.</p>
@@ -311,7 +311,7 @@ The following type of operation is the goal.</p>
 <span class="pl-k">val</span> <span class="pl-en">vectorMeters</span> <span class="pl-k">=</span> vectorLength.in(<span class="pl-en">Meters</span>)      <span class="pl-c">// QuantityVector(1200.0 m, 4300.0 m, 2300.0 m)</span></pre></div>
 
 <h2>
-<a id="market-package" class="anchor" href="#market-package" aria-hidden="true"><span class="octicon octicon-link"></span></a>Market Package</h2>
+<a id="market-package" class="anchor" href="#market-package" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Market Package</h2>
 
 <p>Market Types are similar but not quite the same as other quantities in the library.
 The primary type, Money, is a Dimensional Quantity, and its Units of Measure are Currencies.
@@ -319,7 +319,7 @@ However, because the conversion multipliers between currency units can not be pr
 many of the behaviors have been overridden and augmented to realize correct behavior.</p>
 
 <h3>
-<a id="money" class="anchor" href="#money" aria-hidden="true"><span class="octicon octicon-link"></span></a>Money</h3>
+<a id="money" class="anchor" href="#money" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Money</h3>
 
 <p>A Quantity of purchasing power measured in Currency units.
 Like other quantities, the Unit of Measures are used to create Money values.</p>
@@ -330,7 +330,7 @@ Like other quantities, the Unit of Measures are used to create Money values.</p>
 <span class="pl-k">val</span> <span class="pl-en">digitalCache</span> <span class="pl-k">=</span> <span class="pl-en">BTC</span>(<span class="pl-c1">50</span>)  <span class="pl-c">// Money: 50 BTC</span></pre></div>
 
 <h3>
-<a id="price" class="anchor" href="#price" aria-hidden="true"><span class="octicon octicon-link"></span></a>Price</h3>
+<a id="price" class="anchor" href="#price" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Price</h3>
 
 <p>A Ratio between Money and another Quantity.
 A Price value is typed on a Quantity and can be denominated in any defined Currency.</p>
@@ -346,7 +346,7 @@ A Price value is typed on a Quantity and can be denominated in any defined Curre
 <span class="pl-k">val</span> <span class="pl-en">milkQuota</span> <span class="pl-k">=</span> milkPrice <span class="pl-k">*</span> <span class="pl-en">USD</span>(<span class="pl-c1">20</span>)             <span class="pl-c">// Volume: 5 gal</span></pre></div>
 
 <h3>
-<a id="fx-support" class="anchor" href="#fx-support" aria-hidden="true"><span class="octicon octicon-link"></span></a>FX Support</h3>
+<a id="fx-support" class="anchor" href="#fx-support" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>FX Support</h3>
 
 <p>Currency Exchange Rates are used to define the conversion factors between currencies</p>
 
@@ -371,7 +371,7 @@ A Price value is typed on a Quantity and can be denominated in any defined Curre
 <span class="pl-k">val</span> <span class="pl-en">yenAmount2</span><span class="pl-k">:</span> <span class="pl-en">Money</span> <span class="pl-k">=</span> someBucks <span class="pl-k">*</span> rate        <span class="pl-c">// Money: 2360 JPY</span></pre></div>
 
 <h3>
-<a id="money-context" class="anchor" href="#money-context" aria-hidden="true"><span class="octicon octicon-link"></span></a>Money Context</h3>
+<a id="money-context" class="anchor" href="#money-context" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Money Context</h3>
 
 <p>A MoneyContext can be implicitly declared to define default settings and applicable exchange rates within its scope.
 This allows your application to work with a default currency based on an application configuration or other dynamic source.
@@ -388,7 +388,7 @@ The technique and frequency chosen for exchange rate updates is completely in co
 <span class="pl-k">val</span> <span class="pl-en">northAmericanSales</span><span class="pl-k">:</span> <span class="pl-en">Money</span> <span class="pl-k">=</span> (<span class="pl-en">CAD</span>(<span class="pl-c1">275</span>) <span class="pl-k">+</span> <span class="pl-en">USD</span>(<span class="pl-c1">350</span>) <span class="pl-k">+</span> <span class="pl-en">MXN</span>(<span class="pl-c1">290</span>)) in <span class="pl-en">USD</span></pre></div>
 
 <h2>
-<a id="quantity-ranges" class="anchor" href="#quantity-ranges" aria-hidden="true"><span class="octicon octicon-link"></span></a>Quantity Ranges</h2>
+<a id="quantity-ranges" class="anchor" href="#quantity-ranges" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Quantity Ranges</h2>
 
 <p>Used to represent a range of Quantity values between an upper and lower bound</p>
 
@@ -424,7 +424,7 @@ To use in a for comprehension, apply the * or / operators as described above to 
 } <span class="pl-k">yield</span> ...</pre></div>
 
 <h2>
-<a id="natural-language-dsl" class="anchor" href="#natural-language-dsl" aria-hidden="true"><span class="octicon octicon-link"></span></a>Natural Language DSL</h2>
+<a id="natural-language-dsl" class="anchor" href="#natural-language-dsl" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Natural Language DSL</h2>
 
 <p>Implicit conversions give the DSL some features that allows user code to express quantities in a
 more naturally expressive and readable way.</p>
@@ -479,7 +479,7 @@ more naturally expressive and readable way.</p>
 <span class="pl-k">val</span> <span class="pl-en">range2</span> <span class="pl-k">=</span> <span class="pl-c1">5000.</span>kW <span class="pl-k">+-</span> <span class="pl-c1">1000.</span>kW              <span class="pl-c">// 4000.kW to 6000.kW</span></pre></div>
 
 <h3>
-<a id="numeric-support" class="anchor" href="#numeric-support" aria-hidden="true"><span class="octicon octicon-link"></span></a>Numeric Support</h3>
+<a id="numeric-support" class="anchor" href="#numeric-support" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Numeric Support</h3>
 
 <p>Most Quantities that support implicit conversions also include an implicit Numeric object that can be imported
 to your code where Numeric support is required.  These follow the following pattern:</p>
@@ -509,12 +509,12 @@ in a few important ways.</p>
 <span class="pl-k">val</span> <span class="pl-en">sum</span> <span class="pl-k">=</span> <span class="pl-en">List</span>(<span class="pl-en">USD</span>(<span class="pl-c1">100</span>), <span class="pl-en">USD</span>(<span class="pl-c1">10</span>)).sum</pre></div>
 
 <h2>
-<a id="type-hierarchy" class="anchor" href="#type-hierarchy" aria-hidden="true"><span class="octicon octicon-link"></span></a>Type Hierarchy</h2>
+<a id="type-hierarchy" class="anchor" href="#type-hierarchy" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Type Hierarchy</h2>
 
 <p>The type hierarchy includes the following core types:  Quantity, Dimension, and UnitOfMeasure</p>
 
 <h3>
-<a id="quantity-and-dimension" class="anchor" href="#quantity-and-dimension" aria-hidden="true"><span class="octicon octicon-link"></span></a>Quantity and Dimension</h3>
+<a id="quantity-and-dimension" class="anchor" href="#quantity-and-dimension" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Quantity and Dimension</h3>
 
 <p>A Dimension represents a type of Quantity. For example: Mass, Length, Time, etc.</p>
 
@@ -524,7 +524,7 @@ For example:  2 lb, 10 km, 3.4 hr.</p>
 <p>Squants has built in support for 54 quantity dimensions.</p>
 
 <h3>
-<a id="unit-of-measure" class="anchor" href="#unit-of-measure" aria-hidden="true"><span class="octicon octicon-link"></span></a>Unit of Measure</h3>
+<a id="unit-of-measure" class="anchor" href="#unit-of-measure" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Unit of Measure</h3>
 
 <p>UnitOfMeasure is the scale or multiplier in which the Quantity is being measured.
 Squants has built in support for over 257 units of measure</p>
@@ -533,7 +533,7 @@ Squants has built in support for over 257 units of measure</p>
 The UOM objects define the unit symbols, conversion factors, and factory methods for creating Quantities in that unit.</p>
 
 <h3>
-<a id="quantity-implementations" class="anchor" href="#quantity-implementations" aria-hidden="true"><span class="octicon octicon-link"></span></a>Quantity Implementations</h3>
+<a id="quantity-implementations" class="anchor" href="#quantity-implementations" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Quantity Implementations</h3>
 
 <p>The code for specific implementations include</p>
 
@@ -560,7 +560,7 @@ The UOM objects define the unit symbols, conversion factors, and factory methods
 <p>Squants currently supports 257 units of measure</p>
 
 <h3>
-<a id="time-derivatives" class="anchor" href="#time-derivatives" aria-hidden="true"><span class="octicon octicon-link"></span></a>Time Derivatives</h3>
+<a id="time-derivatives" class="anchor" href="#time-derivatives" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Time Derivatives</h3>
 
 <p>Special traits are used to establish a time derivative relationship between quantities.</p>
 
@@ -588,10 +588,10 @@ The UOM objects define the unit symbols, conversion factors, and factory methods
 <span class="pl-k">val</span> <span class="pl-en">ramp</span> <span class="pl-k">=</span> <span class="pl-en">Kilowatt</span>(<span class="pl-c1">50</span>) <span class="pl-k">/</span> <span class="pl-en">Hours</span>(<span class="pl-c1">1</span>)</pre></div>
 
 <h2>
-<a id="use-cases" class="anchor" href="#use-cases" aria-hidden="true"><span class="octicon octicon-link"></span></a>Use Cases</h2>
+<a id="use-cases" class="anchor" href="#use-cases" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Use Cases</h2>
 
 <h3>
-<a id="dimensional-analysis" class="anchor" href="#dimensional-analysis" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dimensional Analysis</h3>
+<a id="dimensional-analysis" class="anchor" href="#dimensional-analysis" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dimensional Analysis</h3>
 
 <p>The primary use case for Squants, as described above, is to produce code that is typesafe within domains
 that perform dimensional analysis.</p>
@@ -610,7 +610,7 @@ that perform dimensional analysis.</p>
 <span class="pl-k">val</span> <span class="pl-en">totalMassFlow</span><span class="pl-k">:</span> <span class="pl-en">Mass</span> <span class="pl-k">=</span> volFlowRate <span class="pl-k">*</span> flowTime <span class="pl-k">*</span> density</pre></div>
 
 <h3>
-<a id="domain-modeling" class="anchor" href="#domain-modeling" aria-hidden="true"><span class="octicon octicon-link"></span></a>Domain Modeling</h3>
+<a id="domain-modeling" class="anchor" href="#domain-modeling" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Domain Modeling</h3>
 
 <p>Another excellent use case for Squants is stronger typing for fields in your domain model.
 This is OK ...</p>
@@ -639,7 +639,7 @@ This is OK ...</p>
 <span class="pl-k">val</span> <span class="pl-en">gen2</span> <span class="pl-k">=</span> <span class="pl-en">Generator</span>(<span class="pl-s"><span class="pl-pds">"</span>Gen2<span class="pl-pds">"</span></span>, <span class="pl-c1">100</span> kW, <span class="pl-c1">250</span> kWph, <span class="pl-c1">2944.5</span>.<span class="pl-en">JPY</span><span class="pl-k">/</span><span class="pl-en">MWh</span>, <span class="pl-c1">30</span> minutes)</pre></div>
 
 <h3>
-<a id="anticorruption-layers" class="anchor" href="#anticorruption-layers" aria-hidden="true"><span class="octicon octicon-link"></span></a>Anticorruption Layers</h3>
+<a id="anticorruption-layers" class="anchor" href="#anticorruption-layers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Anticorruption Layers</h3>
 
 <p>Create wrappers around external services that use basic types to represent quantities.
 Your application code then uses the ACL to communicate with that system thus eliminating the need to deal
@@ -726,7 +726,7 @@ with type and scale conversions in multiple places throughout your application l
 }</pre></div>
 
 <h2>
-<a id="contributors" class="anchor" href="#contributors" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contributors</h2>
+<a id="contributors" class="anchor" href="#contributors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Contributors</h2>
 
 <ul>
 <li>Gary Keorkunian (<a href="https://github.com/garyKeorkunian">garyKeorkunian</a>)</li>
@@ -737,10 +737,12 @@ with type and scale conversions in multiple places throughout your application l
 <li>Florian Nussberger (<a href="https://github.com/fnussber">fnussber</a>)</li>
 <li>Ajay Chandran (<a href="https://github.com/ajaychandran">ajaychandran</a>)</li>
 <li>Gia Bảo (<a href="https://github.com/giabao">giabao</a>)</li>
+<li>Josh Lemer (<a href="https://github.com/joshlemer">joshlemer</a>)</li>
+<li>Dave DeCarpio (<a href="https://github.com/DaveDeCaprio">DaveDeCaprio</a>)</li>
 </ul>
 
 <h2>
-<a id="caveats" class="anchor" href="#caveats" aria-hidden="true"><span class="octicon octicon-link"></span></a>Caveats</h2>
+<a id="caveats" class="anchor" href="#caveats" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Caveats</h2>
 
 <p>Code is offered as-is, with no implied warranty of any kind.
 Comments, criticisms, and/or praise are welcome, especially from scientists, engineers and the like.</p>
