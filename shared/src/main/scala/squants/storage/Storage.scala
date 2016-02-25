@@ -72,82 +72,82 @@ object Octets extends StorageUnit {
 
 object Kilobytes extends StorageUnit {
   val conversionFactor = MetricSystem.Kilo
-  val symbol = "K"
+  val symbol = "KB"
 }
 
 object Kibibytes extends StorageUnit {
   val conversionFactor = BinarySystem.Kilo
-  val symbol = "Ki"
+  val symbol = "KiB"
 }
 
 object Megabytes extends StorageUnit {
   val conversionFactor = MetricSystem.Mega
-  val symbol = "M"
+  val symbol = "MB"
 }
 
 object Mebibytes extends StorageUnit {
   val conversionFactor = BinarySystem.Mega
-  val symbol = "Mi"
+  val symbol = "MiB"
 }
 
 object Gigabytes extends StorageUnit {
   val conversionFactor = MetricSystem.Giga
-  val symbol = "G"
+  val symbol = "GB"
 }
 
 object Gibibytes extends StorageUnit {
   val conversionFactor = BinarySystem.Giga
-  val symbol = "Gi"
+  val symbol = "GiB"
 }
 
 object Terabytes extends StorageUnit {
   val conversionFactor = MetricSystem.Tera
-  val symbol = "T"
+  val symbol = "TB"
 }
 
 object Tebibytes extends StorageUnit {
   val conversionFactor = BinarySystem.Tera
-  val symbol = "Ti"
+  val symbol = "TiB"
 }
 
 object Petabytes extends StorageUnit {
   val conversionFactor = MetricSystem.Peta
-  val symbol = "P"
+  val symbol = "PB"
 }
 
 object Pebibytes extends StorageUnit {
   val conversionFactor = BinarySystem.Peta
-  val symbol = "Pi"
+  val symbol = "PiB"
 }
 
 object Exabytes extends StorageUnit {
   val conversionFactor = MetricSystem.Exa
-  val symbol = "E"
+  val symbol = "EB"
 }
 
 object Exbibytes extends StorageUnit {
   val conversionFactor = BinarySystem.Exa
-  val symbol = "Ei"
+  val symbol = "EiB"
 }
 
 object Zettabytes extends StorageUnit {
   def conversionFactor = MetricSystem.Zetta
-  def symbol = "Z"
+  def symbol = "ZB"
 }
 
 object Zebibytes extends StorageUnit {
   def conversionFactor = BinarySystem.Zetta
-  def symbol = "Zi"
+  def symbol = "ZiB"
 }
 
 object Yottabytes extends StorageUnit {
   def conversionFactor = MetricSystem.Yotta
-  def symbol = "Y"
+  def symbol = "YB"
 }
 
 object Yobibytes extends StorageUnit {
   def conversionFactor = BinarySystem.Yotta
-  def symbol = "Yi"
+  def symbol = "YiB"
 }
 
 object StorageConversions {
