@@ -9,6 +9,7 @@
 package squants.information
 
 import org.scalatest.{FlatSpec, Matchers}
+import squants.time.Seconds
 import squants.{BinarySystem, MetricSystem, QuantityParseException}
 
 /**
@@ -108,8 +109,11 @@ class InformationSpec extends FlatSpec with Matchers {
     Yobibytes(1).toString(Yobibytes) should be("1.0 YiB")
   }
 
-  behavior of "InformationConversions"
+  it should "return Time when divided by DataRate" in {
+    Bytes(1) / BytesPerSecond(1) should be(Seconds(1))
+  }
 
+  behavior of "InformationConversions"
 
   it should "provide aliases for single unit values" in {
     import InformationConversions._
@@ -203,6 +207,7 @@ class InformationSpec extends FlatSpec with Matchers {
 
   it should "provide Numeric support" in {
     import InformationConversions.InformationNumeric
+
     val ss = List(Bytes(1000), Kilobytes(1))
     ss.sum should be(Bytes(2000))
   }
