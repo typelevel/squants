@@ -6,7 +6,7 @@
 **                                                                      **
 \*                                                                      */
 
-package squants.storage
+package squants.information
 
 import org.scalatest.{FlatSpec, Matchers}
 import squants.{BinarySystem, MetricSystem, QuantityParseException}
@@ -16,9 +16,9 @@ import squants.{BinarySystem, MetricSystem, QuantityParseException}
  * @since   0.6.0
  *
  */
-class StorageSpec extends FlatSpec with Matchers {
+class InformationSpec extends FlatSpec with Matchers {
 
-  behavior of "Storage and its Units of Measure"
+  behavior of "Information and its Units of Measure"
 
   it should "create values using UOM factories" in {
     Bytes(1).toBytes should be(1)
@@ -42,27 +42,27 @@ class StorageSpec extends FlatSpec with Matchers {
   }
 
   it should "create values form properly formatted Strings" in {
-    Storage("100 B").get should be(Bytes(100))
-    Storage("100 KB").get should be(Kilobytes(100))
-    Storage("100 MB").get should be(Megabytes(100))
-    Storage("100 GB").get should be(Gigabytes(100))
-    Storage("100 TB").get should be(Terabytes(100))
-    Storage("100 PB").get should be(Petabytes(100))
-    Storage("100 EB").get should be(Exabytes(100))
-    Storage("100 ZB").get should be(Zettabytes(100))
-    Storage("100 YB").get should be(Yottabytes(100))
+    Information("100 B").get should be(Bytes(100))
+    Information("100 KB").get should be(Kilobytes(100))
+    Information("100 MB").get should be(Megabytes(100))
+    Information("100 GB").get should be(Gigabytes(100))
+    Information("100 TB").get should be(Terabytes(100))
+    Information("100 PB").get should be(Petabytes(100))
+    Information("100 EB").get should be(Exabytes(100))
+    Information("100 ZB").get should be(Zettabytes(100))
+    Information("100 YB").get should be(Yottabytes(100))
 
-    Storage("100 KiB").get should be(Kibibytes(100))
-    Storage("100 MiB").get should be(Mebibytes(100))
-    Storage("100 GiB").get should be(Gibibytes(100))
-    Storage("100 TiB").get should be(Tebibytes(100))
-    Storage("100 PiB").get should be(Pebibytes(100))
-    Storage("100 EiB").get should be(Exbibytes(100))
-    Storage("100 ZiB").get should be(Zebibytes(100))
-    Storage("100 YiB").get should be(Yobibytes(100))
+    Information("100 KiB").get should be(Kibibytes(100))
+    Information("100 MiB").get should be(Mebibytes(100))
+    Information("100 GiB").get should be(Gibibytes(100))
+    Information("100 TiB").get should be(Tebibytes(100))
+    Information("100 PiB").get should be(Pebibytes(100))
+    Information("100 EiB").get should be(Exbibytes(100))
+    Information("100 ZiB").get should be(Zebibytes(100))
+    Information("100 YiB").get should be(Yobibytes(100))
 
-    Storage("100 zz").failed.get should be(QuantityParseException("Unable to parse Storage", "100 zz"))
-    Storage("ZZ B").failed.get should be(QuantityParseException("Unable to parse Storage", "ZZ B"))
+    Information("100 zz").failed.get should be(QuantityParseException("Unable to parse Information", "100 zz"))
+    Information("ZZ B").failed.get should be(QuantityParseException("Unable to parse Information", "ZZ B"))
   }
 
   it should "properly convert to all supported Units of Measure" in {
@@ -108,8 +108,11 @@ class StorageSpec extends FlatSpec with Matchers {
     Yobibytes(1).toString(Yobibytes) should be("1.0 YiB")
   }
 
+  behavior of "InformationConversions"
+
+
   it should "provide aliases for single unit values" in {
-    import StorageConversions._
+    import InformationConversions._
 
     byte should be(Bytes(1))
     kilobyte should be(Kilobytes(1))
@@ -132,7 +135,7 @@ class StorageSpec extends FlatSpec with Matchers {
   }
 
   it should "provide implicit conversion from Double" in {
-    import StorageConversions._
+    import InformationConversions._
 
     val d = 10d
     d.bytes should be(Bytes(d))
@@ -173,34 +176,33 @@ class StorageSpec extends FlatSpec with Matchers {
   }
 
   it should "provide implicit conversion from String" in {
-    import StorageConversions._
+    import InformationConversions._
 
-    "100 B".toStorage.get should be(Bytes(100))
-    "100 KB".toStorage.get should be(Kilobytes(100))
-    "100 MB".toStorage.get should be(Megabytes(100))
-    "100 GB".toStorage.get should be(Gigabytes(100))
-    "100 TB".toStorage.get should be(Terabytes(100))
-    "100 PB".toStorage.get should be(Petabytes(100))
-    "100 EB".toStorage.get should be(Exabytes(100))
-    "100 ZB".toStorage.get should be(Zettabytes(100))
-    "100 YB".toStorage.get should be(Yottabytes(100))
+    "100 B".toInformation.get should be(Bytes(100))
+    "100 KB".toInformation.get should be(Kilobytes(100))
+    "100 MB".toInformation.get should be(Megabytes(100))
+    "100 GB".toInformation.get should be(Gigabytes(100))
+    "100 TB".toInformation.get should be(Terabytes(100))
+    "100 PB".toInformation.get should be(Petabytes(100))
+    "100 EB".toInformation.get should be(Exabytes(100))
+    "100 ZB".toInformation.get should be(Zettabytes(100))
+    "100 YB".toInformation.get should be(Yottabytes(100))
 
-    "100 KiB".toStorage.get should be(Kibibytes(100))
-    "100 MiB".toStorage.get should be(Mebibytes(100))
-    "100 GiB".toStorage.get should be(Gibibytes(100))
-    "100 TiB".toStorage.get should be(Tebibytes(100))
-    "100 PiB".toStorage.get should be(Pebibytes(100))
-    "100 EiB".toStorage.get should be(Exbibytes(100))
-    "100 ZiB".toStorage.get should be(Zebibytes(100))
-    "100 YiB".toStorage.get should be(Yobibytes(100))
+    "100 KiB".toInformation.get should be(Kibibytes(100))
+    "100 MiB".toInformation.get should be(Mebibytes(100))
+    "100 GiB".toInformation.get should be(Gibibytes(100))
+    "100 TiB".toInformation.get should be(Tebibytes(100))
+    "100 PiB".toInformation.get should be(Pebibytes(100))
+    "100 EiB".toInformation.get should be(Exbibytes(100))
+    "100 ZiB".toInformation.get should be(Zebibytes(100))
+    "100 YiB".toInformation.get should be(Yobibytes(100))
 
-    "100 zz".toStorage.failed.get should be(QuantityParseException("Unable to parse Storage", "100 zz"))
-    "ZZ B".toStorage.failed.get should be(QuantityParseException("Unable to parse Storage", "ZZ B"))
+    "100 zz".toInformation.failed.get should be(QuantityParseException("Unable to parse Information", "100 zz"))
+    "ZZ B".toInformation.failed.get should be(QuantityParseException("Unable to parse Information", "ZZ B"))
   }
 
   it should "provide Numeric support" in {
-    import StorageConversions.StorageNumeric
-
+    import InformationConversions.InformationNumeric
     val ss = List(Bytes(1000), Kilobytes(1))
     ss.sum should be(Bytes(2000))
   }
