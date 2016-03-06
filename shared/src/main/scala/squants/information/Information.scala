@@ -9,6 +9,7 @@
 package squants.information
 
 import squants._
+import squants.time.TimeIntegral
 
 /**
  * Represents information.
@@ -18,9 +19,13 @@ import squants._
  * @param value value in [[squants.information.Bytes]]
  */
 final class Information private(val value: Double, val unit: InformationUnit)
-    extends Quantity[Information] {
+    extends Quantity[Information]
+    with TimeIntegral[DataRate] {
 
   def dimension = Information
+
+  protected def timeDerived = BytesPerSecond(toBytes)
+  protected[squants] def time = Seconds(1)
 
   def toBytes = to(Bytes)
   def toKilobytes = to(Kilobytes)
