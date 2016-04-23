@@ -47,10 +47,6 @@ class IrradianceSpec extends FlatSpec with Matchers {
     WattsPerSquareMeter(1) * SquareMeters(1) should be(Watts(1))
   }
 
-  it should "return Area when divided by Power" in {
-    WattsPerSquareMeter(1) / Watts(1) should be(SquareMeters(1))
-  }
-
   behavior of "IrradianceConversions"
 
   it should "provide aliases for single unit values" in {
