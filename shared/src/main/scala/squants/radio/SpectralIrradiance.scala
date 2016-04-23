@@ -23,9 +23,6 @@ final class SpectralIrradiance private (val value: Double, val unit: SpectralIrr
 
   def dimension = SpectralIrradiance
 
-//  def *(that: Area): Power = Watts(toWattsPerSquareMeter * that.toSquareMeters)
-//  def /(that: Power): Area = SquareMeters(toWattsPerSquareMeter / that.toWatts)
-
   def toWattsPerCubicMeter = to(WattsPerCubicMeter)
   def toWattsPerSquareMeterPerNanometer = to(WattsPerSquareMeterPerNanometer)
   def toWattsPerSquareMeterPerMicron = to(WattsPerSquareMeterPerMicron)
@@ -66,6 +63,9 @@ object ErgsPerSecondPerSquareCentimeterPerAngstrom extends SpectralIrradianceUni
 
 object SpectralIrradianceConversions {
   lazy val wattPerCubicMeter = WattsPerCubicMeter(1)
+  lazy val wattPerSquareMeterPerNanometer = WattsPerSquareMeterPerNanometer(1)
+  lazy val wattPerSquareMeterPerMicron = WattsPerSquareMeterPerMicron(1)
+  lazy val ergPerSecondPerSquareCentimeterPerAngstrom = ErgsPerSecondPerSquareCentimeterPerAngstrom(1)
 
   implicit class SpectralIrradianceConversions[A](n: A)(implicit num: Numeric[A]) {
     def wattsPerCubicMeter = WattsPerCubicMeter(n)
@@ -74,5 +74,5 @@ object SpectralIrradianceConversions {
     def ergsPerSecondPerSquareCentimeterPerAngstrom = ErgsPerSecondPerSquareCentimeterPerAngstrom(n)
   }
 
-  implicit object IrradianceNumeric extends AbstractQuantityNumeric[SpectralIrradiance](SpectralIrradiance.primaryUnit)
+  implicit object SpectralIrradianceNumeric extends AbstractQuantityNumeric[SpectralIrradiance](SpectralIrradiance.primaryUnit)
 }
