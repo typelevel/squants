@@ -1,7 +1,8 @@
 import org.scalajs.sbtplugin.ScalaJSPlugin.autoImport._
 import sbt.Keys._
 import sbt._
-
+import com.typesafe.sbt.osgi.SbtOsgi
+import com.typesafe.sbt.osgi.SbtOsgi.autoImport._
 
 object Versions {
   val Squants = "0.6.1-SNAPSHOT"
@@ -43,7 +44,11 @@ object Project {
         Resolvers.sonatypeNexusSnapshots,
         Resolvers.sonatypeNexusReleases,
         Resolvers.sonatypeNexusStaging
-    )
+    ),
+
+    OsgiKeys.exportPackage := Seq("squants.*"),
+
+    OsgiKeys.privatePackage := Seq() // No private packages
   )
 }
 
@@ -222,10 +227,13 @@ object SquantsBuild extends Build {
     .crossType(CrossType.Full)
     .in(file("."))
     .settings(defaultSettings: _*)
+    .jvmSettings(
+      osgiSettings: _*
+    )
     .jsSettings(
       excludeFilter in Test := "*Serializer.scala" || "*SerializerSpec.scala"
     )
 
- 	lazy val squantsJVM = squants.jvm
+ 	lazy val squantsJVM = squants.jvm.enablePlugins(SbtOsgi)
  	lazy val squantsJS = squants.js
 }
