@@ -26,6 +26,42 @@ object DimensionSum {
     type Out = (D, S) :: O
   }
 
+  implicit def hListPlusHListOfLaterDimension[
+    D1,
+    D2,
+    I1 <: Pos,
+    I2 <: Pos,
+    E1 <: TypeLevelInt,
+    R1 <: HList,
+    A <: (D1, E1) :: R1,
+    B <: HList,
+    O <: HList
+  ](implicit
+    d1HasIndexI1: DimensionOrder.Aux[D1, I1],
+    d2HasIndexI2: DimensionOrder.Aux[D2, I2],
+    d1beforeD2: TypeLevelInt.LT[I1, I2],
+    dimSum: Aux[R1, B, O]
+  ): Aux[A, B, (D1, E1) :: O] = new DimensionSum[A, B] {
+    type Out = (D1, E1) :: O
+  }
+  implicit def hListPlusHListOfEarlierDimension[
+  D1,
+  D2,
+  I1 <: Pos,
+  I2 <: Pos,
+  E1 <: TypeLevelInt,
+  R1 <: HList,
+  A <: (D1, E1) :: R1,
+  B <: HList,
+  O <: HList
+  ](implicit
+    d1HasIndexI1: DimensionOrder.Aux[D1, I1],
+    d2HasIndexI2: DimensionOrder.Aux[D2, I2],
+    d2beforeD1: TypeLevelInt.LT[I2, I1],
+    dimSum: Aux[R1, B, O]
+  ): Aux[A, B, (D1, E1) :: O] = new DimensionSum[A, B] {
+    type Out = (D1, E1) :: O
+  }
   type HLength = (Length, _1) :: HNil
   type HArea = (Length, _2) :: HNil
   type HVolume = (Length, _3) :: HNil
@@ -37,4 +73,6 @@ object DimensionSum {
   implicit val absurdButWorking = hListPlusHList[Length, _1, _2, _3, (Mass, _2) :: HNil, (Mass, _1) :: HNil, (Length, _1) :: (Mass, _2) :: HNil, (Length, _2) :: (Mass, _1) :: HNil, (Mass, _3) :: HNil]
   val test2 = implicitly[DimensionSum[(Length, _1) :: HNil, (Length, _2) :: HNil]]
 
+  implicit val differentLists: Aux[(Length, _4) :: HNil, (Mass, _2) :: HNil, (Length, _4) :: (Mass, _2) :: HNil] = hListPlusHListOfLaterDimension[Length, Mass, _1, _2, _4, HNil, (Length, _4) :: HNil, (Mass, _2) :: HNil, (Mass, _2) :: HNil]
+  val test3 = implicitly[DimensionSum[(Length, _4) :: HNil, (Mass, _2) :: HNil]]
 }
