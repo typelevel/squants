@@ -8,6 +8,7 @@
 
 package squants.space
 
+import squants.TypeLevelInt._1
 import squants._
 import squants.electro._
 import squants.energy.{ Joules, Watts }
@@ -25,6 +26,7 @@ import squants.time.{ SecondTimeIntegral, TimeIntegral, TimeSquared }
  */
 final class Length private (val value: Double, val unit: LengthUnit)
     extends Quantity[Length]
+    with DimensionType[Length, _1]
     with TimeIntegral[Velocity]
     with SecondTimeIntegral[Acceleration] {
 
