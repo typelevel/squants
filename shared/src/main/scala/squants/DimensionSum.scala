@@ -26,6 +26,23 @@ object DimensionSum {
     type Out = (D, S) :: O
   }
 
+  implicit def hListPlusHListCancellingOut[
+  D,
+  E1 <: TypeLevelInt,
+  E2 <: TypeLevelInt,
+  S <: Negate.Aux[E1, E2],
+  R1 <: HList,
+  R2 <: HList,
+  A <: (D, E1) :: R1,
+  B <: (D, E2) :: R2,
+  O <: HList
+  ](implicit dimSum: Aux[R1, R2, O]): Aux[A, B, O] = new DimensionSum[A, B] {
+    type Out = O
+  }
+  implicit val partiallyCancellingOut = hListPlusHListCancellingOut[
+    Length, _1, _M1, Negate.Aux[_1, _M1], HNil, (Mass, _4) :: HNil, (Length, _1) :: HNil, (Length, _M1) :: (Mass, _4) :: HNil, (Mass, _4) :: HNil]
+  val test5 = implicitly[DimensionSum[(Length, _1) :: HNil, (Length, _M1) :: (Mass, _4) :: HNil]]
+
   implicit def hListPlusHListOfLaterDimension[
     D1,
     D2,
