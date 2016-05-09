@@ -25,9 +25,12 @@ object DimensionSum {
     D <: Quantity[D],
     E1 <: TypeLevelInt,
     E2 <: TypeLevelInt,
+    S <: { type Out <: TypeLevelInt },
     R1 <: HList,
     R2 <: HList
   ](implicit
+    negateSingleton: TypeLevelInt.SingletonOf[Negate[E1], S],
+    doesNotCancelOut: S#Out <:!< E2,
     exponentSum: Sum[E1, E2],
     dimSum: DimensionSum[R1, R2]
   ): Aux[(D, E1) :: R1, (D, E2) :: R2, (D, exponentSum.Out) :: dimSum.Out] = new DimensionSum[(D, E1) :: R1, (D, E2) :: R2] {
