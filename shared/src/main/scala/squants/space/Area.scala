@@ -8,6 +8,7 @@
 
 package squants.space
 
+import squants.DimensionType.OneBaseDimension
 import squants.TypeLevelInt._2
 import squants._
 import squants.electro.{ MagneticFlux, MagneticFluxDensity, Webers }
@@ -24,7 +25,7 @@ import squants.radio._
  * @param value value in [[squants.space.SquareMeters]]
  */
 final class Area private (val value: Double, val unit: AreaUnit)
-    extends Quantity[Area] with DimensionType[Length, _2]{
+    extends Quantity[Area] with OneBaseDimension[(Length, _2)]{
 
   def dimension = Area
 

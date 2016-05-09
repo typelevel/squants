@@ -8,7 +8,19 @@ trait DimensionOrder[D] {
 
 trait DimensionIsEarlierThan[D1, D2]
 
-
+object DimensionIsEarlierThan {
+  implicit def isEarlierDimensionByDimensionOrderTC[
+  D1,
+  D2,
+  DO1 <: { type DimensionIndex <: TypeLevelInt },
+  DO2 <: { type DimensionIndex <: TypeLevelInt }
+  ](
+    implicit
+    singletonOfDO1: DimensionOrder.SingletonOf[DimensionOrder[D1], DO1],
+    singletonOfDO2: DimensionOrder.SingletonOf[DimensionOrder[D2], DO2],
+    isEarlier: TypeLevelInt.LT[DO1#DimensionIndex, DO2#DimensionIndex]
+  ) = new DimensionIsEarlierThan[D1, D2] {}
+}
 object DimensionOrder {
 
   implicit val lengthIs1 = new DimensionOrder[Length] { type DimensionIndex = _1 }
@@ -29,15 +41,4 @@ object DimensionOrder {
       t: T
     ): SingletonOf[T, t.type] = SingletonOf(t)
   }
-  implicit def isEarlierDimensionByDimensionOrderTC[
-    D1,
-    D2,
-    DO1 <: { type DimensionIndex <: TypeLevelInt },
-    DO2 <: { type DimensionIndex <: TypeLevelInt }
-  ](
-    implicit
-    singletonOfDO1: SingletonOf[DimensionOrder[D1], DO1],
-    singletonOfDO2: SingletonOf[DimensionOrder[D2], DO2],
-    isEarlier: TypeLevelInt.LT[DO1#DimensionIndex, DO2#DimensionIndex]
-  ) = new DimensionIsEarlierThan[D1, D2] {}
 }

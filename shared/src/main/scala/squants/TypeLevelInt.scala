@@ -39,6 +39,14 @@ object TypeLevelInt {
   type _M8 = MinusOne[_M7]
   type _M9 = MinusOne[_M8]
 
+  case class SingletonOf[T, U <: { type Out <: TypeLevelInt }](u: U)
+
+  object SingletonOf {
+    implicit def mkSingletonOf[T <: { type Out <: TypeLevelInt }](implicit
+      t: T
+    ): SingletonOf[T, t.type] = SingletonOf(t)
+  }
+
   // C is the sum of A and B
   trait Sum[A <: TypeLevelInt, B <: TypeLevelInt] { type Out <: TypeLevelInt }
   object Sum {

@@ -8,6 +8,7 @@
 
 package squants.space
 
+import squants.DimensionType.OneBaseDimension
 import squants.TypeLevelInt._3
 import squants._
 import squants.energy.{ EnergyDensity, Joules }
@@ -25,7 +26,7 @@ import squants.time.TimeIntegral
  */
 final class Volume private (val value: Double, val unit: VolumeUnit)
     extends Quantity[Volume]
-      with DimensionType[Length, _3]
+      with OneBaseDimension[(Length, _3)]
       with TimeIntegral[VolumeFlow] {
 
   def dimension = Volume

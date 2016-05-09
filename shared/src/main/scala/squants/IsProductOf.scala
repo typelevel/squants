@@ -1,19 +1,15 @@
 package squants
 
-import squants.TypeLevelInt.Sum
-
-trait IsProductOf[P, A, B]
+trait IsProductOf[P, T <: (_ <: DimensionType[_], _ <: DimensionType[_])]
 
 object IsProductOf {
-  implicit def isProductIfDimensionTypesSumUp[A, B, P, AN <: TypeLevelInt, BN <: TypeLevelInt, PN <: TypeLevelInt, I](
-    implicit dimA: A <:< DimensionType[I, AN],
-    dimB: B <:< DimensionType[I, BN],
-    dimP: P <:< DimensionType[I, PN],
-    baseDimSumCorrect: Sum.Aux[AN, BN, PN]
-  ) = new IsProductOf[P, A, B] {}
-
-  val areaIsLengthTimesLength = implicitly[IsProductOf[Area, Length, Length]]
-  val volumeIsLengthTimesArea = implicitly[IsProductOf[Volume, Length, Area]]
-  val volumeIsAreaTimesLength = implicitly[IsProductOf[Volume, Length, Area]]
-  //val volumeIsAreaTimesArea = implicitly[IsProductOf[Volume, Area, Area]] // Does not compile, as desired
+  implicit def isProductIfDimensionTypesSumUp[
+    LA <: HList,
+    LB <: HList,
+    LP <: HList,
+    DS <: { type Out <: HList }
+  ](
+    implicit singleton: DimensionSum.SingletonOf[DimensionSum[LA, LB], DS],
+    baseDimSumCorrect: DS#Out =:= LP
+  ) = new IsProductOf[DimensionType[LP], (DimensionType[LA], DimensionType[LB])] {}
 }

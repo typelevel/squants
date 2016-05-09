@@ -11,83 +11,79 @@ object DimensionSum {
   type Aux[A <: HList, B <: HList, O <: HList] = DimensionSum[A, B] { type Out = O }
   def apply[A <: HList, B <: HList](implicit sum: DimensionSum[A, B]): Aux[A, B, sum.Out] = sum
 
-  implicit def hNilPlus[B <: HList]: Aux[HNil, B, B] = new DimensionSum[HNil, B] { type Out = B }
+  implicit def plusHNil[A <: HList]: Aux[A, HNil, A] = new DimensionSum[A, HNil] {
+    type Out = A
+  }
+
+  implicit def hNilPlus[B <: HList](implicit
+    bNotNil: B <:!< HNil
+  ): Aux[HNil, B, B] = new DimensionSum[HNil, B] {
+    type Out = B
+  }
+
   implicit def hListPlusHList[
-    D,
+    D <: Quantity[D],
     E1 <: TypeLevelInt,
     E2 <: TypeLevelInt,
     R1 <: HList,
-    R2 <: HList,
-    A <: (D, E1) :: R1,
-    B <: (D, E2) :: R2,
-    O <: HList
-  ](implicit exponentSum: Sum[E1, E2], dimSum: Aux[R1, R2, O]): Aux[A, B, (D, exponentSum.Out) :: O] = new DimensionSum[A, B] {
-    type Out = (D, exponentSum.Out) :: O
+    R2 <: HList
+  ](implicit
+    exponentSum: Sum[E1, E2],
+    dimSum: DimensionSum[R1, R2]
+  ): Aux[(D, E1) :: R1, (D, E2) :: R2, (D, exponentSum.Out) :: dimSum.Out] = new DimensionSum[(D, E1) :: R1, (D, E2) :: R2] {
+    type Out = (D, exponentSum.Out) :: dimSum.Out
   }
 
   implicit def hListPlusHListCancellingOut[
-  D,
-  S <: Negate[E1],
-  E1 <: TypeLevelInt,
-  E2 <: TypeLevelInt,
-  R1 <: HList,
-  R2 <: HList,
-  A <: (D, E1) :: R1,
-  B <: (D, E2) :: R2,
-  O <: HList
+    D <: Quantity[D],
+    S <: { type Out <: TypeLevelInt },
+    E1 <: TypeLevelInt,
+    E2 <: TypeLevelInt,
+    R1 <: HList,
+    R2 <: HList
   ](
-    implicit dimSum: Aux[R1, R2, O],
+    implicit dimSum: DimensionSum[R1, R2],
+    negateSingleton: TypeLevelInt.SingletonOf[Negate[E1], S],
     cancelsOut: S#Out =:= E2
-  ): Aux[A, B, O] = new DimensionSum[A, B] {
-    type Out = O
+  ): Aux[(D, E1) :: R1, (D, E2) :: R2, dimSum.Out] = new DimensionSum[(D, E1) :: R1, (D, E2) :: R2] {
+    type Out = dimSum.Out
   }
-  implicit val partiallyCancellingOut = hListPlusHListCancellingOut[
-    (Length, _1) :: HNil, (Length, _M1) :: (Mass, _4) :: HNil, Length, Negate[_1], _1, _M1, HNil, (Mass, _4) :: HNil, (Mass, _4) :: HNil]
-  val test5 = implicitly[DimensionSum[(Length, _1) :: HNil, (Length, _M1) :: (Mass, _4) :: HNil]]
 
   implicit def hListPlusHListOfLaterDimension[
-    D1: DimensionOrder,
-    D2: DimensionOrder,
-    I1 <: Pos,
-    I2 <: Pos,
+    D1 <: Quantity[D1],
+    D2 <: Quantity[D2],
     E1 <: TypeLevelInt,
+    E2 <: TypeLevelInt,
     R1 <: HList,
-    A <: (D1, E1) :: R1,
-    B <: HList,
-    O <: HList
+    R2 <: HList
   ](implicit
-    d1beforeD2: TypeLevelInt.LT[DimensionOrder[D1]#I, DimensionOrder[D2]#I],
-    dimSum: Aux[R1, B, O]
-  ): Aux[A, B, (D1, E1) :: O] = new DimensionSum[A, B] {
-    type Out = (D1, E1) :: O
+    d1beforeD2: D1 DimensionIsEarlierThan D2,
+    dimSum: DimensionSum[R1, (D2, E2) :: R2]
+  ): Aux[(D1, E1) :: R1, (D2, E2) :: R2, (D1, E1) :: dimSum.Out] = new DimensionSum[(D1, E1) :: R1, (D2, E2) :: R2] {
+    type Out = (D1, E1) :: dimSum.Out
   }
+
   implicit def hListPlusHListOfEarlierDimension[
-  D1: DimensionOrder,
-  D2: DimensionOrder,
-  I1 <: Pos,
-  I2 <: Pos,
-  E1 <: TypeLevelInt,
-  R1 <: HList,
-  A <: (D1, E1) :: R1,
-  B <: HList,
-  O <: HList
+    D1 <: Quantity[D1],
+    D2 <: Quantity[D2],
+    E1 <: TypeLevelInt,
+    E2 <: TypeLevelInt,
+    R1 <: HList,
+    R2 <: HList
   ](implicit
-    d2beforeD1: TypeLevelInt.LT[DimensionOrder[D2]#I, DimensionOrder[D1]#I],
-  dimSum: Aux[R1, B, O]
-  ): Aux[A, B, (D1, E1) :: O] = new DimensionSum[A, B] {
-    type Out = (D1, E1) :: O
+    d2beforeD1: D2 DimensionIsEarlierThan D1,
+    dimSum: DimensionSum[(D1, E1) :: R1, R2]
+  ): Aux[(D1, E1) :: R1, (D2, E2) :: R2, (D2, E2) :: dimSum.Out] = new DimensionSum[(D1, E1) :: R1, (D2, E2) :: R2] {
+    type Out = (D2, E2) :: dimSum.Out
   }
-  type HLength = (Length, _1) :: HNil
-  type HArea = (Length, _2) :: HNil
-  type HVolume = (Length, _3) :: HNil
+  trait <:!<[A, B]
 
-  implicit val volumeIsLengthTimesArea = hListPlusHList[Length, _1, _2, _3, HNil, HNil, (Length, _1) :: HNil, (Length, _2) :: HNil, HNil]
-  val test = implicitly[DimensionSum[(Length, _1) :: HNil, (Length, _2) :: HNil]]
+  implicit def nsub[A, B] : A <:!< B = new <:!<[A, B] {}
+  implicit def nsubAmbig1[A, B >: A] : A <:!< B = sys.error("Unexpected call")
+  implicit def nsubAmbig2[A, B >: A] : A <:!< B = sys.error("Unexpected call")
 
-  implicit val massCubed: Aux[(Mass, _2) :: HNil, (Mass, _1) :: HNil, (Mass, _3) :: HNil] = hListPlusHList[Mass, _2, _1, _3, HNil, HNil, (Mass, _2) :: HNil, (Mass, _1) :: HNil, HNil]
-  implicit val absurdButWorking = hListPlusHList[Length, _1, _2, _3, (Mass, _2) :: HNil, (Mass, _1) :: HNil, (Length, _1) :: (Mass, _2) :: HNil, (Length, _2) :: (Mass, _1) :: HNil, (Mass, _3) :: HNil]
-  val test2 = implicitly[DimensionSum[(Length, _1) :: HNil, (Length, _2) :: HNil]]
-
-  implicit val differentLists: Aux[(Length, _4) :: HNil, (Mass, _2) :: HNil, (Length, _4) :: (Mass, _2) :: HNil] = hListPlusHListOfLaterDimension[Length, Mass, _1, _2, _4, HNil, (Length, _4) :: HNil, (Mass, _2) :: HNil, (Mass, _2) :: HNil]
-  val test3 = implicitly[DimensionSum[(Length, _4) :: HNil, (Mass, _2) :: HNil]]
+  class SingletonOf[T, U <: { type Out <: HList }](u: U)
+  object SingletonOf {
+    def mkSingleton[T <: { type Out <: HList }](implicit t: T): SingletonOf[T, t.type] = new SingletonOf(t)
+  }
 }
