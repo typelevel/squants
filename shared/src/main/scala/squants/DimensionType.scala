@@ -1,9 +1,15 @@
 package squants
 
-trait DimensionType[D <: HList]
+trait DimensionType {
+  type Dimension <: HList
+}
 
 object DimensionType {
-  type OneBaseDimension[A] = DimensionType[A :: HNil]
-  type TwoBaseDimensions[A , B] = DimensionType[A :: B :: HNil]
-  type ThreeBaseDimensions[A, B, C] = DimensionType[A :: B :: C :: HNil]
+  type Aux[D] = DimensionType { type Dimension = D }
+
+  case class SingletonOf[T, U <: { type Dimension <: HList }](u: U)
+  object SingletonOf {
+    implicit def mkSingleton[T <: { type Dimension <: HList }](implicit t: T):  SingletonOf[T, t.type] =
+      SingletonOf[T, t.type](t)
+  }
 }

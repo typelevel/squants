@@ -84,6 +84,6 @@ object DimensionSum {
 
   class SingletonOf[T, U <: { type Out <: HList }](u: U)
   object SingletonOf {
-    def mkSingleton[T <: { type Out <: HList }](implicit t: T): SingletonOf[T, t.type] = new SingletonOf(t)
+    implicit def mkSingleton[T <: { type Out <: HList }](implicit t: T): SingletonOf[T, t.type] = new SingletonOf(t)
   }
 }

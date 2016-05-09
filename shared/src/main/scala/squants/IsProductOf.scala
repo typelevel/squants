@@ -1,15 +1,14 @@
 package squants
 
-trait IsProductOf[P, T <: (_ <: DimensionType[_], _ <: DimensionType[_])]
+trait IsProductOf[P, T <: (_ <: DimensionType, _ <: DimensionType)]
 
 object IsProductOf {
   implicit def isProductIfDimensionTypesSumUp[
-    LA <: HList,
-    LB <: HList,
-    LP <: HList,
-    DS <: { type Out <: HList }
+    A <: DimensionType,
+    B <: DimensionType,
+    P <: DimensionType
   ](
-    implicit singleton: DimensionSum.SingletonOf[DimensionSum[LA, LB], DS],
-    baseDimSumCorrect: DS#Out =:= LP
-  ) = new IsProductOf[DimensionType[LP], (DimensionType[LA], DimensionType[LB])] {}
+    implicit
+    baseDimSumCorrect: DimensionSum.Aux[A#Dimension, B#Dimension, P#Dimension]
+  ) = new IsProductOf[P, (A, B)] {}
 }

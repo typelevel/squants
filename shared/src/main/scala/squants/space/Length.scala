@@ -8,7 +8,6 @@
 
 package squants.space
 
-import squants.DimensionType.OneBaseDimension
 import squants.TypeLevelInt._1
 import squants._
 import squants.electro._
@@ -27,10 +26,11 @@ import squants.time.{ SecondTimeIntegral, TimeIntegral, TimeSquared }
  */
 final class Length private (val value: Double, val unit: LengthUnit)
     extends Quantity[Length]
-    with OneBaseDimension[(Length, _1)]
+    with DimensionType
     with TimeIntegral[Velocity]
     with SecondTimeIntegral[Acceleration] {
 
+  type Dimension = (Length, _1) :: HNil
   def dimension = Length
 
   protected def timeDerived = MetersPerSecond(toMeters)
