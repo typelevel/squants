@@ -8,6 +8,7 @@
 
 package squants.time
 
+import squants.TypeLevelInt._1
 import squants._
 
 import scala.concurrent.duration.{ DAYS, Duration, HOURS, MICROSECONDS, MILLISECONDS, MINUTES, NANOSECONDS, SECONDS }
@@ -22,8 +23,8 @@ import scala.language.implicitConversions
  * @param value value in [[squants.time.Milliseconds]]
  */
 final class Time private (val value: Double, val unit: TimeUnit)
-    extends Quantity[Time] {
-
+    extends Quantity[Time] with DimensionType {
+  type Dimension = (Time, _1) :: HNil
   def dimension = Time
 
   def millis = toMilliseconds.toLong

@@ -8,6 +8,7 @@
 
 package squants.mass
 
+import squants.TypeLevelInt._
 import squants.energy.{ Energy, Joules, SpecificEnergy }
 import squants.motion.{ Force, MassFlow, Momentum, _ }
 import squants.space.{ CubicMeters, SquareMeters }
@@ -24,8 +25,10 @@ import squants.{ Acceleration, Energy ⇒ _, Velocity, _ }
  */
 final class Mass private (val value: Double, val unit: MassUnit)
     extends Quantity[Mass]
+    with DimensionType
     with TimeIntegral[MassFlow] {
 
+  type Dimension = (Mass, _1) :: HNil
   def dimension = Mass
 
   protected def timeDerived = KilogramsPerSecond(toKilograms)
