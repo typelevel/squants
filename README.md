@@ -28,7 +28,7 @@ Development Build: **0.7.1-SNAPSHOT**
 
 Build services provided by [Travis CI](https://travis-ci.com/) 
 
-NOTE - This README reflects feature set in the branch it can be found.  
+NOTE - This README reflects the feature set in the branch it can be found.  
 For more information on feature availability of a specific version see the Release History or the README for a that version 
 
 ## Installation
@@ -777,7 +777,7 @@ trait LoadRoute extends HttpService {
 
 ## Code of Conduct
 
-Squants is a ([Typelevel](http://typelevel.org/)) Incubator Project and, as such, supports the Typelevel Code of Conduct.
+Squants is a [Typelevel](http://typelevel.org/) Incubator Project and, as such, supports the Typelevel Code of Conduct.
 
 ## Caveats
 
