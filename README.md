@@ -14,6 +14,8 @@ All types are immutable and thread-safe.
 [User Forum](https://groups.google.com/forum/#!forum/squants)
 |
 [Wiki](https://github.com/garyKeorkunian/squants/wiki)
+|
+[Gitter](https://gitter.im/garyKeorkunian/squants)
 
 ### Current Versions
 Current Release: **0.6.2**
