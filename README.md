@@ -777,7 +777,7 @@ trait LoadRoute extends HttpService {
 
 ## Code of Conduct
 
-Squants is a ([Typelevel](http://typelevel.org/)) Incubator Project and, as such, supports the Typelevel Code of Conduct.
+Squants is a [Typelevel](http://typelevel.org/) Incubator Project and, as such, supports the Typelevel Code of Conduct.
 
 ## Caveats
 
