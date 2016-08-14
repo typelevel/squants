@@ -8,10 +8,13 @@
 
 package squants.market
 
-import org.scalatest.{ Matchers, FlatSpec }
-import scala.language.postfixOps
-import squants.mass.Kilograms
+import org.scalatest.{ FlatSpec, Matchers }
 import squants.QuantityParseException
+import squants.mass.Kilograms
+import squants.space.Meters
+import squants.time.Hours
+
+import scala.language.postfixOps
 
 /**
  * @author  garyKeorkunian
@@ -419,5 +422,17 @@ class MoneySpec extends FlatSpec with Matchers {
 
     val ms2 = List(USD(100), CAD(100), JPY(100))
     ms2.sum should be(USD(111))
+  }
+
+  it should "return price when dividing by quantity" in {
+    val m = USD(100)
+    val t = Hours(1)
+
+    (m / t) should be(Price(USD(100), Hours(1)))
+  }
+
+  it should "return quantity when dividing by price" in {
+    val p = Price(Money(10, "USD"), Meters(1))
+    Money(40, "USD") / p should be(Meters(4))
   }
 }

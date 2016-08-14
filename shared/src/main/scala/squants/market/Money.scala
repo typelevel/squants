@@ -180,6 +180,14 @@ final class Money private (val amount: BigDecimal)(val currency: Currency)
   def /[A <: Quantity[A]](that: A): Price[A] = Price(this, that)
 
   /**
+   * Divide this money by a Price and return Quantity
+   * @param that Price
+   * @tparam A Quantity Type
+   * @return A
+   */
+  def /[A <: Quantity[A]](that: Price[A]): A = that.quantity * (this / that.money).toDouble
+
+  /**
    * Override for Quantity.divide to only work on Moneys of like Currency
    * Cross currency subtractions should use moneyMinus
    *
