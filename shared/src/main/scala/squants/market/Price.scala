@@ -60,7 +60,8 @@ case class Price[A <: Quantity[A]](money: Money, quantity: A) extends Ratio[Mone
    * @param that Money
    * @return
    */
-  def *(that: Money): A = convertToCounter(that)
+  @deprecated("Use `money / price` instead", "0.6.3")
+  def *(that: Money): A = that / this
 
   override def toString = money.toString + "/" + quantity.toString
 
