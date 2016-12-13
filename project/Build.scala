@@ -5,19 +5,19 @@ import com.typesafe.sbt.osgi.SbtOsgi
 import com.typesafe.sbt.osgi.SbtOsgi.autoImport._
 
 object Versions {
-  val Squants = "0.6.2"
-  val Scala = "2.11.7"
-  val ScalaCross = Seq("2.11.7", "2.10.6")
+  val Squants = "0.6.3"
+  val Scala = "2.11.8"
+  val ScalaCross = Seq("2.12.1", "2.11.8", "2.10.6")
 
-  val ScalaTest = "3.0.0-M12"
-  val ScalaCheck = "1.12.5"
-  val Json4s = "3.3.0"
+  val ScalaTest = "3.0.1"
+  val ScalaCheck = "1.13.4"
+  val Json4s = "3.5.0"
 }
 
 object Dependencies {
-  val scalaTest = Def.setting(Seq("org.scalatest" %%% "scalatest" % Versions.ScalaTest % "test"))
-  val scalaCheck = Def.setting(Seq("org.scalacheck" %%% "scalacheck" % Versions.ScalaCheck % "test"))
-  val json4s = Def.setting(Seq("org.json4s" %% "json4s-native" % Versions.Json4s % "test"))
+  val scalaTest = Def.setting(Seq("org.scalatest" %%% "scalatest" % Versions.ScalaTest % Test))
+  val scalaCheck = Def.setting(Seq("org.scalacheck" %%% "scalacheck" % Versions.ScalaCheck % Test))
+  val json4s = Def.setting(Seq("org.json4s" %% "json4s-native" % Versions.Json4s % Test))
 }
 
 object Resolvers {
@@ -231,8 +231,11 @@ object SquantsBuild extends Build {
       osgiSettings: _*
     )
     .jsSettings(
-      excludeFilter in Test := "*Serializer.scala" || "*SerializerSpec.scala"
-    )
+      parallelExecution in Test := false,
+      excludeFilter in Test := "*Serializer.scala" || "*SerializerSpec.scala",
+      scalaJSUseRhino in Test := false,
+      requiresDOM in Test  := false,
+      jsEnv in Test := NodeJSEnv().value    )
 
  	lazy val squantsJVM = squants.jvm.enablePlugins(SbtOsgi)
  	lazy val squantsJS = squants.js
