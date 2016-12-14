@@ -122,7 +122,6 @@ object Formatting {
       .setPreference(IndentSpaces, 2)
       .setPreference(MultilineScaladocCommentsStartOnFirstLine, false)
       .setPreference(PreserveSpaceBeforeArguments, false)
-      .setPreference(PreserveDanglingCloseParenthesis, false)
       .setPreference(RewriteArrowSymbols, true)
       .setPreference(SpaceBeforeColon, false)
       .setPreference(SpaceInsideBrackets, false)
@@ -205,36 +204,11 @@ object Console {
 object Docs {
   private def gitHash = sys.process.Process("git rev-parse HEAD").lines_!.head
   val defaultSettings = Seq(
-    scalacOptions in (Compile, doc) <++= (baseDirectory in LocalRootProject, version) map {(bd, v) =>
+    scalacOptions in (Compile, doc) ++= {
+      val (bd, v) = ((baseDirectory in LocalRootProject).value, version.value)
       val tagOrBranch = if(v endsWith "SNAPSHOT") gitHash else "v" + v
       Seq("-sourcepath", bd.getAbsolutePath, "-doc-source-url", "https://github.com/garyKeorkunian/squants/tree/" + tagOrBranch + "€{FILE_PATH}.scala")
     }
   )
 }
 
-object SquantsBuild extends Build {
-
-  lazy val defaultSettings =
-    Project.defaultSettings ++
-    Compiler.defaultSettings ++
-    Publish.defaultSettings ++
-    Tests.defaultSettings ++
-    Formatting.defaultSettings ++
-    Console.defaultSettings ++
-    Docs.defaultSettings
-
-  lazy val squants = crossProject
-    .crossType(CrossType.Full)
-    .in(file("."))
-    .settings(defaultSettings: _*)
-    .jvmSettings(
-      osgiSettings: _*
-    )
-    .jsSettings(
-      parallelExecution in Test := false,
-      excludeFilter in Test := "*Serializer.scala" || "*SerializerSpec.scala"
-    )
-
-  lazy val squantsJVM = squants.jvm.enablePlugins(SbtOsgi)
-  lazy val squantsJS = squants.js
-}
