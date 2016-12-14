@@ -5,7 +5,7 @@ import com.typesafe.sbt.osgi.SbtOsgi
 import com.typesafe.sbt.osgi.SbtOsgi.autoImport._
 
 object Versions {
-  val Squants = "0.7.1-SNAPSHOT"
+  val Squants = "1.0.0-SNAPSHOT"
   val Scala = "2.11.8"
   val ScalaCross = Seq("2.12.1", "2.11.8", "2.10.6")
 
@@ -29,7 +29,7 @@ object Resolvers {
 
 object Project {
   val defaultSettings = Seq(
-    organization in ThisBuild := "com.squants",
+    organization in ThisBuild := "org.typelevel",
 
     name := "Squants",
 
