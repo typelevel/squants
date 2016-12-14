@@ -346,8 +346,8 @@ class MoneySpec extends FlatSpec with Matchers {
 
   it should "return properly formatted strings in different currency with an implicit MoneyContext in scope" in {
     implicit val moneyContext = MoneyContext(USD, defaultCurrencySet, Seq(USD(1) toThe JPY(100)))
-    USD(10).toString(JPY) should be("1000.00 JPY")
-    USD(10).toFormattedString(JPY) should be("¥1000.00")
+    USD(10).toString(JPY) should be("1000 JPY")
+    USD(10).toFormattedString(JPY) should be("¥1000")
   }
 
   it should "return a properly sorted list of Moneys" in {
