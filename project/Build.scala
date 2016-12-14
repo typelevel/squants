@@ -232,12 +232,9 @@ object SquantsBuild extends Build {
     )
     .jsSettings(
       parallelExecution in Test := false,
-      excludeFilter in Test := "*Serializer.scala" || "*SerializerSpec.scala",
-      scalaJSUseRhino in Test := false,
-      requiresDOM in Test  := false,
-      jsEnv in Test := NodeJSEnv().value
+      excludeFilter in Test := "*Serializer.scala" || "*SerializerSpec.scala"
     )
 
- 	lazy val squantsJVM = squants.jvm.enablePlugins(SbtOsgi)
- 	lazy val squantsJS = squants.js
+  lazy val squantsJVM = squants.jvm.enablePlugins(SbtOsgi)
+  lazy val squantsJS = squants.js
 }
