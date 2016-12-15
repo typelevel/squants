@@ -19,5 +19,14 @@ lazy val squants = crossProject
     excludeFilter in Test := "*Serializer.scala" || "*SerializerSpec.scala"
   )
 
+lazy val root = project.in(file("."))
+  .settings(defaultSettings: _*)
+  .settings(
+    name := "squants",
+    publish := {},
+    publishLocal := {},
+    publishArtifact := false
+  )
+
 lazy val squantsJVM = squants.jvm.enablePlugins(SbtOsgi)
 lazy val squantsJS = squants.js

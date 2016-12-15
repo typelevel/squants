@@ -9,11 +9,11 @@ All types are immutable and thread-safe.
 
 [Website](http:/www.squants.com/)
 |
-[GitHub](https://github.com/garyKeorkunian/squants)
+[GitHub](https://github.com/typelevel/squants)
 |
 [User Forum](https://groups.google.com/forum/#!forum/squants)
 |
-[Wiki](https://github.com/garyKeorkunian/squants/wiki)
+[Wiki](https://github.com/typelevel/squants/wiki)
 
 [![Join the chat at https://gitter.im/garyKeorkunian/squants](https://badges.gitter.im/garyKeorkunian/squants.svg)](https://gitter.im/garyKeorkunian/squants?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
@@ -21,10 +21,10 @@ All types are immutable and thread-safe.
 Current Release: **0.6.2**
 ([API Docs](https://oss.sonatype.org/service/local/repositories/releases/archive/com/squants/squants_2.11/0.6.2/squants_2.11-0.6.2-javadoc.jar/!/index.html#squants.package))
 
-Development Build: **0.7.1-SNAPSHOT**
-([API Docs](https://oss.sonatype.org/service/local/repositories/snapshots/archive/com/squants/squants_2.11/0.7.1-SNAPSHOT/squants_2.11-0.7.1-SNAPSHOT-javadoc.jar/!/index.html#squants.package))
+Development Build: **1.0.0-SNAPSHOT**
+([API Docs](https://oss.sonatype.org/service/local/repositories/snapshots/archive/org/typelevel/squants_2.11/1.0.0-SNAPSHOT/squants_2.11-1.0.0-SNAPSHOT-javadoc.jar/!/index.html#squants.package))
 
-[Release History](https://github.com/garyKeorkunian/squants/wiki/Release-History)
+[Release History](https://github.com/typelevel/squants/wiki/Release-History)
 
 [![Build Status](https://travis-ci.org/garyKeorkunian/squants.png?branch=master)](https://travis-ci.org/garyKeorkunian/squants)
 
@@ -40,24 +40,25 @@ To use Squants in your SBT project add the following dependency to your build.
     "com.squants"  %% "squants"  % "0.6.2"
 or
 
-    "com.squants"  %% "squants"  % "0.7.1-SNAPSHOT"
+    "org.typelevel"  %% "squants"  % "1.0.0-SNAPSHOT"
 
 
 To use Squants in your Maven project add the following dependency
 
 ```xml
 <dependency>
-    <groupId>com.squants</groupId>
+    <groupId>org.typelevel</groupId>
     <artifactId>squants_2.11</artifactId>
-    <version>0.6.2</version>
+    <version>1.0.0-SNAPSHOT</version>
 </dependency>
 ```
 
 Beginning with Squants 0.4.x series, both Scala 2.10 and 2.11 builds are available.
+Beginning with Squants 1.0.0 series, Scala 2.10, 2.11 and 2.12 builds are available.
 
 To use Squants interactively in the Scala REPL, clone the git repo and run `sbt squantsJVM/console`
 
-    git clone https://github.com/garyKeorkunian/squants
+    git clone https://github.com/typelevel/squants
     cd squants
     sbt squantsJVM/console
 
@@ -776,6 +777,9 @@ trait LoadRoute extends HttpService {
 * Josh Lemer ([joshlemer](https://github.com/joshlemer))
 * Dave DeCarpio ([DaveDeCaprio](https://github.com/DaveDeCaprio))
 * Carlos Quiroz ([cquiroz](https://github.com/cquiroz))
+* Szabolcs Berecz ([khernyo](https://github.com/khernyo))
+* Matt Hicks ([darkfrog26](https://github.com/darkfrog26))
+* golem131 ([golem131](https://github.com/golem131))
 
 ## Code of Conduct
 

@@ -47,7 +47,7 @@ before_cache:
 
 script:
   # Your normal script
-  - sbt ++$TRAVIS_SCALA_VERSION test:compile test:fastOptJS
+  - sbt ++$TRAVIS_SCALA_VERSION test:compile squantsJS/fastOptJS
   - sbt ++$TRAVIS_SCALA_VERSION squantsJS/test squantsJVM/test
 
   # Tricks to avoid unnecessary cache updates
