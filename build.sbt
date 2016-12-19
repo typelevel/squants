@@ -27,6 +27,7 @@ lazy val root = project.in(file("."))
     publishLocal := {},
     publishArtifact := false
   )
+  .aggregate(squantsJVM, squantsJS)
 
 lazy val squantsJVM = squants.jvm.enablePlugins(SbtOsgi)
 lazy val squantsJS = squants.js
