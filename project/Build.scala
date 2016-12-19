@@ -54,7 +54,12 @@ object Project {
 
 object Compiler {
   val defaultSettings = Seq(
-    scalacOptions in ThisBuild ++= Seq("-feature", "-deprecation"),
+    scalacOptions in ThisBuild ++= Seq(
+      "-feature",
+      "-deprecation",
+      "-encoding", "UTF-8",       // yes, this is 2 args
+      "-Xfatal-warnings"
+    ),
 
     scalaVersion in ThisBuild := Versions.Scala,
 
