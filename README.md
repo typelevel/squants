@@ -789,3 +789,21 @@ Squants is a [Typelevel](http://typelevel.org/) Incubator Project and, as such, 
 
 Code is offered as-is, with no implied warranty of any kind.
 Comments, criticisms, and/or praise are welcome, especially from scientists, engineers and the like.
+
+# Release procedure
+
+Making a release requires permission to publish to sonatype, and a properly setup [signing key](http://www.scala-sbt.org/sbt-pgp/usage.html):
+
+To make a release do the following:
+
+* Ensure the version is not set to `SNAPSHOT`
+
+* Publish a cross-version signed package
+```
+  sbt +publishSigned
+```
+
+* Then make a release (Note: after this step the release cannot be replaced)
+```
+  sbt sonatypeRelease
+```
