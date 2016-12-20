@@ -77,9 +77,9 @@ class PriceSpec extends FlatSpec with Matchers {
     p * Meters(10) should be(Money(100, "USD"))
   }
 
-  it should "return Quantity when multiplied by Money" in {
+  it should "return Quantity when divided by Money" in {
     val p = Price(Money(10, "USD"), Meters(1))
-    p * Money(40, "USD") should be(Meters(4))
+    Money(40, "USD") / p should be(Meters(4))
   }
 
   it should "return properly formatted strings" in {
