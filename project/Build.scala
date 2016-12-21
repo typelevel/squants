@@ -83,8 +83,8 @@ object Publish {
     pomIncludeRepository := { _ => false },
 
     pomExtra := <scm>
-      <url>git@github.com:garyKeorkunian/squants.git</url>
-      <connection>scm:git:git@github.com:garyKeorkunian/squants.git</connection>
+      <url>git@github.com:typelevel/squants.git</url>
+      <connection>scm:git:git@github.com:typelevel/squants.git</connection>
     </scm>
       <developers>
         <developer>
@@ -216,4 +216,3 @@ object Docs {
     }
   )
 }
-
