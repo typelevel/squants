@@ -39,6 +39,8 @@ object Project {
 
     homepage := Some(url("http://www.squants.com/")),
 
+    autoAPIMappings := true,
+
     resolvers ++= Seq(
         Resolvers.typeSafeRepo,
         Resolvers.sonatypeNexusSnapshots,

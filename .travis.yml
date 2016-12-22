@@ -49,6 +49,7 @@ script:
   # Your normal script
   - sbt ++$TRAVIS_SCALA_VERSION test:compile squantsJS/fastOptJS
   - sbt ++$TRAVIS_SCALA_VERSION squantsJS/test squantsJVM/test
+  - sbt ++$TRAVIS_SCALA_VERSION doc
 
   # Tricks to avoid unnecessary cache updates
   - find $HOME/.sbt -name "*.lock" | xargs rm
