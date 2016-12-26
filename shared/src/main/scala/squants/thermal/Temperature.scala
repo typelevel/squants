@@ -33,13 +33,16 @@ import scala.util.{ Failure, Success, Try }
  * Of course, these scales set their respective zero values well above absolute zero.
  * This is done to provide a granular and reasonably sized ranges of values for dealing with everyday temperatures.
  *
+ * This library supports another absolute scale, the Rankine scale. Rankine sets its zero at absolute zero,
+ * but degrees are measure in Fahrenheit (as opposed to Celsius, as the Kelvin scale uses).
+ *
  * In consideration of these more unique scale conversions, two conversion types are supported: Degrees and Scale.
  *
  * Scale based conversions DO adjust for the zero offset.
- * Thus 5 degrees C is the same as 41 degrees F on the thermometer.
+ * Thus 5 degrees C is the same as 41 degrees F on the thermometer.s
  *
  * Degrees based conversions DO NOT adjust for the zero point.
- * Thus 5 degrees C|K is the same amount of temperature as 9 degrees F.
+ * Thus 5 degrees C|K is the same amount of temperature as 9 degrees F|R.
  *
  * When creating a temperature it is not important to consider these differences.
  * It is also irrelevant when performing operation on temperatures in the same scale.
@@ -84,6 +87,7 @@ final class Temperature private (val value: Double, val unit: TemperatureScale)
     case (Fahrenheit, Fahrenheit, _)  ⇒ this
     case (Celsius, Celsius, _)        ⇒ this
     case (Kelvin, Kelvin, _)          ⇒ this
+    case (Rankine, Rankine, _)        ⇒ this
 
     case (Fahrenheit, Celsius, true)  ⇒ Celsius(TemperatureConversions.fahrenheitToCelsiusScale(value))
     case (Celsius, Fahrenheit, true)  ⇒ Fahrenheit(TemperatureConversions.celsiusToFahrenheitScale(value))
@@ -91,6 +95,13 @@ final class Temperature private (val value: Double, val unit: TemperatureScale)
     case (Kelvin, Celsius, true)      ⇒ Celsius(TemperatureConversions.kelvinToCelsiusScale(value))
     case (Fahrenheit, Kelvin, true)   ⇒ Kelvin(TemperatureConversions.fahrenheitToKelvinScale(value))
     case (Kelvin, Fahrenheit, true)   ⇒ Fahrenheit(TemperatureConversions.kelvinToFahrenheitScale(value))
+    case (Fahrenheit, Rankine, true)  ⇒ Rankine(TemperatureConversions.fahrenheitToRankineScale(value))
+    case (Rankine, Fahrenheit, true)  ⇒ Fahrenheit(TemperatureConversions.rankineToFahrenheitScale(value))
+    case (Celsius, Rankine, true)     ⇒ Rankine(TemperatureConversions.celsiusToRankineScale(value))
+    case (Rankine, Celsius, true)     ⇒ Celsius(TemperatureConversions.rankineToCelsiusScale(value))
+    case (Kelvin, Rankine, true)      ⇒ Rankine(TemperatureConversions.kelvinToRankineScale(value))
+    case (Rankine, Kelvin, true)      ⇒ Kelvin(TemperatureConversions.rankineToKelvinScale(value))
+
 
     case (Fahrenheit, Celsius, false) ⇒ Celsius(TemperatureConversions.fahrenheitToCelsiusDegrees(value))
     case (Celsius, Fahrenheit, false) ⇒ Fahrenheit(TemperatureConversions.celsiusToFahrenheitDegrees(value))
@@ -98,6 +109,12 @@ final class Temperature private (val value: Double, val unit: TemperatureScale)
     case (Kelvin, Celsius, false)     ⇒ Celsius(TemperatureConversions.kelvinToCelsiusDegrees(value))
     case (Fahrenheit, Kelvin, false)  ⇒ Kelvin(TemperatureConversions.fahrenheitToKelvinDegrees(value))
     case (Kelvin, Fahrenheit, false)  ⇒ Fahrenheit(TemperatureConversions.kelvinToFahrenheitDegrees(value))
+    case (Fahrenheit, Rankine, false) ⇒ Rankine(TemperatureConversions.fahrenheitToRankineDegrees(value))
+    case (Rankine, Fahrenheit, false) ⇒ Fahrenheit(TemperatureConversions.rankineToFahrenheitDegrees(value))
+    case (Celsius, Rankine, false)    ⇒ Rankine(TemperatureConversions.celsiusToRankineDegrees(value))
+    case (Rankine, Celsius, false)    ⇒ Celsius(TemperatureConversions.rankineToCelsiusDegrees(value))
+    case (Kelvin, Rankine, false)     ⇒ Rankine(TemperatureConversions.kelvinToRankineDegrees(value))
+    case (Rankine, Kelvin, false)     ⇒ Kelvin(TemperatureConversions.rankineToKelvinDegrees(value))
   }
 
   def in(unit: TemperatureScale) = convert(unit, withOffset = true)
@@ -124,7 +141,7 @@ object Temperature extends Dimension[Temperature] with BaseDimension {
   def apply[A](n: A, scale: TemperatureScale)(implicit num: Numeric[A]) = new Temperature(num.toDouble(n), scale)
 
   def apply(s: String): Try[Temperature] = {
-    val regex = "([-+]?[0-9]*\\.?[0-9]+)[ °]*(f|F|c|C|k|K)".r
+    val regex = "([-+]?[0-9]*\\.?[0-9]+)[ °]*(f|F|c|C|k|K|r|R)".r
     s match {
       case regex(value, Fahrenheit.symbol) ⇒ Success(Fahrenheit(value.toDouble))
       case regex(value, "f")               ⇒ Success(Fahrenheit(value.toDouble))
@@ -135,6 +152,9 @@ object Temperature extends Dimension[Temperature] with BaseDimension {
       case regex(value, Kelvin.symbol)     ⇒ Success(Kelvin(value.toDouble))
       case regex(value, "k")               ⇒ Success(Kelvin(value.toDouble))
       case regex(value, "K")               ⇒ Success(Kelvin(value.toDouble))
+      case regex(value, Rankine.symbol)    ⇒ Success(Rankine(value.toDouble))
+      case regex(value, "r")               ⇒ Success(Rankine(value.toDouble))
+      case regex(value, "R")               ⇒ Success(Rankine(value.toDouble))
       case _                               ⇒ Failure(QuantityParseException("Unable to parse Temperature", s))
     }
   }
@@ -142,7 +162,7 @@ object Temperature extends Dimension[Temperature] with BaseDimension {
   def name = "Temperature"
   def primaryUnit = Kelvin
   def siUnit = Kelvin
-  def units = Set(Kelvin, Fahrenheit, Celsius)
+  def units = Set(Kelvin, Fahrenheit, Celsius, Rankine)
   def dimensionSymbol = "Θ"
 }
 
@@ -176,10 +196,19 @@ object Kelvin extends TemperatureScale with PrimaryUnit with SiBaseUnit {
   def apply(temperature: Temperature): Temperature = temperature.inKelvin
 }
 
+object Rankine extends TemperatureScale {
+  val symbol = "°R"
+  val self = this
+  protected def converterFrom = TemperatureConversions.rankineToKelvinScale
+  protected def converterTo = TemperatureConversions.kelvinToRankineScale
+  def apply(temperature: Temperature): Temperature = temperature.in(Rankine)
+}
+
 object TemperatureConversions {
   lazy val kelvin = Kelvin(1)
   lazy val fahrenheit = Fahrenheit(1)
   lazy val celsius = Celsius(1)
+  lazy val rankine = Rankine(1)
 
   /*
    * Degree conversions are used to convert a quantity of degrees from one scale to another.
@@ -192,6 +221,13 @@ object TemperatureConversions {
   def kelvinToCelsiusDegrees(kelvin: Double) = kelvin
   def fahrenheitToKelvinDegrees(fahrenheit: Double) = fahrenheit * 5d / 9d
   def kelvinToFahrenheitDegrees(kelvin: Double) = kelvin * 9d / 5d
+  def celsiusToRankineDegrees(celsius: Double) = celsius * 9d / 5d
+  def rankineToCelsiusDegrees(rankine: Double) = rankine * 5d / 9d
+  def fahrenheitToRankineDegrees(fahrenheit: Double) = fahrenheit
+  def rankineToFahrenheitDegrees(rankine: Double) = rankine
+  def kelvinToRankineDegrees(kelvin: Double) = kelvin * 9d / 5d
+  def rankineToKelvinDegrees(rankine: Double) = rankine * 5d / 9d
+
 
   /*
    * Scale conversions are used to convert a "thermometer" temperature from one scale to another.
@@ -204,6 +240,12 @@ object TemperatureConversions {
   def kelvinToCelsiusScale(kelvin: Double) = kelvin - 273.15
   def fahrenheitToKelvinScale(fahrenheit: Double) = (fahrenheit + 459.67) * 5d / 9d
   def kelvinToFahrenheitScale(kelvin: Double) = kelvin * 9d / 5d - 459.67
+  def celsiusToRankineScale(celsius: Double) = (celsius + 273.15) * 9d / 5d
+  def rankineToCelsiusScale(rankine: Double) = (rankine - 491.67) * 5d / 9d
+  def fahrenheitToRankineScale(fahrenheit: Double) = fahrenheit + 459.67
+  def rankineToFahrenheitScale(rankine: Double) = rankine - 459.67
+  def kelvinToRankineScale(kelvin: Double) = kelvin * 9d / 5d
+  def rankineToKelvinScale(rankine: Double) = rankine * 5d / 9d
 
   implicit class TemperatureConversions[A](n: A)(implicit num: Numeric[A]) {
     def C = Celsius(n)
@@ -216,6 +258,9 @@ object TemperatureConversions {
     def K = Kelvin(n)
     def kelvin = Kelvin(n)
     def degreesKelvin = Kelvin(n)
+    def R = Rankine(n)
+    def rankine = Rankine(n)
+    def degreesRankine = Rankine(n)
   }
 
   implicit class TemperatureStringConversion(s: String) {
