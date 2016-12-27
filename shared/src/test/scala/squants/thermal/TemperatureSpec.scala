@@ -121,7 +121,7 @@ class TemperatureSpec extends FlatSpec with Matchers {
     x.inFahrenheit should be(Fahrenheit(32))
     x.in(Kelvin) should be(Kelvin(273.15))
     x.in(Fahrenheit) should be(Fahrenheit(32))
-    (x.in(Rankine) - Rankine(491.67)).value < 0.000000000001 should be(right = true)
+    x.in(Rankine).value should be(491.67 +- 0.000000000001)
   }
 
   they should "properly plus Temperatures in like scale (Scale + Degrees)" in {

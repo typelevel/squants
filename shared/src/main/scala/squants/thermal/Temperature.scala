@@ -39,7 +39,7 @@ import scala.util.{ Failure, Success, Try }
  * In consideration of these more unique scale conversions, two conversion types are supported: Degrees and Scale.
  *
  * Scale based conversions DO adjust for the zero offset.
- * Thus 5 degrees C is the same as 41 degrees F on the thermometer.s
+ * Thus 5 degrees C is the same as 41 degrees F on the thermometer.
  *
  * Degrees based conversions DO NOT adjust for the zero point.
  * Thus 5 degrees C|K is the same amount of temperature as 9 degrees F|R.
