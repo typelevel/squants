@@ -125,6 +125,24 @@ abstract class Quantity[A <: Quantity[A]] extends Serializable with Ordered[A] {
   def abs: A = unit(math.abs(value))
 
   /**
+   * Returns the ceil value of this Quantity
+   * @return Quantity
+   */
+  def ceil: A = unit(math.ceil(value))
+
+  /**
+   * Returns the floor value of this Quantity
+   * @return Quantity
+   */
+  def floor: A = unit(math.floor(value))
+
+  /**
+   * Returns the rint value of this Quantity
+   * @return Quantity
+   */
+  def rint: A = unit(math.rint(value))
+
+  /**
    * Override of equals method
    *
    * @param that must be of matching value and unit
