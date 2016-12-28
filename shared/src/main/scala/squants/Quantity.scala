@@ -125,19 +125,25 @@ abstract class Quantity[A <: Quantity[A]] extends Serializable with Ordered[A] {
   def abs: A = unit(math.abs(value))
 
   /**
-   * Returns the ceil value of this Quantity
+   * Returns the smallest (closest to negative infinity) Quantity value that is greater than or equal to the argument and is equal to a mathematical integer.
+   *
+   * @see java.lang.Math#ceil(double)
    * @return Quantity
    */
   def ceil: A = unit(math.ceil(value))
 
   /**
-   * Returns the floor value of this Quantity
+   * Returns the largest (closest to positive infinity) Quantity value that is less than or equal to the argument and is equal to a mathematical integer
+   *
+   * @see java.lang.Math#floor(double)
    * @return Quantity
    */
   def floor: A = unit(math.floor(value))
 
   /**
-   * Returns the rint value of this Quantity
+   * Returns the Quantity value that is closest in value to the argument and is equal to a mathematical integer.
+   *
+   * @see java.lang.Math#rint(double)
    * @return Quantity
    */
   def rint: A = unit(math.rint(value))
