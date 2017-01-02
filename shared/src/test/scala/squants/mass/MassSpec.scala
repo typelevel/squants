@@ -35,13 +35,13 @@ class MassSpec extends FlatSpec with Matchers {
     Pounds(10.22).toPounds should be(10.22)
     Kilopounds(10.22).toKilopounds should be(10.22)
     Megapounds(10.22).toMegapounds should be(10.22)
+    Stone(10.22).toStone should be(10.22)
     TroyGrains(10.22).toTroyGrains should be(10.22)
     Pennyweights(10.22).toPennyweights should be(10.22)
     TroyOunces(10.22).toTroyOunces should be(10.22)
     TroyPounds(10.22).toTroyPounds should be(10.22)
     Tolas(10.22).toTolas should be(10.22)
     Carats(10.22).toCarats should be(10.22)
-
   }
 
   it should "create values from properly formatted Strings" in {
@@ -54,6 +54,7 @@ class MassSpec extends FlatSpec with Matchers {
     Mass("10.22 lb").get should be(Pounds(10.22))
     Mass("10.22 klb").get should be(Kilopounds(10.22))
     Mass("10.22 Mlb").get should be(Megapounds(10.22))
+    Mass("10.22 st").get should be(Stone(10.22))
     Mass("10.22 gr").get should be(TroyGrains(10.22))
     Mass("10.22 dwt").get should be(Pennyweights(10.22))
     Mass("10.22 oz t").get should be(TroyOunces(10.22))
@@ -82,6 +83,7 @@ class MassSpec extends FlatSpec with Matchers {
     Grams(1000) should be(Kilograms(1))
     Kilograms(0.45359237) should be(Pounds(1))
     Ounces(16) should be(Pounds(1))
+    Pounds(14) should be(Stone(1))
 
     TroyOunces(12) should be(TroyPounds(1))
     TroyGrains(180) should be(Tolas(1))
@@ -100,6 +102,7 @@ class MassSpec extends FlatSpec with Matchers {
     Tonnes(1).toString(Tonnes) should be("1.0 t")
     Pounds(1).toString(Pounds) should be("1.0 lb")
     Ounces(1).toString(Ounces) should be("1.0 oz")
+    Stone(1).toString(Stone) should be("1.0 st")
 
     TroyGrains(1).toString(TroyGrains) should be("1.0 gr")
     Pennyweights(1).toString(Pennyweights) should be("1.0 dwt")
@@ -153,6 +156,7 @@ class MassSpec extends FlatSpec with Matchers {
     tonne should be(Tonnes(1))
     pound should be(Pounds(1))
     ounce should be(Ounces(1))
+    stone should be(Stone(1))
 
     troyGrain should be(TroyGrains(1))
     pennyweight should be(Pennyweights(1))
@@ -176,6 +180,7 @@ class MassSpec extends FlatSpec with Matchers {
     d.tonnes should be(Tonnes(d))
     d.pounds should be(Pounds(d))
     d.ounces should be(Ounces(d))
+    d.stone should be(Stone(d))
 
     d.troyGrains should be(TroyGrains(d))
     d.dwt should be(Pennyweights(d))
@@ -207,6 +212,7 @@ class MassSpec extends FlatSpec with Matchers {
     "10.45 t".toMass.get should be(Tonnes(10.45))
     "10.45 lb".toMass.get should be(Pounds(10.45))
     "10.45 oz".toMass.get should be(Ounces(10.45))
+    "10.45 st".toMass.get should be(Stone(10.45))
     "10.45 gr".toMass.get should be(TroyGrains(10.45))
     "10.45 dwt".toMass.get should be(Pennyweights(10.45))
     "10.45 oz t".toMass.get should be(TroyOunces(10.45))
