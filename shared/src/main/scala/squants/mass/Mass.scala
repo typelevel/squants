@@ -48,6 +48,12 @@ final class Mass private (val value: Double, val unit: MassUnit)
   def toPounds = to(Pounds)
   def toKilopounds = to(Kilopounds)
   def toMegapounds = to(Megapounds)
+  def toTroyGrains = to(TroyGrains)
+  def toPennyweights = to(Pennyweights)
+  def toTroyOunces = to(TroyOunces)
+  def toTroyPounds = to(TroyPounds)
+  def toTolas = to(Tolas)
+  def toCarats = to(Carats)
 }
 
 /**
@@ -59,7 +65,8 @@ object Mass extends Dimension[Mass] with BaseDimension {
   def name = "Mass"
   def primaryUnit = Grams
   def siUnit = Kilograms
-  def units = Set(Micrograms, Milligrams, Grams, Kilograms, Tonnes, Ounces, Pounds, Kilopounds, Megapounds)
+  def units = Set(Micrograms, Milligrams, Grams, Kilograms, Tonnes, Ounces, Pounds, Kilopounds, Megapounds,
+    TroyGrains, Pennyweights, TroyOunces, TroyPounds, Tolas, Carats)
   def dimensionSymbol = "M"
 }
 
@@ -114,6 +121,36 @@ object Megapounds extends MassUnit {
   val symbol = "Mlb"
 }
 
+object TroyGrains extends MassUnit {
+  val conversionFactor = 64.79891 * Milligrams.conversionFactor
+  val symbol = "gr"
+}
+
+object Pennyweights extends MassUnit {
+  val conversionFactor = 24d * TroyGrains.conversionFactor
+  val symbol = "dwt"
+}
+
+object TroyOunces extends MassUnit {
+  val conversionFactor = 480d * TroyGrains.conversionFactor
+  val symbol = "oz t"
+}
+
+object TroyPounds extends MassUnit {
+  val conversionFactor = 12d * TroyOunces.conversionFactor
+  val symbol = "lb t"
+}
+
+object Tolas extends MassUnit {
+  val conversionFactor = 180d * TroyGrains.conversionFactor
+  val symbol = "tola"
+}
+
+object Carats extends MassUnit {
+  val conversionFactor = 200d * Milligrams.conversionFactor
+  val symbol = "ct"
+}
+
 /**
  * Implicit conversions for [[squants.mass.Mass]]
  *
@@ -129,6 +166,12 @@ object MassConversions {
   lazy val pound = Pounds(1)
   lazy val kilopound = Kilopounds(1)
   lazy val megapound = Megapounds(1)
+  lazy val troyGrain = TroyGrains(1)
+  lazy val pennyweight = Pennyweights(1)
+  lazy val troyOunce = TroyOunces(1)
+  lazy val troyPound = TroyPounds(1)
+  lazy val tola = Tolas(1)
+  lazy val carat = Carats(1)
 
   implicit class MassConversions[A](n: A)(implicit num: Numeric[A]) {
     def mcg = Micrograms(n)
@@ -143,6 +186,14 @@ object MassConversions {
     def pounds = Pounds(n)
     def kilopounds = Kilopounds(n)
     def megapounds = Megapounds(n)
+    def troyGrains = TroyGrains(n)
+    def dwt = Pennyweights(n)
+    def pennyweights = Pennyweights(n)
+    def troyOunces = TroyOunces(n)
+    def troyPounds = TroyPounds(n)
+    def tolas = Tolas(n)
+    def ct = Carats(n)
+    def carats = Carats(n)
   }
 
   implicit class MassStringConversions(val s: String) {
