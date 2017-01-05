@@ -48,6 +48,7 @@ final class Mass private (val value: Double, val unit: MassUnit)
   def toPounds = to(Pounds)
   def toKilopounds = to(Kilopounds)
   def toMegapounds = to(Megapounds)
+  def toStone = to(Stone)
   def toTroyGrains = to(TroyGrains)
   def toPennyweights = to(Pennyweights)
   def toTroyOunces = to(TroyOunces)
@@ -65,7 +66,7 @@ object Mass extends Dimension[Mass] with BaseDimension {
   def name = "Mass"
   def primaryUnit = Grams
   def siUnit = Kilograms
-  def units = Set(Micrograms, Milligrams, Grams, Kilograms, Tonnes, Ounces, Pounds, Kilopounds, Megapounds,
+  def units = Set(Micrograms, Milligrams, Grams, Kilograms, Tonnes, Ounces, Pounds, Kilopounds, Megapounds, Stone,
     TroyGrains, Pennyweights, TroyOunces, TroyPounds, Tolas, Carats)
   def dimensionSymbol = "M"
 }
@@ -121,6 +122,11 @@ object Megapounds extends MassUnit {
   val symbol = "Mlb"
 }
 
+object Stone extends MassUnit {
+  val conversionFactor = Pounds.conversionFactor * 14d
+  val symbol = "st"
+}
+
 object TroyGrains extends MassUnit {
   val conversionFactor = 64.79891 * Milligrams.conversionFactor
   val symbol = "gr"
@@ -166,6 +172,7 @@ object MassConversions {
   lazy val pound = Pounds(1)
   lazy val kilopound = Kilopounds(1)
   lazy val megapound = Megapounds(1)
+  lazy val stone = Stone(1)
   lazy val troyGrain = TroyGrains(1)
   lazy val pennyweight = Pennyweights(1)
   lazy val troyOunce = TroyOunces(1)
@@ -186,6 +193,7 @@ object MassConversions {
     def pounds = Pounds(n)
     def kilopounds = Kilopounds(n)
     def megapounds = Megapounds(n)
+    def stone = Stone(n)
     def troyGrains = TroyGrains(n)
     def dwt = Pennyweights(n)
     def pennyweights = Pennyweights(n)
