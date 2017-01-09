@@ -11,18 +11,16 @@ All types are immutable and thread-safe.
 |
 [GitHub](https://github.com/typelevel/squants)
 |
-[User Forum](https://groups.google.com/forum/#!forum/squants)
-|
 [Wiki](https://github.com/typelevel/squants/wiki)
 
 [![Join the chat at https://gitter.im/garyKeorkunian/squants](https://badges.gitter.im/garyKeorkunian/squants.svg)](https://gitter.im/garyKeorkunian/squants?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ### Current Versions
-Current Release: **1.0.0**
-([API Docs](https://oss.sonatype.org/service/local/repositories/releases/archive/org/typelevel/squants_2.11/1.0.0/squants_2.11-1.0.0-javadoc.jar/!/index.html#squants.package))
+Current Release: **1.1.0**
+([API Docs](https://oss.sonatype.org/service/local/repositories/releases/archive/org/typelevel/squants_2.11/1.1.0/squants_2.11-1.1.0-javadoc.jar/!/index.html#squants.package))
 
 Development Build: **1.1.0-SNAPSHOT**
-([API Docs](https://oss.sonatype.org/service/local/repositories/snapshots/archive/org/typelevel/squants_2.11/1.1.0-SNAPSHOT/squants_2.11-1.1.0-SNAPSHOT-javadoc.jar/!/index.html#squants.package))
+([API Docs](https://oss.sonatype.org/service/local/repositories/snapshots/archive/org/typelevel/squants_2.11/1.2.0-SNAPSHOT/squants_2.11-1.2.0-SNAPSHOT-javadoc.jar/!/index.html#squants.package))
 
 [Release History](https://github.com/typelevel/squants/wiki/Release-History)
 
@@ -37,7 +35,7 @@ For more information on feature availability of a specific version see the Relea
 Repository hosting for Squants is provided by [Sonatype](https://oss.sonatype.org/).
 To use Squants in your SBT project add the following dependency to your build.
 
-    "org.typelevel"  %% "squants"  % "1.0.0"
+    "org.typelevel"  %% "squants"  % "1.1.0"
 or
 
     "org.typelevel"  %% "squants"  % "1.1.0-SNAPSHOT"
@@ -49,7 +47,7 @@ To use Squants in your Maven project add the following dependency
 <dependency>
     <groupId>org.typelevel</groupId>
     <artifactId>squants_2.11</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
 </dependency>
 ```
 
