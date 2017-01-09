@@ -3,12 +3,22 @@ language: scala
 scala:
    - 2.10.6
    - 2.11.8
-   - 2.12.1
 
 jdk:
    - openjdk7
    - oraclejdk7
    - oraclejdk8
+
+matrix:
+  include:
+    - scala: 2.12.1
+      jdk: oraclejdk8
+      env:
+        - TRAVIS_NODE_VERSION="4"
+    - scala: 2.12.1
+      jdk: oraclejdk8
+      env:
+        - TRAVIS_NODE_VERSION="6"
 
 branches:
   except:
