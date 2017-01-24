@@ -10,6 +10,8 @@ package squants.space
 
 import org.scalatest.{ FlatSpec, Matchers }
 import squants.QuantityParseException
+import squants.motion.RadiansPerSecond
+import squants.time.Seconds
 
 /**
  * @author  garyKeorkunian
@@ -73,6 +75,14 @@ class AngleSpec extends FlatSpec with Matchers {
 
   it should "return the asin of an Angle" in {
     Radians(1).asin should be(math.asin(1))
+  }
+
+  it should "return AngularVelocity when divided by Time" in {
+    Radians(1) / Seconds(1) should be(RadiansPerSecond(1))
+  }
+
+  it should "return Time when divided by AngularVelocity" in {
+    Radians(1) / RadiansPerSecond(1) should be(Seconds(1))
   }
 
   behavior of "AngleConversion"

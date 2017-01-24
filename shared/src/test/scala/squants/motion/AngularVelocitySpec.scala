@@ -12,6 +12,7 @@ import org.scalatest.{ Matchers, FlatSpec }
 import scala.language.postfixOps
 import squants.space.Radians
 import squants.QuantityParseException
+import squants.time.Seconds
 
 /**
  * @author  garyKeorkunian
@@ -51,6 +52,10 @@ class AngularVelocitySpec extends FlatSpec with Matchers {
     DegreesPerSecond(1).toString(DegreesPerSecond) should be("1.0 °/s")
     GradsPerSecond(1).toString(GradsPerSecond) should be("1.0 grad/s")
     TurnsPerSecond(1).toString(TurnsPerSecond) should be("1.0 turns/s")
+  }
+
+  it should "return Angle when multiplied by Time" in {
+    RadiansPerSecond(1) * Seconds(1) should be(Radians(1))
   }
 
   behavior of "AngularVelocityConversions"

@@ -9,7 +9,8 @@
 package squants.motion
 
 import squants._
-import squants.space.{ Degrees, Gradians, Turns }
+import squants.space.{Degrees, Gradians, Turns}
+import squants.time.TimeDerivative
 
 /**
  * @author  garyKeorkunian
@@ -19,14 +20,17 @@ import squants.space.{ Degrees, Gradians, Turns }
  *
  */
 final class AngularVelocity private (val value: Double, val unit: AngularVelocityUnit)
-    extends Quantity[AngularVelocity] {
-  // TODO - Make this a TimeDerivative of Angle
+    extends Quantity[AngularVelocity] with TimeDerivative[Angle] {
   def dimension = AngularVelocity
 
   def toRadiansPerSecond = to(RadiansPerSecond)
   def toDegreesPerSecond = to(DegreesPerSecond)
   def toGradsPerSecond = to(GradsPerSecond)
   def toTurnsPerSecond = to(TurnsPerSecond)
+
+  protected[squants] def timeIntegrated: Angle = Radians(toRadiansPerSecond)
+
+  protected[squants] def time: Time = Seconds(1)
 }
 
 object AngularVelocity extends Dimension[AngularVelocity] {
