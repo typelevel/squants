@@ -4,7 +4,6 @@ lazy val defaultSettings =
   Publish.defaultSettings ++
   Tests.defaultSettings ++
   Formatting.defaultSettings ++
-  Console.defaultSettings ++
   Docs.defaultSettings
 
 lazy val squants = crossProject
