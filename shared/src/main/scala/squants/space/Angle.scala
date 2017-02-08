@@ -9,7 +9,8 @@
 package squants.space
 
 import squants._
-import squants.time.Time
+import squants.motion.{AngularVelocity, RadiansPerSecond}
+import squants.time.{Time, TimeIntegral}
 
 /**
  * @author  garyKeorkunian
@@ -18,7 +19,7 @@ import squants.time.Time
  * @param value value in [[squants.space.Radians]]
  */
 final class Angle private (val value: Double, val unit: AngleUnit)
-    extends Quantity[Angle] {
+    extends Quantity[Angle] with TimeIntegral[AngularVelocity] {
 
   def dimension = Angle
 
@@ -34,6 +35,10 @@ final class Angle private (val value: Double, val unit: AngleUnit)
   def tan = math.tan(toRadians)
   def asin = math.asin(toRadians)
   def acos = math.acos(toRadians)
+
+  protected def timeDerived: AngularVelocity = RadiansPerSecond(toRadians)
+
+  override protected def time: Time = Seconds(1)
 }
 
 object Angle extends Dimension[Angle] {

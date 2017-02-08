@@ -36,7 +36,7 @@ final class ElectricPotential private (val value: Double, val unit: ElectricPote
   def /(that: Length) = ??? // returns ElectricFieldStrength
 
   def toVolts = to(Volts)
-  def toMircovolts = to(Microvolts)
+  def toMicrovolts = to(Microvolts)
   def toMillivolts = to(Millivolts)
   def toKilovolts = to(Kilovolts)
   def toMegavolts = to(Megavolts)

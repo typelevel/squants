@@ -1,22 +1,23 @@
 import org.scalajs.sbtplugin.ScalaJSPlugin.autoImport._
 import sbt.Keys._
 import sbt._
-
+import com.typesafe.sbt.osgi.SbtOsgi
+import com.typesafe.sbt.osgi.SbtOsgi.autoImport._
 
 object Versions {
-  val Squants = "0.6.1-SNAPSHOT"
-  val Scala = "2.11.7"
-  val ScalaCross = Seq("2.11.7", "2.10.6")
+  val Squants = "1.2.0-SNAPSHOT"
+  val Scala = "2.11.8"
+  val ScalaCross = Seq("2.12.1", "2.11.8", "2.10.6")
 
-  val ScalaTest = "3.0.0-M12"
-  val ScalaCheck = "1.12.5"
-  val Json4s = "3.3.0"
+  val ScalaTest = "3.0.1"
+  val ScalaCheck = "1.13.4"
+  val Json4s = "3.5.0"
 }
 
 object Dependencies {
-  val scalaTest = Def.setting(Seq("org.scalatest" %%% "scalatest" % Versions.ScalaTest % "test"))
-  val scalaCheck = Def.setting(Seq("org.scalacheck" %%% "scalacheck" % Versions.ScalaCheck % "test"))
-  val json4s = Def.setting(Seq("org.json4s" %% "json4s-native" % Versions.Json4s % "test"))
+  val scalaTest = Def.setting(Seq("org.scalatest" %%% "scalatest" % Versions.ScalaTest % Test))
+  val scalaCheck = Def.setting(Seq("org.scalacheck" %%% "scalacheck" % Versions.ScalaCheck % Test))
+  val json4s = Def.setting(Seq("org.json4s" %% "json4s-native" % Versions.Json4s % Test))
 }
 
 object Resolvers {
@@ -28,7 +29,7 @@ object Resolvers {
 
 object Project {
   val defaultSettings = Seq(
-    organization in ThisBuild := "com.squants",
+    organization in ThisBuild := "org.typelevel",
 
     name := "Squants",
 
@@ -38,18 +39,29 @@ object Project {
 
     homepage := Some(url("http://www.squants.com/")),
 
+    autoAPIMappings := true,
+
     resolvers ++= Seq(
         Resolvers.typeSafeRepo,
         Resolvers.sonatypeNexusSnapshots,
         Resolvers.sonatypeNexusReleases,
         Resolvers.sonatypeNexusStaging
-    )
+    ),
+
+    OsgiKeys.exportPackage := Seq("squants.*"),
+
+    OsgiKeys.privatePackage := Seq() // No private packages
   )
 }
 
 object Compiler {
   val defaultSettings = Seq(
-    scalacOptions in ThisBuild ++= Seq("-feature", "-deprecation"),
+    scalacOptions in ThisBuild ++= Seq(
+      "-feature",
+      "-deprecation",
+      "-encoding", "UTF-8",       // yes, this is 2 args
+      "-Xfatal-warnings"
+    ),
 
     scalaVersion in ThisBuild := Versions.Scala,
 
@@ -73,8 +85,8 @@ object Publish {
     pomIncludeRepository := { _ => false },
 
     pomExtra := <scm>
-      <url>git@github.com:garyKeorkunian/squants.git</url>
-      <connection>scm:git:git@github.com:garyKeorkunian/squants.git</connection>
+      <url>git@github.com:typelevel/squants.git</url>
+      <connection>scm:git:git@github.com:typelevel/squants.git</connection>
     </scm>
       <developers>
         <developer>
@@ -117,7 +129,6 @@ object Formatting {
       .setPreference(IndentSpaces, 2)
       .setPreference(MultilineScaladocCommentsStartOnFirstLine, false)
       .setPreference(PreserveSpaceBeforeArguments, false)
-      .setPreference(PreserveDanglingCloseParenthesis, false)
       .setPreference(RewriteArrowSymbols, true)
       .setPreference(SpaceBeforeColon, false)
       .setPreference(SpaceInsideBrackets, false)
@@ -132,13 +143,13 @@ object Console {
          squants._,
          squants.energy._,
          squants.electro._,
+         squants.information._,
          squants.market._,
          squants.mass._,
          squants.motion._,
          squants.photo._,
          squants.radio._,
          squants.space._,
-         squants.storage._,
          squants.thermal._,
          squants.time._,
          squants.DimensionlessConversions._,
@@ -158,6 +169,7 @@ object Console {
          squants.energy.PowerConversions._,
          squants.energy.PowerRampConversions._,
          squants.energy.SpecificEnergyConversions._,
+         squants.information.InformationConversions._,
          squants.market.MoneyConversions._,
          squants.mass.AreaDensityConversions._,
          squants.mass.ChemicalAmountConversions._,
@@ -189,7 +201,6 @@ object Console {
          squants.space.LengthConversions._,
          squants.space.SolidAngleConversions._,
          squants.space.VolumeConversions._,
-         squants.storage.StorageConversions._,
          squants.thermal.TemperatureConversions._,
          squants.thermal.ThermalCapacityConversions._,
          squants.time.FrequencyConversions._,
@@ -200,32 +211,10 @@ object Console {
 object Docs {
   private def gitHash = sys.process.Process("git rev-parse HEAD").lines_!.head
   val defaultSettings = Seq(
-    scalacOptions in (Compile, doc) <++= (baseDirectory in LocalRootProject, version) map {(bd, v) =>
+    scalacOptions in (Compile, doc) ++= {
+      val (bd, v) = ((baseDirectory in LocalRootProject).value, version.value)
       val tagOrBranch = if(v endsWith "SNAPSHOT") gitHash else "v" + v
       Seq("-sourcepath", bd.getAbsolutePath, "-doc-source-url", "https://github.com/garyKeorkunian/squants/tree/" + tagOrBranch + "€{FILE_PATH}.scala")
     }
   )
-}
-
-object SquantsBuild extends Build {
-
-  lazy val defaultSettings =
-    Project.defaultSettings ++
-    Compiler.defaultSettings ++
-    Publish.defaultSettings ++
-    Tests.defaultSettings ++
-    Formatting.defaultSettings ++
-    Console.defaultSettings ++
-    Docs.defaultSettings
-
-  lazy val squants = crossProject
-    .crossType(CrossType.Full)
-    .in(file("."))
-    .settings(defaultSettings: _*)
-    .jsSettings(
-      excludeFilter in Test := "*Serializer.scala" || "*SerializerSpec.scala"
-    )
-
- 	lazy val squantsJVM = squants.jvm
- 	lazy val squantsJS = squants.js
 }

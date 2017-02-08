@@ -6,22 +6,26 @@
 **                                                                      **
 \*                                                                      */
 
-package squants.storage
+package squants.information
 
 import squants._
+import squants.time.TimeIntegral
 
 /**
- * Represents computer storage.
+ * Represents information.
  *
  * @author Derek Morr
  * @since 0.6.0
- *
- * @param value value in [[squants.storage.Bytes]]
+ * @param value value in [[squants.information.Bytes]]
  */
-final class Storage private (val value: Double, val unit: StorageUnit)
-    extends Quantity[Storage] {
+final class Information private(val value: Double, val unit: InformationUnit)
+    extends Quantity[Information]
+    with TimeIntegral[DataRate] {
 
-  def dimension = Storage
+  def dimension = Information
+
+  protected def timeDerived = BytesPerSecond(toBytes)
+  protected[squants] def time = Seconds(1)
 
   def toBytes = to(Bytes)
   def toKilobytes = to(Kilobytes)
@@ -42,17 +46,17 @@ final class Storage private (val value: Double, val unit: StorageUnit)
   def toYobibytes = to(Yobibytes)
 }
 
-trait StorageUnit extends UnitOfMeasure[Storage] with UnitConverter {
-  def apply[A](n: A)(implicit num: Numeric[A]) = Storage(n, this)
+trait InformationUnit extends UnitOfMeasure[Information] with UnitConverter {
+  def apply[A](n: A)(implicit num: Numeric[A]) = Information(n, this)
 }
 
 /**
- * Factory singleton for storage
+ * Factory singleton for information
  */
-object Storage extends Dimension[Storage] with BaseDimension {
-  private[storage] def apply[A](n: A, unit: StorageUnit)(implicit num: Numeric[A]) = new Storage(num.toDouble(n), unit)
+object Information extends Dimension[Information] with BaseDimension {
+  private[information] def apply[A](n: A, unit: InformationUnit)(implicit num: Numeric[A]) = new Information(num.toDouble(n), unit)
   def apply = parse _
-  def name = "Storage"
+  def name = "Information"
   def primaryUnit = Bytes
   def siUnit = Bytes
   def units = Set(Bytes, Kilobytes, Kibibytes, Megabytes, Mebibytes,
@@ -61,96 +65,96 @@ object Storage extends Dimension[Storage] with BaseDimension {
   def dimensionSymbol = "B"
 }
 
-object Bytes extends StorageUnit with PrimaryUnit with SiBaseUnit {
+object Bytes extends InformationUnit with PrimaryUnit with SiBaseUnit {
   val symbol = "B"
 }
 
-object Octets extends StorageUnit {
+object Octets extends InformationUnit {
   val conversionFactor = 1.0d
   val symbol = "o"
 }
 
-object Kilobytes extends StorageUnit {
+object Kilobytes extends InformationUnit {
   val conversionFactor = MetricSystem.Kilo
-  val symbol = "K"
+  val symbol = "KB"
 }
 
-object Kibibytes extends StorageUnit {
+object Kibibytes extends InformationUnit {
   val conversionFactor = BinarySystem.Kilo
-  val symbol = "Ki"
+  val symbol = "KiB"
 }
 
-object Megabytes extends StorageUnit {
+object Megabytes extends InformationUnit {
   val conversionFactor = MetricSystem.Mega
-  val symbol = "M"
+  val symbol = "MB"
 }
 
-object Mebibytes extends StorageUnit {
+object Mebibytes extends InformationUnit {
   val conversionFactor = BinarySystem.Mega
-  val symbol = "Mi"
+  val symbol = "MiB"
 }
 
-object Gigabytes extends StorageUnit {
+object Gigabytes extends InformationUnit {
   val conversionFactor = MetricSystem.Giga
-  val symbol = "G"
+  val symbol = "GB"
 }
 
-object Gibibytes extends StorageUnit {
+object Gibibytes extends InformationUnit {
   val conversionFactor = BinarySystem.Giga
-  val symbol = "Gi"
+  val symbol = "GiB"
 }
 
-object Terabytes extends StorageUnit {
+object Terabytes extends InformationUnit {
   val conversionFactor = MetricSystem.Tera
-  val symbol = "T"
+  val symbol = "TB"
 }
 
-object Tebibytes extends StorageUnit {
+object Tebibytes extends InformationUnit {
   val conversionFactor = BinarySystem.Tera
-  val symbol = "Ti"
+  val symbol = "TiB"
 }
 
-object Petabytes extends StorageUnit {
+object Petabytes extends InformationUnit {
   val conversionFactor = MetricSystem.Peta
-  val symbol = "P"
+  val symbol = "PB"
 }
 
-object Pebibytes extends StorageUnit {
+object Pebibytes extends InformationUnit {
   val conversionFactor = BinarySystem.Peta
-  val symbol = "Pi"
+  val symbol = "PiB"
 }
 
-object Exabytes extends StorageUnit {
+object Exabytes extends InformationUnit {
   val conversionFactor = MetricSystem.Exa
-  val symbol = "E"
+  val symbol = "EB"
 }
 
-object Exbibytes extends StorageUnit {
+object Exbibytes extends InformationUnit {
   val conversionFactor = BinarySystem.Exa
-  val symbol = "Ei"
+  val symbol = "EiB"
 }
 
-object Zettabytes extends StorageUnit {
+object Zettabytes extends InformationUnit {
   def conversionFactor = MetricSystem.Zetta
-  def symbol = "Z"
+  def symbol = "ZB"
 }
 
-object Zebibytes extends StorageUnit {
+object Zebibytes extends InformationUnit {
   def conversionFactor = BinarySystem.Zetta
-  def symbol = "Zi"
+  def symbol = "ZiB"
 }
 
-object Yottabytes extends StorageUnit {
+object Yottabytes extends InformationUnit {
   def conversionFactor = MetricSystem.Yotta
-  def symbol = "Y"
+  def symbol = "YB"
 }
 
-object Yobibytes extends StorageUnit {
+object Yobibytes extends InformationUnit {
   def conversionFactor = BinarySystem.Yotta
-  def symbol = "Yi"
+  def symbol = "YiB"
 }
 
-object StorageConversions {
+object InformationConversions {
   lazy val byte = Bytes(1)
   lazy val kilobyte = Kilobytes(1)
   lazy val kibibyte = Kibibytes(1)
@@ -169,7 +173,7 @@ object StorageConversions {
   lazy val yottabyte = Yottabytes(1)
   lazy val yobibyte = Yobibytes(1)
 
-  implicit class StorageConversions[A](n: A)(implicit num: Numeric[A]) {
+  implicit class InformationConversions[A](n: A)(implicit num: Numeric[A]) {
     def bytes = Bytes(n)
     def kb = Kilobytes(n)
     def kilobytes = Kilobytes(n)
@@ -206,9 +210,9 @@ object StorageConversions {
     def yobibytes = Yobibytes(n)
   }
 
-  implicit class StorageStringConversions(s: String) {
-    def toStorage = Storage(s)
+  implicit class InformationStringConversions(s: String) {
+    def toInformation = Information(s)
   }
 
-  implicit object StorageNumeric extends AbstractQuantityNumeric[Storage](Storage.primaryUnit)
+  implicit object InformationNumeric extends AbstractQuantityNumeric[Information](Information.primaryUnit)
 }

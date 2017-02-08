@@ -8,10 +8,13 @@
 
 package squants.market
 
-import org.scalatest.{ Matchers, FlatSpec }
-import scala.language.postfixOps
-import squants.mass.Kilograms
+import org.scalatest.{ FlatSpec, Matchers }
 import squants.QuantityParseException
+import squants.mass.Kilograms
+import squants.space.Meters
+import squants.time.Hours
+
+import scala.language.postfixOps
 
 /**
  * @author  garyKeorkunian
@@ -343,8 +346,8 @@ class MoneySpec extends FlatSpec with Matchers {
 
   it should "return properly formatted strings in different currency with an implicit MoneyContext in scope" in {
     implicit val moneyContext = MoneyContext(USD, defaultCurrencySet, Seq(USD(1) toThe JPY(100)))
-    USD(10).toString(JPY) should be("1000.00 JPY")
-    USD(10).toFormattedString(JPY) should be("¥1000.00")
+    USD(10).toString(JPY) should be("1000 JPY")
+    USD(10).toFormattedString(JPY) should be("¥1000")
   }
 
   it should "return a properly sorted list of Moneys" in {
@@ -419,5 +422,17 @@ class MoneySpec extends FlatSpec with Matchers {
 
     val ms2 = List(USD(100), CAD(100), JPY(100))
     ms2.sum should be(USD(111))
+  }
+
+  it should "return price when dividing by quantity" in {
+    val m = USD(100)
+    val t = Hours(1)
+
+    (m / t) should be(Price(USD(100), Hours(1)))
+  }
+
+  it should "return quantity when dividing by price" in {
+    val p = Price(Money(10, "USD"), Meters(1))
+    Money(40, "USD") / p should be(Meters(4))
   }
 }

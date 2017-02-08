@@ -303,6 +303,76 @@ class QuantitySpec extends FlatSpec with Matchers {
     (-y).abs should be(Thangs(9.0))
   }
 
+  it should "return the ceil value of a Quantity value" in {
+    val x = Thangs(1.0)
+    x.ceil should be(Thangs(1.0))
+    (-x).ceil should be(Thangs(-1.0))
+
+    val y = Thangs(1.1)
+    y.ceil should be(Thangs(2.0))
+    (-y).ceil should be(Thangs(-1.0))
+
+    val y2 = Thangs(1.9)
+    y2.ceil should be(Thangs(2.0))
+    (-y2).ceil should be(Thangs(-1.0))
+
+    val z = Thangs(-9.1)
+    z.ceil should be(Thangs(-9.0))
+    (-z).ceil should be(Thangs(10.0))
+
+    val z2 = Thangs(-9.9)
+    z2.ceil should be(Thangs(-9.0))
+    (-z2).ceil should be(Thangs(10.0))
+  }
+
+  it should "return the floor value of a Quantity value" in {
+    val x = Thangs(1.0)
+    x.floor should be(Thangs(1.0))
+    (-x).floor should be(Thangs(-1.0))
+
+    val y = Thangs(1.1)
+    y.floor should be(Thangs(1.0))
+    (-y).floor should be(Thangs(-2.0))
+
+    val y2 = Thangs(1.9)
+    y2.floor should be(Thangs(1.0))
+    (-y2).floor should be(Thangs(-2.0))
+
+    val z = Thangs(-9.1)
+    z.floor should be(Thangs(-10.0))
+    (-z).floor should be(Thangs(9.0))
+
+    val z2 = Thangs(-9.9)
+    z2.floor should be(Thangs(-10.0))
+    (-z2).floor should be(Thangs(9.0))
+  }
+
+  it should "return the rint value of a Quantity value" in {
+    val x = Thangs(1.0)
+    x.rint should be(Thangs(1.0))
+    (-x).rint should be(Thangs(-1.0))
+
+    val y = Thangs(1.1)
+    y.rint should be(Thangs(1.0))
+    (-y).rint should be(Thangs(-1.0))
+
+    val y2 = Thangs(1.5)
+    y2.rint should be(Thangs(2.0))
+    (-y2).rint should be(Thangs(-2.0))
+
+    val y3 = Thangs(1.1)
+    y3.rint should be(Thangs(1.0))
+    (-y3).rint should be(Thangs(-1.0))
+
+    val z = Thangs(-9.1)
+    z.rint should be(Thangs(-9.0))
+    (-z).rint should be(Thangs(9.0))
+
+    val z2 = Thangs(-9.9)
+    z2.rint should be(Thangs(-10.0))
+    (-z2).rint should be(Thangs(10.0))
+  }
+
   it should "return true on comparing two different values with !=" in {
     val x = Thangs(1)
     val y = Thangs(2)
@@ -409,12 +479,12 @@ class QuantitySpec extends FlatSpec with Matchers {
 
   it should "toTuple and return a tuple including the value and the unit's symbol" in {
     val x = Thangs(10.22)
-    x.toTuple should be(10.22, "th")
+    x.toTuple should be((10.22, "th"))
   }
 
   it should "toTuple a unit and return a tuple including the value in the supplied unit and that unit's symbol" in {
     val x = Kilothangs(10.22)
-    x.toTuple(Thangs) should be(10220, "th")
+    x.toTuple(Thangs) should be((10220, "th"))
   }
 
   it should "map over the underlying value and return the resulting value in a Quantity of the same Unit" in {

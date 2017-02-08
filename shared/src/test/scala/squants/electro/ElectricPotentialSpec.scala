@@ -25,7 +25,7 @@ class ElectricPotentialSpec extends FlatSpec with Matchers {
   it should "create values using UOM factories" in {
 
     Volts(1).toVolts should be(1)
-    Microvolts(1).toMircovolts should be(1)
+    Microvolts(1).toMicrovolts should be(1)
     Millivolts(1).toMillivolts should be(1)
     Kilovolts(1).toKilovolts should be(1)
     Megavolts(1).toMegavolts should be(1)
@@ -44,7 +44,7 @@ class ElectricPotentialSpec extends FlatSpec with Matchers {
   it should "properly convert to all supported Units of Measure" in {
     val x = Volts(1)
     x.toVolts should be(1.0)
-    x.toMircovolts should be(1 / MetricSystem.Micro)
+    x.toMicrovolts should be(1 / MetricSystem.Micro)
     x.toMillivolts should be(1 / MetricSystem.Milli)
     x.toKilovolts should be(1 / MetricSystem.Kilo)
     x.toMegavolts should be(1 / MetricSystem.Mega)

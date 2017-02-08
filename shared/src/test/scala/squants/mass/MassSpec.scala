@@ -35,6 +35,13 @@ class MassSpec extends FlatSpec with Matchers {
     Pounds(10.22).toPounds should be(10.22)
     Kilopounds(10.22).toKilopounds should be(10.22)
     Megapounds(10.22).toMegapounds should be(10.22)
+    Stone(10.22).toStone should be(10.22)
+    TroyGrains(10.22).toTroyGrains should be(10.22)
+    Pennyweights(10.22).toPennyweights should be(10.22)
+    TroyOunces(10.22).toTroyOunces should be(10.22)
+    TroyPounds(10.22).toTroyPounds should be(10.22)
+    Tolas(10.22).toTolas should be(10.22)
+    Carats(10.22).toCarats should be(10.22)
   }
 
   it should "create values from properly formatted Strings" in {
@@ -47,6 +54,13 @@ class MassSpec extends FlatSpec with Matchers {
     Mass("10.22 lb").get should be(Pounds(10.22))
     Mass("10.22 klb").get should be(Kilopounds(10.22))
     Mass("10.22 Mlb").get should be(Megapounds(10.22))
+    Mass("10.22 st").get should be(Stone(10.22))
+    Mass("10.22 gr").get should be(TroyGrains(10.22))
+    Mass("10.22 dwt").get should be(Pennyweights(10.22))
+    Mass("10.22 oz t").get should be(TroyOunces(10.22))
+    Mass("10.22 lb t").get should be(TroyPounds(10.22))
+    Mass("10.22 tola").get should be(Tolas(10.22))
+    Mass("10.22 ct").get should be(Carats(10.22))
     Mass("10.45 zz").failed.get should be(QuantityParseException("Unable to parse Mass", "10.45 zz"))
     Mass("zz g").failed.get should be(QuantityParseException("Unable to parse Mass", "zz g"))
   }
@@ -60,10 +74,24 @@ class MassSpec extends FlatSpec with Matchers {
     x.toTonnes should be(1 / MetricSystem.Mega)
     x.toPounds should be(1 / Pounds.conversionFactor)
     x.toOunces should be(1 / Ounces.conversionFactor)
+    x.toTroyGrains should be (1 / TroyGrains.conversionFactor)
+    x.toPennyweights should be (1 / Pennyweights.conversionFactor)
+    x.toTroyOunces should be (1 / TroyOunces.conversionFactor)
+    x.toTroyPounds should be (1 / TroyPounds.conversionFactor)
+    x.toCarats should be (1 / Carats.conversionFactor)
 
     Grams(1000) should be(Kilograms(1))
     Kilograms(0.45359237) should be(Pounds(1))
     Ounces(16) should be(Pounds(1))
+    Pounds(14) should be(Stone(1))
+
+    TroyOunces(12) should be(TroyPounds(1))
+    TroyGrains(180) should be(Tolas(1))
+    TroyPounds(1) should be(TroyGrains(5760))
+    TroyPounds(1).toGrams should be(373.2417216 +- 0.000000001)
+    Carats(1) should be(Milligrams(200))
+    TroyOunces(1).toGrams should be(31.1034768)
+    Pennyweights(1).toGrams should be(1.55517384 +- 0.000000001)
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
@@ -74,6 +102,14 @@ class MassSpec extends FlatSpec with Matchers {
     Tonnes(1).toString(Tonnes) should be("1.0 t")
     Pounds(1).toString(Pounds) should be("1.0 lb")
     Ounces(1).toString(Ounces) should be("1.0 oz")
+    Stone(1).toString(Stone) should be("1.0 st")
+
+    TroyGrains(1).toString(TroyGrains) should be("1.0 gr")
+    Pennyweights(1).toString(Pennyweights) should be("1.0 dwt")
+    TroyOunces(1).toString(TroyOunces) should be("1.0 oz t")
+    TroyPounds(1).toString(TroyPounds) should be("1.0 lb t")
+    Tolas(1).toString(Tolas) should be("1.0 tola")
+    Carats(1).toString(Carats) should be("1.0 ct")
   }
 
   it should "return Momentum when multiplied by Velocity" in {
@@ -120,6 +156,14 @@ class MassSpec extends FlatSpec with Matchers {
     tonne should be(Tonnes(1))
     pound should be(Pounds(1))
     ounce should be(Ounces(1))
+    stone should be(Stone(1))
+
+    troyGrain should be(TroyGrains(1))
+    pennyweight should be(Pennyweights(1))
+    troyOunce should be(TroyOunces(1))
+    troyPound should be(TroyPounds(1))
+    tola should be(Tolas(1))
+    carat should be(Carats(1))
   }
 
   it should "provide implicit conversion from Double" in {
@@ -136,6 +180,16 @@ class MassSpec extends FlatSpec with Matchers {
     d.tonnes should be(Tonnes(d))
     d.pounds should be(Pounds(d))
     d.ounces should be(Ounces(d))
+    d.stone should be(Stone(d))
+
+    d.troyGrains should be(TroyGrains(d))
+    d.dwt should be(Pennyweights(d))
+    d.pennyweights should be(Pennyweights(d))
+    d.troyOunces should be(TroyOunces(d))
+    d.troyPounds should be(TroyPounds(d))
+    d.tolas should be(Tolas(d))
+    d.ct should be(Carats(d))
+    d.carats should be(Carats(d))
   }
 
   it should "provide implicit conversions from arbitrary Numeric types" in {
@@ -158,6 +212,13 @@ class MassSpec extends FlatSpec with Matchers {
     "10.45 t".toMass.get should be(Tonnes(10.45))
     "10.45 lb".toMass.get should be(Pounds(10.45))
     "10.45 oz".toMass.get should be(Ounces(10.45))
+    "10.45 st".toMass.get should be(Stone(10.45))
+    "10.45 gr".toMass.get should be(TroyGrains(10.45))
+    "10.45 dwt".toMass.get should be(Pennyweights(10.45))
+    "10.45 oz t".toMass.get should be(TroyOunces(10.45))
+    "10.45 lb t".toMass.get should be(TroyPounds(10.45))
+    "10.45 tola".toMass.get should be(Tolas(10.45))
+    "10.45 ct".toMass.get should be(Carats(10.45))
     "10.45 zz".toMass.failed.get should be(QuantityParseException("Unable to parse Mass", "10.45 zz"))
     "zz oz".toMass.failed.get should be(QuantityParseException("Unable to parse Mass", "zz oz"))
   }

@@ -180,6 +180,14 @@ final class Money private (val amount: BigDecimal)(val currency: Currency)
   def /[A <: Quantity[A]](that: A): Price[A] = Price(this, that)
 
   /**
+   * Divide this money by a Price and return Quantity
+   * @param that Price
+   * @tparam A Quantity Type
+   * @return A
+   */
+  def /[A <: Quantity[A]](that: Price[A]): A = that.quantity * (this / that.money).toDouble
+
+  /**
    * Override for Quantity.divide to only work on Moneys of like Currency
    * Cross currency subtractions should use moneyMinus
    *
@@ -382,8 +390,8 @@ object EUR extends Currency("EUR", "Euro", "€", 2)
 object GBP extends Currency("GBP", "British Pound", "£", 2)
 object HKD extends Currency("HKD", "Hong Kong Dollar", "$", 2)
 object INR extends Currency("INR", "Indian Rupee", "₹", 2)
-object JPY extends Currency("JPY", "Japanese Yen", "¥", 2)
-object KRW extends Currency("KRW", "South Korean Won", "kr", 2)
+object JPY extends Currency("JPY", "Japanese Yen", "¥", 0)
+object KRW extends Currency("KRW", "South Korean Won", "kr", 0)
 object MXN extends Currency("MXN", "Mexican Peso", "$", 2)
 object MYR extends Currency("MYR", "Malaysian Ringgit", "RM", 2)
 object NOK extends Currency("NOK", "Norwegian Krone", "kr", 2)
