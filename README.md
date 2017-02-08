@@ -287,19 +287,7 @@ val vector: DoubleVector = SVector(1.2, 4.3, 2.3, 5.4)   // a Four-dimensional v
 ```
 
 #### Dimensional conversions within Vector operations.
-NOTE - This feature is currently under development and the final implementation being evaluated.
-The following type of operation is the goal.
-
-```scala
-val vectorLength = QuantityVector(Kilometers(1.2), Kilometers(4.3), Kilometers(2.3))
-val vectorArea = vectorLength * Kilometers(2)   // QuantityVector(2.4 km², 8.6 km², 4.6 km²)
-val vectorVelocity = vectorLength / Seconds(1)  // QuantityVector(1200.0 m/s, 4300.0 m/s, 2300.0 m/s)
-
-val vectorDouble = DoubleVector(1.2, 4.3, 2.3)
-val vectorLength = vectorDouble.to(Kilometers)  // QuantityVector(1.2 km, 4.3 km, 2.3 km)
-```
-
-Currently dimensional conversions are supported by using the slightly verbose, but flexible map method.
+Dimensional conversions are supported by using the `map` method:
 
 ```scala
 val vectorLength = QuantityVector(Kilometers(1.2), Kilometers(4.3), Kilometers(2.3))
