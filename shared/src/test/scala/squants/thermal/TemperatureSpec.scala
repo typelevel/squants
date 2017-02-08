@@ -55,6 +55,18 @@ class TemperatureSpec extends FlatSpec with Matchers {
     Temperature("ZZ F").failed.get should be(QuantityParseException("Unable to parse Temperature", "ZZ F"))
   }
 
+  they should "be flexible in parsing strings with regard to degree symbol and whitespace" in {
+    Temperature("10.22 f").get should be (Fahrenheit(10.22))
+    Temperature("10.22 °f").get should be (Fahrenheit(10.22))
+    Temperature("10.22  °f").get should be (Fahrenheit(10.22))
+    Temperature("10.22 ° f").get should be (Fahrenheit(10.22))
+    Temperature("10.22 °   f").get should be (Fahrenheit(10.22))
+    Temperature("10.22  °   f").get should be (Fahrenheit(10.22))
+    Temperature("10.22°f").get should be (Fahrenheit(10.22))
+
+    Temperature("10.22°°f").failed.get should be (QuantityParseException("Unable to parse Temperature", "10.22°°f"))
+  }
+
   they should "properly convert to all supported Units of Measure (Scale)" in {
     val x = Kelvin(0)
     x.toKelvinScale should be(0)
