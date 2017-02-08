@@ -1,5 +1,7 @@
 # Squants
 
+[![Join the chat at https://gitter.im/typelevel/squants](https://badges.gitter.im/typelevel/squants.svg)](https://gitter.im/typelevel/squants?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 **The Scala API for Quantities, Units of Measure and Dimensional Analysis**
 
 Squants is a framework of data types and a domain specific language (DSL) for representing Quantities,
