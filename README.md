@@ -1,5 +1,7 @@
 # Squants
 
+[![Join the chat at https://gitter.im/typelevel/squants](https://badges.gitter.im/typelevel/squants.svg)](https://gitter.im/typelevel/squants?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 **The Scala API for Quantities, Units of Measure and Dimensional Analysis**
 
 Squants is a framework of data types and a domain specific language (DSL) for representing Quantities,
@@ -9,57 +11,63 @@ All types are immutable and thread-safe.
 
 [Website](http:/www.squants.com/)
 |
-[GitHub](https://github.com/garyKeorkunian/squants)
+[GitHub](https://github.com/typelevel/squants)
 |
-[User Forum](https://groups.google.com/forum/#!forum/squants)
-|
-[Wiki](https://github.com/garyKeorkunian/squants/wiki)
+[Wiki](https://github.com/typelevel/squants/wiki)
+
+[![Join the chat at https://gitter.im/garyKeorkunian/squants](https://badges.gitter.im/garyKeorkunian/squants.svg)](https://gitter.im/garyKeorkunian/squants?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ### Current Versions
-Current Release: **0.5.3**
-([API Docs](https://oss.sonatype.org/service/local/repositories/releases/archive/com/squants/squants_2.11/0.5.3/squants_2.11-0.5.3-javadoc.jar/!/index.html#squants.package))
+Current Release: **1.1.0**
+([API Docs](https://oss.sonatype.org/service/local/repositories/releases/archive/org/typelevel/squants_2.11/1.1.0/squants_2.11-1.1.0-javadoc.jar/!/index.html#squants.package))
 
-Development Build: **0.6.1-SNAPSHOT**
-([API Docs](https://oss.sonatype.org/service/local/repositories/snapshots/archive/com/squants/squants_2.11/0.6.1-SNAPSHOT/squants_2.11-0.6.1-SNAPSHOT-javadoc.jar/!/index.html#squants.package))
+Development Build: **1.2.0-SNAPSHOT**
+([API Docs](https://oss.sonatype.org/service/local/repositories/snapshots/archive/org/typelevel/squants_2.11/1.2.0-SNAPSHOT/squants_2.11-1.2.0-SNAPSHOT-javadoc.jar/!/index.html#squants.package))
 
-[Release History](https://github.com/garyKeorkunian/squants/wiki/Release-History)
+[Release History](https://github.com/typelevel/squants/wiki/Release-History)
 
-[![Build Status](https://travis-ci.org/garyKeorkunian/squants.png?branch=master)](https://travis-ci.org/garyKeorkunian/squants)
+[![Build Status](https://travis-ci.org/typelevel/squants.png?branch=master)](https://travis-ci.org/typelevel/squants)
 
-Build services provided by [Travis CI](https://travis-ci.com/) 
+Build services provided by [Travis CI](https://travis-ci.com/)
 
-NOTE - This README reflects feature set in the branch it can be found.  
-For more information on feature availability of a specific version see the Release History or the README for a that version 
+NOTE - This README reflects the feature set in the branch it can be found.
+For more information on feature availability of a specific version see the Release History or the README for a that version
 
 ## Installation
 Repository hosting for Squants is provided by [Sonatype](https://oss.sonatype.org/).
 To use Squants in your SBT project add the following dependency to your build.
 
-    "com.squants"  %% "squants"  % "0.5.3"
+    "org.typelevel"  %% "squants"  % "1.1.0"
 or
 
-    "com.squants"  %% "squants"  % "0.6.1-SNAPSHOT"
+    "org.typelevel"  %% "squants"  % "1.2.0-SNAPSHOT"
 
 
 To use Squants in your Maven project add the following dependency
 
 ```xml
 <dependency>
-    <groupId>com.squants</groupId>
+    <groupId>org.typelevel</groupId>
     <artifactId>squants_2.11</artifactId>
-    <version>0.5.3</version>
+    <version>1.1.0</version>
 </dependency>
 ```
 
 Beginning with Squants 0.4.x series, both Scala 2.10 and 2.11 builds are available.
+Beginning with Squants 1.0.0 series, Scala 2.10, 2.11 and 2.12 builds are available.
 
 To use Squants interactively in the Scala REPL, clone the git repo and run `sbt squantsJVM/console`
 
-    git clone https://github.com/garyKeorkunian/squants
+    git clone https://github.com/typelevel/squants
     cd squants
-    sbt squantsJVM/console
+    sbt -J-Xss2m squantsJVM/console
+
+Note: The console imports most of squants, so you'll need to increase the stack size as indicated above.
+
+
 
 ## Type Safe Dimensional Analysis
+
 *The Trouble with Doubles*
 
 When building programs that perform dimensional analysis, developers are quick to declare
@@ -98,7 +106,7 @@ val load1: Power = Kilowatts(12)        // returns Power(12, Kilowatts) or 12 kW
 val load2: Power = Megawatts(0.023)     // Power: 0.023 MW
 val sum = load1 + load2                 // Power: 35 kW - unit on left side is preserved
 sum should be(Kilowatts(35))            
-sum should be(Megawatts(0.035))         // comparisons automatically convert scale 
+sum should be(Megawatts(0.035))         // comparisons automatically convert scale
 ```
 
 works because Kilowatts and Megawatts are both units of Power.  Only the scale is
@@ -120,7 +128,7 @@ _One may take quantities with different dimensions, and multiply or divide them.
 Dimensionally correct type conversions are a key feature of Squants.
 Conversions are implemented by defining relationships between Quantity types using the * and / operators.
 
-The following code demonstrates creating ratio between two quantities of the same dimension, 
+The following code demonstrates creating ratio between two quantities of the same dimension,
 resulting in a dimensionless value:
 
 ```scala
@@ -165,7 +173,7 @@ val loadC = loadA in Gigawatts // Power: 0.0012 GW
 ```
 
 Sometimes you need to get the numeric value of the quantity in a specific unit
-(eg, for submission to an external service that requires a numeric in a specified unit 
+(eg, for submission to an external service that requires a numeric in a specified unit
 or to perform analysis beyond Squant's domain)
 
 When necessary, the value can be extracted in the desired unit with the `to` method.
@@ -213,10 +221,10 @@ that do not use Squants, or require use of more basic types (Double, String)
 Simple console based conversions (using DSL described below)
 
 ```scala
-1.kilograms to Pounds       // Double: 2.2046226218487757 
+1.kilograms to Pounds       // Double: 2.2046226218487757
 kilogram / pound            // Double: 2.2046226218487757
- 
-2.1.pounds to Kilograms     // Double: 0.952543977 
+
+2.1.pounds to Kilograms     // Double: 0.952543977
 2.1.pounds / kilogram       // Double: 0.952543977
 
 100.C to Fahrenheit         // Double: 212.0
@@ -237,7 +245,7 @@ Create an implicit Quantity value to be used as a tolerance in approximations.
 Then use the `approx` method (or `=~`, `~=`, `≈` operators) like you would use the `equals` method (`==` operator).
 
 ```scala
-implicit val tolerance = Watts(.1)      // implicit Power: 0.1 W 
+implicit val tolerance = Watts(.1)      // implicit Power: 0.1 W
 val load = Kilowatts(2.0)               // Power: 2.0 kW
 val reading = Kilowatts(1.9999)         // Power: 1.9999 kW
 
@@ -286,20 +294,8 @@ val vector: DoubleVector = SVector(1.2, 4.3, 2.3, 5.4)   // a Four-dimensional v
 ```
 
 #### Dimensional conversions within Vector operations.
-NOTE - This feature is currently under development and the final implementation being evaluated.
-The following type of operation is the goal.
+Dimensional conversions are supported by using the `map` method:
 
-```scala
-val vectorLength = QuantityVector(Kilometers(1.2), Kilometers(4.3), Kilometers(2.3))
-val vectorArea = vectorLength * Kilometers(2)   // QuantityVector(2.4 km², 8.6 km², 4.6 km²)
-val vectorVelocity = vectorLength / Seconds(1)  // QuantityVector(1200.0 m/s, 4300.0 m/s, 2300.0 m/s)
-
-val vectorDouble = DoubleVector(1.2, 4.3, 2.3)
-val vectorLength = vectorDouble.to(Kilometers)  // QuantityVector(1.2 km, 4.3 km, 2.3 km)
-```
-
-Currently dimensional conversions are supported by using the slightly verbose, but flexible map method.
- 
 ```scala
 val vectorLength = QuantityVector(Kilometers(1.2), Kilometers(4.3), Kilometers(2.3))
 val vectorArea = vectorLength.map[Area](_ * Kilometers(2))      // QuantityVector(2.4 km², 8.6 km², 4.6 km²)
@@ -316,7 +312,7 @@ val vectorLength = QuantityVector(Kilometers(1.2), Kilometers(4.3), Kilometers(2
 val vectorMetersNum = vectorLength.to(Meters)   // DoubleVector(1200.0, 4300.0, 2300.0)
 val vectorMeters = vectorLength.in(Meters)      // QuantityVector(1200.0 m, 4300.0 m, 2300.0 m)
 ```
- 
+
 ## Market Package
 Market Types are similar but not quite the same as other quantities in the library.
 The primary type, Money, is a Dimensional Quantity, and its Units of Measure are Currencies.
@@ -423,7 +419,7 @@ range.foldLeft(10)(0) {(z, r) => ???}
 ```
 
 NOTE - Because these implementations of foreach, map and fold* take a parameter (the divisor), these methods
-are not directly compatible with Scala's for comprehensions. 
+are not directly compatible with Scala's for comprehensions.
 To use in a for comprehension, apply the * or / operators as described above to create a Seq from the Range.
 
 ```scala
@@ -773,8 +769,34 @@ trait LoadRoute extends HttpService {
 * Gia Bảo ([giabao](https://github.com/giabao))
 * Josh Lemer ([joshlemer](https://github.com/joshlemer))
 * Dave DeCarpio ([DaveDeCaprio](https://github.com/DaveDeCaprio))
+* Carlos Quiroz ([cquiroz](https://github.com/cquiroz))
+* Szabolcs Berecz ([khernyo](https://github.com/khernyo))
+* Matt Hicks ([darkfrog26](https://github.com/darkfrog26))
+* golem131 ([golem131](https://github.com/golem131))
+
+## Code of Conduct
+
+Squants is a [Typelevel](http://typelevel.org/) Incubator Project and, as such, supports the Typelevel Code of Conduct.
 
 ## Caveats
 
 Code is offered as-is, with no implied warranty of any kind.
 Comments, criticisms, and/or praise are welcome, especially from scientists, engineers and the like.
+
+# Release procedure
+
+Making a release requires permission to publish to sonatype, and a properly setup [signing key](http://www.scala-sbt.org/sbt-pgp/usage.html):
+
+To make a release do the following:
+
+* Ensure the version is not set to `SNAPSHOT`
+
+* Publish a cross-version signed package
+```
+  sbt +publishSigned
+```
+
+* Then make a release (Note: after this step the release cannot be replaced)
+```
+  sbt sonatypeRelease
+```
