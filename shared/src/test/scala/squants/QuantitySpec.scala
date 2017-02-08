@@ -479,12 +479,12 @@ class QuantitySpec extends FlatSpec with Matchers {
 
   it should "toTuple and return a tuple including the value and the unit's symbol" in {
     val x = Thangs(10.22)
-    x.toTuple should be(10.22, "th")
+    x.toTuple should be((10.22, "th"))
   }
 
   it should "toTuple a unit and return a tuple including the value in the supplied unit and that unit's symbol" in {
     val x = Kilothangs(10.22)
-    x.toTuple(Thangs) should be(10220, "th")
+    x.toTuple(Thangs) should be((10220, "th"))
   }
 
   it should "map over the underlying value and return the resulting value in a Quantity of the same Unit" in {
