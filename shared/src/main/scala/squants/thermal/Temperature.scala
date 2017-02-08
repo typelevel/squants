@@ -141,7 +141,7 @@ object Temperature extends Dimension[Temperature] with BaseDimension {
   def apply[A](n: A, scale: TemperatureScale)(implicit num: Numeric[A]) = new Temperature(num.toDouble(n), scale)
 
   def apply(s: String): Try[Temperature] = {
-    val regex = "([-+]?[0-9]*\\.?[0-9]+(?:[eE][-+]?[0-9]+)?)*[ ]*°? *(f|F|c|C|k|K|r|R)".r
+    val regex = "([-+]?[0-9]*\\.?[0-9]+(?:[eE][-+]?[0-9]+)?)* *°? *(f|F|c|C|k|K|r|R)".r
     s match {
       case regex(value, unit) => unit match {
         case "f" | "F" => Success(Fahrenheit(value.toDouble))
