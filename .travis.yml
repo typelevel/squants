@@ -5,16 +5,11 @@ scala:
    - 2.11.8
 
 jdk:
-   - openjdk7
    - oraclejdk7
    - oraclejdk8
 
 matrix:
   include:
-    - scala: 2.12.1
-      jdk: oraclejdk8
-      env:
-        - TRAVIS_NODE_VERSION="4"
     - scala: 2.12.1
       jdk: oraclejdk8
       env:
@@ -25,7 +20,6 @@ branches:
     - /^wip-.*$/
 
 env:
-  - TRAVIS_NODE_VERSION="4"
   - TRAVIS_NODE_VERSION="6"
 
 install:
