@@ -8,7 +8,6 @@
 
 package squants.thermal
 
-import scala.language.implicitConversions
 import squants._
 import squants.energy.Joules
 import scala.util.{ Failure, Success, Try }

@@ -63,7 +63,7 @@ object SquantsNumeric {
     def toInt(x: Int): Int = x
     def toLong(x: Int): Long = x.toLong
     def toFloat(x: Int): Float = x.toFloat
-    def toDouble(x: Int): Double = x
+    def toDouble(x: Int): Double = x.toDouble
   }
 
   trait LongIsSquantsNumeric extends SquantsNumeric[Long] {
@@ -95,7 +95,7 @@ object SquantsNumeric {
     def abs(x: Float): Float = math.abs(x)
     def zero = 0F
     def one = 1F
-    def toDouble(x: Float): Double = x
+    def toDouble(x: Float): Double = x.toDouble
     def toInt(x: Float): Int = x.toInt
     def toLong(x: Float): Long = x.toLong
     def toFloat(x: Float): Float = x

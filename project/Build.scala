@@ -55,13 +55,28 @@ object Project {
 }
 
 object Compiler {
+  lazy val newerCompilerLintSwitches = Seq(
+    "-Xlint:missing-interpolator", // Not availabile in 2.10
+    "-Ywarn-unused",               // Not available in 2.10
+    "-Ywarn-unused-import",        // Not available in 2.10
+    "-Ywarn-numeric-widen"         // In 2.10 this produces a some strange spurious error
+  )
+
   val defaultSettings = Seq(
     scalacOptions in ThisBuild ++= Seq(
       "-feature",
       "-deprecation",
       "-encoding", "UTF-8",       // yes, this is 2 args
-      "-Xfatal-warnings"
+      "-Xfatal-warnings",
+      "-unchecked",
+      "-Xfuture",
+      "-Ywarn-dead-code",
+      "-Yno-adapted-args"
     ),
+
+    scalacOptions ++= PartialFunction.condOpt(CrossVersion.partialVersion(scalaVersion.value)){
+      case Some((2, scalaMajor)) if scalaMajor >= 11 => newerCompilerLintSwitches
+    }.toList.flatten,
 
     scalaVersion in ThisBuild := Versions.Scala,
 
@@ -138,6 +153,8 @@ object Formatting {
 
 object Console {
   val defaultSettings = Seq(
+  scalacOptions ~= (_ filterNot (Set("-Xfatal-warnings", "-Ywarn-unused-import").contains)),
+
   initialCommands in console := """
      import scala.language.postfixOps,
          squants._,

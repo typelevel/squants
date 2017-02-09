@@ -9,7 +9,6 @@
 package squants.energy
 
 import org.scalatest.{ Matchers, FlatSpec }
-import scala.language.postfixOps
 import squants.mass.Kilograms
 import squants.QuantityParseException
 

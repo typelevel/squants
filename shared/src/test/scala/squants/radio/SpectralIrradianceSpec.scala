@@ -11,8 +11,6 @@ package squants.radio
 import org.scalatest.{FlatSpec, Matchers}
 import squants.QuantityParseException
 
-import scala.language.postfixOps
-
 /**
  * @author  cquiroz@gemini.edu
  * @since   0.6.1

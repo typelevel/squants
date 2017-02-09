@@ -13,8 +13,6 @@ import squants.CustomMatchers
 import squants.motion.MetersPerSecondSquared
 import squants.space.Meters
 
-import scala.language.postfixOps
-
 /**
  * @author  garyKeorkunian
  * @since   0.5.0

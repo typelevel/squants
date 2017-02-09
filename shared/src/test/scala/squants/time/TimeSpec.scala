@@ -14,7 +14,6 @@ import squants.motion.{ MetersPerSecond, MetersPerSecondCubed, MetersPerSecondSq
 import squants.space.Meters
 
 import scala.concurrent.duration.{ DAYS, Duration, HOURS, MICROSECONDS, MILLISECONDS, MINUTES, NANOSECONDS, SECONDS }
-import scala.language.postfixOps
 
 /**
  * @author  garyKeorkunian

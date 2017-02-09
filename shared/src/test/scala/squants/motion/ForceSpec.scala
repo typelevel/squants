@@ -9,7 +9,6 @@
 package squants.motion
 
 import org.scalatest.{ Matchers, FlatSpec }
-import scala.language.postfixOps
 import squants.mass.Kilograms
 import squants.time.Seconds
 import squants.energy.Joules

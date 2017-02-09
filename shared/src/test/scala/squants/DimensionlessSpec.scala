@@ -11,8 +11,6 @@ package squants
 import org.scalatest.{ FlatSpec, Matchers }
 import squants.time.Hertz
 
-import scala.language.postfixOps
-
 /**
  * @author  garyKeorkunian
  * @since   0.1

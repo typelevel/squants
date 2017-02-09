@@ -11,8 +11,6 @@ package squants.time
 import org.scalatest.{ FlatSpec, Matchers }
 import squants.{ Each, MetricSystem, QuantityParseException }
 
-import scala.language.postfixOps
-
 /**
  * @author  garyKeorkunian
  * @since   0.1

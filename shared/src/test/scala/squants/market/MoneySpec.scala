@@ -14,8 +14,6 @@ import squants.mass.Kilograms
 import squants.space.Meters
 import squants.time.Hours
 
-import scala.language.postfixOps
-
 /**
  * @author  garyKeorkunian
  * @since   0.1
