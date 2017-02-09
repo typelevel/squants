@@ -34,8 +34,8 @@ case class QuantityRange[A <: Quantity[A]](lower: A, upper: A) {
   def times(multiple: Double): QuantitySeries[A] = {
     val remainder = multiple % 1
     val count = ((multiple - remainder) / 1).toInt
-    val ranges = (0 until count).map(n ⇒ QuantityRange(lower + (toQuantity * n), upper + (toQuantity * n)))
-    if (remainder > 0) ranges :+ QuantityRange(lower + (toQuantity * count), lower + (toQuantity * (count + remainder)))
+    val ranges = (0 until count).map(n ⇒ QuantityRange(lower + (toQuantity * n.toDouble), upper + (toQuantity * n.toDouble)))
+    if (remainder > 0) ranges :+ QuantityRange(lower + (toQuantity * count.toDouble), lower + (toQuantity * (count + remainder)))
     else ranges
   }
   /** times */

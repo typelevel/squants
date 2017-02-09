@@ -14,8 +14,6 @@ import squants.space.{ CubicMeters, SquareMeters }
 import squants.time.Seconds
 import squants.{ MetricSystem, QuantityParseException }
 
-import scala.language.postfixOps
-
 /**
  * @author  garyKeorkunian
  * @since   0.1

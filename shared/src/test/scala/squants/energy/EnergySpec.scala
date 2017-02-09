@@ -17,8 +17,6 @@ import squants.thermal.{ JoulesPerKelvin, Kelvin }
 import squants.time.Hours
 import squants.{ MetricSystem, QuantityParseException }
 
-import scala.language.postfixOps
-
 /**
  * @author  garyKeorkunian
  * @since   0.1

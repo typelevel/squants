@@ -13,8 +13,6 @@ import squants.QuantityParseException
 import squants.energy.Watts
 import squants.space.{SquareCentimeters, SquareMeters}
 
-import scala.language.postfixOps
-
 /**
  * @author  garyKeorkunian
  * @since   0.1

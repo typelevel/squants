@@ -9,7 +9,6 @@
 package squants.motion
 
 import org.scalatest.{ Matchers, FlatSpec }
-import scala.language.postfixOps
 import squants.space.SquareMeters
 import squants.QuantityParseException
 

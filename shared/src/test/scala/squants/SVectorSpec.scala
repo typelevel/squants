@@ -8,8 +8,8 @@
 
 package squants
 
-import org.scalatest.{ FlatSpec, Matchers }
-import squants.space.{ Degrees, Kilometers, SquareKilometers, SquareMeters }
+import org.scalatest.{FlatSpec, Matchers}
+import squants.space.{Degrees, Kilometers, SquareKilometers, SquareMeters}
 
 /**
  * @author  garyKeorkunian
@@ -36,17 +36,17 @@ class SVectorSpec extends FlatSpec with Matchers {
   }
 
   it should "equate to like Vectors" in {
-    val x = 1
-    val y = 10
-    val z = 5
+    val x = 1d
+    val y = 10d
+    val z = 5d
     SVector(x, y, z).equals(SVector(x, y, z)) should be(right = true)
     SVector(x, y, z) == SVector(x, y, z) should be(right = true)
   }
 
   it should "not equate to dislike Vectors" in {
-    val x = 1
-    val y = 10
-    val z = 5
+    val x = 1d
+    val y = 10d
+    val z = 5d
     SVector(x, y, z).equals(SVector(z, y, z)) should be(right = false)
     SVector(x, y, z) != SVector(z, y, z) should be(right = true)
   }
@@ -68,9 +68,9 @@ class SVectorSpec extends FlatSpec with Matchers {
   }
 
   it should "normalize a Vector" in {
-    val x = 3
-    val y = 4
-    val z = 5
+    val x = 3d
+    val y = 4d
+    val z = 5d
     val normalized = SVector(x, y, z).normalize
     normalized.magnitude should be(1.0 +- 0.0000000000000001)
   }
@@ -88,27 +88,27 @@ class SVectorSpec extends FlatSpec with Matchers {
   }
 
   it should "add two Vectors" in {
-    val x = 1
-    val y = 2
-    val z = 3
-    val a = 5
+    val x = 1d
+    val y = 2d
+    val z = 3d
+    val a = 5d
     SVector(x, y, z).plus(SVector(a, a, a)) should be(SVector(x + a, y + a, z + a))
     SVector(x, y, z) + SVector(a, a, a) should be(SVector(x + a, y + a, z + a))
   }
 
   it should "subtract two Vectors" in {
-    val x = 1
-    val y = 2
-    val z = 3
-    val a = 5
+    val x = 1d
+    val y = 2d
+    val z = 3d
+    val a = 5d
     SVector(x, y, z).minus(SVector(a, a, a)) should be(SVector(x - a, y - a, z - a))
     SVector(x, y, z) - SVector(a, a, a) should be(SVector(x - a, y - a, z - a))
   }
 
   it should "rescale a Vector" in {
-    val x = 1
-    val y = 2
-    val z = 3
+    val x = 1d
+    val y = 2d
+    val z = 3d
     val r = 5d
     SVector(x, y, z).times(r) should be(SVector(x * r, y * r, z * r))
     SVector(x, y, z) * r should be(SVector(x * r, y * r, z * r))
@@ -117,9 +117,9 @@ class SVectorSpec extends FlatSpec with Matchers {
   }
 
   it should "dot product with another DoubleVector" in {
-    val x = 1
-    val y = 2
-    val z = 3
+    val x = 1d
+    val y = 2d
+    val z = 3d
     val a = 5d
     val expRes = x * a + y * a + z * a
     SVector(x, y, z).dotProduct(SVector(a, a, a)) should be(expRes)
@@ -133,9 +133,9 @@ class SVectorSpec extends FlatSpec with Matchers {
   }
 
   it should "cross product with a DoubleVector (with 3 coordinates each)" in {
-    val x = 1
-    val y = 2
-    val z = 3
+    val x = 1d
+    val y = 2d
+    val z = 3d
     val a = 5d
     val expRes = SVector(y * a - z * a, z * a - x * a, x * a - y * a)
     SVector(x, y, z).crossProduct(SVector(a, a, a)) should be(expRes)
@@ -145,6 +145,9 @@ class SVectorSpec extends FlatSpec with Matchers {
     val left = SVector(3, 2, 1)
     val forward = up crossProduct left
     val back = left crossProduct up
+
+    forward should be (DoubleVector(-4.0, 8.0, -4.0))
+    back should be (DoubleVector(4.0, -8.0, 4.0))
   }
 
   it should "crossProduct with a QuantityVector" in {
@@ -280,7 +283,7 @@ class SVectorSpec extends FlatSpec with Matchers {
     val x = Kilometers(1)
     val y = Kilometers(2)
     val z = Kilometers(3)
-    val r = 5
+    val r = 5d
     SVector(x, y, z).times(r) should be(SVector(x * r, y * r, z * r))
     SVector(x, y, z) * r should be(SVector(x * r, y * r, z * r))
     SVector(x, y, z).divide(r) should be(SVector(x / r, y / r, z / r))
@@ -310,7 +313,7 @@ class SVectorSpec extends FlatSpec with Matchers {
     SVector(x, y, z) * SVector(a, a, a) should be(expRes)
   }
 
-  it should "dot product with another QuantityVector" ignore {
+  it should "dot product with another QuantityVector" in {
     import space.AreaConversions._
     val x = Kilometers(1)
     val y = Kilometers(2)
@@ -335,10 +338,12 @@ class SVectorSpec extends FlatSpec with Matchers {
     val left = SVector(3, 2, 1)
     val forward = up crossProduct left
     val back = left crossProduct up
-    // TODO Enhance these tests
+
+    forward should be (QuantityVector(Kilometers(-4), Kilometers(8), Kilometers(-4)))
+    back should be (QuantityVector(Kilometers(-4), Kilometers(8), Kilometers(-4)))
   }
 
-  it should "cross product with another QuantityVector (3 coordinates each)" ignore {
+  it should "cross product with another QuantityVector (3 coordinates each)" in {
     import space.AreaConversions._
     val x = Kilometers(1)
     val y = Kilometers(2)
@@ -354,6 +359,9 @@ class SVectorSpec extends FlatSpec with Matchers {
     val left = SVector(3, 2, 1)
     val forward = up crossProduct left
     val back = left crossProduct up
+
+    forward should be (QuantityVector(Kilometers(-4), Kilometers(8), Kilometers(-4)))
+    back should be (QuantityVector(Kilometers(-4), Kilometers(8), Kilometers(-4)))
   }
 
   it should "throw an exception on cross product two Vectors with 7 coordinates each" in {

@@ -13,8 +13,6 @@ import squants.CustomMatchers
 import squants.motion.UsMilesPerHour
 import squants.space.UsMiles
 
-import scala.language.postfixOps
-
 /**
  * @author  garyKeorkunian
  * @since   0.1
