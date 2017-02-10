@@ -60,9 +60,7 @@ To use Squants interactively in the Scala REPL, clone the git repo and run `sbt 
 
     git clone https://github.com/typelevel/squants
     cd squants
-    sbt -J-Xss2m squantsJVM/console
-
-Note: The console imports most of squants, so you'll need to increase the stack size as indicated above.
+    sbt squantsJVM/console
 
 
 
