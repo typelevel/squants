@@ -19,7 +19,7 @@ import scala.util.Failure
  * @since   0.1
  *
  */
-class QuantitySpec extends FlatSpec with Matchers {
+class QuantitySpec extends FlatSpec with Matchers with CustomMatchers {
 
   /*
     Create a Quantity with two Units of Measure
@@ -101,13 +101,28 @@ class QuantitySpec extends FlatSpec with Matchers {
     Thingee("10.xx th") should be(Failure(QuantityParseException("Unable to parse Thingee", "10.xx th")))
   }
 
-  it should "create values from properly formatted Tuples" in {
-    Thingee((10.22, "th")).get should be(Thangs(10.22))
-    Thingee((10.22, "kth")).get should be(Kilothangs(10.22))
+  it should "create values from properly formatted Tuples with any numeric anyval" in {
 
-    // Using tuples created from quantities (round trip)
+    // floating-point conversions introduce error.
+    implicit val tolerance = Thangs(0.000001)
+
+    // Using tuples of arbitrary numeric anyval's
+    Thingee((10.toByte, "th")).get should be(Thangs(10d))
+    Thingee((10.toShort, "th")).get should be(Thangs(10d))
+    Thingee((10, "th")).get should be(Thangs(10d))
+    Thingee((10L, "th")).get should be(Thangs(10d))
+    Thingee((10.22f, "th")).get should beApproximately(Thangs(10.22))
+    Thingee((10.22, "th")).get should be(Thangs(10.22))
+  }
+
+  it should "create values from tuples with any well-formed unit string" in {
+    Thingee((10.22, "kth")).get should be(Kilothangs(10.22))
+  }
+
+  it should "create values from well-formed tuples and roundtrip them" in {
     Thingee(Thangs(10.22).toTuple).get should be(Thangs(10.22))
     Thingee(Kilothangs(10.22).toTuple).get should be(Kilothangs(10.22))
+
     Thingee(Thangs(10.22).toTuple(Kilothangs)).get should be(Thangs(10.22))
     Thingee(Kilothangs(10.22).toTuple(Thangs)).get should be(Kilothangs(10.22))
   }

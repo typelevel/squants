@@ -60,9 +60,7 @@ To use Squants interactively in the Scala REPL, clone the git repo and run `sbt 
 
     git clone https://github.com/typelevel/squants
     cd squants
-    sbt -J-Xss2m squantsJVM/console
-
-Note: The console imports most of squants, so you'll need to increase the stack size as indicated above.
+    sbt squantsJVM/console
 
 
 
@@ -763,7 +761,7 @@ trait LoadRoute extends HttpService {
 * Jeremy Apthorp ([nornagon](https://github.com/nornagon))
 * Steve Barham ([stevebarham](https://github.com/stevebarham))
 * Derek Morr ([derekmorr](https://github.com/derekmorr))
-* rmihael ([rmihael](https://github.com/rmihael))
+* Michael Korbakov ([rmihael](https://github.com/rmihael))
 * Florian Nussberger ([fnussber](https://github.com/fnussber))
 * Ajay Chandran ([ajaychandran](https://github.com/ajaychandran))
 * Gia Bảo ([giabao](https://github.com/giabao))
@@ -773,6 +771,10 @@ trait LoadRoute extends HttpService {
 * Szabolcs Berecz ([khernyo](https://github.com/khernyo))
 * Matt Hicks ([darkfrog26](https://github.com/darkfrog26))
 * golem131 ([golem131](https://github.com/golem131))
+* Ian O'Hara ([ianohara](https://github.com/ianohara))
+* Shadaj Laddad ([shadaj](https://github.com/shadaj))
+* Ian McIntosh ([cranst0n](https://github.com/cranst0n))
+
 
 ## Code of Conduct
 
