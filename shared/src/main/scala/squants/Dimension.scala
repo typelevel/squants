@@ -56,9 +56,15 @@ trait Dimension[A <: Quantity[A]] {
    * @return Try[A]
    */
   protected def parse(value: Any) = value match {
-    case s: String              ⇒ parseString(s)
-    case (v: Double, u: String) ⇒ parseTuple(v, u)
+    case s: String              => parseString(s)
+    case (v: Byte, u: String)   => parseTuple(v.toDouble, u)
+    case (v: Short, u: String)  => parseTuple(v.toDouble, u)
+    case (v: Int, u: String)    => parseTuple(v.toDouble, u)
+    case (v: Long, u: String)   => parseTuple(v.toDouble, u)
+    case (v: Float, u: String)  => parseTuple(v.toDouble, u)
+    case (v: Double, u: String) => parseTuple(v, u)
   }
+
 
   private def parseString(s: String): Try[A] = {
     s match {
