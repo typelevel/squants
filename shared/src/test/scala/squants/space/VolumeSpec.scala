@@ -48,6 +48,8 @@ class VolumeSpec extends FlatSpec with Matchers {
     FluidOunces(1).toFluidOunces should be(1)
     Tablespoons(1).toTablespoons should be(1)
     Teaspoons(1).toTeaspoons should be(1)
+
+    AcreFeet(1).toAcreFeet should be(1)
   }
 
   it should "create values from properly formatted Strings" in {
@@ -70,6 +72,7 @@ class VolumeSpec extends FlatSpec with Matchers {
     Volume("10.22 oz").get should be(FluidOunces(10.22))
     Volume("10.22 tbsp").get should be(Tablespoons(10.22))
     Volume("10.22 tsp").get should be(Teaspoons(10.22))
+    Volume("10.22 acft").get should be(AcreFeet(10.22))
     Volume("10.22 zz").failed.get should be(QuantityParseException("Unable to parse Volume", "10.22 zz"))
     Volume("ZZ L").failed.get should be(QuantityParseException("Unable to parse Volume", "ZZ L"))
   }
@@ -111,6 +114,8 @@ class VolumeSpec extends FlatSpec with Matchers {
     x.toImperialQuarts should be(4000d / litresPerImperialGallon)
     x.toImperialPints should be(8000d / litresPerImperialGallon)
     x.toImperialCups should be(16000d / litresPerImperialGallon)
+
+    x.toAcreFeet should be(8.107083295302069E-4)
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
@@ -132,6 +137,8 @@ class VolumeSpec extends FlatSpec with Matchers {
     UsQuarts(1).toString(UsQuarts) should be("1.0 qt")
     UsPints(1).toString(UsPints) should be("1.0 pt")
     UsCups(1).toString(UsCups) should be("1.0 c")
+
+    AcreFeet(1).toString(AcreFeet) should be("1.0 acft")
   }
 
   it should "return Mass when multiplied by Density" in {
@@ -194,6 +201,8 @@ class VolumeSpec extends FlatSpec with Matchers {
     fluidOunce should be(FluidOunces(1))
     tablespoon should be(Tablespoons(1))
     teaspoon should be(Teaspoons(1))
+
+    acreFoot should be(AcreFeet(1))
   }
 
   it should "provide implicit conversion from Double" in {
@@ -229,6 +238,8 @@ class VolumeSpec extends FlatSpec with Matchers {
     d.fluidOunces should be(FluidOunces(d))
     d.tablespoons should be(Tablespoons(d))
     d.teaspoons should be(Teaspoons(d))
+
+    d.acreFeet should be(AcreFeet(d))
   }
 
   it should "provide Numeric support" in {

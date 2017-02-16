@@ -86,6 +86,8 @@ final class Volume private (val value: Double, val unit: VolumeUnit)
   def toImperialQuarts = to(ImperialQuarts)
   def toImperialPints = to(ImperialPints)
   def toImperialCups = to(ImperialCups)
+
+  def toAcreFeet = to(AcreFeet)
 }
 
 object Volume extends Dimension[Volume] {
@@ -97,7 +99,8 @@ object Volume extends Dimension[Volume] {
   def units = Set(CubicMeters, Litres, Nanolitres, Microlitres, Millilitres, Centilitres,
     Decilitres, Hectolitres,
     CubicUsMiles, CubicYards, CubicFeet, CubicInches,
-    UsGallons, UsQuarts, UsPints, UsCups, FluidOunces, Tablespoons, Teaspoons)
+    UsGallons, UsQuarts, UsPints, UsCups, FluidOunces, Tablespoons, Teaspoons,
+    AcreFeet)
 }
 
 trait VolumeUnit extends UnitOfMeasure[Volume] with UnitConverter {
@@ -238,6 +241,11 @@ object ImperialCups extends VolumeUnit {
   val conversionFactor = ImperialGallons.conversionFactor / 16d
 }
 
+object AcreFeet extends VolumeUnit {
+  val symbol = "acft"
+  val conversionFactor = CubicFeet.conversionFactor * 43560d
+}
+
 object VolumeConversions {
   lazy val cubicMeter = CubicMeters(1)
   lazy val litre = Litres(1)
@@ -269,6 +277,8 @@ object VolumeConversions {
   lazy val tablespoon = Tablespoons(1)
   lazy val teaspoon = Teaspoons(1)
 
+  lazy val acreFoot = AcreFeet(1)
+
   implicit class VolumeConversions[A](n: A)(implicit num: Numeric[A]) {
     def cubicMeters = CubicMeters(n)
     def cubicMetres = CubicMeters(n)
@@ -299,6 +309,8 @@ object VolumeConversions {
     def fluidOunces = FluidOunces(n)
     def tablespoons = Tablespoons(n)
     def teaspoons = Teaspoons(n)
+
+    def acreFeet = AcreFeet(n)
   }
 
   implicit object VolumeNumeric extends AbstractQuantityNumeric[Volume](Volume.primaryUnit)
