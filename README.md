@@ -17,8 +17,8 @@ All types are immutable and thread-safe.
 
 
 ### Current Versions
-Current Release: **1.1.0**
-([API Docs](https://oss.sonatype.org/service/local/repositories/releases/archive/org/typelevel/squants_2.11/1.1.0/squants_2.11-1.1.0-javadoc.jar/!/index.html#squants.package))
+Current Release: **1.2.0**
+([API Docs](https://oss.sonatype.org/service/local/repositories/releases/archive/org/typelevel/squants_2.11/1.2.0/squants_2.11-1.2.0-javadoc.jar/!/index.html#squants.package))
 
 Development Build: **1.2.0-SNAPSHOT**
 ([API Docs](https://oss.sonatype.org/service/local/repositories/snapshots/archive/org/typelevel/squants_2.11/1.2.0-SNAPSHOT/squants_2.11-1.2.0-SNAPSHOT-javadoc.jar/!/index.html#squants.package))
@@ -36,7 +36,7 @@ For more information on feature availability of a specific version see the Relea
 Repository hosting for Squants is provided by [Sonatype](https://oss.sonatype.org/).
 To use Squants in your SBT project add the following dependency to your build.
 
-    "org.typelevel"  %% "squants"  % "1.1.0"
+    "org.typelevel"  %% "squants"  % "1.2.0"
 or
 
     "org.typelevel"  %% "squants"  % "1.2.0-SNAPSHOT"
@@ -48,7 +48,7 @@ To use Squants in your Maven project add the following dependency
 <dependency>
     <groupId>org.typelevel</groupId>
     <artifactId>squants_2.11</artifactId>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
 </dependency>
 ```
 
@@ -138,7 +138,7 @@ energy: squants.energy.Energy = 23.0 kWh
 Invalid operations, like adding power and energy, no longer compile:
 ```scala
 scala> val sum = load + energy
-<console>:13: error: type mismatch;
+<console>:16: error: type mismatch;
  found   : squants.energy.Energy
  required: squants.energy.Power
        val sum = load + energy
@@ -354,10 +354,10 @@ Calls to `approx` (and its symbolic aliases) use an implicit tolerance:
 scala> implicit val tolerance = Watts(.1)
 tolerance: squants.energy.Power = 0.1 W
 
-scala> load =~ reading 
+scala> load =~ reading
 res0: Boolean = true
 
-scala> load ≈ reading 
+scala> load ≈ reading
 res1: Boolean = true
 
 scala> load approx reading
@@ -375,7 +375,7 @@ That is, there is no direction information encoded in any of the Quantity types.
 This is true even for Quantities which are normally vector quantities (ie. Velocity, Acceleration, etc).
 
 Vector quantities in Squants are implemented as case classes that takes a variable parameter list of like quantities
-representing a set of point coordinates in Cartesian space.  
+representing a set of point coordinates in Cartesian space.
 The SVector object is a factory for creating DoubleVectors and QuantityVectors.
 The dimensionality of the vector is determined by the number of arguments.
 Most basic vector operations are currently supported (addition, subtraction, scaling, cross and dot products)
@@ -608,7 +608,7 @@ scala> val exchangeRates = List(USD / CAD(1.05), USD / MXN(12.50), USD / JPY(100
 exchangeRates: List[squants.market.CurrencyExchangeRate] = List(USD/CAD 1.05, USD/MXN 12.5, USD/JPY 100.0)
 
 scala> implicit val moneyContext = defaultMoneyContext withExchangeRates exchangeRates
-moneyContext: squants.market.MoneyContext = MoneyContext(squants.market.USD$@2282d3a2,Set(squants.market.NOK$@6460f2b0, squants.market.RUB$@7aab2eb2, squants.market.AUD$@2fc4ea38, squants.market.MXN$@54c5d920, squants.market.MYR$@2f1833f8, squants.market.CAD$@68c0f7c5, squants.market.NZD$@ddfb50, squants.market.CLP$@51b13827, squants.market.CNY$@54de2050, squants.market.XAG$@77d4c0b6, squants.market.XAU$@183cb267, squants.market.USD$@2282d3a2, squants.market.EUR$@5e162c54, squants.market.KRW$@26384c20, squants.market.GBP$@7bef4b66, squants.market.CHF$@592c9c10, squants.market.INR$@48167606, squants.market.JPY$@270d97dc, squants.market.SEK$@14c255ec, squants.market.HKD$@3c39d6d9, squants.market.CZK$@3b4f9bd1, squants.market.BTC$@3bc1c16c, squants.market.DKK$@63e4cb4, squants.market.BRL$@...
+moneyContext: squants.market.MoneyContext = MoneyContext(squants.market.USD$@480eb049,Set(squants.market.ARS$@e46d085, squants.market.SEK$@4fce627, squants.market.KRW$@59597f79, squants.market.AUD$@69d7538c, squants.market.CNY$@68b7400b, squants.market.JPY$@10dbf8a2, squants.market.XAG$@5b5df1b, squants.market.NZD$@20766254, squants.market.CLP$@6034ea2e, squants.market.DKK$@1fcf65d, squants.market.CHF$@332c94f4, squants.market.NOK$@32c671c2, squants.market.CZK$@56205359, squants.market.HKD$@40d59d5b, squants.market.USD$@480eb049, squants.market.BTC$@cb0a33b, squants.market.XAU$@1642693b, squants.market.GBP$@14bbbe0e, squants.market.BRL$@36e7dd8e, squants.market.CAD$@b56bfe3, squants.market.MXN$@350a1e4c, squants.market.EUR$@465e19d6, squants.market.INR$@26fdd502, squants.market.MYR$@7d1...
 
 scala> val energyPrice = USD(102.20) / MegawattHours(1)
 energyPrice: squants.market.Price[squants.energy.Energy] = 102.20 USD/1.0 MWh
@@ -798,7 +798,7 @@ Most Quantities that support implicit conversions also include an implicit Numer
 to your code where Numeric support is required.  These follow the following pattern:
 
 ```scala
-scala> import squants.mass.{Grams, Kilograms} 
+scala> import squants.mass.{Grams, Kilograms}
 import squants.mass.{Grams, Kilograms}
 
 scala> import squants.mass.MassConversions.MassNumeric
@@ -829,7 +829,7 @@ implicit val moneyContext = defaultMoneyContext
 
 ```scala
 scala> implicit val moneyNum = new MoneyNumeric()
-moneyNum: squants.market.MoneyConversions.MoneyNumeric = squants.market.MoneyConversions$MoneyNumeric@3702b889
+moneyNum: squants.market.MoneyConversions.MoneyNumeric = squants.market.MoneyConversions$MoneyNumeric@1ff4c520
 
 scala> val sum = List(USD(100), USD(10)).sum
 sum: squants.market.Money = 110.00 USD
@@ -969,7 +969,7 @@ import squants.time.TimeConversions._
 
 ```scala
 scala> implicit val moneyContext = defaultMoneyContext
-moneyContext: squants.market.MoneyContext = MoneyContext(squants.market.USD$@2282d3a2,Set(squants.market.NOK$@6460f2b0, squants.market.RUB$@7aab2eb2, squants.market.AUD$@2fc4ea38, squants.market.MXN$@54c5d920, squants.market.MYR$@2f1833f8, squants.market.CAD$@68c0f7c5, squants.market.NZD$@ddfb50, squants.market.CLP$@51b13827, squants.market.CNY$@54de2050, squants.market.XAG$@77d4c0b6, squants.market.XAU$@183cb267, squants.market.USD$@2282d3a2, squants.market.EUR$@5e162c54, squants.market.KRW$@26384c20, squants.market.GBP$@7bef4b66, squants.market.CHF$@592c9c10, squants.market.INR$@48167606, squants.market.JPY$@270d97dc, squants.market.SEK$@14c255ec, squants.market.HKD$@3c39d6d9, squants.market.CZK$@3b4f9bd1, squants.market.BTC$@3bc1c16c, squants.market.DKK$@63e4cb4, squants.market.BRL$@...
+moneyContext: squants.market.MoneyContext = MoneyContext(squants.market.USD$@480eb049,Set(squants.market.ARS$@e46d085, squants.market.SEK$@4fce627, squants.market.KRW$@59597f79, squants.market.AUD$@69d7538c, squants.market.CNY$@68b7400b, squants.market.JPY$@10dbf8a2, squants.market.XAG$@5b5df1b, squants.market.NZD$@20766254, squants.market.CLP$@6034ea2e, squants.market.DKK$@1fcf65d, squants.market.CHF$@332c94f4, squants.market.NOK$@32c671c2, squants.market.CZK$@56205359, squants.market.HKD$@40d59d5b, squants.market.USD$@480eb049, squants.market.BTC$@cb0a33b, squants.market.XAU$@1642693b, squants.market.GBP$@14bbbe0e, squants.market.BRL$@36e7dd8e, squants.market.CAD$@b56bfe3, squants.market.MXN$@350a1e4c, squants.market.EUR$@465e19d6, squants.market.INR$@26fdd502, squants.market.MYR$@7d1...
 
 scala> val energyPrice: Price[Energy] = 45.25.money / megawattHour
 energyPrice: squants.market.Price[squants.energy.Energy] = 45.25 USD/1.0 MWh
@@ -1183,6 +1183,12 @@ Making a release requires permission to publish to sonatype, and a properly setu
 To make a release do the following:
 
 * Ensure the version is not set to `SNAPSHOT`
+
+* Build the README using tut
+
+```
+  sbt tut
+```
 
 * Publish a cross-version signed package
 ```
