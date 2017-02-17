@@ -61,6 +61,19 @@ To use Squants interactively in the Scala REPL, clone the git repo and run `sbt 
     cd squants
     sbt squantsJVM/console
 
+## Third-party integration
+
+If you are using the [PureConfig](https://github.com/melrief/pureconfig/) library, there is integration with Squants
+via [pureconfig-squants](https://github.com/melrief/pureconfig/tree/master/modules/squants). This lets you parse
+dimensional values out of HOCON configuration files. For example:
+
+```
+{
+  far: 42.195 km
+  hot: 56.7° C
+}
+```
+
 ## Type Safe Dimensional Analysis
 *The Trouble with Doubles*
 
