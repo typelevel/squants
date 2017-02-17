@@ -17,8 +17,8 @@ All types are immutable and thread-safe.
 
 
 ### Current Versions
-Current Release: **1.1.0**
-([API Docs](https://oss.sonatype.org/service/local/repositories/releases/archive/org/typelevel/squants_2.11/1.1.0/squants_2.11-1.1.0-javadoc.jar/!/index.html#squants.package))
+Current Release: **1.2.0**
+([API Docs](https://oss.sonatype.org/service/local/repositories/releases/archive/org/typelevel/squants_2.11/1.2.0/squants_2.11-1.2.0-javadoc.jar/!/index.html#squants.package))
 
 Development Build: **1.2.0-SNAPSHOT**
 ([API Docs](https://oss.sonatype.org/service/local/repositories/snapshots/archive/org/typelevel/squants_2.11/1.2.0-SNAPSHOT/squants_2.11-1.2.0-SNAPSHOT-javadoc.jar/!/index.html#squants.package))
@@ -36,7 +36,7 @@ For more information on feature availability of a specific version see the Relea
 Repository hosting for Squants is provided by [Sonatype](https://oss.sonatype.org/).
 To use Squants in your SBT project add the following dependency to your build.
 
-    "org.typelevel"  %% "squants"  % "1.1.0"
+    "org.typelevel"  %% "squants"  % "1.2.0"
 or
 
     "org.typelevel"  %% "squants"  % "1.2.0-SNAPSHOT"
@@ -48,7 +48,7 @@ To use Squants in your Maven project add the following dependency
 <dependency>
     <groupId>org.typelevel</groupId>
     <artifactId>squants_2.11</artifactId>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
 </dependency>
 ```
 
@@ -272,8 +272,8 @@ Calls to `approx` (and its symbolic aliases) use an implicit tolerance:
 
 ```tut
 implicit val tolerance = Watts(.1)
-load =~ reading 
-load ≈ reading 
+load =~ reading
+load ≈ reading
 load approx reading
 ```
 
@@ -288,7 +288,7 @@ That is, there is no direction information encoded in any of the Quantity types.
 This is true even for Quantities which are normally vector quantities (ie. Velocity, Acceleration, etc).
 
 Vector quantities in Squants are implemented as case classes that takes a variable parameter list of like quantities
-representing a set of point coordinates in Cartesian space.  
+representing a set of point coordinates in Cartesian space.
 The SVector object is a factory for creating DoubleVectors and QuantityVectors.
 The dimensionality of the vector is determined by the number of arguments.
 Most basic vector operations are currently supported (addition, subtraction, scaling, cross and dot products)
@@ -582,7 +582,7 @@ Most Quantities that support implicit conversions also include an implicit Numer
 to your code where Numeric support is required.  These follow the following pattern:
 
 ```tut:reset
-import squants.mass.{Grams, Kilograms} 
+import squants.mass.{Grams, Kilograms}
 import squants.mass.MassConversions.MassNumeric
 
 val sum = List(Kilograms(100), Grams(34510)).sum
@@ -927,6 +927,12 @@ Making a release requires permission to publish to sonatype, and a properly setu
 To make a release do the following:
 
 * Ensure the version is not set to `SNAPSHOT`
+
+* Build the README using tut
+
+```
+  sbt tut
+```
 
 * Publish a cross-version signed package
 ```
