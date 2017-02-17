@@ -61,6 +61,19 @@ To use Squants interactively in the Scala REPL, clone the git repo and run `sbt 
     cd squants
     sbt squantsJVM/console
 
+## Third-party integration
+
+If you are using the [PureConfig](https://github.com/melrief/pureconfig/) library, there is integration with Squants
+via [pureconfig-squants](https://github.com/melrief/pureconfig/tree/master/modules/squants). This lets you parse
+dimensional values out of HOCON configuration files. For example:
+
+```
+{
+  far: 42.195 km
+  hot: 56.7° C
+}
+```
+
 ## Type Safe Dimensional Analysis
 *The Trouble with Doubles*
 
@@ -608,7 +621,7 @@ scala> val exchangeRates = List(USD / CAD(1.05), USD / MXN(12.50), USD / JPY(100
 exchangeRates: List[squants.market.CurrencyExchangeRate] = List(USD/CAD 1.05, USD/MXN 12.5, USD/JPY 100.0)
 
 scala> implicit val moneyContext = defaultMoneyContext withExchangeRates exchangeRates
-moneyContext: squants.market.MoneyContext = MoneyContext(squants.market.USD$@480eb049,Set(squants.market.ARS$@e46d085, squants.market.SEK$@4fce627, squants.market.KRW$@59597f79, squants.market.AUD$@69d7538c, squants.market.CNY$@68b7400b, squants.market.JPY$@10dbf8a2, squants.market.XAG$@5b5df1b, squants.market.NZD$@20766254, squants.market.CLP$@6034ea2e, squants.market.DKK$@1fcf65d, squants.market.CHF$@332c94f4, squants.market.NOK$@32c671c2, squants.market.CZK$@56205359, squants.market.HKD$@40d59d5b, squants.market.USD$@480eb049, squants.market.BTC$@cb0a33b, squants.market.XAU$@1642693b, squants.market.GBP$@14bbbe0e, squants.market.BRL$@36e7dd8e, squants.market.CAD$@b56bfe3, squants.market.MXN$@350a1e4c, squants.market.EUR$@465e19d6, squants.market.INR$@26fdd502, squants.market.MYR$@7d1...
+moneyContext: squants.market.MoneyContext = MoneyContext(squants.market.USD$@2d7b5ee6,Set(squants.market.GBP$@3f7d167a, squants.market.RUB$@71b892ac, squants.market.SEK$@201a71e9, squants.market.EUR$@7d465a5e, squants.market.MXN$@32a552ae, squants.market.NOK$@2487bb90, squants.market.CNY$@262c8ab6, squants.market.CAD$@51fdf44c, squants.market.CHF$@47feff81, squants.market.DKK$@28ffa3c4, squants.market.NZD$@69109d02, squants.market.USD$@2d7b5ee6, squants.market.CLP$@302ca805, squants.market.KRW$@19a87a, squants.market.XAU$@54cd67e5, squants.market.ARS$@23b6a466, squants.market.XAG$@39580541, squants.market.INR$@18db97c9, squants.market.AUD$@7cb16291, squants.market.BRL$@26860214, squants.market.JPY$@5700ba26, squants.market.HKD$@4d6fec23, squants.market.CZK$@18cd45ab, squants.market.MYR$...
 
 scala> val energyPrice = USD(102.20) / MegawattHours(1)
 energyPrice: squants.market.Price[squants.energy.Energy] = 102.20 USD/1.0 MWh
@@ -829,7 +842,7 @@ implicit val moneyContext = defaultMoneyContext
 
 ```scala
 scala> implicit val moneyNum = new MoneyNumeric()
-moneyNum: squants.market.MoneyConversions.MoneyNumeric = squants.market.MoneyConversions$MoneyNumeric@1ff4c520
+moneyNum: squants.market.MoneyConversions.MoneyNumeric = squants.market.MoneyConversions$MoneyNumeric@6bcb1476
 
 scala> val sum = List(USD(100), USD(10)).sum
 sum: squants.market.Money = 110.00 USD
@@ -969,7 +982,7 @@ import squants.time.TimeConversions._
 
 ```scala
 scala> implicit val moneyContext = defaultMoneyContext
-moneyContext: squants.market.MoneyContext = MoneyContext(squants.market.USD$@480eb049,Set(squants.market.ARS$@e46d085, squants.market.SEK$@4fce627, squants.market.KRW$@59597f79, squants.market.AUD$@69d7538c, squants.market.CNY$@68b7400b, squants.market.JPY$@10dbf8a2, squants.market.XAG$@5b5df1b, squants.market.NZD$@20766254, squants.market.CLP$@6034ea2e, squants.market.DKK$@1fcf65d, squants.market.CHF$@332c94f4, squants.market.NOK$@32c671c2, squants.market.CZK$@56205359, squants.market.HKD$@40d59d5b, squants.market.USD$@480eb049, squants.market.BTC$@cb0a33b, squants.market.XAU$@1642693b, squants.market.GBP$@14bbbe0e, squants.market.BRL$@36e7dd8e, squants.market.CAD$@b56bfe3, squants.market.MXN$@350a1e4c, squants.market.EUR$@465e19d6, squants.market.INR$@26fdd502, squants.market.MYR$@7d1...
+moneyContext: squants.market.MoneyContext = MoneyContext(squants.market.USD$@2d7b5ee6,Set(squants.market.GBP$@3f7d167a, squants.market.RUB$@71b892ac, squants.market.SEK$@201a71e9, squants.market.EUR$@7d465a5e, squants.market.MXN$@32a552ae, squants.market.NOK$@2487bb90, squants.market.CNY$@262c8ab6, squants.market.CAD$@51fdf44c, squants.market.CHF$@47feff81, squants.market.DKK$@28ffa3c4, squants.market.NZD$@69109d02, squants.market.USD$@2d7b5ee6, squants.market.CLP$@302ca805, squants.market.KRW$@19a87a, squants.market.XAU$@54cd67e5, squants.market.ARS$@23b6a466, squants.market.XAG$@39580541, squants.market.INR$@18db97c9, squants.market.AUD$@7cb16291, squants.market.BRL$@26860214, squants.market.JPY$@5700ba26, squants.market.HKD$@4d6fec23, squants.market.CZK$@18cd45ab, squants.market.MYR$...
 
 scala> val energyPrice: Price[Energy] = 45.25.money / megawattHour
 energyPrice: squants.market.Price[squants.energy.Energy] = 45.25 USD/1.0 MWh
