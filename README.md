@@ -480,12 +480,11 @@ val hi = 100.dollars / MWh
 val low = 40.dollars / megawattHour
 ```
 
-Implicit conversion support for using Double on the left side of operations
+Implicit conversion support for using Double on the left side of multiplication
 
 ```scala
-val price = 10 / dollar	    // 1 USD / 10 ea
-val freq = 60 / second	    // 60 Hz
-val load = 10 * 4.MW		// 40 MW
+val load = 10 * 4.MW		                // 40 MW
+val driveArrayCapacity = 12 * 600.gb    // 7200 GB
 ```
 
 Create Quantity Ranges using `to` or `plusOrMinus` (`+-`) operators
