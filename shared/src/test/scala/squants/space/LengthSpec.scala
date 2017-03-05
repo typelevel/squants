@@ -47,6 +47,7 @@ class LengthSpec extends FlatSpec with Matchers {
     LightYears(1).toLightYears should be(1)
     Parsecs(1).toParsecs should be(1)
     SolarRadii(1).toSolarRadii should be(1)
+    NominalSolarRadii(1).toNominalSolarRadii should be(1)
   }
 
   it should "create values from properly formatted Strings" in {
@@ -70,6 +71,7 @@ class LengthSpec extends FlatSpec with Matchers {
     Length("10.33 ly").get should be(LightYears(10.33))
     Length("10.33 pc").get should be(Parsecs(10.33))
     Length("10.33 R☉").get should be(SolarRadii(10.33))
+    Length("10.33 RN☉").get should be(NominalSolarRadii(10.33))
     Length("10.33 zz").failed.get should be(QuantityParseException("Unable to parse Length", "10.33 zz"))
     Length("ZZ m").failed.get should be(QuantityParseException("Unable to parse Length", "ZZ m"))
   }
@@ -97,7 +99,8 @@ class LengthSpec extends FlatSpec with Matchers {
     x.toAstronomicalUnits should be(1 / 149597870700d)
     x.toLightYears should be(1 / 9460730472580800d)
     x.toParsecs should be(1 / 3.08567758149137e16)
-    x.toSolarRadii should be(1 / 6.95700e8)
+    x.toSolarRadii should be(1 / 6.957e8)
+    x.toNominalSolarRadii should be(1 / 6.957e8)
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
@@ -122,6 +125,7 @@ class LengthSpec extends FlatSpec with Matchers {
     LightYears(1).toString(LightYears) should be("1.0 ly")
     Parsecs(1).toString(Parsecs) should be("1.0 pc")
     SolarRadii(1).toString(SolarRadii) should be("1.0 R☉")
+    NominalSolarRadii(1).toString(NominalSolarRadii) should be("1.0 RN☉")
   }
 
   it should "return Area when multiplied by Length" in {
@@ -194,6 +198,7 @@ class LengthSpec extends FlatSpec with Matchers {
     lightYear should be(LightYears(1))
     parsec should be(Parsecs(1))
     solarRadius should be(SolarRadii(1))
+    nominalSolarRadius should be(NominalSolarRadii(1))
   }
 
   it should "provide implicit conversion from Double" in {
@@ -234,6 +239,7 @@ class LengthSpec extends FlatSpec with Matchers {
     d.pc should be(Parsecs(d))
     d.parsecs should be(Parsecs(d))
     d.solarRadii should be(SolarRadii(d))
+    d.nominalSolarRadii should be(NominalSolarRadii(d))
   }
 
   it should "provide implicit conversion from String" in {
@@ -259,6 +265,7 @@ class LengthSpec extends FlatSpec with Matchers {
     "10.33 ly".toLength.get should be(LightYears(10.33))
     "10.33 pc".toLength.get should be(Parsecs(10.33))
     "10.33 R☉".toLength.get should be(SolarRadii(10.33))
+    "10.33 RN☉".toLength.get should be(NominalSolarRadii(10.33))
     "10.33 zz".toLength.failed.get should be(QuantityParseException("Unable to parse Length", "10.33 zz"))
     "ZZ m".toLength.failed.get should be(QuantityParseException("Unable to parse Length", "ZZ m"))
   }
