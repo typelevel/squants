@@ -52,6 +52,7 @@ final class Power private (val value: Double, val unit: PowerUnit)
   def toGigawatts = to(Gigawatts)
   def toBtusPerHour = to(BtusPerHour)
   def toErgsPerSecond = to(ErgsPerSecond)
+  def toSolarLuminosities = to(SolarLuminosities)
 }
 
 /**
@@ -65,7 +66,7 @@ object Power extends Dimension[Power] {
   def name = "Power"
   def primaryUnit = Watts
   def siUnit = Watts
-  def units = Set(Watts, Milliwatts, Kilowatts, Megawatts, Gigawatts, BtusPerHour, ErgsPerSecond)
+  def units = Set(Watts, Milliwatts, Kilowatts, Megawatts, Gigawatts, BtusPerHour, ErgsPerSecond, SolarLuminosities)
 }
 
 trait PowerUnit extends UnitOfMeasure[Power] with UnitConverter {
@@ -106,6 +107,11 @@ object ErgsPerSecond extends PowerUnit {
   val symbol = Ergs.symbol + "/" + Seconds.symbol
 }
 
+object SolarLuminosities extends PowerUnit {
+  val conversionFactor = 3.828e26
+  val symbol = "L☉"
+}
+
 object PowerConversions {
   lazy val milliwatt = Milliwatts(1)
   lazy val mW = milliwatt
@@ -117,6 +123,7 @@ object PowerConversions {
   lazy val MW = megawatt
   lazy val gigawatt = Gigawatts(1)
   lazy val GW = gigawatt
+  lazy val solarLuminosity = SolarLuminosities(1)
 
   implicit class PowerConversions[A](n: A)(implicit num: Numeric[A]) {
     def mW = Milliwatts(n)
@@ -131,6 +138,7 @@ object PowerConversions {
     def gigawatts = Gigawatts(n)
     def BTUph = BtusPerHour(n)
     def ergsPerSecond = ErgsPerSecond(n)
+    def solarLuminosities = SolarLuminosities(n)
   }
 
   implicit class PowerStringConversions(s: String) {

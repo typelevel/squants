@@ -40,6 +40,7 @@ class MassSpec extends FlatSpec with Matchers {
     TroyPounds(10.22).toTroyPounds should be(10.22)
     Tolas(10.22).toTolas should be(10.22)
     Carats(10.22).toCarats should be(10.22)
+    SolarMasses(10.22).toSolarMasses should be(10.22)
   }
 
   it should "create values from properly formatted Strings" in {
@@ -59,6 +60,7 @@ class MassSpec extends FlatSpec with Matchers {
     Mass("10.22 lb t").get should be(TroyPounds(10.22))
     Mass("10.22 tola").get should be(Tolas(10.22))
     Mass("10.22 ct").get should be(Carats(10.22))
+    Mass("10.22 M☉").get should be(SolarMasses(10.22))
     Mass("10.45 zz").failed.get should be(QuantityParseException("Unable to parse Mass", "10.45 zz"))
     Mass("zz g").failed.get should be(QuantityParseException("Unable to parse Mass", "zz g"))
   }
@@ -77,6 +79,7 @@ class MassSpec extends FlatSpec with Matchers {
     x.toTroyOunces should be (1 / TroyOunces.conversionFactor)
     x.toTroyPounds should be (1 / TroyPounds.conversionFactor)
     x.toCarats should be (1 / Carats.conversionFactor)
+    x.toSolarMasses should be (1 / SolarMasses.conversionFactor)
 
     Grams(1000) should be(Kilograms(1))
     Kilograms(0.45359237) should be(Pounds(1))
@@ -90,6 +93,7 @@ class MassSpec extends FlatSpec with Matchers {
     Carats(1) should be(Milligrams(200))
     TroyOunces(1).toGrams should be(31.1034768)
     Pennyweights(1).toGrams should be(1.55517384 +- 0.000000001)
+    SolarMasses(1).toKilograms should be(1.98855e30 +- 0.00025)
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
@@ -108,6 +112,7 @@ class MassSpec extends FlatSpec with Matchers {
     TroyPounds(1).toString(TroyPounds) should be("1.0 lb t")
     Tolas(1).toString(Tolas) should be("1.0 tola")
     Carats(1).toString(Carats) should be("1.0 ct")
+    SolarMasses(1).toString(SolarMasses) should be("1.0 M☉")
   }
 
   it should "return Momentum when multiplied by Velocity" in {
@@ -162,6 +167,7 @@ class MassSpec extends FlatSpec with Matchers {
     troyPound should be(TroyPounds(1))
     tola should be(Tolas(1))
     carat should be(Carats(1))
+    solarMass should be(SolarMasses(1))
   }
 
   it should "provide implicit conversion from Double" in {
@@ -188,6 +194,7 @@ class MassSpec extends FlatSpec with Matchers {
     d.tolas should be(Tolas(d))
     d.ct should be(Carats(d))
     d.carats should be(Carats(d))
+    d.solarMasses should be(SolarMasses(d))
   }
 
   it should "provide implicit conversions from arbitrary Numeric types" in {
@@ -217,6 +224,7 @@ class MassSpec extends FlatSpec with Matchers {
     "10.45 lb t".toMass.get should be(TroyPounds(10.45))
     "10.45 tola".toMass.get should be(Tolas(10.45))
     "10.45 ct".toMass.get should be(Carats(10.45))
+    "10.45 M☉".toMass.get should be(SolarMasses(10.45))
     "10.45 zz".toMass.failed.get should be(QuantityParseException("Unable to parse Mass", "10.45 zz"))
     "zz oz".toMass.failed.get should be(QuantityParseException("Unable to parse Mass", "zz oz"))
   }
