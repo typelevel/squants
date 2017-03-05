@@ -29,6 +29,7 @@ class PowerSpec extends FlatSpec with Matchers {
     Gigawatts(1).toGigawatts should be(1)
     BtusPerHour(1).toBtusPerHour should be(1)
     ErgsPerSecond(1).toErgsPerSecond should be(1)
+    SolarLuminosities(1).toSolarLuminosities should be(1)
   }
 
   it should "create values from properly formatted Strings" in {
@@ -39,6 +40,7 @@ class PowerSpec extends FlatSpec with Matchers {
     Power("10.22 GW").get should be(Gigawatts(10.22))
     Power("10.22 Btu/hr").get should be(BtusPerHour(10.22))
     Power("10.22 erg/s").get should be(ErgsPerSecond(10.22))
+    Power("10.22 L☉").get should be(SolarLuminosities(10.22))
     Power("10.22 zz").failed.get should be(QuantityParseException("Unable to parse Power", "10.22 zz"))
     Power("ZZ W").failed.get should be(QuantityParseException("Unable to parse Power", "ZZ W"))
   }
@@ -53,6 +55,7 @@ class PowerSpec extends FlatSpec with Matchers {
     x.toGigawatts should be(1 / MetricSystem.Giga)
     x.toBtusPerHour should be(1 / EnergyConversions.btuMultiplier)
     x.toErgsPerSecond should be(1 / 1e-7)
+    x.toSolarLuminosities should be(1 / 3.828e26)
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
@@ -63,6 +66,7 @@ class PowerSpec extends FlatSpec with Matchers {
     Gigawatts(1).toString(Gigawatts) should be("1.0 GW")
     BtusPerHour(1).toString(BtusPerHour) should be("1.0 Btu/hr")
     ErgsPerSecond(1).toString(ErgsPerSecond) should be("1.0 erg/s")
+    SolarLuminosities(1).toString(SolarLuminosities) should be("1.0 L☉")
   }
 
   it should "return Energy when multiplied by Time" in {
@@ -84,6 +88,7 @@ class PowerSpec extends FlatSpec with Matchers {
     MW should be(Megawatts(1))
     gigawatt should be(Gigawatts(1))
     GW should be(Gigawatts(1))
+    solarLuminosity should be(SolarLuminosities(1))
   }
 
   it should "provide implicit conversion from Double" in {
@@ -102,6 +107,7 @@ class PowerSpec extends FlatSpec with Matchers {
     d.gigawatts should be(Gigawatts(d))
     d.BTUph should be(BtusPerHour(d))
     d.ergsPerSecond should be(ErgsPerSecond(d))
+    d.solarLuminosities should be(SolarLuminosities(d))
   }
 
   it should "provide implicit conversions from String" in {
@@ -114,6 +120,7 @@ class PowerSpec extends FlatSpec with Matchers {
     "10.22 GW".toPower.get should be(Gigawatts(10.22))
     "10.22 Btu/hr".toPower.get should be(BtusPerHour(10.22))
     "10.22 erg/s".toPower.get should be(ErgsPerSecond(10.22))
+    "10.22 L☉".toPower.get should be(SolarLuminosities(10.22))
     "10.22 zz".toPower.failed.get should be(QuantityParseException("Unable to parse Power", "10.22 zz"))
     "ZZ W".toPower.failed.get should be(QuantityParseException("Unable to parse Power", "ZZ W"))
   }

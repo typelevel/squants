@@ -55,6 +55,7 @@ final class Mass private (val value: Double, val unit: MassUnit)
   def toTroyPounds = to(TroyPounds)
   def toTolas = to(Tolas)
   def toCarats = to(Carats)
+  def toSolarMasses = to(SolarMasses)
 }
 
 /**
@@ -67,7 +68,7 @@ object Mass extends Dimension[Mass] with BaseDimension {
   def primaryUnit = Grams
   def siUnit = Kilograms
   def units = Set(Micrograms, Milligrams, Grams, Kilograms, Tonnes, Ounces, Pounds, Kilopounds, Megapounds, Stone,
-    TroyGrains, Pennyweights, TroyOunces, TroyPounds, Tolas, Carats)
+    TroyGrains, Pennyweights, TroyOunces, TroyPounds, Tolas, Carats, SolarMasses)
   def dimensionSymbol = "M"
 }
 
@@ -157,6 +158,11 @@ object Carats extends MassUnit {
   val symbol = "ct"
 }
 
+object SolarMasses extends MassUnit {
+  val conversionFactor = 1.98855e33
+  val symbol = "M☉"
+}
+
 /**
  * Implicit conversions for [[squants.mass.Mass]]
  *
@@ -179,6 +185,7 @@ object MassConversions {
   lazy val troyPound = TroyPounds(1)
   lazy val tola = Tolas(1)
   lazy val carat = Carats(1)
+  lazy val solarMass = SolarMasses(1)
 
   implicit class MassConversions[A](n: A)(implicit num: Numeric[A]) {
     def mcg = Micrograms(n)
@@ -202,6 +209,7 @@ object MassConversions {
     def tolas = Tolas(n)
     def ct = Carats(n)
     def carats = Carats(n)
+    def solarMasses = SolarMasses(n)
   }
 
   implicit class MassStringConversions(val s: String) {

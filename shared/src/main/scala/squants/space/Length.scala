@@ -81,6 +81,8 @@ final class Length private (val value: Double, val unit: LengthUnit)
   def toAstronomicalUnits = to(AstronomicalUnits)
   def toLightYears = to(LightYears)
   def toParsecs = to(Parsecs)
+  def toSolarRadii = to(SolarRadii)
+  def toNominalSolarRadii = to(NominalSolarRadii)
 }
 
 /**
@@ -95,7 +97,7 @@ object Length extends Dimension[Length] with BaseDimension {
   def units = Set(Angstroms, Nanometers, Microns, Millimeters, Centimeters,
     Decimeters, Meters, Decameters, Hectometers, Kilometers,
     Inches, Feet, Yards, UsMiles, InternationalMiles, NauticalMiles,
-    AstronomicalUnits, LightYears, Parsecs)
+    AstronomicalUnits, LightYears, Parsecs, SolarRadii, NominalSolarRadii)
   def dimensionSymbol = "L"
 }
 
@@ -202,6 +204,16 @@ object Parsecs extends LengthUnit {
   val symbol = "pc"
 }
 
+object SolarRadii extends LengthUnit {
+  val conversionFactor = 6.957e8
+  val symbol = "R☉"
+}
+
+object NominalSolarRadii extends LengthUnit {
+  val conversionFactor = 6.957e8
+  val symbol = "RN☉"
+}
+
 object LengthConversions {
   lazy val angstrom = Angstroms(1)
   lazy val nanometer = Nanometers(1)
@@ -231,6 +243,8 @@ object LengthConversions {
   lazy val astronomicalUnit = AstronomicalUnits(1)
   lazy val lightYear = LightYears(1)
   lazy val parsec = Parsecs(1)
+  lazy val solarRadius = SolarRadii(1)
+  lazy val nominalSolarRadius = NominalSolarRadii(1)
 
   implicit class LengthConversions[A](n: A)(implicit num: Numeric[A]) {
     def Å = Angstroms(n)
@@ -268,6 +282,8 @@ object LengthConversions {
     def lightYears = LightYears(n)
     def parsecs = Parsecs(n)
     def pc = Parsecs(n)
+    def solarRadii = SolarRadii(n)
+    def nominalSolarRadii = NominalSolarRadii(n)
   }
 
   implicit class LengthStringConversions(s: String) {
