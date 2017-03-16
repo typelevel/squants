@@ -26,12 +26,16 @@ class PressureSpec extends FlatSpec with Matchers {
     Bars(10).toBars should be(10)
     PoundsPerSquareInch(1).toPoundsPerSquareInch should be(1)
     StandardAtmospheres(1).toStandardAtmospheres should be(1)
+    MillimetersOfMercury(1).toMillimetersOfMercury should be(1)
+    Torrs(1).toTorr should be(1)
   }
 
   it should "create values from properly formatted Strings" in {
     Pressure("10.22 Pa").get should be(Pascals(10.22))
     Pressure("10.22 bar").get should be(Bars(10.22))
     Pressure("10.22 psi").get should be(PoundsPerSquareInch(10.22))
+    Pressure("10.22 mmHg").get should be(MillimetersOfMercury(10.22))
+    Pressure("10.22 Torr").get should be(Torrs(10.22))
     Pressure("10.22 zz").failed.get should be(QuantityParseException("Unable to parse Pressure", "10.22 zz"))
     Pressure("zz Pa").failed.get should be(QuantityParseException("Unable to parse Pressure", "zz Pa"))
   }
@@ -43,6 +47,8 @@ class PressureSpec extends FlatSpec with Matchers {
     x.toBars should be(1e-5)
     x.toPoundsPerSquareInch should be(Newtons(1).toPoundForce / SquareMeters(1).toSquareInches +- tolerance)
     x.toStandardAtmospheres should be(1d / 101325d)
+    x.toMillimetersOfMercury should be(1d / 133.322387415d)
+    x.toTorr should be(760d / 101325d)
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
@@ -50,6 +56,8 @@ class PressureSpec extends FlatSpec with Matchers {
     Bars(1).toString(Bars) should be("1.0 bar")
     PoundsPerSquareInch(1).toString(PoundsPerSquareInch) should be("1.0 psi")
     StandardAtmospheres(1).toString(StandardAtmospheres) should be("1.0 atm")
+    MillimetersOfMercury(1).toString(MillimetersOfMercury) should be("1.0 mmHg")
+    Torrs(1).toString(Torrs) should be("1.0 Torr")
   }
 
   it should "return Force when multiplied by Area" in {
@@ -65,6 +73,8 @@ class PressureSpec extends FlatSpec with Matchers {
     bar should be(Bars(1))
     psi should be(PoundsPerSquareInch(1))
     atm should be(StandardAtmospheres(1))
+    mmHg should be(MillimetersOfMercury(1))
+    torr should be(Torrs(1))
   }
   it should "provide implicit conversion from Double" in {
     import PressureConversions._
@@ -74,6 +84,8 @@ class PressureSpec extends FlatSpec with Matchers {
     d.bars should be(Bars(d))
     d.psi should be(PoundsPerSquareInch(d))
     d.atm should be(StandardAtmospheres(d))
+    d.mmHg should be(MillimetersOfMercury(d))
+    d.torr should be(Torrs(d))
   }
 
   it should "provide Numeric support" in {
