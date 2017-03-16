@@ -26,12 +26,14 @@ class PressureSpec extends FlatSpec with Matchers {
     Bars(10).toBars should be(10)
     PoundsPerSquareInch(1).toPoundsPerSquareInch should be(1)
     StandardAtmospheres(1).toStandardAtmospheres should be(1)
+    MillimeterOfMercury(1).toMillimeterOfMercury should be(1)
   }
 
   it should "create values from properly formatted Strings" in {
     Pressure("10.22 Pa").get should be(Pascals(10.22))
     Pressure("10.22 bar").get should be(Bars(10.22))
     Pressure("10.22 psi").get should be(PoundsPerSquareInch(10.22))
+    Pressure("10.22 mmHg").get should be(MillimeterOfMercury(10.22))
     Pressure("10.22 zz").failed.get should be(QuantityParseException("Unable to parse Pressure", "10.22 zz"))
     Pressure("zz Pa").failed.get should be(QuantityParseException("Unable to parse Pressure", "zz Pa"))
   }
@@ -43,6 +45,7 @@ class PressureSpec extends FlatSpec with Matchers {
     x.toBars should be(1e-5)
     x.toPoundsPerSquareInch should be(Newtons(1).toPoundForce / SquareMeters(1).toSquareInches +- tolerance)
     x.toStandardAtmospheres should be(1d / 101325d)
+    x.toMillimeterOfMercury should be(1d / 133.322387415d)
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
@@ -50,6 +53,7 @@ class PressureSpec extends FlatSpec with Matchers {
     Bars(1).toString(Bars) should be("1.0 bar")
     PoundsPerSquareInch(1).toString(PoundsPerSquareInch) should be("1.0 psi")
     StandardAtmospheres(1).toString(StandardAtmospheres) should be("1.0 atm")
+    MillimeterOfMercury(1).toString(MillimeterOfMercury) should be("1.0 mmHg")
   }
 
   it should "return Force when multiplied by Area" in {
@@ -65,6 +69,7 @@ class PressureSpec extends FlatSpec with Matchers {
     bar should be(Bars(1))
     psi should be(PoundsPerSquareInch(1))
     atm should be(StandardAtmospheres(1))
+    mmHg should be(MillimeterOfMercury(1))
   }
   it should "provide implicit conversion from Double" in {
     import PressureConversions._
@@ -74,6 +79,7 @@ class PressureSpec extends FlatSpec with Matchers {
     d.bars should be(Bars(d))
     d.psi should be(PoundsPerSquareInch(d))
     d.atm should be(StandardAtmospheres(d))
+    d.mmHg should be(MillimeterOfMercury(d))
   }
 
   it should "provide Numeric support" in {

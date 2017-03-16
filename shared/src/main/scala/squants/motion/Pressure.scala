@@ -34,6 +34,7 @@ final class Pressure private (val value: Double, val unit: PressureUnit)
   def toBars = to(Bars)
   def toPoundsPerSquareInch = to(PoundsPerSquareInch)
   def toStandardAtmospheres = to(StandardAtmospheres)
+  def toMillimeterOfMercury = to(MillimeterOfMercury)
 }
 
 object Pressure extends Dimension[Pressure] {
@@ -42,7 +43,7 @@ object Pressure extends Dimension[Pressure] {
   def name = "Pressure"
   def primaryUnit = Pascals
   def siUnit = Pascals
-  def units = Set(Pascals, Bars, PoundsPerSquareInch, StandardAtmospheres)
+  def units = Set(Pascals, Bars, PoundsPerSquareInch, StandardAtmospheres, MillimeterOfMercury)
 }
 
 trait PressureUnit extends UnitOfMeasure[Pressure] with UnitConverter {
@@ -68,17 +69,24 @@ object StandardAtmospheres extends PressureUnit {
   val conversionFactor = Newtons.conversionFactor * 1.01325e5
 }
 
+object MillimeterOfMercury extends PressureUnit {
+  val symbol = "mmHg"
+  val conversionFactor = Newtons.conversionFactor * 133.322387415
+}
+
 object PressureConversions {
   lazy val pascal = Pascals(1)
-  lazy val bar = Bars(1)
-  lazy val psi = PoundsPerSquareInch(1)
-  lazy val atm = StandardAtmospheres(1)
+  lazy val bar  = Bars(1)
+  lazy val psi  = PoundsPerSquareInch(1)
+  lazy val atm  = StandardAtmospheres(1)
+  lazy val mmHg = MillimeterOfMercury(1)
 
   implicit class PressureConversions[A](n: A)(implicit num: Numeric[A]) {
     def pascals = Pascals(n)
-    def bars = Bars(n)
-    def psi = PoundsPerSquareInch(n)
-    def atm = StandardAtmospheres(n)
+    def bars    = Bars(n)
+    def psi     = PoundsPerSquareInch(n)
+    def atm     = StandardAtmospheres(n)
+    def mmHg    = MillimeterOfMercury(n)
   }
 
   implicit object PressureNumeric extends AbstractQuantityNumeric[Pressure](Pressure.primaryUnit)
