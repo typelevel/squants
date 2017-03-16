@@ -30,12 +30,12 @@ final class Pressure private (val value: Double, val unit: PressureUnit)
   def *(that: Area): Force = Newtons(toPascals * that.toSquareMeters)
   def *(that: Time) = ??? // returns DynamicViscosity
 
-  def toPascals: Double             = to(Pascals)
-  def toBars: Double                = to(Bars)
-  def toPoundsPerSquareInch: Double = to(PoundsPerSquareInch)
-  def toStandardAtmospheres: Double = to(StandardAtmospheres)
-  def toMillimeterOfMercury: Double = to(MillimeterOfMercury)
-  def toTorr: Double                = to(Torr)
+  def toPascals: Double              = to(Pascals)
+  def toBars: Double                 = to(Bars)
+  def toPoundsPerSquareInch: Double  = to(PoundsPerSquareInch)
+  def toStandardAtmospheres: Double  = to(StandardAtmospheres)
+  def toMillimetersOfMercury: Double = to(MillimetersOfMercury)
+  def toTorr: Double                 = to(Torrs)
 }
 
 object Pressure extends Dimension[Pressure] {
@@ -44,7 +44,7 @@ object Pressure extends Dimension[Pressure] {
   def name = "Pressure"
   def primaryUnit = Pascals
   def siUnit = Pascals
-  def units = Set(Pascals, Bars, PoundsPerSquareInch, StandardAtmospheres, MillimeterOfMercury, Torr)
+  def units = Set(Pascals, Bars, PoundsPerSquareInch, StandardAtmospheres, MillimetersOfMercury, Torrs)
 }
 
 trait PressureUnit extends UnitOfMeasure[Pressure] with UnitConverter {
@@ -70,14 +70,14 @@ object StandardAtmospheres extends PressureUnit {
   val conversionFactor = Newtons.conversionFactor * 1.01325e5
 }
 
-object MillimeterOfMercury extends PressureUnit {
+object MillimetersOfMercury extends PressureUnit {
   val symbol = "mmHg"
   val conversionFactor = Newtons.conversionFactor * 133.322387415
 }
 
-object Torr extends PressureUnit {
+object Torrs extends PressureUnit {
   val symbol = "Torr"
-  val conversionFactor = Newtons.conversionFactor * 101325d / 760d
+  val conversionFactor = StandardAtmospheres.conversionFactor / 760d
 }
 
 object PressureConversions {
@@ -85,16 +85,16 @@ object PressureConversions {
   lazy val bar    = Bars(1)
   lazy val psi    = PoundsPerSquareInch(1)
   lazy val atm    = StandardAtmospheres(1)
-  lazy val mmHg   = MillimeterOfMercury(1)
-  lazy val torr   = Torr(1)
+  lazy val mmHg   = MillimetersOfMercury(1)
+  lazy val torr   = Torrs(1)
 
   implicit class PressureConversions[A](n: A)(implicit num: Numeric[A]) {
     def pascals = Pascals(n)
     def bars    = Bars(n)
     def psi     = PoundsPerSquareInch(n)
     def atm     = StandardAtmospheres(n)
-    def mmHg    = MillimeterOfMercury(n)
-    def torr    = Torr(n)
+    def mmHg    = MillimetersOfMercury(n)
+    def torr    = Torrs(n)
   }
 
   implicit object PressureNumeric extends AbstractQuantityNumeric[Pressure](Pressure.primaryUnit)
