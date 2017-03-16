@@ -923,6 +923,7 @@ trait LoadRoute extends HttpService {
 * Ian O'Hara ([ianohara](https://github.com/ianohara))
 * Shadaj Laddad ([shadaj](https://github.com/shadaj))
 * Ian McIntosh ([cranst0n](https://github.com/cranst0n))
+* Doug Hurst ([robotsnowfall](https://github.com/robotsnowfall))
 
 ## Code of Conduct
 

@@ -621,7 +621,7 @@ scala> val exchangeRates = List(USD / CAD(1.05), USD / MXN(12.50), USD / JPY(100
 exchangeRates: List[squants.market.CurrencyExchangeRate] = List(USD/CAD 1.05, USD/MXN 12.5, USD/JPY 100.0)
 
 scala> implicit val moneyContext = defaultMoneyContext withExchangeRates exchangeRates
-moneyContext: squants.market.MoneyContext = MoneyContext(squants.market.USD$@6a832973,Set(squants.market.USD$@6a832973, squants.market.CAD$@4a472c9d, squants.market.NOK$@7c65ef69, squants.market.MXN$@14ec4969, squants.market.SEK$@dbd23b8, squants.market.KRW$@3065d747, squants.market.DKK$@5260752b, squants.market.MYR$@2647f2cd, squants.market.BRL$@39fc5260, squants.market.CLP$@2ff0a2ba, squants.market.CNY$@74449a76, squants.market.XAU$@1a928eea, squants.market.JPY$@5a30090d, squants.market.HKD$@c451d07, squants.market.INR$@5dddf889, squants.market.AUD$@44b8324a, squants.market.NZD$@6224d04d, squants.market.CHF$@2adfefc9, squants.market.BTC$@250bd9bb, squants.market.GBP$@28684af6, squants.market.XAG$@5ef09bc1, squants.market.RUB$@14756a61, squants.market.ARS$@2ae9422e, squants.market.EUR$...
+moneyContext: squants.market.MoneyContext = MoneyContext(squants.market.USD$@6678b23a,Set(squants.market.SEK$@67d53899, squants.market.DKK$@4d2a2ac3, squants.market.MYR$@2c71456a, squants.market.CLP$@14b462f8, squants.market.RUB$@41296fc3, squants.market.NZD$@77a98b1c, squants.market.INR$@5a2d7719, squants.market.BRL$@2c823f4f, squants.market.MXN$@1d557c66, squants.market.GBP$@59175872, squants.market.ARS$@31085325, squants.market.CZK$@63ff9756, squants.market.EUR$@7abe223c, squants.market.CHF$@7caa5a30, squants.market.XAU$@b0e83a6, squants.market.HKD$@464d2121, squants.market.JPY$@510901a2, squants.market.AUD$@19fe310c, squants.market.XAG$@30441fd9, squants.market.NOK$@356c5557, squants.market.CNY$@29714f66, squants.market.BTC$@1d3b273, squants.market.CAD$@f48a187, squants.market.USD$@...
 
 scala> val energyPrice = USD(102.20) / MegawattHours(1)
 energyPrice: squants.market.Price[squants.energy.Energy] = 102.20 USD/1.0 MWh
@@ -842,7 +842,7 @@ implicit val moneyContext = defaultMoneyContext
 
 ```scala
 scala> implicit val moneyNum = new MoneyNumeric()
-moneyNum: squants.market.MoneyConversions.MoneyNumeric = squants.market.MoneyConversions$MoneyNumeric@17efb2c6
+moneyNum: squants.market.MoneyConversions.MoneyNumeric = squants.market.MoneyConversions$MoneyNumeric@1f527aa6
 
 scala> val sum = List(USD(100), USD(10)).sum
 sum: squants.market.Money = 110.00 USD
@@ -982,7 +982,7 @@ import squants.time.TimeConversions._
 
 ```scala
 scala> implicit val moneyContext = defaultMoneyContext
-moneyContext: squants.market.MoneyContext = MoneyContext(squants.market.USD$@6a832973,Set(squants.market.USD$@6a832973, squants.market.CAD$@4a472c9d, squants.market.NOK$@7c65ef69, squants.market.MXN$@14ec4969, squants.market.SEK$@dbd23b8, squants.market.KRW$@3065d747, squants.market.DKK$@5260752b, squants.market.MYR$@2647f2cd, squants.market.BRL$@39fc5260, squants.market.CLP$@2ff0a2ba, squants.market.CNY$@74449a76, squants.market.XAU$@1a928eea, squants.market.JPY$@5a30090d, squants.market.HKD$@c451d07, squants.market.INR$@5dddf889, squants.market.AUD$@44b8324a, squants.market.NZD$@6224d04d, squants.market.CHF$@2adfefc9, squants.market.BTC$@250bd9bb, squants.market.GBP$@28684af6, squants.market.XAG$@5ef09bc1, squants.market.RUB$@14756a61, squants.market.ARS$@2ae9422e, squants.market.EUR$...
+moneyContext: squants.market.MoneyContext = MoneyContext(squants.market.USD$@6678b23a,Set(squants.market.SEK$@67d53899, squants.market.DKK$@4d2a2ac3, squants.market.MYR$@2c71456a, squants.market.CLP$@14b462f8, squants.market.RUB$@41296fc3, squants.market.NZD$@77a98b1c, squants.market.INR$@5a2d7719, squants.market.BRL$@2c823f4f, squants.market.MXN$@1d557c66, squants.market.GBP$@59175872, squants.market.ARS$@31085325, squants.market.CZK$@63ff9756, squants.market.EUR$@7abe223c, squants.market.CHF$@7caa5a30, squants.market.XAU$@b0e83a6, squants.market.HKD$@464d2121, squants.market.JPY$@510901a2, squants.market.AUD$@19fe310c, squants.market.XAG$@30441fd9, squants.market.NOK$@356c5557, squants.market.CNY$@29714f66, squants.market.BTC$@1d3b273, squants.market.CAD$@f48a187, squants.market.USD$@...
 
 scala> val energyPrice: Price[Energy] = 45.25.money / megawattHour
 energyPrice: squants.market.Price[squants.energy.Energy] = 45.25 USD/1.0 MWh
@@ -1179,6 +1179,7 @@ trait LoadRoute extends HttpService {
 * Ian O'Hara ([ianohara](https://github.com/ianohara))
 * Shadaj Laddad ([shadaj](https://github.com/shadaj))
 * Ian McIntosh ([cranst0n](https://github.com/cranst0n))
+* Doug Hurst ([robotsnowfall](https://github.com/robotsnowfall))
 
 ## Code of Conduct
 
