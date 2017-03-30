@@ -8,12 +8,11 @@
 
 package squants
 
-import org.scalatest.{FlatSpec, Matchers}
-import squants.thermal.{Celsius, Fahrenheit}
-import squants.time.Hours
-
+import org.scalatest.{ FlatSpec, Matchers }
 import scala.math.BigDecimal.RoundingMode
 import scala.util.Failure
+import squants.thermal.{ Celsius, Fahrenheit }
+import squants.time.{ Hertz, Hours }
 
 /**
  * @author  garyKeorkunian
@@ -540,6 +539,11 @@ class QuantitySpec extends FlatSpec with Matchers with CustomMatchers {
     (m to Kilograms) should be(500)
   }
 
+  it should "divide by a Time value and return a Frequency" in {
+    10D / Seconds(1) should be(Hertz(10))
+    10D per Seconds(1) should be(Hertz(10))
+  }
+
   behavior of "SquantifiedLong"
 
   it should "multiply by a Quantity value and return the product as a like value" in {
@@ -550,6 +554,11 @@ class QuantitySpec extends FlatSpec with Matchers with CustomMatchers {
     val m = 10L * Kilograms(50)
     m.getClass should be(classOf[Mass])
     (m to Kilograms) should be(500)
+  }
+
+  it should "divide by a Time value and return a Frequency" in {
+    10L / Seconds(1) should be(Hertz(10))
+    10L per Seconds(1) should be(Hertz(10))
   }
 
   behavior of "SquantifiedBigDecimal"
@@ -564,6 +573,11 @@ class QuantitySpec extends FlatSpec with Matchers with CustomMatchers {
     val m = multiple * Kilograms(50)
     m.getClass should be(classOf[Mass])
     (m to Kilograms) should be(500)
+  }
+
+  it should "divide by a Time value and return a Frequency" in {
+    BigDecimal(10) / Seconds(1) should be(Hertz(10))
+    BigDecimal(10) per Seconds(1) should be(Hertz(10))
   }
 
   behavior of "QuantityNumeric"

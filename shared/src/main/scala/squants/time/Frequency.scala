@@ -9,6 +9,10 @@
 package squants.time
 
 import squants._
+import squants.electro.{ ElectricCharge, ElectricPotential, MagneticFlux }
+import squants.information.{ DataRate, Information }
+import squants.motion.{ AngularVelocity, Pressure, PressureChange, Yank }
+import squants.photo.{ Illuminance, LuminousEnergy, LuminousExposure, LuminousFlux }
 
 /**
  * Represents a quantity of frequency, which is the number cycles (count) over time
@@ -25,6 +29,24 @@ final class Frequency private (val value: Double, val unit: FrequencyUnit)
 
   protected[squants] def timeIntegrated = Each(toHertz)
   protected[squants] def time = Seconds(1)
+
+  def *(that: Acceleration): Jerk = that * this
+  def *(that: Angle): AngularVelocity = that * this
+  def *(that: Dimensionless): Frequency = this * that.toEach
+  def *(that: ElectricCharge): ElectricCurrent = that * this
+  def *(that: Energy): Power = that * this
+  def *(that: Force): Yank = that * this
+  def *(that: Information): DataRate = that * this
+  def *(that: Length): Velocity = that * this
+  def *(that: LuminousEnergy): LuminousFlux = that * this
+  def *(that: LuminousExposure): Illuminance = that * this
+  def *(that: MagneticFlux): ElectricPotential = that * this
+  def *(that: Mass): MassFlow = that * this
+  def *(that: Momentum): Force = that * this
+  def *(that: Power): PowerRamp = that * this
+  def *(that: Pressure): PressureChange = that * this
+  def *(that: Velocity): Acceleration = that * this
+  def *(that: Volume): VolumeFlow = that * this
 
   def toHertz = to(Hertz)
   def toKilohertz = to(Kilohertz)

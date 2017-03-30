@@ -9,6 +9,13 @@
 package squants.time
 
 import org.scalatest.{ FlatSpec, Matchers }
+import squants.electro.{ Amperes, Coulombs, Volts, Webers }
+import squants.energy.{ WattHours, Watts, WattsPerHour }
+import squants.information.{ Bytes, BytesPerSecond }
+import squants.mass.Kilograms
+import squants.motion._
+import squants.photo.{ LumenSeconds, Lumens, Lux, LuxSeconds }
+import squants.space.{ CubicMeters, Meters, Radians }
 import squants.{ Each, MetricSystem, QuantityParseException }
 
 /**
@@ -60,6 +67,26 @@ class FrequencySpec extends FlatSpec with Matchers {
 
   it should "return Count when multiplied by Time" in {
     Hertz(1) * Seconds(1) should be(Each(1))
+  }
+
+  it should "return the TimeDerivative when multiplied by a TimeIntegral" in {
+    Hertz(100) * FeetPerSecondSquared(100) should be(FeetPerSecondCubed(10000))
+    Hertz(100) * Radians(100) should be(RadiansPerSecond(10000))
+    Hertz(100) * Each(100) should be(Hertz(10000))
+    Hertz(100) * Coulombs(100) should be(Amperes(10000))
+    Hertz(100) * WattHours(100) should be(Watts(36000000))
+    Hertz(100) * Newtons(100) should be(NewtonsPerSecond(10000))
+    Hertz(100) * Bytes(100) should be(BytesPerSecond(10000))
+    Hertz(100) * Meters(100) should be(MetersPerSecond(10000))
+    Hertz(100) * LumenSeconds(100) should be(Lumens(10000))
+    Hertz(100) * LuxSeconds(100) should be(Lux(10000))
+    Hertz(100) * Webers(100) should be(Volts(10000))
+    Hertz(100) * Kilograms(100) should be(KilogramsPerSecond(10000))
+    Hertz(100) * NewtonSeconds(100) should be(Newtons(10000))
+    Hertz(100) * Watts(100) should be(WattsPerHour(36000000))
+    Hertz(100) * Pascals(100) should be(PascalsPerSecond(10000))
+    Hertz(100) * MetersPerSecond(100) should be(MetersPerSecondSquared(10000))
+    Hertz(100) * CubicMeters(100) should be(CubicMetersPerSecond(10000))
   }
 
   behavior of "FrequencyConversions"
