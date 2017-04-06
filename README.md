@@ -346,6 +346,8 @@ newLoad: squants.energy.Power = 14.0 kW
 
 The `q.map(f)` method effectively expands to `q.unit(f(q.to(q.unit))`
 
+NOTE - For Money objects, use the `mapAmount` method as this will retain the BigDecimal precision used there.
+
 ### Approximations
 Create an implicit Quantity value to be used as a tolerance in approximations.
 Then use the `approx` method (or `=~`, `~=`, `≈` operators) like you would use the `equals` method (`==` operator).
@@ -506,16 +508,16 @@ scala> import squants.market.{BTC, JPY, USD, XAU}
 import squants.market.{BTC, JPY, USD, XAU}
 
 scala> val tenBucks = USD(10)      // Money: 10 USD
-tenBucks: squants.market.Money = 10.00 USD
+tenBucks: squants.market.Money = 10.0 USD
 
 scala> val someYen = JPY(1200)     // Money: 1200 JPY
-someYen: squants.market.Money = 1200 JPY
+someYen: squants.market.Money = 1200.0 JPY
 
 scala> val goldStash = XAU(50)     // Money: 50 XAU
-goldStash: squants.market.Money = 50.0000 XAU
+goldStash: squants.market.Money = 50.0 XAU
 
 scala> val digitalCache = BTC(50)  // Money: 50 BTC
-digitalCache: squants.market.Money = 50.000000000000000 BTC
+digitalCache: squants.market.Money = 50.0 BTC
 ```
 
 ### Price
@@ -535,22 +537,34 @@ import squants.space.UsGallons
 You can compute the following:
 ```scala
 scala> val threeForADollar = USD(1) / Each(3)
-threeForADollar: squants.market.Price[squants.Dimensionless] = 1.00 USD/3.0 ea
+threeForADollar: squants.market.Price[squants.Dimensionless] = 1.0 USD/3.0 ea
 
 scala> val energyPrice = USD(102.20) / MegawattHours(1)
-energyPrice: squants.market.Price[squants.energy.Energy] = 102.20 USD/1.0 MWh
+energyPrice: squants.market.Price[squants.energy.Energy] = 102.2 USD/1.0 MWh
 
 scala> val milkPrice = USD(4) / UsGallons(1)
-milkPrice: squants.market.Price[squants.space.Volume] = 4.00 USD/1.0 gal
+milkPrice: squants.market.Price[squants.space.Volume] = 4.0 USD/1.0 gal
 
 scala> val costForABunch = threeForADollar * Dozen(10)
-costForABunch: squants.market.Money = 40.00 USD
+costForABunch: squants.market.Money = 40.0 USD
 
 scala> val energyCost = energyPrice * MegawattHours(4)
-energyCost: squants.market.Money = 408.80 USD
+energyCost: squants.market.Money = 408.8 USD
 
 scala> val milkQuota = USD(20) / milkPrice
 milkQuota: squants.space.Volume = 5.0 gal
+```
+
+Conversions to Strings
+```scala
+scala> val money = USD(123.456)
+money: squants.market.Money = 123.456 USD
+
+scala> val s = money.toString  // returns full precision amount with currency code
+s: String = 123.456 USD
+
+scala> val s = money.toFormattedString // returns currency symbol and amount rounded based on currency rules
+s: String = $123.46
 ```
 
 ### FX Support
@@ -577,29 +591,29 @@ scala> // OR
 rate4: squants.market.CurrencyExchangeRate = USD/JPY 100.0
 
 scala> val someYen: Money = JPY(350)
-someYen: squants.market.Money = 350 JPY
+someYen: squants.market.Money = 350.0 JPY
 
 scala> val someBucks: Money = USD(23.50)
-someBucks: squants.market.Money = 23.50 USD
+someBucks: squants.market.Money = 23.5 USD
 ```
 
 Use the `convert` method which automatically converts the money to the 'other' currency:
 
 ```scala
 scala> val dollarAmount: Money = rate1.convert(someYen)
-dollarAmount: squants.market.Money = 3.50 USD
+dollarAmount: squants.market.Money = 3.5 USD
 
 scala> val yenAmount: Money = rate1.convert(someBucks)
-yenAmount: squants.market.Money = 2350 JPY
+yenAmount: squants.market.Money = 2350.0 JPY
 ```
 
 Or just use the `*` operator in either direction (money * rate, or rate * money):
 ```scala
 scala> val dollarAmount2: Money = rate1 * someYen
-dollarAmount2: squants.market.Money = 3.50 USD
+dollarAmount2: squants.market.Money = 3.5 USD
 
 scala> val yenAmount2: Money = someBucks * rate1
-yenAmount2: squants.market.Money = 2350 JPY
+yenAmount2: squants.market.Money = 2350.0 JPY
 ```
 
 ### Money Context
@@ -621,25 +635,25 @@ scala> val exchangeRates = List(USD / CAD(1.05), USD / MXN(12.50), USD / JPY(100
 exchangeRates: List[squants.market.CurrencyExchangeRate] = List(USD/CAD 1.05, USD/MXN 12.5, USD/JPY 100.0)
 
 scala> implicit val moneyContext = defaultMoneyContext withExchangeRates exchangeRates
-moneyContext: squants.market.MoneyContext = MoneyContext(squants.market.USD$@6678b23a,Set(squants.market.SEK$@67d53899, squants.market.DKK$@4d2a2ac3, squants.market.MYR$@2c71456a, squants.market.CLP$@14b462f8, squants.market.RUB$@41296fc3, squants.market.NZD$@77a98b1c, squants.market.INR$@5a2d7719, squants.market.BRL$@2c823f4f, squants.market.MXN$@1d557c66, squants.market.GBP$@59175872, squants.market.ARS$@31085325, squants.market.CZK$@63ff9756, squants.market.EUR$@7abe223c, squants.market.CHF$@7caa5a30, squants.market.XAU$@b0e83a6, squants.market.HKD$@464d2121, squants.market.JPY$@510901a2, squants.market.AUD$@19fe310c, squants.market.XAG$@30441fd9, squants.market.NOK$@356c5557, squants.market.CNY$@29714f66, squants.market.BTC$@1d3b273, squants.market.CAD$@f48a187, squants.market.USD$@...
+moneyContext: squants.market.MoneyContext = MoneyContext(USD,Set(XAG, EUR, CAD, CHF, AUD, BTC, INR, XAU, SEK, DKK, JPY, NOK, GBP, NZD, RUB, CZK, MYR, CNY, ARS, KRW, CLP, HKD, BRL, USD, MXN),List(USD/CAD 1.05, USD/MXN 12.5, USD/JPY 100.0),true)
 
 scala> val energyPrice = USD(102.20) / MegawattHours(1)
-energyPrice: squants.market.Price[squants.energy.Energy] = 102.20 USD/1.0 MWh
+energyPrice: squants.market.Price[squants.energy.Energy] = 102.2 USD/1.0 MWh
 
 scala> val someMoney = Money(350) // 350 in the default Cur
-someMoney: squants.market.Money = 350.00 USD
+someMoney: squants.market.Money = 350.0 USD
 
 scala> val usdMoney: Money = someMoney in USD
-usdMoney: squants.market.Money = 350.00 USD
+usdMoney: squants.market.Money = 350.0 USD
 
 scala> val usdBigDecimal: BigDecimal = someMoney to USD
 usdBigDecimal: BigDecimal = 350.0
 
 scala> val yenCost: Money = (energyPrice * MegawattHours(5)) in JPY
-yenCost: squants.market.Money = 51100 JPY
+yenCost: squants.market.Money = 51100.0 JPY
 
 scala> val northAmericanSales: Money = (CAD(275) + USD(350) + MXN(290)) in USD
-northAmericanSales: squants.market.Money = 635.10 USD
+northAmericanSales: squants.market.Money = 635.1047619047619 USD
 ```
 
 ## Quantity Ranges
@@ -715,10 +729,10 @@ scala> val time = Hours(3.75)
 time: squants.time.Time = 3.75 h
 
 scala> val money = USD(112.50)
-money: squants.market.Money = 112.50 USD
+money: squants.market.Money = 112.5 USD
 
 scala> val price = Price(money, MegawattHours(1))
-price: squants.market.Price[squants.energy.Energy] = 112.50 USD/1.0 MWh
+price: squants.market.Price[squants.energy.Energy] = 112.5 USD/1.0 MWh
 ```
 
 Create Quantities using Unit of Measure names and/or symbols (uses implicits):
@@ -750,7 +764,7 @@ scala> val energyUsed = 100.kilowatts * (3.hours + 45.minutes)
 energyUsed: squants.energy.Energy = 375000.0 Wh
 
 scala> val price = 112.50.USD / 1.megawattHours
-price: squants.market.Price[squants.energy.Energy] = 112.50 USD/1.0 MWh
+price: squants.market.Price[squants.energy.Energy] = 112.5 USD/1.0 MWh
 
 scala> val speed = 55.miles / 1.hours
 speed: squants.motion.Velocity = 24.587249174399997 m/s
@@ -782,10 +796,10 @@ speed: squants.motion.Velocity = 27.77777777777778 m/s
 
 scala> // MegawattHours(1) == 1.megawattHours == megawattHour == MWh
      | val hi = 100.dollars / MWh
-hi: squants.market.Price[squants.energy.Energy] = 100.00 USD/1.0 MWh
+hi: squants.market.Price[squants.energy.Energy] = 100.0 USD/1.0 MWh
 
 scala> val low = 40.dollars / megawattHour
-low: squants.market.Price[squants.energy.Energy] = 40.00 USD/1.0 MWh
+low: squants.market.Price[squants.energy.Energy] = 40.0 USD/1.0 MWh
 ```
 
 Implicit conversion support for using Double on the left side of multiplication:
@@ -842,10 +856,10 @@ implicit val moneyContext = defaultMoneyContext
 
 ```scala
 scala> implicit val moneyNum = new MoneyNumeric()
-moneyNum: squants.market.MoneyConversions.MoneyNumeric = squants.market.MoneyConversions$MoneyNumeric@1f527aa6
+moneyNum: squants.market.MoneyConversions.MoneyNumeric = squants.market.MoneyConversions$MoneyNumeric@14bb3847
 
 scala> val sum = List(USD(100), USD(10)).sum
-sum: squants.market.Money = 110.00 USD
+sum: squants.market.Money = 110.0 USD
 ```
 
 ## Type Hierarchy
@@ -982,7 +996,7 @@ import squants.time.TimeConversions._
 
 ```scala
 scala> implicit val moneyContext = defaultMoneyContext
-moneyContext: squants.market.MoneyContext = MoneyContext(squants.market.USD$@6678b23a,Set(squants.market.SEK$@67d53899, squants.market.DKK$@4d2a2ac3, squants.market.MYR$@2c71456a, squants.market.CLP$@14b462f8, squants.market.RUB$@41296fc3, squants.market.NZD$@77a98b1c, squants.market.INR$@5a2d7719, squants.market.BRL$@2c823f4f, squants.market.MXN$@1d557c66, squants.market.GBP$@59175872, squants.market.ARS$@31085325, squants.market.CZK$@63ff9756, squants.market.EUR$@7abe223c, squants.market.CHF$@7caa5a30, squants.market.XAU$@b0e83a6, squants.market.HKD$@464d2121, squants.market.JPY$@510901a2, squants.market.AUD$@19fe310c, squants.market.XAG$@30441fd9, squants.market.NOK$@356c5557, squants.market.CNY$@29714f66, squants.market.BTC$@1d3b273, squants.market.CAD$@f48a187, squants.market.USD$@...
+moneyContext: squants.market.MoneyContext = MoneyContext(USD,Set(XAG, EUR, CAD, CHF, AUD, BTC, INR, XAU, SEK, DKK, JPY, NOK, GBP, NZD, RUB, CZK, MYR, CNY, ARS, KRW, CLP, HKD, BRL, USD, MXN),List(),true)
 
 scala> val energyPrice: Price[Energy] = 45.25.money / megawattHour
 energyPrice: squants.market.Price[squants.energy.Energy] = 45.25 USD/1.0 MWh
@@ -991,7 +1005,7 @@ scala> val energyUsage: Energy = 345.kilowatts * 5.4.hours
 energyUsage: squants.energy.Energy = 1863000.0000000002 Wh
 
 scala> val energyCost: Money = energyPrice * energyUsage
-energyCost: squants.market.Money = 84.30 USD
+energyCost: squants.market.Money = 84.30075000000001 USD
 
 scala> val dodgeViper: Acceleration = 60.miles / hour / 3.9.seconds
 dodgeViper: squants.motion.Acceleration = 6.877552216615386 m/s²

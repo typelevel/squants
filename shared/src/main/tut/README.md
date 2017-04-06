@@ -270,6 +270,8 @@ val newLoad = load.map(v => v * 2 + 10)
 
 The `q.map(f)` method effectively expands to `q.unit(f(q.to(q.unit))`
 
+NOTE - For Money objects, use the `mapAmount` method as this will retain the BigDecimal precision used there.
+
 ### Approximations
 Create an implicit Quantity value to be used as a tolerance in approximations.
 Then use the `approx` method (or `=~`, `~=`, `≈` operators) like you would use the `equals` method (`==` operator).
@@ -402,6 +404,13 @@ val milkPrice = USD(4) / UsGallons(1)
 val costForABunch = threeForADollar * Dozen(10)
 val energyCost = energyPrice * MegawattHours(4)
 val milkQuota = USD(20) / milkPrice
+```
+
+Conversions to Strings
+```tut
+val money = USD(123.456)
+val s = money.toString  // returns full precision amount with currency code
+val s = money.toFormattedString // returns currency symbol and amount rounded based on currency rules
 ```
 
 ### FX Support

@@ -8,10 +8,11 @@
 
 package squants
 
-import org.scalatest.{ FlatSpec, Matchers }
-import squants.thermal.{ Celsius, Fahrenheit }
+import org.scalatest.{FlatSpec, Matchers}
+import squants.thermal.{Celsius, Fahrenheit}
 import squants.time.Hours
 
+import scala.math.BigDecimal.RoundingMode
 import scala.util.Failure
 
 /**
@@ -386,6 +387,13 @@ class QuantitySpec extends FlatSpec with Matchers with CustomMatchers {
     val z2 = Thangs(-9.9)
     z2.rint should be(Thangs(-10.0))
     (-z2).rint should be(Thangs(10.0))
+  }
+
+  it should "return a Quantity rounded to a scale" in {
+    val x = Thangs(123.45)
+    x.rounded(1) should be(Thangs(123.4))
+    x.rounded(1, RoundingMode.HALF_DOWN) should be(Thangs(123.4))
+    x.rounded(1, RoundingMode.HALF_UP) should be(Thangs(123.5))
   }
 
   it should "return true on comparing two different values with !=" in {

@@ -8,6 +8,9 @@
 
 package squants
 
+import scala.math.BigDecimal.RoundingMode
+import scala.math.BigDecimal.RoundingMode.RoundingMode
+
 /**
  * A base class for measurable quantities, instances of which contain a value and a unit
  *
@@ -149,6 +152,15 @@ abstract class Quantity[A <: Quantity[A]] extends Serializable with Ordered[A] {
   def rint: A = unit(math.rint(value))
 
   /**
+    * Returns the Quantity with its coefficient value rounded using scale and mode.  The unit is maintained.
+    *
+    * @param scale Int - scale of the value to be returned
+    * @param mode RoundingMode - defaults to HALF_EVEN
+    * @return Quantity
+    */
+  def rounded(scale: Int, mode: RoundingMode = RoundingMode.HALF_EVEN): A = unit(BigDecimal(value).setScale(scale, mode))
+
+  /**
    * Override of equals method
    *
    * @param that must be of matching value and unit
@@ -258,7 +270,7 @@ abstract class Quantity[A <: Quantity[A]] extends Serializable with Ordered[A] {
    * Returns a string representing the quantity's value in unit
    * @return String
    */
-  override def toString = toString(unit)
+  override def toString: String = toString(unit)
 
   /**
    * Returns a string representing the quantity's value in the given `unit`
@@ -293,6 +305,6 @@ abstract class Quantity[A <: Quantity[A]] extends Serializable with Ordered[A] {
    * @param f Double => Double function
    * @return
    */
-  def map(f: Double ⇒ Double) = unit(f(value))
+  def map(f: Double ⇒ Double): A = unit(f(value))
 
 }
