@@ -8,11 +8,13 @@
 
 package squants.market
 
-import org.scalatest.{ FlatSpec, Matchers }
+import org.scalatest.{FlatSpec, Matchers}
 import squants.QuantityParseException
 import squants.mass.Kilograms
 import squants.space.Meters
 import squants.time.Hours
+
+import scala.math.BigDecimal.RoundingMode
 
 /**
  * @author  garyKeorkunian
@@ -337,15 +339,27 @@ class MoneySpec extends FlatSpec with Matchers {
     //  (CAD(1.5) to USD).toDouble should be(1)
   }
 
-  it should "return properly formatted strings for all supported Units of Measure" in {
-    USD(10).toString should be("10.00 USD")
-    USD(10).toFormattedString should be("$10.00")
+  it should "return a Money rounded to a scale with only the loss of precision intended" in {
+    val x = USD(BigDecimal("22222222222222222222.25"))
+    x.rounded(1) should be(USD(BigDecimal("22222222222222222222.2")))
+    x.rounded(1, RoundingMode.HALF_DOWN) should be(USD(BigDecimal("22222222222222222222.2")))
+    x.rounded(1, RoundingMode.HALF_UP) should be(USD(BigDecimal("22222222222222222222.3")))
+  }
+
+  it should "map over the underlying amount and return the resulting Money with no loss of precision" in {
+    val x = USD(BigDecimal("22222222222222222222.22"))
+    x.mapAmount(_ * 2) should be(USD(BigDecimal("44444444444444444444.44")))
+  }
+
+  it should "return properly formatted strings for all supported Currencies" in {
+    USD(10.2).toString should be("10.2 USD")
+    USD(10.2).toFormattedString should be("$10.20")
   }
 
   it should "return properly formatted strings in different currency with an implicit MoneyContext in scope" in {
     implicit val moneyContext = MoneyContext(USD, defaultCurrencySet, Seq(USD(1) toThe JPY(100)))
-    USD(10).toString(JPY) should be("1000 JPY")
-    USD(10).toFormattedString(JPY) should be("¥1000")
+    USD(BigDecimal("10.123")).toString(JPY) should be("1012.3 JPY")
+    USD(BigDecimal("10.123")).toFormattedString(JPY) should be("¥1012")
   }
 
   it should "return a properly sorted list of Moneys" in {

@@ -9,9 +9,11 @@
 package squants.market
 
 import squants._
-import scala.util.{ Failure, Success, Try }
 
+import scala.util.{Failure, Success, Try}
 import scala.language.implicitConversions
+import scala.math.BigDecimal.RoundingMode
+import scala.math.BigDecimal.RoundingMode.RoundingMode
 
 /**
  * Represents a quantity of Money.
@@ -48,24 +50,24 @@ final class Money private (val amount: BigDecimal)(val currency: Currency)
   def value = amount.toDouble
 
   /**
-   * Returns a string formatted with the value and currency code
+   * Returns a string formatted with the original precision amount and the currency code
    *
-   * eg USD(100) => "100.00 USD"
+   * eg USD(123.456) => "123.456 USD"
    *
    * @return String
    */
-  override def toString = amount.setScale(currency.formatDecimals, BigDecimal.RoundingMode.HALF_EVEN).toString + " " + currency.code
+  override def toString: String = amount.toString + " " + currency.code
 
   def toString(c: Currency)(implicit context: MoneyContext): String = in(c).toString
 
   /**
-   * Returns a string formatted with the value and currency symbol
+   * Returns a string formatted with the amount, rounded based on the Currency rules, and the currency symbol
    *
-   * eg USD(100) => "\$100.00"
+   * eg USD(12.4563) => "\$123.46"
    *
    * @return String
    */
-  def toFormattedString = currency.symbol + amount.setScale(currency.formatDecimals).toString
+  def toFormattedString: String = currency.symbol + amount.setScale(currency.formatDecimals, BigDecimal.RoundingMode.HALF_EVEN).toString
 
   def toFormattedString(c: Currency)(implicit context: MoneyContext): String = in(c).toFormattedString
 
@@ -331,6 +333,23 @@ final class Money private (val amount: BigDecimal)(val currency: Currency)
    * @throws NoSuchExchangeRateException when no exchange rate is available
    */
   def in(unit: Currency)(implicit context: MoneyContext) = context.convert(this, unit)
+
+  /**
+    * Returns a Money rounded using scale and mode.
+    *
+    * @param scale Int - scale of the Money to be returned
+    * @param mode RoundingMode - defaults to HALF_EVEN
+    * @return Quantity
+    */
+  override def rounded(scale: Int, mode: RoundingMode = RoundingMode.HALF_EVEN) = currency(amount.setScale(scale, mode))
+
+  /**
+    * Applies a function to the underlying amount of the Money, returning a Money in the same Currency
+    *
+    * @param f BigDecimal => BigDecimal function
+    * @return Money
+    */
+  def mapAmount(f: BigDecimal => BigDecimal) = currency(f(amount))
 }
 
 /**
@@ -369,11 +388,12 @@ object Money extends Dimension[Money] {
  * @param formatDecimals Number of decimals in standard formatting
  */
 abstract class Currency(val code: String, val name: String, val symbol: String, val formatDecimals: Int) extends UnitOfMeasure[Money] {
-  def apply[A](n: A)(implicit num: Numeric[A]) = Money(BigDecimal(num.toDouble(n)), this)
   def apply(d: BigDecimal): Money = Money(d, this)
+  def apply[A](n: A)(implicit num: Numeric[A]) = Money(BigDecimal(num.toDouble(n)), this)
   protected def converterFrom: Double ⇒ Double = ???
   protected def converterTo: Double ⇒ Double = ???
   def /(that: Money): CurrencyExchangeRate = that toThe Money(1, this)
+  override def toString: String = code
 }
 
 object USD extends Currency("USD", "US Dollar", "$", 2)
