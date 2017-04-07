@@ -8,6 +8,8 @@
 
 package squants.market
 
+import scala.collection.SortedSet
+
 /**
  * MoneyContext
  *
@@ -23,7 +25,6 @@ package squants.market
  *
  * @author  garyKeorkunian
  * @since   0.1
- *
  * @param defaultCurrency Currency used when none is supplied to the Money factory
  * @param rates Collection of Exchange Rates used for currency conversions
  */
@@ -32,6 +33,17 @@ case class MoneyContext(
     currencies: Set[Currency],
     rates: Seq[CurrencyExchangeRate],
     allowIndirectConversions: Boolean = true) {
+
+  /**
+    * Custom implementation using SortedSets to ensure consistent output
+    * @return String representation of this instance
+    */
+  override def toString: String = string
+  private lazy val string = {
+    val cSet = currencies.map(_.toString).toSeq.sorted.mkString(",")
+    val rSet = rates.map(_.toString).sorted.mkString(",")
+    s"MoneyContext(DefaultCurrency(${defaultCurrency.code}),Currencies($cSet),ExchangeRates($rSet),AllowIndirectConversions($allowIndirectConversions))"
+  }
 
   /**
    * Returns an Option on an exchange rate if a direct rate exists, otherwise None
