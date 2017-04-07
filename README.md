@@ -635,7 +635,7 @@ scala> val exchangeRates = List(USD / CAD(1.05), USD / MXN(12.50), USD / JPY(100
 exchangeRates: List[squants.market.CurrencyExchangeRate] = List(USD/CAD 1.05, USD/MXN 12.5, USD/JPY 100.0)
 
 scala> implicit val moneyContext = defaultMoneyContext withExchangeRates exchangeRates
-moneyContext: squants.market.MoneyContext = MoneyContext(USD,Set(XAG, EUR, CAD, CHF, AUD, BTC, INR, XAU, SEK, DKK, JPY, NOK, GBP, NZD, RUB, CZK, MYR, CNY, ARS, KRW, CLP, HKD, BRL, USD, MXN),List(USD/CAD 1.05, USD/MXN 12.5, USD/JPY 100.0),true)
+moneyContext: squants.market.MoneyContext = MoneyContext(DefaultCurrency(USD),Currencies(ARS,AUD,BRL,BTC,CAD,CHF,CLP,CNY,CZK,DKK,EUR,GBP,HKD,INR,JPY,KRW,MXN,MYR,NOK,NZD,RUB,SEK,USD,XAG,XAU),ExchangeRates(USD/CAD 1.05,USD/JPY 100.0,USD/MXN 12.5),AllowIndirectConversions(true))
 
 scala> val energyPrice = USD(102.20) / MegawattHours(1)
 energyPrice: squants.market.Price[squants.energy.Energy] = 102.2 USD/1.0 MWh
@@ -856,7 +856,7 @@ implicit val moneyContext = defaultMoneyContext
 
 ```scala
 scala> implicit val moneyNum = new MoneyNumeric()
-moneyNum: squants.market.MoneyConversions.MoneyNumeric = squants.market.MoneyConversions$MoneyNumeric@14bb3847
+moneyNum: squants.market.MoneyConversions.MoneyNumeric = MoneyNumeric(MoneyContext(DefaultCurrency(USD),Currencies(ARS,AUD,BRL,BTC,CAD,CHF,CLP,CNY,CZK,DKK,EUR,GBP,HKD,INR,JPY,KRW,MXN,MYR,NOK,NZD,RUB,SEK,USD,XAG,XAU),ExchangeRates(),AllowIndirectConversions(true)))
 
 scala> val sum = List(USD(100), USD(10)).sum
 sum: squants.market.Money = 110.0 USD
@@ -996,7 +996,7 @@ import squants.time.TimeConversions._
 
 ```scala
 scala> implicit val moneyContext = defaultMoneyContext
-moneyContext: squants.market.MoneyContext = MoneyContext(USD,Set(XAG, EUR, CAD, CHF, AUD, BTC, INR, XAU, SEK, DKK, JPY, NOK, GBP, NZD, RUB, CZK, MYR, CNY, ARS, KRW, CLP, HKD, BRL, USD, MXN),List(),true)
+moneyContext: squants.market.MoneyContext = MoneyContext(DefaultCurrency(USD),Currencies(ARS,AUD,BRL,BTC,CAD,CHF,CLP,CNY,CZK,DKK,EUR,GBP,HKD,INR,JPY,KRW,MXN,MYR,NOK,NZD,RUB,SEK,USD,XAG,XAU),ExchangeRates(),AllowIndirectConversions(true))
 
 scala> val energyPrice: Price[Energy] = 45.25.money / megawattHour
 energyPrice: squants.market.Price[squants.energy.Energy] = 45.25 USD/1.0 MWh

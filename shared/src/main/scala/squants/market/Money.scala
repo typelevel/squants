@@ -469,5 +469,11 @@ object MoneyConversions {
     def toFloat(x: Money) = x.value.toFloat
     def toDouble(x: Money) = x.value
     def compare(x: Money, y: Money) = if (x.value > y.value) 1 else if (x.value < y.value) -1 else 0
+
+    /**
+      * Custom implementation using SortedSets to ensure consistent output
+      * @return String representation of this instance
+      */
+    override def toString: String = s"MoneyNumeric($mc)"
   }
 }
