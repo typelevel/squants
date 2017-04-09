@@ -125,7 +125,7 @@ trait PrimaryUnit extends UnitConverter { uom: UnitOfMeasure[_] ⇒
 }
 
 /**
- * A market trait identifying SI Units
+ * A marker trait identifying SI Units
  */
 trait SiUnit
 
