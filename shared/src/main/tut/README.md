@@ -584,11 +584,13 @@ val hi = 100.dollars / MWh
 val low = 40.dollars / megawattHour
 ```
 
-Implicit conversion support for using Double on the left side of multiplication:
+Implicit conversion support for using Doubles, Longs and BigDecimals on the left side of multiply and divide operations:
 
 ```tut
-val load = 10 * 4.MW
+val load = 10.22 * 4.MW
 val driveArrayCapacity = 12 * 600.gb
+val freq = 60 / second
+val freq2 = BigDecimal(36000000) / hour
 ```
 
 Create Quantity Ranges using `to` or `plusOrMinus` (`+-`) operators:

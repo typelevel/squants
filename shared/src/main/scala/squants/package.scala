@@ -1,3 +1,5 @@
+import squants.time.Frequency
+
 /*                                                                      *\
 ** Squants                                                              **
 **                                                                      **
@@ -73,7 +75,7 @@ package object squants {
   type Price[A <: Quantity[A]] = squants.market.Price[A]
 
   /**
-   * Provides implicit conversions that allow Doubles to lead in * operations
+   * Provides implicit conversions that allow Doubles to lead in * and / by Time operations
    * {{{
    *    1.5 * Kilometers(10) should be(Kilometers(15))
    * }}}
@@ -83,10 +85,12 @@ package object squants {
   implicit class SquantifiedDouble(d: Double) {
     def *[A <: Quantity[A]](that: A): A = that * d
     def *[A](that: SVector[A]): SVector[A] = that * d
+    def /(that: Time): Frequency = Each(d) / that
+    def per(that: Time): Frequency = /(that)
   }
 
   /**
-   * Provides implicit conversions that allow Longs to lead in * operations
+   * Provides implicit conversions that allow Longs to lead in * and / by Time operations
    * {{{
    *    5 * Kilometers(10) should be(Kilometers(15))
    * }}}
@@ -96,10 +100,12 @@ package object squants {
   implicit class SquantifiedLong(l: Long) {
     def *[A <: Quantity[A]](that: A): A = that * l.toDouble
     def *[A](that: SVector[A]): SVector[A] = that * l.toDouble
+    def /(that: Time) = Each(l) / that
+    def per(that: Time): Frequency = /(that)
   }
 
   /**
-   * Provides implicit conversions that allow BigDecimals to lead in * operations
+   * Provides implicit conversions that allow BigDecimals to lead in * and / by Time operations
    * {{{
    *    BigDecimal(1.5) * Kilometers(10) should be(Kilometers(15))
    * }}}
@@ -109,6 +115,8 @@ package object squants {
   implicit class SquantifiedBigDecimal(bd: BigDecimal) {
     def *[A <: Quantity[A]](that: A): A = that * bd.toDouble
     def *[A](that: SVector[A]): SVector[A] = that * bd.toDouble
+    def /(that: Time) = Each(bd) / that
+    def per(that: Time): Frequency = /(that)
   }
 
   /**

@@ -802,14 +802,20 @@ scala> val low = 40.dollars / megawattHour
 low: squants.market.Price[squants.energy.Energy] = 40.0 USD/1.0 MWh
 ```
 
-Implicit conversion support for using Double on the left side of multiplication:
+Implicit conversion support for using Doubles, Longs and BigDecimals on the left side of multiply and divide operations:
 
 ```scala
-scala> val load = 10 * 4.MW
-load: squants.energy.Power = 40.0 MW
+scala> val load = 10.22 * 4.MW
+load: squants.energy.Power = 40.88 MW
 
 scala> val driveArrayCapacity = 12 * 600.gb
 driveArrayCapacity: squants.information.Information = 7200.0 GB
+
+scala> val freq = 60 / second
+freq: squants.time.Frequency = 60.0 Hz
+
+scala> val freq2 = BigDecimal(36000000) / hour
+freq2: squants.time.Frequency = 10000.0 Hz
 ```
 
 Create Quantity Ranges using `to` or `plusOrMinus` (`+-`) operators:
