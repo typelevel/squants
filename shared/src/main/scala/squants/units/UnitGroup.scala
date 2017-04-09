@@ -5,7 +5,7 @@ import scala.collection.immutable.{Set, SortedSet}
 import squants.{Quantity, UnitOfMeasure}
 
 /** A collection of related [[squants.UnitOfMeasure]] */
-trait Units[A <: Quantity[A]] {
+trait UnitGroup[A <: Quantity[A]] {
 
   def units: Set[UnitOfMeasure[A]]
 
