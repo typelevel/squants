@@ -1,7 +1,8 @@
 package squants.formatter
 
-import squants.unitgroups.UnitGroup
 import squants.Quantity
+import squants.unitgroups.UnitGroup
+
 
 trait DefaultFormatter[A <: Quantity[A]] extends Formatter[A] {
   def units: UnitGroup[A]
