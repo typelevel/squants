@@ -3,22 +3,22 @@ package squants.formatter
 import squants.information.Information
 import squants.mass._
 import squants.space.Length
-import squants.units.{AstronomicalLengthUnitGroup$, InformationIECUnitGroup$, InformationSIUnitGroup$, TroyUnitGroup$}
+import squants.units._
 
 object Formatters {
   object AstroUnitFormatter extends DefaultFormatter[Length] {
-    val units = AstronomicalLengthUnitGroup$
+    val units = AstronomicalLengthUnitGroup
   }
 
   object TroyFormatter extends DefaultFormatter[Mass] {
-    val units = TroyUnitGroup$
+    val units = TroyUnitGroup
   }
 
   object InformationSIFormatter extends DefaultFormatter[Information] {
-    val units = InformationSIUnitGroup$
+    val units = InformationSIUnitGroup
   }
 
   object InformationIECFormatter extends DefaultFormatter[Information] {
-    val units = InformationIECUnitGroup$
+    val units = InformationIECUnitGroup
   }
 }
