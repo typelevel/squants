@@ -1,10 +1,10 @@
 package squants.formatter
 
-import squants.units.Units
+import squants.units.UnitGroup
 import squants.Quantity
 
 trait DefaultFormatter[A <: Quantity[A]] extends Formatter[A] {
-  def units: Units[A]
+  def units: UnitGroup[A]
 
   override def bestUnit(quantity: Quantity[A]): A = {
     val unit =
