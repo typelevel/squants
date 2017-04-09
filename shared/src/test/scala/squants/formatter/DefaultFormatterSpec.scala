@@ -5,6 +5,7 @@ import squants.space.{Centimeters, Kilometers, Length, Meters}
 import squants.space.LengthConversions._
 import squants.unitgroups.si.strict.SiLengths
 
+
 class DefaultFormatterSpec extends FlatSpec with Matchers {
 
   behavior of "DefaultFormatter"
