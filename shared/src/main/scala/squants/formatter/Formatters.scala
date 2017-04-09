@@ -8,6 +8,7 @@ import squants.unitgroups.UnitGroup
 import squants.unitgroups.information.{IECInformation, MetricInformation}
 import squants.unitgroups.misc.{AstronomicalLengthUnitGroup, TroyMasses}
 
+
 object Formatters {
   object AstroUnitFormatter extends DefaultFormatter[Length] {
     val units = AstronomicalLengthUnitGroup
@@ -23,6 +24,20 @@ object Formatters {
 
   object InformationIECFormatter extends DefaultFormatter[Information] {
     val units = IECInformation
+  }
+
+
+}
+
+object Implicits {
+  implicit def implicitFormatter[A <: Quantity[A]](implicit unitGroup: UnitGroup[A]): Formatter[A] = {
+    new DefaultFormatter[A] { val units: UnitGroup[A] = unitGroup }
+  }
+
+  implicit class EnhancedQuantity[A <: Quantity[A]](quantity: Quantity[A]) {
+    def inBestUnit(implicit formatter: Formatter[A]): Quantity[A] = {
+      formatter.bestUnit(quantity)
+    }
   }
 }
 
