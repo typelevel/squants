@@ -9,6 +9,7 @@
 package squants.motion
 
 import squants.{ Time, _ }
+import squants.TypeLevelInt._
 import squants.space.{ Feet, InternationalMiles, Kilometers, NauticalMiles, UsMiles }
 import squants.time.{ Seconds, _ }
 
@@ -22,10 +23,12 @@ import squants.time.{ Seconds, _ }
  */
 final class Velocity private (val value: Double, val unit: VelocityUnit)
     extends Quantity[Velocity]
+    with DimensionType
     with TimeIntegral[Acceleration]
     with SecondTimeIntegral[Jerk]
     with TimeDerivative[Length] {
 
+  type Dimension = (Length, _1) :: (Time, _M1) :: HNil
   def dimension = Velocity
 
   def timeDerived = MetersPerSecondSquared(toMetersPerSecond)

@@ -8,6 +8,7 @@
 
 package squants.energy
 
+import squants.TypeLevelInt._1
 import squants._
 import squants.electro.{ Coulombs, ElectricCharge, ElectricPotential, Volts }
 import squants.mass.{ ChemicalAmount, Kilograms }
@@ -26,8 +27,10 @@ import squants.time.{ Time, _ }
  */
 final class Energy private (val value: Double, val unit: EnergyUnit)
     extends Quantity[Energy]
+    with DimensionType
     with TimeIntegral[Power]
     with SecondTimeIntegral[PowerRamp] {
+  type Dimension = (Energy, _1) :: HNil
 
   def dimension = Energy
 

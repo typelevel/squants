@@ -8,6 +8,7 @@
 
 package squants.mass
 
+import squants.TypeLevelInt._
 import squants._
 
 /**
@@ -17,7 +18,8 @@ import squants._
  * @param value Double
  */
 final class AreaDensity private (val value: Double, val unit: AreaDensityUnit)
-    extends Quantity[AreaDensity] {
+    extends Quantity[AreaDensity] with DimensionType {
+  type Dimension = (Length, _M2) :: (Mass, _1) :: HNil
 
   def dimension = AreaDensity
 

@@ -8,6 +8,7 @@
 
 package squants.space
 
+import squants.TypeLevelInt._3
 import squants._
 import squants.energy.{ EnergyDensity, Joules }
 import squants.mass.{ ChemicalAmount, Kilograms }
@@ -24,8 +25,10 @@ import squants.time.TimeIntegral
  */
 final class Volume private (val value: Double, val unit: VolumeUnit)
     extends Quantity[Volume]
-    with TimeIntegral[VolumeFlow] {
+      with DimensionType
+      with TimeIntegral[VolumeFlow] {
 
+  type Dimension = (Length, _3) :: HNil
   def dimension = Volume
 
   protected def timeDerived = CubicMetersPerSecond(toCubicMeters)

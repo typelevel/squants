@@ -8,6 +8,7 @@
 
 package squants.space
 
+import squants.TypeLevelInt._2
 import squants._
 import squants.electro.{ MagneticFlux, MagneticFluxDensity, Webers }
 import squants.energy.Watts
@@ -23,7 +24,8 @@ import squants.radio._
  * @param value value in [[squants.space.SquareMeters]]
  */
 final class Area private (val value: Double, val unit: AreaUnit)
-    extends Quantity[Area] {
+    extends Quantity[Area] with DimensionType {
+  type Dimension = (Length, _2) :: HNil
 
   def dimension = Area
 
