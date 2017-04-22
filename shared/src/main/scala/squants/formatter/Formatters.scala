@@ -3,7 +3,9 @@ package squants.formatter
 import squants.information.Information
 import squants.mass._
 import squants.space.Length
-import squants.units._
+import squants.unitgroups.information.{IECInformation, MetricInformation}
+import squants.unitgroups.mass.mass.TroyMasses
+import squants.unitgroups.space.length.AstronomicalLengthUnitGroup
 
 object Formatters {
   object AstroUnitFormatter extends DefaultFormatter[Length] {
@@ -11,14 +13,14 @@ object Formatters {
   }
 
   object TroyFormatter extends DefaultFormatter[Mass] {
-    val units = TroyUnitGroup
+    val units = TroyMasses
   }
 
-  object InformationSIFormatter extends DefaultFormatter[Information] {
-    val units = InformationSIUnitGroup
+  object InformationMetricFormatter extends DefaultFormatter[Information] {
+    val units = MetricInformation
   }
 
   object InformationIECFormatter extends DefaultFormatter[Information] {
-    val units = InformationIECUnitGroup
+    val units = IECInformation
   }
 }
