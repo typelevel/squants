@@ -1,4 +1,4 @@
-package squants.units
+package squants.unitgroups
 
 import squants.electro._
 import squants.mass._

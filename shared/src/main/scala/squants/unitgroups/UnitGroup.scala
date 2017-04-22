@@ -1,4 +1,4 @@
-package squants.units
+package squants.unitgroups
 
 import scala.collection.immutable.{Set, SortedSet}
 
