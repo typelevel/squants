@@ -17,8 +17,7 @@ package object strict {
   }
 
   object SiCapacticances extends UnitGroup[Capacitance] {
-    val units: Set[UnitOfMeasure[Capacitance]] = Set(Picofarads, Nanofarads, Microfarads,
-      Millifarads, Farads, Kilofarads)
+    val units: Set[UnitOfMeasure[Capacitance]] = Capacitance.units.collect { case si: SiUnit => si }
   }
 
   object SiElectricalResistance extends UnitGroup[ElectricalResistance] {
