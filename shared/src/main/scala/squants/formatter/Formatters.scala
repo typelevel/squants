@@ -1,8 +1,10 @@
 package squants.formatter
 
+import squants.Quantity
 import squants.information.Information
 import squants.mass._
 import squants.space.Length
+import squants.unitgroups.UnitGroup
 import squants.unitgroups.information.{IECInformation, MetricInformation}
 import squants.unitgroups.mass.mass.TroyMasses
 import squants.unitgroups.space.length.AstronomicalLengthUnitGroup
@@ -22,5 +24,19 @@ object Formatters {
 
   object InformationIECFormatter extends DefaultFormatter[Information] {
     val units = IECInformation
+  }
+
+
+}
+
+object Implicits {
+  implicit def implicitFormatter[A <: Quantity[A]](implicit unitGroup: UnitGroup[A]): Formatter[A] = {
+    new DefaultFormatter[A] { val units: UnitGroup[A] = unitGroup }
+  }
+
+  implicit class EnhancedQuantity[A <: Quantity[A]](quantity: Quantity[A]) {
+    def inBestUnit(implicit formatter: Formatter[A]): Quantity[A] = {
+      formatter.bestUnit(quantity)
+    }
   }
 }
