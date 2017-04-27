@@ -5,7 +5,9 @@ import squants.electro._
 import squants.mass.{Mass, Tonnes}
 import squants.space._
 import squants.unitgroups.UnitGroup
-import squants.unitgroups.si.strict._
+import squants.unitgroups.si.strict.electro.SiElectricCharges
+import squants.unitgroups.si.strict.mass.SiMasses
+import squants.unitgroups.si.strict.space.{SiAreas, SiLengths, SiVolumes}
 
 /**
   * Contains all of units in [[squants.unitgroups.si]] plus extra units defined by
