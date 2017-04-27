@@ -1,9 +1,9 @@
 package squants.formatter
 
 import org.scalatest.{FlatSpec, Matchers}
-import squants.space.{Centimeters, Length, Meters, Kilometers}
+import squants.space.{Centimeters, Kilometers, Length, Meters}
 import squants.space.LengthConversions._
-import squants.unitgroups.SiUnitGroups.SiLengths
+import squants.unitgroups.si.strict.SiLengths
 
 class DefaultFormatterSpec extends FlatSpec with Matchers {
 
