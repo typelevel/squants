@@ -20,6 +20,14 @@ package object strict {
     val units: Set[UnitOfMeasure[Capacitance]] = Capacitance.units.collect { case si: SiUnit => si }
   }
 
+  object SiConductivity extends UnitGroup[Conductivity] {
+    val units: Set[UnitOfMeasure[Conductivity]] = Conductivity.units.collect { case si: SiUnit => si }
+  }
+
+  object SiElectricalConductance extends UnitGroup[ElectricalConductance] {
+    val units: Set[UnitOfMeasure[ElectricalConductance]] = ElectricalConductance.units.collect { case si: SiUnit => si }
+  }
+
   object SiElectricalResistance extends UnitGroup[ElectricalResistance] {
     val units: Set[UnitOfMeasure[ElectricalResistance]] = ElectricalResistance.units.collect { case si: SiUnit => si }
   }
@@ -46,6 +54,18 @@ package object strict {
 
   object SiMasses extends UnitGroup[Mass] {
     val units: Set[UnitOfMeasure[Mass]] = Mass.units.collect { case si: SiUnit => si }
+  }
+
+  object SiMagneticFlux extends UnitGroup[MagneticFlux] {
+    val units: Set[UnitOfMeasure[MagneticFlux]] = MagneticFlux.units.collect { case si: SiUnit => si }
+  }
+
+  object SiMagneticFluxDensity extends UnitGroup[MagneticFluxDensity] {
+    val units: Set[UnitOfMeasure[MagneticFluxDensity]] = MagneticFluxDensity.units.collect { case si: SiUnit => si }
+  }
+
+  object SiResistivity extends UnitGroup[Resistivity] {
+    val units: Set[UnitOfMeasure[Resistivity]] = Resistivity.units.collect { case si: SiUnit => si }
   }
 
   object SiVelocities extends UnitGroup[Velocity] {
