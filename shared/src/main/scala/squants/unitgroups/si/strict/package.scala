@@ -32,6 +32,14 @@ package object strict {
     val units: Set[UnitOfMeasure[ElectricCurrent]] = ElectricCurrent.units.collect { case si: SiUnit => si }
   }
 
+  object SiElectricPotential extends UnitGroup[ElectricPotential] {
+    val units: Set[UnitOfMeasure[ElectricPotential]] = ElectricPotential.units.collect { case si: SiUnit => si }
+  }
+
+  object SiInductance extends UnitGroup[Inductance] {
+    val units: Set[UnitOfMeasure[Inductance]] = Inductance.units.collect { case si: SiUnit => si }
+  }
+
   object SiLengths extends UnitGroup[Length] {
     val units: Set[UnitOfMeasure[Length]] = Length.units.collect { case si: SiUnit => si }
   }
