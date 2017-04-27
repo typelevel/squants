@@ -6,8 +6,7 @@ import squants.mass._
 import squants.space.Length
 import squants.unitgroups.UnitGroup
 import squants.unitgroups.information.{IECInformation, MetricInformation}
-import squants.unitgroups.mass.mass.TroyMasses
-import squants.unitgroups.space.length.AstronomicalLengthUnitGroup
+import squants.unitgroups.misc.{AstronomicalLengthUnitGroup, TroyMasses}
 
 object Formatters {
   object AstroUnitFormatter extends DefaultFormatter[Length] {
@@ -25,8 +24,6 @@ object Formatters {
   object InformationIECFormatter extends DefaultFormatter[Information] {
     val units = IECInformation
   }
-
-
 }
 
 object Implicits {
