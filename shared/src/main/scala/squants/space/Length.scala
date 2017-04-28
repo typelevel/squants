@@ -115,27 +115,27 @@ object Angstroms extends LengthUnit {
   val conversionFactor = 100 * MetricSystem.Pico
 }
 
-object Nanometers extends LengthUnit {
+object Nanometers extends LengthUnit with SiUnit {
   val symbol = "nm"
   val conversionFactor = MetricSystem.Nano
 }
 
-object Microns extends LengthUnit {
+object Microns extends LengthUnit with SiUnit {
   val symbol = "µm"
   val conversionFactor = MetricSystem.Micro
 }
 
-object Millimeters extends LengthUnit {
+object Millimeters extends LengthUnit with SiUnit {
   val symbol = "mm"
   val conversionFactor = MetricSystem.Milli
 }
 
-object Centimeters extends LengthUnit {
+object Centimeters extends LengthUnit with SiUnit {
   val symbol = "cm"
   val conversionFactor = MetricSystem.Centi
 }
 
-object Decimeters extends LengthUnit {
+object Decimeters extends LengthUnit with SiUnit {
   val symbol = "dm"
   val conversionFactor = MetricSystem.Deci
 }
@@ -144,17 +144,17 @@ object Meters extends LengthUnit with PrimaryUnit with SiBaseUnit {
   val symbol = "m"
 }
 
-object Decameters extends LengthUnit {
+object Decameters extends LengthUnit with SiUnit {
   val symbol = "dam"
   val conversionFactor = MetricSystem.Deca
 }
 
-object Hectometers extends LengthUnit {
+object Hectometers extends LengthUnit with SiUnit {
   val symbol = "hm"
   val conversionFactor = MetricSystem.Hecto
 }
 
-object Kilometers extends LengthUnit {
+object Kilometers extends LengthUnit with SiUnit {
   val symbol = "km"
   val conversionFactor = MetricSystem.Kilo
 }
