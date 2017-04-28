@@ -84,12 +84,12 @@ object SquareMeters extends AreaUnit with PrimaryUnit with SiUnit {
   val symbol = "m²"
 }
 
-object SquareCentimeters extends AreaUnit {
+object SquareCentimeters extends AreaUnit with SiUnit {
   val symbol = "cm²"
   val conversionFactor = MetricSystem.Centi * MetricSystem.Centi
 }
 
-object SquareKilometers extends AreaUnit {
+object SquareKilometers extends AreaUnit with SiUnit {
   val symbol = "km²"
   val conversionFactor = MetricSystem.Kilo * MetricSystem.Kilo
 }
