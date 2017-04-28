@@ -121,42 +121,42 @@ object Joules extends EnergyUnit with SiUnit {
   val symbol = "J"
 }
 
-object Picojoules extends EnergyUnit {
+object Picojoules extends EnergyUnit with SiUnit {
   val conversionFactor = Joules.conversionFactor * MetricSystem.Pico
   val symbol = "pJ"
 }
 
-object Nanojoules extends EnergyUnit {
+object Nanojoules extends EnergyUnit with SiUnit {
   val conversionFactor = Joules.conversionFactor * MetricSystem.Nano
   val symbol = "nJ"
 }
 
-object Microjoules extends EnergyUnit {
+object Microjoules extends EnergyUnit with SiUnit {
   val conversionFactor = Joules.conversionFactor * MetricSystem.Micro
   val symbol = "µJ"
 }
 
-object Millijoules extends EnergyUnit {
+object Millijoules extends EnergyUnit with SiUnit {
   val conversionFactor = Joules.conversionFactor * MetricSystem.Milli
   val symbol = "mJ"
 }
 
-object Kilojoules extends EnergyUnit {
+object Kilojoules extends EnergyUnit with SiUnit {
   val conversionFactor = Joules.conversionFactor * MetricSystem.Kilo
   val symbol = "kJ"
 }
 
-object Megajoules extends EnergyUnit {
+object Megajoules extends EnergyUnit with SiUnit {
   val conversionFactor = Joules.conversionFactor * MetricSystem.Mega
   val symbol = "MJ"
 }
 
-object Gigajoules extends EnergyUnit {
+object Gigajoules extends EnergyUnit with SiUnit {
   val conversionFactor = Joules.conversionFactor * MetricSystem.Giga
   val symbol = "GJ"
 }
 
-object Terajoules extends EnergyUnit {
+object Terajoules extends EnergyUnit with SiUnit {
   val conversionFactor = Joules.conversionFactor * MetricSystem.Tera
   val symbol = "TJ"
 }
