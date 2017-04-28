@@ -46,12 +46,12 @@ object WattsPerCubicMeter extends SpectralIrradianceUnit with PrimaryUnit with S
   val symbol = Watts.symbol + "/" + CubicMeters.symbol
 }
 
-object WattsPerSquareMeterPerNanometer extends SpectralIrradianceUnit {
+object WattsPerSquareMeterPerNanometer extends SpectralIrradianceUnit with SiUnit {
   val conversionFactor = 1 / MetricSystem.Nano
   val symbol = Watts.symbol + "/" + SquareMeters.symbol + "/" + Nanometers.symbol
  }
 
-object WattsPerSquareMeterPerMicron extends SpectralIrradianceUnit {
+object WattsPerSquareMeterPerMicron extends SpectralIrradianceUnit with SiUnit {
   val conversionFactor = 1 / MetricSystem.Micro
   val symbol = Watts.symbol + "/" + SquareMeters.symbol + "/" + Microns.symbol
 }

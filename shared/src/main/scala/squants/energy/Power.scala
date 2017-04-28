@@ -73,7 +73,7 @@ trait PowerUnit extends UnitOfMeasure[Power] with UnitConverter {
   def apply[A](n: A)(implicit num: Numeric[A]) = Power(n, this)
 }
 
-object Milliwatts extends PowerUnit {
+object Milliwatts extends PowerUnit with SiUnit {
   val conversionFactor = MetricSystem.Milli
   val symbol = "mW"
 }
@@ -82,17 +82,17 @@ object Watts extends PowerUnit with PrimaryUnit with SiUnit {
   val symbol = "W"
 }
 
-object Kilowatts extends PowerUnit {
+object Kilowatts extends PowerUnit with SiUnit {
   val conversionFactor = MetricSystem.Kilo
   val symbol = "kW"
 }
 
-object Megawatts extends PowerUnit {
+object Megawatts extends PowerUnit with SiUnit {
   val conversionFactor = MetricSystem.Mega
   val symbol = "MW"
 }
 
-object Gigawatts extends PowerUnit {
+object Gigawatts extends PowerUnit with SiUnit {
   val conversionFactor = MetricSystem.Giga
   val symbol = "GW"
 }
