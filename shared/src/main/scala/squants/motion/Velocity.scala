@@ -75,7 +75,7 @@ object KilometersPerSecond extends VelocityUnit with SiUnit {
   val conversionFactor = Kilometers.conversionFactor / Meters.conversionFactor
 }
 
-object KilometersPerHour extends VelocityUnit with SiUnit {
+object KilometersPerHour extends VelocityUnit {
   val symbol = "km/h"
   val conversionFactor = (Kilometers.conversionFactor / Meters.conversionFactor) / Time.SecondsPerHour
 }
