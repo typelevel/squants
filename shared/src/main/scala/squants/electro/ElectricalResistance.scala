@@ -52,32 +52,32 @@ object Ohms extends ElectricalResistanceUnit with PrimaryUnit with SiUnit {
   val symbol = "Ω"
 }
 
-object Nanohms extends ElectricalResistanceUnit {
+object Nanohms extends ElectricalResistanceUnit with SiUnit {
   val symbol = "nΩ"
   val conversionFactor = MetricSystem.Nano
 }
 
-object Microohms extends ElectricalResistanceUnit {
+object Microohms extends ElectricalResistanceUnit with SiUnit {
   val symbol = "µΩ"
   val conversionFactor = MetricSystem.Micro
 }
 
-object Milliohms extends ElectricalResistanceUnit {
+object Milliohms extends ElectricalResistanceUnit with SiUnit {
   val symbol = "mΩ"
   val conversionFactor = MetricSystem.Milli
 }
 
-object Kilohms extends ElectricalResistanceUnit {
+object Kilohms extends ElectricalResistanceUnit with SiUnit {
   val symbol = "kΩ"
   val conversionFactor = MetricSystem.Kilo
 }
 
-object Megohms extends ElectricalResistanceUnit {
+object Megohms extends ElectricalResistanceUnit with SiUnit {
   val symbol = "MΩ"
   val conversionFactor = MetricSystem.Mega
 }
 
-object Gigohms extends ElectricalResistanceUnit {
+object Gigohms extends ElectricalResistanceUnit with SiUnit {
   val symbol = "GΩ"
   val conversionFactor = MetricSystem.Giga
 }
