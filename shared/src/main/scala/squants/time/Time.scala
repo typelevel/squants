@@ -80,17 +80,17 @@ trait TimeUnit extends UnitOfMeasure[Time] with UnitConverter {
   def apply[A](n: A)(implicit num: Numeric[A]) = Time(n, this)
 }
 
-object Nanoseconds extends TimeUnit {
+object Nanoseconds extends TimeUnit with SiUnit {
   val conversionFactor = Milliseconds.conversionFactor / Time.MicrosecondsPerSecond
   val symbol = "ns"
 }
 
-object Microseconds extends TimeUnit {
+object Microseconds extends TimeUnit with SiUnit {
   val conversionFactor = Milliseconds.conversionFactor / Time.MillisecondsPerSecond
   val symbol = "µs"
 }
 
-object Milliseconds extends TimeUnit with PrimaryUnit {
+object Milliseconds extends TimeUnit with PrimaryUnit with SiUnit {
   val symbol = "ms"
 }
 
