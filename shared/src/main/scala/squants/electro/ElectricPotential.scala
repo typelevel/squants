@@ -59,22 +59,22 @@ object Volts extends ElectricPotentialUnit with PrimaryUnit with SiUnit {
   val symbol = "V"
 }
 
-object Microvolts extends ElectricPotentialUnit {
+object Microvolts extends ElectricPotentialUnit with SiUnit {
   val symbol = "μV"
   val conversionFactor = MetricSystem.Micro
 }
 
-object Millivolts extends ElectricPotentialUnit {
+object Millivolts extends ElectricPotentialUnit with SiUnit {
   val symbol = "mV"
   val conversionFactor = MetricSystem.Milli
 }
 
-object Kilovolts extends ElectricPotentialUnit {
+object Kilovolts extends ElectricPotentialUnit with SiUnit {
   val symbol = "kV"
   val conversionFactor = MetricSystem.Kilo
 }
 
-object Megavolts extends ElectricPotentialUnit {
+object Megavolts extends ElectricPotentialUnit with SiUnit {
   val symbol = "MV"
   val conversionFactor = MetricSystem.Mega
 }

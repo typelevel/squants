@@ -73,22 +73,22 @@ object Hertz extends FrequencyUnit with PrimaryUnit with SiUnit {
   val symbol = "Hz"
 }
 
-object Kilohertz extends FrequencyUnit {
+object Kilohertz extends FrequencyUnit with SiUnit {
   val conversionFactor = MetricSystem.Kilo
   val symbol = "kHz"
 }
 
-object Megahertz extends FrequencyUnit {
+object Megahertz extends FrequencyUnit with SiUnit {
   val conversionFactor = MetricSystem.Mega
   val symbol = "MHz"
 }
 
-object Gigahertz extends FrequencyUnit {
+object Gigahertz extends FrequencyUnit with SiUnit {
   val conversionFactor = MetricSystem.Giga
   val symbol = "GHz"
 }
 
-object Terahertz extends FrequencyUnit {
+object Terahertz extends FrequencyUnit with SiUnit {
   val conversionFactor = MetricSystem.Tera
   val symbol = "THz"
 }
