@@ -79,16 +79,16 @@ trait MassUnit extends UnitOfMeasure[Mass] with UnitConverter {
   def apply[A](n: A)(implicit num: Numeric[A]) = Mass(n, this)
 }
 
-object Grams extends MassUnit with PrimaryUnit {
+object Grams extends MassUnit with PrimaryUnit with SiUnit {
   val symbol = "g"
 }
 
-object Micrograms extends MassUnit {
+object Micrograms extends MassUnit with SiUnit {
   val conversionFactor = MetricSystem.Micro
   val symbol = "mcg"
 }
 
-object Milligrams extends MassUnit {
+object Milligrams extends MassUnit with SiUnit {
   val conversionFactor = MetricSystem.Milli
   val symbol = "mg"
 }
