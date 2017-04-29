@@ -85,6 +85,10 @@ class AngleSpec extends FlatSpec with Matchers {
     Radians(1) / RadiansPerSecond(1) should be(Seconds(1))
   }
 
+  it should "return Length when multiplied by Length" in {
+    Radians(1) * Meters(1) should be(Meters(1))
+  }
+
   behavior of "AngleConversion"
 
   it should "provide aliases for single unit values" in {

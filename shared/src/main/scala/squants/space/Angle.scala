@@ -13,7 +13,7 @@ import squants.motion.{AngularVelocity, RadiansPerSecond}
 import squants.time.{Time, TimeIntegral}
 
 /**
- * @author  garyKeorkunian
+ * @author  garyKeorkunian and phlipAxelrod
  * @since   0.1
  *
  * @param value value in [[squants.space.Radians]]
@@ -35,6 +35,10 @@ final class Angle private (val value: Double, val unit: AngleUnit)
   def tan = math.tan(toRadians)
   def asin = math.asin(toRadians)
   def acos = math.acos(toRadians)
+
+  def *(that: Length): Length = {
+    toRadians * that
+  }
 
   protected def timeDerived: AngularVelocity = RadiansPerSecond(toRadians)
 
