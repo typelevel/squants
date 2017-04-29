@@ -309,5 +309,7 @@ abstract class Quantity[A <: Quantity[A]] extends Serializable with Ordered[A] {
 }
 
 abstract class StrictlyPositiveQuantity[A <: StrictlyPositiveQuantity[A]](value: Double) extends Quantity[A] {self: A ⇒
-  assert(value > 0, "Moment of inertia must be positive.")
+  if(value < 0) {
+    throw new IllegalArgumentException("Cannot create negative StrictlyPositiveQuantity")
+  }
 }

@@ -12,7 +12,7 @@ import squants.{Dimension, Energy, PrimaryUnit, Quantity, SiBaseUnit, UnitConver
   * @param value Double
   */
 final class Torque private (val value: Double, val unit: TorqueUnit)
-  extends Quantity[Torque] {
+    extends Quantity[Torque] {
 
   def dimension = Torque
 
@@ -29,7 +29,7 @@ object Torque extends Dimension[Torque] {
   def name = "MomentOfInertia"
   def primaryUnit = NewtonMeters
   def siUnit = NewtonMeters
-  def units = Set(NewtonMeters, PoundFoot)
+  def units = Set(NewtonMeters, PoundFeet)
 }
 
 trait TorqueUnit extends UnitOfMeasure[Torque] with UnitConverter {
@@ -39,22 +39,10 @@ trait TorqueUnit extends UnitOfMeasure[Torque] with UnitConverter {
 }
 
 object NewtonMeters extends TorqueUnit with PrimaryUnit with  SiBaseUnit {
-  import squants.mass.Symbols._
-  val symbol = Newtons.symbol + Dot + Meters.symbol
+  val symbol = Newtons.symbol + "‧" + Meters.symbol
 }
 
-object PoundFoot extends TorqueUnit {
-  import squants.mass.Symbols._
-  val symbol = Pounds.symbol + Dot + Feet.symbol
+object PoundFeet extends TorqueUnit {
+  val symbol = Pounds.symbol + "‧" + Feet.symbol
   val conversionFactor = Pounds.conversionFactor * Feet.conversionFactor
-}
-
-object TorqueConversion {
-  /**
-    * Energy and torque have the same unit, so convert appropriately
-    * @return numerically equivalent value in newton-meters
-    */
-  implicit def energyToTorque(energy: Energy): Torque = {
-    NewtonMeters(energy.toJoules)
-  }
 }

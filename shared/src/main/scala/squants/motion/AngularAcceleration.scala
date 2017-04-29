@@ -19,7 +19,7 @@ final class AngularAcceleration private (val value: Double, val unit: AngularAcc
 
   def toRadiansPerSecondSquared = to(RadiansPerSecondSquared)
 
-  def *(that: Length): Acceleration = {
+  def onRadius(that: Length): Acceleration = {
     toRadiansPerSecondSquared * that / Seconds(1).squared
   }
 

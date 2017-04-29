@@ -9,12 +9,12 @@
 package squants.energy
 
 import squants._
-import squants.electro.{ Coulombs, ElectricCharge, ElectricPotential, Volts }
-import squants.mass.{ ChemicalAmount, Kilograms }
-import squants.motion.Newtons
+import squants.electro.{Coulombs, ElectricCharge, ElectricPotential, Volts}
+import squants.mass.{ChemicalAmount, Kilograms}
+import squants.motion.{NewtonMeters, Newtons, Torque}
 import squants.space.CubicMeters
-import squants.thermal.{ JoulesPerKelvin, Kelvin, ThermalCapacity }
-import squants.time.{ Time, _ }
+import squants.thermal.{JoulesPerKelvin, Kelvin, ThermalCapacity}
+import squants.time.{Time, _}
 
 /**
  * Represents a quantity of energy
@@ -46,7 +46,7 @@ final class Energy private (val value: Double, val unit: EnergyUnit)
   def /(that: ThermalCapacity) = Kelvin(toJoules / that.toJoulesPerKelvin)
 
   def /(that: ChemicalAmount) = ??? // return MolarEnergy
-  def /(that: Angle) = ??? // return Torque (dimensionally equivalent to energy as Angles are dimensionless)
+  def /(that: Angle): Torque = NewtonMeters(toJoules / that.toRadians)
   def /(that: Area) = ??? // Insolation, Energy Area Density
 
   def /(that: TimeSquared): PowerRamp = this / that.time1 / that.time2
@@ -71,6 +71,12 @@ final class Energy private (val value: Double, val unit: EnergyUnit)
   def toMBtus = to(MBtus)
   def toMMBtus = to(MMBtus)
   def toErgs = to(Ergs)
+
+  /**
+    * Energy and torque have the same unit, so convert appropriately
+    * @return numerically equivalent value in newton-meters
+    */
+  def asTorque = NewtonMeters(toJoules)
 }
 
 /**

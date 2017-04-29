@@ -13,7 +13,7 @@ import squants.space.{Degrees, Gradians, Turns}
 import squants.time.{TimeDerivative, TimeIntegral}
 
 /**
- * @author  garyKeorkunian and paxelord
+ * @author  garyKeorkunian
  * @since   0.1
  *
  * @param value Double
@@ -28,7 +28,7 @@ final class AngularVelocity private (val value: Double, val unit: AngularVelocit
   def toGradsPerSecond = to(GradsPerSecond)
   def toTurnsPerSecond = to(TurnsPerSecond)
 
-  def *(that: Length): Velocity = {
+  def onRadius(that: Length): Velocity = {
     toRadiansPerSecond * that / Seconds(1)
   }
 

@@ -4,13 +4,20 @@ import squants.motion.{AngularAcceleration, NewtonMeters, Torque}
 import squants.space.{Feet, Meters}
 import squants.{Dimension, PrimaryUnit, SiBaseUnit, StrictlyPositiveQuantity, UnitConverter, UnitOfMeasure}
 
+/**
+  *
+  * @author paxelord
+  * @since 1.2
+  *
+  * @param value Double
+  */
 final class MomentOfInertia private (val value: Double, val unit: MomentOfInertiaUnit)
-  extends StrictlyPositiveQuantity[MomentOfInertia](value){
+    extends StrictlyPositiveQuantity[MomentOfInertia](value){
 
   def dimension = MomentOfInertia
 
-  def toKilogramsMetersSquared: Double = to(KilogramsMetersSquared)
-  def toPoundsSquareFeet: Double = to(PoundsSquareFeet)
+  def toKilogramsMetersSquared = to(KilogramsMetersSquared)
+  def toPoundsSquareFeet = to(PoundsSquareFeet)
 
   def *(angularAcceleration: AngularAcceleration): Torque = {
     val kilogramsMetersSquared = toKilogramsMetersSquared
@@ -36,17 +43,10 @@ trait MomentOfInertiaUnit extends UnitOfMeasure[MomentOfInertia] with UnitConver
 }
 
 object KilogramsMetersSquared extends MomentOfInertiaUnit with PrimaryUnit with SiBaseUnit {
-  import Symbols._
-  val symbol = Kilograms.symbol + Dot + Meters.symbol + SuperScript2
+  val symbol = Kilograms.symbol + "‧" + Meters.symbol + "²"
 }
 
 object PoundsSquareFeet extends MomentOfInertiaUnit {
-  import Symbols._
-  val symbol = Pounds.symbol + Dot + Feet.symbol + SuperScript2
+  val symbol = Pounds.symbol + "‧" + Feet.symbol + "²"
   val conversionFactor = Pounds.conversionFactor * math.pow(Feet.conversionFactor, 2D)
-}
-
-object Symbols {
-  val Dot = "‧"
-  val SuperScript2 = "²"
 }
