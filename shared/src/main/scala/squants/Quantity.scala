@@ -308,8 +308,3 @@ abstract class Quantity[A <: Quantity[A]] extends Serializable with Ordered[A] {
   def map(f: Double ⇒ Double): A = unit(f(value))
 }
 
-abstract class StrictlyPositiveQuantity[A <: StrictlyPositiveQuantity[A]](value: Double) extends Quantity[A] {self: A ⇒
-  if(value < 0) {
-    throw new IllegalArgumentException("Cannot create negative StrictlyPositiveQuantity")
-  }
-}

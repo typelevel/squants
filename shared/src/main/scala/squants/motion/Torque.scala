@@ -1,8 +1,8 @@
 package squants.motion
 
-import squants.mass.{MomentOfInertia, Pounds}
+import squants.mass.{Kilograms, MomentOfInertia, Pounds}
 import squants.space.{Feet, Meters}
-import squants.{Dimension, Energy, PrimaryUnit, Quantity, SiBaseUnit, UnitConverter, UnitOfMeasure}
+import squants.{AbstractQuantityNumeric, Dimension, Energy, PrimaryUnit, Quantity, SiBaseUnit, UnitConverter, UnitOfMeasure}
 
 /**
   *
@@ -17,6 +17,7 @@ final class Torque private (val value: Double, val unit: TorqueUnit)
   def dimension = Torque
 
   def toNewtonMeters = to(NewtonMeters)
+  def toPoundFeet = to(PoundFeet)
 
   def / (that: MomentOfInertia): AngularAcceleration = {
     RadiansPerSecondSquared(toNewtonMeters / that.toKilogramsMetersSquared)
@@ -26,7 +27,7 @@ final class Torque private (val value: Double, val unit: TorqueUnit)
 object Torque extends Dimension[Torque] {
   private[motion] def apply[A](n: A, unit: TorqueUnit)(implicit num: Numeric[A]) = new Torque(num.toDouble(n), unit)
   def apply = parse _
-  def name = "MomentOfInertia"
+  def name = "Torque"
   def primaryUnit = NewtonMeters
   def siUnit = NewtonMeters
   def units = Set(NewtonMeters, PoundFeet)
@@ -44,5 +45,17 @@ object NewtonMeters extends TorqueUnit with PrimaryUnit with  SiBaseUnit {
 
 object PoundFeet extends TorqueUnit {
   val symbol = Pounds.symbol + "‧" + Feet.symbol
-  val conversionFactor = Pounds.conversionFactor * Feet.conversionFactor
+  val conversionFactor = PoundForce.conversionFactor * Feet.conversionFactor
+}
+
+object TorqueConversions {
+  lazy val newtonMeters = NewtonMeters(1)
+  lazy val poundFeet = PoundFeet(1)
+
+  implicit class TorqueConversions[A](val n: A) extends AnyVal {
+    def newtonMeters(implicit num: Numeric[A]) = NewtonMeters(n)
+    def poundFeet(implicit num: Numeric[A]) = PoundFeet(n)
+  }
+
+  implicit object TorqueNumeric extends AbstractQuantityNumeric[Torque](Torque.primaryUnit)
 }

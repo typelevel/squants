@@ -2,7 +2,7 @@ package squants.mass
 
 import squants.motion.{AngularAcceleration, NewtonMeters, Torque}
 import squants.space.{Feet, Meters}
-import squants.{Dimension, PrimaryUnit, SiBaseUnit, StrictlyPositiveQuantity, UnitConverter, UnitOfMeasure}
+import squants.{AbstractQuantityNumeric, Dimension, Length, PrimaryUnit, Quantity, SiBaseUnit, UnitConverter, UnitOfMeasure}
 
 /**
   *
@@ -12,7 +12,7 @@ import squants.{Dimension, PrimaryUnit, SiBaseUnit, StrictlyPositiveQuantity, Un
   * @param value Double
   */
 final class MomentOfInertia private (val value: Double, val unit: MomentOfInertiaUnit)
-    extends StrictlyPositiveQuantity[MomentOfInertia](value){
+    extends Quantity[MomentOfInertia]{
 
   def dimension = MomentOfInertia
 
@@ -20,10 +20,19 @@ final class MomentOfInertia private (val value: Double, val unit: MomentOfInerti
   def toPoundsSquareFeet = to(PoundsSquareFeet)
 
   def *(angularAcceleration: AngularAcceleration): Torque = {
-    val kilogramsMetersSquared = toKilogramsMetersSquared
     val radiansPerSecondSquared = angularAcceleration.toRadiansPerSecondSquared
 
-    NewtonMeters(kilogramsMetersSquared * radiansPerSecondSquared)
+    NewtonMeters(toKilogramsMetersSquared * radiansPerSecondSquared)
+  }
+
+  /**
+    * For a point mass with the given MomentOfInertia rotating with a center of
+    * rotation at the given radius, return the mass of the point mass
+    * @param radius distance to axis of rotation
+    * @return mass of point mass with given radius and MomentOfInertia
+    */
+  def atCenter(radius: Length): Mass = {
+    Kilograms(toKilogramsMetersSquared / radius.squared.toSquareMeters)
   }
 }
 
@@ -49,4 +58,16 @@ object KilogramsMetersSquared extends MomentOfInertiaUnit with PrimaryUnit with 
 object PoundsSquareFeet extends MomentOfInertiaUnit {
   val symbol = Pounds.symbol + "‧" + Feet.symbol + "²"
   val conversionFactor = Pounds.conversionFactor * math.pow(Feet.conversionFactor, 2D)
+}
+
+object MomentOfInertiaConversions {
+  lazy val kilogramMetersSquared = KilogramsMetersSquared(1)
+  lazy val poundSquareFeet = PoundsSquareFeet(1)
+
+  implicit class MomentOfInertiaConversions[A](val n: A) extends AnyVal {
+    def kilogramMetersSquared(implicit num: Numeric[A]) = KilogramsMetersSquared(n)
+    def poundSquareFeet(implicit num: Numeric[A]) = PoundsSquareFeet(n)
+  }
+
+  implicit object MomentOfInertiaNumeric extends AbstractQuantityNumeric[MomentOfInertia](MomentOfInertia.primaryUnit)
 }

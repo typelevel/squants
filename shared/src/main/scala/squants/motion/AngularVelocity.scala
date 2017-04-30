@@ -25,12 +25,18 @@ final class AngularVelocity private (val value: Double, val unit: AngularVelocit
 
   def toRadiansPerSecond = to(RadiansPerSecond)
   def toDegreesPerSecond = to(DegreesPerSecond)
-  def toGradsPerSecond = to(GradsPerSecond)
+  @deprecated(message = "Potentially confusing naming. Use toGradiansPerSecond instead.", since = "Squants 1.2")
+  def toGradsPerSecond = to(GradiansPerSecond)
+  def toGradiansPerSecond = to(GradiansPerSecond)
   def toTurnsPerSecond = to(TurnsPerSecond)
 
-  def onRadius(that: Length): Velocity = {
-    toRadiansPerSecond * that / Seconds(1)
-  }
+  /**
+    * linear velocity of an object rotating with this angular velocity
+    * and the given radius from the center of rotation
+    * @param radius the distance from the center of rotation
+    * @return linear velocity with given angular velocity and radius
+    */
+  def onRadius(radius: Length): Velocity = toRadiansPerSecond * radius / Seconds(1)
 
   protected[squants] def timeIntegrated: Angle = Radians(toRadiansPerSecond)
 
@@ -45,7 +51,7 @@ object AngularVelocity extends Dimension[AngularVelocity] {
   def name = "AngularVelocity"
   def primaryUnit = RadiansPerSecond
   def siUnit = RadiansPerSecond
-  def units = Set(RadiansPerSecond, DegreesPerSecond, GradsPerSecond, TurnsPerSecond)
+  def units = Set(RadiansPerSecond, DegreesPerSecond, GradiansPerSecond, TurnsPerSecond)
 }
 
 trait AngularVelocityUnit extends UnitOfMeasure[AngularVelocity] with UnitConverter {
@@ -61,6 +67,12 @@ object DegreesPerSecond extends AngularVelocityUnit {
   val conversionFactor = Degrees.conversionFactor * Radians.conversionFactor
 }
 
+object GradiansPerSecond extends AngularVelocityUnit {
+  val symbol = "grad/s"
+  val conversionFactor = Gradians.conversionFactor * Radians.conversionFactor
+}
+
+@deprecated(message = "Potentially confusing naming. Use GradiansPerSecond instead.", since = "Squants 1.2")
 object GradsPerSecond extends AngularVelocityUnit {
   val symbol = "grad/s"
   val conversionFactor = Gradians.conversionFactor * Radians.conversionFactor
@@ -74,13 +86,16 @@ object TurnsPerSecond extends AngularVelocityUnit {
 object AngularVelocityConversions {
   lazy val radianPerSecond = RadiansPerSecond(1)
   lazy val degreePerSecond = DegreesPerSecond(1)
-  lazy val gradPerSecond = GradsPerSecond(1)
+  lazy val gradPerSecond = GradiansPerSecond(1)
+  lazy val gradiansPerSecond = GradiansPerSecond(1)
   lazy val turnPerSecond = TurnsPerSecond(1)
 
   implicit class AngularVelocityConversions[A](n: A)(implicit num: Numeric[A]) {
     def radiansPerSecond = RadiansPerSecond(n)
     def degreesPerSecond = DegreesPerSecond(n)
-    def gradsPerSecond = GradsPerSecond(n)
+    @deprecated(message = "Potentially confusing naming. Use gradiansPerSecond instead.", since = "Squants 1.2")
+    def gradsPerSecond = GradiansPerSecond(n)
+    def gradiansPerSecond = GradiansPerSecond(n)
     def turnsPerSecond = TurnsPerSecond(n)
   }
 
