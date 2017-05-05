@@ -67,7 +67,7 @@ object Amperes extends ElectricCurrentUnit with PrimaryUnit with SiBaseUnit {
 /**
  * Milliamperes
  */
-object Milliamperes extends ElectricCurrentUnit {
+object Milliamperes extends ElectricCurrentUnit with SiUnit {
   val symbol = "mA"
   val conversionFactor = MetricSystem.Milli
 }

@@ -64,22 +64,22 @@ object Coulombs extends ElectricChargeUnit with PrimaryUnit with SiUnit {
   val symbol = "C"
 }
 
-object Picocoulombs extends ElectricChargeUnit {
+object Picocoulombs extends ElectricChargeUnit with SiUnit {
   val symbol = "pC"
   val conversionFactor = MetricSystem.Pico
 }
 
-object Nanocoulombs extends ElectricChargeUnit {
+object Nanocoulombs extends ElectricChargeUnit with SiUnit {
   val symbol = "nC"
   val conversionFactor = MetricSystem.Nano
 }
 
-object Microcoulombs extends ElectricChargeUnit {
+object Microcoulombs extends ElectricChargeUnit with SiUnit {
   val symbol = "µC"
   val conversionFactor = MetricSystem.Micro
 }
 
-object Millicoulombs extends ElectricChargeUnit {
+object Millicoulombs extends ElectricChargeUnit with SiUnit {
   val symbol = "mC"
   val conversionFactor = MetricSystem.Milli
 }

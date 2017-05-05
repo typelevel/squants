@@ -57,27 +57,27 @@ object WattsPerHour extends PowerRampUnit with PrimaryUnit with SiUnit {
   val symbol = "W/h"
 }
 
-object WattsPerMinute extends PowerRampUnit {
+object WattsPerMinute extends PowerRampUnit with SiUnit {
   val conversionFactor = WattsPerHour.conversionFactor / 60D
   val symbol = "W/m"
 }
 
-object KilowattsPerHour extends PowerRampUnit {
+object KilowattsPerHour extends PowerRampUnit with SiUnit {
   val conversionFactor = MetricSystem.Kilo
   val symbol = "kW/h"
 }
 
-object KilowattsPerMinute extends PowerRampUnit {
+object KilowattsPerMinute extends PowerRampUnit with SiUnit {
   val conversionFactor = KilowattsPerHour.conversionFactor / 60D
   val symbol = "kW/m"
 }
 
-object MegawattsPerHour extends PowerRampUnit {
+object MegawattsPerHour extends PowerRampUnit with SiUnit {
   val conversionFactor = MetricSystem.Mega
   val symbol = "MW/h"
 }
 
-object GigawattsPerHour extends PowerRampUnit {
+object GigawattsPerHour extends PowerRampUnit with SiUnit {
   val conversionFactor = MetricSystem.Giga
   val symbol = "GW/h"
 }

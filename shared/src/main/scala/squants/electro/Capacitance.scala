@@ -49,27 +49,27 @@ object Farads extends CapacitanceUnit with PrimaryUnit with SiUnit {
   val symbol = "F"
 }
 
-object Picofarads extends CapacitanceUnit {
+object Picofarads extends CapacitanceUnit with SiUnit {
   val symbol = "pF"
   val conversionFactor = MetricSystem.Pico
 }
 
-object Nanofarads extends CapacitanceUnit {
+object Nanofarads extends CapacitanceUnit with SiUnit {
   val symbol = "nF"
   val conversionFactor = MetricSystem.Nano
 }
 
-object Microfarads extends CapacitanceUnit {
+object Microfarads extends CapacitanceUnit with SiUnit {
   val symbol = "μF"
   val conversionFactor = MetricSystem.Micro
 }
 
-object Millifarads extends CapacitanceUnit {
+object Millifarads extends CapacitanceUnit with SiUnit {
   val symbol = "mF"
   val conversionFactor = MetricSystem.Milli
 }
 
-object Kilofarads extends CapacitanceUnit {
+object Kilofarads extends CapacitanceUnit with SiUnit {
   val symbol = "kF"
   val conversionFactor = MetricSystem.Kilo
 }
