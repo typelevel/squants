@@ -36,11 +36,11 @@ object Density extends Dimension[Density] {
   def units = Set(KilogramsPerCubicMeter)
 }
 
-trait DensityUnit extends UnitOfMeasure[Density] with UnitConverter with SiUnit {
+trait DensityUnit extends UnitOfMeasure[Density] with UnitConverter {
   def apply[A](n: A)(implicit num: Numeric[A]) = Density(n, this)
 }
 
-object KilogramsPerCubicMeter extends DensityUnit with PrimaryUnit {
+object KilogramsPerCubicMeter extends DensityUnit with PrimaryUnit with SiUnit {
   val symbol = "kg/m³"
 }
 

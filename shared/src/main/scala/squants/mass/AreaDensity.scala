@@ -54,7 +54,7 @@ object KilogramsPerHectare extends AreaDensityUnit with UnitConverter {
   val conversionFactor = 1/(100*100d)
 }
 
-object GramsPerSquareCentimeter extends AreaDensityUnit with UnitConverter {
+object GramsPerSquareCentimeter extends AreaDensityUnit with UnitConverter with SiUnit {
   val symbol = "g/cm²"
   val conversionFactor = (100*100d)/1000d
 }
