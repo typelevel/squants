@@ -3,7 +3,7 @@ package squants.formatter
 import org.scalatest.{FlatSpec, Matchers}
 import squants.space.{Centimeters, Kilometers, Length, Meters}
 import squants.space.LengthConversions._
-import squants.unitgroups.si.strict.SiLengths
+import squants.unitgroups.si.strict.space.SiLengths
 
 class DefaultFormatterSpec extends FlatSpec with Matchers {
 
