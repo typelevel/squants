@@ -8,7 +8,7 @@ import squants.{AbstractQuantityNumeric, Dimension, Length, PrimaryUnit, Quantit
 /**
   *
   * @author paxelord
-  * @since 1.2
+  * @since 1.3
   *
   * @param value Double
   */

@@ -25,7 +25,7 @@ final class AngularVelocity private (val value: Double, val unit: AngularVelocit
 
   def toRadiansPerSecond = to(RadiansPerSecond)
   def toDegreesPerSecond = to(DegreesPerSecond)
-  @deprecated(message = "Potentially confusing naming. Use toGradiansPerSecond instead.", since = "Squants 1.2")
+  @deprecated(message = "Potentially confusing naming. Use toGradiansPerSecond instead.", since = "Squants 1.3")
   def toGradsPerSecond = to(GradiansPerSecond)
   def toGradiansPerSecond = to(GradiansPerSecond)
   def toTurnsPerSecond = to(TurnsPerSecond)
@@ -72,7 +72,7 @@ object GradiansPerSecond extends AngularVelocityUnit {
   val conversionFactor = Gradians.conversionFactor * Radians.conversionFactor
 }
 
-@deprecated(message = "Potentially confusing naming. Use GradiansPerSecond instead.", since = "Squants 1.2")
+@deprecated(message = "Potentially confusing naming. Use GradiansPerSecond instead.", since = "Squants 1.3")
 object GradsPerSecond extends AngularVelocityUnit {
   val symbol = "grad/s"
   val conversionFactor = Gradians.conversionFactor * Radians.conversionFactor
@@ -93,7 +93,7 @@ object AngularVelocityConversions {
   implicit class AngularVelocityConversions[A](n: A)(implicit num: Numeric[A]) {
     def radiansPerSecond = RadiansPerSecond(n)
     def degreesPerSecond = DegreesPerSecond(n)
-    @deprecated(message = "Potentially confusing naming. Use gradiansPerSecond instead.", since = "Squants 1.2")
+    @deprecated(message = "Potentially confusing naming. Use gradiansPerSecond instead.", since = "Squants 1.3")
     def gradsPerSecond = GradiansPerSecond(n)
     def gradiansPerSecond = GradiansPerSecond(n)
     def turnsPerSecond = TurnsPerSecond(n)

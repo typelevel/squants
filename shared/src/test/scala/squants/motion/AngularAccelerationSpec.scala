@@ -8,7 +8,7 @@ import squants.time.Seconds
 /**
   *
   * @author paxelord
-  * @since 1.2
+  * @since 1.3
   */
 class AngularAccelerationSpec extends FlatSpec with Matchers{
 
