@@ -36,6 +36,16 @@ final class Angle private (val value: Double, val unit: AngleUnit)
   def asin = math.asin(toRadians)
   def acos = math.acos(toRadians)
 
+  /**
+    * length of the arc traveled by a point on the rim of a circle with this
+    * angle traveled and the given (constant) radius from the center of
+    * rotation
+    * @param radius the distance from the center of rotation
+    * @return arc length with given arc measure and radius
+    */
+  def onRadius(radius: Length): Length = toRadians * radius
+
+
   protected def timeDerived: AngularVelocity = RadiansPerSecond(toRadians)
 
   override protected def time: Time = Seconds(1)

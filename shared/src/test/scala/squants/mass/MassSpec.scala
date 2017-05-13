@@ -8,11 +8,11 @@
 
 package squants.mass
 
-import org.scalatest.{ FlatSpec, Matchers }
+import org.scalatest.{FlatSpec, Matchers}
 import squants.motion._
-import squants.space.{ CubicMeters, SquareMeters }
+import squants.space.{CubicMeters, Meters, SquareMeters}
 import squants.time.Seconds
-import squants.{ MetricSystem, QuantityParseException }
+import squants.{MetricSystem, QuantityParseException}
 
 /**
  * @author  garyKeorkunian
@@ -145,6 +145,10 @@ class MassSpec extends FlatSpec with Matchers {
 
   it should "return AreaDensity when divided by Area" in {
     Kilograms(1) / KilogramsPerSquareMeter(1) should be(SquareMeters(1))
+  }
+
+  it should "return MomentOfInertia when onRadius of Length" in {
+    Kilograms(1) onRadius Meters(1) should be(KilogramsMetersSquared(1))
   }
 
   behavior of "MassConversions"
