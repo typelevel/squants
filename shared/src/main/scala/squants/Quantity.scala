@@ -306,5 +306,5 @@ abstract class Quantity[A <: Quantity[A]] extends Serializable with Ordered[A] {
    * @return
    */
   def map(f: Double ⇒ Double): A = unit(f(value))
-
 }
+

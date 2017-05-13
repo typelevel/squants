@@ -39,6 +39,14 @@ final class Mass private (val value: Double, val unit: MassUnit)
   def /(that: AreaDensity): Area = SquareMeters(toKilograms / that.toKilogramsPerSquareMeter)
   def /(that: Area): AreaDensity = KilogramsPerSquareMeter(toKilograms / that.toSquareMeters)
 
+  /**
+    * Moment of inertia of a point mass with with this mass and the given
+    * radius from the center of rotation
+    * @param radius length to center of rotation
+    * @return moment of inertia of a point mass with given mass and radius
+    */
+  def onRadius(radius: Length): MomentOfInertia = KilogramsMetersSquared(toKilograms * radius.squared.toSquareMeters)
+
   def toMicrograms = to(Micrograms)
   def toMilligrams = to(Milligrams)
   def toGrams = to(Grams)
