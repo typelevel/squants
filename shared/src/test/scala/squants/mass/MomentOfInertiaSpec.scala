@@ -8,7 +8,7 @@ import squants.space.{Feet, Meters}
 /**
   *
   * @author paxelord
-  * @since 1.2
+  * @since 1.3
   **/
 class MomentOfInertiaSpec extends FlatSpec with Matchers with CustomMatchers {
 
