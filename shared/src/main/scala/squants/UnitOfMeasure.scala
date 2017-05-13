@@ -11,7 +11,7 @@ package squants
 /**
  * A Unit of Measure is used to define the scale of a quantity measurement
  *
- * Each Quantity Dimension must include at least one Unit of Measure, and one and only Primary.
+ * Each Quantity Dimension must include at least one Unit of Measure, and one and only one Primary.
  * Other units of measure are defined with conversionFactors relative to the Primary.
  *
  * @author  garyKeorkunian
@@ -54,7 +54,7 @@ trait UnitOfMeasure[A <: Quantity[A]] extends Serializable {
 
   /**
    * Applies the converterTo method to a value
-   * @param n N value in terms of teh ValueUnit
+   * @param n N value in terms of the ValueUnit
    * @param num Numeric[N]
    * @tparam N Type
    * @return
@@ -125,7 +125,7 @@ trait PrimaryUnit extends UnitConverter { uom: UnitOfMeasure[_] ⇒
 }
 
 /**
- * A market trait identifying SI Units
+ * A marker trait identifying SI Units
  */
 trait SiUnit
 
