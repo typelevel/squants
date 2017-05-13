@@ -4,7 +4,7 @@ import squants.Dimension
 import squants.electro._
 import squants.energy._
 import squants.information.{DataRate, Information}
-import squants.mass.{AreaDensity, ChemicalAmount, Density, Mass}
+import squants.mass._
 import squants.motion._
 import squants.photo._
 import squants.radio._
@@ -49,10 +49,12 @@ object ImplicitDimensions {
     implicit val implicitChemicalAmount: Dimension[ChemicalAmount] = ChemicalAmount
     implicit val implicitDensity: Dimension[Density] = Density
     implicit val implicitMass: Dimension[Mass] = Mass
+    implicit val implicitMomentOfInertia: Dimension[MomentOfInertia] = MomentOfInertia
   }
 
   object motion {
     implicit val implicitAcceleration: Dimension[Acceleration] = Acceleration
+    implicit val implicitAngularAcceleration: Dimension[AngularAcceleration] = AngularAcceleration
     implicit val implicitAngularVelocity: Dimension[AngularVelocity] = AngularVelocity
     implicit val implicitForce: Dimension[Force] = Force
     implicit val implicitJerk: Dimension[Jerk] = Jerk
@@ -60,6 +62,7 @@ object ImplicitDimensions {
     implicit val implicitMomentum: Dimension[Momentum] = Momentum
     implicit val implicitPressure: Dimension[Pressure] = Pressure
     implicit val implicitPressureChange: Dimension[PressureChange] = PressureChange
+    implicit val implicitTorque: Dimension[Torque] = Torque
     implicit val implicitVelocity: Dimension[Velocity] = Velocity
     implicit val implicitVolumeFlow: Dimension[VolumeFlow] = VolumeFlow
     implicit val implicitYank: Dimension[Yank] = Yank
