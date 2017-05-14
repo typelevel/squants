@@ -1,3 +1,5 @@
+import sbtcrossproject.{crossProject, CrossType}
+
 lazy val defaultSettings =
   Project.defaultSettings ++
   Compiler.defaultSettings ++
@@ -7,7 +9,7 @@ lazy val defaultSettings =
   Console.defaultSettings ++
   Docs.defaultSettings
 
-lazy val squants = crossProject
+lazy val squants = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .crossType(CrossType.Full)
   .in(file("."))
   .settings(defaultSettings: _*)
@@ -30,7 +32,8 @@ lazy val root = project.in(file("."))
     publishLocal := {},
     publishArtifact := false
   )
-  .aggregate(squantsJVM, squantsJS)
+  .aggregate(squantsJVM, squantsJS, squantsNative)
 
 lazy val squantsJVM = squants.jvm.enablePlugins(SbtOsgi)
 lazy val squantsJS = squants.js
+lazy val squantsNative = squants.native
