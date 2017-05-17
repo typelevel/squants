@@ -9,6 +9,7 @@
 package squants.thermal
 
 import squants._
+import squants.Platform.crossFormat
 import squants.energy.Joules
 import scala.util.{ Failure, Success, Try }
 

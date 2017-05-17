@@ -1331,9 +1331,11 @@ To make a release do the following:
   sbt tut
 ```
 
-* Publish a cross-version signed package
+* Publish a cross-version signed package (no cross-version available for Scala Native)
 ```
-  sbt +publishSigned
+  sbt +squantsJVM/publishSigned
+  sbt +squantsJS/publishSigned
+  sbt squantsNative/publishSigned
 ```
 
 * Then make a release (Note: after this step the release cannot be replaced)
