@@ -637,6 +637,79 @@ implicit val moneyNum = new MoneyNumeric()
 val sum = List(USD(100), USD(10)).sum
 ```
 
+## Unit groups
+
+Squants provides an experimental API for grouping related `UnitOfMeasure` values together.
+This are called `UnitGroup`s. Squants provides `UnitGroup` implementations for the SI, the US Customary system, and various other systems. End-users can create their own ad-hoc `UnitGroup`s for `UnitOfMeasure`s in a related dimension.
+
+The `UnitGroup` trait defines two public fields: `units`, a `Set[UnitOfMeasure]`, and `sortedUnits`, which contains `units` sorted in ascending order.
+
+### SI UnitGropus
+
+Almost every `Dimension` in Squants has SI Units (with the exception of `Information`
+and `Money`). To avoid boilerplate, Squants generates `UnitGroup`s for SI using implicits.
+
+There are two `UnitGroup`s provided for SI: "strict" and "expanded." Strict only includes SI
+UnitOfMeasure defined in the SI; "expanded" includes [non-SI units that are commonly used in](http://www.bipm.org/en/publications/si-brochure/table6.html)
+SI, such as litre, hectare, hour, minute, etc). See the linked document for a detailed list.
+
+To summon the strict SI `UnitGroup` for `Length`, you would use this code:
+
+```tut:reset:book
+import squants.space.Length
+import squants.unitgroups.ImplicitDimensions.space._
+import squants.unitgroups.UnitGroup
+import squants.unitgroups.si.strict.implicits._
+val siLengths: UnitGroup[Length] = implicitly[UnitGroup[Length]]
+```
+
+To print out units and their conversion factors to the primary SI unit, you could use this code:
+
+```tut:book
+import squants.{Quantity, UnitOfMeasure}
+
+def mkConversionFactor[A <: Quantity[A]](uom: UnitOfMeasure[A]): Double = {
+  val one = uom(1)
+  one.to(one.dimension.siUnit)
+}
+
+def mkTuple[A <: Quantity[A]](uom: UnitOfMeasure[A]): (String, Double) = {
+  (uom.symbol, mkConversionFactor(uom))
+}
+
+siLengths.sortedUnits.toList.map(mkTuple).foreach(println)
+```
+
+Note that `UnitGroup`'s `sortedUnits` field is a `SortedSet`, so before mapping over it,
+you will probably want to convert it to a List, otherwise the output may be resorted.
+
+### Non-SI UnitGroups
+
+Other `UnitGroup` definitions don't use implicits. For example, `squants.unitgroups.uscustomary.space.UsCustomaryLiquidVolumes` or `squants.unitgroups.misc.TroyMasses` can be imported and used directly.
+
+### Creating an ad-hoc UnitGroup
+
+To create an ad-hoc `UnitGroup` just implement the trait. For example, to make a US cooking measure `UnitGroup`:
+
+```tut:book
+import squants.{Quantity, Dimension}
+import squants.space._
+import squants.unitgroups.UnitGroup
+
+val usCookingUnitGroup = new UnitGroup[Volume] { 
+  // units don't have to be specified in-order.
+  val units: Set[UnitOfMeasure[Volume]] = Set(UsPints, UsGallons, Teaspoons, Tablespoons, UsQuarts, FluidOunces)
+}
+
+// squants automatically sorts units
+usCookingUnitGroup.sortedUnits.foreach(println)
+```
+
+The `UnitGroup` values provided with Squants are only samples and aren't intended to be exhaustive.
+We encourage users to make their own `UnitGroup` defintitions and submit them as PRs if they're generally
+applicable.
+
+
 ## Type Hierarchy
 The type hierarchy includes the following core types:  Quantity, Dimension, and UnitOfMeasure
 
@@ -935,7 +1008,7 @@ trait LoadRoute extends HttpService {
 * Shadaj Laddad ([shadaj](https://github.com/shadaj))
 * Ian McIntosh ([cranst0n](https://github.com/cranst0n))
 * Doug Hurst ([robotsnowfall](https://github.com/robotsnowfall))
-* Philip Axelrod ([Paxelord]|(https://github.com/paxelord))
+* Philip Axelrod ([Paxelord](https://github.com/paxelord))
 
 ## Code of Conduct
 

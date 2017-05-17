@@ -169,6 +169,7 @@ object Console {
          squants.space._,
          squants.thermal._,
          squants.time._,
+         squants.unitgroups.UnitGroup,
          squants.DimensionlessConversions._,
          squants.electro.CapacitanceConversions._,
          squants.electro.ConductivityConversions._,
