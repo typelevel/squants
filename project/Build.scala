@@ -5,7 +5,7 @@ import com.typesafe.sbt.osgi.SbtOsgi
 import com.typesafe.sbt.osgi.SbtOsgi.autoImport._
 
 object Versions {
-  val Squants = "1.3.0-SNAPSHOT"
+  val Squants = "1.3.0"
   val Scala = "2.11.11"
   val ScalaCross = Seq("2.12.2", "2.11.11", "2.10.6")
 

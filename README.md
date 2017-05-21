@@ -17,11 +17,11 @@ All types are immutable and thread-safe.
 
 
 ### Current Versions
-Current Release: **1.2.0**
-([API Docs](https://oss.sonatype.org/service/local/repositories/releases/archive/org/typelevel/squants_2.11/1.2.0/squants_2.11-1.2.0-javadoc.jar/!/index.html#squants.package))
+Current Release: **1.3.0**
+([API Docs](https://oss.sonatype.org/service/local/repositories/releases/archive/org/typelevel/squants_2.11/1.3.0/squants_2.11-1.3.0-javadoc.jar/!/index.html#squants.package))
 
-Development Build: **1.3.0-SNAPSHOT**
-([API Docs](https://oss.sonatype.org/service/local/repositories/snapshots/archive/org/typelevel/squants_2.11/1.3.0-SNAPSHOT/squants_2.11-1.3.0-SNAPSHOT-javadoc.jar/!/index.html#squants.package))
+Development Build: **1.4.0-SNAPSHOT**
+([API Docs](https://oss.sonatype.org/service/local/repositories/snapshots/archive/org/typelevel/squants_2.11/1.4.0-SNAPSHOT/squants_2.11-1.4.0-SNAPSHOT-javadoc.jar/!/index.html#squants.package))
 
 [Release History](https://github.com/typelevel/squants/wiki/Release-History)
 
@@ -36,10 +36,10 @@ For more information on feature availability of a specific version see the Relea
 Repository hosting for Squants is provided by [Sonatype](https://oss.sonatype.org/).
 To use Squants in your SBT project add the following dependency to your build.
 
-    "org.typelevel"  %% "squants"  % "1.2.0"
+    "org.typelevel"  %% "squants"  % "1.3.0"
 or
 
-    "org.typelevel"  %% "squants"  % "1.3.0-SNAPSHOT"
+    "org.typelevel"  %% "squants"  % "1.4.0-SNAPSHOT"
 
 
 To use Squants in your Maven project add the following dependency
@@ -48,7 +48,7 @@ To use Squants in your Maven project add the following dependency
 <dependency>
     <groupId>org.typelevel</groupId>
     <artifactId>squants_2.11</artifactId>
-    <version>1.2.0</version>
+    <version>1.3.0</version>
 </dependency>
 ```
 
@@ -584,7 +584,7 @@ rate2: squants.market.CurrencyExchangeRate = USD/JPY 100.0
 
 scala> // OR
      | val rate3 = JPY(100) -> USD(1)
-rate3: squants.market.CurrencyExchangeRate = USD/JPY 100.0
+rate3: (squants.market.Money, squants.market.Money) = (100.0 JPY,1.0 USD)
 
 scala> // OR
      | val rate4 = JPY(100) toThe USD(1)
@@ -900,7 +900,7 @@ import squants.unitgroups.si.strict.implicits._
 // import squants.unitgroups.si.strict.implicits._
 
 val siLengths: UnitGroup[Length] = implicitly[UnitGroup[Length]]
-// siLengths: squants.unitgroups.UnitGroup[squants.space.Length] = squants.unitgroups.si.strict.package$implicits$$anon$1@1045e253
+// siLengths: squants.unitgroups.UnitGroup[squants.space.Length] = squants.unitgroups.si.strict.package$implicits$$anon$1@3484137d
 ```
 
 To print out units and their conversion factors to the primary SI unit, you could use this code:
@@ -953,20 +953,20 @@ import squants.space._
 import squants.unitgroups.UnitGroup
 // import squants.unitgroups.UnitGroup
 
-val usCookingUnitGroup = new UnitGroup[Volume] { 
+val usCookingUnitGroup = new UnitGroup[Volume] {
   // units don't have to be specified in-order.
   val units: Set[UnitOfMeasure[Volume]] = Set(UsPints, UsGallons, Teaspoons, Tablespoons, UsQuarts, FluidOunces)
 }
-// usCookingUnitGroup: squants.unitgroups.UnitGroup[squants.space.Volume]{val units: Set[squants.UnitOfMeasure[squants.space.Volume]]} = $anon$1@25f41c10
+// usCookingUnitGroup: squants.unitgroups.UnitGroup[squants.space.Volume]{val units: Set[squants.UnitOfMeasure[squants.space.Volume]]} = $anon$1@1549134a
 
 // squants automatically sorts units
 usCookingUnitGroup.sortedUnits.foreach(println)
-// squants.space.Teaspoons$@797a286f
-// squants.space.Tablespoons$@497f04bc
-// squants.space.FluidOunces$@d657483
-// squants.space.UsPints$@4db94d06
-// squants.space.UsQuarts$@4ea9b1e8
-// squants.space.UsGallons$@66d4bb6d
+// squants.space.Teaspoons$@6fba36dd
+// squants.space.Tablespoons$@5e2bc893
+// squants.space.FluidOunces$@2bfbc436
+// squants.space.UsPints$@4204d188
+// squants.space.UsQuarts$@3ac7ca4f
+// squants.space.UsGallons$@59491c95
 ```
 
 The `UnitGroup` values provided with Squants are only samples and aren't intended to be exhaustive.
