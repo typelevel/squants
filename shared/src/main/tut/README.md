@@ -644,7 +644,7 @@ This are called `UnitGroup`s. Squants provides `UnitGroup` implementations for t
 
 The `UnitGroup` trait defines two public fields: `units`, a `Set[UnitOfMeasure]`, and `sortedUnits`, which contains `units` sorted in ascending order.
 
-### SI UnitGropus
+### SI UnitGroups
 
 Almost every `Dimension` in Squants has SI Units (with the exception of `Information`
 and `Money`). To avoid boilerplate, Squants generates `UnitGroup`s for SI using implicits.
@@ -709,6 +709,123 @@ The `UnitGroup` values provided with Squants are only samples and aren't intende
 We encourage users to make their own `UnitGroup` defintitions and submit them as PRs if they're generally
 applicable.
 
+## Formatters
+
+Squants provides an experimental API for formatting Quantities in the "best unit." For example, 
+convert Inches(12) to Feet(1). This is useful for producing human-friendly output.
+
+To use a formatter, you must implement the `squants.formatters.Formatter` trait:
+
+```tut:silent
+trait Formatter[A <: Quantity[A]] {
+  def inBestUnit(quantity: Quantity[A]): A
+}
+```
+
+### Default Formatter implementation
+
+There is a default formatter implementation in `squants.formatter.DefaultFormatter`. This builds on the `UnitGroup` 
+API discussed above to choose the best `UnitOfMeasure` for a `Quantity`. The `DefaultFormatter` algorithm will probably
+work for most use-cases, but users can create their own `Formatters` if they have custom needs.
+
+To use `DefaultFormatter` import it, and a unit group:
+
+```tut:silent
+import squants.formatter.DefaultFormatter
+import squants.unitgroups.misc.AstronomicalLengthUnitGroup
+```
+
+Then create the formatter by passing in a unit group:
+```tut:book
+val astroFormatter = new DefaultFormatter[Length] { val unitGroup = AstronomicalLengthUnitGroup }
+```
+
+Now, we create some values using human-unfriendly numbers:
+
+```tut:book
+import squants.space.LengthConversions._
+val earthToJupiter = 588000000.km
+val earthToVoyager1 = 2.06e10.km
+val earthToAlphaCentauri = 4.1315e+13.km
+```
+
+And format them into appropriate units (AUs and Parsecs, in this case):
+```tut:book
+astroFormatter.inBestUnit(earthToJupiter)
+astroFormatter.inBestUnit(earthToVoyager1)
+astroFormatter.inBestUnit(earthToAlphaCentauri)
+```
+
+
+### Implicit formatters
+
+There is a nicer syntax for formatters available via implicits.
+This lets you write expressions such as `12.inches.inBestUnit`. This syntax is added per-`Dimension`.
+
+To use this syntax, first import `squants.formatter.syntax._`.
+Then, for each `Dimension` you wish to use, place a Formatter for the Dimension in implicit scope. In this example,
+we're adding support for `Length`.
+
+```tut:reset:silent
+import squants.formatter.DefaultFormatter
+import squants.formatter.syntax._
+import squants.space.Length
+import squants.space.LengthConversions._
+import squants.unitgroups.misc.AstronomicalLengthUnitGroup
+```
+
+```tut:book
+implicit val astroFormatter = new DefaultFormatter[Length] { val unitGroup = AstronomicalLengthUnitGroup }
+         
+val earthToJupiter = 588000000.km
+val earthToVoyager1 = 2.06e10.km
+val earthToAlphaCentauri = 4.1315e+13.km
+
+earthToJupiter.inBestUnit
+earthToVoyager1.inBestUnit
+earthToAlphaCentauri.inBestUnit
+```
+
+This example won't compile because there is no `Formatter[Mass]` in implicit scope:
+
+```tut:fail
+5000.grams.inBestUnit
+```
+
+### SI Formatters and implicit syntax
+
+When using SI units, and the default formatter algorithm, you don't have to declare a `Formatter` and place it in 
+implicit scope. The compiler can do that for you. This creates a very human-friendly API by using the appropriate
+imports.
+
+First, import the SI unit groups and their implicits:
+```tut:reset:silent
+import squants.unitgroups.ImplicitDimensions.space._
+import squants.unitgroups.si.strict.implicits._
+```
+
+Next, import the formatter syntax described above:
+
+```tut:silent
+import squants.formatter.syntax._
+```
+
+Finally, add imports for implicitly deriving formatters:
+```tut
+import squants.formatter.implicits._
+```
+
+Now we can create quantities and format them by calling `.inBestUnit` directly:
+
+```tut:silent
+import squants.space.LengthConversions._
+```
+
+```tut:book
+5.cm.inBestUnit
+500.cm.inBestUnit
+3000.meters.inBestUnit
+```
 
 ## Type Hierarchy
 The type hierarchy includes the following core types:  Quantity, Dimension, and UnitOfMeasure

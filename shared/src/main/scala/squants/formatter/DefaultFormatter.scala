@@ -6,7 +6,7 @@ import squants.unitgroups.UnitGroup
 trait DefaultFormatter[A <: Quantity[A]] extends Formatter[A] {
   def unitGroup: UnitGroup[A]
 
-  override def bestUnit(quantity: Quantity[A]): A = {
+  override def inBestUnit(quantity: Quantity[A]): A = {
     if (unitGroup.units.isEmpty)
       quantity.in(quantity.unit)
     else {

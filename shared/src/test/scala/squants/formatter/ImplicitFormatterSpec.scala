@@ -2,7 +2,8 @@ package squants.formatter
 
 import org.scalatest.{FlatSpec, Matchers}
 import squants.UnitOfMeasure
-import squants.formatter.Implicits._
+import squants.formatter.implicits._
+import squants.formatter.syntax._
 import squants.mass.{Kilograms, Mass}
 import squants.unitgroups.ImplicitDimensions.space._
 import squants.unitgroups.si.strict.implicits._
