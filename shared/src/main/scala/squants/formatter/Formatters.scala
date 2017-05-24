@@ -26,14 +26,16 @@ object Formatters {
   }
 }
 
-object Implicits {
+object implicits {
   implicit def implicitFormatter[A <: Quantity[A]](implicit implicitUnitGroup: UnitGroup[A]): Formatter[A] = {
     new DefaultFormatter[A] { val unitGroup: UnitGroup[A] = implicitUnitGroup }
   }
+}
 
+object syntax {
   implicit class FormattedQuantity[A <: Quantity[A]](quantity: Quantity[A]) {
     def inBestUnit(implicit formatter: Formatter[A]): Quantity[A] = {
-      formatter.bestUnit(quantity)
+      formatter.inBestUnit(quantity)
     }
   }
 }
