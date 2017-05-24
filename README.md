@@ -890,17 +890,17 @@ To summon the strict SI `UnitGroup` for `Length`, you would use this code:
 import squants.space.Length
 // import squants.space.Length
 
-import squants.unitgroups.ImplicitDimensions.space._
-// import squants.unitgroups.ImplicitDimensions.space._
+import squants.experimental.unitgroups.ImplicitDimensions.space._
+// import squants.experimental.unitgroups.ImplicitDimensions.space._
 
-import squants.unitgroups.UnitGroup
-// import squants.unitgroups.UnitGroup
+import squants.experimental.unitgroups.UnitGroup
+// import squants.experimental.unitgroups.UnitGroup
 
-import squants.unitgroups.si.strict.implicits._
-// import squants.unitgroups.si.strict.implicits._
+import squants.experimental.unitgroups.si.strict.implicits._
+// import squants.experimental.unitgroups.si.strict.implicits._
 
 val siLengths: UnitGroup[Length] = implicitly[UnitGroup[Length]]
-// siLengths: squants.unitgroups.UnitGroup[squants.space.Length] = squants.unitgroups.si.strict.package$implicits$$anon$1@12567c1d
+// siLengths: squants.experimental.unitgroups.UnitGroup[squants.space.Length] = squants.experimental.unitgroups.si.strict.package$implicits$$anon$1@5f504179
 ```
 
 To print out units and their conversion factors to the primary SI unit, you could use this code:
@@ -937,7 +937,7 @@ you will probably want to convert it to a List, otherwise the output may be reso
 
 ### Non-SI UnitGroups
 
-Other `UnitGroup` definitions don't use implicits. For example, `squants.unitgroups.uscustomary.space.UsCustomaryLiquidVolumes` or `squants.unitgroups.misc.TroyMasses` can be imported and used directly.
+Other `UnitGroup` definitions don't use implicits. For example, `squants.experimental.unitgroups.uscustomary.space.UsCustomaryLiquidVolumes` or `squants.experimental.unitgroups.misc.TroyMasses` can be imported and used directly.
 
 ### Creating an ad-hoc UnitGroup
 
@@ -950,23 +950,23 @@ import squants.{Quantity, Dimension}
 import squants.space._
 // import squants.space._
 
-import squants.unitgroups.UnitGroup
-// import squants.unitgroups.UnitGroup
+import squants.experimental.unitgroups.UnitGroup
+// import squants.experimental.unitgroups.UnitGroup
 
 val usCookingUnitGroup = new UnitGroup[Volume] { 
   // units don't have to be specified in-order.
   val units: Set[UnitOfMeasure[Volume]] = Set(UsPints, UsGallons, Teaspoons, Tablespoons, UsQuarts, FluidOunces)
 }
-// usCookingUnitGroup: squants.unitgroups.UnitGroup[squants.space.Volume]{val units: Set[squants.UnitOfMeasure[squants.space.Volume]]} = $anon$1@24f5482b
+// usCookingUnitGroup: squants.experimental.unitgroups.UnitGroup[squants.space.Volume]{val units: Set[squants.UnitOfMeasure[squants.space.Volume]]} = $anon$1@21bb51de
 
 // squants automatically sorts units
 usCookingUnitGroup.sortedUnits.foreach(println)
-// squants.space.Teaspoons$@6d040f73
-// squants.space.Tablespoons$@46313c93
-// squants.space.FluidOunces$@69c7bdf7
-// squants.space.UsPints$@6f5c7a3e
-// squants.space.UsQuarts$@4ab023e1
-// squants.space.UsGallons$@61084b93
+// squants.space.Teaspoons$@6e5ad4e8
+// squants.space.Tablespoons$@69f4e7c9
+// squants.space.FluidOunces$@197e2b8d
+// squants.space.UsPints$@6f193966
+// squants.space.UsQuarts$@4f002198
+// squants.space.UsGallons$@64764bce
 ```
 
 The `UnitGroup` values provided with Squants are only samples and aren't intended to be exhaustive.
@@ -988,21 +988,21 @@ trait Formatter[A <: Quantity[A]] {
 
 ### Default Formatter implementation
 
-There is a default formatter implementation in `squants.formatter.DefaultFormatter`. This builds on the `UnitGroup` 
+There is a default formatter implementation in `squants.experimental.formatter.DefaultFormatter`. This builds on the `UnitGroup` 
 API discussed above to choose the best `UnitOfMeasure` for a `Quantity`. The `DefaultFormatter` algorithm will probably
 work for most use-cases, but users can create their own `Formatters` if they have custom needs.
 
 To use `DefaultFormatter` import it, and a unit group:
 
 ```scala
-import squants.formatter.DefaultFormatter
-import squants.unitgroups.misc.AstronomicalLengthUnitGroup
+import squants.experimental.formatter.DefaultFormatter
+import squants.experimental.unitgroups.misc.AstronomicalLengthUnitGroup
 ```
 
 Then create the formatter by passing in a unit group:
 ```scala
-val astroFormatter = new DefaultFormatter[Length] { val unitGroup = AstronomicalLengthUnitGroup }
-// astroFormatter: squants.formatter.DefaultFormatter[squants.space.Length]{val unitGroup: squants.unitgroups.misc.AstronomicalLengthUnitGroup.type} = $anon$1@281f5637
+val astroFormatter = new DefaultFormatter(AstronomicalLengthUnitGroup)
+// astroFormatter: squants.experimental.formatter.DefaultFormatter[squants.space.Length] = squants.experimental.formatter.DefaultFormatter@1f5cfdd9
 ```
 
 Now, we create some values using human-unfriendly numbers:
@@ -1039,21 +1039,21 @@ astroFormatter.inBestUnit(earthToAlphaCentauri)
 There is a nicer syntax for formatters available via implicits.
 This lets you write expressions such as `12.inches.inBestUnit`. This syntax is added per-`Dimension`.
 
-To use this syntax, first import `squants.formatter.syntax._`.
+To use this syntax, first import `squants.experimental.formatter.syntax._`.
 Then, for each `Dimension` you wish to use, place a Formatter for the Dimension in implicit scope. In this example,
 we're adding support for `Length`.
 
 ```scala
-import squants.formatter.DefaultFormatter
-import squants.formatter.syntax._
+import squants.experimental.formatter.DefaultFormatter
+import squants.experimental.formatter.syntax._
 import squants.space.Length
 import squants.space.LengthConversions._
-import squants.unitgroups.misc.AstronomicalLengthUnitGroup
+import squants.experimental.unitgroups.misc.AstronomicalLengthUnitGroup
 ```
 
 ```scala
-implicit val astroFormatter = new DefaultFormatter[Length] { val unitGroup = AstronomicalLengthUnitGroup }
-// astroFormatter: squants.formatter.DefaultFormatter[squants.space.Length]{val unitGroup: squants.unitgroups.misc.AstronomicalLengthUnitGroup.type} = $anon$1@655138b6
+implicit val astroFormatter = new DefaultFormatter(AstronomicalLengthUnitGroup)
+// astroFormatter: squants.experimental.formatter.DefaultFormatter[squants.space.Length] = squants.experimental.formatter.DefaultFormatter@1ae1b52b
 
 val earthToJupiter = 588000000.km
 // earthToJupiter: squants.space.Length = 588000000.0 km
@@ -1091,20 +1091,20 @@ imports.
 
 First, import the SI unit groups and their implicits:
 ```scala
-import squants.unitgroups.ImplicitDimensions.space._
-import squants.unitgroups.si.strict.implicits._
+import squants.experimental.unitgroups.ImplicitDimensions.space._
+import squants.experimental.unitgroups.si.strict.implicits._
 ```
 
 Next, import the formatter syntax described above:
 
 ```scala
-import squants.formatter.syntax._
+import squants.experimental.formatter.syntax._
 ```
 
 Finally, add imports for implicitly deriving formatters:
 ```scala
-scala> import squants.formatter.implicits._
-import squants.formatter.implicits._
+scala> import squants.experimental.formatter.implicits._
+import squants.experimental.formatter.implicits._
 ```
 
 Now we can create quantities and format them by calling `.inBestUnit` directly:

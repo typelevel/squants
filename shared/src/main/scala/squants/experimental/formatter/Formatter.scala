@@ -1,4 +1,4 @@
-package squants.formatter
+package squants.experimental.formatter
 
 import squants.Quantity
 

@@ -1,11 +1,9 @@
-package squants.formatter
+package squants.experimental.formatter
 
 import squants.Quantity
-import squants.unitgroups.UnitGroup
+import squants.experimental.unitgroups.UnitGroup
 
-trait DefaultFormatter[A <: Quantity[A]] extends Formatter[A] {
-  def unitGroup: UnitGroup[A]
-
+class DefaultFormatter[A <: Quantity[A]](unitGroup: UnitGroup[A]) extends Formatter[A] {
   override def inBestUnit(quantity: Quantity[A]): A = {
     if (unitGroup.units.isEmpty)
       quantity.in(quantity.unit)

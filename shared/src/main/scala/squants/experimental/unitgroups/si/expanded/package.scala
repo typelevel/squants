@@ -1,4 +1,4 @@
-package squants.unitgroups.si
+package squants.experimental.unitgroups.si
 
 import squants.UnitOfMeasure
 import squants.electro._
@@ -6,11 +6,11 @@ import squants.mass.{AreaDensity, KilogramsPerHectare, Mass, Tonnes}
 import squants.motion.{KilometersPerHour, Velocity}
 import squants.space._
 import squants.time.{Days, Hours, Minutes, Time}
-import squants.unitgroups.UnitGroup
-import squants.unitgroups.si.strict.implicits.mkSiUnitGroup
+import squants.experimental.unitgroups.UnitGroup
+import squants.experimental.unitgroups.si.strict.implicits.mkSiUnitGroup
 
 /**
-  * Contains all of units in [[squants.unitgroups.si.strict ]] plus extra units defined by
+  * Contains all of units in [[squants.experimental.unitgroups.si.strict ]] plus extra units defined by
   * [[http://www.bipm.org/en/publications/si-brochure/table6.html The BIPM SI Brochure, Section 4.1.]]
   */
 package object expanded {

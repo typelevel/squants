@@ -657,9 +657,9 @@ To summon the strict SI `UnitGroup` for `Length`, you would use this code:
 
 ```tut:reset:book
 import squants.space.Length
-import squants.unitgroups.ImplicitDimensions.space._
-import squants.unitgroups.UnitGroup
-import squants.unitgroups.si.strict.implicits._
+import squants.experimental.unitgroups.ImplicitDimensions.space._
+import squants.experimental.unitgroups.UnitGroup
+import squants.experimental.unitgroups.si.strict.implicits._
 val siLengths: UnitGroup[Length] = implicitly[UnitGroup[Length]]
 ```
 
@@ -685,7 +685,7 @@ you will probably want to convert it to a List, otherwise the output may be reso
 
 ### Non-SI UnitGroups
 
-Other `UnitGroup` definitions don't use implicits. For example, `squants.unitgroups.uscustomary.space.UsCustomaryLiquidVolumes` or `squants.unitgroups.misc.TroyMasses` can be imported and used directly.
+Other `UnitGroup` definitions don't use implicits. For example, `squants.experimental.unitgroups.uscustomary.space.UsCustomaryLiquidVolumes` or `squants.experimental.unitgroups.misc.TroyMasses` can be imported and used directly.
 
 ### Creating an ad-hoc UnitGroup
 
@@ -694,7 +694,7 @@ To create an ad-hoc `UnitGroup` just implement the trait. For example, to make a
 ```tut:book
 import squants.{Quantity, Dimension}
 import squants.space._
-import squants.unitgroups.UnitGroup
+import squants.experimental.unitgroups.UnitGroup
 
 val usCookingUnitGroup = new UnitGroup[Volume] { 
   // units don't have to be specified in-order.
@@ -724,20 +724,20 @@ trait Formatter[A <: Quantity[A]] {
 
 ### Default Formatter implementation
 
-There is a default formatter implementation in `squants.formatter.DefaultFormatter`. This builds on the `UnitGroup` 
+There is a default formatter implementation in `squants.experimental.formatter.DefaultFormatter`. This builds on the `UnitGroup` 
 API discussed above to choose the best `UnitOfMeasure` for a `Quantity`. The `DefaultFormatter` algorithm will probably
 work for most use-cases, but users can create their own `Formatters` if they have custom needs.
 
 To use `DefaultFormatter` import it, and a unit group:
 
 ```tut:silent
-import squants.formatter.DefaultFormatter
-import squants.unitgroups.misc.AstronomicalLengthUnitGroup
+import squants.experimental.formatter.DefaultFormatter
+import squants.experimental.unitgroups.misc.AstronomicalLengthUnitGroup
 ```
 
 Then create the formatter by passing in a unit group:
 ```tut:book
-val astroFormatter = new DefaultFormatter[Length] { val unitGroup = AstronomicalLengthUnitGroup }
+val astroFormatter = new DefaultFormatter(AstronomicalLengthUnitGroup)
 ```
 
 Now, we create some values using human-unfriendly numbers:
@@ -762,20 +762,20 @@ astroFormatter.inBestUnit(earthToAlphaCentauri)
 There is a nicer syntax for formatters available via implicits.
 This lets you write expressions such as `12.inches.inBestUnit`. This syntax is added per-`Dimension`.
 
-To use this syntax, first import `squants.formatter.syntax._`.
+To use this syntax, first import `squants.experimental.formatter.syntax._`.
 Then, for each `Dimension` you wish to use, place a Formatter for the Dimension in implicit scope. In this example,
 we're adding support for `Length`.
 
 ```tut:reset:silent
-import squants.formatter.DefaultFormatter
-import squants.formatter.syntax._
+import squants.experimental.formatter.DefaultFormatter
+import squants.experimental.formatter.syntax._
 import squants.space.Length
 import squants.space.LengthConversions._
-import squants.unitgroups.misc.AstronomicalLengthUnitGroup
+import squants.experimental.unitgroups.misc.AstronomicalLengthUnitGroup
 ```
 
 ```tut:book
-implicit val astroFormatter = new DefaultFormatter[Length] { val unitGroup = AstronomicalLengthUnitGroup }
+implicit val astroFormatter = new DefaultFormatter(AstronomicalLengthUnitGroup)
          
 val earthToJupiter = 588000000.km
 val earthToVoyager1 = 2.06e10.km
@@ -800,19 +800,19 @@ imports.
 
 First, import the SI unit groups and their implicits:
 ```tut:reset:silent
-import squants.unitgroups.ImplicitDimensions.space._
-import squants.unitgroups.si.strict.implicits._
+import squants.experimental.unitgroups.ImplicitDimensions.space._
+import squants.experimental.unitgroups.si.strict.implicits._
 ```
 
 Next, import the formatter syntax described above:
 
 ```tut:silent
-import squants.formatter.syntax._
+import squants.experimental.formatter.syntax._
 ```
 
 Finally, add imports for implicitly deriving formatters:
 ```tut
-import squants.formatter.implicits._
+import squants.experimental.formatter.implicits._
 ```
 
 Now we can create quantities and format them by calling `.inBestUnit` directly:

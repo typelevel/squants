@@ -1,4 +1,4 @@
-package squants.unitgroups
+package squants.experimental.unitgroups
 
 import scala.collection.immutable.Set
 
