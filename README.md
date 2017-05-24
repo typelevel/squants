@@ -14,6 +14,10 @@ All types are immutable and thread-safe.
 [Wiki](https://github.com/typelevel/squants/wiki)
 |
 [![Join the chat at https://gitter.im/typelevel/squants](https://badges.gitter.im/typelevel/squants.svg)](https://gitter.im/typelevel/squants?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+|
+[![Scaladocs](https://www.javadoc.io/badge/org.typelevel/squants_2.12.svg?label=scaladoc)](https://static.javadoc.io/org.typelevel/squants_2.12/1.2.0/squants/index.html)
+|
+[![Build Status](https://travis-ci.org/typelevel/squants.png?branch=master)](https://travis-ci.org/typelevel/squants)
 
 
 ### Current Versions
@@ -24,8 +28,6 @@ Development Build: **1.3.0-SNAPSHOT**
 ([API Docs](https://oss.sonatype.org/service/local/repositories/snapshots/archive/org/typelevel/squants_2.11/1.3.0-SNAPSHOT/squants_2.11-1.3.0-SNAPSHOT-javadoc.jar/!/index.html#squants.package))
 
 [Release History](https://github.com/typelevel/squants/wiki/Release-History)
-
-[![Build Status](https://travis-ci.org/typelevel/squants.png?branch=master)](https://travis-ci.org/typelevel/squants)
 
 Build services provided by [Travis CI](https://travis-ci.com/)
 
@@ -584,7 +586,7 @@ rate2: squants.market.CurrencyExchangeRate = USD/JPY 100.0
 
 scala> // OR
      | val rate3 = JPY(100) -> USD(1)
-rate3: squants.market.CurrencyExchangeRate = USD/JPY 100.0
+rate3: (squants.market.Money, squants.market.Money) = (100.0 JPY,1.0 USD)
 
 scala> // OR
      | val rate4 = JPY(100) toThe USD(1)
@@ -900,7 +902,7 @@ import squants.experimental.unitgroups.si.strict.implicits._
 // import squants.experimental.unitgroups.si.strict.implicits._
 
 val siLengths: UnitGroup[Length] = implicitly[UnitGroup[Length]]
-// siLengths: squants.experimental.unitgroups.UnitGroup[squants.space.Length] = squants.experimental.unitgroups.si.strict.package$implicits$$anon$1@5f504179
+// siLengths: squants.experimental.unitgroups.UnitGroup[squants.space.Length] = squants.experimental.unitgroups.si.strict.package$implicits$$anon$1@b117142
 ```
 
 To print out units and their conversion factors to the primary SI unit, you could use this code:
@@ -957,16 +959,16 @@ val usCookingUnitGroup = new UnitGroup[Volume] {
   // units don't have to be specified in-order.
   val units: Set[UnitOfMeasure[Volume]] = Set(UsPints, UsGallons, Teaspoons, Tablespoons, UsQuarts, FluidOunces)
 }
-// usCookingUnitGroup: squants.experimental.unitgroups.UnitGroup[squants.space.Volume]{val units: Set[squants.UnitOfMeasure[squants.space.Volume]]} = $anon$1@21bb51de
+// usCookingUnitGroup: squants.experimental.unitgroups.UnitGroup[squants.space.Volume]{val units: Set[squants.UnitOfMeasure[squants.space.Volume]]} = $anon$1@1e7ccc51
 
 // squants automatically sorts units
 usCookingUnitGroup.sortedUnits.foreach(println)
-// squants.space.Teaspoons$@6e5ad4e8
-// squants.space.Tablespoons$@69f4e7c9
-// squants.space.FluidOunces$@197e2b8d
-// squants.space.UsPints$@6f193966
-// squants.space.UsQuarts$@4f002198
-// squants.space.UsGallons$@64764bce
+// squants.space.Teaspoons$@71cbffb5
+// squants.space.Tablespoons$@49c093cd
+// squants.space.FluidOunces$@30e4abaf
+// squants.space.UsPints$@a351ff9
+// squants.space.UsQuarts$@6ba887db
+// squants.space.UsGallons$@4f629ea7
 ```
 
 The `UnitGroup` values provided with Squants are only samples and aren't intended to be exhaustive.
@@ -1002,7 +1004,7 @@ import squants.experimental.unitgroups.misc.AstronomicalLengthUnitGroup
 Then create the formatter by passing in a unit group:
 ```scala
 val astroFormatter = new DefaultFormatter(AstronomicalLengthUnitGroup)
-// astroFormatter: squants.experimental.formatter.DefaultFormatter[squants.space.Length] = squants.experimental.formatter.DefaultFormatter@1f5cfdd9
+// astroFormatter: squants.experimental.formatter.DefaultFormatter[squants.space.Length] = squants.experimental.formatter.DefaultFormatter@e19717a
 ```
 
 Now, we create some values using human-unfriendly numbers:
@@ -1053,7 +1055,7 @@ import squants.experimental.unitgroups.misc.AstronomicalLengthUnitGroup
 
 ```scala
 implicit val astroFormatter = new DefaultFormatter(AstronomicalLengthUnitGroup)
-// astroFormatter: squants.experimental.formatter.DefaultFormatter[squants.space.Length] = squants.experimental.formatter.DefaultFormatter@1ae1b52b
+// astroFormatter: squants.experimental.formatter.DefaultFormatter[squants.space.Length] = squants.experimental.formatter.DefaultFormatter@4360fa36
 
 val earthToJupiter = 588000000.km
 // earthToJupiter: squants.space.Length = 588000000.0 km
