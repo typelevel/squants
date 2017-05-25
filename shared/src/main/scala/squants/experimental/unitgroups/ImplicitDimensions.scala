@@ -1,4 +1,4 @@
-package squants.unitgroups
+package squants.experimental.unitgroups
 
 import squants.Dimension
 import squants.electro._

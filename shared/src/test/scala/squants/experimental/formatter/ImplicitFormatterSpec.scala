@@ -1,15 +1,16 @@
-package squants.formatter
+package squants.experimental.formatter
 
 import org.scalatest.{FlatSpec, Matchers}
 import squants.UnitOfMeasure
-import squants.formatter.Implicits._
+import squants.experimental.formatter.implicits._
+import squants.experimental.formatter.syntax._
 import squants.mass.{Kilograms, Mass}
-import squants.unitgroups.ImplicitDimensions.space._
-import squants.unitgroups.si.strict.implicits._
+import squants.experimental.unitgroups.ImplicitDimensions.space._
+import squants.experimental.unitgroups.si.strict.implicits._
 import squants.mass.MassConversions._
 import squants.space.LengthConversions._
 import squants.space.{Centimeters, Kilometers, Meters}
-import squants.unitgroups.UnitGroup
+import squants.experimental.unitgroups.UnitGroup
 
 class ImplicitFormatterSpec extends FlatSpec with Matchers {
 
@@ -26,7 +27,7 @@ class ImplicitFormatterSpec extends FlatSpec with Matchers {
 
   it should "use the input quantity's unit the the unitgroup set is empty" in {
     val emptyUnitGroup = new UnitGroup[Mass] { val units = Set.empty[UnitOfMeasure[Mass]] }
-    implicit val emptyUnitFormatter = new DefaultFormatter[Mass] { val unitGroup = emptyUnitGroup }
+    implicit val emptyUnitFormatter = new DefaultFormatter[Mass](emptyUnitGroup)
 
     500.kg.inBestUnit.unit should be (Kilograms)
   }

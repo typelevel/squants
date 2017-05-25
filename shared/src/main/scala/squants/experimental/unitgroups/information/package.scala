@@ -1,10 +1,10 @@
-package squants.unitgroups
+package squants.experimental.unitgroups
 
 import squants.UnitOfMeasure
 import squants.information._
 
 /**
-  * UnitGroups for [[Information]]
+  * UnitGroups for [[squants.information.Information]]
   */
 package object information {
 

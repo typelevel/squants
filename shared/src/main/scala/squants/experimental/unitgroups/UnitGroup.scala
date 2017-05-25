@@ -1,4 +1,4 @@
-package squants.unitgroups
+package squants.experimental.unitgroups
 
 import scala.collection.immutable.{Set, SortedSet}
 
@@ -16,7 +16,7 @@ trait UnitGroup[A <: Quantity[A]] {
     SortedSet[UnitOfMeasure[A]]() ++ units
 }
 
-/** [[Ordering]] instance for [[UnitOfMeasure]][A] */
+/** [[scala.math.Ordering]] instance for [[UnitOfMeasure]][A] */
 class UomOrdering[A <: Quantity[A]] extends Ordering[UnitOfMeasure[A]] {
   override def compare(x: UnitOfMeasure[A], y: UnitOfMeasure[A]): Int = {
     val siUnit = x(1).dimension.siUnit

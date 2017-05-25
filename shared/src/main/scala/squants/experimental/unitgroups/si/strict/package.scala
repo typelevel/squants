@@ -1,8 +1,8 @@
-package squants.unitgroups.si
+package squants.experimental.unitgroups.si
 
 import squants.{Dimension, Quantity}
 import squants.{SiUnit, UnitOfMeasure}
-import squants.unitgroups.UnitGroup
+import squants.experimental.unitgroups.UnitGroup
 
 /**
   * UnitGroups for SI.

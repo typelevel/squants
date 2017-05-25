@@ -1,14 +1,14 @@
-package squants.unitgroups.si.strict
+package squants.experimental.unitgroups.si.strict
 
 import org.scalatest.{FlatSpec, Matchers}
 import squants.energy.Energy
 import squants.mass.Mass
 import squants.space.Length
-import squants.unitgroups.ImplicitDimensions.space._
-import squants.unitgroups.ImplicitDimensions.energy._
-import squants.unitgroups.ImplicitDimensions.mass._
-import squants.unitgroups.UnitGroup
-import squants.unitgroups.si.strict.implicits._
+import squants.experimental.unitgroups.ImplicitDimensions.space._
+import squants.experimental.unitgroups.ImplicitDimensions.energy._
+import squants.experimental.unitgroups.ImplicitDimensions.mass._
+import squants.experimental.unitgroups.UnitGroup
+import squants.experimental.unitgroups.si.strict.implicits._
 
 class StrictSiSpec extends FlatSpec with Matchers {
 

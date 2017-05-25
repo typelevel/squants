@@ -14,6 +14,10 @@ All types are immutable and thread-safe.
 [Wiki](https://github.com/typelevel/squants/wiki)
 |
 [![Join the chat at https://gitter.im/typelevel/squants](https://badges.gitter.im/typelevel/squants.svg)](https://gitter.im/typelevel/squants?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+|
+[![Scaladocs](https://www.javadoc.io/badge/org.typelevel/squants_2.12.svg?label=scaladoc)](https://static.javadoc.io/org.typelevel/squants_2.12/1.2.0/squants/index.html)
+|
+[![Build Status](https://travis-ci.org/typelevel/squants.png?branch=master)](https://travis-ci.org/typelevel/squants)
 
 
 ### Current Versions
@@ -24,8 +28,6 @@ Development Build: **1.4.0-SNAPSHOT**
 ([API Docs](https://oss.sonatype.org/service/local/repositories/snapshots/archive/org/typelevel/squants_2.11/1.4.0-SNAPSHOT/squants_2.11-1.4.0-SNAPSHOT-javadoc.jar/!/index.html#squants.package))
 
 [Release History](https://github.com/typelevel/squants/wiki/Release-History)
-
-[![Build Status](https://travis-ci.org/typelevel/squants.png?branch=master)](https://travis-ci.org/typelevel/squants)
 
 Build services provided by [Travis CI](https://travis-ci.com/)
 
@@ -472,36 +474,84 @@ val northAmericanSales: Money = (CAD(275) + USD(350) + MXN(290)) in USD
 ```
 
 ## Quantity Ranges
-Used to represent a range of Quantity values between an upper and lower bound
+A `QuantityRange` is used to represent a range of Quantity values between an upper and lower bound:
 
-```tut:reset
+```tut:reset:silent
 import squants.QuantityRange
-import squants.energy.{Kilowatts, Power}
-
+import squants.energy.{Kilowatts, Megawatts, Power}
+```
+```tut:book
 val load1: Power = Kilowatts(1000)
 val load2: Power = Kilowatts(5000)
 val range: QuantityRange[Power] = QuantityRange(load1, load2)
 ```
 
-Use multiplication and division to create a Seq of ranges from the original
+### Inclusivity and Exclusivitiy
 
-```tut:silent
-// Create a Seq of 10 sequential ranges starting with the original and each the same size as the original
+The `QuantityRange` constructor requires that `upper` is strictly greater than `lower`:
+
+```tut:book
+import squants.space.LengthConversions._
+
+// this will work b/c upper > lower
+QuantityRange(1.km, 5.km)
+```
+
+This will fail because `lower` = `upper`:
+
+```tut:fail
+QuantityRange(1.km, 1.km)
+```
+
+`QuantityRange` contains two functions that check if an element is part of the range, `contains` and `includes`. 
+These differ in how they treat the range's upper bound: `contains()` _excludes_ it but `includes()` _includes_ it.
+
+```tut
+val distances = QuantityRange(1.km, 5.km)
+distances.contains(5.km) // this is false b/c contains() doesn't include the upper range
+distances.includes(5.km) // this is true b/c includes() does include the upper range
+```
+
+### QuantityRange transformation
+
+The multiplication and division operators create a `Seq` of ranges from the original.
+
+For example:
+
+Create a Seq of 10 sequential ranges starting with the original and each the same size as the original:
+```tut:book
 val rs1 = range * 10
-// Create a Seq of 10 sequential ranges each 1/10th of the original size
+```
+Create a Seq of 10 sequential ranges each 1/10th of the original size:
+
+```tut:book
 val rs2 = range / 10
-// Create a Seq of 10 sequential ranges each with a size of 400 kilowatts
+```
+
+Create a Seq of 10 sequential ranges each with a size of 400 kilowatts:
+```tut:book
 val rs3 = range / Kilowatts(400)
 ```
-Apply foreach, map and foldLeft/foldRight directly to QuantityRanges with a divisor
 
-```tut:silent:fail
-// foreach over each of the 400 kilometer ranges within the range
-range.foreach(Kilometers(400)) {r => ???}
-// map over each of 10 even parts of the range
-range.map(10) {r => ???}
-// fold over each 10 even parts of the range
-range.foldLeft(10)(0) {(z, r) => ???}
+### QuantityRange operations
+
+`QuantityRange` supports foreach, map, and foldLeft/foldRight. These vary slightly from the versions
+in the Scala standard library in that they take a divisior as the first parameter. The examples below 
+illustrate their use.
+
+Subdivide range into 1-Megawatt "slices", and foreach over each of slices:
+```tut:book
+range.foreach(Megawatts(1)) { r => println(s"lower = ${r.lower}, upper = ${r.upper}") }
+```
+
+Subdivide range into 10 slices and map over each slice:
+```tut:book
+range.map(10) { r => r.upper }
+```
+
+Subdivide range into 10 slices and fold over them, using 0 Megawatts as a starting value:
+```tut:book
+range.foldLeft(10, Megawatts(0)) { (z, r) => z + r.upper }
 ```
 
 NOTE - Because these implementations of foreach, map and fold* take a parameter (the divisor), these methods
@@ -644,7 +694,7 @@ This are called `UnitGroup`s. Squants provides `UnitGroup` implementations for t
 
 The `UnitGroup` trait defines two public fields: `units`, a `Set[UnitOfMeasure]`, and `sortedUnits`, which contains `units` sorted in ascending order.
 
-### SI UnitGropus
+### SI UnitGroups
 
 Almost every `Dimension` in Squants has SI Units (with the exception of `Information`
 and `Money`). To avoid boilerplate, Squants generates `UnitGroup`s for SI using implicits.
@@ -657,9 +707,9 @@ To summon the strict SI `UnitGroup` for `Length`, you would use this code:
 
 ```tut:reset:book
 import squants.space.Length
-import squants.unitgroups.ImplicitDimensions.space._
-import squants.unitgroups.UnitGroup
-import squants.unitgroups.si.strict.implicits._
+import squants.experimental.unitgroups.ImplicitDimensions.space._
+import squants.experimental.unitgroups.UnitGroup
+import squants.experimental.unitgroups.si.strict.implicits._
 val siLengths: UnitGroup[Length] = implicitly[UnitGroup[Length]]
 ```
 
@@ -685,7 +735,7 @@ you will probably want to convert it to a List, otherwise the output may be reso
 
 ### Non-SI UnitGroups
 
-Other `UnitGroup` definitions don't use implicits. For example, `squants.unitgroups.uscustomary.space.UsCustomaryLiquidVolumes` or `squants.unitgroups.misc.TroyMasses` can be imported and used directly.
+Other `UnitGroup` definitions don't use implicits. For example, `squants.experimental.unitgroups.uscustomary.space.UsCustomaryLiquidVolumes` or `squants.experimental.unitgroups.misc.TroyMasses` can be imported and used directly.
 
 ### Creating an ad-hoc UnitGroup
 
@@ -694,7 +744,7 @@ To create an ad-hoc `UnitGroup` just implement the trait. For example, to make a
 ```tut:book
 import squants.{Quantity, Dimension}
 import squants.space._
-import squants.unitgroups.UnitGroup
+import squants.experimental.unitgroups.UnitGroup
 
 val usCookingUnitGroup = new UnitGroup[Volume] { 
   // units don't have to be specified in-order.
@@ -709,6 +759,124 @@ The `UnitGroup` values provided with Squants are only samples and aren't intende
 We encourage users to make their own `UnitGroup` defintitions and submit them as PRs if they're generally
 applicable.
 
+## Formatters
+
+Squants provides an experimental API for formatting Quantities in the "best unit." For example, 
+convert Inches(12) to Feet(1). This is useful for producing human-friendly output.
+
+To use a formatter, you must implement the `squants.formatters.Formatter` trait:
+
+```tut:silent
+trait Formatter[A <: Quantity[A]] {
+  def inBestUnit(quantity: Quantity[A]): A
+}
+```
+
+### Default Formatter implementation
+
+There is a default formatter implementation in `squants.experimental.formatter.DefaultFormatter`. This builds on the `UnitGroup` 
+API discussed above to choose the best `UnitOfMeasure` for a `Quantity`. The `DefaultFormatter` algorithm will probably
+work for most use-cases, but users can create their own `Formatters` if they have custom needs.
+
+To use `DefaultFormatter` import it, and a unit group:
+
+```tut:silent
+import squants.experimental.formatter.DefaultFormatter
+import squants.experimental.unitgroups.misc.AstronomicalLengthUnitGroup
+```
+
+Then create the formatter by passing in a unit group:
+```tut:book
+val astroFormatter = new DefaultFormatter(AstronomicalLengthUnitGroup)
+```
+
+Now, we create some values using human-unfriendly numbers:
+
+```tut:book
+import squants.space.LengthConversions._
+val earthToJupiter = 588000000.km
+val earthToVoyager1 = 2.06e10.km
+val earthToAlphaCentauri = 4.1315e+13.km
+```
+
+And format them into appropriate units (AUs and Parsecs, in this case):
+```tut:book
+astroFormatter.inBestUnit(earthToJupiter)
+astroFormatter.inBestUnit(earthToVoyager1)
+astroFormatter.inBestUnit(earthToAlphaCentauri)
+```
+
+
+### Implicit formatters
+
+There is a nicer syntax for formatters available via implicits.
+This lets you write expressions such as `12.inches.inBestUnit`. This syntax is added per-`Dimension`.
+
+To use this syntax, first import `squants.experimental.formatter.syntax._`.
+Then, for each `Dimension` you wish to use, place a Formatter for the Dimension in implicit scope. In this example,
+we're adding support for `Length`.
+
+```tut:reset:silent
+import squants.experimental.formatter.DefaultFormatter
+import squants.experimental.formatter.syntax._
+import squants.mass.MassConversions._
+import squants.space.Length
+import squants.space.LengthConversions._
+import squants.experimental.unitgroups.misc.AstronomicalLengthUnitGroup
+```
+
+```tut:book
+implicit val astroFormatter = new DefaultFormatter(AstronomicalLengthUnitGroup)
+         
+val earthToJupiter = 588000000.km
+val earthToVoyager1 = 2.06e10.km
+val earthToAlphaCentauri = 4.1315e+13.km
+
+earthToJupiter.inBestUnit
+earthToVoyager1.inBestUnit
+earthToAlphaCentauri.inBestUnit
+```
+
+This example won't compile because there is no `Formatter[Mass]` in implicit scope:
+
+```tut:fail
+5000.grams.inBestUnit
+```
+
+### SI Formatters and implicit syntax
+
+When using SI units, and the default formatter algorithm, you don't have to declare a `Formatter` and place it in 
+implicit scope. The compiler can do that for you. This creates a very human-friendly API by using the appropriate
+imports.
+
+First, import the SI unit groups and their implicits:
+```tut:reset:silent
+import squants.experimental.unitgroups.ImplicitDimensions.space._
+import squants.experimental.unitgroups.si.strict.implicits._
+```
+
+Next, import the formatter syntax described above:
+
+```tut:silent
+import squants.experimental.formatter.syntax._
+```
+
+Finally, add imports for implicitly deriving formatters:
+```tut
+import squants.experimental.formatter.implicits._
+```
+
+Now we can create quantities and format them by calling `.inBestUnit` directly:
+
+```tut:silent
+import squants.space.LengthConversions._
+```
+
+```tut:book
+5.cm.inBestUnit
+500.cm.inBestUnit
+3000.meters.inBestUnit
+```
 
 ## Type Hierarchy
 The type hierarchy includes the following core types:  Quantity, Dimension, and UnitOfMeasure
