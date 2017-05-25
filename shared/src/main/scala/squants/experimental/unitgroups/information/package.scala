@@ -4,7 +4,7 @@ import squants.UnitOfMeasure
 import squants.information._
 
 /**
-  * UnitGroups for [[Information]]
+  * UnitGroups for [[squants.information.Information]]
   */
 package object information {
 
