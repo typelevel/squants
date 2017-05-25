@@ -966,7 +966,7 @@ import squants.experimental.unitgroups.si.strict.implicits._
 // import squants.experimental.unitgroups.si.strict.implicits._
 
 val siLengths: UnitGroup[Length] = implicitly[UnitGroup[Length]]
-// siLengths: squants.experimental.unitgroups.UnitGroup[squants.space.Length] = squants.experimental.unitgroups.si.strict.package$implicits$$anon$1@2f2cbffe
+// siLengths: squants.experimental.unitgroups.UnitGroup[squants.space.Length] = squants.experimental.unitgroups.si.strict.package$implicits$$anon$1@289534d2
 ```
 
 To print out units and their conversion factors to the primary SI unit, you could use this code:
@@ -1023,16 +1023,16 @@ val usCookingUnitGroup = new UnitGroup[Volume] {
   // units don't have to be specified in-order.
   val units: Set[UnitOfMeasure[Volume]] = Set(UsPints, UsGallons, Teaspoons, Tablespoons, UsQuarts, FluidOunces)
 }
-// usCookingUnitGroup: squants.experimental.unitgroups.UnitGroup[squants.space.Volume]{val units: Set[squants.UnitOfMeasure[squants.space.Volume]]} = $anon$1@32316f15
+// usCookingUnitGroup: squants.experimental.unitgroups.UnitGroup[squants.space.Volume]{val units: Set[squants.UnitOfMeasure[squants.space.Volume]]} = $anon$1@752cd8bc
 
 // squants automatically sorts units
 usCookingUnitGroup.sortedUnits.foreach(println)
-// squants.space.Teaspoons$@4a6eacba
-// squants.space.Tablespoons$@4e8b0223
-// squants.space.FluidOunces$@d850963
-// squants.space.UsPints$@2fa362d8
-// squants.space.UsQuarts$@7a0a1c88
-// squants.space.UsGallons$@66e22c8
+// squants.space.Teaspoons$@6838d7c7
+// squants.space.Tablespoons$@25b80113
+// squants.space.FluidOunces$@5b04aaf4
+// squants.space.UsPints$@44c07c77
+// squants.space.UsQuarts$@625cf217
+// squants.space.UsGallons$@73095d1d
 ```
 
 The `UnitGroup` values provided with Squants are only samples and aren't intended to be exhaustive.
@@ -1068,7 +1068,7 @@ import squants.experimental.unitgroups.misc.AstronomicalLengthUnitGroup
 Then create the formatter by passing in a unit group:
 ```scala
 val astroFormatter = new DefaultFormatter(AstronomicalLengthUnitGroup)
-// astroFormatter: squants.experimental.formatter.DefaultFormatter[squants.space.Length] = squants.experimental.formatter.DefaultFormatter@7938222b
+// astroFormatter: squants.experimental.formatter.DefaultFormatter[squants.space.Length] = squants.experimental.formatter.DefaultFormatter@1803efd7
 ```
 
 Now, we create some values using human-unfriendly numbers:
@@ -1120,7 +1120,7 @@ import squants.experimental.unitgroups.misc.AstronomicalLengthUnitGroup
 
 ```scala
 implicit val astroFormatter = new DefaultFormatter(AstronomicalLengthUnitGroup)
-// astroFormatter: squants.experimental.formatter.DefaultFormatter[squants.space.Length] = squants.experimental.formatter.DefaultFormatter@67c05762
+// astroFormatter: squants.experimental.formatter.DefaultFormatter[squants.space.Length] = squants.experimental.formatter.DefaultFormatter@196e044d
 
 val earthToJupiter = 588000000.km
 // earthToJupiter: squants.space.Length = 588000000.0 km
@@ -1548,9 +1548,11 @@ To make a release do the following:
   sbt tut
 ```
 
-* Publish a cross-version signed package
+* Publish a cross-version signed package (no cross-version available for Scala Native)
 ```
-  sbt +publishSigned
+  sbt +squantsJVM/publishSigned
+  sbt +squantsJS/publishSigned
+  sbt squantsNative/publishSigned
 ```
 
 * Then make a release (Note: after this step the release cannot be replaced)
