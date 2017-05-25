@@ -20,8 +20,12 @@ class QuantityRangeSpec extends FlatSpec with Matchers {
 
   behavior of "QuantityRange"
 
-  it should "throw an IllegalArgumentException when the lower bound >= upper bound" in {
+  it should "throw an IllegalArgumentException when the lower bound > upper bound" in {
     an[IllegalArgumentException] should be thrownBy QuantityRange(Meters(2), Meters(1))
+  }
+
+  it should "throw an IllegalArgumentException when the lower bound = upper bound" in {
+    an[IllegalArgumentException] should be thrownBy QuantityRange(Meters(2), Meters(2))
   }
 
   it should "create a range with lower and upper bound" in {

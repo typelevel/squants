@@ -21,7 +21,9 @@ import scala.annotation.tailrec
  * @tparam A the Quantity Type
  */
 case class QuantityRange[A <: Quantity[A]](lower: A, upper: A) {
-  if (lower >= upper) throw new IllegalArgumentException("QuantityRange upper bound must be greater than or equal to the lower bound")
+  if (lower >= upper) {
+    throw new IllegalArgumentException("QuantityRange upper bound must be strictly greater than to the lower bound")
+  }
 
   /**
    * Create a Seq of `multiple` ranges equal in size to the original with sequential range values
@@ -254,7 +256,8 @@ case class QuantityRange[A <: Quantity[A]](lower: A, upper: A) {
   def +-(that: A) = incFromDecTo(that)
 
   /**
-   * Returns true if the quantity is contained within this range, otherwise false
+   * Returns true if the quantity is contained within this range, otherwise false.
+   * This check is *exclusive* of the range's upper limit.
    * @param q Quantity
    * @return
    */
@@ -279,11 +282,12 @@ case class QuantityRange[A <: Quantity[A]](lower: A, upper: A) {
   def partiallyContains(range: QuantityRange[A]) = range.lower < upper && range.upper > lower
 
   /**
-   * Returns true if `that` quantity is included within `this` range
+   * Returns true if `that` quantity is included within `this` range.
+   * This check is *inclusive* of the range's upper limit.
    * @param q Quantity
    * @return
    */
-  def includes(q: A) = q >= lower && q <= upper
+  def includes(q: A): Boolean = q >= lower && q <= upper
 
   /**
    * Returns true if `that` range is completely included in `this` range, otherwise false
