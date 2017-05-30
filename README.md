@@ -63,18 +63,14 @@ To use Squants interactively in the Scala REPL, clone the git repo and run `sbt 
     cd squants
     sbt squantsJVM/console
 
-## Third-party integration
+## Third-party integrations
 
-If you are using the [PureConfig](https://github.com/melrief/pureconfig/) library, there is integration with Squants
-via [pureconfig-squants](https://github.com/melrief/pureconfig/tree/master/modules/squants). This lets you parse
-dimensional values out of HOCON configuration files. For example:
+This is an incomplete list of third-party libraries that support squants:
 
-```
-{
-  far: 42.195 km
-  hot: 56.7° C
-}
-```
+* [PureConfig](https://github.com/melrief/pureconfig/)
+* [Ciris](https://cir.is/)
+
+If your library isn't listed here, please open a PR to add it!
 
 ## Type Safe Dimensional Analysis
 *The Trouble with Doubles*
@@ -966,7 +962,7 @@ import squants.experimental.unitgroups.si.strict.implicits._
 // import squants.experimental.unitgroups.si.strict.implicits._
 
 val siLengths: UnitGroup[Length] = implicitly[UnitGroup[Length]]
-// siLengths: squants.experimental.unitgroups.UnitGroup[squants.space.Length] = squants.experimental.unitgroups.si.strict.package$implicits$$anon$1@289534d2
+// siLengths: squants.experimental.unitgroups.UnitGroup[squants.space.Length] = squants.experimental.unitgroups.si.strict.package$implicits$$anon$1@264b156b
 ```
 
 To print out units and their conversion factors to the primary SI unit, you could use this code:
@@ -1019,20 +1015,20 @@ import squants.space._
 import squants.experimental.unitgroups.UnitGroup
 // import squants.experimental.unitgroups.UnitGroup
 
-val usCookingUnitGroup = new UnitGroup[Volume] {
+val usCookingUnitGroup = new UnitGroup[Volume] { 
   // units don't have to be specified in-order.
   val units: Set[UnitOfMeasure[Volume]] = Set(UsPints, UsGallons, Teaspoons, Tablespoons, UsQuarts, FluidOunces)
 }
-// usCookingUnitGroup: squants.experimental.unitgroups.UnitGroup[squants.space.Volume]{val units: Set[squants.UnitOfMeasure[squants.space.Volume]]} = $anon$1@752cd8bc
+// usCookingUnitGroup: squants.experimental.unitgroups.UnitGroup[squants.space.Volume]{val units: Set[squants.UnitOfMeasure[squants.space.Volume]]} = $anon$1@27b100b6
 
 // squants automatically sorts units
 usCookingUnitGroup.sortedUnits.foreach(println)
-// squants.space.Teaspoons$@6838d7c7
-// squants.space.Tablespoons$@25b80113
-// squants.space.FluidOunces$@5b04aaf4
-// squants.space.UsPints$@44c07c77
-// squants.space.UsQuarts$@625cf217
-// squants.space.UsGallons$@73095d1d
+// squants.space.Teaspoons$@525d11ee
+// squants.space.Tablespoons$@4037896b
+// squants.space.FluidOunces$@1d59b092
+// squants.space.UsPints$@5fd4d32b
+// squants.space.UsQuarts$@390357cd
+// squants.space.UsGallons$@48cd8671
 ```
 
 The `UnitGroup` values provided with Squants are only samples and aren't intended to be exhaustive.
@@ -1068,7 +1064,7 @@ import squants.experimental.unitgroups.misc.AstronomicalLengthUnitGroup
 Then create the formatter by passing in a unit group:
 ```scala
 val astroFormatter = new DefaultFormatter(AstronomicalLengthUnitGroup)
-// astroFormatter: squants.experimental.formatter.DefaultFormatter[squants.space.Length] = squants.experimental.formatter.DefaultFormatter@1803efd7
+// astroFormatter: squants.experimental.formatter.DefaultFormatter[squants.space.Length] = squants.experimental.formatter.DefaultFormatter@22aa737b
 ```
 
 Now, we create some values using human-unfriendly numbers:
@@ -1120,7 +1116,7 @@ import squants.experimental.unitgroups.misc.AstronomicalLengthUnitGroup
 
 ```scala
 implicit val astroFormatter = new DefaultFormatter(AstronomicalLengthUnitGroup)
-// astroFormatter: squants.experimental.formatter.DefaultFormatter[squants.space.Length] = squants.experimental.formatter.DefaultFormatter@196e044d
+// astroFormatter: squants.experimental.formatter.DefaultFormatter[squants.space.Length] = squants.experimental.formatter.DefaultFormatter@652e1c16
 
 val earthToJupiter = 588000000.km
 // earthToJupiter: squants.space.Length = 588000000.0 km
