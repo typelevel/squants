@@ -1,4 +1,4 @@
-addSbtPlugin("org.scala-js" % "sbt-scalajs" % "0.6.16")
+addSbtPlugin("org.scala-js" % "sbt-scalajs" % "0.6.17")
 
 addSbtPlugin("org.scala-native" % "sbt-crossproject" % "0.1.0")
 
