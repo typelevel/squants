@@ -406,6 +406,10 @@ class MoneySpec extends FlatSpec with Matchers {
     d.NZD should be(Money(d, squants.market.NZD))
     d.BTC should be(Money(d, squants.market.BTC))
     d.bitCoin should be(BTC(d))
+    d.ETH should be(Money(d, squants.market.ETH))
+    d.ether should be(ETH(d))
+    d.LTC should be(Money(d, squants.market.LTC))
+    d.liteCoin should be(LTC(d))
   }
 
   it should "provide Numeric support within a MoneyContext with no Exchange Rates" in {

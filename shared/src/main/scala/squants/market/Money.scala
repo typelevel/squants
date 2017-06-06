@@ -421,6 +421,8 @@ object SEK extends Currency("SEK", "Swedish Kroner", "kr", 2)
 object XAG extends Currency("XAG", "Silver", "oz", 4)
 object XAU extends Currency("XAU", "Gold", "oz", 4)
 object BTC extends Currency("BTC", "BitCoin", "B", 15)
+object ETH extends Currency("ETH", "Ether", "\u039e", 15)
+object LTC extends Currency("LTC", "Litecoin", "\u0141", 15)
 
 /**
  * Support for Money DSL
@@ -456,6 +458,10 @@ object MoneyConversions {
     def NZD = Money(n, squants.market.NZD)
     def BTC = Money(n, squants.market.BTC)
     def bitCoin = BTC
+    def ETH = Money(n, squants.market.ETH)
+    def ether = ETH
+    def LTC = Money(n, squants.market.LTC)
+    def liteCoin = LTC
   }
 
   class MoneyNumeric()(implicit mc: MoneyContext) extends Numeric[Money] {
