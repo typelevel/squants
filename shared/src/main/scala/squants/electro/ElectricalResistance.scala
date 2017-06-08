@@ -21,8 +21,8 @@ final class ElectricalResistance private (val value: Double, val unit: Electrica
 
   def dimension = ElectricalResistance
 
-  def *(that: ElectricCurrent): ElectricPotential = Volts(toOhms * that.toAmperes)
-  def *(that: Length): Resistivity = OhmMeters(toOhms * that.toMeters)
+  def *(that: ElectricCurrent): ElectricPotential = Volts(this.toOhms * that.toAmperes)
+  def *(that: Length): Resistivity = OhmMeters(this.toOhms * that.toMeters)
 
   def toOhms = to(Ohms)
   def toNanohms = to(Nanohms)

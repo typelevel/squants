@@ -31,12 +31,12 @@ final class Force private (val value: Double, val unit: ForceUnit)
   override def time = Seconds(1)
 
   /* This could also be Torque, as Energy(Work) and Torque are dimensionally equivalent */
-  def *(that: Length): Energy = Joules(toNewtons * that.toMeters)
+  def *(that: Length): Energy = Joules(this.toNewtons * that.toMeters)
   def /(that: Length) = ??? // return SurfaceTension
-  def /(that: Mass): Acceleration = MetersPerSecondSquared(toNewtons / that.toKilograms)
-  def /(that: Acceleration): Mass = Kilograms(toNewtons / that.toMetersPerSecondSquared)
-  def /(that: Area): Pressure = Pascals(toNewtons / that.toSquareMeters)
-  def /(that: Pressure): Area = SquareMeters(toNewtons / that.toPascals)
+  def /(that: Mass): Acceleration = MetersPerSecondSquared(this.toNewtons / that.toKilograms)
+  def /(that: Acceleration): Mass = Kilograms(this.toNewtons / that.toMetersPerSecondSquared)
+  def /(that: Area): Pressure = Pascals(this.toNewtons / that.toSquareMeters)
+  def /(that: Pressure): Area = SquareMeters(this.toNewtons / that.toPascals)
 
   def toNewtons = to(Newtons)
   def toKilogramForce = to(KilogramForce)

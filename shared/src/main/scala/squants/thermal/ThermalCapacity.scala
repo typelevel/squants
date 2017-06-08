@@ -26,7 +26,7 @@ final class ThermalCapacity private (val value: Double, val unit: ThermalCapacit
 
   def dimension = ThermalCapacity
 
-  def *(that: Temperature): Energy = Joules(toJoulesPerKelvin * that.toKelvinScale)
+  def *(that: Temperature): Energy = Joules(this.toJoulesPerKelvin * that.toKelvinScale)
 
   def toJoulesPerKelvin = to(JoulesPerKelvin)
 }

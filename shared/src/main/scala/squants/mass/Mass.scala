@@ -31,13 +31,13 @@ final class Mass private (val value: Double, val unit: MassUnit)
   protected def timeDerived = KilogramsPerSecond(toKilograms)
   protected def time = Seconds(1)
 
-  def *(that: SpecificEnergy): Energy = Joules(toKilograms * that.toGrays)
+  def *(that: SpecificEnergy): Energy = Joules(this.toKilograms * that.toGrays)
   def *(that: Velocity): Momentum = Momentum(this, that)
-  def *(that: Acceleration): Force = Newtons(toKilograms * that.toMetersPerSecondSquared)
-  def /(that: Density): Volume = CubicMeters(toKilograms / that.toKilogramsPerCubicMeter)
+  def *(that: Acceleration): Force = Newtons(this.toKilograms * that.toMetersPerSecondSquared)
+  def /(that: Density): Volume = CubicMeters(this.toKilograms / that.toKilogramsPerCubicMeter)
   def /(that: Volume): Density = Density(this, that)
-  def /(that: AreaDensity): Area = SquareMeters(toKilograms / that.toKilogramsPerSquareMeter)
-  def /(that: Area): AreaDensity = KilogramsPerSquareMeter(toKilograms / that.toSquareMeters)
+  def /(that: AreaDensity): Area = SquareMeters(this.toKilograms / that.toKilogramsPerSquareMeter)
+  def /(that: Area): AreaDensity = KilogramsPerSquareMeter(this.toKilograms / that.toSquareMeters)
 
   /**
     * Moment of inertia of a point mass with with this mass and the given

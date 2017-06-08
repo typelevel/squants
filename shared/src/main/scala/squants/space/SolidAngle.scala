@@ -24,8 +24,8 @@ final class SolidAngle private (val value: Double, val unit: SolidAngleUnit)
 
   def dimension = SolidAngle
 
-  def *(that: LuminousIntensity): LuminousFlux = Lumens(toSquaredRadians * that.toCandelas)
-  def *(that: RadiantIntensity): Power = Watts(toSquaredRadians * that.toWattsPerSteradian)
+  def *(that: LuminousIntensity): LuminousFlux = Lumens(this.toSquaredRadians * that.toCandelas)
+  def *(that: RadiantIntensity): Power = Watts(this.toSquaredRadians * that.toWattsPerSteradian)
 
   def toSquaredRadians = value
   def toSteradians = value
