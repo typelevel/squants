@@ -28,27 +28,27 @@ final class Area private (val value: Double, val unit: AreaUnit)
   def dimension = Area
 
   def *(that: Length): Volume = unit match {
-    case SquareUsMiles ⇒ CubicUsMiles(value * that.toUsMiles)
-    case SquareYards   ⇒ CubicYards(value * that.toYards)
-    case SquareFeet    ⇒ CubicFeet(value * that.toFeet)
-    case SquareInches  ⇒ CubicInches(value * that.toInches)
-    case _             ⇒ CubicMeters(toSquareMeters * that.toMeters)
+    case SquareUsMiles ⇒ CubicUsMiles(this.value * that.toUsMiles)
+    case SquareYards   ⇒ CubicYards(this.value * that.toYards)
+    case SquareFeet    ⇒ CubicFeet(this.value * that.toFeet)
+    case SquareInches  ⇒ CubicInches(this.value * that.toInches)
+    case _             ⇒ CubicMeters(this.toSquareMeters * that.toMeters)
   }
 
-  def *(that: AreaDensity): Mass = Kilograms(toSquareMeters * that.toKilogramsPerSquareMeter)
-  def *(that: Pressure): Force = Newtons(toSquareMeters * that.toPascals)
-  def *(that: Illuminance): LuminousFlux = Lumens(toSquareMeters * that.toLux)
-  def *(that: Luminance): LuminousIntensity = Candelas(toSquareMeters * that.toCandelasPerSquareMeters)
-  def *(that: MagneticFluxDensity): MagneticFlux = Webers(toSquareMeters * that.toTeslas)
-  def *(that: Irradiance): Power = Watts(toSquareMeters * that.toWattsPerSquareMeter)
-  def *(that: Radiance): RadiantIntensity = WattsPerSteradian(toSquareMeters * that.toWattsPerSteradianPerSquareMeter)
+  def *(that: AreaDensity): Mass = Kilograms(this.toSquareMeters * that.toKilogramsPerSquareMeter)
+  def *(that: Pressure): Force = Newtons(this.toSquareMeters * that.toPascals)
+  def *(that: Illuminance): LuminousFlux = Lumens(this.toSquareMeters * that.toLux)
+  def *(that: Luminance): LuminousIntensity = Candelas(this.toSquareMeters * that.toCandelasPerSquareMeters)
+  def *(that: MagneticFluxDensity): MagneticFlux = Webers(this.toSquareMeters * that.toTeslas)
+  def *(that: Irradiance): Power = Watts(this.toSquareMeters * that.toWattsPerSquareMeter)
+  def *(that: Radiance): RadiantIntensity = WattsPerSteradian(this.toSquareMeters * that.toWattsPerSteradianPerSquareMeter)
 
   def /(that: Length): Length = unit match {
-    case SquareUsMiles ⇒ UsMiles(value / that.toUsMiles)
-    case SquareYards   ⇒ Yards(value / that.toYards)
-    case SquareFeet    ⇒ Feet(value / that.toFeet)
-    case SquareInches  ⇒ Inches(value / that.toInches)
-    case _             ⇒ Meters(toSquareMeters / that.toMeters)
+    case SquareUsMiles ⇒ UsMiles(this.value / that.toUsMiles)
+    case SquareYards   ⇒ Yards(this.value / that.toYards)
+    case SquareFeet    ⇒ Feet(this.value / that.toFeet)
+    case SquareInches  ⇒ Inches(this.value / that.toInches)
+    case _             ⇒ Meters(this.toSquareMeters / that.toMeters)
   }
 
   def squareRoot = Meters(math.sqrt(toSquareMeters))

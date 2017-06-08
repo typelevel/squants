@@ -23,7 +23,7 @@ final class EnergyDensity private (val value: Double, val unit: EnergyDensityUni
 
   def dimension = EnergyDensity
 
-  def *(that: Volume): Energy = Joules(toJoulesPerCubicMeter * that.toCubicMeters)
+  def *(that: Volume): Energy = Joules(this.toJoulesPerCubicMeter * that.toCubicMeters)
 
   def toJoulesPerCubicMeter = to(JoulesPerCubicMeter)
 }

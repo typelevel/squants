@@ -21,8 +21,8 @@ final class ElectricalConductance private (val value: Double, val unit: Electric
 
   def dimension = ElectricalConductance
 
-  def /(that: Length): Conductivity = SiemensPerMeter(toSiemens / that.toMeters)
-  def /(that: Conductivity): Length = Meters(toSiemens / that.toSiemensPerMeter)
+  def /(that: Length): Conductivity = SiemensPerMeter(this.toSiemens / that.toMeters)
+  def /(that: Conductivity): Length = Meters(this.toSiemens / that.toSiemensPerMeter)
 
   def toSiemens = to(Siemens)
 

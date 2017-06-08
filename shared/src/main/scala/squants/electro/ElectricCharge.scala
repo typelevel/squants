@@ -28,8 +28,8 @@ final class ElectricCharge private (val value: Double, val unit: ElectricChargeU
   protected def time = Seconds(1)
 
   def *(that: ElectricPotential): Energy = Joules(this.toCoulombs * that.toVolts)
-  def /(that: ElectricPotential): Capacitance = Farads(toCoulombs / that.toVolts)
-  def /(that: Capacitance): ElectricPotential = Volts(toCoulombs / that.toFarads)
+  def /(that: ElectricPotential): Capacitance = Farads(this.toCoulombs / that.toVolts)
+  def /(that: Capacitance): ElectricPotential = Volts(this.toCoulombs / that.toFarads)
   def /(that: Length) = ??? // returns LinearElectricChargeDensity
   def /(that: Area) = ??? // returns AreaElectricChargeDensity
   def /(that: Volume) = ??? // returns ElectricChargeDensity

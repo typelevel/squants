@@ -29,10 +29,10 @@ final class ElectricCurrent private (val value: Double, val unit: ElectricCurren
   protected[squants] def timeIntegrated = Coulombs(toAmperes)
   protected[squants] def time = Seconds(1)
 
-  def *(that: ElectricalResistance): ElectricPotential = Volts(toAmperes * that.toOhms)
-  def *(that: ElectricPotential): Power = Watts(toAmperes * that.toVolts)
-  def *(that: Inductance): MagneticFlux = Webers(toAmperes * that.toHenry)
-  def /(that: ElectricPotential): ElectricalConductance = Siemens(toAmperes / that.toVolts)
+  def *(that: ElectricalResistance): ElectricPotential = Volts(this.toAmperes * that.toOhms)
+  def *(that: ElectricPotential): Power = Watts(this.toAmperes * that.toVolts)
+  def *(that: Inductance): MagneticFlux = Webers(this.toAmperes * that.toHenry)
+  def /(that: ElectricPotential): ElectricalConductance = Siemens(this.toAmperes / that.toVolts)
   def /(that: Length) = ??? // returns MagneticFieldStrength
   def /(that: Area) = ??? // returns ElectricCurrentDensity
 

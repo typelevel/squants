@@ -34,7 +34,7 @@ final class AngularAcceleration private (val value: Double, val unit: AngularAcc
 
 
   def *(that: MomentOfInertia): Torque = {
-    NewtonMeters(toRadiansPerSecondSquared * that.toKilogramsMetersSquared)
+    NewtonMeters(this.toRadiansPerSecondSquared * that.toKilogramsMetersSquared)
   }
 
   override protected[squants] def timeIntegrated: AngularVelocity = RadiansPerSecond(toRadiansPerSecondSquared)

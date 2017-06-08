@@ -27,10 +27,10 @@ final class MagneticFlux private (val value: Double, val unit: MagneticFluxUnit)
   protected def timeDerived = Volts(toWebers)
   protected def time = Seconds(1)
 
-  def /(that: Area): MagneticFluxDensity = Teslas(toWebers / that.toSquareMeters)
-  def /(that: MagneticFluxDensity): Area = SquareMeters(toWebers / that.toTeslas)
-  def /(that: ElectricCurrent): Inductance = Henry(toWebers / that.toAmperes)
-  def /(that: Inductance): ElectricCurrent = Amperes(toWebers / that.toHenry)
+  def /(that: Area): MagneticFluxDensity = Teslas(this.toWebers / that.toSquareMeters)
+  def /(that: MagneticFluxDensity): Area = SquareMeters(this.toWebers / that.toTeslas)
+  def /(that: ElectricCurrent): Inductance = Henry(this.toWebers / that.toAmperes)
+  def /(that: Inductance): ElectricCurrent = Amperes(this.toWebers / that.toHenry)
 
   def toWebers = to(Webers)
 }

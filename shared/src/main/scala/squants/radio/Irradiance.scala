@@ -23,7 +23,7 @@ final class Irradiance private (val value: Double, val unit: IrradianceUnit)
 
   def dimension = Irradiance
 
-  def *(that: Area): Power = Watts(toWattsPerSquareMeter * that.toSquareMeters)
+  def *(that: Area): Power = Watts(this.toWattsPerSquareMeter * that.toSquareMeters)
 
   def toWattsPerSquareMeter = to(WattsPerSquareMeter)
   def toErgsPerSecondPerSquareCentimeter = to(ErgsPerSecondPerSquareCentimeter)

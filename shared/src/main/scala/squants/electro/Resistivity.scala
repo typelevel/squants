@@ -21,8 +21,8 @@ final class Resistivity private (val value: Double, val unit: ResistivityUnit)
 
   def dimension = Resistivity
 
-  def /(that: Length): ElectricalResistance = Ohms(toOhmMeters / that.toMeters)
-  def /(that: ElectricalResistance): Length = Meters(toOhmMeters / that.toOhms)
+  def /(that: Length): ElectricalResistance = Ohms(this.toOhmMeters / that.toMeters)
+  def /(that: ElectricalResistance): Length = Meters(this.toOhmMeters / that.toOhms)
 
   def toOhmMeters = to(OhmMeters)
   def inSiemensPerMeter = SiemensPerMeter(1d / toOhmMeters)
