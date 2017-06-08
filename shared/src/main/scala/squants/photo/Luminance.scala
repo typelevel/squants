@@ -20,7 +20,7 @@ final class Luminance private (val value: Double, val unit: LuminanceUnit)
 
   def dimension = Luminance
 
-  def *(that: Area): LuminousIntensity = Candelas(value * that.toSquareMeters)
+  def *(that: Area): LuminousIntensity = Candelas(this.value * that.toSquareMeters)
 
   def toCandelasPerSquareMeters = to(CandelasPerSquareMeter)
 }

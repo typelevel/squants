@@ -32,10 +32,10 @@ final class Velocity private (val value: Double, val unit: VelocityUnit)
   protected[squants] def timeIntegrated = Meters(toMetersPerSecond)
   protected[squants] def time = Seconds(1)
 
-  def *(that: Mass): Momentum = NewtonSeconds(toMetersPerSecond * that.toKilograms)
+  def *(that: Mass): Momentum = NewtonSeconds(this.toMetersPerSecond * that.toKilograms)
 
   def /(that: TimeSquared): Jerk = this / that.time1 / that.time2
-  def /(that: Jerk): TimeSquared = (this / that.timeIntegrated) * time
+  def /(that: Jerk): TimeSquared = (this / that.timeIntegrated) * this.time
 
   def toFeetPerSecond = to(FeetPerSecond)
   def toMetersPerSecond = to(MetersPerSecond)

@@ -21,9 +21,9 @@ final class LuminousIntensity private (val value: Double, val unit: LuminousInte
 
   def dimension = LuminousIntensity
 
-  def *(that: SolidAngle): LuminousFlux = Lumens(toCandelas * that.toSquaredRadians)
-  def /(that: Area): Luminance = CandelasPerSquareMeter(toCandelas / that.toSquareMeters)
-  def /(that: Luminance): Area = SquareMeters(toCandelas / that.toCandelasPerSquareMeters)
+  def *(that: SolidAngle): LuminousFlux = Lumens(this.toCandelas * that.toSquaredRadians)
+  def /(that: Area): Luminance = CandelasPerSquareMeter(this.toCandelas / that.toSquareMeters)
+  def /(that: Luminance): Area = SquareMeters(this.toCandelas / that.toCandelasPerSquareMeters)
 
   def toCandelas = to(Candelas)
 }

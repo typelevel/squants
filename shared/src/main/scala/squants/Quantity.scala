@@ -43,7 +43,7 @@ abstract class Quantity[A <: Quantity[A]] extends Serializable with Ordered[A] {
    * @param that Quantity
    * @return Quantity
    */
-  def plus(that: A): A = unit(value + that.to(unit))
+  def plus(that: A): A = unit(this.value + that.to(unit))
   def +(that: A): A = plus(that)
 
   /**
@@ -59,7 +59,7 @@ abstract class Quantity[A <: Quantity[A]] extends Serializable with Ordered[A] {
    * @param that Double
    * @return Quantity
    */
-  def times(that: Double): A = unit(value * that)
+  def times(that: Double): A = unit(this.value * that)
   def *(that: Double): A = times(that)
 
   /**
@@ -67,7 +67,7 @@ abstract class Quantity[A <: Quantity[A]] extends Serializable with Ordered[A] {
    * @param that Double
    * @return Quantity
    */
-  def divide(that: Double): A = unit(value / that)
+  def divide(that: Double): A = unit(this.value / that)
   def /(that: Double): A = divide(that)
 
   /**
@@ -75,7 +75,7 @@ abstract class Quantity[A <: Quantity[A]] extends Serializable with Ordered[A] {
    * @param that Quantity
    * @return Double
    */
-  def divide(that: A): Double = value / that.to(unit)
+  def divide(that: A): Double = this.value / that.to(unit)
   def /(that: A): Double = divide(that)
 
   /**
@@ -83,7 +83,7 @@ abstract class Quantity[A <: Quantity[A]] extends Serializable with Ordered[A] {
    * @param that Quantity
    * @return Quantity
    */
-  def remainder(that: Double): A = unit(value % that)
+  def remainder(that: Double): A = unit(this.value % that)
   def %(that: Double): A = remainder(that)
 
   /**
@@ -91,7 +91,7 @@ abstract class Quantity[A <: Quantity[A]] extends Serializable with Ordered[A] {
    * @param that Quantity
    * @return Double
    */
-  def remainder(that: A): Double = value % that.to(unit)
+  def remainder(that: A): Double = this.value % that.to(unit)
   def %(that: A): Double = remainder(that)
 
   /**
@@ -197,21 +197,21 @@ abstract class Quantity[A <: Quantity[A]] extends Serializable with Ordered[A] {
    * @param that Quantity
    * @return Int
    */
-  def compare(that: A) = if (value > that.to(unit)) 1 else if (value < that.to(unit)) -1 else 0
+  def compare(that: A) = if (this.value > that.to(unit)) 1 else if (this.value < that.to(unit)) -1 else 0
 
   /**
    * Returns the max of this and that Quantity
    * @param that Quantity
    * @return Quantity
    */
-  def max(that: A): A = if (value >= that.to(unit)) this else that
+  def max(that: A): A = if (this.value >= that.to(unit)) this else that
 
   /**
    * Returns the min of this and that Quantity
    * @param that Quantity
    * @return Quantity
    */
-  def min(that: A): A = if (value <= that.to(unit)) this else that
+  def min(that: A): A = if (this.value <= that.to(unit)) this else that
 
   /**
    * Returns a QuantityRange representing the range for this value +- that

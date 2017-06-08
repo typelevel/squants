@@ -21,7 +21,7 @@ final class MagneticFluxDensity private (val value: Double, val unit: MagneticFl
 
   def dimension = MagneticFluxDensity
 
-  def *(that: Area): MagneticFlux = Webers(toTeslas * that.toSquareMeters)
+  def *(that: Area): MagneticFlux = Webers(this.toTeslas * that.toSquareMeters)
 
   def toTeslas = to(Teslas)
   def toGuass = to(Gauss)
