@@ -92,7 +92,7 @@ final class Money private (val amount: BigDecimal)(val currency: Currency)
    * @throws scala.UnsupportedOperationException when attempted on cross currencies
    */
   override def plus(that: Money): Money = that.currency match {
-    case this.currency ⇒ new Money(amount + that.amount)(currency)
+    case this.currency ⇒ new Money(this.amount + that.amount)(currency)
     case _             ⇒ throw new UnsupportedOperationException("plus not supported for cross-currency comparison - use moneyPlus")
   }
 
@@ -117,7 +117,7 @@ final class Money private (val amount: BigDecimal)(val currency: Currency)
    * @throws scala.UnsupportedOperationException when attempted on cross currencies
    */
   override def minus(that: Money): Money = that.currency match {
-    case this.currency ⇒ new Money(amount - that.amount)(currency)
+    case this.currency ⇒ new Money(this.amount - that.amount)(currency)
     case _             ⇒ throw new UnsupportedOperationException("minus not supported for cross-currency comparison - use moneyMinus")
   }
 
@@ -197,7 +197,7 @@ final class Money private (val amount: BigDecimal)(val currency: Currency)
    * @return Double
    */
   override def divide(that: Money): Double = that.currency match {
-    case this.currency ⇒ (amount / that.amount).toDouble
+    case this.currency ⇒ (this.amount / that.amount).toDouble
     case _             ⇒ throw new UnsupportedOperationException("divide not supported for cross-currency comparison - use moneyDivide")
   }
 

@@ -30,8 +30,8 @@ final class Dimensionless private (val value: Double, val unit: DimensionlessUni
   protected def timeDerived = Hertz(toEach)
   protected[squants] def time = Seconds(1)
 
-  def *(that: Dimensionless) = Each(toEach * that.toEach)
-  def *(that: Quantity[_]) = that * toEach
+  def *(that: Dimensionless) = Each(this.toEach * that.toEach)
+  def *(that: Quantity[_]) = that * this.toEach
 
   def toPercent = to(Percent)
   def toEach = to(Each)

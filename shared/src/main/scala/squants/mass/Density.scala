@@ -21,7 +21,7 @@ final class Density private (val value: Double, val unit: DensityUnit)
 
   def dimension = Density
 
-  def *(that: Volume): Mass = Kilograms(value * that.toCubicMeters)
+  def *(that: Volume): Mass = Kilograms(this.value * that.toCubicMeters)
 
   def toKilogramsPerCubicMeter = to(KilogramsPerCubicMeter)
 }

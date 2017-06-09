@@ -22,7 +22,7 @@ final class Conductivity private (val value: Double, val unit: ConductivityUnit)
 
   def dimension = Conductivity
 
-  def *(that: Length): ElectricalConductance = Siemens(toSiemensPerMeter * that.toMeters)
+  def *(that: Length): ElectricalConductance = Siemens(this.toSiemensPerMeter * that.toMeters)
 
   def toSiemensPerMeter = to(SiemensPerMeter)
   def inOhmMeters = OhmMeters(1d / toSiemensPerMeter)

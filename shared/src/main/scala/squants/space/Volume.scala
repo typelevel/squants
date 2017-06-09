@@ -31,23 +31,23 @@ final class Volume private (val value: Double, val unit: VolumeUnit)
   protected def timeDerived = CubicMetersPerSecond(toCubicMeters)
   protected[squants] def time = Seconds(1)
 
-  def *(that: Density): Mass = Kilograms(toCubicMeters * that.toKilogramsPerCubicMeter)
-  def *(that: EnergyDensity): Energy = Joules(toCubicMeters * that.toJoulesPerCubicMeter)
+  def *(that: Density): Mass = Kilograms(this.toCubicMeters * that.toKilogramsPerCubicMeter)
+  def *(that: EnergyDensity): Energy = Joules(this.toCubicMeters * that.toJoulesPerCubicMeter)
 
   def /(that: Area): Length = unit match {
-    case CubicUsMiles ⇒ UsMiles(value / that.toSquareUsMiles)
-    case CubicYards   ⇒ Yards(value / that.toSquareYards)
-    case CubicFeet    ⇒ Feet(value / that.toSquareFeet)
-    case CubicInches  ⇒ Inches(value / that.toSquareInches)
-    case _            ⇒ Meters(toCubicMeters / that.toSquareMeters)
+    case CubicUsMiles ⇒ UsMiles(this.value / that.toSquareUsMiles)
+    case CubicYards   ⇒ Yards(this.value / that.toSquareYards)
+    case CubicFeet    ⇒ Feet(this.value / that.toSquareFeet)
+    case CubicInches  ⇒ Inches(this.value / that.toSquareInches)
+    case _            ⇒ Meters(this.toCubicMeters / that.toSquareMeters)
   }
 
   def /(that: Length): Area = unit match {
-    case CubicUsMiles ⇒ SquareUsMiles(value / that.toUsMiles)
-    case CubicYards   ⇒ SquareYards(value / that.toYards)
-    case CubicFeet    ⇒ SquareFeet(value / that.toFeet)
-    case CubicInches  ⇒ SquareInches(value / that.toInches)
-    case _            ⇒ SquareMeters(toCubicMeters / that.toMeters)
+    case CubicUsMiles ⇒ SquareUsMiles(this.value / that.toUsMiles)
+    case CubicYards   ⇒ SquareYards(this.value / that.toYards)
+    case CubicFeet    ⇒ SquareFeet(this.value / that.toFeet)
+    case CubicInches  ⇒ SquareInches(this.value / that.toInches)
+    case _            ⇒ SquareMeters(this.toCubicMeters / that.toMeters)
   }
 
   def /(that: Mass) = ??? // returns SpecificVolume (inverse of Density)

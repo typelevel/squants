@@ -27,10 +27,10 @@ final class LuminousFlux private (val value: Double, val unit: LuminousFluxUnit)
   protected[squants] def timeIntegrated = LumenSeconds(toLumens)
   protected[squants] def time = Seconds(1)
 
-  def /(that: Area): Illuminance = Lux(toLumens / that.toSquareMeters)
-  def /(that: Illuminance): Area = SquareMeters(toLumens / that.toLux)
-  def /(that: SolidAngle): LuminousIntensity = Candelas(toLumens / that.toSquaredRadians)
-  def /(that: LuminousIntensity): SolidAngle = SquaredRadians(toLumens / that.toCandelas)
+  def /(that: Area): Illuminance = Lux(this.toLumens / that.toSquareMeters)
+  def /(that: Illuminance): Area = SquareMeters(this.toLumens / that.toLux)
+  def /(that: SolidAngle): LuminousIntensity = Candelas(this.toLumens / that.toSquaredRadians)
+  def /(that: LuminousIntensity): SolidAngle = SquaredRadians(this.toLumens / that.toCandelas)
 
   def toLumens = to(Lumens)
 }
