@@ -8,7 +8,8 @@
 
 package squants.thermal
 
-import org.scalatest.{ Matchers, FlatSpec }
+import org.scalatest.{ FlatSpec, Matchers, TryValues }
+import org.scalatest.prop.TableDrivenPropertyChecks
 import squants.energy.Joules
 import squants.mass.Kilograms
 import squants.QuantityParseException
@@ -18,7 +19,8 @@ import squants.QuantityParseException
  * @since   0.1
  *
  */
-class TemperatureSpec extends FlatSpec with Matchers {
+class TemperatureSpec extends FlatSpec
+  with Matchers with TableDrivenPropertyChecks with TryValues {
 
   behavior of "Temperature and its Units of Measure"
 
@@ -65,6 +67,15 @@ class TemperatureSpec extends FlatSpec with Matchers {
     Temperature("10.22°f").get should be (Fahrenheit(10.22))
 
     Temperature("10.22°°f").failed.get should be (QuantityParseException("Unable to parse Temperature", "10.22°°f"))
+  }
+
+  they should "refuse to parse strings that only have a unit - issue #261" in {
+
+    val symbols = Table("°K", "°F", "°C", "°R", "K", "F", "C", "R")
+
+    forAll(symbols) { symbol =>
+      Temperature(symbol).failure.exception shouldBe a [QuantityParseException]
+    }
   }
 
   they should "properly convert to all supported Units of Measure (Scale)" in {
