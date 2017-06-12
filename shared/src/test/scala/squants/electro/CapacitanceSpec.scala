@@ -8,8 +8,9 @@
 
 package squants.electro
 
-import org.scalatest.{ Matchers, FlatSpec }
-import squants.{ QuantityParseException, MetricSystem }
+import org.scalatest.{FlatSpec, Matchers}
+import squants.space.Meters
+import squants.{MetricSystem, QuantityParseException}
 
 /**
  * @author  garyKeorkunian
@@ -61,6 +62,10 @@ class CapacitanceSpec extends FlatSpec with Matchers {
 
   it should "return ElectricalCharge when multiplied by ElectricalPotential" in {
     Farads(1) * Volts(1) should be(Coulombs(1))
+  }
+
+  it should "return Permittivity when divided by Length" in {
+    Farads(1) / Meters(1) should be(FaradsMeters(1))
   }
 
   behavior of "CapacitanceConversions"
