@@ -31,8 +31,8 @@ final class ElectricPotential private (val value: Double, val unit: ElectricPote
   def *(that: Capacitance): ElectricCharge = Coulombs(toVolts * that.toFarads)
   def *(that: ElectricCharge): Energy = Joules(toVolts * that.toCoulombs)
 
-  def /(that: ElectricCurrent): ElectricalResistance = Ohms(toVolts / that.toAmperes)
-  def /(that: ElectricalResistance): ElectricCurrent = Amperes(toVolts / that.toOhms)
+  def /(that: ElectricCurrent): ElectricalResistance = Ohms(this.toVolts / that.toAmperes)
+  def /(that: ElectricalResistance): ElectricCurrent = Amperes(this.toVolts / that.toOhms)
   def /(that: Length) = ??? // returns ElectricFieldStrength
 
   def toVolts = to(Volts)

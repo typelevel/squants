@@ -21,11 +21,11 @@ All types are immutable and thread-safe.
 
 
 ### Current Versions
-Current Release: **1.2.0**
-([API Docs](https://oss.sonatype.org/service/local/repositories/releases/archive/org/typelevel/squants_2.11/1.2.0/squants_2.11-1.2.0-javadoc.jar/!/index.html#squants.package))
+Current Release: **1.3.0**
+([API Docs](https://oss.sonatype.org/service/local/repositories/releases/archive/org/typelevel/squants_2.11/1.3.0/squants_2.11-1.3.0-javadoc.jar/!/index.html#squants.package))
 
-Development Build: **1.3.0-SNAPSHOT**
-([API Docs](https://oss.sonatype.org/service/local/repositories/snapshots/archive/org/typelevel/squants_2.11/1.3.0-SNAPSHOT/squants_2.11-1.3.0-SNAPSHOT-javadoc.jar/!/index.html#squants.package))
+Development Build: **1.4.0-SNAPSHOT**
+([API Docs](https://oss.sonatype.org/service/local/repositories/snapshots/archive/org/typelevel/squants_2.11/1.4.0-SNAPSHOT/squants_2.11-1.4.0-SNAPSHOT-javadoc.jar/!/index.html#squants.package))
 
 [Release History](https://github.com/typelevel/squants/wiki/Release-History)
 
@@ -38,10 +38,10 @@ For more information on feature availability of a specific version see the Relea
 Repository hosting for Squants is provided by [Sonatype](https://oss.sonatype.org/).
 To use Squants in your SBT project add the following dependency to your build.
 
-    "org.typelevel"  %% "squants"  % "1.2.0"
+    "org.typelevel"  %% "squants"  % "1.3.0"
 or
 
-    "org.typelevel"  %% "squants"  % "1.3.0-SNAPSHOT"
+    "org.typelevel"  %% "squants"  % "1.4.0-SNAPSHOT"
 
 
 To use Squants in your Maven project add the following dependency
@@ -50,7 +50,7 @@ To use Squants in your Maven project add the following dependency
 <dependency>
     <groupId>org.typelevel</groupId>
     <artifactId>squants_2.11</artifactId>
-    <version>1.2.0</version>
+    <version>1.3.0</version>
 </dependency>
 ```
 
@@ -63,18 +63,14 @@ To use Squants interactively in the Scala REPL, clone the git repo and run `sbt 
     cd squants
     sbt squantsJVM/console
 
-## Third-party integration
+## Third-party integrations
 
-If you are using the [PureConfig](https://github.com/melrief/pureconfig/) library, there is integration with Squants
-via [pureconfig-squants](https://github.com/melrief/pureconfig/tree/master/modules/squants). This lets you parse
-dimensional values out of HOCON configuration files. For example:
+This is an incomplete list of third-party libraries that support squants:
 
-```
-{
-  far: 42.195 km
-  hot: 56.7° C
-}
-```
+* [PureConfig](https://github.com/melrief/pureconfig/)
+* [Ciris](https://cir.is/)
+
+If your library isn't listed here, please open a PR to add it!
 
 ## Type Safe Dimensional Analysis
 *The Trouble with Doubles*
@@ -474,36 +470,84 @@ val northAmericanSales: Money = (CAD(275) + USD(350) + MXN(290)) in USD
 ```
 
 ## Quantity Ranges
-Used to represent a range of Quantity values between an upper and lower bound
+A `QuantityRange` is used to represent a range of Quantity values between an upper and lower bound:
 
-```tut:reset
+```tut:reset:silent
 import squants.QuantityRange
-import squants.energy.{Kilowatts, Power}
-
+import squants.energy.{Kilowatts, Megawatts, Power}
+```
+```tut:book
 val load1: Power = Kilowatts(1000)
 val load2: Power = Kilowatts(5000)
 val range: QuantityRange[Power] = QuantityRange(load1, load2)
 ```
 
-Use multiplication and division to create a Seq of ranges from the original
+### Inclusivity and Exclusivitiy
 
-```tut:silent
-// Create a Seq of 10 sequential ranges starting with the original and each the same size as the original
+The `QuantityRange` constructor requires that `upper` is strictly greater than `lower`:
+
+```tut:book
+import squants.space.LengthConversions._
+
+// this will work b/c upper > lower
+QuantityRange(1.km, 5.km)
+```
+
+This will fail because `lower` = `upper`:
+
+```tut:fail
+QuantityRange(1.km, 1.km)
+```
+
+`QuantityRange` contains two functions that check if an element is part of the range, `contains` and `includes`. 
+These differ in how they treat the range's upper bound: `contains()` _excludes_ it but `includes()` _includes_ it.
+
+```tut
+val distances = QuantityRange(1.km, 5.km)
+distances.contains(5.km) // this is false b/c contains() doesn't include the upper range
+distances.includes(5.km) // this is true b/c includes() does include the upper range
+```
+
+### QuantityRange transformation
+
+The multiplication and division operators create a `Seq` of ranges from the original.
+
+For example:
+
+Create a Seq of 10 sequential ranges starting with the original and each the same size as the original:
+```tut:book
 val rs1 = range * 10
-// Create a Seq of 10 sequential ranges each 1/10th of the original size
+```
+Create a Seq of 10 sequential ranges each 1/10th of the original size:
+
+```tut:book
 val rs2 = range / 10
-// Create a Seq of 10 sequential ranges each with a size of 400 kilowatts
+```
+
+Create a Seq of 10 sequential ranges each with a size of 400 kilowatts:
+```tut:book
 val rs3 = range / Kilowatts(400)
 ```
-Apply foreach, map and foldLeft/foldRight directly to QuantityRanges with a divisor
 
-```tut:silent:fail
-// foreach over each of the 400 kilometer ranges within the range
-range.foreach(Kilometers(400)) {r => ???}
-// map over each of 10 even parts of the range
-range.map(10) {r => ???}
-// fold over each 10 even parts of the range
-range.foldLeft(10)(0) {(z, r) => ???}
+### QuantityRange operations
+
+`QuantityRange` supports foreach, map, and foldLeft/foldRight. These vary slightly from the versions
+in the Scala standard library in that they take a divisior as the first parameter. The examples below 
+illustrate their use.
+
+Subdivide range into 1-Megawatt "slices", and foreach over each of slices:
+```tut:book
+range.foreach(Megawatts(1)) { r => println(s"lower = ${r.lower}, upper = ${r.upper}") }
+```
+
+Subdivide range into 10 slices and map over each slice:
+```tut:book
+range.map(10) { r => r.upper }
+```
+
+Subdivide range into 10 slices and fold over them, using 0 Megawatts as a starting value:
+```tut:book
+range.foldLeft(10, Megawatts(0)) { (z, r) => z + r.upper }
 ```
 
 NOTE - Because these implementations of foreach, map and fold* take a parameter (the divisor), these methods
@@ -771,6 +815,7 @@ we're adding support for `Length`.
 ```tut:reset:silent
 import squants.experimental.formatter.DefaultFormatter
 import squants.experimental.formatter.syntax._
+import squants.mass.MassConversions._
 import squants.space.Length
 import squants.space.LengthConversions._
 import squants.experimental.unitgroups.misc.AstronomicalLengthUnitGroup
@@ -1152,9 +1197,11 @@ To make a release do the following:
   sbt tut
 ```
 
-* Publish a cross-version signed package
+* Publish a cross-version signed package (no cross-version available for Scala Native)
 ```
-  sbt +publishSigned
+  sbt +squantsJVM/publishSigned
+  sbt +squantsJS/publishSigned
+  sbt squantsNative/publishSigned
 ```
 
 * Then make a release (Note: after this step the release cannot be replaced)

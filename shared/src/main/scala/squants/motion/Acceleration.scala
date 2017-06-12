@@ -32,7 +32,7 @@ final class Acceleration private (val value: Double, val unit: AccelerationUnit)
   protected[squants] def timeDerived = MetersPerSecondCubed(toMetersPerSecondSquared)
   protected[squants] def time = Seconds(1)
 
-  def *(that: Mass): Force = Newtons(toMetersPerSecondSquared * that.toKilograms)
+  def *(that: Mass): Force = Newtons(this.toMetersPerSecondSquared * that.toKilograms)
   def *(that: TimeSquared): Length = this * that.time1 * that.time2
 
   def toFeetPerSecondSquared = to(FeetPerSecondSquared)

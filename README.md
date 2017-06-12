@@ -21,11 +21,11 @@ All types are immutable and thread-safe.
 
 
 ### Current Versions
-Current Release: **1.2.0**
-([API Docs](https://oss.sonatype.org/service/local/repositories/releases/archive/org/typelevel/squants_2.11/1.2.0/squants_2.11-1.2.0-javadoc.jar/!/index.html#squants.package))
+Current Release: **1.3.0**
+([API Docs](https://oss.sonatype.org/service/local/repositories/releases/archive/org/typelevel/squants_2.11/1.3.0/squants_2.11-1.3.0-javadoc.jar/!/index.html#squants.package))
 
-Development Build: **1.3.0-SNAPSHOT**
-([API Docs](https://oss.sonatype.org/service/local/repositories/snapshots/archive/org/typelevel/squants_2.11/1.3.0-SNAPSHOT/squants_2.11-1.3.0-SNAPSHOT-javadoc.jar/!/index.html#squants.package))
+Development Build: **1.4.0-SNAPSHOT**
+([API Docs](https://oss.sonatype.org/service/local/repositories/snapshots/archive/org/typelevel/squants_2.11/1.4.0-SNAPSHOT/squants_2.11-1.4.0-SNAPSHOT-javadoc.jar/!/index.html#squants.package))
 
 [Release History](https://github.com/typelevel/squants/wiki/Release-History)
 
@@ -38,10 +38,10 @@ For more information on feature availability of a specific version see the Relea
 Repository hosting for Squants is provided by [Sonatype](https://oss.sonatype.org/).
 To use Squants in your SBT project add the following dependency to your build.
 
-    "org.typelevel"  %% "squants"  % "1.2.0"
+    "org.typelevel"  %% "squants"  % "1.3.0"
 or
 
-    "org.typelevel"  %% "squants"  % "1.3.0-SNAPSHOT"
+    "org.typelevel"  %% "squants"  % "1.4.0-SNAPSHOT"
 
 
 To use Squants in your Maven project add the following dependency
@@ -50,7 +50,7 @@ To use Squants in your Maven project add the following dependency
 <dependency>
     <groupId>org.typelevel</groupId>
     <artifactId>squants_2.11</artifactId>
-    <version>1.2.0</version>
+    <version>1.3.0</version>
 </dependency>
 ```
 
@@ -63,18 +63,14 @@ To use Squants interactively in the Scala REPL, clone the git repo and run `sbt 
     cd squants
     sbt squantsJVM/console
 
-## Third-party integration
+## Third-party integrations
 
-If you are using the [PureConfig](https://github.com/melrief/pureconfig/) library, there is integration with Squants
-via [pureconfig-squants](https://github.com/melrief/pureconfig/tree/master/modules/squants). This lets you parse
-dimensional values out of HOCON configuration files. For example:
+This is an incomplete list of third-party libraries that support squants:
 
-```
-{
-  far: 42.195 km
-  hot: 56.7° C
-}
-```
+* [PureConfig](https://github.com/melrief/pureconfig/)
+* [Ciris](https://cir.is/)
+
+If your library isn't listed here, please open a PR to add it!
 
 ## Type Safe Dimensional Analysis
 *The Trouble with Doubles*
@@ -659,44 +655,108 @@ northAmericanSales: squants.market.Money = 635.1047619047619 USD
 ```
 
 ## Quantity Ranges
-Used to represent a range of Quantity values between an upper and lower bound
+A `QuantityRange` is used to represent a range of Quantity values between an upper and lower bound:
 
 ```scala
-scala> import squants.QuantityRange
 import squants.QuantityRange
+import squants.energy.{Kilowatts, Megawatts, Power}
+```
+```scala
+val load1: Power = Kilowatts(1000)
+// load1: squants.energy.Power = 1000.0 kW
 
-scala> import squants.energy.{Kilowatts, Power}
-import squants.energy.{Kilowatts, Power}
+val load2: Power = Kilowatts(5000)
+// load2: squants.energy.Power = 5000.0 kW
 
-scala> val load1: Power = Kilowatts(1000)
-load1: squants.energy.Power = 1000.0 kW
-
-scala> val load2: Power = Kilowatts(5000)
-load2: squants.energy.Power = 5000.0 kW
-
-scala> val range: QuantityRange[Power] = QuantityRange(load1, load2)
-range: squants.QuantityRange[squants.energy.Power] = QuantityRange(1000.0 kW,5000.0 kW)
+val range: QuantityRange[Power] = QuantityRange(load1, load2)
+// range: squants.QuantityRange[squants.energy.Power] = QuantityRange(1000.0 kW,5000.0 kW)
 ```
 
-Use multiplication and division to create a Seq of ranges from the original
+### Inclusivity and Exclusivitiy
+
+The `QuantityRange` constructor requires that `upper` is strictly greater than `lower`:
 
 ```scala
-// Create a Seq of 10 sequential ranges starting with the original and each the same size as the original
+import squants.space.LengthConversions._
+// import squants.space.LengthConversions._
+
+// this will work b/c upper > lower
+QuantityRange(1.km, 5.km)
+// res1: squants.QuantityRange[squants.space.Length] = QuantityRange(1.0 km,5.0 km)
+```
+
+This will fail because `lower` = `upper`:
+
+```scala
+scala> QuantityRange(1.km, 1.km)
+java.lang.IllegalArgumentException: QuantityRange upper bound must be strictly greater than to the lower bound
+  at squants.QuantityRange.<init>(QuantityRange.scala:25)
+  ... 1023 elided
+```
+
+`QuantityRange` contains two functions that check if an element is part of the range, `contains` and `includes`. 
+These differ in how they treat the range's upper bound: `contains()` _excludes_ it but `includes()` _includes_ it.
+
+```scala
+scala> val distances = QuantityRange(1.km, 5.km)
+distances: squants.QuantityRange[squants.space.Length] = QuantityRange(1.0 km,5.0 km)
+
+scala> distances.contains(5.km) // this is false b/c contains() doesn't include the upper range
+res3: Boolean = false
+
+scala> distances.includes(5.km) // this is true b/c includes() does include the upper range
+res4: Boolean = true
+```
+
+### QuantityRange transformation
+
+The multiplication and division operators create a `Seq` of ranges from the original.
+
+For example:
+
+Create a Seq of 10 sequential ranges starting with the original and each the same size as the original:
+```scala
 val rs1 = range * 10
-// Create a Seq of 10 sequential ranges each 1/10th of the original size
-val rs2 = range / 10
-// Create a Seq of 10 sequential ranges each with a size of 400 kilowatts
-val rs3 = range / Kilowatts(400)
+// rs1: squants.QuantitySeries[squants.energy.Power] = Vector(QuantityRange(1000.0 kW,5000.0 kW), QuantityRange(5000.0 kW,9000.0 kW), QuantityRange(9000.0 kW,13000.0 kW), QuantityRange(13000.0 kW,17000.0 kW), QuantityRange(17000.0 kW,21000.0 kW), QuantityRange(21000.0 kW,25000.0 kW), QuantityRange(25000.0 kW,29000.0 kW), QuantityRange(29000.0 kW,33000.0 kW), QuantityRange(33000.0 kW,37000.0 kW), QuantityRange(37000.0 kW,41000.0 kW))
 ```
-Apply foreach, map and foldLeft/foldRight directly to QuantityRanges with a divisor
+Create a Seq of 10 sequential ranges each 1/10th of the original size:
 
 ```scala
-// foreach over each of the 400 kilometer ranges within the range
-range.foreach(Kilometers(400)) {r => ???}
-// map over each of 10 even parts of the range
-range.map(10) {r => ???}
-// fold over each 10 even parts of the range
-range.foldLeft(10)(0) {(z, r) => ???}
+val rs2 = range / 10
+// rs2: squants.QuantitySeries[squants.energy.Power] = Vector(QuantityRange(1000.0 kW,1400.0 kW), QuantityRange(1400.0 kW,1800.0 kW), QuantityRange(1800.0 kW,2200.0 kW), QuantityRange(2200.0 kW,2600.0 kW), QuantityRange(2600.0 kW,3000.0 kW), QuantityRange(3000.0 kW,3400.0 kW), QuantityRange(3400.0 kW,3800.0 kW), QuantityRange(3800.0 kW,4200.0 kW), QuantityRange(4200.0 kW,4600.0 kW), QuantityRange(4600.0 kW,5000.0 kW))
+```
+
+Create a Seq of 10 sequential ranges each with a size of 400 kilowatts:
+```scala
+val rs3 = range / Kilowatts(400)
+// rs3: squants.QuantitySeries[squants.energy.Power] = Vector(QuantityRange(1000.0 kW,1400.0 kW), QuantityRange(1400.0 kW,1800.0 kW), QuantityRange(1800.0 kW,2200.0 kW), QuantityRange(2200.0 kW,2600.0 kW), QuantityRange(2600.0 kW,3000.0 kW), QuantityRange(3000.0 kW,3400.0 kW), QuantityRange(3400.0 kW,3800.0 kW), QuantityRange(3800.0 kW,4200.0 kW), QuantityRange(4200.0 kW,4600.0 kW), QuantityRange(4600.0 kW,5000.0 kW))
+```
+
+### QuantityRange operations
+
+`QuantityRange` supports foreach, map, and foldLeft/foldRight. These vary slightly from the versions
+in the Scala standard library in that they take a divisior as the first parameter. The examples below 
+illustrate their use.
+
+Subdivide range into 1-Megawatt "slices", and foreach over each of slices:
+```scala
+range.foreach(Megawatts(1)) { r => println(s"lower = ${r.lower}, upper = ${r.upper}") }
+// lower = 1000.0 kW, upper = 2000.0 kW
+// lower = 2000.0 kW, upper = 3000.0 kW
+// lower = 3000.0 kW, upper = 4000.0 kW
+// lower = 4000.0 kW, upper = 5000.0 kW
+```
+
+Subdivide range into 10 slices and map over each slice:
+```scala
+range.map(10) { r => r.upper }
+// res6: Seq[squants.energy.Power] = Vector(1400.0 kW, 1800.0 kW, 2200.0 kW, 2600.0 kW, 3000.0 kW, 3400.0 kW, 3800.0 kW, 4200.0 kW, 4600.0 kW, 5000.0 kW)
+```
+
+Subdivide range into 10 slices and fold over them, using 0 Megawatts as a starting value:
+```scala
+range.foldLeft(10, Megawatts(0)) { (z, r) => z + r.upper }
+// res7: squants.energy.Power = 32.0 MW
 ```
 
 NOTE - Because these implementations of foreach, map and fold* take a parameter (the divisor), these methods
@@ -902,7 +962,7 @@ import squants.experimental.unitgroups.si.strict.implicits._
 // import squants.experimental.unitgroups.si.strict.implicits._
 
 val siLengths: UnitGroup[Length] = implicitly[UnitGroup[Length]]
-// siLengths: squants.experimental.unitgroups.UnitGroup[squants.space.Length] = squants.experimental.unitgroups.si.strict.package$implicits$$anon$1@b117142
+// siLengths: squants.experimental.unitgroups.UnitGroup[squants.space.Length] = squants.experimental.unitgroups.si.strict.package$implicits$$anon$1@264b156b
 ```
 
 To print out units and their conversion factors to the primary SI unit, you could use this code:
@@ -959,16 +1019,16 @@ val usCookingUnitGroup = new UnitGroup[Volume] {
   // units don't have to be specified in-order.
   val units: Set[UnitOfMeasure[Volume]] = Set(UsPints, UsGallons, Teaspoons, Tablespoons, UsQuarts, FluidOunces)
 }
-// usCookingUnitGroup: squants.experimental.unitgroups.UnitGroup[squants.space.Volume]{val units: Set[squants.UnitOfMeasure[squants.space.Volume]]} = $anon$1@1e7ccc51
+// usCookingUnitGroup: squants.experimental.unitgroups.UnitGroup[squants.space.Volume]{val units: Set[squants.UnitOfMeasure[squants.space.Volume]]} = $anon$1@27b100b6
 
 // squants automatically sorts units
 usCookingUnitGroup.sortedUnits.foreach(println)
-// squants.space.Teaspoons$@71cbffb5
-// squants.space.Tablespoons$@49c093cd
-// squants.space.FluidOunces$@30e4abaf
-// squants.space.UsPints$@a351ff9
-// squants.space.UsQuarts$@6ba887db
-// squants.space.UsGallons$@4f629ea7
+// squants.space.Teaspoons$@525d11ee
+// squants.space.Tablespoons$@4037896b
+// squants.space.FluidOunces$@1d59b092
+// squants.space.UsPints$@5fd4d32b
+// squants.space.UsQuarts$@390357cd
+// squants.space.UsGallons$@48cd8671
 ```
 
 The `UnitGroup` values provided with Squants are only samples and aren't intended to be exhaustive.
@@ -1004,7 +1064,7 @@ import squants.experimental.unitgroups.misc.AstronomicalLengthUnitGroup
 Then create the formatter by passing in a unit group:
 ```scala
 val astroFormatter = new DefaultFormatter(AstronomicalLengthUnitGroup)
-// astroFormatter: squants.experimental.formatter.DefaultFormatter[squants.space.Length] = squants.experimental.formatter.DefaultFormatter@e19717a
+// astroFormatter: squants.experimental.formatter.DefaultFormatter[squants.space.Length] = squants.experimental.formatter.DefaultFormatter@22aa737b
 ```
 
 Now, we create some values using human-unfriendly numbers:
@@ -1048,6 +1108,7 @@ we're adding support for `Length`.
 ```scala
 import squants.experimental.formatter.DefaultFormatter
 import squants.experimental.formatter.syntax._
+import squants.mass.MassConversions._
 import squants.space.Length
 import squants.space.LengthConversions._
 import squants.experimental.unitgroups.misc.AstronomicalLengthUnitGroup
@@ -1055,7 +1116,7 @@ import squants.experimental.unitgroups.misc.AstronomicalLengthUnitGroup
 
 ```scala
 implicit val astroFormatter = new DefaultFormatter(AstronomicalLengthUnitGroup)
-// astroFormatter: squants.experimental.formatter.DefaultFormatter[squants.space.Length] = squants.experimental.formatter.DefaultFormatter@4360fa36
+// astroFormatter: squants.experimental.formatter.DefaultFormatter[squants.space.Length] = squants.experimental.formatter.DefaultFormatter@652e1c16
 
 val earthToJupiter = 588000000.km
 // earthToJupiter: squants.space.Length = 588000000.0 km
@@ -1080,9 +1141,9 @@ This example won't compile because there is no `Formatter[Mass]` in implicit sco
 
 ```scala
 scala> 5000.grams.inBestUnit
-<console>:23: error: value grams is not a member of Int
+<console>:26: error: could not find implicit value for parameter formatter: squants.experimental.formatter.Formatter[squants.mass.Mass]
        5000.grams.inBestUnit
-            ^
+                  ^
 ```
 
 ### SI Formatters and implicit syntax
@@ -1483,9 +1544,11 @@ To make a release do the following:
   sbt tut
 ```
 
-* Publish a cross-version signed package
+* Publish a cross-version signed package (no cross-version available for Scala Native)
 ```
-  sbt +publishSigned
+  sbt +squantsJVM/publishSigned
+  sbt +squantsJS/publishSigned
+  sbt squantsNative/publishSigned
 ```
 
 * Then make a release (Note: after this step the release cannot be replaced)

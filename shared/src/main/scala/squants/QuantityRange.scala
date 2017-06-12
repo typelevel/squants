@@ -21,7 +21,9 @@ import scala.annotation.tailrec
  * @tparam A the Quantity Type
  */
 case class QuantityRange[A <: Quantity[A]](lower: A, upper: A) {
-  if (lower >= upper) throw new IllegalArgumentException("QuantityRange upper bound must be greater than or equal to the lower bound")
+  if (lower >= upper) {
+    throw new IllegalArgumentException("QuantityRange upper bound must be strictly greater than to the lower bound")
+  }
 
   /**
    * Create a Seq of `multiple` ranges equal in size to the original with sequential range values
@@ -183,7 +185,7 @@ case class QuantityRange[A <: Quantity[A]](lower: A, upper: A) {
    * @param that Quantity
    * @return
    */
-  def inc(that: A) = QuantityRange(lower + that, upper + that)
+  def inc(that: A) = QuantityRange(this.lower + that, this.upper + that)
   /** int */
   def ++(that: A) = inc(that)
 
@@ -200,7 +202,7 @@ case class QuantityRange[A <: Quantity[A]](lower: A, upper: A) {
    * @param that Quantity
    * @return
    */
-  def dec(that: A) = QuantityRange(lower - that, upper - that)
+  def dec(that: A) = QuantityRange(this.lower - that, this.upper - that)
   /** dec */
   def --(that: A) = dec(that)
 
@@ -209,11 +211,11 @@ case class QuantityRange[A <: Quantity[A]](lower: A, upper: A) {
    * @param that Quantity
    * @return
    */
-  def incTo(that: A) = QuantityRange(lower, upper + that)
+  def incTo(that: A) = QuantityRange(this.lower, this.upper + that)
   /** incTo */
   def =+(that: A) = incTo(that)
 
-  def decTo(that: A) = QuantityRange(lower, upper - that)
+  def decTo(that: A) = QuantityRange(this.lower, this.upper - that)
   /** decTo */
   def =-(that: A) = decTo(that)
 
@@ -222,7 +224,7 @@ case class QuantityRange[A <: Quantity[A]](lower: A, upper: A) {
    * @param that Quantity
    * @return
    */
-  def incFrom(that: A) = QuantityRange(lower + that, upper)
+  def incFrom(that: A) = QuantityRange(this.lower + that, this.upper)
   /** incFrom */
   def +=(that: A) = incFrom(that)
 
@@ -231,7 +233,7 @@ case class QuantityRange[A <: Quantity[A]](lower: A, upper: A) {
    * @param that Quantity
    * @return
    */
-  def decFrom(that: A) = QuantityRange(lower - that, upper)
+  def decFrom(that: A) = QuantityRange(this.lower - that, this.upper)
   /** decFrom */
   def -=(that: A) = decFrom(that)
 
@@ -240,7 +242,7 @@ case class QuantityRange[A <: Quantity[A]](lower: A, upper: A) {
    * @param that Quantity
    * @return
    */
-  def decFromIncTo(that: A) = QuantityRange(lower - that, upper + that)
+  def decFromIncTo(that: A) = QuantityRange(this.lower - that, this.upper + that)
   /** decFromIncTo */
   def -+(that: A) = decFromIncTo(that)
 
@@ -249,12 +251,13 @@ case class QuantityRange[A <: Quantity[A]](lower: A, upper: A) {
    * @param that Quantity
    * @return
    */
-  def incFromDecTo(that: A) = QuantityRange(lower + that, upper - that)
+  def incFromDecTo(that: A) = QuantityRange(this.lower + that, this.upper - that)
   /** incFromDecTo */
   def +-(that: A) = incFromDecTo(that)
 
   /**
-   * Returns true if the quantity is contained within this range, otherwise false
+   * Returns true if the quantity is contained within this range, otherwise false.
+   * This check is *exclusive* of the range's upper limit.
    * @param q Quantity
    * @return
    */
@@ -266,10 +269,10 @@ case class QuantityRange[A <: Quantity[A]](lower: A, upper: A) {
    * @return
    */
   def contains(that: QuantityRange[A]) =
-    that.lower >= lower &&
-      that.lower < upper &&
-      that.upper >= lower &&
-      that.upper < upper
+    that.lower >= this.lower &&
+      that.lower < this.upper &&
+      that.upper >= this.lower &&
+      that.upper < this.upper
 
   /**
    * Returns true if `that` range contains any part that is in `this` range, otherwise false
@@ -279,11 +282,12 @@ case class QuantityRange[A <: Quantity[A]](lower: A, upper: A) {
   def partiallyContains(range: QuantityRange[A]) = range.lower < upper && range.upper > lower
 
   /**
-   * Returns true if `that` quantity is included within `this` range
+   * Returns true if `that` quantity is included within `this` range.
+   * This check is *inclusive* of the range's upper limit.
    * @param q Quantity
    * @return
    */
-  def includes(q: A) = q >= lower && q <= upper
+  def includes(q: A): Boolean = q >= lower && q <= upper
 
   /**
    * Returns true if `that` range is completely included in `this` range, otherwise false
@@ -291,10 +295,10 @@ case class QuantityRange[A <: Quantity[A]](lower: A, upper: A) {
    * @return
    */
   def includes(that: QuantityRange[A]) =
-    that.lower >= lower &&
-      that.lower <= upper &&
-      that.upper >= lower &&
-      that.upper <= upper
+    that.lower >= this.lower &&
+      that.lower <= this.upper &&
+      that.upper >= this.lower &&
+      that.upper <= this.upper
 
   /**
    * Returns true if `that` range includes any part that is in `this` range, otherwise false

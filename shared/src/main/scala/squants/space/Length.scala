@@ -34,27 +34,27 @@ final class Length private (val value: Double, val unit: LengthUnit)
   protected[squants] def time = Seconds(1)
 
   def *(that: Length): Area = unit match {
-    case Centimeters ⇒ SquareCentimeters(value * that.toCentimeters)
-    case Kilometers  ⇒ SquareKilometers(value * that.toKilometers)
-    case UsMiles     ⇒ SquareUsMiles(value * that.toUsMiles)
-    case Yards       ⇒ SquareYards(value * that.toYards)
-    case Feet        ⇒ SquareFeet(value * that.toFeet)
-    case Inches      ⇒ SquareInches(value * that.toInches)
+    case Centimeters ⇒ SquareCentimeters(this.value * that.toCentimeters)
+    case Kilometers  ⇒ SquareKilometers(this.value * that.toKilometers)
+    case UsMiles     ⇒ SquareUsMiles(this.value * that.toUsMiles)
+    case Yards       ⇒ SquareYards(this.value * that.toYards)
+    case Feet        ⇒ SquareFeet(this.value * that.toFeet)
+    case Inches      ⇒ SquareInches(this.value * that.toInches)
     case _           ⇒ SquareMeters(toMeters * that.toMeters)
   }
 
   def *(that: Area): Volume = unit match {
-    case Yards  ⇒ CubicYards(value * that.toSquareYards)
-    case Feet   ⇒ CubicFeet(value * that.toSquareFeet)
-    case Inches ⇒ CubicInches(value * that.toSquareInches)
-    case _      ⇒ CubicMeters(toMeters * that.toSquareMeters)
+    case Yards  ⇒ CubicYards(this.value * that.toSquareYards)
+    case Feet   ⇒ CubicFeet(this.value * that.toSquareFeet)
+    case Inches ⇒ CubicInches(this.value * that.toSquareInches)
+    case _      ⇒ CubicMeters(this.toMeters * that.toSquareMeters)
   }
 
-  def *(that: Force): Energy = Joules(toMeters * that.toNewtons)
-  def *(that: SpectralIntensity): RadiantIntensity = WattsPerSteradian(toMeters * that.toWattsPerSteradianPerMeter)
-  def *(that: SpectralPower): Power = Watts(toMeters * that.toWattsPerMeter)
-  def *(that: Conductivity): ElectricalConductance = Siemens(toMeters * that.toSiemensPerMeter)
-  def *(that: ElectricalResistance): Resistivity = OhmMeters(toMeters * that.toOhms)
+  def *(that: Force): Energy = Joules(this.toMeters * that.toNewtons)
+  def *(that: SpectralIntensity): RadiantIntensity = WattsPerSteradian(this.toMeters * that.toWattsPerSteradianPerMeter)
+  def *(that: SpectralPower): Power = Watts(this.toMeters * that.toWattsPerMeter)
+  def *(that: Conductivity): ElectricalConductance = Siemens(this.toMeters * that.toSiemensPerMeter)
+  def *(that: ElectricalResistance): Resistivity = OhmMeters(this.toMeters * that.toOhms)
 
   def /(that: TimeSquared): Acceleration = this / that.time1 / that.time2
   def /(that: Acceleration): TimeSquared = (this / that.timeIntegrated) * time
