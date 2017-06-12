@@ -29,6 +29,7 @@ object ImplicitDimensions {
     implicit val implicitMagneticFlux: Dimension[MagneticFlux] = MagneticFlux
     implicit val implicitMagneticFluxDensity: Dimension[MagneticFluxDensity] = MagneticFluxDensity
     implicit val implicitResistivity: Dimension[Resistivity] = Resistivity
+    implicit val implicitPermittivity: Dimension[Permittivity] = Permittivity
   }
 
   object energy {
