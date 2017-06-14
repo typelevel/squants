@@ -28,7 +28,7 @@ trait TimeDerivative[A <: Quantity[A] with TimeIntegral[_]] { self: Quantity[_] 
    * @param that Time
    * @return
    */
-  def *(that: Time): A = timeIntegrated * (that / time)
+  def *(that: Time): A = timeIntegrated * (that / this.time)
 }
 
 trait SecondTimeDerivative[A <: SecondTimeIntegral[_]] { self: TimeDerivative[_] ⇒
@@ -55,7 +55,7 @@ trait TimeIntegral[A <: Quantity[A] with TimeDerivative[_]] { self: Quantity[_] 
    * @param that Time
    * @return
    */
-  def /(that: Time): A = timeDerived * (time / that)
+  def /(that: Time): A = this.timeDerived * (this.time / that)
   def per(that: Time): A = /(that)
 
   /**
@@ -64,7 +64,7 @@ trait TimeIntegral[A <: Quantity[A] with TimeDerivative[_]] { self: Quantity[_] 
    * @param that Derivative
    * @return
    */
-  def /(that: A): Time = that.time * (timeDerived / that)
+  def /(that: A): Time = that.time * (this.timeDerived / that)
 
   /**
     * Returns the Time Derivative of this Quantity based on the Frequency this Quantity occurs
@@ -72,7 +72,7 @@ trait TimeIntegral[A <: Quantity[A] with TimeDerivative[_]] { self: Quantity[_] 
     * @param that Frequency - the rate at which this Quantity occurs
     * @return
     */
-  def *(that: Frequency): A = /(time) * (time * that).toEach
+  def *(that: Frequency): A = /(this.time) * (this.time * that).toEach
 }
 
 trait SecondTimeIntegral[A <: SecondTimeDerivative[_]] { self: TimeIntegral[_] ⇒

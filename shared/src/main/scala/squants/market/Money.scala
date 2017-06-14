@@ -92,7 +92,7 @@ final class Money private (val amount: BigDecimal)(val currency: Currency)
    * @throws scala.UnsupportedOperationException when attempted on cross currencies
    */
   override def plus(that: Money): Money = that.currency match {
-    case this.currency ⇒ new Money(amount + that.amount)(currency)
+    case this.currency ⇒ new Money(this.amount + that.amount)(currency)
     case _             ⇒ throw new UnsupportedOperationException("plus not supported for cross-currency comparison - use moneyPlus")
   }
 
@@ -117,7 +117,7 @@ final class Money private (val amount: BigDecimal)(val currency: Currency)
    * @throws scala.UnsupportedOperationException when attempted on cross currencies
    */
   override def minus(that: Money): Money = that.currency match {
-    case this.currency ⇒ new Money(amount - that.amount)(currency)
+    case this.currency ⇒ new Money(this.amount - that.amount)(currency)
     case _             ⇒ throw new UnsupportedOperationException("minus not supported for cross-currency comparison - use moneyMinus")
   }
 
@@ -197,7 +197,7 @@ final class Money private (val amount: BigDecimal)(val currency: Currency)
    * @return Double
    */
   override def divide(that: Money): Double = that.currency match {
-    case this.currency ⇒ (amount / that.amount).toDouble
+    case this.currency ⇒ (this.amount / that.amount).toDouble
     case _             ⇒ throw new UnsupportedOperationException("divide not supported for cross-currency comparison - use moneyDivide")
   }
 
@@ -421,6 +421,8 @@ object SEK extends Currency("SEK", "Swedish Kroner", "kr", 2)
 object XAG extends Currency("XAG", "Silver", "oz", 4)
 object XAU extends Currency("XAU", "Gold", "oz", 4)
 object BTC extends Currency("BTC", "BitCoin", "B", 15)
+object ETH extends Currency("ETH", "Ether", "\u039e", 15)
+object LTC extends Currency("LTC", "Litecoin", "\u0141", 15)
 
 /**
  * Support for Money DSL
@@ -456,6 +458,10 @@ object MoneyConversions {
     def NZD = Money(n, squants.market.NZD)
     def BTC = Money(n, squants.market.BTC)
     def bitCoin = BTC
+    def ETH = Money(n, squants.market.ETH)
+    def ether = ETH
+    def LTC = Money(n, squants.market.LTC)
+    def liteCoin = LTC
   }
 
   class MoneyNumeric()(implicit mc: MoneyContext) extends Numeric[Money] {

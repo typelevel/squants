@@ -23,8 +23,8 @@ final class SpectralPower private (val value: Double, val unit: SpectralPowerUni
 
   def dimension = SpectralPower
 
-  def *(that: Length): Power = Watts(toWattsPerMeter * that.toMeters)
-  def /(that: Power): Length = Meters(toWattsPerMeter / that.toWatts)
+  def *(that: Length): Power = Watts(this.toWattsPerMeter * that.toMeters)
+  def /(that: Power): Length = Meters(this.toWattsPerMeter / that.toWatts)
 
   def toWattsPerMeter = value
 }

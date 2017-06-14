@@ -75,10 +75,10 @@ final class Temperature private (val value: Double, val unit: TemperatureScale)
 
   def dimension = Temperature
 
-  override def plus(that: Temperature): Temperature = Temperature(value + that.convert(unit, withOffset = false).value, unit)
-  override def minus(that: Temperature): Temperature = Temperature(value - that.convert(unit, withOffset = false).value, unit)
+  override def plus(that: Temperature): Temperature = Temperature(this.value + that.convert(unit, withOffset = false).value, unit)
+  override def minus(that: Temperature): Temperature = Temperature(this.value - that.convert(unit, withOffset = false).value, unit)
 
-  def *(that: ThermalCapacity) = Joules(toKelvinScale * that.toJoulesPerKelvin)
+  def *(that: ThermalCapacity) = Joules(this.toKelvinScale * that.toJoulesPerKelvin)
 
   override def toString: String = crossFormat(value) + unit.symbol
   def toString(unit: TemperatureScale): String = in(unit).toString
@@ -141,7 +141,7 @@ object Temperature extends Dimension[Temperature] with BaseDimension {
   def apply[A](n: A, scale: TemperatureScale)(implicit num: Numeric[A]) = new Temperature(num.toDouble(n), scale)
 
   def apply(s: String): Try[Temperature] = {
-    val regex = "([-+]?[0-9]*\\.?[0-9]+(?:[eE][-+]?[0-9]+)?)* *°? *(f|F|c|C|k|K|r|R)".r
+    val regex = "([-+]?[0-9]*\\.?[0-9]+(?:[eE][-+]?[0-9]+)?) *°? *(f|F|c|C|k|K|r|R)".r
     s match {
       case regex(value, unit) => unit match {
         case "f" | "F" => Success(Fahrenheit(value.toDouble))

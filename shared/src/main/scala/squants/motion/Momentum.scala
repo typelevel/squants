@@ -28,8 +28,8 @@ final class Momentum private (val value: Double, val unit: MomentumUnit)
   protected def timeDerived = Newtons(toNewtonSeconds)
   protected def time = Seconds(1)
 
-  def /(that: Velocity): Mass = Kilograms(toNewtonSeconds / that.toMetersPerSecond)
-  def /(that: Mass): Velocity = MetersPerSecond(toNewtonSeconds / that.toKilograms)
+  def /(that: Velocity): Mass = Kilograms(this.toNewtonSeconds / that.toMetersPerSecond)
+  def /(that: Mass): Velocity = MetersPerSecond(this.toNewtonSeconds / that.toKilograms)
 
   def /(that: TimeSquared): Yank = this / that.time1 / that.time2
   def /(that: Yank): TimeSquared = (this / that.timeIntegrated) * time

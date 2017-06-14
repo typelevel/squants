@@ -23,8 +23,8 @@ final class SpectralIntensity private (val value: Double, val unit: SpectralInte
 
   def dimension = SpectralIntensity
 
-  def *(that: Length): RadiantIntensity = WattsPerSteradian(toWattsPerSteradianPerMeter * that.toMeters)
-  def /(that: RadiantIntensity): Length = Meters(toWattsPerSteradianPerMeter / that.toWattsPerSteradian)
+  def *(that: Length): RadiantIntensity = WattsPerSteradian(this.toWattsPerSteradianPerMeter * that.toMeters)
+  def /(that: RadiantIntensity): Length = Meters(this.toWattsPerSteradianPerMeter / that.toWattsPerSteradian)
 
   def toWattsPerSteradianPerMeter = to(WattsPerSteradianPerMeter)
 }

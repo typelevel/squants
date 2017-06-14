@@ -21,7 +21,7 @@ final class AreaDensity private (val value: Double, val unit: AreaDensityUnit)
 
   def dimension = AreaDensity
 
-  def *(that: Area): Mass = Kilograms(toKilogramsPerSquareMeter * that.toSquareMeters)
+  def *(that: Area): Mass = Kilograms(this.toKilogramsPerSquareMeter * that.toSquareMeters)
 
   def toKilogramsPerSquareMeter = to(KilogramsPerSquareMeter)
   def toGramsPerSquareCentimeter = to(GramsPerSquareCentimeter)

@@ -23,8 +23,8 @@ final class Radiance private (val value: Double, val unit: RadianceUnit)
 
   def dimension = Radiance
 
-  def *(that: Area): RadiantIntensity = WattsPerSteradian(toWattsPerSteradianPerSquareMeter * that.toSquareMeters)
-  def /(that: RadiantIntensity): Area = SquareMeters(toWattsPerSteradianPerSquareMeter / that.toWattsPerSteradian)
+  def *(that: Area): RadiantIntensity = WattsPerSteradian(this.toWattsPerSteradianPerSquareMeter * that.toSquareMeters)
+  def /(that: RadiantIntensity): Area = SquareMeters(this.toWattsPerSteradianPerSquareMeter / that.toWattsPerSteradian)
 
   def toWattsPerSteradianPerSquareMeter = to(WattsPerSteradianPerSquareMeter)
 }

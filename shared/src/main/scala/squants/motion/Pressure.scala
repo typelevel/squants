@@ -27,7 +27,7 @@ final class Pressure private (val value: Double, val unit: PressureUnit)
   override protected def timeDerived: PressureChange = PascalsPerSecond(toPascals)
   override protected def time: Time = Seconds(1)
 
-  def *(that: Area): Force = Newtons(toPascals * that.toSquareMeters)
+  def *(that: Area): Force = Newtons(this.toPascals * that.toSquareMeters)
   def *(that: Time) = ??? // returns DynamicViscosity
 
   def toPascals: Double              = to(Pascals)

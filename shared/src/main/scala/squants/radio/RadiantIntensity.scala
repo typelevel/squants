@@ -23,11 +23,11 @@ final class RadiantIntensity private (val value: Double, val unit: RadiantIntens
 
   def dimension = RadiantIntensity
 
-  def *(that: SolidAngle): Power = Watts(toWattsPerSteradian * that.toSquaredRadians)
-  def /(that: Power): SolidAngle = SquareRadians(toWattsPerSteradian / that.toWatts)
-  def /(that: Length): SpectralIntensity = WattsPerSteradianPerMeter(toWattsPerSteradian / that.toMeters)
-  def /(that: SpectralIntensity): Length = Meters(toWattsPerSteradian / that.toWattsPerSteradianPerMeter)
-  def /(that: Area): Radiance = WattsPerSteradianPerSquareMeter(toWattsPerSteradian / that.toSquareMeters)
+  def *(that: SolidAngle): Power = Watts(this.toWattsPerSteradian * that.toSquaredRadians)
+  def /(that: Power): SolidAngle = SquareRadians(this.toWattsPerSteradian / that.toWatts)
+  def /(that: Length): SpectralIntensity = WattsPerSteradianPerMeter(this.toWattsPerSteradian / that.toMeters)
+  def /(that: SpectralIntensity): Length = Meters(this.toWattsPerSteradian / that.toWattsPerSteradianPerMeter)
+  def /(that: Area): Radiance = WattsPerSteradianPerSquareMeter(this.toWattsPerSteradian / that.toSquareMeters)
   def /(that: Radiance): Area = SquareMeters(this.toWattsPerSteradian / that.toWattsPerSteradianPerSquareMeter)
 
   def toWattsPerSteradian = to(WattsPerSteradian)
