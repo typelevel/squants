@@ -18,8 +18,7 @@ import org.scalacheck.Gen
 trait QuantityChecks {
 
   type TestData = Int
-  val posNum = Gen.posNum[TestData]
+  val posNum: Gen[TestData] = Gen.posNum[TestData]
   val tol = 1e-13
   implicit val tolTime = Seconds(tol)
-
 }
