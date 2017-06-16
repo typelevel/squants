@@ -33,8 +33,8 @@ final class ElectricCurrent private (val value: Double, val unit: ElectricCurren
   def *(that: ElectricPotential): Power = Watts(this.toAmperes * that.toVolts)
   def *(that: Inductance): MagneticFlux = Webers(this.toAmperes * that.toHenry)
   def /(that: ElectricPotential): ElectricalConductance = Siemens(this.toAmperes / that.toVolts)
-  def /(that: Length) = ??? // returns MagneticFieldStrength
-  def /(that: Area) = ??? // returns ElectricCurrentDensity
+  def /(that: Length): MagneticFieldStrength = AmperesPerMeter(this.toAmperes / that.toMeters)
+  def /(that: Area): ElectricCurrentDensity = AmperesPerSquareMeter(this.toAmperes / that.toSquareMeters)
 
   def toAmperes = to(Amperes)
   def toMilliamperes = to(Milliamperes)
