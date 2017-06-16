@@ -22,7 +22,7 @@ final class Capacitance private (val value: Double, val unit: CapacitanceUnit)
   def dimension = Capacitance
 
   def *(that: ElectricPotential): ElectricCharge = Coulombs(this.toFarads * that.toVolts)
-  def /(that: Length): Permittivity = FaradsMeters(this.toFarads / that.toMeters)
+  def /(that: Length): Permittivity = FaradsPerMeter(this.toFarads / that.toMeters)
 
   def toFarads = to(Farads)
   def toPicofarads = to(Picofarads)
