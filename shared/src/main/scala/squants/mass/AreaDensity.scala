@@ -26,6 +26,7 @@ final class AreaDensity private (val value: Double, val unit: AreaDensityUnit)
   def toKilogramsPerSquareMeter = to(KilogramsPerSquareMeter)
   def toGramsPerSquareCentimeter = to(GramsPerSquareCentimeter)
   def toKilogramsPerHectare = to(KilogramsPerHectare)
+  def toPoundsPerAcre = to(PoundsPerAcre)
 }
 
 /**
@@ -57,6 +58,12 @@ object KilogramsPerHectare extends AreaDensityUnit with UnitConverter {
 object GramsPerSquareCentimeter extends AreaDensityUnit with UnitConverter with SiUnit {
   val symbol = "g/cm²"
   val conversionFactor = (100*100d)/1000d
+}
+
+object PoundsPerAcre extends AreaDensityUnit with UnitConverter {
+  val symbol = "lbs/acre"
+  // see http://www.kylesconverter.com/area-density/pounds-per-acre-to-kilograms-per-hectare
+  val conversionFactor = 0.8921791216197014
 }
 
 object AreaDensityConversions {
