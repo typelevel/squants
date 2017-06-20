@@ -9,6 +9,7 @@
 package squants.mass
 
 import squants._
+import squants.space.{Acres, SquareMeters}
 
 /**
  * @author  garyKeorkunian
@@ -39,7 +40,7 @@ object AreaDensity extends Dimension[AreaDensity] {
   def name = "AreaDensity"
   def primaryUnit = KilogramsPerSquareMeter
   def siUnit = KilogramsPerSquareMeter
-  def units = Set(KilogramsPerSquareMeter, KilogramsPerHectare, GramsPerSquareCentimeter)
+  def units = Set(KilogramsPerSquareMeter, KilogramsPerHectare, GramsPerSquareCentimeter, PoundsPerAcre)
 }
 
 trait AreaDensityUnit extends UnitOfMeasure[AreaDensity] {
@@ -61,15 +62,18 @@ object GramsPerSquareCentimeter extends AreaDensityUnit with UnitConverter with 
 }
 
 object PoundsPerAcre extends AreaDensityUnit with UnitConverter {
-  val symbol = "lbs/acre"
-  // see http://www.kylesconverter.com/area-density/pounds-per-acre-to-kilograms-per-hectare
-  val conversionFactor = 0.8921791216197014
+  val symbol = s"${Pounds.symbol}/${Acres.symbol}"
+  // Base unit is kg/m^2
+  import squants.mass.MassConversions.{pound, kilogram}
+  import squants.space.AreaConversions.{acre, squareMeter}
+  val conversionFactor = (pound/kilogram) / (acre/squareMeter)
 }
 
 object AreaDensityConversions {
   lazy val kilogramPerSquareMeter = KilogramsPerSquareMeter(1)
   lazy val kilogramPerHectare = KilogramsPerHectare(1)
   lazy val gramPerSquareCentimeter = GramsPerSquareCentimeter(1)
+  lazy val poundsPerAcre = PoundsPerAcre(1)
 
   implicit class AreaDensityConversions[A](n: A)(implicit num: Numeric[A]) {
     def kilogramsPerSquareMeter = KilogramsPerSquareMeter(n)
