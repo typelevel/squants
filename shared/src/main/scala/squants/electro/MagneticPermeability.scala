@@ -26,6 +26,8 @@ final class MagneticPermeability private (val value: Double, val unit: MagneticP
 
   def dimension = MagneticPermeability
 
+  def toHenriesPerMeter = to(HenriesPerMeter)
+  def toNewtonsPerAmpereSquared = to(NewtonsPerAmperesSquared)
 }
 
 object MagneticPermeability extends Dimension[MagneticPermeability] {
@@ -50,7 +52,8 @@ object NewtonsPerAmperesSquared extends MagneticPermeabilityUnit with PrimaryUni
 }
 
 object MagneticPermeabilityConversions {
-  lazy val henryPerMeter = HenriesPerMeter(1)
+  lazy val henriesPerMeter = HenriesPerMeter(1)
+  lazy val newtonsPerAmperesSquared = NewtonsPerAmperesSquared(1)
 
   implicit class MagneticPermeabilityConversions[A](n: A)(implicit num: Numeric[A]) {
     def henriesPerMeter = HenriesPerMeter(n)
