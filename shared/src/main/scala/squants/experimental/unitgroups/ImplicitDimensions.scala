@@ -24,6 +24,7 @@ object ImplicitDimensions {
     implicit val implicitElectricalConductance: Dimension[ElectricalConductance] = ElectricalConductance
     implicit val implicitElectricalResistance: Dimension[ElectricalResistance] = ElectricalResistance
     implicit val implicitElectricCharge: Dimension[ElectricCharge] = ElectricCharge
+    implicit val implicitElectricFieldStrength: Dimension[ElectricFieldStrength] = ElectricFieldStrength
     implicit val implicitElectricPotential: Dimension[ElectricPotential] = ElectricPotential
     implicit val implicitInductance: Dimension[Inductance] = Inductance
     implicit val implicitMagneticFlux: Dimension[MagneticFlux] = MagneticFlux
