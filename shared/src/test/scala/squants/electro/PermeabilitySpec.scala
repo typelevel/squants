@@ -16,9 +16,9 @@ import squants.{MetricSystem, QuantityParseException}
  * @since   1.4
  *
  */
-class MagneticPermeabilitySpec extends FlatSpec with Matchers {
+class PermeabilitySpec extends FlatSpec with Matchers {
 
-  behavior of "Magnetic Permeability and its Units of Measure"
+  behavior of "Permeability and its Units of Measure"
 
   it should "create values using UOM factories" in {
     HenriesPerMeter(1).toHenriesPerMeter should be(1)
@@ -26,10 +26,10 @@ class MagneticPermeabilitySpec extends FlatSpec with Matchers {
   }
 
   it should "create values from properly formatted Strings" in {
-    MagneticPermeability("10.22 H/m").get should be(HenriesPerMeter(10.22))
-    MagneticPermeability("10.22 N/A²").get should be(HenriesPerMeter(10.22))
-    MagneticPermeability("10.22 zz").failed.get should be(QuantityParseException("Unable to parse MagneticPermeability", "10.22 zz"))
-    MagneticPermeability("zz H").failed.get should be(QuantityParseException("Unable to parse MagneticPermeability", "zz H"))
+    Permeability("10.22 H/m").get should be(HenriesPerMeter(10.22))
+    Permeability("10.22 N/A²").get should be(HenriesPerMeter(10.22))
+    Permeability("10.22 zz").failed.get should be(QuantityParseException("Unable to parse Permeability", "10.22 zz"))
+    Permeability("zz H").failed.get should be(QuantityParseException("Unable to parse Permeability", "zz H"))
   }
 
   it should "properly convert to all supported Units of Measure" in {
@@ -46,17 +46,17 @@ class MagneticPermeabilitySpec extends FlatSpec with Matchers {
     NewtonsPerAmperesSquared(1).toString(NewtonsPerAmperesSquared) should be("1.0 N/A²")
   }
 
-  behavior of "MagneticPermeabilityConversions"
+  behavior of "PermeabilityConversions"
 
   it should "provide aliases for single unit values" in {
-    import MagneticPermeabilityConversions._
+    import PermeabilityConversions._
 
     henriesPerMeter should be(HenriesPerMeter(1))
     newtonsPerAmperesSquared should be(NewtonsPerAmperesSquared(1))
   }
 
   it should "provide implicit conversion from Double" in {
-    import MagneticPermeabilityConversions._
+    import PermeabilityConversions._
 
     val d = 10d
     d.henriesPerMeter should be(HenriesPerMeter(d))
@@ -64,7 +64,7 @@ class MagneticPermeabilitySpec extends FlatSpec with Matchers {
   }
 
   it should "provide Numeric support" in {
-    import MagneticPermeabilityConversions.MagneticPermeabilityNumeric
+    import PermeabilityConversions.PermeabilityNumeric
 
     val is = List(HenriesPerMeter(100), HenriesPerMeter(10))
     is.sum should be(HenriesPerMeter(110))

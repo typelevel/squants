@@ -12,7 +12,7 @@ import squants._
 import squants.motion.Newtons
 
 /**
- * Quantity and units for Magnetic Permeability
+ * Quantity and units for Permeability
  *
  * https://en.wikipedia.org/wiki/Permeability_(electromagnetism)
  *
@@ -21,44 +21,44 @@ import squants.motion.Newtons
  *
  * @param value value in [[squants.electro.Webers]]
  */
-final class MagneticPermeability private (val value: Double, val unit: MagneticPermeabilityUnit)
-    extends Quantity[MagneticPermeability] {
+final class Permeability private (val value: Double, val unit: PermeabilityUnit)
+    extends Quantity[Permeability] {
 
-  def dimension = MagneticPermeability
+  def dimension = Permeability
 
   def toHenriesPerMeter = to(HenriesPerMeter)
   def toNewtonsPerAmpereSquared = to(NewtonsPerAmperesSquared)
 }
 
-object MagneticPermeability extends Dimension[MagneticPermeability] {
-  private[electro] def apply[A](n: A, unit: MagneticPermeabilityUnit)(implicit num: Numeric[A]) = new MagneticPermeability(num.toDouble(n), unit)
+object Permeability extends Dimension[Permeability] {
+  private[electro] def apply[A](n: A, unit: PermeabilityUnit)(implicit num: Numeric[A]) = new Permeability(num.toDouble(n), unit)
   def apply = parse _
-  def name = "MagneticPermeability"
+  def name = "Permeability"
   def primaryUnit = HenriesPerMeter
   def siUnit = HenriesPerMeter
   def units = Set(HenriesPerMeter, NewtonsPerAmperesSquared)
 }
 
-trait MagneticPermeabilityUnit extends UnitOfMeasure[MagneticPermeability] with UnitConverter {
-  def apply[A](n: A)(implicit num: Numeric[A]) = MagneticPermeability(n, this)
+trait PermeabilityUnit extends UnitOfMeasure[Permeability] with UnitConverter {
+  def apply[A](n: A)(implicit num: Numeric[A]) = Permeability(n, this)
 }
 
-object HenriesPerMeter extends MagneticPermeabilityUnit with PrimaryUnit with SiUnit {
+object HenriesPerMeter extends PermeabilityUnit with PrimaryUnit with SiUnit {
   def symbol = s"${Henry.symbol}/${Meters.symbol}"
 }
 
-object NewtonsPerAmperesSquared extends MagneticPermeabilityUnit with PrimaryUnit with SiUnit {
+object NewtonsPerAmperesSquared extends PermeabilityUnit with PrimaryUnit with SiUnit {
   def symbol = s"${Newtons.symbol}/${Amperes.symbol}²"
 }
 
-object MagneticPermeabilityConversions {
+object PermeabilityConversions {
   lazy val henriesPerMeter = HenriesPerMeter(1)
   lazy val newtonsPerAmperesSquared = NewtonsPerAmperesSquared(1)
 
-  implicit class MagneticPermeabilityConversions[A](n: A)(implicit num: Numeric[A]) {
+  implicit class PermeabilityConversions[A](n: A)(implicit num: Numeric[A]) {
     def henriesPerMeter = HenriesPerMeter(n)
     def newtonsPerAmperesSquared = NewtonsPerAmperesSquared(n)
   }
 
-  implicit object MagneticPermeabilityNumeric extends AbstractQuantityNumeric[MagneticPermeability](MagneticPermeability.primaryUnit)
+  implicit object PermeabilityNumeric extends AbstractQuantityNumeric[Permeability](Permeability.primaryUnit)
 }
