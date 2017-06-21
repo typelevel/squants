@@ -19,12 +19,12 @@ import squants.motion.Newtons
  * @author  cquiroz
  * @since   1.4
  *
- * @param value value in [[squants.electro.Webers]]
+ * @param value value in [[squants.electro.HenriesPerMeter]]
  */
 final class Permeability private (val value: Double, val unit: PermeabilityUnit)
     extends Quantity[Permeability] {
 
-  def dimension = Permeability
+  val dimension = Permeability
 
   def toHenriesPerMeter = to(HenriesPerMeter)
   def toNewtonsPerAmpereSquared = to(NewtonsPerAmperesSquared)
@@ -32,11 +32,11 @@ final class Permeability private (val value: Double, val unit: PermeabilityUnit)
 
 object Permeability extends Dimension[Permeability] {
   private[electro] def apply[A](n: A, unit: PermeabilityUnit)(implicit num: Numeric[A]) = new Permeability(num.toDouble(n), unit)
-  def apply = parse _
-  def name = "Permeability"
-  def primaryUnit = HenriesPerMeter
-  def siUnit = HenriesPerMeter
-  def units = Set(HenriesPerMeter, NewtonsPerAmperesSquared)
+  val apply = parse _
+  val name = "Permeability"
+  val primaryUnit = HenriesPerMeter
+  val siUnit = HenriesPerMeter
+  val units = Set[UnitOfMeasure[Permeability]](HenriesPerMeter, NewtonsPerAmperesSquared)
 }
 
 trait PermeabilityUnit extends UnitOfMeasure[Permeability] with UnitConverter {
@@ -44,11 +44,11 @@ trait PermeabilityUnit extends UnitOfMeasure[Permeability] with UnitConverter {
 }
 
 object HenriesPerMeter extends PermeabilityUnit with PrimaryUnit with SiUnit {
-  def symbol = s"${Henry.symbol}/${Meters.symbol}"
+  val symbol = s"${Henry.symbol}/${Meters.symbol}"
 }
 
 object NewtonsPerAmperesSquared extends PermeabilityUnit with PrimaryUnit with SiUnit {
-  def symbol = s"${Newtons.symbol}/${Amperes.symbol}²"
+  val symbol = s"${Newtons.symbol}/${Amperes.symbol}²"
 }
 
 object PermeabilityConversions {
