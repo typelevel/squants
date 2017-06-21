@@ -1,59 +1,74 @@
+# Squants
+
+**The Scala API for Quantities, Units of Measure and Dimensional Analysis**
+
 Squants is a framework of data types and a domain specific language (DSL) for representing Quantities,
 their Units of Measure, and their Dimensional relationships.
 The API supports typesafe dimensional analysis, improved domain models and more.
 All types are immutable and thread-safe.
 
-[GitHub](https://github.com/garyKeorkunian/squants)
+[GitHub](https://github.com/typelevel/squants)
 |
-[User Forum](https://groups.google.com/forum/#!forum/squants)
+[Wiki](https://github.com/typelevel/squants/wiki)
 |
-[Wiki](https://github.com/garyKeorkunian/squants/wiki)
+[![Join the chat at https://gitter.im/typelevel/squants](https://badges.gitter.im/typelevel/squants.svg)](https://gitter.im/typelevel/squants?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 |
-[Gitter](https://gitter.im/garyKeorkunian/squants)
+[![Scaladocs](https://www.javadoc.io/badge/org.typelevel/squants_2.12.svg?label=scaladoc)](https://static.javadoc.io/org.typelevel/squants_2.12/1.2.0/squants/index.html)
+|
+[![Build Status](https://travis-ci.org/typelevel/squants.png?branch=master)](https://travis-ci.org/typelevel/squants)
+
 
 ### Current Versions
-Current Release: **0.6.2**
-([API Docs](https://oss.sonatype.org/service/local/repositories/releases/archive/com/squants/squants_2.11/0.6.2/squants_2.11-0.6.2-javadoc.jar/!/index.html#squants.package))
+Current Release: **1.3.0**
+([API Docs](https://oss.sonatype.org/service/local/repositories/releases/archive/org/typelevel/squants_2.11/1.3.0/squants_2.11-1.3.0-javadoc.jar/!/index.html#squants.package))
 
-Development Build: **0.7.1-SNAPSHOT**
-([API Docs](https://oss.sonatype.org/service/local/repositories/snapshots/archive/com/squants/squants_2.11/0.7.1-SNAPSHOT/squants_2.11-0.7.1-SNAPSHOT-javadoc.jar/!/index.html#squants.package))
+Development Build: **1.4.0-SNAPSHOT**
+([API Docs](https://oss.sonatype.org/service/local/repositories/snapshots/archive/org/typelevel/squants_2.11/1.4.0-SNAPSHOT/squants_2.11-1.4.0-SNAPSHOT-javadoc.jar/!/index.html#squants.package))
 
-[Release History](https://github.com/garyKeorkunian/squants/wiki/Release-History)
+[Release History](https://github.com/typelevel/squants/wiki/Release-History)
 
-[![Build Status](https://travis-ci.org/garyKeorkunian/squants.png?branch=master)](https://travis-ci.org/garyKeorkunian/squants)
+Build services provided by [Travis CI](https://travis-ci.com/)
 
-Build services provided by [Travis CI](https://travis-ci.com/) 
-
-NOTE - This README reflects the feature set in the branch it can be found.  
-For more information on feature availability of a specific version see the Release History or the README for a that version 
+NOTE - This README reflects the feature set in the branch it can be found.
+For more information on feature availability of a specific version see the Release History or the README for a that version
 
 ## Installation
 Repository hosting for Squants is provided by [Sonatype](https://oss.sonatype.org/).
 To use Squants in your SBT project add the following dependency to your build.
 
-    "com.squants"  %% "squants"  % "0.6.2"
+    "org.typelevel"  %% "squants"  % "1.3.0"
 or
 
-    "com.squants"  %% "squants"  % "0.7.1-SNAPSHOT"
+    "org.typelevel"  %% "squants"  % "1.4.0-SNAPSHOT"
 
 
 To use Squants in your Maven project add the following dependency
 
 ```xml
 <dependency>
-    <groupId>com.squants</groupId>
+    <groupId>org.typelevel</groupId>
     <artifactId>squants_2.11</artifactId>
-    <version>0.6.2</version>
+    <version>1.3.0</version>
 </dependency>
 ```
 
 Beginning with Squants 0.4.x series, both Scala 2.10 and 2.11 builds are available.
+Beginning with Squants 1.x series, Scala 2.10, 2.11 and 2.12 builds are available.
 
 To use Squants interactively in the Scala REPL, clone the git repo and run `sbt squantsJVM/console`
 
-    git clone https://github.com/garyKeorkunian/squants
+    git clone https://github.com/typelevel/squants
     cd squants
     sbt squantsJVM/console
+
+## Third-party integrations
+
+This is an incomplete list of third-party libraries that support squants:
+
+* [PureConfig](https://github.com/melrief/pureconfig/)
+* [Ciris](https://cir.is/)
+
+If your library isn't listed here, please open a PR to add it!
 
 ## Type Safe Dimensional Analysis
 *The Trouble with Doubles*
@@ -70,15 +85,20 @@ or produced, that is, Power is the first time derivative of Energy.
 
 *Power = Energy / Time*
 
-Consider the following code
+Consider the following code:
 
 ```scala
-val loadKw = 1.2                    // Double: 1.2
-val energyMwh = 24.2                // Double: 24.2        
-val sumKw = loadKw + energyMwh      // Double: 25.4
+scala> val loadKw = 1.2
+loadKw: Double = 1.2
+
+scala> val energyMwh = 24.2
+energyMwh: Double = 24.2
+
+scala> val sumKw = loadKw + energyMwh
+sumKw: Double = 25.4
 ```
 
-which not only adds quantities of different dimensions (Power vs Energy),
+This example not only adds quantities of different dimensions (Power vs Energy),
 it also fails to convert the scales implied in the val names (Mega vs Kilo).
 Because this code compiles, detection of these errors is pushed further into the development cycle.
 
@@ -87,63 +107,115 @@ Because this code compiles, detection of these errors is pushed further into the
 _Only quantities with the same dimensions may be compared, equated, added, or subtracted._
 
 Squants helps prevent errors like these by type checking operations at compile time and
-automatically applying scale and type conversions at run-time.  For example,
+automatically applying scale and type conversions at run-time.  For example:
 
 ```scala
-val load1: Power = Kilowatts(12)        // returns Power(12, Kilowatts) or 12 kW
-val load2: Power = Megawatts(0.023)     // Power: 0.023 MW
-val sum = load1 + load2                 // Power: 35 kW - unit on left side is preserved
-sum should be(Kilowatts(35))            
-sum should be(Megawatts(0.035))         // comparisons automatically convert scale 
+scala> import squants.energy.{Kilowatts, Megawatts, Power}
+import squants.energy.{Kilowatts, Megawatts, Power}
+
+scala> val load1: Power = Kilowatts(12)
+load1: squants.energy.Power = 12.0 kW
+
+scala> val load2: Power = Megawatts(0.023)
+load2: squants.energy.Power = 0.023 MW
+
+scala> val sum = load1 + load2
+sum: squants.energy.Power = 35.0 kW
+
+scala> sum == Kilowatts(35)
+res0: Boolean = true
+
+scala> sum == Megawatts(0.035) // comparisions automatically convert scale
+res1: Boolean = true
 ```
 
-works because Kilowatts and Megawatts are both units of Power.  Only the scale is
+The above sample works because Kilowatts and Megawatts are both units of Power.  Only the scale is
 different and the library applies an appropriate conversion.  Also, notice that keeping track of
-the scale within the value name is no longer needed.
+the scale within the value name is no longer needed:
 
 ```scala
-val load: Power = Kilowatts(1.2)            // Power: 1.2 kW
-val energy: Energy = KilowattHours(23.0)    // Energy: 23 kWH
-val sum = load + energy                     // Invalid operation - does not compile
+scala> import squants.energy.{Energy, Power, Kilowatts, KilowattHours}
+import squants.energy.{Energy, Power, Kilowatts, KilowattHours}
+
+scala> val load: Power = Kilowatts(1.2)
+load: squants.energy.Power = 1.2 kW
+
+scala> val energy: Energy = KilowattHours(23.0)
+energy: squants.energy.Energy = 23.0 kWh
 ```
-The unsupported operation in this expression prevents the code from compiling,
-catching the error made when using Double in the example above.
+
+Invalid operations, like adding power and energy, no longer compile:
+```scala
+scala> val sum = load + energy
+<console>:16: error: type mismatch;
+ found   : squants.energy.Energy
+ required: squants.energy.Power
+       val sum = load + energy
+                        ^
+```
+By using stronger types, we catch the error earlier in the development cycle, preventing the error made when using Double in the example above.
 
 ### Dimensionally Correct Type Conversions
 
 _One may take quantities with different dimensions, and multiply or divide them._
 
 Dimensionally correct type conversions are a key feature of Squants.
-Conversions are implemented by defining relationships between Quantity types using the * and / operators.
+Conversions are implemented by defining relationships between Quantity types using the `*` and `/` operators.
 
-The following code demonstrates creating ratio between two quantities of the same dimension, 
+Code samples in this section assume these imports:
+```scala
+import squants.energy.{Kilowatts, Power}
+import squants.time.{Hours, Days}
+```
+
+The following code demonstrates creating ratio between two quantities of the same dimension,
 resulting in a dimensionless value:
 
 ```scala
-val ratio = Days(1) / Hours(3)  // Double: 8.0
+scala> val ratio = Days(1) / Hours(3)
+ratio: Double = 8.0
 ```
 
 This code demonstrates use of the `Power.*` method that takes a `Time` and returns an `Energy`:
 
 ```scala
-val load = Kilowatts(1.2)                   // Power: 1.2 kW
-val time = Hours(2)                         // Time: 2 h
-val energyUsed = load * time                // Energy: 2.4 kWh
+scala> val load = Kilowatts(1.2)
+load: squants.energy.Power = 1.2 kW
+
+scala> val time = Hours(2)
+time: squants.time.Time = 2.0 h
+
+scala> val energyUsed = load * time
+energyUsed: squants.energy.Energy = 2400.0 Wh
 ```
 
 This code demonstrates use of the `Energy./` method that takes a `Time` and returns a `Power`:
 
 ```scala
-val aveLoad: Power = energyUsed / time      // Power: 1.2 kW
+scala> val aveLoad: Power = energyUsed / time
+aveLoad: squants.energy.Power = 1200.0 W
 ```
 
 ### Unit Conversions
 
+Code samples in this section assume these imports:
+```scala
+import scala.language.postfixOps
+import squants.energy.{Gigawatts, Kilowatts, Power, Megawatts}
+import squants.mass.MassConversions._
+import squants.mass.{Kilograms, Pounds}
+import squants.thermal.TemperatureConversions._
+import squants.thermal.Fahrenheit
+```
+
 Quantity values are based in the units used to create them.
 
 ```scala
-val loadA: Power = Kilowatts(1200)  // Power: 1200.0 kW
-val loadB: Power = Megawatts(1200)  // Power: 1200.0 MW
+scala> val loadA: Power = Kilowatts(1200)
+loadA: squants.energy.Power = 1200.0 kW
+
+scala> val loadB: Power = Megawatts(1200)
+loadB: squants.energy.Power = 1200.0 MW
 ```
 
 Since Squants properly equates values of a like dimension, regardless of the unit,
@@ -155,30 +227,47 @@ However, there are times when you may need to set a Quantity value to a specific
 When necessary, a quantity can be converted to another unit using the `in` method.
 
 ```scala
-val loadA = Kilowatts(1200)    // Power: 1200.0 kW
-val loadB = loadA in Megawatts // Power: 1.2 MW
-val loadC = loadA in Gigawatts // Power: 0.0012 GW
+scala> val loadA = Kilowatts(1200)
+loadA: squants.energy.Power = 1200.0 kW
+
+scala> val loadB = loadA in Megawatts
+loadB: squants.energy.Power = 1.2 MW
+
+scala> val loadC = loadA in Gigawatts
+loadC: squants.energy.Power = 0.0012 GW
 ```
 
 Sometimes you need to get the numeric value of the quantity in a specific unit
-(eg, for submission to an external service that requires a numeric in a specified unit 
+(eg, for submission to an external service that requires a numeric in a specified unit
 or to perform analysis beyond Squant's domain)
 
 When necessary, the value can be extracted in the desired unit with the `to` method.
 
 ```scala
-val load: Power = Kilowatts(1200)
-val kw: Double = load to Kilowatts // Double: 1200.0
-val mw: Double = load to Megawatts // Double: 1.2
-val gw: Double = load to Gigawatts // Double: 0.0012
+scala> val load: Power = Kilowatts(1200)
+load: squants.energy.Power = 1200.0 kW
+
+scala> val kw: Double = load to Kilowatts
+kw: Double = 1200.0
+
+scala> val mw: Double = load to Megawatts
+mw: Double = 1.2
+
+scala> val gw: Double = load to Gigawatts
+gw: Double = 0.0012
 ```
 
 Most types include methods with convenient aliases for the `to` methods.
 
 ```scala
-val kw: Double = load toKilowatts // Double: 1200.0
-val mw: Double = load toMegawatts // Double: 1.20
-val gw: Double = load toGigawatts // Double: 0.0012
+scala> val kw: Double = load toKilowatts
+kw: Double = 1200.0
+
+scala> val mw: Double = load toMegawatts
+mw: Double = 1.2
+
+scala> val gw: Double = load toGigawatts
+gw: Double = 0.0012
 ```
 
 NOTE - It is important to use the `to` method for extracting the numeric value,
@@ -189,18 +278,30 @@ To prevent improper usage, direct access to the `Quantity.value` field may be de
 Creating strings formatted in the desired unit:
 
 ```scala
-val kw: String = load toString Kilowatts // String: “1200.0 kW”
-val mw: String = load toString Megawatts // String: “1.2 MW”
-val gw: String = load toString Gigawatts // String: “0.0012 GW”
+scala> val kw: String = load toString Kilowatts
+kw: String = 1200.0 kW
+
+scala> val mw: String = load toString Megawatts
+mw: String = 1.2 MW
+
+scala> val gw: String = load toString Gigawatts
+gw: String = 0.0012 GW
 ```
 
-Creating Tuple2(Double, String) that includes a numeric value and unit symbol:
+Creating `Tuple2[Double, String]` that includes a numeric value and unit symbol:
 
 ```scala
-val load: Power = Kilowatts(1200)
-val kw: Tuple2 = load toTuple               // Tuple2: (1200, "kW")
-val mw: Tuple2 = load toTuple Megawatts     // Tuple2: (1.2, "MW)
-val gw: Tuple2 = load toTuple Gigawatts     // Tuple2: (0.0012, "GW")
+scala> val load: Power = Kilowatts(1200)
+load: squants.energy.Power = 1200.0 kW
+
+scala> val kw = load toTuple
+kw: (Double, String) = (1200.0,kW)
+
+scala> val mw = load toTuple Megawatts
+mw: (Double, String) = (1.2,MW)
+
+scala> val gw = load toTuple Gigawatts
+gw: (Double, String) = (0.0012,GW)
 ```
 
 This can be useful for passing properly scaled quantities to other processes
@@ -209,38 +310,69 @@ that do not use Squants, or require use of more basic types (Double, String)
 Simple console based conversions (using DSL described below)
 
 ```scala
-1.kilograms to Pounds       // Double: 2.2046226218487757 
-kilogram / pound            // Double: 2.2046226218487757
- 
-2.1.pounds to Kilograms     // Double: 0.952543977 
-2.1.pounds / kilogram       // Double: 0.952543977
+scala> 1.kilograms to Pounds
+res0: Double = 2.2046226218487757
 
-100.C to Fahrenheit         // Double: 212.0
+scala> kilogram / pound
+res1: Double = 2.2046226218487757
+
+scala> 2.1.pounds to Kilograms
+res2: Double = 0.952543977
+
+scala> 2.1.pounds / kilogram
+res3: Double = 0.9525439770000002
+
+scala> 100.C to Fahrenheit
+res4: Double = 212.0
 ```
 
 ### Mapping over Quantity values
 Apply a `Double => Double` operation to the underlying value of a quantity, while preserving its type and unit.
 
 ```scala
-val load = Kilowatts(2.0)                   // 2.0 kW
-val newLoad = load.map(v => v * 2 + 10)     // Power: 14.0 kW
+scala> import squants.energy.Kilowatts
+import squants.energy.Kilowatts
+
+scala> val load = Kilowatts(2.0)
+load: squants.energy.Power = 2.0 kW
+
+scala> val newLoad = load.map(v => v * 2 + 10)
+newLoad: squants.energy.Power = 14.0 kW
 ```
 
-The q.map(f) method effectively expands to q.unit(f(q.to(q.unit))
+The `q.map(f)` method effectively expands to `q.unit(f(q.to(q.unit))`
+
+NOTE - For Money objects, use the `mapAmount` method as this will retain the BigDecimal precision used there.
 
 ### Approximations
 Create an implicit Quantity value to be used as a tolerance in approximations.
 Then use the `approx` method (or `=~`, `~=`, `≈` operators) like you would use the `equals` method (`==` operator).
 
 ```scala
-implicit val tolerance = Watts(.1)      // implicit Power: 0.1 W 
-val load = Kilowatts(2.0)               // Power: 2.0 kW
-val reading = Kilowatts(1.9999)         // Power: 1.9999 kW
+scala> import squants.energy.{Kilowatts, Watts}
+import squants.energy.{Kilowatts, Watts}
 
- // uses implicit tolerance
-load =~ reading should be(true)
-load ≈ reading should be(true)
-load approx reading should be(true)
+scala> val load = Kilowatts(2.0)
+load: squants.energy.Power = 2.0 kW
+
+scala> val reading = Kilowatts(1.9999)
+reading: squants.energy.Power = 1.9999 kW
+```
+
+Calls to `approx` (and its symbolic aliases) use an implicit tolerance:
+
+```scala
+scala> implicit val tolerance = Watts(.1)
+tolerance: squants.energy.Power = 0.1 W
+
+scala> load =~ reading
+res0: Boolean = true
+
+scala> load ≈ reading
+res1: Boolean = true
+
+scala> load approx reading
+res2: Boolean = true
 ```
 
 The `=~` and `≈` are the preferred operators as they have the correct precedence for equality operations.
@@ -254,65 +386,109 @@ That is, there is no direction information encoded in any of the Quantity types.
 This is true even for Quantities which are normally vector quantities (ie. Velocity, Acceleration, etc).
 
 Vector quantities in Squants are implemented as case classes that takes a variable parameter list of like quantities
-representing a set of point coordinates in Cartesian space.  
+representing a set of point coordinates in Cartesian space.
 The SVector object is a factory for creating DoubleVectors and QuantityVectors.
 The dimensionality of the vector is determined by the number of arguments.
 Most basic vector operations are currently supported (addition, subtraction, scaling, cross and dot products)
 
 ```scala
-val vector: QuantityVector[Length] = SVector(Kilometers(1.2), Kilometers(4.3), Kilometers(2.3))
-val magnitude: Length = vector.magnitude        // returns the scalar value of the vector
-val normalized = vector.normalize(Kilometers)   // returns a corresponding vector scaled to 1 of the given unit
+scala> import squants.{QuantityVector, SVector}
+import squants.{QuantityVector, SVector}
 
-val vector2: QuantityVector[Length] = SVector(Kilometers(1.2), Kilometers(4.3), Kilometers(2.3))
-val vectorSum = vector + vector2        // returns the sum of two vectors
-val vectorDiff = vector - vector2       // return the difference of two vectors
-val vectorScaled = vector * 5           // returns vector scaled 5 times
-val vectorReduced = vector / 5          // returns vector reduced 5 time
-val vectorDouble = vector / 5.meters    // returns vector reduced and converted to DoubleVector
-val dotProduct = vector * vectorDouble  // returns the Dot Product of vector and vectorDouble
+scala> import squants.space.{Kilometers, Length}
+import squants.space.{Kilometers, Length}
 
-val crossProduct = vector crossProduct vectorDouble  // currently only supported for 3-dimensional vectors
+scala> import squants.space.LengthConversions._
+import squants.space.LengthConversions._
+
+scala> val vector: QuantityVector[Length] = SVector(Kilometers(1.2), Kilometers(4.3), Kilometers(2.3))
+vector: squants.QuantityVector[squants.space.Length] = QuantityVector(WrappedArray(1.2 km, 4.3 km, 2.3 km))
+
+scala> val magnitude: Length = vector.magnitude        // returns the scalar value of the vector
+magnitude: squants.space.Length = 5.021951811795888 km
+
+scala> val normalized = vector.normalize(Kilometers)   // returns a corresponding vector scaled to 1 of the given unit
+normalized: vector.SVectorType = QuantityVector(ArrayBuffer(0.2389509188800581 km, 0.8562407926535415 km, 0.45798926118677796 km))
+
+scala> val vector2: QuantityVector[Length] = SVector(Kilometers(1.2), Kilometers(4.3), Kilometers(2.3))
+vector2: squants.QuantityVector[squants.space.Length] = QuantityVector(WrappedArray(1.2 km, 4.3 km, 2.3 km))
+
+scala> val vectorSum = vector + vector2        // returns the sum of two vectors
+vectorSum: vector.SVectorType = QuantityVector(ArrayBuffer(2.4 km, 8.6 km, 4.6 km))
+
+scala> val vectorDiff = vector - vector2       // return the difference of two vectors
+vectorDiff: vector.SVectorType = QuantityVector(ArrayBuffer(0.0 km, 0.0 km, 0.0 km))
+
+scala> val vectorScaled = vector * 5           // returns vector scaled 5 times
+vectorScaled: vector.SVectorType = QuantityVector(ArrayBuffer(6.0 km, 21.5 km, 11.5 km))
+
+scala> val vectorReduced = vector / 5          // returns vector reduced 5 time
+vectorReduced: vector.SVectorType = QuantityVector(ArrayBuffer(0.24 km, 0.86 km, 0.45999999999999996 km))
+
+scala> val vectorDouble = vector / 5.meters    // returns vector reduced and converted to DoubleVector
+vectorDouble: squants.DoubleVector = DoubleVector(ArrayBuffer(240.0, 860.0, 459.99999999999994))
+
+scala> val dotProduct = vector * vectorDouble  // returns the Dot Product of vector and vectorDouble
+dotProduct: squants.space.Length = 5044.0 km
+
+scala> val crossProduct = vector crossProduct vectorDouble  // currently only supported for 3-dimensional vectors
+crossProduct: vector.SVectorType = QuantityVector(WrappedArray(0.0 km, 1.1368683772161603E-13 km, 0.0 km))
 ```
 
 Simple non-quantity (Double based) vectors are also supported.
 
 ```scala
+import squants.DoubleVector
+
 val vector: DoubleVector = SVector(1.2, 4.3, 2.3, 5.4)   // a Four-dimensional vector
 ```
 
 #### Dimensional conversions within Vector operations.
-NOTE - This feature is currently under development and the final implementation being evaluated.
-The following type of operation is the goal.
-
-```scala
-val vectorLength = QuantityVector(Kilometers(1.2), Kilometers(4.3), Kilometers(2.3))
-val vectorArea = vectorLength * Kilometers(2)   // QuantityVector(2.4 km², 8.6 km², 4.6 km²)
-val vectorVelocity = vectorLength / Seconds(1)  // QuantityVector(1200.0 m/s, 4300.0 m/s, 2300.0 m/s)
-
-val vectorDouble = DoubleVector(1.2, 4.3, 2.3)
-val vectorLength = vectorDouble.to(Kilometers)  // QuantityVector(1.2 km, 4.3 km, 2.3 km)
-```
 
 Currently dimensional conversions are supported by using the slightly verbose, but flexible map method.
- 
-```scala
-val vectorLength = QuantityVector(Kilometers(1.2), Kilometers(4.3), Kilometers(2.3))
-val vectorArea = vectorLength.map[Area](_ * Kilometers(2))      // QuantityVector(2.4 km², 8.6 km², 4.6 km²)
-val vectorVelocity = vectorLength.map[Velocity](_ / Seconds(1)) // QuantityVector(1200.0 m/s, 4300.0 m/s, 2300.0 m/s)
 
-val vectorDouble = DoubleVector(1.2, 4.3, 2.3)
-val vectorLength = vectorDouble.map[Length](Kilometers(_))      // QuantityVector(1.2 km, 4.3 km, 2.3 km)
+```scala
+scala> import squants.{DoubleVector, QuantityVector}
+import squants.{DoubleVector, QuantityVector}
+
+scala> import squants.motion.Velocity
+import squants.motion.Velocity
+
+scala> import squants.space.{Area, Kilometers, Length, Meters}
+import squants.space.{Area, Kilometers, Length, Meters}
+
+scala> import squants.time.Seconds
+import squants.time.Seconds
+
+scala> val vectorLength = QuantityVector(Kilometers(1.2), Kilometers(4.3), Kilometers(2.3))
+vectorLength: squants.QuantityVector[squants.space.Length] = QuantityVector(WrappedArray(1.2 km, 4.3 km, 2.3 km))
+
+scala> val vectorArea = vectorLength.map[Area](_ * Kilometers(2))      // QuantityVector(2.4 km², 8.6 km², 4.6 km²)
+vectorArea: squants.QuantityVector[squants.space.Area] = QuantityVector(ArrayBuffer(2.4 km², 8.6 km², 4.6 km²))
+
+scala> val vectorVelocity = vectorLength.map[Velocity](_ / Seconds(1)) // QuantityVector(1200.0 m/s, 4300.0 m/s, 2300.0 m/s)
+vectorVelocity: squants.QuantityVector[squants.motion.Velocity] = QuantityVector(ArrayBuffer(1200.0 m/s, 4300.0 m/s, 2300.0 m/s))
+
+scala> val vectorDouble = DoubleVector(1.2, 4.3, 2.3)
+vectorDouble: squants.DoubleVector = DoubleVector(WrappedArray(1.2, 4.3, 2.3))
+
+scala> val vectorLength = vectorDouble.map[Length](Kilometers(_))      // QuantityVector(1.2 km, 4.3 km, 2.3 km)
+vectorLength: squants.QuantityVector[squants.space.Length] = QuantityVector(ArrayBuffer(1.2 km, 4.3 km, 2.3 km))
 ```
 
 Convert QuantityVectors to specific units using the `to` or `in` method - much like Quantities.
 
 ```scala
-val vectorLength = QuantityVector(Kilometers(1.2), Kilometers(4.3), Kilometers(2.3))
-val vectorMetersNum = vectorLength.to(Meters)   // DoubleVector(1200.0, 4300.0, 2300.0)
-val vectorMeters = vectorLength.in(Meters)      // QuantityVector(1200.0 m, 4300.0 m, 2300.0 m)
+scala> val vectorLength = QuantityVector(Kilometers(1.2), Kilometers(4.3), Kilometers(2.3))
+vectorLength: squants.QuantityVector[squants.space.Length] = QuantityVector(WrappedArray(1.2 km, 4.3 km, 2.3 km))
+
+scala> val vectorMetersNum = vectorLength.to(Meters)   // DoubleVector(1200.0, 4300.0, 2300.0)
+vectorMetersNum: squants.DoubleVector = DoubleVector(ArrayBuffer(1200.0, 4300.0, 2300.0))
+
+scala> val vectorMeters = vectorLength.in(Meters)      // QuantityVector(1200.0 m, 4300.0 m, 2300.0 m)
+vectorMeters: squants.QuantityVector[squants.space.Length] = QuantityVector(ArrayBuffer(1200.0 m, 4300.0 m, 2300.0 m))
 ```
- 
+
 ## Market Package
 Market Types are similar but not quite the same as other quantities in the library.
 The primary type, Money, is a Dimensional Quantity, and its Units of Measure are Currencies.
@@ -324,10 +500,20 @@ A Quantity of purchasing power measured in Currency units.
 Like other quantities, the Unit of Measures are used to create Money values.
 
 ```scala
-val tenBucks = USD(10)      // Money: 10 USD
-val someYen = JPY(1200)     // Money: 1200 JPY
-val goldStash = XAU(50)     // Money: 50 XAU
-val digitalCache = BTC(50)  // Money: 50 BTC
+scala> import squants.market.{BTC, JPY, USD, XAU}
+import squants.market.{BTC, JPY, USD, XAU}
+
+scala> val tenBucks = USD(10)      // Money: 10 USD
+tenBucks: squants.market.Money = 10.0 USD
+
+scala> val someYen = JPY(1200)     // Money: 1200 JPY
+someYen: squants.market.Money = 1200.0 JPY
+
+scala> val goldStash = XAU(50)     // Money: 50 XAU
+goldStash: squants.market.Money = 50.0 XAU
+
+scala> val digitalCache = BTC(50)  // Money: 50 BTC
+digitalCache: squants.market.Money = 50.0 BTC
 ```
 
 ### Price
@@ -336,39 +522,94 @@ A Price value is typed on a Quantity and can be denominated in any defined Curre
 
 *Price = Money / Quantity*
 
+Assuming these imports:
 ```scala
-val threeForADollar = USD(1) / Each(3)              // Price[Dimensionless]: 1 USD / 3 ea
-val energyPrice = USD(102.20) / MegawattHours(1)    // Price[Energy]: 102.20 USD / megawattHour
-val milkPrice = USD(4) / UsGallons(1)               // Price[Volume]: 4 USD / gallon
+import squants.{Dozen, Each}
+import squants.energy.MegawattHours
+import squants.market.USD
+import squants.space.UsGallons
+```
 
-val costForABunch = threeForADollar * Dozen(10) // Money: 40 USD
-val energyCost = energyPrice * MegawattHours(4) // Money: 408.80 USD
-val milkQuota = milkPrice * USD(20)             // Volume: 5 gal
+You can compute the following:
+```scala
+scala> val threeForADollar = USD(1) / Each(3)
+threeForADollar: squants.market.Price[squants.Dimensionless] = 1.0 USD/3.0 ea
+
+scala> val energyPrice = USD(102.20) / MegawattHours(1)
+energyPrice: squants.market.Price[squants.energy.Energy] = 102.2 USD/1.0 MWh
+
+scala> val milkPrice = USD(4) / UsGallons(1)
+milkPrice: squants.market.Price[squants.space.Volume] = 4.0 USD/1.0 gal
+
+scala> val costForABunch = threeForADollar * Dozen(10)
+costForABunch: squants.market.Money = 40.0 USD
+
+scala> val energyCost = energyPrice * MegawattHours(4)
+energyCost: squants.market.Money = 408.8 USD
+
+scala> val milkQuota = USD(20) / milkPrice
+milkQuota: squants.space.Volume = 5.0 gal
+```
+
+Conversions to Strings
+```scala
+scala> val money = USD(123.456)
+money: squants.market.Money = 123.456 USD
+
+scala> val s = money.toString  // returns full precision amount with currency code
+s: String = 123.456 USD
+
+scala> val s = money.toFormattedString // returns currency symbol and amount rounded based on currency rules
+s: String = $123.46
 ```
 
 ### FX Support
 Currency Exchange Rates are used to define the conversion factors between currencies
 
 ```scala
-// create an exchange rate
-val rate = CurrencyExchangeRate(USD(1), JPY(100))
-// OR
-val rate = USD / JPY(100)
-// OR
-val rate = JPY(100) -> USD(1)
-// OR
-val rate = JPY(100) toThe USD(1)
+scala> import squants.market.{CurrencyExchangeRate, JPY, Money, USD}
+import squants.market.{CurrencyExchangeRate, JPY, Money, USD}
 
-val someYen: Money = JPY(350)
-val someBucks: Money = USD(23.50)
+scala> // create an exchange rate
+     | val rate1 = CurrencyExchangeRate(USD(1), JPY(100))
+rate1: squants.market.CurrencyExchangeRate = USD/JPY 100.0
 
-// Use the convert method which automatically converts the money to the 'other' currency
-val dollarAmount: Money = rate.convert(someYen) // Money: 3.5 USD
-val yenAmount: Money = rate.convert(someBucks)  // Money: 2360 JPY
+scala> // OR
+     | val rate2 = USD / JPY(100)
+rate2: squants.market.CurrencyExchangeRate = USD/JPY 100.0
 
-// or just use the * operator in either direction (money * rate, or rate * money)
-val dollarAmount2: Money = rate * someYen       // Money: 3.5 USD
-val yenAmount2: Money = someBucks * rate		// Money: 2360 JPY
+scala> // OR
+     | val rate3 = JPY(100) -> USD(1)
+rate3: (squants.market.Money, squants.market.Money) = (100.0 JPY,1.0 USD)
+
+scala> // OR
+     | val rate4 = JPY(100) toThe USD(1)
+rate4: squants.market.CurrencyExchangeRate = USD/JPY 100.0
+
+scala> val someYen: Money = JPY(350)
+someYen: squants.market.Money = 350.0 JPY
+
+scala> val someBucks: Money = USD(23.50)
+someBucks: squants.market.Money = 23.5 USD
+```
+
+Use the `convert` method which automatically converts the money to the 'other' currency:
+
+```scala
+scala> val dollarAmount: Money = rate1.convert(someYen)
+dollarAmount: squants.market.Money = 3.5 USD
+
+scala> val yenAmount: Money = rate1.convert(someBucks)
+yenAmount: squants.market.Money = 2350.0 JPY
+```
+
+Or just use the `*` operator in either direction (money * rate, or rate * money):
+```scala
+scala> val dollarAmount2: Money = rate1 * someYen
+dollarAmount2: squants.market.Money = 3.5 USD
+
+scala> val yenAmount2: Money = someBucks * rate1
+yenAmount2: squants.market.Money = 2350.0 JPY
 ```
 
 ### Money Context
@@ -377,49 +618,147 @@ This allows your application to work with a default currency based on an applica
 It also provides support for updating exchange rates and using those rates for automatic conversions between currencies.
 The technique and frequency chosen for exchange rate updates is completely in control of the application.
 
+Assuming these imports:
 ```scala
-val exchangeRates = List(USD / CAD(1.05), USD / MXN(12.50), USD / JPY(100))
-implicit val moneyContext = defaultMoneyContext withExchangeRates exchangeRates
+import squants.energy.MegawattHours
+import squants.market.{CAD, JPY, MXN, USD}
+import squants.market.defaultMoneyContext
+```
 
-val someMoney = Money(350) // 350 in the default Cur
-val usdMoney: Money = someMoney in USD
-val usdBigDecimal: BigDecimal = someMoney to USD
-val yenCost: Money = (energyPrice * MegawattHours(5)) in JPY
-val northAmericanSales: Money = (CAD(275) + USD(350) + MXN(290)) in USD
+You can compute:
+```scala
+scala> val exchangeRates = List(USD / CAD(1.05), USD / MXN(12.50), USD / JPY(100))
+exchangeRates: List[squants.market.CurrencyExchangeRate] = List(USD/CAD 1.05, USD/MXN 12.5, USD/JPY 100.0)
+
+scala> implicit val moneyContext = defaultMoneyContext withExchangeRates exchangeRates
+moneyContext: squants.market.MoneyContext = MoneyContext(DefaultCurrency(USD),Currencies(ARS,AUD,BRL,BTC,CAD,CHF,CLP,CNY,CZK,DKK,EUR,GBP,HKD,INR,JPY,KRW,MXN,MYR,NOK,NZD,RUB,SEK,USD,XAG,XAU),ExchangeRates(USD/CAD 1.05,USD/JPY 100.0,USD/MXN 12.5),AllowIndirectConversions(true))
+
+scala> val energyPrice = USD(102.20) / MegawattHours(1)
+energyPrice: squants.market.Price[squants.energy.Energy] = 102.2 USD/1.0 MWh
+
+scala> val someMoney = Money(350) // 350 in the default Cur
+someMoney: squants.market.Money = 350.0 USD
+
+scala> val usdMoney: Money = someMoney in USD
+usdMoney: squants.market.Money = 350.0 USD
+
+scala> val usdBigDecimal: BigDecimal = someMoney to USD
+usdBigDecimal: BigDecimal = 350.0
+
+scala> val yenCost: Money = (energyPrice * MegawattHours(5)) in JPY
+yenCost: squants.market.Money = 51100.0 JPY
+
+scala> val northAmericanSales: Money = (CAD(275) + USD(350) + MXN(290)) in USD
+northAmericanSales: squants.market.Money = 635.1047619047619 USD
 ```
 
 ## Quantity Ranges
-Used to represent a range of Quantity values between an upper and lower bound
+A `QuantityRange` is used to represent a range of Quantity values between an upper and lower bound:
 
+```scala
+import squants.QuantityRange
+import squants.energy.{Kilowatts, Megawatts, Power}
+```
 ```scala
 val load1: Power = Kilowatts(1000)
+// load1: squants.energy.Power = 1000.0 kW
+
 val load2: Power = Kilowatts(5000)
+// load2: squants.energy.Power = 5000.0 kW
+
 val range: QuantityRange[Power] = QuantityRange(load1, load2)
+// range: squants.QuantityRange[squants.energy.Power] = QuantityRange(1000.0 kW,5000.0 kW)
 ```
 
-Use multiplication and division to create a Seq of ranges from the original
+### Inclusivity and Exclusivitiy
+
+The `QuantityRange` constructor requires that `upper` is strictly greater than `lower`:
 
 ```scala
-// Create a Seq of 10 sequential ranges starting with the original and each the same size as the original
+import squants.space.LengthConversions._
+// import squants.space.LengthConversions._
+
+// this will work b/c upper > lower
+QuantityRange(1.km, 5.km)
+// res1: squants.QuantityRange[squants.space.Length] = QuantityRange(1.0 km,5.0 km)
+```
+
+This will fail because `lower` = `upper`:
+
+```scala
+scala> QuantityRange(1.km, 1.km)
+java.lang.IllegalArgumentException: QuantityRange upper bound must be strictly greater than to the lower bound
+  at squants.QuantityRange.<init>(QuantityRange.scala:25)
+  ... 1023 elided
+```
+
+`QuantityRange` contains two functions that check if an element is part of the range, `contains` and `includes`. 
+These differ in how they treat the range's upper bound: `contains()` _excludes_ it but `includes()` _includes_ it.
+
+```scala
+scala> val distances = QuantityRange(1.km, 5.km)
+distances: squants.QuantityRange[squants.space.Length] = QuantityRange(1.0 km,5.0 km)
+
+scala> distances.contains(5.km) // this is false b/c contains() doesn't include the upper range
+res3: Boolean = false
+
+scala> distances.includes(5.km) // this is true b/c includes() does include the upper range
+res4: Boolean = true
+```
+
+### QuantityRange transformation
+
+The multiplication and division operators create a `Seq` of ranges from the original.
+
+For example:
+
+Create a Seq of 10 sequential ranges starting with the original and each the same size as the original:
+```scala
 val rs1 = range * 10
-// Create a Seq of 10 sequential ranges each 1/10th of the original size
-val rs2 = range / 10
-// Create a Seq of 10 sequential ranges each with a size of 400 kilowatts
-val rs3 = range / Kilowatts(400)
+// rs1: squants.QuantitySeries[squants.energy.Power] = Vector(QuantityRange(1000.0 kW,5000.0 kW), QuantityRange(5000.0 kW,9000.0 kW), QuantityRange(9000.0 kW,13000.0 kW), QuantityRange(13000.0 kW,17000.0 kW), QuantityRange(17000.0 kW,21000.0 kW), QuantityRange(21000.0 kW,25000.0 kW), QuantityRange(25000.0 kW,29000.0 kW), QuantityRange(29000.0 kW,33000.0 kW), QuantityRange(33000.0 kW,37000.0 kW), QuantityRange(37000.0 kW,41000.0 kW))
 ```
-Apply foreach, map and foldLeft/foldRight directly to QuantityRanges with a divisor
+Create a Seq of 10 sequential ranges each 1/10th of the original size:
 
 ```scala
-// foreach over each of the 400 kilometer ranges within the range
-range.foreach(Kilometers(400)) {r => ???}
-// map over each of 10 even parts of the range
-range.map(10) {r => ???}
-// fold over each 10 even parts of the range
-range.foldLeft(10)(0) {(z, r) => ???}
+val rs2 = range / 10
+// rs2: squants.QuantitySeries[squants.energy.Power] = Vector(QuantityRange(1000.0 kW,1400.0 kW), QuantityRange(1400.0 kW,1800.0 kW), QuantityRange(1800.0 kW,2200.0 kW), QuantityRange(2200.0 kW,2600.0 kW), QuantityRange(2600.0 kW,3000.0 kW), QuantityRange(3000.0 kW,3400.0 kW), QuantityRange(3400.0 kW,3800.0 kW), QuantityRange(3800.0 kW,4200.0 kW), QuantityRange(4200.0 kW,4600.0 kW), QuantityRange(4600.0 kW,5000.0 kW))
+```
+
+Create a Seq of 10 sequential ranges each with a size of 400 kilowatts:
+```scala
+val rs3 = range / Kilowatts(400)
+// rs3: squants.QuantitySeries[squants.energy.Power] = Vector(QuantityRange(1000.0 kW,1400.0 kW), QuantityRange(1400.0 kW,1800.0 kW), QuantityRange(1800.0 kW,2200.0 kW), QuantityRange(2200.0 kW,2600.0 kW), QuantityRange(2600.0 kW,3000.0 kW), QuantityRange(3000.0 kW,3400.0 kW), QuantityRange(3400.0 kW,3800.0 kW), QuantityRange(3800.0 kW,4200.0 kW), QuantityRange(4200.0 kW,4600.0 kW), QuantityRange(4600.0 kW,5000.0 kW))
+```
+
+### QuantityRange operations
+
+`QuantityRange` supports foreach, map, and foldLeft/foldRight. These vary slightly from the versions
+in the Scala standard library in that they take a divisior as the first parameter. The examples below 
+illustrate their use.
+
+Subdivide range into 1-Megawatt "slices", and foreach over each of slices:
+```scala
+range.foreach(Megawatts(1)) { r => println(s"lower = ${r.lower}, upper = ${r.upper}") }
+// lower = 1000.0 kW, upper = 2000.0 kW
+// lower = 2000.0 kW, upper = 3000.0 kW
+// lower = 3000.0 kW, upper = 4000.0 kW
+// lower = 4000.0 kW, upper = 5000.0 kW
+```
+
+Subdivide range into 10 slices and map over each slice:
+```scala
+range.map(10) { r => r.upper }
+// res6: Seq[squants.energy.Power] = Vector(1400.0 kW, 1800.0 kW, 2200.0 kW, 2600.0 kW, 3000.0 kW, 3400.0 kW, 3800.0 kW, 4200.0 kW, 4600.0 kW, 5000.0 kW)
+```
+
+Subdivide range into 10 slices and fold over them, using 0 Megawatts as a starting value:
+```scala
+range.foldLeft(10, Megawatts(0)) { (z, r) => z + r.upper }
+// res7: squants.energy.Power = 32.0 MW
 ```
 
 NOTE - Because these implementations of foreach, map and fold* take a parameter (the divisor), these methods
-are not directly compatible with Scala's for comprehensions. 
+are not directly compatible with Scala's for comprehensions.
 To use in a for comprehension, apply the * or / operators as described above to create a Seq from the Range.
 
 ```scala
@@ -433,64 +772,113 @@ for {
 Implicit conversions give the DSL some features that allows user code to express quantities in a
 more naturally expressive and readable way.
 
-Create Quantities using Unit Of Measure Factory objects (no implicits required)
-
+Code samples in this section assume these imports
 ```scala
-val load = Kilowatts(100)
-val time = Hours(3.75)
-val money = USD(112.50)
-val price = Price(money, MegawattHours(1))
+import squants.energy.{Kilowatts, MegawattHours, Power}
+import squants.market.{Price, USD}
+import squants.time.Hours
 ```
 
-Create Quantities using Unit of Measure names and/or symbols (uses implicits)
+Create Quantities using Unit Of Measure Factory objects (no implicits required):
 
 ```scala
-val load1 = 100 kW 			        // Simple expressions don’t need dots
-val load2 = 100 megaWatts
-val time = 3.hours + 45.minutes     // Compound expressions may need dots
+scala> val load = Kilowatts(100)
+load: squants.energy.Power = 100.0 kW
+
+scala> val time = Hours(3.75)
+time: squants.time.Time = 3.75 h
+
+scala> val money = USD(112.50)
+money: squants.market.Money = 112.5 USD
+
+scala> val price = Price(money, MegawattHours(1))
+price: squants.market.Price[squants.energy.Energy] = 112.5 USD/1.0 MWh
 ```
 
-Create Quantities using operations between other Quantities
+Create Quantities using Unit of Measure names and/or symbols (uses implicits):
 
 ```scala
-val energyUsed = 100.kilowatts * (3.hours + 45.minutes)
-val price = 112.50.USD / 1.megawattHours
-val speed = 55.miles / 1.hours
+import scala.language.postfixOps
+import squants.energy.EnergyConversions._
+import squants.energy.PowerConversions._
+import squants.information.InformationConversions._
+import squants.market.MoneyConversions._
+import squants.space.LengthConversions._
+import squants.time.TimeConversions._
+```
+```scala
+scala> val load1 = 100 kW 			        // Simple expressions don’t need dots
+load1: squants.energy.Power = 100.0 kW
+
+scala> val load2 = 100 megawatts
+load2: squants.energy.Power = 100.0 MW
+
+scala> val time = 3.hours + 45.minutes     // Compound expressions may need dots
+time: squants.time.Time = 3.75 h
 ```
 
-Create Quantities using formatted Strings
+Create Quantities using operations between other Quantities:
 
 ```scala
-val load = Power("40 MW")		// 40 MW
+scala> val energyUsed = 100.kilowatts * (3.hours + 45.minutes)
+energyUsed: squants.energy.Energy = 375000.0 Wh
+
+scala> val price = 112.50.USD / 1.megawattHours
+price: squants.market.Price[squants.energy.Energy] = 112.5 USD/1.0 MWh
+
+scala> val speed = 55.miles / 1.hours
+speed: squants.motion.Velocity = 24.587249174399997 m/s
 ```
 
-Create Quantities using Tuples
+Create Quantities using formatted Strings:
 
 ```scala
-val load = Power((40, "MW"))    // 40 MW
+scala> val load = Power("40 MW")
+load: scala.util.Try[squants.energy.Power] = Success(40.0 MW)
 ```
 
-Use single unit values to simplify expressions
+Create Quantities using Tuples:
 
 ```scala
-// Hours(1) == 1.hours == hour
-val ramp = 100.kilowatts / hour
-val speed = 100.kilometers / hour
-
-// MegawattHours(1) == 1.megawattHours == megawattHour == MWh
-val hi = 100.dollars / MWh
-val low = 40.dollars / megawattHour
+scala> val load = Power((40.5, "MW"))
+load: scala.util.Try[squants.energy.Power] = Success(40.5 MW)
 ```
 
-Implicit conversion support for using Double on the left side of operations
+Use single unit values to simplify expressions:
 
 ```scala
-val price = 10 / dollar	    // 1 USD / 10 ea
-val freq = 60 / second	    // 60 Hz
-val load = 10 * 4.MW		// 40 MW
+scala> // Hours(1) == 1.hours == hour
+     | val ramp = 100.kilowatts / hour
+ramp: squants.energy.PowerRamp = 100000.0 W/h
+
+scala> val speed = 100.kilometers / hour
+speed: squants.motion.Velocity = 27.77777777777778 m/s
+
+scala> // MegawattHours(1) == 1.megawattHours == megawattHour == MWh
+     | val hi = 100.dollars / MWh
+hi: squants.market.Price[squants.energy.Energy] = 100.0 USD/1.0 MWh
+
+scala> val low = 40.dollars / megawattHour
+low: squants.market.Price[squants.energy.Energy] = 40.0 USD/1.0 MWh
 ```
 
-Create Quantity Ranges using `to` or `plusOrMinus` (`+-`) operators
+Implicit conversion support for using Doubles, Longs and BigDecimals on the left side of multiply and divide operations:
+
+```scala
+scala> val load = 10.22 * 4.MW
+load: squants.energy.Power = 40.88 MW
+
+scala> val driveArrayCapacity = 12 * 600.gb
+driveArrayCapacity: squants.information.Information = 7200.0 GB
+
+scala> val freq = 60 / second
+freq: squants.time.Frequency = 60.0 Hz
+
+scala> val freq2 = BigDecimal(36000000) / hour
+freq2: squants.time.Frequency = 10000.0 Hz
+```
+
+Create Quantity Ranges using `to` or `plusOrMinus` (`+-`) operators:
 
 ```scala
 val range1 = 1000.kW to 5000.kW	             // 1000.kW to 5000.kW
@@ -503,9 +891,14 @@ Most Quantities that support implicit conversions also include an implicit Numer
 to your code where Numeric support is required.  These follow the following pattern:
 
 ```scala
+scala> import squants.mass.{Grams, Kilograms}
+import squants.mass.{Grams, Kilograms}
+
+scala> import squants.mass.MassConversions.MassNumeric
 import squants.mass.MassConversions.MassNumeric
 
-val sum = List(Kilograms(100), Grams(34510)).sum
+scala> val sum = List(Kilograms(100), Grams(34510)).sum
+sum: squants.mass.Mass = 134510.0 g
 ```
 
 NOTE - Because a quantity can not be multiplied by a like quantity and return a like quantity, the `Numeric.times`
@@ -521,11 +914,275 @@ in a few important ways.
 The following code provides a basic example for creating a MoneyNumeric:
 
 ```scala
-import MoneyConversions._
+import squants.market.defaultMoneyContext
+import squants.market.MoneyConversions._
+import squants.market.USD
 implicit val moneyContext = defaultMoneyContext
-implicit val moneyNum = new MoneyNumeric()
+```
 
-val sum = List(USD(100), USD(10)).sum
+```scala
+scala> implicit val moneyNum = new MoneyNumeric()
+moneyNum: squants.market.MoneyConversions.MoneyNumeric = MoneyNumeric(MoneyContext(DefaultCurrency(USD),Currencies(ARS,AUD,BRL,BTC,CAD,CHF,CLP,CNY,CZK,DKK,EUR,GBP,HKD,INR,JPY,KRW,MXN,MYR,NOK,NZD,RUB,SEK,USD,XAG,XAU),ExchangeRates(),AllowIndirectConversions(true)))
+
+scala> val sum = List(USD(100), USD(10)).sum
+sum: squants.market.Money = 110.0 USD
+```
+
+## Unit groups
+
+Squants provides an experimental API for grouping related `UnitOfMeasure` values together.
+This are called `UnitGroup`s. Squants provides `UnitGroup` implementations for the SI, the US Customary system, and various other systems. End-users can create their own ad-hoc `UnitGroup`s for `UnitOfMeasure`s in a related dimension.
+
+The `UnitGroup` trait defines two public fields: `units`, a `Set[UnitOfMeasure]`, and `sortedUnits`, which contains `units` sorted in ascending order.
+
+### SI UnitGroups
+
+Almost every `Dimension` in Squants has SI Units (with the exception of `Information`
+and `Money`). To avoid boilerplate, Squants generates `UnitGroup`s for SI using implicits.
+
+There are two `UnitGroup`s provided for SI: "strict" and "expanded." Strict only includes SI
+UnitOfMeasure defined in the SI; "expanded" includes [non-SI units that are commonly used in](http://www.bipm.org/en/publications/si-brochure/table6.html)
+SI, such as litre, hectare, hour, minute, etc). See the linked document for a detailed list.
+
+To summon the strict SI `UnitGroup` for `Length`, you would use this code:
+
+```scala
+import squants.space.Length
+// import squants.space.Length
+
+import squants.experimental.unitgroups.ImplicitDimensions.space._
+// import squants.experimental.unitgroups.ImplicitDimensions.space._
+
+import squants.experimental.unitgroups.UnitGroup
+// import squants.experimental.unitgroups.UnitGroup
+
+import squants.experimental.unitgroups.si.strict.implicits._
+// import squants.experimental.unitgroups.si.strict.implicits._
+
+val siLengths: UnitGroup[Length] = implicitly[UnitGroup[Length]]
+// siLengths: squants.experimental.unitgroups.UnitGroup[squants.space.Length] = squants.experimental.unitgroups.si.strict.package$implicits$$anon$1@264b156b
+```
+
+To print out units and their conversion factors to the primary SI unit, you could use this code:
+
+```scala
+import squants.{Quantity, UnitOfMeasure}
+// import squants.{Quantity, UnitOfMeasure}
+
+def mkConversionFactor[A <: Quantity[A]](uom: UnitOfMeasure[A]): Double = {
+  val one = uom(1)
+  one.to(one.dimension.siUnit)
+}
+// mkConversionFactor: [A <: squants.Quantity[A]](uom: squants.UnitOfMeasure[A])Double
+
+def mkTuple[A <: Quantity[A]](uom: UnitOfMeasure[A]): (String, Double) = {
+  (uom.symbol, mkConversionFactor(uom))
+}
+// mkTuple: [A <: squants.Quantity[A]](uom: squants.UnitOfMeasure[A])(String, Double)
+
+siLengths.sortedUnits.toList.map(mkTuple).foreach(println)
+// (nm,1.0E-9)
+// (µm,1.0E-6)
+// (mm,0.001)
+// (cm,0.01)
+// (dm,0.1)
+// (m,1.0)
+// (dam,10.0)
+// (hm,100.0)
+// (km,1000.0)
+```
+
+Note that `UnitGroup`'s `sortedUnits` field is a `SortedSet`, so before mapping over it,
+you will probably want to convert it to a List, otherwise the output may be resorted.
+
+### Non-SI UnitGroups
+
+Other `UnitGroup` definitions don't use implicits. For example, `squants.experimental.unitgroups.uscustomary.space.UsCustomaryLiquidVolumes` or `squants.experimental.unitgroups.misc.TroyMasses` can be imported and used directly.
+
+### Creating an ad-hoc UnitGroup
+
+To create an ad-hoc `UnitGroup` just implement the trait. For example, to make a US cooking measure `UnitGroup`:
+
+```scala
+import squants.{Quantity, Dimension}
+// import squants.{Quantity, Dimension}
+
+import squants.space._
+// import squants.space._
+
+import squants.experimental.unitgroups.UnitGroup
+// import squants.experimental.unitgroups.UnitGroup
+
+val usCookingUnitGroup = new UnitGroup[Volume] { 
+  // units don't have to be specified in-order.
+  val units: Set[UnitOfMeasure[Volume]] = Set(UsPints, UsGallons, Teaspoons, Tablespoons, UsQuarts, FluidOunces)
+}
+// usCookingUnitGroup: squants.experimental.unitgroups.UnitGroup[squants.space.Volume]{val units: Set[squants.UnitOfMeasure[squants.space.Volume]]} = $anon$1@27b100b6
+
+// squants automatically sorts units
+usCookingUnitGroup.sortedUnits.foreach(println)
+// squants.space.Teaspoons$@525d11ee
+// squants.space.Tablespoons$@4037896b
+// squants.space.FluidOunces$@1d59b092
+// squants.space.UsPints$@5fd4d32b
+// squants.space.UsQuarts$@390357cd
+// squants.space.UsGallons$@48cd8671
+```
+
+The `UnitGroup` values provided with Squants are only samples and aren't intended to be exhaustive.
+We encourage users to make their own `UnitGroup` defintitions and submit them as PRs if they're generally
+applicable.
+
+## Formatters
+
+Squants provides an experimental API for formatting Quantities in the "best unit." For example, 
+convert Inches(12) to Feet(1). This is useful for producing human-friendly output.
+
+To use a formatter, you must implement the `squants.formatters.Formatter` trait:
+
+```scala
+trait Formatter[A <: Quantity[A]] {
+  def inBestUnit(quantity: Quantity[A]): A
+}
+```
+
+### Default Formatter implementation
+
+There is a default formatter implementation in `squants.experimental.formatter.DefaultFormatter`. This builds on the `UnitGroup` 
+API discussed above to choose the best `UnitOfMeasure` for a `Quantity`. The `DefaultFormatter` algorithm will probably
+work for most use-cases, but users can create their own `Formatters` if they have custom needs.
+
+To use `DefaultFormatter` import it, and a unit group:
+
+```scala
+import squants.experimental.formatter.DefaultFormatter
+import squants.experimental.unitgroups.misc.AstronomicalLengthUnitGroup
+```
+
+Then create the formatter by passing in a unit group:
+```scala
+val astroFormatter = new DefaultFormatter(AstronomicalLengthUnitGroup)
+// astroFormatter: squants.experimental.formatter.DefaultFormatter[squants.space.Length] = squants.experimental.formatter.DefaultFormatter@22aa737b
+```
+
+Now, we create some values using human-unfriendly numbers:
+
+```scala
+import squants.space.LengthConversions._
+// import squants.space.LengthConversions._
+
+val earthToJupiter = 588000000.km
+// earthToJupiter: squants.space.Length = 588000000.0 km
+
+val earthToVoyager1 = 2.06e10.km
+// earthToVoyager1: squants.space.Length = 20600000000.0 km
+
+val earthToAlphaCentauri = 4.1315e+13.km
+// earthToAlphaCentauri: squants.space.Length = 41315000000000.0 km
+```
+
+And format them into appropriate units (AUs and Parsecs, in this case):
+```scala
+astroFormatter.inBestUnit(earthToJupiter)
+// res3: squants.space.Length = 3.9305372278938457 au
+
+astroFormatter.inBestUnit(earthToVoyager1)
+// res4: squants.space.Length = 137.70249471872998 au
+
+astroFormatter.inBestUnit(earthToAlphaCentauri)
+// res5: squants.space.Length = 1.3389279634339382 pc
+```
+
+
+### Implicit formatters
+
+There is a nicer syntax for formatters available via implicits.
+This lets you write expressions such as `12.inches.inBestUnit`. This syntax is added per-`Dimension`.
+
+To use this syntax, first import `squants.experimental.formatter.syntax._`.
+Then, for each `Dimension` you wish to use, place a Formatter for the Dimension in implicit scope. In this example,
+we're adding support for `Length`.
+
+```scala
+import squants.experimental.formatter.DefaultFormatter
+import squants.experimental.formatter.syntax._
+import squants.mass.MassConversions._
+import squants.space.Length
+import squants.space.LengthConversions._
+import squants.experimental.unitgroups.misc.AstronomicalLengthUnitGroup
+```
+
+```scala
+implicit val astroFormatter = new DefaultFormatter(AstronomicalLengthUnitGroup)
+// astroFormatter: squants.experimental.formatter.DefaultFormatter[squants.space.Length] = squants.experimental.formatter.DefaultFormatter@652e1c16
+
+val earthToJupiter = 588000000.km
+// earthToJupiter: squants.space.Length = 588000000.0 km
+
+val earthToVoyager1 = 2.06e10.km
+// earthToVoyager1: squants.space.Length = 20600000000.0 km
+
+val earthToAlphaCentauri = 4.1315e+13.km
+// earthToAlphaCentauri: squants.space.Length = 41315000000000.0 km
+
+earthToJupiter.inBestUnit
+// res0: squants.Quantity[squants.space.Length] = 3.9305372278938457 au
+
+earthToVoyager1.inBestUnit
+// res1: squants.Quantity[squants.space.Length] = 137.70249471872998 au
+
+earthToAlphaCentauri.inBestUnit
+// res2: squants.Quantity[squants.space.Length] = 1.3389279634339382 pc
+```
+
+This example won't compile because there is no `Formatter[Mass]` in implicit scope:
+
+```scala
+scala> 5000.grams.inBestUnit
+<console>:26: error: could not find implicit value for parameter formatter: squants.experimental.formatter.Formatter[squants.mass.Mass]
+       5000.grams.inBestUnit
+                  ^
+```
+
+### SI Formatters and implicit syntax
+
+When using SI units, and the default formatter algorithm, you don't have to declare a `Formatter` and place it in 
+implicit scope. The compiler can do that for you. This creates a very human-friendly API by using the appropriate
+imports.
+
+First, import the SI unit groups and their implicits:
+```scala
+import squants.experimental.unitgroups.ImplicitDimensions.space._
+import squants.experimental.unitgroups.si.strict.implicits._
+```
+
+Next, import the formatter syntax described above:
+
+```scala
+import squants.experimental.formatter.syntax._
+```
+
+Finally, add imports for implicitly deriving formatters:
+```scala
+scala> import squants.experimental.formatter.implicits._
+import squants.experimental.formatter.implicits._
+```
+
+Now we can create quantities and format them by calling `.inBestUnit` directly:
+
+```scala
+import squants.space.LengthConversions._
+```
+
+```scala
+5.cm.inBestUnit
+// res0: squants.Quantity[squants.space.Length] = 5.0 cm
+
+500.cm.inBestUnit
+// res1: squants.Quantity[squants.space.Length] = 5.0 m
+
+3000.meters.inBestUnit
+// res2: squants.Quantity[squants.space.Length] = 3.0 km
 ```
 
 ## Type Hierarchy
@@ -591,21 +1248,48 @@ class Acceleration( ... ) extends Quantity[Acceleration] with TimeDerivative[Vel
 
 These traits provide operations with time operands which result in correct dimensional transformations.
 
-```scala
-val distance: Length = Kilometers(100)
-val time: Time = Hours(2)
-val velocity: Velocity = distance / time
-val acc: Acceleration = velocity / Seconds(1)
 
-val gravity = 32.feet / second.squared
+Using these imports:
+```scala
+import squants.energy.Kilowatts
+import squants.motion.{Acceleration, Velocity}
+import squants.space.{Kilometers, Length}
+import squants.space.LengthConversions._
+import squants.time.{Hours, Seconds, Time}
+import squants.time.TimeConversions._
 ```
 
+You can code the following:
 ```scala
-// Power is the 1st Time Derivative of Energy, PowerRamp is the 2nd
-val power = Kilowatts(100)
-val time: Time = Hours(2)
-val energy = power * time
-val ramp = Kilowatt(50) / Hours(1)
+scala> val distance: Length = Kilometers(100)
+distance: squants.space.Length = 100.0 km
+
+scala> val time: Time = Hours(2)
+time: squants.time.Time = 2.0 h
+
+scala> val velocity: Velocity = distance / time
+velocity: squants.motion.Velocity = 13.88888888888889 m/s
+
+scala> val acc: Acceleration = velocity / Seconds(1)
+acc: squants.motion.Acceleration = 13.88888888888889 m/s²
+
+scala> val gravity = 32.feet / second.squared
+gravity: squants.Acceleration = 9.7536195072 m/s²
+```
+
+Power is the 1st Time Derivative of Energy, PowerRamp is the 2nd.
+```scala
+scala> val power = Kilowatts(100)
+power: squants.energy.Power = 100.0 kW
+
+scala> val time: Time = Hours(2)
+time: squants.time.Time = 2.0 h
+
+scala> val energy = power * time
+energy: squants.energy.Energy = 200000.0 Wh
+
+scala> val ramp = Kilowatts(50) / Hours(1)
+ramp: squants.energy.PowerRamp = 50000.0 W/h
 ```
 
 ## Use Cases
@@ -615,23 +1299,76 @@ val ramp = Kilowatt(50) / Hours(1)
 The primary use case for Squants, as described above, is to produce code that is typesafe within domains
 that perform dimensional analysis.
 
+This code samples in this section use these imports:
 ```scala
-val energyPrice: Price[Energy] = 45.25.money / megawattHour
-val energyUsage: Energy = 345.kilowatts * 5.4.hours
-val energyCost: Money = energyPrice * energyUsage
+import squants.energy.Energy
+import squants.energy.EnergyConversions._
+import squants.energy.PowerConversions._
+import squants.market.{Money, Price}
+import squants.market.MoneyConversions._
+import squants.market.defaultMoneyContext
+import squants.mass.{Density, Mass}
+import squants.mass.MassConversions._
+import squants.motion.{Acceleration, Velocity, VolumeFlow}
+import squants.motion.AccelerationConversions._
+import squants.space.LengthConversions._
+import squants.space.VolumeConversions._
+import squants.time.Time
+import squants.time.TimeConversions._
+```
 
-val dodgeViper: Acceleration = 60.miles / hour / 3.9.seconds
-val speedAfter5Seconds: Velocity = dodgeViper * 5.seconds
-val timeTo100MPH: Time = 100.miles / hour / dodgeViper
+```scala
+scala> implicit val moneyContext = defaultMoneyContext
+moneyContext: squants.market.MoneyContext = MoneyContext(DefaultCurrency(USD),Currencies(ARS,AUD,BRL,BTC,CAD,CHF,CLP,CNY,CZK,DKK,EUR,GBP,HKD,INR,JPY,KRW,MXN,MYR,NOK,NZD,RUB,SEK,USD,XAG,XAU),ExchangeRates(),AllowIndirectConversions(true))
 
-val density: Density = 1200.kilograms / cubicMeter
-val volFlowRate: VolumeFlowRate = 10.gallons / minute
-val flowTime: Time = 30.minutes
-val totalMassFlow: Mass = volFlowRate * flowTime * density
+scala> val energyPrice: Price[Energy] = 45.25.money / megawattHour
+energyPrice: squants.market.Price[squants.energy.Energy] = 45.25 USD/1.0 MWh
+
+scala> val energyUsage: Energy = 345.kilowatts * 5.4.hours
+energyUsage: squants.energy.Energy = 1863000.0000000002 Wh
+
+scala> val energyCost: Money = energyPrice * energyUsage
+energyCost: squants.market.Money = 84.30075000000001 USD
+
+scala> val dodgeViper: Acceleration = 60.miles / hour / 3.9.seconds
+dodgeViper: squants.motion.Acceleration = 6.877552216615386 m/s²
+
+scala> val speedAfter5Seconds: Velocity = dodgeViper * 5.seconds
+speedAfter5Seconds: squants.motion.Velocity = 34.38776108307693 m/s
+
+scala> val timeTo100MPH: Time = 100.miles / hour / dodgeViper
+timeTo100MPH: squants.time.Time = 6.499999999999999 s
+
+scala> val density: Density = 1200.kilograms / cubicMeter
+density: squants.mass.Density = 1200.0 kg/m³
+
+scala> val volFlowRate: VolumeFlow = 10.gallons / minute
+volFlowRate: squants.motion.VolumeFlow = 6.30901964E-4 m³/s
+
+scala> val flowTime: Time = 30.minutes
+flowTime: squants.time.Time = 30.0 m
+
+scala> val totalMassFlow: Mass = volFlowRate * flowTime * density
+totalMassFlow: squants.mass.Mass = 1362.7482422399999 kg
 ```
 
 ### Domain Modeling
 Another excellent use case for Squants is stronger typing for fields in your domain model.
+
+Code samples in this section use these imports:
+```scala
+import scala.language.postfixOps
+
+import squants.energy.{Energy, Power, PowerRamp}
+import squants.energy.EnergyConversions._
+import squants.energy.PowerConversions._
+import squants.energy.PowerRampConversions._
+import squants.market.Price
+import squants.market.MoneyConversions._
+import squants.time.Time
+import squants.time.TimeConversions._
+```
+
 This is OK ...
 
 ```scala
@@ -642,7 +1379,7 @@ case class Generator(
   operatingCostPerMWh: Double,
   currency: String,
   maintenanceTimeHours: Double)
-...
+
 val gen1 = Generator("Gen1", 5000, 7500, 75.4, "USD", 1.5)
 val gen2 = Generator("Gen2", 100, 250, 2944.5, "JPY", 0.5)
 ```
@@ -656,7 +1393,7 @@ case class Generator(
   rampRate: PowerRamp,
   operatingCost: Price[Energy],
   maintenanceTime: Time)
-...
+
 val gen1 = Generator("Gen1", 5 MW, 7.5.MW/hour, 75.4.USD/MWh, 1.5 hours)
 val gen2 = Generator("Gen2", 100 kW, 250 kWph, 2944.5.JPY/MWh, 30 minutes)
 ```
@@ -681,6 +1418,9 @@ class ScadaServiceAnticorruption(val service: ScadaService) {
 Implement the ACL as a trait and mix in to the application's services where needed.
 
 ```scala
+import squants.radio.{Irradiance, WattsPerSquareMeter}
+import squants.thermal.{Celsius, Temperature}
+
 trait WeatherServiceAntiCorruption {
   val service: WeatherService
   def getTemperature: Temperature = Celsius(service.getTemperature)
@@ -763,19 +1503,53 @@ trait LoadRoute extends HttpService {
 * Jeremy Apthorp ([nornagon](https://github.com/nornagon))
 * Steve Barham ([stevebarham](https://github.com/stevebarham))
 * Derek Morr ([derekmorr](https://github.com/derekmorr))
-* rmihael ([rmihael](https://github.com/rmihael))
+* Michael Korbakov ([rmihael](https://github.com/rmihael))
 * Florian Nussberger ([fnussber](https://github.com/fnussber))
 * Ajay Chandran ([ajaychandran](https://github.com/ajaychandran))
 * Gia Bảo ([giabao](https://github.com/giabao))
 * Josh Lemer ([joshlemer](https://github.com/joshlemer))
 * Dave DeCarpio ([DaveDeCaprio](https://github.com/DaveDeCaprio))
 * Carlos Quiroz ([cquiroz](https://github.com/cquiroz))
+* Szabolcs Berecz ([khernyo](https://github.com/khernyo))
+* Matt Hicks ([darkfrog26](https://github.com/darkfrog26))
+* golem131 ([golem131](https://github.com/golem131))
+* Ian O'Hara ([ianohara](https://github.com/ianohara))
+* Shadaj Laddad ([shadaj](https://github.com/shadaj))
+* Ian McIntosh ([cranst0n](https://github.com/cranst0n))
+* Doug Hurst ([robotsnowfall](https://github.com/robotsnowfall))
+* Philip Axelrod ([Paxelord](https://github.com/paxelord))
 
 ## Code of Conduct
 
-Squants is a [Typelevel](http://typelevel.org/) Incubator Project and, as such, supports the Typelevel Code of Conduct.
+Squants is a [Typelevel](http://typelevel.org/) Incubator Project and, as such, supports the [Typelevel Code of Conduct](http://typelevel.org/conduct).
 
 ## Caveats
 
 Code is offered as-is, with no implied warranty of any kind.
 Comments, criticisms, and/or praise are welcome, especially from scientists, engineers and the like.
+
+# Release procedure
+
+Making a release requires permission to publish to sonatype, and a properly setup [signing key](http://www.scala-sbt.org/sbt-pgp/usage.html):
+
+To make a release do the following:
+
+* Ensure the version is not set to `SNAPSHOT`
+
+* Build the README using tut
+
+```
+  sbt tut
+```
+
+* Publish a cross-version signed package (no cross-version available for Scala Native)
+```
+  sbt +squantsJVM/publishSigned
+  sbt +squantsJS/publishSigned
+  sbt squantsNative/publishSigned
+```
+
+* Then make a release (Note: after this step the release cannot be replaced)
+```
+  sbt sonatypeRelease
+```
