@@ -142,7 +142,7 @@ class MoneySpec extends FlatSpec with Matchers {
     x != y should be(right = true)
   }
 
-  it should "return proper result on max/min operation with an implicit MoneyContext in scope" in {
+  it should "return a proper result on max/min operation with an implicit MoneyContext in scope" in {
     val r1 = CurrencyExchangeRate(USD(1), JPY(100))
     val r2 = CurrencyExchangeRate(USD(1), EUR(.75))
     implicit val moneyContext = MoneyContext(USD, defaultCurrencySet, List(r1, r2))
@@ -152,17 +152,39 @@ class MoneySpec extends FlatSpec with Matchers {
     y.moneyMin(x) should be(y)
   }
 
-  it should "return proper result when adding like currencies with no MoneyContext in scope" in {
+  it should "return a proper result when adding like currencies with no MoneyContext in scope" in {
     USD(1) + USD(2) should be(USD(3))
     USD(1).plus(USD(2)) should be(USD(3))
   }
 
-  it should "return proper result when subtracting like currencies with no MoneyContext in scope" in {
+  it should "return a proper result when subtracting like currencies with no MoneyContext in scope" in {
     USD(5) - USD(2) should be(USD(3))
     USD(5).minus(USD(2)) should be(USD(3))
   }
 
-  it should "return proper result when dividing like currencies with no MoneyContext in scope" in {
+  it should "return a proper result with no additional precision loss when multiplying by a primitive numeric" in {
+    val x: Double = 4992
+    val m: Money = EUR(9709.6)
+
+    x * m + x * m should be((m * x) * 2)
+    m * x + x * m should be((m * x) * 2)
+    m * x + m * x should be((m * x) * 2)
+    x * m + m * x should be((m * x) * 2)
+
+    x * m + x * m should be((x * m) * 2)
+    m * x + x * m should be((x * m) * 2)
+    m * x + m * x should be((x * m) * 2)
+    x * m + m * x should be((x * m) * 2)
+  }
+
+  it should "return a proper result with no additional precision loss when dividing by a primitive number" in {
+    val d: Double = 4992d
+    val m: Money = EUR(9709.6)
+
+    m / d + m / d should be((m / d) * 2)
+  }
+
+  it should "return a proper result when dividing like currencies with no MoneyContext in scope" in {
     USD(10) / USD(2) should be(5)
     USD(10).divide(USD(2)) should be(5)
   }
