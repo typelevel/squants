@@ -43,6 +43,16 @@ case class CurrencyExchangeRate(base: Money, counter: Money) extends Ratio[Money
   /** convert  */
   def *(money: Money) = convert(money)
 
+
+  /**
+    * Override methods from Ratio to ensure BigDecimal precision math is applied
+    *
+    * @param m Money
+    * @return
+    */
+  override def convertToBase(m: Money): Money = base * (m / counter)
+  override def convertToCounter(m: Money): Money = counter * (m / base)
+
   /**
    * Returns the rate formatted in as standard FX Quote"
    * @return

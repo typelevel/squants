@@ -56,8 +56,15 @@ final class Money private (val amount: BigDecimal)(val currency: Currency)
    *
    * @return String
    */
-  override def toString: String = amount.toString + " " + currency.code
+  override def toString: String = amount.underlying.stripTrailingZeros.toString + " " + currency.code
 
+  /**
+    * Converts the amount to the given currency and returns a string formatted with the original precision and the currency code
+    *
+    * @param c Currency
+    * @param context MoneyContext required for conversion
+    * @return
+    */
   def toString(c: Currency)(implicit context: MoneyContext): String = in(c).toString
 
   /**
@@ -127,7 +134,17 @@ final class Money private (val amount: BigDecimal)(val currency: Currency)
    * @param that BigDecimal
    * @return Money
    */
-  def *(that: BigDecimal): Money = new Money(amount * that)(currency)
+  def times(that: BigDecimal): Money = new Money(amount * that)(currency)
+  def *(that: BigDecimal): Money = times(that)
+
+  /**
+    * Overrides Quantity.times to ensure BigDecimal math is performed
+    *
+    * @param that Double
+    * @return Quantity
+    */
+  override def times(that: Double): Money = new Money(amount * that)(currency)
+  override def *(that: Double): Money = times(that)
 
   /**
    * Multiplies this money by that [[squants.market.CurrencyExchangeRate]] and returns the equal value in the other currency.
@@ -145,7 +162,17 @@ final class Money private (val amount: BigDecimal)(val currency: Currency)
    * @param that BigDecimal
    * @return Money
    */
-  def /(that: BigDecimal): Money = new Money(amount / that)(currency)
+  def divide(that: BigDecimal): Money = new Money(amount / that)(currency)
+  def /(that: BigDecimal): Money = divide(that)
+
+  /**
+    * Overrides Quantity.divide to ensure BigDecimal math is performed
+    *
+    * @param that Double
+    * @return Quantity
+    */
+  override def divide(that: Double): Money = new Money(amount / that)(currency)
+  override def /(that: Double): Money = divide(that)
 
   /**
    * Integer divides this money by that BigDecimal and returns the remainder
