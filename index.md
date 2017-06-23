@@ -1,7 +1,3 @@
-# Squants
-
-**The Scala API for Quantities, Units of Measure and Dimensional Analysis**
-
 Squants is a framework of data types and a domain specific language (DSL) for representing Quantities,
 their Units of Measure, and their Dimensional relationships.
 The API supports typesafe dimensional analysis, improved domain models and more.
