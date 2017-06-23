@@ -45,7 +45,7 @@ final class Energy private (val value: Double, val unit: EnergyUnit)
   def /(that: Temperature): ThermalCapacity = JoulesPerKelvin(this.toJoules / that.toKelvinDegrees)
   def /(that: ThermalCapacity) = Kelvin(this.toJoules / that.toJoulesPerKelvin)
 
-  def /(that: ChemicalAmount) = ??? // return MolarEnergy
+  def /(that: ChemicalAmount): MolarEnergy = JoulesPerMole(this.toJoules / that.toMoles)
   def /(that: Angle): Torque = NewtonMeters(toJoules / that.toRadians)
   def /(that: Area) = ??? // Insolation, Energy Area Density
 
