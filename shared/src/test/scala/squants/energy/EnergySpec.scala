@@ -46,6 +46,15 @@ class EnergySpec extends FlatSpec with Matchers {
     MBtus(1).toMBtus should be(1)
     MMBtus(1).toMMBtus should be(1)
     Ergs(1).toErgs should be(1)
+
+    ElectronVolt(1).toeV should be(1)
+    MilliElectronVolt(1).tomeV should be(1)
+    KiloElectronVolt(1).tokeV should be(1)
+    MegaElectronVolt(1).toMeV should be(1)
+    GigaElectronVolt(1).toGeV should be(1)
+    TeraElectronVolt(1).toTeV should be(1)
+    PetaElectronVolt(1).toPeV should be(1)
+    ExaElectronVolt(1).toEeV should be(1)
   }
 
   it should "create values from properly formatted Strings" in {
@@ -58,6 +67,14 @@ class EnergySpec extends FlatSpec with Matchers {
     Energy("10.22 MBtu").get should be(MBtus(10.22))
     Energy("10.22 MMBtu").get should be(MMBtus(10.22))
     Energy("10.22 erg").get should be(Ergs(10.22))
+    Energy("10.22 eV").get should be(ElectronVolt(10.22))
+    Energy("10.22 meV").get should be(MilliElectronVolt(10.22))
+    Energy("10.22 keV").get should be(KiloElectronVolt(10.22))
+    Energy("10.22 MeV").get should be(MegaElectronVolt(10.22))
+    Energy("10.22 GeV").get should be(GigaElectronVolt(10.22))
+    Energy("10.22 TeV").get should be(TeraElectronVolt(10.22))
+    Energy("10.22 PeV").get should be(PetaElectronVolt(10.22))
+    Energy("10.22 EeV").get should be(ExaElectronVolt(10.22))
     Energy("10.22 zz").failed.get should be(QuantityParseException("Unable to parse Energy", "10.22 zz"))
     Energy("ZZ J").failed.get should be(QuantityParseException("Unable to parse Energy", "ZZ J"))
   }
@@ -83,6 +100,24 @@ class EnergySpec extends FlatSpec with Matchers {
     x.toMBtus should be(1 / MBtus.conversionFactor)
     x.toMMBtus should be(1 / MMBtus.conversionFactor)
     x.toErgs should be(1 / Ergs.conversionFactor)
+
+    x.toeV should be(1 / ElectronVolt.conversionFactor)
+    x.tomeV should be(1 / MilliElectronVolt.conversionFactor)
+    x.tokeV should be(1 / KiloElectronVolt.conversionFactor)
+    x.toMeV should be(1 / MegaElectronVolt.conversionFactor)
+    x.toGeV should be(1 / GigaElectronVolt.conversionFactor)
+    x.toTeV should be(1 / TeraElectronVolt.conversionFactor)
+    x.toPeV should be(1 / PetaElectronVolt.conversionFactor)
+    x.toEeV should be(1 / ExaElectronVolt.conversionFactor)
+
+    ElectronVolt(1).toJoules should be(1.60217656535e-19)
+    MilliElectronVolt(1).toJoules should be(1.60217656535e-22)
+    KiloElectronVolt(1).toJoules should be(1.60217656535e-16)
+    MegaElectronVolt(1).toJoules should be(1.60217656535e-13)
+    GigaElectronVolt(1).toJoules should be(1.60217656535e-10)
+    TeraElectronVolt(1).toJoules should be(1.60217656535e-7)
+    PetaElectronVolt(1).toJoules should be(1.60217656535e-4)
+    ExaElectronVolt(1).toJoules should be(1.60217656535e-1)
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
@@ -105,6 +140,15 @@ class EnergySpec extends FlatSpec with Matchers {
     MBtus(1).toString(MBtus) should be("1.0 MBtu")
     MMBtus(1).toString(MMBtus) should be("1.0 MMBtu")
     Ergs(1).toString(Ergs) should be ("1.0 erg")
+
+    ElectronVolt(1).toString(ElectronVolt) should be("1.0 eV")
+    MilliElectronVolt(1).toString(MilliElectronVolt) should be("1.0 meV")
+    KiloElectronVolt(1).toString(KiloElectronVolt) should be("1.0 keV")
+    MegaElectronVolt(1).toString(MegaElectronVolt) should be("1.0 MeV")
+    GigaElectronVolt(1).toString(GigaElectronVolt) should be("1.0 GeV")
+    TeraElectronVolt(1).toString(TeraElectronVolt) should be("1.0 TeV")
+    PetaElectronVolt(1).toString(PetaElectronVolt) should be("1.0 PeV")
+    ExaElectronVolt(1).toString(ExaElectronVolt) should be("1.0 EeV")
   }
 
   it should "return Power when divided by Time" in {
@@ -189,6 +233,15 @@ class EnergySpec extends FlatSpec with Matchers {
 
     btu should be(BritishThermalUnits(1))
     btuMultiplier should be(0.2930710701722222)
+
+    eV should be(ElectronVolt(1))
+    meV should be(MilliElectronVolt(1))
+    keV should be(KiloElectronVolt(1))
+    MeV should be(MegaElectronVolt(1))
+    GeV should be(GigaElectronVolt(1))
+    TeV should be(TeraElectronVolt(1))
+    PeV should be(PetaElectronVolt(1))
+    EeV should be(ExaElectronVolt(1))
   }
 
   it should "provide implicit conversion from Double" in {
@@ -218,6 +271,15 @@ class EnergySpec extends FlatSpec with Matchers {
     d.MBtu should be(MBtus(d))
     d.MMBtu should be(MMBtus(d))
     d.ergs should be(Ergs(d))
+
+    d.eV should be(ElectronVolt(d))
+    d.meV should be(MilliElectronVolt(d))
+    d.keV should be(KiloElectronVolt(d))
+    d.MeV should be(MegaElectronVolt(d))
+    d.GeV should be(GigaElectronVolt(d))
+    d.TeV should be(TeraElectronVolt(d))
+    d.PeV should be(PetaElectronVolt(d))
+    d.EeV should be(ExaElectronVolt(d))
   }
 
   it should "provide implicit conversions from String" in {
@@ -232,6 +294,14 @@ class EnergySpec extends FlatSpec with Matchers {
     "10.22 MBtu".toEnergy.get should be(MBtus(10.22))
     "10.22 MMBtu".toEnergy.get should be(MMBtus(10.22))
     "10.22 erg".toEnergy.get should be(Ergs(10.22))
+    "10.22 eV".toEnergy.get should be(ElectronVolt(10.22))
+    "10.22 meV".toEnergy.get should be(MilliElectronVolt(10.22))
+    "10.22 keV".toEnergy.get should be(KiloElectronVolt(10.22))
+    "10.22 MeV".toEnergy.get should be(MegaElectronVolt(10.22))
+    "10.22 GeV".toEnergy.get should be(GigaElectronVolt(10.22))
+    "10.22 TeV".toEnergy.get should be(TeraElectronVolt(10.22))
+    "10.22 PeV".toEnergy.get should be(PetaElectronVolt(10.22))
+    "10.22 EeV".toEnergy.get should be(ExaElectronVolt(10.22))
     "10.22 zz".toEnergy.failed.get should be(QuantityParseException("Unable to parse Energy", "10.22 zz"))
     "ZZ J".toEnergy.failed.get should be(QuantityParseException("Unable to parse Energy", "ZZ J"))
   }
