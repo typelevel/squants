@@ -8,9 +8,9 @@
 
 package squants.mass
 
-import org.scalatest.{ FlatSpec, Matchers }
+import org.scalatest.{FlatSpec, Matchers}
 import squants.QuantityParseException
-import squants.space.{Hectares, SquareMeters}
+import squants.space.{Acres, Hectares, SquareMeters}
 
 /**
  * @author  garyKeorkunian
@@ -24,6 +24,7 @@ class AreaDensitySpec extends FlatSpec with Matchers {
   it should "create values using UOM factories" in {
     KilogramsPerSquareMeter(1).toKilogramsPerSquareMeter should be(1)
     KilogramsPerHectare(1).toKilogramsPerHectare should be(1)
+    PoundsPerAcre(1).toPoundsPerAcre should be(1)
     GramsPerSquareCentimeter(1).toGramsPerSquareCentimeter should be(1)
   }
 
@@ -32,6 +33,7 @@ class AreaDensitySpec extends FlatSpec with Matchers {
     AreaDensity("10.45 zz").failed.get should be(QuantityParseException("Unable to parse AreaDensity", "10.45 zz"))
     AreaDensity("zz kg/m²").failed.get should be(QuantityParseException("Unable to parse AreaDensity", "zz kg/m²"))
     AreaDensity("10.33 kg/hectare").get should be(KilogramsPerHectare(10.33))
+    AreaDensity("10.33 lb/acre").get should be(PoundsPerAcre(10.33))
     AreaDensity("10.19 g/cm²").get should be(GramsPerSquareCentimeter(10.19))
   }
 
@@ -39,18 +41,21 @@ class AreaDensitySpec extends FlatSpec with Matchers {
     val x = KilogramsPerSquareMeter(1)
     x.toKilogramsPerSquareMeter should be(1)
     x.toKilogramsPerHectare should be(1e4)
+    x.toPoundsPerAcre should be(8921.79 +- 0.01)
     x.toGramsPerSquareCentimeter should be(0.1)
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
     KilogramsPerSquareMeter(1).toString should be("1.0 kg/m²")
     KilogramsPerHectare(1).toString should be("1.0 kg/hectare")
+    PoundsPerAcre(1).toString should be("1.0 lb/acre")
     GramsPerSquareCentimeter(1).toString should be("1.0 g/cm²")
   }
 
   it should "return Mass when multiplied by Volume" in {
     KilogramsPerSquareMeter(1) * SquareMeters(1) should be(Kilograms(1))
     KilogramsPerHectare(1) * Hectares(1) should be(Kilograms(1))
+    PoundsPerAcre(1) * Acres(1) should be(Pounds(1))
     GramsPerSquareCentimeter(1000) * SquareMeters(1e-4) should be(Kilograms(1))
   }
 
@@ -61,6 +66,7 @@ class AreaDensitySpec extends FlatSpec with Matchers {
 
     kilogramPerSquareMeter should be(KilogramsPerSquareMeter(1))
     kilogramPerHectare should be(KilogramsPerHectare(1))
+    poundsPerAcre should be(PoundsPerAcre(1))
     gramPerSquareCentimeter should be(GramsPerSquareCentimeter(1))
   }
 
