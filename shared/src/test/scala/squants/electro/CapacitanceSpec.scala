@@ -65,7 +65,7 @@ class CapacitanceSpec extends FlatSpec with Matchers {
   }
 
   it should "return Permittivity when divided by Length" in {
-    Farads(1) / Meters(1) should be(FaradsMeters(1))
+    Farads(1) / Meters(1) should be(FaradsPerMeter(1))
   }
 
   behavior of "CapacitanceConversions"

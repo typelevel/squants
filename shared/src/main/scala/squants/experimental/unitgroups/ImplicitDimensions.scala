@@ -19,7 +19,6 @@ import squants.time.{Frequency, Time}
 object ImplicitDimensions {
 
   object electro {
-    implicit val implicitAreaElectricChargeDensity: Dimension[AreaElectricChargeDensity] = AreaElectricChargeDensity
     implicit val implicitCapacitance: Dimension[Capacitance] = Capacitance
     implicit val implicitConductivity: Dimension[Conductivity] = Conductivity
     implicit val implicitElectricalConductance: Dimension[ElectricalConductance] = ElectricalConductance
