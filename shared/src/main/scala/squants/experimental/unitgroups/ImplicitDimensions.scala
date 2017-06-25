@@ -24,6 +24,7 @@ object ImplicitDimensions {
     implicit val implicitElectricalConductance: Dimension[ElectricalConductance] = ElectricalConductance
     implicit val implicitElectricalResistance: Dimension[ElectricalResistance] = ElectricalResistance
     implicit val implicitElectricCharge: Dimension[ElectricCharge] = ElectricCharge
+    implicit val implicitElectricFieldStrength: Dimension[ElectricFieldStrength] = ElectricFieldStrength
     implicit val implicitElectricChargeDensity: Dimension[ElectricChargeDensity] = ElectricChargeDensity
     implicit val implicitElectricChargeMassRatio: Dimension[ElectricChargeMassRatio] = ElectricChargeMassRatio
     implicit val implicitElectricPotential: Dimension[ElectricPotential] = ElectricPotential
@@ -38,6 +39,7 @@ object ImplicitDimensions {
   object energy {
     implicit val implicitEnergy: Dimension[Energy] = Energy
     implicit val implicitEnergyDensity: Dimension[EnergyDensity] = EnergyDensity
+    implicit val implicitMolarEnergy: Dimension[MolarEnergy] = MolarEnergy
     implicit val implicitPower: Dimension[Power] = Power
     implicit val implicitPowerRamp: Dimension[PowerRamp] = PowerRamp
     implicit val implicitSpecificEnergy: Dimension[SpecificEnergy] = SpecificEnergy

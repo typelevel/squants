@@ -33,7 +33,7 @@ final class ElectricPotential private (val value: Double, val unit: ElectricPote
 
   def /(that: ElectricCurrent): ElectricalResistance = Ohms(this.toVolts / that.toAmperes)
   def /(that: ElectricalResistance): ElectricCurrent = Amperes(this.toVolts / that.toOhms)
-  def /(that: Length) = ??? // returns ElectricFieldStrength
+  def /(that: Length): ElectricFieldStrength = VoltsPerMeter(this.toVolts / that.toMeters)
 
   def toVolts = to(Volts)
   def toMicrovolts = to(Microvolts)
