@@ -8,14 +8,14 @@
 
 package squants.energy
 
-import org.scalatest.{ FlatSpec, Matchers }
-import squants.electro.{ Coulombs, Volts }
-import squants.mass.Kilograms
-import squants.motion.{ MetersPerSecond, NewtonSeconds, Newtons }
-import squants.space.{ CubicMeters, Meters }
-import squants.thermal.{ JoulesPerKelvin, Kelvin }
+import org.scalatest.{FlatSpec, Matchers}
+import squants.electro.{Coulombs, Volts}
+import squants.mass.{Kilograms, Moles}
+import squants.motion.{MetersPerSecond, NewtonSeconds, Newtons}
+import squants.space.{CubicMeters, Meters}
+import squants.thermal.{JoulesPerKelvin, Kelvin}
 import squants.time.Hours
-import squants.{ MetricSystem, QuantityParseException }
+import squants.{MetricSystem, QuantityParseException}
 
 /**
  * @author  garyKeorkunian
@@ -145,6 +145,10 @@ class EnergySpec extends FlatSpec with Matchers {
 
   it should "return Temperature when divided by ThermalCapacity" in {
     Joules(10) / Kelvin(2) should be(JoulesPerKelvin(5))
+  }
+
+  it should "return MolarEnergy when divided by ChemicalAmount" in {
+    Joules(10) / Moles(2) should be(JoulesPerMole(5))
   }
 
   behavior of "KineticEnergyCalculations"
