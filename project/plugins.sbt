@@ -1,10 +1,10 @@
 addSbtPlugin("org.scala-js" % "sbt-scalajs" % "0.6.17")
 
-addSbtPlugin("org.scala-native" % "sbt-crossproject" % "0.1.0")
+addSbtPlugin("org.scala-native" % "sbt-crossproject" % "0.2.0")
 
-addSbtPlugin("org.scala-native" % "sbt-scalajs-crossproject" % "0.1.0")
+addSbtPlugin("org.scala-native" % "sbt-scalajs-crossproject" % "0.2.0")
 
-addSbtPlugin("org.scala-native" % "sbt-scala-native" % "0.2.1")
+addSbtPlugin("org.scala-native" % "sbt-scala-native" % "0.3.0")
 
 addSbtPlugin("org.scalariform" % "sbt-scalariform" % "1.5.1")
 
