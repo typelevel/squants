@@ -8,7 +8,7 @@
 
 package squants
 
-import org.scalatest.{ FlatSpec, Matchers }
+import org.scalatest.{FlatSpec, Matchers}
 import squants.time.Hertz
 
 /**
@@ -55,9 +55,13 @@ class DimensionlessSpec extends FlatSpec with Matchers {
     Gross(1).toString(Gross) should be("1.0 gr")
   }
 
-  it should "return another Dimensionless  when multiplied by a Dimensionless" in {
+  it should "return another Dimensionless when multiplied by a Dimensionless" in {
     Each(2) * Dozen(1) should be(Dozen(2))
     Dozen(5) * Percent(10) should be(Each(6))
+  }
+
+  it should "return another Dimensionless when added to a Double" in {
+    Each(10) + 10.22 should be(Each(20.22))
   }
 
   it should "return a Frequency when divided by Time" in {
@@ -98,6 +102,15 @@ class DimensionlessSpec extends FlatSpec with Matchers {
     coefficient.hundred should be(Each(coefficient * 1e2))
     coefficient.thousand should be(Each(coefficient * 1e3))
     coefficient.million should be(Each(coefficient * 1e6))
+  }
+
+  it should "provide an implicit conversion to Double" in {
+    import DimensionlessConversions._
+
+    10 + 5.each should be(15d)
+    100 - 1.dozen should be(88d)
+    100 * 15.percent should be(15)
+    12000 / 1.dozen should be(1000d)
   }
 
   it should "provide Numeric support" in {

@@ -8,7 +8,7 @@
 
 package squants
 
-import squants.time.{ Frequency, Hertz, TimeIntegral }
+import squants.time.{Frequency, Hertz, TimeIntegral}
 
 /**
  * Represents a quantity of some thing for which there is no dimension.
@@ -30,8 +30,10 @@ final class Dimensionless private (val value: Double, val unit: DimensionlessUni
   protected def timeDerived = Hertz(toEach)
   protected[squants] def time = Seconds(1)
 
-  def *(that: Dimensionless) = Each(this.toEach * that.toEach)
-  def *(that: Quantity[_]) = that * this.toEach
+  def *(that: Dimensionless) = Each(toEach * that.toEach)
+  def *(that: Quantity[_]) = that * toEach
+
+  def +(that: Double): Dimensionless = this + Each(that)
 
   def toPercent = to(Percent)
   def toEach = to(Each)
@@ -110,6 +112,8 @@ object DimensionlessConversions {
   lazy val thousand = Each(1e3)
   lazy val million = Each(1e6)
 
+  import scala.language.implicitConversions
+
   implicit class DimensionlessConversions[A](n: A)(implicit num: Numeric[A]) {
     def percent = Percent(n)
     def each = Each(n)
@@ -123,11 +127,19 @@ object DimensionlessConversions {
     def thousand = Each(num.toDouble(n) * 1e3)
     def million = Each(num.toDouble(n) * 1e6)
   }
+  /**
+   * Provides an implicit conversion from Dimensionless to Double, allowing a Dimensionless value
+   * to be used anywhere a Double (or similar primitive) is required
+   *
+   * @param d Dimensionless
+   * @return
+   */
+  implicit def dimensionlessToDouble(d: Dimensionless): Double = d.toEach
 
   implicit object DimensionlessNumeric extends AbstractQuantityNumeric[Dimensionless](Dimensionless.primaryUnit) {
     /**
      * Dimensionless quantities support the times operation.
-     * This method overrides the default [[squants.AbstractQuantityNumeric.times]] which thrown an exception
+     * This method overrides the default [[squants.AbstractQuantityNumeric.times]] which throws an exception
      *
      * @param x Dimensionless
      * @param y Dimensionless
