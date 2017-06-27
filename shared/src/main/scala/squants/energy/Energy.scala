@@ -199,7 +199,7 @@ object Ergs extends EnergyUnit {
 }
 
 object ElectronVolt extends EnergyUnit {
-  val conversionFactor = Joules.conversionFactor * EnergyConversions.evMultiplier
+  val conversionFactor = Joules.conversionFactor * 1.60217656535e-19
   val symbol = "eV"
 }
 
@@ -269,7 +269,6 @@ object EnergyConversions {
   lazy val TeV = TeraElectronVolt(1)
   lazy val PeV = PetaElectronVolt(1)
   lazy val EeV = ExaElectronVolt(1)
-  lazy val evMultiplier: Double = 1.60217656535e-19
 
   implicit class EnergyConversions[A](n: A)(implicit num: Numeric[A]) {
     def J = Joules(n)
