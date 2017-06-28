@@ -26,6 +26,8 @@ final class Permeability private (val value: Double, val unit: PermeabilityUnit)
 
   val dimension = Permeability
 
+  def *(that: Length): Inductance = Henry(this.toHenriesPerMeter * that.toMeters)
+
   def toHenriesPerMeter = to(HenriesPerMeter)
   def toNewtonsPerAmpereSquared = to(NewtonsPerAmperesSquared)
 }

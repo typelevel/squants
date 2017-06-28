@@ -10,6 +10,7 @@ package squants.electro
 
 import org.scalatest.{FlatSpec, Matchers}
 import squants.{MetricSystem, QuantityParseException}
+import squants.space.Meters
 
 /**
  * @author  cquiroz
@@ -44,6 +45,10 @@ class PermeabilitySpec extends FlatSpec with Matchers {
   it should "return properly formatted strings for all supported Units of Measure" in {
     HenriesPerMeter(1).toString(HenriesPerMeter) should be("1.0 H/m")
     NewtonsPerAmperesSquared(1).toString(NewtonsPerAmperesSquared) should be("1.0 N/A²")
+  }
+
+  it should "return Inductance when multiplied by Distance" in {
+    HenriesPerMeter(1) * Meters(1) should be(Henry(1))
   }
 
   behavior of "PermeabilityConversions"
