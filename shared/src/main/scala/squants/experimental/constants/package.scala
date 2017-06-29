@@ -13,6 +13,11 @@ package object constants {
 
   object universal extends constants.Universal
 
+  object electromagnetic extends constants.ElectroMagnetic
+
+  object all extends constants.Universal
+    with constants.ElectroMagnetic
+
   object ConstantsConversions {
     implicit def ConstantsToQuantity[A <: Quantity[A]](c: Constant[A]): Quantity[A] =
       c.value
