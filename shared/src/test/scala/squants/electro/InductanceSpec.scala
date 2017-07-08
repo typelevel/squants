@@ -10,7 +10,7 @@ package squants.electro
 
 import org.scalatest.{FlatSpec, Matchers}
 import squants.{MetricSystem, QuantityParseException}
-
+import squants.space.Meters
 /**
  * @author  garyKeorkunian
  * @since   0.1
@@ -57,6 +57,10 @@ class InductanceSpec extends FlatSpec with Matchers {
 
   it should "return MagneticFlux when multiplied by ElectricCurrent" in {
     Henry(1) * Amperes(1) should be(Webers(1))
+  }
+
+  it should "return Permeability when divided by Length" in {
+    Henry(1) / Meters(1) should be(HenriesPerMeter(1))
   }
 
   behavior of "InductanceConversions"
