@@ -199,7 +199,7 @@ object Ergs extends EnergyUnit {
 }
 
 object ElectronVolt extends EnergyUnit {
-  val conversionFactor = Joules.conversionFactor * 1.60217656535e-19
+  val conversionFactor = Joules.conversionFactor * 1.602176565e-19
   val symbol = "eV"
 }
 

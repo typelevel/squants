@@ -110,14 +110,7 @@ class EnergySpec extends FlatSpec with Matchers {
     x.toPeV should be(1 / PetaElectronVolt.conversionFactor)
     x.toEeV should be(1 / ExaElectronVolt.conversionFactor)
 
-    ElectronVolt(1).toJoules should be(1.60217656535e-19)
-    MilliElectronVolt(1).toJoules should be(1.60217656535e-22)
-    KiloElectronVolt(1).toJoules should be(1.60217656535e-16)
-    MegaElectronVolt(1).toJoules should be(1.60217656535e-13)
-    GigaElectronVolt(1).toJoules should be(1.60217656535e-10)
-    TeraElectronVolt(1).toJoules should be(1.60217656535e-7)
-    PetaElectronVolt(1).toJoules should be(1.60217656535e-4)
-    ExaElectronVolt(1).toJoules should be(1.60217656535e-1)
+    ElectronVolt(1).toJoules should be(1.602176565e-19)
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
