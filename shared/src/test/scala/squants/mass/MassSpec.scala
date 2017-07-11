@@ -41,6 +41,15 @@ class MassSpec extends FlatSpec with Matchers {
     Tolas(10.22).toTolas should be(10.22)
     Carats(10.22).toCarats should be(10.22)
     SolarMasses(10.22).toSolarMasses should be(10.22)
+
+    ElectronVoltMass(1).toeV should be(1)
+    MilliElectronVoltMass(1).tomeV should be(1)
+    KiloElectronVoltMass(1).tokeV should be(1)
+    MegaElectronVoltMass(1).toMeV should be(1)
+    GigaElectronVoltMass(1).toGeV should be(1)
+    TeraElectronVoltMass(1).toTeV should be(1)
+    PetaElectronVoltMass(1).toPeV should be(1)
+    ExaElectronVoltMass(1).toEeV should be(1)
   }
 
   it should "create values from properly formatted Strings" in {
@@ -61,6 +70,14 @@ class MassSpec extends FlatSpec with Matchers {
     Mass("10.22 tola").get should be(Tolas(10.22))
     Mass("10.22 ct").get should be(Carats(10.22))
     Mass("10.22 M☉").get should be(SolarMasses(10.22))
+    Mass("10.22 eV/c²").get should be(ElectronVoltMass(10.22))
+    Mass("10.22 meV/c²").get should be(MilliElectronVoltMass(10.22))
+    Mass("10.22 keV/c²").get should be(KiloElectronVoltMass(10.22))
+    Mass("10.22 MeV/c²").get should be(MegaElectronVoltMass(10.22))
+    Mass("10.22 GeV/c²").get should be(GigaElectronVoltMass(10.22))
+    Mass("10.22 TeV/c²").get should be(TeraElectronVoltMass(10.22))
+    Mass("10.22 PeV/c²").get should be(PetaElectronVoltMass(10.22))
+    Mass("10.22 EeV/c²").get should be(ExaElectronVoltMass(10.22))
     Mass("10.45 zz").failed.get should be(QuantityParseException("Unable to parse Mass", "10.45 zz"))
     Mass("zz g").failed.get should be(QuantityParseException("Unable to parse Mass", "zz g"))
   }
@@ -80,6 +97,7 @@ class MassSpec extends FlatSpec with Matchers {
     x.toTroyPounds should be (1 / TroyPounds.conversionFactor)
     x.toCarats should be (1 / Carats.conversionFactor)
     x.toSolarMasses should be (1 / SolarMasses.conversionFactor)
+    x.toeV should be (1 / ElectronVoltMass.conversionFactor)
 
     Grams(1000) should be(Kilograms(1))
     Kilograms(0.45359237) should be(Pounds(1))
@@ -94,6 +112,16 @@ class MassSpec extends FlatSpec with Matchers {
     TroyOunces(1).toGrams should be(31.1034768)
     Pennyweights(1).toGrams should be(1.55517384 +- 0.000000001)
     SolarMasses(1).toKilograms should be(1.98855e30 +- 0.00025)
+
+    x.toeV should be(1 / ElectronVoltMass.conversionFactor)
+    x.tomeV should be(1 / MilliElectronVoltMass.conversionFactor)
+    x.tokeV should be(1 / KiloElectronVoltMass.conversionFactor)
+    x.toMeV should be(1 / MegaElectronVoltMass.conversionFactor)
+    x.toGeV should be(1 / GigaElectronVoltMass.conversionFactor)
+    x.toTeV should be(1 / TeraElectronVoltMass.conversionFactor)
+    x.toPeV should be(1 / PetaElectronVoltMass.conversionFactor)
+    x.toEeV should be(1 / ExaElectronVoltMass.conversionFactor)
+
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
@@ -113,6 +141,15 @@ class MassSpec extends FlatSpec with Matchers {
     Tolas(1).toString(Tolas) should be("1.0 tola")
     Carats(1).toString(Carats) should be("1.0 ct")
     SolarMasses(1).toString(SolarMasses) should be("1.0 M☉")
+
+    ElectronVoltMass(1).toString(ElectronVoltMass) should be("1.0 eV/c²")
+    MilliElectronVoltMass(1).toString(MilliElectronVoltMass) should be("1.0 meV/c²")
+    KiloElectronVoltMass(1).toString(KiloElectronVoltMass) should be("1.0 keV/c²")
+    MegaElectronVoltMass(1).toString(MegaElectronVoltMass) should be("1.0 MeV/c²")
+    GigaElectronVoltMass(1).toString(GigaElectronVoltMass) should be("1.0 GeV/c²")
+    TeraElectronVoltMass(1).toString(TeraElectronVoltMass) should be("1.0 TeV/c²")
+    PetaElectronVoltMass(1).toString(PetaElectronVoltMass) should be("1.0 PeV/c²")
+    ExaElectronVoltMass(1).toString(ExaElectronVoltMass) should be("1.0 EeV/c²")
   }
 
   it should "return Momentum when multiplied by Velocity" in {
@@ -172,6 +209,15 @@ class MassSpec extends FlatSpec with Matchers {
     tola should be(Tolas(1))
     carat should be(Carats(1))
     solarMass should be(SolarMasses(1))
+
+    eV should be(ElectronVoltMass(1))
+    meV should be(MilliElectronVoltMass(1))
+    keV should be(KiloElectronVoltMass(1))
+    MeV should be(MegaElectronVoltMass(1))
+    GeV should be(GigaElectronVoltMass(1))
+    TeV should be(TeraElectronVoltMass(1))
+    PeV should be(PetaElectronVoltMass(1))
+    EeV should be(ExaElectronVoltMass(1))
   }
 
   it should "provide implicit conversion from Double" in {
@@ -199,6 +245,15 @@ class MassSpec extends FlatSpec with Matchers {
     d.ct should be(Carats(d))
     d.carats should be(Carats(d))
     d.solarMasses should be(SolarMasses(d))
+
+    d.eV should be(ElectronVoltMass(d))
+    d.meV should be(MilliElectronVoltMass(d))
+    d.keV should be(KiloElectronVoltMass(d))
+    d.MeV should be(MegaElectronVoltMass(d))
+    d.GeV should be(GigaElectronVoltMass(d))
+    d.TeV should be(TeraElectronVoltMass(d))
+    d.PeV should be(PetaElectronVoltMass(d))
+    d.EeV should be(ExaElectronVoltMass(d))
   }
 
   it should "provide implicit conversions from arbitrary Numeric types" in {
@@ -229,6 +284,14 @@ class MassSpec extends FlatSpec with Matchers {
     "10.45 tola".toMass.get should be(Tolas(10.45))
     "10.45 ct".toMass.get should be(Carats(10.45))
     "10.45 M☉".toMass.get should be(SolarMasses(10.45))
+    "10.22 eV/c²".toMass.get should be(ElectronVoltMass(10.22))
+    "10.22 meV/c²".toMass.get should be(MilliElectronVoltMass(10.22))
+    "10.22 keV/c²".toMass.get should be(KiloElectronVoltMass(10.22))
+    "10.22 MeV/c²".toMass.get should be(MegaElectronVoltMass(10.22))
+    "10.22 GeV/c²".toMass.get should be(GigaElectronVoltMass(10.22))
+    "10.22 TeV/c²".toMass.get should be(TeraElectronVoltMass(10.22))
+    "10.22 PeV/c²".toMass.get should be(PetaElectronVoltMass(10.22))
+    "10.22 EeV/c²".toMass.get should be(ExaElectronVoltMass(10.22))
     "10.45 zz".toMass.failed.get should be(QuantityParseException("Unable to parse Mass", "10.45 zz"))
     "zz oz".toMass.failed.get should be(QuantityParseException("Unable to parse Mass", "zz oz"))
   }
