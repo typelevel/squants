@@ -65,14 +65,14 @@ final class Mass private (val value: Double, val unit: MassUnit)
   def toCarats = to(Carats)
   def toSolarMasses = to(SolarMasses)
 
-  def toeV = to(ElectronVolt)
-  def tomeV = to(MilliElectronVolt)
-  def tokeV = to(KiloElectronVolt)
-  def toMeV = to(MegaElectronVolt)
-  def toGeV = to(GigaElectronVolt)
-  def toTeV = to(TeraElectronVolt)
-  def toPeV = to(PetaElectronVolt)
-  def toEeV = to(ExaElectronVolt)
+  def toeV = to(ElectronVoltMass)
+  def tomeV = to(MilliElectronVoltMass)
+  def tokeV = to(KiloElectronVoltMass)
+  def toMeV = to(MegaElectronVoltMass)
+  def toGeV = to(GigaElectronVoltMass)
+  def toTeV = to(TeraElectronVoltMass)
+  def toPeV = to(PetaElectronVoltMass)
+  def toEeV = to(ExaElectronVoltMass)
 }
 
 /**
@@ -86,8 +86,8 @@ object Mass extends Dimension[Mass] with BaseDimension {
   def siUnit = Kilograms
   def units = Set(Micrograms, Milligrams, Grams, Kilograms, Tonnes, Ounces, Pounds, Kilopounds, Megapounds, Stone,
     TroyGrains, Pennyweights, TroyOunces, TroyPounds, Tolas, Carats, SolarMasses,
-    ElectronVolt, MilliElectronVolt, KiloElectronVolt, MegaElectronVolt,
-    GigaElectronVolt, TeraElectronVolt, PetaElectronVolt, ExaElectronVolt)
+    ElectronVoltMass, MilliElectronVoltMass, KiloElectronVoltMass, MegaElectronVoltMass,
+    GigaElectronVoltMass, TeraElectronVoltMass, PetaElectronVoltMass, ExaElectronVoltMass)
   def dimensionSymbol = "M"
 }
 
@@ -182,43 +182,43 @@ object SolarMasses extends MassUnit {
   val symbol = "M☉"
 }
 
-object ElectronVolt extends MassUnit {
+object ElectronVoltMass extends MassUnit {
   val conversionFactor = 1.782662e-36
   val symbol = "eV/c²"
 }
 
-object MilliElectronVolt extends MassUnit {
-  val conversionFactor = ElectronVolt.conversionFactor * MetricSystem.Milli
+object MilliElectronVoltMass extends MassUnit {
+  val conversionFactor = ElectronVoltMass.conversionFactor * MetricSystem.Milli
   val symbol = "meV/c²"
 }
 
-object KiloElectronVolt extends MassUnit {
-  val conversionFactor = ElectronVolt.conversionFactor * MetricSystem.Kilo
+object KiloElectronVoltMass extends MassUnit {
+  val conversionFactor = ElectronVoltMass.conversionFactor * MetricSystem.Kilo
   val symbol = "keV/c²"
 }
 
-object MegaElectronVolt extends MassUnit {
-  val conversionFactor = ElectronVolt.conversionFactor * MetricSystem.Mega
+object MegaElectronVoltMass extends MassUnit {
+  val conversionFactor = ElectronVoltMass.conversionFactor * MetricSystem.Mega
   val symbol = "MeV/c²"
 }
 
-object GigaElectronVolt extends MassUnit {
-  val conversionFactor = ElectronVolt.conversionFactor * MetricSystem.Giga
+object GigaElectronVoltMass extends MassUnit {
+  val conversionFactor = ElectronVoltMass.conversionFactor * MetricSystem.Giga
   val symbol = "GeV/c²"
 }
 
-object TeraElectronVolt extends MassUnit {
-  val conversionFactor = ElectronVolt.conversionFactor * MetricSystem.Tera
+object TeraElectronVoltMass extends MassUnit {
+  val conversionFactor = ElectronVoltMass.conversionFactor * MetricSystem.Tera
   val symbol = "TeV/c²"
 }
 
-object PetaElectronVolt extends MassUnit {
-  val conversionFactor = ElectronVolt.conversionFactor * MetricSystem.Peta
+object PetaElectronVoltMass extends MassUnit {
+  val conversionFactor = ElectronVoltMass.conversionFactor * MetricSystem.Peta
   val symbol = "PeV/c²"
 }
 
-object ExaElectronVolt extends MassUnit {
-  val conversionFactor = ElectronVolt.conversionFactor * MetricSystem.Exa
+object ExaElectronVoltMass extends MassUnit {
+  val conversionFactor = ElectronVoltMass.conversionFactor * MetricSystem.Exa
   val symbol = "EeV/c²"
 }
 /**
@@ -245,14 +245,14 @@ object MassConversions {
   lazy val carat = Carats(1)
   lazy val solarMass = SolarMasses(1)
 
-  lazy val eV = ElectronVolt(1)
-  lazy val meV = MilliElectronVolt(1)
-  lazy val keV = KiloElectronVolt(1)
-  lazy val MeV = MegaElectronVolt(1)
-  lazy val GeV = GigaElectronVolt(1)
-  lazy val TeV = TeraElectronVolt(1)
-  lazy val PeV = PetaElectronVolt(1)
-  lazy val EeV = ExaElectronVolt(1)
+  lazy val eV = ElectronVoltMass(1)
+  lazy val meV = MilliElectronVoltMass(1)
+  lazy val keV = KiloElectronVoltMass(1)
+  lazy val MeV = MegaElectronVoltMass(1)
+  lazy val GeV = GigaElectronVoltMass(1)
+  lazy val TeV = TeraElectronVoltMass(1)
+  lazy val PeV = PetaElectronVoltMass(1)
+  lazy val EeV = ExaElectronVoltMass(1)
 
   implicit class MassConversions[A](n: A)(implicit num: Numeric[A]) {
     def mcg = Micrograms(n)
@@ -278,14 +278,14 @@ object MassConversions {
     def carats = Carats(n)
     def solarMasses = SolarMasses(n)
 
-    def eV = ElectronVolt(n)
-    def meV = MilliElectronVolt(n)
-    def keV = KiloElectronVolt(n)
-    def MeV = MegaElectronVolt(n)
-    def GeV = GigaElectronVolt(n)
-    def TeV = TeraElectronVolt(n)
-    def PeV = PetaElectronVolt(n)
-    def EeV = ExaElectronVolt(n)
+    def eV = ElectronVoltMass(n)
+    def meV = MilliElectronVoltMass(n)
+    def keV = KiloElectronVoltMass(n)
+    def MeV = MegaElectronVoltMass(n)
+    def GeV = GigaElectronVoltMass(n)
+    def TeV = TeraElectronVoltMass(n)
+    def PeV = PetaElectronVoltMass(n)
+    def EeV = ExaElectronVoltMass(n)
   }
 
   implicit class MassStringConversions(val s: String) {
