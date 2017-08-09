@@ -41,6 +41,7 @@ object ImplicitDimensions {
     implicit val implicitEnergyDensity: Dimension[EnergyDensity] = EnergyDensity
     implicit val implicitMolarEnergy: Dimension[MolarEnergy] = MolarEnergy
     implicit val implicitPower: Dimension[Power] = Power
+    implicit val implicitPowerDensity: Dimension[PowerDensity] = PowerDensity
     implicit val implicitPowerRamp: Dimension[PowerRamp] = PowerRamp
     implicit val implicitSpecificEnergy: Dimension[SpecificEnergy] = SpecificEnergy
   }

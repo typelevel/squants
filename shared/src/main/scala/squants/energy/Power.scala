@@ -43,7 +43,7 @@ final class Power private (val value: Double, val unit: PowerUnit)
   def /(that: SolidAngle): RadiantIntensity = WattsPerSteradian(this.toWatts / that.toSteradians)
   def /(that: ElectricPotential): ElectricCurrent = Amperes(this.toWatts / that.toVolts)
   def /(that: ElectricCurrent): ElectricPotential = Volts(this.toWatts / that.toAmperes)
-  def /(that: Volume) = ??? // Power Density
+  def /(that: Volume): PowerDensity = WattsPerCubicMeter(this.toWatts / that.toCubicMeters)
 
   def toMilliwatts = to(Milliwatts)
   def toWatts = to(Watts)
