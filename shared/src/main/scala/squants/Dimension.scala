@@ -55,8 +55,32 @@ trait Dimension[A <: Quantity[A]] {
    * @param value the source string (ie, "10 kW") or tuple (ie, (10, "kW"))
    * @return Try[A]
    */
-  protected def parse(value: Any) = value match {
-    case s: String              => parseString(s)
+  protected def parse(value: Any): Try[A] = value match {
+    case s: String              =>
+      if (Platform.name == "native") {
+        // inefficient but correct parsing
+        units.flatMap { uom =>
+          if (s.endsWith(uom.symbol)) {
+            val remaining = s.dropRight(uom.symbol.length).trim
+            val doubleRegex = "\\d+(.\\d+)?".r
+
+            remaining match {
+              case doubleRegex(_) =>
+                Some(uom(remaining.toDouble))
+              case _ =>
+                None
+            }
+          } else {
+            None
+          }
+        }.headOption.map { v =>
+          Success(v)
+        }.getOrElse {
+          Failure(QuantityParseException(s"Unable to parse $name", s))
+        }
+      } else {
+        parseString(s)
+      }
     case (v: Byte, u: String)   => parseTuple(v.toDouble, u)
     case (v: Short, u: String)  => parseTuple(v.toDouble, u)
     case (v: Int, u: String)    => parseTuple(v.toDouble, u)
@@ -72,7 +96,11 @@ trait Dimension[A <: Quantity[A]] {
       case _                             ⇒ Failure(QuantityParseException(s"Unable to parse $name", s))
     }
   }
-  private lazy val QuantityString = ("^([-+]?[0-9]*\\.?[0-9]+(?:[eE][-+]?[0-9]+)?) *(" + units.map { u: UnitOfMeasure[A] ⇒ u.symbol }.reduceLeft(_ + "|" + _) + ")$").r
+
+  private lazy val regexUnits = units
+
+  private lazy val QuantityString =
+    ("^([-+]?[0-9]*\\.?[0-9]+(?:[eE][-+]?[0-9]+)?) *(" + regexUnits.map { u: UnitOfMeasure[A] ⇒ u.symbol }.reduceLeft(_ + "|" + _) + ")$").r
 
   private def parseTuple(value: Double, symbol: String): Try[A] = {
     symbolToUnit(symbol) match {

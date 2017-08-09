@@ -288,7 +288,12 @@ class TemperatureSpec extends FlatSpec
     c.toString(Kelvin) should be("273.15°K")
     c.toString(Fahrenheit) should be("32.0°F")
     c.toString(Celsius) should be("0.0°C")
-    c.toString(Rankine) should be("491.66999999999996°R")
+
+    if (squants.Platform.name == "native") {
+      c.toString(Rankine) should be("491.67°R")
+    } else {
+      c.toString(Rankine) should be("491.66999999999996°R")
+    }
 
     val f = Fahrenheit(32)
     f.toString(Kelvin) should be("273.15°K")

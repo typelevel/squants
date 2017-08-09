@@ -1,4 +1,4 @@
-import org.scalajs.sbtplugin.ScalaJSPlugin.autoImport._
+import sbtcrossproject.CrossPlugin.autoImport._
 import sbt.Keys._
 import sbt._
 import com.typesafe.sbt.osgi.SbtOsgi

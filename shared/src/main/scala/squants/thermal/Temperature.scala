@@ -9,7 +9,7 @@
 package squants.thermal
 
 import squants._
-import squants.Platform.crossFormat
+import squants.crossFormat
 import squants.energy.Joules
 import scala.util.{ Failure, Success, Try }
 
@@ -141,14 +141,24 @@ object Temperature extends Dimension[Temperature] with BaseDimension {
   def apply[A](n: A, scale: TemperatureScale)(implicit num: Numeric[A]) = new Temperature(num.toDouble(n), scale)
 
   def apply(s: String): Try[Temperature] = {
-    val regex = "([-+]?[0-9]*\\.?[0-9]+(?:[eE][-+]?[0-9]+)?) *°? *(f|F|c|C|k|K|r|R)".r
-    s match {
-      case regex(value, unit) => unit match {
-        case "f" | "F" => Success(Fahrenheit(value.toDouble))
-        case "c" | "C" => Success(Celsius(value.toDouble))
-        case "k" | "K" => Success(Kelvin(value.toDouble))
-        case "r" | "R" => Success(Rankine(value.toDouble))
-      }
+    val regex = if (squants.Platform.name == "native") {
+      "([-+]?[0-9]*\\.?[0-9]+(?:[eE][-+]?[0-9]+)?) *(__DEGREE__)? *(f|F|c|C|k|K|r|R)".r
+    } else {
+      "([-+]?[0-9]*\\.?[0-9]+(?:[eE][-+]?[0-9]+)?) *(°)? *(f|F|c|C|k|K|r|R)".r
+    }
+
+    val crossS = if (squants.Platform.name == "native") {
+      s.split('°').mkString("__DEGREE__")
+    } else s
+
+    crossS match {
+      case regex(value, _, unit) =>
+        unit match {
+          case "f" | "F" => Success(Fahrenheit(value.toDouble))
+          case "c" | "C" => Success(Celsius(value.toDouble))
+          case "k" | "K" => Success(Kelvin(value.toDouble))
+          case "r" | "R" => Success(Rankine(value.toDouble))
+        }
       case _ => Failure(QuantityParseException("Unable to parse Temperature", s))
     }
   }
