@@ -97,10 +97,8 @@ trait Dimension[A <: Quantity[A]] {
     }
   }
 
-  private lazy val regexUnits = units
-
   private lazy val QuantityString =
-    ("^([-+]?[0-9]*\\.?[0-9]+(?:[eE][-+]?[0-9]+)?) *(" + regexUnits.map { u: UnitOfMeasure[A] ⇒ u.symbol }.reduceLeft(_ + "|" + _) + ")$").r
+    ("^([-+]?[0-9]*\\.?[0-9]+(?:[eE][-+]?[0-9]+)?) *(" + units.map { u: UnitOfMeasure[A] ⇒ u.symbol }.reduceLeft(_ + "|" + _) + ")$").r
 
   private def parseTuple(value: Double, symbol: String): Try[A] = {
     symbolToUnit(symbol) match {
