@@ -1,4 +1,6 @@
 import org.scalajs.sbtplugin.ScalaJSPlugin.autoImport._
+//  uncomment and locally publish ScalaCheck and ScalaTest to run native tests
+// import sbtcrossproject.CrossPlugin.autoImport._
 import sbt.Keys._
 import sbt._
 import com.typesafe.sbt.osgi.SbtOsgi

@@ -115,7 +115,11 @@ class VolumeSpec extends FlatSpec with Matchers {
     x.toImperialPints should be(8000d / litresPerImperialGallon)
     x.toImperialCups should be(16000d / litresPerImperialGallon)
 
-    x.toAcreFeet should be(8.107083295302069E-4)
+    if (squants.Platform.name == "native") {
+      x.toAcreFeet.toString should be("0.000811")
+    } else {
+      x.toAcreFeet should be(8.107083295302069E-4)
+    }
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {

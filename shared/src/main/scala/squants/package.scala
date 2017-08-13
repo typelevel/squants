@@ -75,6 +75,33 @@ package object squants {
   type Price[A <: Quantity[A]] = squants.market.Price[A]
 
   /**
+    * Helper function to achieve uniform Double formatting over JVM and JS platforms.
+    * Simple Double.toString will format 1.0 as "1.0" on JVM and as "1" on JS
+    * @param d Double number to be formatted
+    * @return
+    */
+  private[squants] def crossFormat(d: Double): String = {
+    if (d.toLong == d) {
+      "%.1f".format(d)
+    }
+    else {
+      val out = d.toString
+
+      if (Platform.name == "native") {
+        // closer to JVM
+        if (d < 0) {
+          "-" + out.tail.reverse.dropWhile(_ == '0').reverse
+        } else {
+          out.reverse.dropWhile(_ == '0').reverse
+        }
+      } else {
+        out
+      }
+    }
+  }
+
+
+  /**
    * Provides implicit conversions that allow Doubles to lead in * and / by Time operations
    * {{{
    *    1.5 * Kilometers(10) should be(Kilometers(15))
