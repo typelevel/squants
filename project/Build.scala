@@ -6,12 +6,12 @@ import com.typesafe.sbt.osgi.SbtOsgi.autoImport._
 
 object Versions {
   val Squants = "1.3.0"
-  val Scala = "2.11.11"
-  val ScalaCross = Seq("2.12.2", "2.11.11", "2.10.6")
+  val Scala = "2.11.12"
+  val ScalaCross = Seq("2.12.4", "2.11.12", "2.10.7")
 
-  val ScalaTest = "3.0.3"
+  val ScalaTest = "3.0.4"
   val ScalaCheck = "1.13.5"
-  val Json4s = "3.5.1"
+  val Json4s = "3.5.3"
 }
 
 object Dependencies {
