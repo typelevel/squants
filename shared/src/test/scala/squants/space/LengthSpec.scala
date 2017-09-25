@@ -48,6 +48,15 @@ class LengthSpec extends FlatSpec with Matchers {
     Parsecs(1).toParsecs should be(1)
     SolarRadii(1).toSolarRadii should be(1)
     NominalSolarRadii(1).toNominalSolarRadii should be(1)
+
+    ElectronVoltLength(1).toeV should be(1)
+    MilliElectronVoltLength(1).tomeV should be(1)
+    KiloElectronVoltLength(1).tokeV should be(1)
+    MegaElectronVoltLength(1).toMeV should be(1)
+    GigaElectronVoltLength(1).toGeV should be(1)
+    TeraElectronVoltLength(1).toTeV should be(1)
+    PetaElectronVoltLength(1).toPeV should be(1)
+    ExaElectronVoltLength(1).toEeV should be(1)
   }
 
   it should "create values from properly formatted Strings" in {
@@ -72,6 +81,14 @@ class LengthSpec extends FlatSpec with Matchers {
     Length("10.33 pc").get should be(Parsecs(10.33))
     Length("10.33 R☉").get should be(SolarRadii(10.33))
     Length("10.33 RN☉").get should be(NominalSolarRadii(10.33))
+    Length("10.22 ħc/eV").get should be(ElectronVoltLength(10.22))
+    Length("10.22 mħc/eV").get should be(MilliElectronVoltLength(10.22))
+    Length("10.22 kħc/eV").get should be(KiloElectronVoltLength(10.22))
+    Length("10.22 Mħc/eV").get should be(MegaElectronVoltLength(10.22))
+    Length("10.22 Għc/eV").get should be(GigaElectronVoltLength(10.22))
+    Length("10.22 Tħc/eV").get should be(TeraElectronVoltLength(10.22))
+    Length("10.22 Pħc/eV").get should be(PetaElectronVoltLength(10.22))
+    Length("10.22 Eħc/eV").get should be(ExaElectronVoltLength(10.22))
     Length("10.33 zz").failed.get should be(QuantityParseException("Unable to parse Length", "10.33 zz"))
     Length("ZZ m").failed.get should be(QuantityParseException("Unable to parse Length", "ZZ m"))
   }
@@ -101,6 +118,15 @@ class LengthSpec extends FlatSpec with Matchers {
     x.toParsecs should be(1 / 3.08567758149137e16)
     x.toSolarRadii should be(1 / 6.957e8)
     x.toNominalSolarRadii should be(1 / 6.957e8)
+
+    x.toeV should be(1 / ElectronVoltLength.conversionFactor)
+    x.tomeV should be(1 / MilliElectronVoltLength.conversionFactor)
+    x.tokeV should be(1 / KiloElectronVoltLength.conversionFactor)
+    x.toMeV should be(1 / MegaElectronVoltLength.conversionFactor)
+    x.toGeV should be(1 / GigaElectronVoltLength.conversionFactor)
+    x.toTeV should be(1 / TeraElectronVoltLength.conversionFactor)
+    x.toPeV should be(1 / PetaElectronVoltLength.conversionFactor)
+    x.toEeV should be(1 / ExaElectronVoltLength.conversionFactor)
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
@@ -126,6 +152,15 @@ class LengthSpec extends FlatSpec with Matchers {
     Parsecs(1).toString(Parsecs) should be("1.0 pc")
     SolarRadii(1).toString(SolarRadii) should be("1.0 R☉")
     NominalSolarRadii(1).toString(NominalSolarRadii) should be("1.0 RN☉")
+
+    ElectronVoltLength(1).toString(ElectronVoltLength) should be("1.0 ħc/eV")
+    MilliElectronVoltLength(1).toString(MilliElectronVoltLength) should be("1.0 mħc/eV")
+    KiloElectronVoltLength(1).toString(KiloElectronVoltLength) should be("1.0 kħc/eV")
+    MegaElectronVoltLength(1).toString(MegaElectronVoltLength) should be("1.0 Mħc/eV")
+    GigaElectronVoltLength(1).toString(GigaElectronVoltLength) should be("1.0 Għc/eV")
+    TeraElectronVoltLength(1).toString(TeraElectronVoltLength) should be("1.0 Tħc/eV")
+    PetaElectronVoltLength(1).toString(PetaElectronVoltLength) should be("1.0 Pħc/eV")
+    ExaElectronVoltLength(1).toString(ExaElectronVoltLength) should be("1.0 Eħc/eV")
   }
 
   it should "return Area when multiplied by Length" in {
@@ -199,6 +234,14 @@ class LengthSpec extends FlatSpec with Matchers {
     parsec should be(Parsecs(1))
     solarRadius should be(SolarRadii(1))
     nominalSolarRadius should be(NominalSolarRadii(1))
+    eV should be(ElectronVoltLength(1))
+    meV should be(MilliElectronVoltLength(1))
+    keV should be(KiloElectronVoltLength(1))
+    MeV should be(MegaElectronVoltLength(1))
+    GeV should be(GigaElectronVoltLength(1))
+    TeV should be(TeraElectronVoltLength(1))
+    PeV should be(PetaElectronVoltLength(1))
+    EeV should be(ExaElectronVoltLength(1))
   }
 
   it should "provide implicit conversion from Double" in {
@@ -240,6 +283,14 @@ class LengthSpec extends FlatSpec with Matchers {
     d.parsecs should be(Parsecs(d))
     d.solarRadii should be(SolarRadii(d))
     d.nominalSolarRadii should be(NominalSolarRadii(d))
+    d.eV should be(ElectronVoltLength(d))
+    d.meV should be(MilliElectronVoltLength(d))
+    d.keV should be(KiloElectronVoltLength(d))
+    d.MeV should be(MegaElectronVoltLength(d))
+    d.GeV should be(GigaElectronVoltLength(d))
+    d.TeV should be(TeraElectronVoltLength(d))
+    d.PeV should be(PetaElectronVoltLength(d))
+    d.EeV should be(ExaElectronVoltLength(d))
   }
 
   it should "provide implicit conversion from String" in {
@@ -266,6 +317,14 @@ class LengthSpec extends FlatSpec with Matchers {
     "10.33 pc".toLength.get should be(Parsecs(10.33))
     "10.33 R☉".toLength.get should be(SolarRadii(10.33))
     "10.33 RN☉".toLength.get should be(NominalSolarRadii(10.33))
+    "10.22 ħc/eV".toLength.get should be(ElectronVoltLength(10.22))
+    "10.22 mħc/eV".toLength.get should be(MilliElectronVoltLength(10.22))
+    "10.22 kħc/eV".toLength.get should be(KiloElectronVoltLength(10.22))
+    "10.22 Mħc/eV".toLength.get should be(MegaElectronVoltLength(10.22))
+    "10.22 Għc/eV".toLength.get should be(GigaElectronVoltLength(10.22))
+    "10.22 Tħc/eV".toLength.get should be(TeraElectronVoltLength(10.22))
+    "10.22 Pħc/eV".toLength.get should be(PetaElectronVoltLength(10.22))
+    "10.22 Eħc/eV".toLength.get should be(ExaElectronVoltLength(10.22))
     "10.33 zz".toLength.failed.get should be(QuantityParseException("Unable to parse Length", "10.33 zz"))
     "ZZ m".toLength.failed.get should be(QuantityParseException("Unable to parse Length", "ZZ m"))
   }
