@@ -60,7 +60,7 @@ final class Acceleration private (val value: Double, val unit: AccelerationUnit)
 
 object Acceleration extends Dimension[Acceleration] {
   private[motion] def apply[A](n: A, unit: AccelerationUnit)(implicit num: Numeric[A]) = new Acceleration(num.toDouble(n), unit)
-  def apply = parse _
+  def apply(value: Any) = parse(value)
   def name = "Acceleration"
   def primaryUnit = MetersPerSecondSquared
   def siUnit = MetersPerSecondSquared

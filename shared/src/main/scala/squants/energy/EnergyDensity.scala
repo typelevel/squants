@@ -30,7 +30,7 @@ final class EnergyDensity private (val value: Double, val unit: EnergyDensityUni
 
 object EnergyDensity extends Dimension[EnergyDensity] {
   private[energy] def apply[A](n: A, unit: EnergyDensityUnit)(implicit num: Numeric[A]) = new EnergyDensity(num.toDouble(n), unit)
-  def apply = parse _
+  def apply(value: Any) = parse(value)
   def name = "EnergyDensity"
   def primaryUnit = JoulesPerCubicMeter
   def siUnit = JoulesPerCubicMeter

@@ -55,7 +55,7 @@ trait InformationUnit extends UnitOfMeasure[Information] with UnitConverter {
  */
 object Information extends Dimension[Information] with BaseDimension {
   private[information] def apply[A](n: A, unit: InformationUnit)(implicit num: Numeric[A]) = new Information(num.toDouble(n), unit)
-  def apply = parse _
+  def apply(value: Any) = parse(value)
   def name = "Information"
   def primaryUnit = Bytes
   def siUnit = Bytes
