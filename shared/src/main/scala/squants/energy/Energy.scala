@@ -53,6 +53,7 @@ final class Energy private (val value: Double, val unit: EnergyUnit)
   def /(that: PowerRamp): TimeSquared = (this / that.timeIntegrated) * time
 
   def toWattHours = to(WattHours)
+  def toMilliwattHours = to(MilliwattHours)
   def toKilowattHours = to(KilowattHours)
   def toMegawattHours = to(MegawattHours)
   def toGigawattHours = to(GigawattHours)
@@ -99,7 +100,7 @@ object Energy extends Dimension[Energy] {
   def name = "Energy"
   def primaryUnit = WattHours
   def siUnit = Joules
-  def units = Set(WattHours, KilowattHours, MegawattHours, GigawattHours,
+  def units = Set(WattHours, MilliwattHours, KilowattHours, MegawattHours, GigawattHours,
     Joules, Picojoules, Nanojoules, Microjoules, Millijoules,
     Kilojoules, Megajoules, Gigajoules, Terajoules,
     BritishThermalUnits, MBtus, MMBtus, Ergs,
@@ -116,6 +117,11 @@ trait EnergyUnit extends UnitOfMeasure[Energy] with UnitConverter {
 
 object WattHours extends EnergyUnit with PrimaryUnit {
   val symbol = "Wh"
+}
+
+object MilliwattHours extends EnergyUnit {
+  val conversionFactor = Watts.conversionFactor * MetricSystem.Milli
+  val symbol = "mWh"
 }
 
 object KilowattHours extends EnergyUnit {
@@ -241,6 +247,8 @@ object ExaElectronVolt extends EnergyUnit {
 object EnergyConversions {
   lazy val wattHour = WattHours(1)
   lazy val Wh = wattHour
+  lazy val milliwattHour = MilliwattHours(1)
+  lazy val mWh = milliwattHour
   lazy val kilowattHour = KilowattHours(1)
   lazy val kWh = kilowattHour
   lazy val megawattHour = MegawattHours(1)
@@ -291,6 +299,7 @@ object EnergyConversions {
     def terajoules = Terajoules(n)
 
     def Wh = WattHours(n)
+    def mWh = MilliwattHours(n)
     def kWh = KilowattHours(n)
     def MWh = MegawattHours(n)
     def GWh = GigawattHours(n)
