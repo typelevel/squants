@@ -28,6 +28,7 @@ class EnergySpec extends FlatSpec with Matchers {
 
   it should "create values using UOM factories" in {
     WattHours(1).toWattHours should be(1)
+    MilliwattHours(1).toMilliwattHours should be(1)
     KilowattHours(1).toKilowattHours should be(1)
     MegawattHours(1).toMegawattHours should be(1)
     GigawattHours(1).toGigawattHours should be(1)
@@ -60,6 +61,7 @@ class EnergySpec extends FlatSpec with Matchers {
   it should "create values from properly formatted Strings" in {
     Energy("10.22 J").get should be(Joules(10.22))
     Energy("10.22 Wh").get should be(WattHours(10.22))
+    Energy("10.22 mWh").get should be(MilliwattHours(10.22))
     Energy("10.22 kWh").get should be(KilowattHours(10.22))
     Energy("10.22 MWh").get should be(MegawattHours(10.22))
     Energy("10.22 GWh").get should be(GigawattHours(10.22))
@@ -83,6 +85,7 @@ class EnergySpec extends FlatSpec with Matchers {
     val x = WattHours(1)
 
     x.toWattHours should be(1)
+    x.toMilliwattHours should be(1 / MetricSystem.Milli)
     x.toKilowattHours should be(1 / MetricSystem.Kilo)
     x.toMegawattHours should be(1 / MetricSystem.Mega)
     x.toGigawattHours should be(1 / MetricSystem.Giga)
@@ -115,6 +118,7 @@ class EnergySpec extends FlatSpec with Matchers {
 
   it should "return properly formatted strings for all supported Units of Measure" in {
     WattHours(1).toString(WattHours) should be("1.0 Wh")
+    MilliwattHours(1).toString(MilliwattHours) should be("1.0 mWh")
     KilowattHours(1).toString(KilowattHours) should be("1.0 kWh")
     MegawattHours(1).toString(MegawattHours) should be("1.0 MWh")
     GigawattHours(1).toString(GigawattHours) should be("1.0 GWh")
@@ -207,6 +211,8 @@ class EnergySpec extends FlatSpec with Matchers {
 
     wattHour should be(WattHours(1))
     Wh should be(WattHours(1))
+    milliwattHour should be(MilliwattHours(1))
+    mWh should be(MilliwattHours(1))
     kilowattHour should be(KilowattHours(1))
     kWh should be(KilowattHours(1))
     megawattHour should be(MegawattHours(1))
@@ -242,6 +248,7 @@ class EnergySpec extends FlatSpec with Matchers {
 
     val d = 10D
     d.Wh should be(WattHours(d))
+    d.mWh should be(MilliwattHours(d))
     d.kWh should be(KilowattHours(d))
     d.MWh should be(MegawattHours(d))
     d.GWh should be(GigawattHours(d))
@@ -280,6 +287,7 @@ class EnergySpec extends FlatSpec with Matchers {
 
     "10.22 J".toEnergy.get should be(Joules(10.22))
     "10.22 Wh".toEnergy.get should be(WattHours(10.22))
+    "10.22 mWh".toEnergy.get should be(MilliwattHours(10.22))
     "10.22 kWh".toEnergy.get should be(KilowattHours(10.22))
     "10.22 MWh".toEnergy.get should be(MegawattHours(10.22))
     "10.22 GWh".toEnergy.get should be(GigawattHours(10.22))
