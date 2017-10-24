@@ -228,11 +228,37 @@ class MoneySpec extends FlatSpec with Matchers {
   it should "return proper results when multiplying by Double" in {
     USD(10) * 2 should be(USD(20))
     JPY(23.50) * 3 should be(JPY(70.50))
+    JPY(23.50) * 3 * 3 should be(JPY(211.50))
+    (JPY(23.50) * 3) * 3 should be(JPY(211.50))
+    3 * JPY(23.50) should be(JPY(70.50))
+    3 * 3 * JPY(23.50) should be(JPY(211.50))
+    3 * (3 * JPY(23.50)) should be(JPY(211.50))
+  }
+
+  it should "return proper results when multiplying by Int" in {
+    val x: Int = 2
+    USD(10) * x should be(USD(20))
+    x * USD(10) * x should be(USD(40))
+    x * x * USD(10) should be(USD(40))
+    x * (x * USD(10)) should be(USD(40))
+    USD(10) * x * x should be(USD(40))
+    (USD(10) * x) * x should be(USD(40))
+
   }
 
   it should "return proper results when multiplying by BigDecimal" in {
     USD(10) * BigDecimal(2) should be(USD(20))
     JPY(23.50) * BigDecimal(3) should be(JPY(70.50))
+  }
+
+
+
+  it should "return proper results when multiplying by mix of BigDecimal, Double and Int" in {
+    val x: Int = 2
+    USD(10) * BigDecimal(2) should be(USD(20))
+    JPY(23.50) * BigDecimal(3) should be(JPY(70.50))
+    JPY(23.50) * BigDecimal(3) * 2 should be(JPY(141))
+    JPY(23.50) * BigDecimal(3) * x should be(JPY(141))
   }
 
   it should "return the equal value in the other currency when multiplied by a CurrencyExchangeRate" in {
@@ -243,6 +269,14 @@ class MoneySpec extends FlatSpec with Matchers {
   it should "return proper results when dividing by Double" in {
     USD(10) / 2 should be(USD(5))
     JPY(75) / 3 should be(JPY(25))
+  }
+
+  it should "return proper results when dividing by Int" in {
+    val x: Int = 2
+    val y: Int = 3
+    USD(10) / x should be(USD(5))
+    JPY(75) / y should be(JPY(25))
+    (JPY(75) / y) / x should be(JPY(12.50))
   }
 
   it should "return proper results when dividing by BigDecimal" in {
