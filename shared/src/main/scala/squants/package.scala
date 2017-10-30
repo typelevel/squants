@@ -105,6 +105,21 @@ package object squants {
   }
 
   /**
+    * Provides implicit conversions that allow Int to lead in * and / by Time operations
+    * {{{
+    *    5 * Kilometers(10) should be(Kilometers(15))
+    * }}}
+    *
+    * @param l Int
+    */
+  implicit class SquantifiedInt(l: Int) {
+    def *[A <: Quantity[A]](that: A): A = that * l.toDouble
+    def *[A](that: SVector[A]): SVector[A] = that * l.toDouble
+    def /(that: Time) = Each(l) / that
+    def per(that: Time): Frequency = /(that)
+  }
+
+  /**
    * Provides implicit conversions that allow BigDecimals to lead in * and / by Time operations
    * {{{
    *    BigDecimal(1.5) * Kilometers(10) should be(Kilometers(15))
