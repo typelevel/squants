@@ -50,12 +50,14 @@ trait Dimension[A <: Quantity[A]] {
    */
   def symbolToUnit(symbol: String): Option[UnitOfMeasure[A]] = units.find(u ⇒ u.symbol == symbol)
 
+  def apply(value: Any): Try[A] = parse(value)
+
   /**
    * Tries to map a string or tuple value to Quantity of this Dimension
    * @param value the source string (ie, "10 kW") or tuple (ie, (10, "kW"))
    * @return Try[A]
    */
-  protected def parse(value: Any) = value match {
+  protected def parse(value: Any): Try[A] = value match {
     case s: String              => parseString(s)
     case (v: Byte, u: String)   => parseTuple(v.toDouble, u)
     case (v: Short, u: String)  => parseTuple(v.toDouble, u)
