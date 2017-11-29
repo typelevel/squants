@@ -54,7 +54,7 @@ object MetersPerSecondCubed extends JerkUnit with PrimaryUnit with SiUnit {
 }
 object FeetPerSecondCubed extends JerkUnit {
   val symbol = "ft/s³"
-  val conversionFactor = Meters.conversionFactor * Feet.conversionFactor
+  val conversionFactor = Feet.conversionFactor / Meters.conversionFactor
 }
 
 object JerkConversions {
