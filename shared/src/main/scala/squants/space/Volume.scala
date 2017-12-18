@@ -11,8 +11,8 @@ package squants.space
 import squants._
 import squants.energy.{ EnergyDensity, Joules }
 import squants.mass.{ ChemicalAmount, Kilograms }
-import squants.motion.{ CubicMetersPerSecond, VolumeFlow }
-import squants.time.TimeIntegral
+import squants.motion.{ CubicMetersPerSecond, VolumeAcceleration, VolumeFlow }
+import squants.time.{ SecondTimeIntegral, TimeIntegral, TimeSquared }
 
 /**
  * Represents a quantity of Volume (three-dimensional space)
@@ -24,7 +24,8 @@ import squants.time.TimeIntegral
  */
 final class Volume private (val value: Double, val unit: VolumeUnit)
     extends Quantity[Volume]
-    with TimeIntegral[VolumeFlow] {
+    with TimeIntegral[VolumeFlow]
+    with SecondTimeIntegral[VolumeAcceleration] {
 
   def dimension = Volume
 
@@ -49,6 +50,9 @@ final class Volume private (val value: Double, val unit: VolumeUnit)
     case CubicInches  ⇒ SquareInches(this.value / that.toInches)
     case _            ⇒ SquareMeters(this.toCubicMeters / that.toMeters)
   }
+
+  def /(that: TimeSquared): VolumeAcceleration = this / that.time1 / that.time2
+  def /(that: VolumeAcceleration): TimeSquared = (this / that.timeIntegrated) * time
 
   def /(that: Mass) = ??? // returns SpecificVolume (inverse of Density)
   def /(that: ChemicalAmount) = ??? // return MolarVolume

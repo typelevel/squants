@@ -12,7 +12,7 @@ import org.scalatest.{ FlatSpec, Matchers }
 import squants.QuantityParseException
 import squants.energy.{ Joules, JoulesPerCubicMeter }
 import squants.mass.{ Kilograms, KilogramsPerCubicMeter }
-import squants.motion.CubicMetersPerSecond
+import squants.motion.{ CubicMetersPerSecond, CubicMetersPerSecondSquared }
 import squants.time.Seconds
 
 /**
@@ -161,8 +161,16 @@ class VolumeSpec extends FlatSpec with Matchers {
     CubicMeters(1) / Seconds(1) should be(CubicMetersPerSecond(1))
   }
 
+  it should "return VolumeAcceleration when divided by TimeSquared" in {
+    CubicMeters(8) / Seconds(2).squared should be(CubicMetersPerSecondSquared(2))
+  }
+
   it should "return Time when divided by VolumeFlowRate" in {
     CubicMeters(1) / CubicMetersPerSecond(1) should be(Seconds(1))
+  }
+
+  it should "return TimeSquared when divided by VolumeAcceleration" in {
+    CubicMeters(8) / CubicMetersPerSecondSquared(4) should be(Seconds(2) * Seconds(1))
   }
 
   it should "return Length when cube rooted" in {
