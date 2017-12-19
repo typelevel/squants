@@ -9,7 +9,7 @@
 package squants.motion
 
 import squants.{ Time, _ }
-import squants.space.{ Feet, InternationalMiles, Kilometers, NauticalMiles, UsMiles }
+import squants.space.{ Feet, InternationalMiles, Kilometers, Millimeters, NauticalMiles, UsMiles }
 import squants.time.{ Seconds, _ }
 
 /**
@@ -38,6 +38,7 @@ final class Velocity private (val value: Double, val unit: VelocityUnit)
   def /(that: Jerk): TimeSquared = (this / that.timeIntegrated) * this.time
 
   def toFeetPerSecond = to(FeetPerSecond)
+  def toMillimetersPerSecond = to(MillimetersPerSecond)
   def toMetersPerSecond = to(MetersPerSecond)
   def toKilometersPerSecond = to(KilometersPerSecond)
   def toKilometersPerHour = to(KilometersPerHour)
@@ -53,8 +54,8 @@ object Velocity extends Dimension[Velocity] {
   def name = "Velocity"
   def primaryUnit = MetersPerSecond
   def siUnit = MetersPerSecond
-  def units = Set(MetersPerSecond, FeetPerSecond, KilometersPerSecond, KilometersPerHour, UsMilesPerHour,
-    InternationalMilesPerHour, Knots)
+  def units = Set(MetersPerSecond, FeetPerSecond, MillimetersPerSecond, KilometersPerSecond, KilometersPerHour,
+    UsMilesPerHour, InternationalMilesPerHour, Knots)
 }
 
 trait VelocityUnit extends UnitOfMeasure[Velocity] with UnitConverter {
@@ -64,6 +65,11 @@ trait VelocityUnit extends UnitOfMeasure[Velocity] with UnitConverter {
 object FeetPerSecond extends VelocityUnit {
   val symbol = "ft/s"
   val conversionFactor = Feet.conversionFactor * Meters.conversionFactor
+}
+
+object MillimetersPerSecond extends VelocityUnit with SiUnit {
+  val symbol = "mm/s"
+  val conversionFactor = Millimeters.conversionFactor / Meters.conversionFactor
 }
 
 object MetersPerSecond extends VelocityUnit with PrimaryUnit with SiUnit {
@@ -97,6 +103,7 @@ object Knots extends VelocityUnit {
 
 object VelocityConversions {
   lazy val footPerSecond = FeetPerSecond(1)
+  lazy val millimeterPerSecond = MillimetersPerSecond(1)
   lazy val meterPerSecond = MetersPerSecond(1)
   lazy val kilometerPerSecond = KilometersPerSecond(1)
   lazy val kilometerPerHour = KilometersPerHour(1)
