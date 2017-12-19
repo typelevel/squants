@@ -9,7 +9,7 @@
 package squants.motion
 
 import squants._
-import squants.space.{ Feet, UsMiles }
+import squants.space.{ Feet, Millimeters, UsMiles }
 import squants.time.{ Seconds, _ }
 
 /**
@@ -36,6 +36,7 @@ final class Acceleration private (val value: Double, val unit: AccelerationUnit)
   def *(that: TimeSquared): Length = this * that.time1 * that.time2
 
   def toFeetPerSecondSquared = to(FeetPerSecondSquared)
+  def toMillimetersPerSecondSquared = to(MillimetersPerSecondSquared)
   def toMetersPerSecondSquared = to(MetersPerSecondSquared)
   def toUsMilesPerHourSquared = to(UsMilesPerHourSquared)
   def toEarthGravities = to(EarthGravities)
@@ -63,7 +64,8 @@ object Acceleration extends Dimension[Acceleration] {
   def name = "Acceleration"
   def primaryUnit = MetersPerSecondSquared
   def siUnit = MetersPerSecondSquared
-  def units = Set(FeetPerSecondSquared, MetersPerSecondSquared, UsMilesPerHourSquared, EarthGravities)
+  def units = Set(FeetPerSecondSquared, MillimetersPerSecondSquared, MetersPerSecondSquared, UsMilesPerHourSquared,
+    EarthGravities)
 }
 
 /**
@@ -75,6 +77,11 @@ object Acceleration extends Dimension[Acceleration] {
  */
 trait AccelerationUnit extends UnitOfMeasure[Acceleration] with UnitConverter {
   def apply[A](n: A)(implicit num: Numeric[A]) = Acceleration(n, this)
+}
+
+object MillimetersPerSecondSquared extends AccelerationUnit with SiUnit {
+  val symbol = "mm/s²"
+  val conversionFactor = Millimeters.conversionFactor / Meters.conversionFactor
 }
 
 object MetersPerSecondSquared extends AccelerationUnit with PrimaryUnit with SiUnit {
