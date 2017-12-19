@@ -24,6 +24,7 @@ class MassSpec extends FlatSpec with Matchers {
   behavior of "Mass and its Units of Measure"
 
   it should "create values using UOM factories" in {
+    Nanograms(10.22).toNanograms should be(10.22)
     Micrograms(10.22).toMicrograms should be(10.22)
     Milligrams(10.22).toMilligrams should be(10.22)
     Grams(10.22).toGrams should be(10.22)
@@ -53,6 +54,7 @@ class MassSpec extends FlatSpec with Matchers {
   }
 
   it should "create values from properly formatted Strings" in {
+    Mass("10.22 ng").get should be(Nanograms(10.22))
     Mass("10.22 mcg").get should be(Micrograms(10.22))
     Mass("10.22 mg").get should be(Milligrams(10.22))
     Mass("10.22 g").get should be(Grams(10.22))
@@ -84,6 +86,7 @@ class MassSpec extends FlatSpec with Matchers {
 
   it should "properly convert to all supported Units of Measure" in {
     val x = Grams(1)
+    x.toNanograms should be(1 / MetricSystem.Nano)
     x.toMicrograms should be(1 / MetricSystem.Micro)
     x.toMilligrams should be(1 / MetricSystem.Milli)
     x.toGrams should be(1)
@@ -125,6 +128,7 @@ class MassSpec extends FlatSpec with Matchers {
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
+    Nanograms(1).toString(Nanograms) should be("1.0 ng")
     Micrograms(1).toString(Micrograms) should be("1.0 mcg")
     Milligrams(1).toString(Milligrams) should be("1.0 mg")
     Grams(1).toString(Grams) should be("1.0 g")
@@ -193,6 +197,7 @@ class MassSpec extends FlatSpec with Matchers {
   it should "provide aliases for single unit values" in {
     import MassConversions._
 
+    nanogram should be(Nanograms(1))
     microgram should be(Micrograms(1))
     milligram should be(Milligrams(1))
     gram should be(Grams(1))
@@ -224,7 +229,10 @@ class MassSpec extends FlatSpec with Matchers {
     import MassConversions._
 
     val d = 10.22
+    d.ng should be(Nanograms(d))
+    d.nanograms should be(Nanograms(d))
     d.mcg should be(Micrograms(d))
+    d.micrograms should be(Micrograms(d))
     d.mg should be(Milligrams(d))
     d.milligrams should be(Milligrams(d))
     d.g should be(Grams(d))
@@ -269,6 +277,7 @@ class MassSpec extends FlatSpec with Matchers {
   it should "provide implicit conversions from String" in {
     import MassConversions._
 
+    "10.45 ng".toMass.get should be(Nanograms(10.45))
     "10.45 mcg".toMass.get should be(Micrograms(10.45))
     "10.45 mg".toMass.get should be(Milligrams(10.45))
     "10.45 g".toMass.get should be(Grams(10.45))
