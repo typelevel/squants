@@ -8,11 +8,12 @@
 
 package squants
 
-import org.scalatest.{ FlatSpec, Matchers }
+import org.scalatest.{FlatSpec, Matchers}
+
 import scala.math.BigDecimal.RoundingMode
-import scala.util.Failure
-import squants.thermal.{ Celsius, Fahrenheit }
-import squants.time.{ Hertz, Hours }
+import scala.util.{Failure, Try}
+import squants.thermal.{Celsius, Fahrenheit}
+import squants.time.{Hertz, Hours, Minutes}
 
 /**
  * @author  garyKeorkunian
@@ -604,5 +605,82 @@ class QuantitySpec extends FlatSpec with Matchers with CustomMatchers {
 
     val ts = List(Thangs(1000), Kilothangs(10), Kilothangs(100))
     ts.sum should be(Kilothangs(111))
+  }
+
+  behavior of "Dimension"
+
+  it should "Parse a String into a Quantity based on the supplied Type parameter" in {
+    import squants.mass.Mass
+    import squants.space.Length
+    import squants.time.Time
+
+    def parse[A <: Quantity[A]: Dimension](s: String): Try[A] = {
+      implicitly[Dimension[A]].parseString(s)
+    }
+
+    implicit val length = Length
+    implicit val time = Time
+    implicit val thingee = Thingee
+    implicit val mass = Mass
+
+    val l = parse[Length]("100 m")
+    val t = parse[Time]("100 m")
+    val th = parse[Thingee]("100 th")
+    val m = parse[Mass]("100 m")
+
+    l.get should be(Meters(100))
+    t.get should be(Minutes(100))
+    th.get should be(Thangs(100))
+    m.isFailure should be(true)
+  }
+
+  it should "Parse a Tuple with a Double into a Quantity based on the supplied Type parameter" in {
+    import squants.mass.Mass
+    import squants.space.Length
+    import squants.time.Time
+
+    def parse[A <: Quantity[A]: Dimension](t: (Double,  String)): Try[A] = {
+      implicitly[Dimension[A]].parseTuple[Double](t)
+    }
+
+    implicit val length = Length
+    implicit val time = Time
+    implicit val thingee = Thingee
+    implicit val mass = Mass
+
+    val l = parse[Length]((100d, "m"))
+    val t = parse[Time]((100d, "m"))
+    val th = parse[Thingee]((100d, "th"))
+    val m = parse[Mass]((100d, "m"))
+
+    l.get should be(Meters(100d))
+    t.get should be(Minutes(100d))
+    th.get should be(Thangs(100d))
+    m.isFailure should be(true)
+  }
+
+  it should "Parse a Tuple with an Int into a Quantity based on the supplied Type parameter" in {
+    import squants.mass.Mass
+    import squants.space.Length
+    import squants.time.Time
+
+    def parse[A <: Quantity[A]: Dimension](t: (Int,  String)): Try[A] = {
+      implicitly[Dimension[A]].parseTuple[Int](t)
+    }
+
+    implicit val length = Length
+    implicit val time = Time
+    implicit val thingee = Thingee
+    implicit val mass = Mass
+
+    val l = parse[Length]((100, "m"))
+    val t = parse[Time]((100, "m"))
+    val th = parse[Thingee]((100, "th"))
+    val m = parse[Mass]((100, "m"))
+
+    l.get should be(Meters(100))
+    t.get should be(Minutes(100))
+    th.get should be(Thangs(100))
+    m.isFailure should be(true)
   }
 }
