@@ -55,7 +55,7 @@ trait Dimension[A <: Quantity[A]] {
    * @param value the source string (ie, "10 kW") or tuple (ie, (10, "kW"))
    * @return Try[A]
    */
-  protected def parse(value: Any) = value match {
+  def parse(value: Any): Try[A] = value match {
     case s: String              => parseString(s)
     case (v: Byte, u: String)   => parseTuple(v.toDouble, u)
     case (v: Short, u: String)  => parseTuple(v.toDouble, u)
