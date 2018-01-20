@@ -8,7 +8,7 @@
 
 package squants
 
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.{FlatSpec, Matchers, TryValues}
 
 import scala.math.BigDecimal.RoundingMode
 import scala.util.{Failure, Try}
@@ -20,7 +20,7 @@ import squants.time.{Hertz, Hours, Minutes}
  * @since   0.1
  *
  */
-class QuantitySpec extends FlatSpec with Matchers with CustomMatchers {
+class QuantitySpec extends FlatSpec with Matchers with CustomMatchers with TryValues {
 
   /*
     Create a Quantity with two Units of Measure
@@ -628,10 +628,11 @@ class QuantitySpec extends FlatSpec with Matchers with CustomMatchers {
     val th = parse[Thingee]("100 th")
     val m = parse[Mass]("100 m")
 
-    l.get should be(Meters(100))
-    t.get should be(Minutes(100))
-    th.get should be(Thangs(100))
-    m.isFailure should be(true)
+    l.success.value should be(Meters(100))
+    t.success.value should be(Minutes(100))
+    th.success.value should be(Thangs(100))
+    m.failure.exception shouldBe a[QuantityParseException]
+    m.failure.exception should have message("Unable to parse Mass:100 m")
   }
 
   it should "Parse a Tuple with a Double into a Quantity based on the supplied Type parameter" in {
@@ -653,10 +654,11 @@ class QuantitySpec extends FlatSpec with Matchers with CustomMatchers {
     val th = parse[Thingee]((100d, "th"))
     val m = parse[Mass]((100d, "m"))
 
-    l.get should be(Meters(100d))
-    t.get should be(Minutes(100d))
-    th.get should be(Thangs(100d))
-    m.isFailure should be(true)
+    l.success.value should be(Meters(100d))
+    t.success.value should be(Minutes(100d))
+    th.success.value should be(Thangs(100d))
+    m.failure.exception shouldBe a[QuantityParseException]
+    m.failure.exception should have message("Unable to identify Mass unit m:(100.0,m)")
   }
 
   it should "Parse a Tuple with an Int into a Quantity based on the supplied Type parameter" in {
@@ -678,9 +680,10 @@ class QuantitySpec extends FlatSpec with Matchers with CustomMatchers {
     val th = parse[Thingee]((100, "th"))
     val m = parse[Mass]((100, "m"))
 
-    l.get should be(Meters(100))
-    t.get should be(Minutes(100))
-    th.get should be(Thangs(100))
-    m.isFailure should be(true)
+    l.success.value should be(Meters(100))
+    t.success.value should be(Minutes(100))
+    th.success.value should be(Thangs(100))
+    m.failure.exception shouldBe a[QuantityParseException]
+    m.failure.exception should have message("Unable to identify Mass unit m:(100.0,m)")
   }
 }

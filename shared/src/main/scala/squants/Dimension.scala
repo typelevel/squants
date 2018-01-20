@@ -56,13 +56,14 @@ trait Dimension[A <: Quantity[A]] {
    * @return Try[A]
    */
   protected def parse(value: Any): Try[A] = value match {
-    case s: String              => parseString(s)
-    case (v: Byte, u: String)   => parseTuple((v, u))
-    case (v: Short, u: String)  => parseTuple((v, u))
-    case (v: Int, u: String)    => parseTuple((v, u))
-    case (v: Long, u: String)   => parseTuple((v, u))
-    case (v: Float, u: String)  => parseTuple((v, u))
-    case (v: Double, u: String) => parseTuple((v, u))
+    case s: String              ⇒ parseString(s)
+    case (v: Byte, u: String)   ⇒ parseTuple((v, u))
+    case (v: Short, u: String)  ⇒ parseTuple((v, u))
+    case (v: Int, u: String)    ⇒ parseTuple((v, u))
+    case (v: Long, u: String)   ⇒ parseTuple((v, u))
+    case (v: Float, u: String)  ⇒ parseTuple((v, u))
+    case (v: Double, u: String) ⇒ parseTuple((v, u))
+    case _ ⇒ Failure(QuantityParseException(s"Unable to parse $name", value.toString))
   }
 
   def parseString(s: String): Try[A] = {
@@ -73,15 +74,15 @@ trait Dimension[A <: Quantity[A]] {
   }
   private lazy val QuantityString = ("^([-+]?[0-9]*\\.?[0-9]+(?:[eE][-+]?[0-9]+)?) *(" + units.map { u: UnitOfMeasure[A] ⇒ u.symbol }.reduceLeft(_ + "|" + _) + ")$").r
 
-  def parseTuple[N: Numeric](t: (N, String)): Try[A] = {
+  def parseTuple[N](t: (N, String))(implicit num: Numeric[N]): Try[A] = {
     symbolToUnit(t._2) match {
       case Some(unit) ⇒ Success(unit(t._1))
-      case None       ⇒ Failure(QuantityParseException(s"Unable to identify $name unit ${t._2}", (t._1, t._2).toString()))
+      case None       ⇒ Failure(QuantityParseException(s"Unable to identify $name unit ${t._2}", s"(${Platform.crossFormat(num.toDouble(t._1))},${t._2})"))
     }
   }
 }
 
-case class QuantityParseException(message: String, expression: String) extends Exception
+case class QuantityParseException(message: String, expression: String) extends Exception(message + ":" + expression)
 
 /**
  * SI Base Quantity
