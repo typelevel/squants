@@ -161,9 +161,16 @@ case class MoneyContext(
     else 0
 
   /**
-   * Create a copy of this context with a new list of rates
-   * @param rates List[CurrencyExchangeRate]
-   * @return
-   */
+    * Create a copy of this context with additional currencies added to the existing set
+    * @param additionalCurrencies Set[Currency]
+    * @return
+    */
+  def withAdditionalCurrencies(additionalCurrencies: Set[Currency]) = copy (currencies = currencies ++ additionalCurrencies)
+
+  /**
+    * Create a copy of this context with a new list of rates
+    * @param rates List[CurrencyExchangeRate]
+    * @return
+    */
   def withExchangeRates(rates: List[CurrencyExchangeRate]) = copy(rates = rates)
 }
