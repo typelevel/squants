@@ -55,18 +55,18 @@ trait Dimension[A <: Quantity[A]] {
    * @param value the source string (ie, "10 kW") or tuple (ie, (10, "kW"))
    * @return Try[A]
    */
-  protected def parse(value: Any) = value match {
-    case s: String              => parseString(s)
-    case (v: Byte, u: String)   => parseTuple(v.toDouble, u)
-    case (v: Short, u: String)  => parseTuple(v.toDouble, u)
-    case (v: Int, u: String)    => parseTuple(v.toDouble, u)
-    case (v: Long, u: String)   => parseTuple(v.toDouble, u)
-    case (v: Float, u: String)  => parseTuple(v.toDouble, u)
-    case (v: Double, u: String) => parseTuple(v, u)
+  protected def parse(value: Any): Try[A] = value match {
+    case s: String              ⇒ parseString(s)
+    case (v: Byte, u: String)   ⇒ parseTuple((v, u))
+    case (v: Short, u: String)  ⇒ parseTuple((v, u))
+    case (v: Int, u: String)    ⇒ parseTuple((v, u))
+    case (v: Long, u: String)   ⇒ parseTuple((v, u))
+    case (v: Float, u: String)  ⇒ parseTuple((v, u))
+    case (v: Double, u: String) ⇒ parseTuple((v, u))
+    case _ ⇒ Failure(QuantityParseException(s"Unable to parse $name", value.toString))
   }
 
-
-  private def parseString(s: String): Try[A] = {
+  def parseString(s: String): Try[A] = {
     s match {
       case QuantityString(value, symbol) ⇒ Success(symbolToUnit(symbol).get(BigDecimal(value)))
       case _                             ⇒ Failure(QuantityParseException(s"Unable to parse $name", s))
@@ -74,15 +74,17 @@ trait Dimension[A <: Quantity[A]] {
   }
   private lazy val QuantityString = ("^([-+]?[0-9]*\\.?[0-9]+(?:[eE][-+]?[0-9]+)?) *(" + units.map { u: UnitOfMeasure[A] ⇒ u.symbol }.reduceLeft(_ + "|" + _) + ")$").r
 
-  private def parseTuple(value: Double, symbol: String): Try[A] = {
+  def parseTuple[N](t: (N, String))(implicit num: Numeric[N]): Try[A] = {
+    val value = t._1
+    val symbol = t._2
     symbolToUnit(symbol) match {
       case Some(unit) ⇒ Success(unit(value))
-      case None       ⇒ Failure(QuantityParseException(s"Unable to identify $name unit $symbol", (value, symbol).toString()))
+      case None       ⇒ Failure(QuantityParseException(s"Unable to identify $name unit ${symbol}", s"(${Platform.crossFormat(num.toDouble(value))},${symbol})"))
     }
   }
 }
 
-case class QuantityParseException(message: String, expression: String) extends Exception
+case class QuantityParseException(message: String, expression: String) extends Exception(s"$message:$expression")
 
 /**
  * SI Base Quantity
