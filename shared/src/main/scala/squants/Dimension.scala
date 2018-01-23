@@ -75,14 +75,16 @@ trait Dimension[A <: Quantity[A]] {
   private lazy val QuantityString = ("^([-+]?[0-9]*\\.?[0-9]+(?:[eE][-+]?[0-9]+)?) *(" + units.map { u: UnitOfMeasure[A] ⇒ u.symbol }.reduceLeft(_ + "|" + _) + ")$").r
 
   def parseTuple[N](t: (N, String))(implicit num: Numeric[N]): Try[A] = {
-    symbolToUnit(t._2) match {
-      case Some(unit) ⇒ Success(unit(t._1))
-      case None       ⇒ Failure(QuantityParseException(s"Unable to identify $name unit ${t._2}", s"(${Platform.crossFormat(num.toDouble(t._1))},${t._2})"))
+    val value = t._1
+    val symbol = t._2
+    symbolToUnit(symbol) match {
+      case Some(unit) ⇒ Success(unit(value))
+      case None       ⇒ Failure(QuantityParseException(s"Unable to identify $name unit ${symbol}", s"(${Platform.crossFormat(num.toDouble(value))},${symbol})"))
     }
   }
 }
 
-case class QuantityParseException(message: String, expression: String) extends Exception(message + ":" + expression)
+case class QuantityParseException(message: String, expression: String) extends Exception(s"$message:$expression")
 
 /**
  * SI Base Quantity
