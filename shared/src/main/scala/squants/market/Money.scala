@@ -450,6 +450,8 @@ object XAU extends Currency("XAU", "Gold", "oz", 4)
 object BTC extends Currency("BTC", "BitCoin", "B", 15)
 object ETH extends Currency("ETH", "Ether", "\u039e", 15)
 object LTC extends Currency("LTC", "Litecoin", "\u0141", 15)
+object ZAR extends Currency("ZAR", "South African Rand", "R", 2)
+object NAD extends Currency("NAD", "Namibian Dollar", "N$", 2)
 
 /**
  * Support for Money DSL
@@ -489,6 +491,8 @@ object MoneyConversions {
     def ether = ETH
     def LTC = Money(n, squants.market.LTC)
     def liteCoin = LTC
+    def ZAR = Money(n, squants.market.ZAR)
+    def NAD = Money(n, squants.market.NAD)
   }
 
   class MoneyNumeric()(implicit mc: MoneyContext) extends Numeric[Money] {
