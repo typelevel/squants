@@ -139,4 +139,16 @@ class MoneyContextSpec extends FlatSpec with Matchers {
     newContext.currencies should be(moneyContext.currencies)
     newContext.rates should be(newRates)
   }
+
+  it should "return a copy with additional currencies" in {
+
+    object NMY extends Currency("NMY", "New Money", "$", 2)
+    object OTM extends Currency("OTM", "Other Money", "$", 2)
+
+    val additionalCurrencies = Set(NMY, OTM)
+    val newContext = moneyContext.withAdditionalCurrencies(additionalCurrencies)
+    newContext.defaultCurrency should be(moneyContext.defaultCurrency)
+    newContext.currencies should be(moneyContext.currencies ++ additionalCurrencies)
+    newContext.rates should be(moneyContext.rates)
+  }
 }
