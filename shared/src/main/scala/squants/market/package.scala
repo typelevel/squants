@@ -61,7 +61,7 @@ package object market {
     EUR, GBP, HKD, INR, JPY,
     KRW, MXN, MYR, NOK, NZD,
     RUB, SEK, XAG, XAU, BTC,
-    ETH, LTC)
+    ETH, LTC, ZAR, NAD)
 
   lazy val defaultCurrencyMap: Map[String, Currency] = defaultCurrencySet.map { c: Currency ⇒ c.code -> c }.toMap
 
