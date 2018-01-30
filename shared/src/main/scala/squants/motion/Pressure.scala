@@ -62,7 +62,7 @@ object Bars extends PressureUnit {
 
 object PoundsPerSquareInch extends PressureUnit {
   val symbol = "psi"
-  val conversionFactor = (Newtons.conversionFactor * PoundForce.conversionFactor) / (SquareInches.conversionFactor / SquareMeters.conversionFactor)
+  val conversionFactor = (PoundForce.conversionFactor / Newtons.conversionFactor) / (SquareInches.conversionFactor / SquareMeters.conversionFactor)
 }
 
 object StandardAtmospheres extends PressureUnit {

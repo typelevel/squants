@@ -90,12 +90,12 @@ object MetersPerSecondSquared extends AccelerationUnit with PrimaryUnit with SiU
 
 object FeetPerSecondSquared extends AccelerationUnit {
   val symbol = "ft/s²"
-  val conversionFactor = Feet.conversionFactor * Meters.conversionFactor
+  val conversionFactor = Feet.conversionFactor / Meters.conversionFactor
 }
 
 object UsMilesPerHourSquared extends AccelerationUnit {
   val symbol = "mph²"
-  val conversionFactor = (UsMiles.conversionFactor * Meters.conversionFactor) / math.pow(Time.SecondsPerHour, 2)
+  val conversionFactor = (UsMiles.conversionFactor / Meters.conversionFactor) / math.pow(Time.SecondsPerHour, 2)
 }
 
 /**

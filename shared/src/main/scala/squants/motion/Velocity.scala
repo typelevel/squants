@@ -64,7 +64,7 @@ trait VelocityUnit extends UnitOfMeasure[Velocity] with UnitConverter {
 
 object FeetPerSecond extends VelocityUnit {
   val symbol = "ft/s"
-  val conversionFactor = Feet.conversionFactor * Meters.conversionFactor
+  val conversionFactor = Feet.conversionFactor / Meters.conversionFactor
 }
 
 object MillimetersPerSecond extends VelocityUnit with SiUnit {
@@ -88,7 +88,7 @@ object KilometersPerHour extends VelocityUnit {
 
 object UsMilesPerHour extends VelocityUnit {
   val symbol = "mph"
-  val conversionFactor = (UsMiles.conversionFactor * Meters.conversionFactor) / Time.SecondsPerHour
+  val conversionFactor = (UsMiles.conversionFactor / Meters.conversionFactor) / Time.SecondsPerHour
 }
 
 object InternationalMilesPerHour extends VelocityUnit {
