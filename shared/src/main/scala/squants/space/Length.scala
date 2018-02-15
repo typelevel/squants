@@ -72,6 +72,8 @@ final class Length private (val value: Double, val unit: LengthUnit)
   def toDecameters = to(Decameters)
   def toHectometers = to(Hectometers)
   def toKilometers = to(Kilometers)
+  def toKiloyards = to(Kiloyards)
+  def toKilofeet = to(Kilofeet)
   def toInches = to(Inches)
   def toFeet = to(Feet)
   def toYards = to(Yards)
@@ -104,7 +106,7 @@ object Length extends Dimension[Length] with BaseDimension {
   def primaryUnit = Meters
   def siUnit = Meters
   def units = Set(Angstroms, Nanometers, Microns, Millimeters, Centimeters,
-    Decimeters, Meters, Decameters, Hectometers, Kilometers,
+    Decimeters, Meters, Decameters, Hectometers, Kilometers, Kiloyards, Kilofeet,
     Inches, Feet, Yards, UsMiles, InternationalMiles, NauticalMiles,
     AstronomicalUnits, LightYears, Parsecs, SolarRadii, NominalSolarRadii,
     ElectronVoltLength, MilliElectronVoltLength, KiloElectronVoltLength, MegaElectronVoltLength,
@@ -168,6 +170,16 @@ object Hectometers extends LengthUnit with SiUnit {
 object Kilometers extends LengthUnit with SiUnit {
   val symbol = "km"
   val conversionFactor = MetricSystem.Kilo
+}
+
+object Kiloyards extends LengthUnit with SiUnit {
+  val symbol = "kyd"
+  val conversionFactor = Yards.conversionFactor * MetricSystem.Kilo
+}
+
+object Kilofeet extends LengthUnit with SiUnit {
+  val symbol = "kft"
+  val conversionFactor = Kiloyards.conversionFactor / 3
 }
 
 object Inches extends LengthUnit {
@@ -286,6 +298,8 @@ object LengthConversions {
   lazy val hectometre = Hectometers(1)
   lazy val kilometer = Kilometers(1)
   lazy val kilometre = Kilometers(1)
+  lazy val kiloyard = Kiloyards(1)
+  lazy val kilofoot = Kilofeet(1)
   lazy val inch = Inches(1)
   lazy val foot = Feet(1)
   lazy val yard = Yards(1)
@@ -330,6 +344,10 @@ object LengthConversions {
     def km = Kilometers(n)
     def kilometers = Kilometers(n)
     def kilometres = Kilometers(n)
+    def kyd = Kiloyards(n)
+    def kiloyards = Kiloyards(n)
+    def kft = Kilofeet(n)
+    def kilofeet = Kilofeet(n)
     def inches = Inches(n)
     def ft = Feet(n)
     def feet = Feet(n)
