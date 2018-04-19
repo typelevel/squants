@@ -124,8 +124,10 @@ object Tests {
 
 object Formatting {
   import com.typesafe.sbt.SbtScalariform._
+  import com.typesafe.sbt.SbtScalariform.autoImport.scalariformAutoformat
 
-  lazy val defaultSettings = scalariformSettings ++ Seq(
+  lazy val defaultSettings = Seq(
+    ScalariformKeys.autoformat := false,
     ScalariformKeys.preferences in Compile := defaultPreferences,
     ScalariformKeys.preferences in Test := defaultPreferences
   )
@@ -137,7 +139,7 @@ object Formatting {
       .setPreference(AlignSingleLineCaseStatements, true)
       .setPreference(CompactControlReadability, true)
       .setPreference(CompactStringConcatenation, false)
-      .setPreference(DoubleIndentClassDeclaration, true)
+      .setPreference(DoubleIndentConstructorArguments, true)
       .setPreference(FormatXml, true)
       .setPreference(IndentLocalDefs, false)
       .setPreference(IndentPackageBlocks, true)
@@ -228,7 +230,7 @@ object Console {
 }
 
 object Docs {
-  private def gitHash = sys.process.Process("git rev-parse HEAD").lines_!.head
+  private def gitHash = sys.process.Process("git rev-parse HEAD").lineStream_!.head
   val defaultSettings = Seq(
     scalacOptions in (Compile, doc) ++= {
       val (bd, v) = ((baseDirectory in LocalRootProject).value, version.value)
