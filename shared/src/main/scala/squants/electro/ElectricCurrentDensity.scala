@@ -23,7 +23,7 @@ final class ElectricCurrentDensity private (val value: Double, val unit: Electri
 
 object ElectricCurrentDensity extends Dimension[ElectricCurrentDensity] {
   private[electro] def apply[A](n: A, unit: ElectricCurrentDensityUnit)(implicit num: Numeric[A]) = new ElectricCurrentDensity(num.toDouble(n), unit)
-  def apply = parse _
+  def apply(value: Any) = parse(value)
   def name = "ElectricCurrentDensity"
   def primaryUnit = AmperesPerSquareMeter
   def siUnit = AmperesPerSquareMeter

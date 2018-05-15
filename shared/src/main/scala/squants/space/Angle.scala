@@ -53,7 +53,7 @@ final class Angle private (val value: Double, val unit: AngleUnit)
 
 object Angle extends Dimension[Angle] {
   private[space] def apply[A](n: A, unit: AngleUnit)(implicit num: Numeric[A]) = new Angle(num.toDouble(n), unit)
-  def apply = parse _
+  def apply(value: Any) = parse(value)
   def name = "Angle"
   def primaryUnit = Radians
   def siUnit = Radians

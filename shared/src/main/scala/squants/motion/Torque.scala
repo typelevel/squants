@@ -26,7 +26,7 @@ final class Torque private (val value: Double, val unit: TorqueUnit)
 
 object Torque extends Dimension[Torque] {
   private[motion] def apply[A](n: A, unit: TorqueUnit)(implicit num: Numeric[A]) = new Torque(num.toDouble(n), unit)
-  def apply = parse _
+  def apply(value: Any) = parse(value)
   def name = "Torque"
   def primaryUnit = NewtonMeters
   def siUnit = NewtonMeters

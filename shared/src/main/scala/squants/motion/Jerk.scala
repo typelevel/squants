@@ -38,7 +38,7 @@ final class Jerk private (val value: Double, val unit: JerkUnit)
 
 object Jerk extends Dimension[Jerk] {
   private[motion] def apply[A](n: A, unit: JerkUnit)(implicit num: Numeric[A]) = new Jerk(num.toDouble(n), unit)
-  def apply = parse _
+  def apply(value: Any) = parse(value)
   def name = "Jerk"
   def primaryUnit = MetersPerSecondCubed
   def siUnit = MetersPerSecondCubed

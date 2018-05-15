@@ -28,7 +28,7 @@ final class SpecificEnergy private (val value: Double, val unit: SpecificEnergyU
 
 object SpecificEnergy extends Dimension[SpecificEnergy] {
   private[energy] def apply[A](n: A, unit: SpecificEnergyUnit)(implicit num: Numeric[A]) = new SpecificEnergy(num.toDouble(n), unit)
-  def apply = parse _
+  def apply(value: Any) = parse(value)
   def name = "SpecificEnergy"
   def primaryUnit = Grays
   def siUnit = Grays

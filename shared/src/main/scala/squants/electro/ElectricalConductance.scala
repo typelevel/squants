@@ -31,7 +31,7 @@ final class ElectricalConductance private (val value: Double, val unit: Electric
 
 object ElectricalConductance extends Dimension[ElectricalConductance] {
   private[electro] def apply[A](n: A, unit: ElectricalConductanceUnit)(implicit num: Numeric[A]) = new ElectricalConductance(num.toDouble(n), unit)
-  def apply = parse _
+  def apply(value: Any) = parse(value)
   def name = "ElectricalConductance"
   def primaryUnit = Siemens
   def siUnit = Siemens

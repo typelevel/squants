@@ -23,7 +23,7 @@ final class AreaElectricChargeDensity private (val value: Double, val unit: Area
 
 object AreaElectricChargeDensity extends Dimension[AreaElectricChargeDensity] {
   private[electro] def apply[A](n: A, unit: AreaElectricChargeDensityUnit)(implicit num: Numeric[A]) = new AreaElectricChargeDensity(num.toDouble(n), unit)
-  def apply = parse _
+  def apply(value: Any) = parse(value)
   def name = "AreaElectricChargeDensity"
   def primaryUnit = CoulombsPerSquareMeter
   def siUnit = CoulombsPerSquareMeter

@@ -461,8 +461,8 @@ object MoneyConversions {
   lazy val euro = Money(1, EUR)
   lazy val yen = Money(1, JPY)
 
-  implicit def fromLong(l: Long) = new MoneyConversions(BigDecimal(l))
-  implicit def fromDouble(d: Double) = new MoneyConversions(BigDecimal(d))
+  implicit def fromLong(l: Long): MoneyConversions[BigDecimal] = new MoneyConversions(BigDecimal(l))
+  implicit def fromDouble(d: Double): MoneyConversions[BigDecimal] = new MoneyConversions(BigDecimal(d))
 
   implicit class MoneyConversions[A](n: A)(implicit num: Numeric[A]) {
     def money(implicit context: MoneyContext) = Money(n, context.defaultCurrency)

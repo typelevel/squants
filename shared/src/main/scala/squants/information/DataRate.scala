@@ -40,7 +40,7 @@ object DataRate extends Dimension[DataRate] {
     new DataRate(num.toDouble(n), unit)
 
   def apply(i: Information, t: Time) = BytesPerSecond(i.toBytes / t.toSeconds)
-  def apply = parse _
+  def apply(value: Any) = parse(value)
   def name = "DataRate"
   def primaryUnit = BytesPerSecond
   def siUnit = BytesPerSecond

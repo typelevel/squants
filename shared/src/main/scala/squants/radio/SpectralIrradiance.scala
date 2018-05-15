@@ -31,7 +31,7 @@ final class SpectralIrradiance private (val value: Double, val unit: SpectralIrr
 
 object SpectralIrradiance extends Dimension[SpectralIrradiance] {
   private[radio] def apply[A](n: A, unit: SpectralIrradianceUnit)(implicit num: Numeric[A]) = new SpectralIrradiance(num.toDouble(n), unit)
-  def apply = parse _
+  def apply(value: Any) = parse(value)
   def name = "SpectralIrradiance"
   def primaryUnit = WattsPerCubicMeter
   def siUnit = WattsPerCubicMeter

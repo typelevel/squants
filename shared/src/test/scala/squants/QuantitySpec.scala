@@ -34,7 +34,7 @@ class QuantitySpec extends FlatSpec with Matchers with CustomMatchers with TryVa
 
   object Thingee extends Dimension[Thingee] {
     private[squants] def apply[A](n: A, unit: ThingeeUnit)(implicit num: Numeric[A]) = new Thingee(num.toDouble(n), unit)
-    def apply = parse _
+    def apply(value: Any) = parse(value)
     def name = "Thingee"
     def primaryUnit = Thangs
     def siUnit = Thangs

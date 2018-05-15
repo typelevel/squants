@@ -42,7 +42,7 @@ final class Dimensionless[N : SquantsNumeric] private (val value: N, val unit: D
  */
 object Dimensionless extends Dimension[Dimensionless[_]] {
   def apply[N : SquantsNumeric](n: N, unit: DimensionlessUnit) = new Dimensionless(n, unit)
-  def apply = parse _
+  def apply(value: Any) = parse(value)
   def name = "Dimensionless"
   def primaryUnit = Each
   def siUnit = Each

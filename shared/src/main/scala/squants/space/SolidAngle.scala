@@ -33,7 +33,7 @@ final class SolidAngle private (val value: Double, val unit: SolidAngleUnit)
 
 object SolidAngle extends Dimension[SolidAngle] {
   private[space] def apply[A](n: A, unit: SolidAngleUnit)(implicit num: Numeric[A]) = new SolidAngle(num.toDouble(n), unit)
-  def apply = parse _
+  def apply(value: Any) = parse(value)
   def name = "SolidAngle"
   def primaryUnit = SquareRadians
   def siUnit = SquareRadians

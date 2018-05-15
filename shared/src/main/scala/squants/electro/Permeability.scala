@@ -34,7 +34,7 @@ final class Permeability private (val value: Double, val unit: PermeabilityUnit)
 
 object Permeability extends Dimension[Permeability] {
   private[electro] def apply[A](n: A, unit: PermeabilityUnit)(implicit num: Numeric[A]) = new Permeability(num.toDouble(n), unit)
-  val apply = parse _
+  def apply(value: Any) = parse(value)
   val name = "Permeability"
   val primaryUnit = HenriesPerMeter
   val siUnit = HenriesPerMeter

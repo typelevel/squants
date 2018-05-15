@@ -58,7 +58,7 @@ final class Frequency private (val value: Double, val unit: FrequencyUnit)
 
 object Frequency extends Dimension[Frequency] {
   private[time] def apply[A](n: A, unit: FrequencyUnit)(implicit num: Numeric[A]) = new Frequency(num.toDouble(n), unit)
-  def apply = parse _
+  def apply(value: Any) = parse(value)
   def name = "Frequency"
   def primaryUnit = Hertz
   def siUnit = Hertz

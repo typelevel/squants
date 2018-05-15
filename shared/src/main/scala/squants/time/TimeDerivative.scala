@@ -18,7 +18,7 @@ import squants.Quantity
  *
  * @tparam A The type of quantity changing
  */
-trait TimeDerivative[A <: Quantity[A] with TimeIntegral[_]] { self: Quantity[_] ⇒
+trait TimeDerivative[A <: Quantity[A] with TimeIntegral[_]] {
   protected[squants] def timeIntegrated: A
   protected[squants] def time: Time
 
@@ -44,7 +44,7 @@ trait SecondTimeDerivative[A <: SecondTimeIntegral[_]] { self: TimeDerivative[_]
  *
  * @tparam A The Quantity type for the TimeDerivative for which this is the base
  */
-trait TimeIntegral[A <: Quantity[A] with TimeDerivative[_]] { self: Quantity[_] ⇒
+trait TimeIntegral[A <: Quantity[A] with TimeDerivative[_]] {
   protected def timeDerived: A
   protected def time: Time
 

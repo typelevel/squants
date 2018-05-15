@@ -15,7 +15,6 @@ lazy val squants = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .settings(defaultSettings: _*)
   .jvmSettings(
     osgiSettings,
-    tutSettings,
     tutTargetDirectory := file("."),
     tutSourceDirectory := file("shared") / "src" / "main" / "tut"
   )
@@ -34,6 +33,6 @@ lazy val root = project.in(file("."))
   )
   .aggregate(squantsJVM, squantsJS, squantsNative)
 
-lazy val squantsJVM = squants.jvm.enablePlugins(SbtOsgi)
+lazy val squantsJVM = squants.jvm.enablePlugins(TutPlugin, SbtOsgi)
 lazy val squantsJS = squants.js
 lazy val squantsNative = squants.native
