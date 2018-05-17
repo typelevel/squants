@@ -392,10 +392,10 @@ object Money extends Dimension[Money] {
   def apply[A](n: A, currency: Currency)(implicit num: Numeric[A]) = new Money(BigDecimal(num.toDouble(n)))(currency)
   def apply[A](n: A, currency: String)(implicit num: Numeric[A]) = new Money(BigDecimal(num.toDouble(n)))(defaultCurrencyMap(currency))
 
-  def apply(s: String): Try[Money] = {
-    lazy val regex = ("([-+]?[0-9]*\\.?[0-9]+) *(" + defaultCurrencySet.map(_.code).reduceLeft(_ + "|" + _) + ")").r
+  def apply(s: String)(implicit moneyContext: MoneyContext): Try[Money] = {
+    lazy val regex = ("([-+]?[0-9]*\\.?[0-9]+) *(" + moneyContext.currencies.map(_.code).reduceLeft(_ + "|" + _) + ")").r
     s match {
-      case regex(value, currency) ⇒ Success(Money(value.toDouble, defaultCurrencyMap(currency)))
+      case regex(value, currencyStr) ⇒ Success(Money(value.toDouble, moneyContext.currencyMap(currencyStr)))
       case _                      ⇒ Failure(QuantityParseException("Unable to parse Money", s))
     }
   }

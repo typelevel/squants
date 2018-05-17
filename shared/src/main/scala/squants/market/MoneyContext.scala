@@ -35,6 +35,12 @@ case class MoneyContext(
     allowIndirectConversions: Boolean = true) {
 
   /**
+    * Support looking up currencies from a context
+    */
+  lazy val currencyMap: Map[String, Currency] = currencies.map { c: Currency ⇒ c.code -> c }.toMap
+
+
+  /**
     * Custom implementation using SortedSets to ensure consistent output
     * @return String representation of this instance
     */

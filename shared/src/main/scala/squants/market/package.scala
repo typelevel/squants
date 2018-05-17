@@ -63,9 +63,13 @@ package object market {
     RUB, SEK, XAG, XAU, BTC,
     ETH, LTC, ZAR, NAD)
 
-  lazy val defaultCurrencyMap: Map[String, Currency] = defaultCurrencySet.map { c: Currency ⇒ c.code -> c }.toMap
 
   lazy val defaultMoneyContext = MoneyContext(USD, defaultCurrencySet, Nil)
+
+  /**
+    * Use currencyMap on MoneyContext
+    */
+  lazy val defaultCurrencyMap: Map[String, Currency] =  defaultMoneyContext.currencyMap
 
   class NoSuchExchangeRateException(val s: String) extends Exception
 }

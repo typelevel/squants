@@ -47,6 +47,7 @@ class MoneySpec extends FlatSpec with Matchers {
   }
 
   it should "create values from formatted strings" in {
+    implicit val moneyContext = defaultMoneyContext
     Money("500 USD").get should be(USD(500))
     Money("500USD").get should be(USD(500))
     Money("5.50USD").get should be(USD(5.5))
