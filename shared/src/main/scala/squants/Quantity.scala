@@ -8,6 +8,8 @@
 
 package squants
 
+import java.util.Objects
+
 import scala.math.BigDecimal.RoundingMode
 import scala.math.BigDecimal.RoundingMode.RoundingMode
 
@@ -176,7 +178,9 @@ abstract class Quantity[A <: Quantity[A]] extends Serializable with Ordered[A] {
    *
    * @return
    */
-  override def hashCode() = toString.hashCode()
+  override def hashCode() = {
+    Objects.hash(dimension, Double.box(to(dimension.primaryUnit)))
+  }
 
   /**
    * Returns boolean result of approximate equality comparison
