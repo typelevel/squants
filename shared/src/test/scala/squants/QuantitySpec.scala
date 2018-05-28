@@ -686,4 +686,20 @@ class QuantitySpec extends FlatSpec with Matchers with CustomMatchers with TryVa
     m.failure.exception shouldBe a[QuantityParseException]
     m.failure.exception should have message("Unable to identify Mass unit m:(100.0,m)")
   }
+
+  it should "return consistent hashcode" in {
+    val timeInMinutes = Minutes(1)
+
+    timeInMinutes.hashCode() shouldBe timeInMinutes.hashCode()
+  }
+
+  it should "return equal hashcode, when objects are equal" in {
+
+    val timeInMinutes = Minutes(1)
+    val timeInSeconds = Seconds(60)
+
+    timeInMinutes.equals(timeInSeconds) shouldBe true
+    timeInMinutes.hashCode() shouldBe timeInSeconds.hashCode()
+
+  }
 }
