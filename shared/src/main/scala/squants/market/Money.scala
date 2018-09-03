@@ -458,7 +458,7 @@ object RUB extends Currency("RUB", "Russian Ruble", "\u20BD", 2)
 object SEK extends Currency("SEK", "Swedish Kroner", "kr", 2)
 object XAG extends Currency("XAG", "Silver", "oz", 4)
 object XAU extends Currency("XAU", "Gold", "oz", 4)
-object BTC extends Currency("BTC", "BitCoin", "B", 15)
+object BTC extends Currency("BTC", "Bitcoin", "B", 15)
 object ETH extends Currency("ETH", "Ether", "\u039e", 15)
 object LTC extends Currency("LTC", "Litecoin", "\u0141", 15)
 object ZAR extends Currency("ZAR", "South African Rand", "R", 2)
@@ -497,11 +497,11 @@ object MoneyConversions {
     def NOK = Money(n, squants.market.NOK)
     def NZD = Money(n, squants.market.NZD)
     def BTC = Money(n, squants.market.BTC)
-    def bitCoin = BTC
+    def bitcoin = BTC
     def ETH = Money(n, squants.market.ETH)
     def ether = ETH
     def LTC = Money(n, squants.market.LTC)
-    def liteCoin = LTC
+    def litecoin = LTC
     def ZAR = Money(n, squants.market.ZAR)
     def NAD = Money(n, squants.market.NAD)
   }
