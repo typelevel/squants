@@ -71,6 +71,11 @@ class PriceSpec extends FlatSpec with Matchers {
     (p1 / p2).toDouble should be(3)
   }
 
+  it should "properly multiply by Quantity using BigDecimal arithmetic" in {
+    val p1 = Price(Money(BigDecimal("0.3"), "USD"), Meters(1))
+    p1 * Meters(3) should be(Money(BigDecimal("0.9"), "USD"))
+  }
+
   it should "return Money when multiplied by Quantity" in {
     val p = Price(Money(10, "USD"), Meters(1))
     p * Meters(10) should be(Money(100, "USD"))
