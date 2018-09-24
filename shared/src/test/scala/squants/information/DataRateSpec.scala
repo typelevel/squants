@@ -32,6 +32,26 @@ class DataRateSpec extends FlatSpec with Matchers {
     ExbibytesPerSecond(1).toExbibytesPerSecond should be(1)
     ZebibytesPerSecond(1).toZebibytesPerSecond should be(1)
     YobibytesPerSecond(1).toYobibytesPerSecond should be(1)
+
+    BitsPerSecond(1).toBitsPerSecond should be(1)
+
+    KilobitsPerSecond(1).toKilobitsPerSecond   should be(1)
+    MegabitsPerSecond(1).toMegabitsPerSecond   should be(1)
+    GigabitsPerSecond(1).toGigabitsPerSecond   should be(1)
+    TerabitsPerSecond(1).toTerabitsPerSecond   should be(1)
+    PetabitsPerSecond(1).toPetabitsPerSecond   should be(1)
+    ExabitsPerSecond(1).toExabitsPerSecond     should be(1)
+    ZettabitsPerSecond(1).toZettabitsPerSecond should be(1)
+    YottabitsPerSecond(1).toYottabitsPerSecond should be(1)
+
+    KibibitsPerSecond(1).toKibibitsPerSecond should be(1)
+    MebibitsPerSecond(1).toMebibitsPerSecond should be(1)
+    GibibitsPerSecond(1).toGibibitsPerSecond should be(1)
+    TebibitsPerSecond(1).toTebibitsPerSecond should be(1)
+    PebibitsPerSecond(1).toPebibitsPerSecond should be(1)
+    ExbibitsPerSecond(1).toExbibitsPerSecond should be(1)
+    ZebibitsPerSecond(1).toZebibitsPerSecond should be(1)
+    YobibitsPerSecond(1).toYobibitsPerSecond should be(1)
   }
 
   it should "create values from properly formatted Strings" in {
@@ -55,6 +75,25 @@ class DataRateSpec extends FlatSpec with Matchers {
     DataRate(s"$rate EiB/s").get should be(ExbibytesPerSecond(rate))
     DataRate(s"$rate ZiB/s").get should be(ZebibytesPerSecond(rate))
     DataRate(s"$rate YiB/s").get should be(YobibytesPerSecond(rate))
+
+    DataRate(s"$rate bps").get  should be(BitsPerSecond(rate))
+    DataRate(s"$rate Kbps").get should be(KilobitsPerSecond(rate))
+    DataRate(s"$rate Mbps").get should be(MegabitsPerSecond(rate))
+    DataRate(s"$rate Gbps").get should be(GigabitsPerSecond(rate))
+    DataRate(s"$rate Tbps").get should be(TerabitsPerSecond(rate))
+    DataRate(s"$rate Pbps").get should be(PetabitsPerSecond(rate))
+    DataRate(s"$rate Ebps").get should be(ExabitsPerSecond(rate))
+    DataRate(s"$rate Zbps").get should be(ZettabitsPerSecond(rate))
+    DataRate(s"$rate Ybps").get should be(YottabitsPerSecond(rate))
+
+    DataRate(s"$rate Kibps").get should be(KibibitsPerSecond(rate))
+    DataRate(s"$rate Mibps").get should be(MebibitsPerSecond(rate))
+    DataRate(s"$rate Gibps").get should be(GibibitsPerSecond(rate))
+    DataRate(s"$rate Tibps").get should be(TebibitsPerSecond(rate))
+    DataRate(s"$rate Pibps").get should be(PebibitsPerSecond(rate))
+    DataRate(s"$rate Eibps").get should be(ExbibitsPerSecond(rate))
+    DataRate(s"$rate Zibps").get should be(ZebibitsPerSecond(rate))
+    DataRate(s"$rate Yibps").get should be(YobibitsPerSecond(rate))
 
     DataRate(s"$rate zz").failed.get should be(QuantityParseException("Unable to parse DataRate", s"$rate zz"))
     DataRate("zz B/s").failed.get should be(QuantityParseException("Unable to parse DataRate", "zz B/s"))
@@ -82,6 +121,25 @@ class DataRateSpec extends FlatSpec with Matchers {
     x.toExbibytesPerSecond should be(Bytes(1).toExbibytes / Seconds(1).toSeconds +- tolerance)
     x.toZebibytesPerSecond should be(Bytes(1).toZebibytes / Seconds(1).toSeconds +- tolerance)
     x.toYobibytesPerSecond should be(Bytes(1).toYobibytes / Seconds(1).toSeconds +- tolerance)
+
+    x.toBitsPerSecond      should be(Bytes(1).toBits  / Seconds(1).toSeconds +- tolerance)
+    x.toKilobitsPerSecond  should be(Bytes(1).toKilobits  / Seconds(1).toSeconds +- tolerance)
+    x.toMegabitsPerSecond  should be(Bytes(1).toMegabits  / Seconds(1).toSeconds +- tolerance)
+    x.toGigabitsPerSecond  should be(Bytes(1).toGigabits  / Seconds(1).toSeconds +- tolerance)
+    x.toTerabitsPerSecond  should be(Bytes(1).toTerabits  / Seconds(1).toSeconds +- tolerance)
+    x.toPetabitsPerSecond  should be(Bytes(1).toPetabits  / Seconds(1).toSeconds +- tolerance)
+    x.toExabitsPerSecond   should be(Bytes(1).toExabits   / Seconds(1).toSeconds +- tolerance)
+    x.toZettabitsPerSecond should be(Bytes(1).toZettabits / Seconds(1).toSeconds +- tolerance)
+    x.toYottabitsPerSecond should be(Bytes(1).toYottabits / Seconds(1).toSeconds +- tolerance)
+
+    x.toKibibitsPerSecond should be(Bytes(1).toKibibits / Seconds(1).toSeconds +- tolerance)
+    x.toMebibitsPerSecond should be(Bytes(1).toMebibits / Seconds(1).toSeconds +- tolerance)
+    x.toGibibitsPerSecond should be(Bytes(1).toGibibits / Seconds(1).toSeconds +- tolerance)
+    x.toTebibitsPerSecond should be(Bytes(1).toTebibits / Seconds(1).toSeconds +- tolerance)
+    x.toPebibitsPerSecond should be(Bytes(1).toPebibits / Seconds(1).toSeconds +- tolerance)
+    x.toExbibitsPerSecond should be(Bytes(1).toExbibits / Seconds(1).toSeconds +- tolerance)
+    x.toZebibitsPerSecond should be(Bytes(1).toZebibits / Seconds(1).toSeconds +- tolerance)
+    x.toYobibitsPerSecond should be(Bytes(1).toYobibits / Seconds(1).toSeconds +- tolerance)
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
@@ -104,6 +162,25 @@ class DataRateSpec extends FlatSpec with Matchers {
     ExbibytesPerSecond(1).toString(ExbibytesPerSecond) should be("1.0 EiB/s")
     ZebibytesPerSecond(1).toString(ZebibytesPerSecond) should be("1.0 ZiB/s")
     YobibytesPerSecond(1).toString(YobibytesPerSecond) should be("1.0 YiB/s")
+
+    BitsPerSecond(1).toString(BitsPerSecond)           should be("1.0 bps")
+    KilobitsPerSecond(1).toString(KilobitsPerSecond)   should be("1.0 Kbps")
+    MegabitsPerSecond(1).toString(MegabitsPerSecond)   should be("1.0 Mbps")
+    GigabitsPerSecond(1).toString(GigabitsPerSecond)   should be("1.0 Gbps")
+    TerabitsPerSecond(1).toString(TerabitsPerSecond)   should be("1.0 Tbps")
+    PetabitsPerSecond(1).toString(PetabitsPerSecond)   should be("1.0 Pbps")
+    ExabitsPerSecond(1).toString(ExabitsPerSecond)     should be("1.0 Ebps")
+    ZettabitsPerSecond(1).toString(ZettabitsPerSecond) should be("1.0 Zbps")
+    YottabitsPerSecond(1).toString(YottabitsPerSecond) should be("1.0 Ybps")
+
+    KibibitsPerSecond(1).toString(KibibitsPerSecond) should be("1.0 Kibps")
+    MebibitsPerSecond(1).toString(MebibitsPerSecond) should be("1.0 Mibps")
+    GibibitsPerSecond(1).toString(GibibitsPerSecond) should be("1.0 Gibps")
+    TebibitsPerSecond(1).toString(TebibitsPerSecond) should be("1.0 Tibps")
+    PebibitsPerSecond(1).toString(PebibitsPerSecond) should be("1.0 Pibps")
+    ExbibitsPerSecond(1).toString(ExbibitsPerSecond) should be("1.0 Eibps")
+    ZebibitsPerSecond(1).toString(ZebibitsPerSecond) should be("1.0 Zibps")
+    YobibitsPerSecond(1).toString(YobibitsPerSecond) should be("1.0 Yibps")
   }
 
   it should "return Information when multiplied by Time" in {
@@ -138,6 +215,25 @@ class DataRateSpec extends FlatSpec with Matchers {
     exbibytesPerSecond should be(ExbibytesPerSecond(1))
     zebibytesPerSecond should be(ZebibytesPerSecond(1))
     yobibytesPerSecond should be(YobibytesPerSecond(1))
+
+    bitsPerSecond      should be(BitsPerSecond(1))
+    kilobitsPerSecond  should be(KilobitsPerSecond(1))
+    megabitsPerSecond  should be(MegabitsPerSecond(1))
+    gigabitsPerSecond  should be(GigabitsPerSecond(1))
+    terabitsPerSecond  should be(TerabitsPerSecond(1))
+    petabitsPerSecond  should be(PetabitsPerSecond(1))
+    exabitsPerSecond   should be(ExabitsPerSecond(1))
+    zettabitsPerSecond should be(ZettabitsPerSecond(1))
+    yottabitsPerSecond should be(YottabitsPerSecond(1))
+
+    kibibitsPerSecond should be(KibibitsPerSecond(1))
+    mebibitsPerSecond should be(MebibitsPerSecond(1))
+    gibibitsPerSecond should be(GibibitsPerSecond(1))
+    tebibitsPerSecond should be(TebibitsPerSecond(1))
+    pebibitsPerSecond should be(PebibitsPerSecond(1))
+    exbibitsPerSecond should be(ExbibitsPerSecond(1))
+    zebibitsPerSecond should be(ZebibitsPerSecond(1))
+    yobibitsPerSecond should be(YobibitsPerSecond(1))
   }
 
   it should "provide implicit conversion from Double" in {
@@ -163,6 +259,25 @@ class DataRateSpec extends FlatSpec with Matchers {
     dr.exbibytesPerSecond should be(ExbibytesPerSecond(10))
     dr.zebibytesPerSecond should be(ZebibytesPerSecond(10))
     dr.yobibytesPerSecond should be(YobibytesPerSecond(10))
+
+    dr.bitsPerSecond      should be(BitsPerSecond(10))
+    dr.kilobitsPerSecond  should be(KilobitsPerSecond(10))
+    dr.megabitsPerSecond  should be(MegabitsPerSecond(10))
+    dr.gigabitsPerSecond  should be(GigabitsPerSecond(10))
+    dr.terabitsPerSecond  should be(TerabitsPerSecond(10))
+    dr.petabitsPerSecond  should be(PetabitsPerSecond(10))
+    dr.exabitsPerSecond   should be(ExabitsPerSecond(10))
+    dr.zettabitsPerSecond should be(ZettabitsPerSecond(10))
+    dr.yottabitsPerSecond should be(YottabitsPerSecond(10))
+
+    dr.kibibitsPerSecond should be(KibibitsPerSecond(10))
+    dr.mebibitsPerSecond should be(MebibitsPerSecond(10))
+    dr.gibibitsPerSecond should be(GibibitsPerSecond(10))
+    dr.tebibitsPerSecond should be(TebibitsPerSecond(10))
+    dr.pebibitsPerSecond should be(PebibitsPerSecond(10))
+    dr.exbibitsPerSecond should be(ExbibitsPerSecond(10))
+    dr.zebibitsPerSecond should be(ZebibitsPerSecond(10))
+    dr.yobibitsPerSecond should be(YobibitsPerSecond(10))
   }
 
   it should "provide Numeric support" in {
