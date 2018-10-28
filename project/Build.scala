@@ -1,17 +1,26 @@
-import org.scalajs.sbtplugin.ScalaJSPlugin.autoImport._
+import org.portablescala.sbtplatformdeps.PlatformDepsPlugin.autoImport._
+import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
+import scalanativecrossproject.ScalaNativeCrossPlugin.autoImport._
 import sbt.Keys._
 import sbt._
 import com.typesafe.sbt.osgi.SbtOsgi
 import com.typesafe.sbt.osgi.SbtOsgi.autoImport._
 
 object Versions {
-  val Squants = "1.3.0"
-  val Scala = "2.11.11"
-  val ScalaCross = Seq("2.12.2", "2.11.11", "2.10.6")
+  val Squants = "1.4.0"
+  val Scala = "2.11.12" // Don't use 2.12 yet to avoid troubles with native
+  val scalaJSVersion =
+    Option(System.getenv("SCALAJS_VERSION")).getOrElse("0.6.25")
+  val ScalaCross =
+    if (scalaJSVersion.startsWith("0.6")) {
+      Seq("2.10.7", "2.11.12", "2.12.7")
+    } else {
+      Seq("2.11.12", "2.12.7")
+    }
 
-  val ScalaTest = "3.0.3"
+  val ScalaTest = "3.0.5"
   val ScalaCheck = "1.13.5"
-  val Json4s = "3.5.1"
+  val Json4s = "3.6.1"
 }
 
 object Dependencies {
@@ -114,12 +123,17 @@ object Publish {
 }
 
 object Tests {
-  val defaultSettings = Seq(
-    libraryDependencies ++=
-      Dependencies.scalaTest.value ++
-      Dependencies.scalaCheck.value ++
-      Dependencies.json4s.value
-  )
+  val defaultSettings =
+    if (Versions.scalaJSVersion.startsWith("0.6")) {
+      Seq(
+        libraryDependencies ++=
+          Dependencies.scalaTest.value ++
+          Dependencies.scalaCheck.value ++
+          Dependencies.json4s.value
+      )
+    } else {
+      Seq.empty
+    }
 }
 
 object Formatting {

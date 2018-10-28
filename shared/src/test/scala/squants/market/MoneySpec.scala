@@ -236,7 +236,7 @@ class MoneySpec extends FlatSpec with Matchers {
   }
 
   it should "return proper results when multiplying by Int" in {
-    val x: Int = 2
+    val x: Double = 2
     USD(10) * x should be(USD(20))
     x * USD(10) * x should be(USD(40))
     x * x * USD(10) should be(USD(40))
@@ -254,7 +254,7 @@ class MoneySpec extends FlatSpec with Matchers {
 
 
   it should "return proper results when multiplying by mix of BigDecimal, Double and Int" in {
-    val x: Int = 2
+    val x: Double = 2
     USD(10) * BigDecimal(2) should be(USD(20))
     JPY(23.50) * BigDecimal(3) should be(JPY(70.50))
     JPY(23.50) * BigDecimal(3) * 2 should be(JPY(141))
@@ -272,8 +272,8 @@ class MoneySpec extends FlatSpec with Matchers {
   }
 
   it should "return proper results when dividing by Int" in {
-    val x: Int = 2
-    val y: Int = 3
+    val x: Double = 2
+    val y: Double = 3
     USD(10) / x should be(USD(5))
     JPY(75) / y should be(JPY(25))
     (JPY(75) / y) / x should be(JPY(12.50))

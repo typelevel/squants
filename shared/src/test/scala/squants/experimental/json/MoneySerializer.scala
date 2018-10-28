@@ -26,13 +26,13 @@ class MoneySerializer extends Serializer[Money] {
   def deserialize(implicit format: Formats) = {
     case (TypeInfo(money, _), json) if Clazz.isAssignableFrom(money) ⇒ json match {
       case JObject(List(
-        JField("amount", JDecimal(amount)),
-        JField("currency", JString(currency)))) ⇒
+        JField("amount", JDecimal(_)),
+        JField("currency", JString(_)))) ⇒
         val m = json.extract[MoneyData]
         Money(m.amount, m.currency)
       case JObject(List(
-        JField("amount", JInt(amount)),
-        JField("currency", JString(currency)))) ⇒
+        JField("amount", JInt(_)),
+        JField("currency", JString(_)))) ⇒
         val m = json.extract[MoneyData]
         Money(m.amount, m.currency)
     }
@@ -46,4 +46,3 @@ class MoneySerializer extends Serializer[Money] {
           "currency" -> JString(money.unit.code)))
   }
 }
-
