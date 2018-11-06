@@ -10,7 +10,7 @@ package squants.energy
 
 import squants._
 import squants.electro.{ Amperes, ElectricCurrent, ElectricPotential, Volts }
-import squants.radio.{ Irradiance, RadiantIntensity, SpectralPower, _ }
+import squants.radio.{ Irradiance, RadiantIntensity, SpectralPower, WattsPerMeter, WattsPerSquareMeter, WattsPerSteradian }
 import squants.space.{ SolidAngle, SquareMeters, SquaredRadians }
 import squants.time.{ Hours, TimeDerivative, TimeIntegral }
 
@@ -147,4 +147,3 @@ object PowerConversions {
 
   implicit object PowerNumeric extends AbstractQuantityNumeric[Power](Power.primaryUnit)
 }
-

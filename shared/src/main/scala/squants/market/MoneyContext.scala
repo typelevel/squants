@@ -8,8 +8,6 @@
 
 package squants.market
 
-import scala.collection.SortedSet
-
 /**
  * MoneyContext
  *

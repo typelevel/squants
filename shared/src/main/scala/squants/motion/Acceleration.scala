@@ -10,7 +10,7 @@ package squants.motion
 
 import squants._
 import squants.space.{ Feet, Millimeters, UsMiles }
-import squants.time.{ Seconds, _ }
+import squants.time.{ Seconds, TimeDerivative, TimeIntegral, SecondTimeDerivative, TimeSquared, Time }
 
 /**
  * Represents a quantity of acceleration

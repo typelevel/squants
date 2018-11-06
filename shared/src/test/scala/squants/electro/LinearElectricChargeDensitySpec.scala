@@ -2,7 +2,7 @@ package squants.electro
 
 import org.scalatest.{FlatSpec, Matchers}
 import squants.QuantityParseException
-import squants.space.{CubicMeters, Meters, SquareMeters}
+import squants.space.Meters
 
 /**
   *

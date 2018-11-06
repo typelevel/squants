@@ -1,8 +1,8 @@
 package squants.motion
 
-import squants.mass.{Kilograms, MomentOfInertia, Pounds}
+import squants.mass.{MomentOfInertia, Pounds}
 import squants.space.{Feet, Meters}
-import squants.{AbstractQuantityNumeric, Dimension, Energy, PrimaryUnit, Quantity, SiBaseUnit, UnitConverter, UnitOfMeasure}
+import squants.{AbstractQuantityNumeric, Dimension, PrimaryUnit, Quantity, SiBaseUnit, UnitConverter, UnitOfMeasure}
 
 /**
   *

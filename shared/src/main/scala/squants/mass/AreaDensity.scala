@@ -9,7 +9,7 @@
 package squants.mass
 
 import squants._
-import squants.space.{Acres, SquareMeters}
+import squants.space.Acres
 
 /**
  * @author  garyKeorkunian

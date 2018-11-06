@@ -3,7 +3,6 @@ package squants.electro
 import org.scalatest.{FlatSpec, Matchers}
 import squants.QuantityParseException
 import squants.mass.Kilograms
-import squants.space.{CubicMeters, Meters, SquareMeters}
 
 /**
   *
