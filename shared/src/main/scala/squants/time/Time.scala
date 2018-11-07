@@ -163,4 +163,3 @@ object TimeConversions {
 
   implicit def scalaDurationToTime(duration: Duration): Time = Time(duration)
 }
-

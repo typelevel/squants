@@ -7,7 +7,7 @@ import com.typesafe.sbt.osgi.SbtOsgi
 import com.typesafe.sbt.osgi.SbtOsgi.autoImport._
 
 object Versions {
-  val Squants = "1.4.0"
+  val Squants = "1.5.0-SNAPSHOT"
   val Scala = "2.11.12" // Don't use 2.12 yet to avoid troubles with native
   val scalaJSVersion =
     Option(System.getenv("SCALAJS_VERSION")).getOrElse("0.6.25")
@@ -20,7 +20,7 @@ object Versions {
 
   val ScalaTest = "3.0.5"
   val ScalaCheck = "1.13.5"
-  val Json4s = "3.6.1"
+  val Json4s = "3.6.2"
 }
 
 object Dependencies {
