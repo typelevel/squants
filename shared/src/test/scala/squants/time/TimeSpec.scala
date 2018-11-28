@@ -9,7 +9,7 @@
 package squants.time
 
 import org.scalatest.{ FlatSpec, Matchers }
-import squants.QuantityParseException
+import squants.{ Dimension, QuantityParseException }
 import squants.motion.{ MetersPerSecond, MetersPerSecondCubed, MetersPerSecondSquared }
 import squants.space.Meters
 
@@ -221,5 +221,9 @@ class TimeSpec extends FlatSpec with Matchers {
     def doSomethingWithDuration(duration: Duration): Unit = duration should be(Duration(10, SECONDS))
 
     doSomethingWithDuration(Seconds(10))
+  }
+
+  it should "provide implicit instance for Dimension" in {
+    implicitly[Dimension[Time]] shouldBe Time
   }
 }
