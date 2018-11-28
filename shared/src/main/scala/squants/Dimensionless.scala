@@ -45,7 +45,7 @@ final class Dimensionless private (val value: Double, val unit: DimensionlessUni
 /**
  * Factory singleton for [[squants.Dimensionless]]
  */
-object Dimensionless extends Dimension[Dimensionless] {
+implicit object Dimensionless extends Dimension[Dimensionless] {
   def apply[A](n: A, unit: DimensionlessUnit)(implicit num: Numeric[A]) = new Dimensionless(num.toDouble(n), unit)
   def apply(value: Any) = parse(value)
   def name = "Dimensionless"

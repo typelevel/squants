@@ -33,7 +33,7 @@ final class RadiantIntensity private (val value: Double, val unit: RadiantIntens
   def toWattsPerSteradian = to(WattsPerSteradian)
 }
 
-object RadiantIntensity extends Dimension[RadiantIntensity] {
+implicit object RadiantIntensity extends Dimension[RadiantIntensity] {
   private[radio] def apply[A](n: A, unit: RadiantIntensityUnit)(implicit num: Numeric[A]) = new RadiantIntensity(num.toDouble(n), unit)
   def apply(value: Any) = parse(value)
   def name = "RadiantIntensity"

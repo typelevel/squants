@@ -71,7 +71,7 @@ trait InformationUnit extends UnitOfMeasure[Information] with UnitConverter {
 /**
  * Factory singleton for information
  */
-object Information extends Dimension[Information] with BaseDimension {
+implicit object Information extends Dimension[Information] with BaseDimension {
   private[information] def apply[A](n: A, unit: InformationUnit)(implicit num: Numeric[A]) = new Information(num.toDouble(n), unit)
   def apply(value: Any) = parse(value)
   def name = "Information"

@@ -28,7 +28,7 @@ final class Conductivity private (val value: Double, val unit: ConductivityUnit)
   def inOhmMeters = OhmMeters(1d / toSiemensPerMeter)
 }
 
-object Conductivity extends Dimension[Conductivity] {
+implicit object Conductivity extends Dimension[Conductivity] {
   private[electro] def apply[A](n: A, unit: ConductivityUnit)(implicit num: Numeric[A]) = new Conductivity(num.toDouble(n), unit)
   def apply(value: Any) = parse(value)
   def name = "Conductivity"

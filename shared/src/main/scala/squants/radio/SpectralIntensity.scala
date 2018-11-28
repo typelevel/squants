@@ -29,7 +29,7 @@ final class SpectralIntensity private (val value: Double, val unit: SpectralInte
   def toWattsPerSteradianPerMeter = to(WattsPerSteradianPerMeter)
 }
 
-object SpectralIntensity extends Dimension[SpectralIntensity] {
+implicit object SpectralIntensity extends Dimension[SpectralIntensity] {
   private[radio] def apply[A](n: A, unit: SpectralIntensityUnit)(implicit num: Numeric[A]) = new SpectralIntensity(num.toDouble(n), unit)
   def apply(value: Any) = parse(value)
   def name = "SpectralIntensity"

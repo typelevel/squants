@@ -30,7 +30,7 @@ final class Illuminance private (val value: Double, val unit: IlluminanceUnit)
   def toLux = to(Lux)
 }
 
-object Illuminance extends Dimension[Illuminance] {
+implicit object Illuminance extends Dimension[Illuminance] {
   private[photo] def apply[A](n: A, unit: IlluminanceUnit)(implicit num: Numeric[A]) = new Illuminance(num.toDouble(n), unit)
   def apply(value: Any) = parse(value)
   def name = "Illuminance"

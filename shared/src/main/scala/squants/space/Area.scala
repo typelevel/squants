@@ -65,7 +65,7 @@ final class Area private (val value: Double, val unit: AreaUnit)
   def toBarnes = to(Barnes)
 }
 
-object Area extends Dimension[Area] {
+implicit object Area extends Dimension[Area] {
   private[space] def apply[A](n: A, unit: AreaUnit)(implicit num: Numeric[A]) = new Area(num.toDouble(n), unit)
   def apply(value: Any) = parse(value)
   def name = "Area"

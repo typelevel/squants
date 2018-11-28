@@ -42,7 +42,7 @@ final class Time private (val value: Double, val unit: TimeUnit)
   def toDays = to(Days)
 }
 
-object Time extends Dimension[Time] with BaseDimension {
+implicit object Time extends Dimension[Time] with BaseDimension {
   val NanosecondsPerSecond = 1.0e9
   val MicrosecondsPerSecond = 1.0e6
   val MillisecondsPerNanosecond = 1.0e-6

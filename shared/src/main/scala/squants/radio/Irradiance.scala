@@ -29,7 +29,7 @@ final class Irradiance private (val value: Double, val unit: IrradianceUnit)
   def toErgsPerSecondPerSquareCentimeter = to(ErgsPerSecondPerSquareCentimeter)
 }
 
-object Irradiance extends Dimension[Irradiance] {
+implicit object Irradiance extends Dimension[Irradiance] {
   private[radio] def apply[A](n: A, unit: IrradianceUnit)(implicit num: Numeric[A]) = new Irradiance(num.toDouble(n), unit)
   def apply(value: Any) = parse(value)
   def name = "Irradiance"

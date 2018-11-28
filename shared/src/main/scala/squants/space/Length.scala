@@ -100,7 +100,7 @@ final class Length private (val value: Double, val unit: LengthUnit)
 /**
  * Factory singleton for length
  */
-object Length extends Dimension[Length] with BaseDimension {
+implicit object Length extends Dimension[Length] with BaseDimension {
   private[space] def apply[A](n: A, unit: LengthUnit)(implicit num: Numeric[A]) = new Length(num.toDouble(n), unit)
   def apply(value: Any) = parse(value)
   def name = "Length"

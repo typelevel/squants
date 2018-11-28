@@ -27,7 +27,7 @@ final class ChemicalAmount private (val value: Double, val unit: ChemicalAmountU
   def toPoundMoles = to(PoundMoles)
 }
 
-object ChemicalAmount extends Dimension[ChemicalAmount] with BaseDimension {
+implicit object ChemicalAmount extends Dimension[ChemicalAmount] with BaseDimension {
   private[mass] def apply[A](n: A, unit: ChemicalAmountUnit)(implicit num: Numeric[A]) = new ChemicalAmount(num.toDouble(n), unit)
   def apply(value: Any) = parse(value)
   val name = "ChemicalAmount"

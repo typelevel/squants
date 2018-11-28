@@ -39,7 +39,7 @@ final class PowerRamp private (val value: Double, val unit: PowerRampUnit)
   def toGigawattsPerHour = to(GigawattsPerHour)
 }
 
-object PowerRamp extends Dimension[PowerRamp] {
+implicit object PowerRamp extends Dimension[PowerRamp] {
   private[energy] def apply[A](n: A, unit: PowerRampUnit)(implicit num: Numeric[A]) = new PowerRamp(num.toDouble(n), unit)
   def apply(change: Power, time: Time): PowerRamp = apply(change.toWatts / time.toHours, WattsPerHour)
   def apply(value: Any) = parse(value)

@@ -43,7 +43,7 @@ final class Force private (val value: Double, val unit: ForceUnit)
   def toPoundForce = to(PoundForce)
 }
 
-object Force extends Dimension[Force] {
+implicit object Force extends Dimension[Force] {
   private[motion] def apply[A](n: A, unit: ForceUnit)(implicit num: Numeric[A]) = new Force(num.toDouble(n), unit)
   def apply(value: Any) = parse(value)
   def name = "Force"

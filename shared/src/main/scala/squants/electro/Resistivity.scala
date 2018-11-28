@@ -28,7 +28,7 @@ final class Resistivity private (val value: Double, val unit: ResistivityUnit)
   def inSiemensPerMeter = SiemensPerMeter(1d / toOhmMeters)
 }
 
-object Resistivity extends Dimension[Resistivity] {
+implicit object Resistivity extends Dimension[Resistivity] {
   private[electro] def apply[A](n: A, unit: ResistivityUnit)(implicit num: Numeric[A]) = new Resistivity(num.toDouble(n), unit)
   def apply(value: Any) = parse(value)
   def name = "Resistivity"

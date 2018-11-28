@@ -20,7 +20,7 @@ final class Permittivity private (val value: Double, val unit: PermittivityUnit)
   def toFaradsMeters = to(FaradsPerMeter)
 }
 
-object Permittivity extends Dimension[Permittivity] {
+implicit object Permittivity extends Dimension[Permittivity] {
   private[electro] def apply[A](n: A, unit: PermittivityUnit)(implicit num: Numeric[A]) = new Permittivity(num.toDouble(n), unit)
   def apply(value: Any) = parse(value)
   def name = "Permittivity"

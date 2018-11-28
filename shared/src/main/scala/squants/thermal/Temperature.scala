@@ -137,7 +137,7 @@ final class Temperature private (val value: Double, val unit: TemperatureScale)
 /**
  * Temperature companion object
  */
-object Temperature extends Dimension[Temperature] with BaseDimension {
+implicit object Temperature extends Dimension[Temperature] with BaseDimension {
   def apply[A](n: A, scale: TemperatureScale)(implicit num: Numeric[A]) = new Temperature(num.toDouble(n), scale)
 
   def apply(s: String): Try[Temperature] = {

@@ -79,7 +79,7 @@ final class Mass private (val value: Double, val unit: MassUnit)
 /**
  * Factory singleton for [[squants.mass.Mass]] values
  */
-object Mass extends Dimension[Mass] with BaseDimension {
+implicit object Mass extends Dimension[Mass] with BaseDimension {
   private[mass] def apply[A](n: A, unit: MassUnit)(implicit num: Numeric[A]) = new Mass(num.toDouble(n), unit)
   def apply(value: Any) = parse(value)
   def name = "Mass"

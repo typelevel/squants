@@ -37,7 +37,7 @@ final class Momentum private (val value: Double, val unit: MomentumUnit)
   def toNewtonSeconds = to(NewtonSeconds)
 }
 
-object Momentum extends Dimension[Momentum] {
+implicit object Momentum extends Dimension[Momentum] {
   private[motion] def apply[A](n: A, unit: MomentumUnit)(implicit num: Numeric[A]) = new Momentum(num.toDouble(n), unit)
   def apply(m: Mass, v: Velocity): Momentum = NewtonSeconds(m.toKilograms * v.toMetersPerSecond)
   def apply(value: Any) = parse(value)

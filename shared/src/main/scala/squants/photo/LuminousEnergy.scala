@@ -28,7 +28,7 @@ final class LuminousEnergy private (val value: Double, val unit: LuminousEnergyU
   def toLumenSeconds = to(LumenSeconds)
 }
 
-object LuminousEnergy extends Dimension[LuminousEnergy] {
+implicit object LuminousEnergy extends Dimension[LuminousEnergy] {
   private[photo] def apply[A](n: A, unit: LuminousEnergyUnit)(implicit num: Numeric[A]) = new LuminousEnergy(num.toDouble(n), unit)
   def apply(value: Any) = parse(value)
   def name = "LuminousEnergy"

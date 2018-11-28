@@ -21,7 +21,7 @@ final class LinearElectricChargeDensity private (val value: Double, val unit: Li
   def toCoulombsMeters = to(CoulombsPerMeter)
 }
 
-object LinearElectricChargeDensity extends Dimension[LinearElectricChargeDensity] {
+implicit object LinearElectricChargeDensity extends Dimension[LinearElectricChargeDensity] {
   private[electro] def apply[A](n: A, unit: LinearElectricChargeDensityUnit)(implicit num: Numeric[A]) = new LinearElectricChargeDensity(num.toDouble(n), unit)
   def apply(value: Any) = parse(value)
   def name = "LinearElectricChargeDensity"

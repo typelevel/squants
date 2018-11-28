@@ -54,7 +54,7 @@ final class DataRate private(val value: Double, val unit: DataRateUnit)
 }
 
 
-object DataRate extends Dimension[DataRate] {
+implicit object DataRate extends Dimension[DataRate] {
   private[information] def apply[A](n: A, unit: DataRateUnit)(implicit num: Numeric[A]) =
     new DataRate(num.toDouble(n), unit)
 

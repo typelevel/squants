@@ -20,7 +20,7 @@ final class MolarEnergy private (val value: Double, val unit: MolarEnergyUnit)
   def toJoulesPerMole = to(JoulesPerMole)
 }
 
-object MolarEnergy extends Dimension[MolarEnergy] {
+implicit object MolarEnergy extends Dimension[MolarEnergy] {
   private[energy] def apply[A](n: A, unit: MolarEnergyUnit)(implicit num: Numeric[A]) = new MolarEnergy(num.toDouble(n), unit)
   def apply(value: Any) = parse(value)
   def name = "MolarEnergy"

@@ -28,7 +28,7 @@ final class PowerDensity private (val value: Double, val unit: PowerDensityUnit)
   def toWattsPerCubicMeter = to(WattsPerCubicMeter)
 }
 
-object PowerDensity extends Dimension[PowerDensity] {
+implicit object PowerDensity extends Dimension[PowerDensity] {
   private[energy] def apply[A](n: A, unit: PowerDensityUnit)(implicit num: Numeric[A]) = new PowerDensity(num.toDouble(n), unit)
   def apply(value: Any) = parse(value)
   def name = "PowerDensity"

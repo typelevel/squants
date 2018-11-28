@@ -42,7 +42,7 @@ final class ElectricPotential private (val value: Double, val unit: ElectricPote
   def toMegavolts = to(Megavolts)
 }
 
-object ElectricPotential extends Dimension[ElectricPotential] {
+implicit object ElectricPotential extends Dimension[ElectricPotential] {
   private[electro] def apply[A](n: A, unit: ElectricPotentialUnit)(implicit num: Numeric[A]) = new ElectricPotential(num.toDouble(n), unit)
   def apply(value: Any) = parse(value)
   def name = "ElectricPotential"

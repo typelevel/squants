@@ -40,7 +40,7 @@ final class ElectricCurrent private (val value: Double, val unit: ElectricCurren
   def toMilliamperes = to(Milliamperes)
 }
 
-object ElectricCurrent extends Dimension[ElectricCurrent] with BaseDimension {
+implicit object ElectricCurrent extends Dimension[ElectricCurrent] with BaseDimension {
   private[electro] def apply[A](n: A, unit: ElectricCurrentUnit)(implicit num: Numeric[A]) = new ElectricCurrent(num.toDouble(n), unit)
   def apply(value: Any) = parse(value)
   def name = "ElectricCurrent"

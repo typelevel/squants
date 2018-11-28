@@ -31,7 +31,7 @@ final class ThermalCapacity private (val value: Double, val unit: ThermalCapacit
   def toJoulesPerKelvin = to(JoulesPerKelvin)
 }
 
-object ThermalCapacity extends Dimension[ThermalCapacity] {
+implicit object ThermalCapacity extends Dimension[ThermalCapacity] {
   private[thermal] def apply[A](n: A, unit: ThermalCapacityUnit)(implicit num: Numeric[A]) = new ThermalCapacity(num.toDouble(n), unit)
   def apply(value: Any) = parse(value)
   def name = "ThermalCapacity"

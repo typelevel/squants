@@ -31,7 +31,7 @@ final class SolidAngle private (val value: Double, val unit: SolidAngleUnit)
   def toSteradians = value
 }
 
-object SolidAngle extends Dimension[SolidAngle] {
+implicit object SolidAngle extends Dimension[SolidAngle] {
   private[space] def apply[A](n: A, unit: SolidAngleUnit)(implicit num: Numeric[A]) = new SolidAngle(num.toDouble(n), unit)
   def apply(value: Any) = parse(value)
   def name = "SolidAngle"

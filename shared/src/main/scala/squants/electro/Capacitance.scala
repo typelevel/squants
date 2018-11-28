@@ -32,7 +32,7 @@ final class Capacitance private (val value: Double, val unit: CapacitanceUnit)
   def toKilofarads = to(Kilofarads)
 }
 
-object Capacitance extends Dimension[Capacitance] {
+implicit object Capacitance extends Dimension[Capacitance] {
   private[electro] def apply[A](n: A, unit: CapacitanceUnit)(implicit num: Numeric[A]) = new Capacitance(num.toDouble(n), unit)
   def apply(value: Any) = parse(value)
   def name = "Capacitance"

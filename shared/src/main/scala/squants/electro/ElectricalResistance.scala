@@ -35,7 +35,7 @@ final class ElectricalResistance private (val value: Double, val unit: Electrica
   def inSiemens = Siemens(1.0 / to(Ohms))
 }
 
-object ElectricalResistance extends Dimension[ElectricalResistance] {
+implicit object ElectricalResistance extends Dimension[ElectricalResistance] {
   private[electro] def apply[A](n: A, unit: ElectricalResistanceUnit)(implicit num: Numeric[A]) = new ElectricalResistance(num.toDouble(n), unit)
   def apply(value: Any) = parse(value)
   def name = "ElectricalResistance"

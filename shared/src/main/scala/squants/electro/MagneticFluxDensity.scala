@@ -27,7 +27,7 @@ final class MagneticFluxDensity private (val value: Double, val unit: MagneticFl
   def toGuass = to(Gauss)
 }
 
-object MagneticFluxDensity extends Dimension[MagneticFluxDensity] {
+implicit object MagneticFluxDensity extends Dimension[MagneticFluxDensity] {
   private[electro] def apply[A](n: A, unit: MagneticFluxDensityUnit)(implicit num: Numeric[A]) = new MagneticFluxDensity(num.toDouble(n), unit)
   def apply(value: Any) = parse(value)
   def name = "MagneticFluxDensity"

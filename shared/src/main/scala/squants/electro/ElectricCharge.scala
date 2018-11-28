@@ -46,7 +46,7 @@ final class ElectricCharge private (val value: Double, val unit: ElectricChargeU
   def toMilliampereSeconds = to(MilliampereSeconds)
 }
 
-object ElectricCharge extends Dimension[ElectricCharge] {
+implicit object ElectricCharge extends Dimension[ElectricCharge] {
   private[electro] def apply[A](n: A, unit: ElectricChargeUnit)(implicit num: Numeric[A]) = new ElectricCharge(num.toDouble(n), unit)
   def apply(value: Any) = parse(value)
   def name = "ElectricCharge"

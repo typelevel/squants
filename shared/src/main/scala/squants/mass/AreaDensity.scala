@@ -33,7 +33,7 @@ final class AreaDensity private (val value: Double, val unit: AreaDensityUnit)
 /**
  * Factory singleton for [[squants.mass.AreaDensity]] values
  */
-object AreaDensity extends Dimension[AreaDensity] {
+implicit object AreaDensity extends Dimension[AreaDensity] {
   private[mass] def apply[A](n: A, unit: AreaDensityUnit)(implicit num: Numeric[A]) = new AreaDensity(num.toDouble(n), unit)
   def apply(mass: Mass, area: Area): AreaDensity = KilogramsPerSquareMeter(mass.toKilograms / area.toSquareMeters)
   def apply(value: Any) = parse(value)

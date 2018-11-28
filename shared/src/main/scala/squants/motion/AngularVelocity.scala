@@ -45,7 +45,7 @@ final class AngularVelocity private (val value: Double, val unit: AngularVelocit
   protected[squants] def time: Time = Seconds(1)
 }
 
-object AngularVelocity extends Dimension[AngularVelocity] {
+implicit object AngularVelocity extends Dimension[AngularVelocity] {
   private[motion] def apply[A](n: A, unit: AngularVelocityUnit)(implicit num: Numeric[A]) = new AngularVelocity(num.toDouble(n), unit)
   def apply(value: Any) = parse(value)
   def name = "AngularVelocity"

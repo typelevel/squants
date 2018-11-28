@@ -36,7 +36,7 @@ final class MomentOfInertia private (val value: Double, val unit: MomentOfInerti
   }
 }
 
-object MomentOfInertia extends Dimension[MomentOfInertia] {
+implicit object MomentOfInertia extends Dimension[MomentOfInertia] {
   private[mass] def apply[A](n: A, unit: MomentOfInertiaUnit)(implicit num: Numeric[A]) = new MomentOfInertia(num.toDouble(n), unit)
   def apply(value: Any) = parse(value)
   def name = "MomentOfInertia"

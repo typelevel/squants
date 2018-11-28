@@ -22,7 +22,7 @@ final class ElectricChargeDensity private (val value: Double, val unit: Electric
   def toCoulombsCubicMeters = to(CoulombsPerCubicMeter)
 }
 
-object ElectricChargeDensity extends Dimension[ElectricChargeDensity] {
+implicit object ElectricChargeDensity extends Dimension[ElectricChargeDensity] {
   private[electro] def apply[A](n: A, unit: ElectricChargeDensityUnit)(implicit num: Numeric[A]) = new ElectricChargeDensity(num.toDouble(n), unit)
   def apply(value: Any) = parse(value)
   def name = "ElectricChargeDensity"

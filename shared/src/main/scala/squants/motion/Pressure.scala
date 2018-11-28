@@ -39,7 +39,7 @@ final class Pressure private (val value: Double, val unit: PressureUnit)
   def toTorr: Double                 = to(Torrs)
 }
 
-object Pressure extends Dimension[Pressure] {
+implicit object Pressure extends Dimension[Pressure] {
   private[motion] def apply[A](n: A, unit: PressureUnit)(implicit num: Numeric[A]) = new Pressure(num.toDouble(n), unit)
   def apply(value: Any) = parse(value)
   def name = "Pressure"

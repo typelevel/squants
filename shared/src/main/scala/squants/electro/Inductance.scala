@@ -31,7 +31,7 @@ final class Inductance private (val value: Double, val unit: InductanceUnit)
   def toPicohenry = to(Picohenry)
 }
 
-object Inductance extends Dimension[Inductance] {
+implicit object Inductance extends Dimension[Inductance] {
   private[electro] def apply[A](n: A, unit: InductanceUnit)(implicit num: Numeric[A]) = new Inductance(num.toDouble(n), unit)
   def apply(value: Any) = parse(value)
   def name = "Inductance"

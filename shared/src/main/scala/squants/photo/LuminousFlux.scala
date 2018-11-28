@@ -35,7 +35,7 @@ final class LuminousFlux private (val value: Double, val unit: LuminousFluxUnit)
   def toLumens = to(Lumens)
 }
 
-object LuminousFlux extends Dimension[LuminousFlux] {
+implicit object LuminousFlux extends Dimension[LuminousFlux] {
   private[photo] def apply[A](n: A, unit: LuminousFluxUnit)(implicit num: Numeric[A]) = new LuminousFlux(num.toDouble(n), unit)
   def apply(value: Any) = parse(value)
   def name = "LuminousFlux"

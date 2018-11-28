@@ -90,7 +90,7 @@ final class Volume private (val value: Double, val unit: VolumeUnit)
   def toAcreFeet = to(AcreFeet)
 }
 
-object Volume extends Dimension[Volume] {
+implicit object Volume extends Dimension[Volume] {
   private[space] def apply[A](n: A, unit: VolumeUnit)(implicit num: Numeric[A]) = new Volume(num.toDouble(n), unit)
   def apply(value: Any) = parse(value)
   def name = "Volume"

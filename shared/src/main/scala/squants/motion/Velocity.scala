@@ -47,7 +47,7 @@ final class Velocity private (val value: Double, val unit: VelocityUnit)
   def toKnots = to(Knots)
 }
 
-object Velocity extends Dimension[Velocity] {
+implicit object Velocity extends Dimension[Velocity] {
   private[motion] def apply[A](n: A, unit: VelocityUnit)(implicit num: Numeric[A]) = new Velocity(num.toDouble(n), unit)
   def apply(l: Length, t: Time) = MetersPerSecond(l.toMeters / t.toSeconds)
   def apply(value: Any) = parse(value)

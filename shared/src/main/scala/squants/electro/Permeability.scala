@@ -32,7 +32,7 @@ final class Permeability private (val value: Double, val unit: PermeabilityUnit)
   def toNewtonsPerAmpereSquared = to(NewtonsPerAmperesSquared)
 }
 
-object Permeability extends Dimension[Permeability] {
+implicit object Permeability extends Dimension[Permeability] {
   private[electro] def apply[A](n: A, unit: PermeabilityUnit)(implicit num: Numeric[A]) = new Permeability(num.toDouble(n), unit)
   def apply(value: Any) = parse(value)
   val name = "Permeability"

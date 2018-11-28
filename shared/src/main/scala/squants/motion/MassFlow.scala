@@ -34,7 +34,7 @@ final class MassFlow private (val value: Double, val unit: MassFlowUnit)
   def toMegapoundsPerHour = to(MegapoundsPerHour)
 }
 
-object MassFlow extends Dimension[MassFlow] {
+implicit object MassFlow extends Dimension[MassFlow] {
   private[motion] def apply[A](n: A, unit: MassFlowUnit)(implicit num: Numeric[A]) = new MassFlow(num.toDouble(n), unit)
   def apply(value: Any) = parse(value)
   def name = "MassFlow"

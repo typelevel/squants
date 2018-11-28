@@ -29,7 +29,7 @@ final class ElectricalConductance private (val value: Double, val unit: Electric
   def inOhms = Ohms(1.0 / value)
 }
 
-object ElectricalConductance extends Dimension[ElectricalConductance] {
+implicit object ElectricalConductance extends Dimension[ElectricalConductance] {
   private[electro] def apply[A](n: A, unit: ElectricalConductanceUnit)(implicit num: Numeric[A]) = new ElectricalConductance(num.toDouble(n), unit)
   def apply(value: Any) = parse(value)
   def name = "ElectricalConductance"

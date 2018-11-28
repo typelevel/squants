@@ -58,7 +58,7 @@ final class Power private (val value: Double, val unit: PowerUnit)
 /**
  * Companion object for [[squants.energy.Power]]
  */
-object Power extends Dimension[Power] {
+implicit object Power extends Dimension[Power] {
   private[energy] def apply[A](n: A, unit: PowerUnit)(implicit num: Numeric[A]) = new Power(num.toDouble(n), unit)
   def apply(energy: Energy, time: Time): Power = apply(energy.toWattHours / time.toHours, Watts)
   def apply(value: Any) = parse(value)

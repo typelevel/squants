@@ -56,7 +56,7 @@ final class Frequency private (val value: Double, val unit: FrequencyUnit)
   def toRevolutionsPerMinute = to(RevolutionsPerMinute)
 }
 
-object Frequency extends Dimension[Frequency] {
+implicit object Frequency extends Dimension[Frequency] {
   private[time] def apply[A](n: A, unit: FrequencyUnit)(implicit num: Numeric[A]) = new Frequency(num.toDouble(n), unit)
   def apply(value: Any) = parse(value)
   def name = "Frequency"

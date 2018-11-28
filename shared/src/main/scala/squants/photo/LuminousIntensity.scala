@@ -28,7 +28,7 @@ final class LuminousIntensity private (val value: Double, val unit: LuminousInte
   def toCandelas = to(Candelas)
 }
 
-object LuminousIntensity extends Dimension[LuminousIntensity] with BaseDimension {
+implicit object LuminousIntensity extends Dimension[LuminousIntensity] with BaseDimension {
   private[photo] def apply[A](n: A, unit: LuminousIntensityUnit)(implicit num: Numeric[A]) = new LuminousIntensity(num.toDouble(n), unit)
   def apply(value: Any) = parse(value)
   def name = "LuminousIntensity"

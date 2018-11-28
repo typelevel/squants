@@ -382,7 +382,7 @@ final class Money private (val amount: BigDecimal)(val currency: Currency)
 /**
  * Factory singleton for Money
  */
-object Money extends Dimension[Money] {
+implicit object Money extends Dimension[Money] {
   def apply(value: Double)(implicit fxContext: MoneyContext) = new Money(BigDecimal(value))(fxContext.defaultCurrency)
   def apply(value: BigDecimal)(implicit fxContext: MoneyContext) = new Money(value)(fxContext.defaultCurrency)
 
