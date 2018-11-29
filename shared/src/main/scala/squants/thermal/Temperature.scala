@@ -80,7 +80,11 @@ final class Temperature private (val value: Double, val unit: TemperatureScale)
 
   def *(that: ThermalCapacity) = Joules(this.toKelvinScale * that.toJoulesPerKelvin)
 
-  override def toString: String = crossFormat(value) + unit.symbol
+  override def toString: String = unit match {
+    case Kelvin => super.toString
+    case _ => crossFormat(value) + unit.symbol // Non-Kelvin units are treated in a special manner, they do not get a space between the value and symbol.
+  }
+
   def toString(unit: TemperatureScale): String = in(unit).toString
 
   private def convert(toScale: TemperatureScale, withOffset: Boolean = true): Temperature = (unit, toScale, withOffset) match {
