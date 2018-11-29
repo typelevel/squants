@@ -185,7 +185,7 @@ object Fahrenheit extends TemperatureScale {
 }
 
 object Kelvin extends TemperatureScale with PrimaryUnit with SiBaseUnit {
-  val symbol = "°K"
+  val symbol = "K"
   val self = this
   def apply(temperature: Temperature): Temperature = temperature.inKelvin
 }
