@@ -18,6 +18,8 @@ import squants.space.{ Yards, Meters }
  */
 class PriceSpec extends FlatSpec with Matchers {
 
+  implicit val moneyContext = defaultMoneyContext
+
   behavior of "Price and its Units of Measure"
 
   it should "create Price objects using the primary constructor" in {

@@ -31,6 +31,7 @@ class MoneySpec extends FlatSpec with Matchers {
   }
 
   it should "create values using factories that take Currency Code (String)" in {
+    implicit val moneyContext = defaultMoneyContext
     Money(BigDecimal(10), "USD") should be(Money(10, USD))
     Money(10, "USD") should be(Money(10, USD))
   }
@@ -47,6 +48,7 @@ class MoneySpec extends FlatSpec with Matchers {
   }
 
   it should "create values from formatted strings" in {
+    implicit val moneyContext = defaultMoneyContext
     Money("500 USD").get should be(USD(500))
     Money("500USD").get should be(USD(500))
     Money("5.50USD").get should be(USD(5.5))
@@ -506,6 +508,7 @@ class MoneySpec extends FlatSpec with Matchers {
   }
 
   it should "return quantity when dividing by price" in {
+    implicit val moneyContext = defaultMoneyContext
     val p = Price(Money(10, "USD"), Meters(1))
     Money(40, "USD") / p should be(Meters(4))
   }

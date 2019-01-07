@@ -10,11 +10,10 @@ package squants.experimental.json
 
 import squants.Quantity
 import org.json4s.{ Formats, Serializer }
-import squants.market.Money
+import squants.market.{ Money, Price, defaultMoneyContext }
 import org.json4s.JsonAST._
 import squants.energy._
 import squants.time.Time
-import squants.market.Price
 import org.json4s.JsonAST.JString
 import org.json4s.reflect.TypeInfo
 import org.json4s.JsonAST.JInt
@@ -32,6 +31,7 @@ trait PriceSerializerT[A <: Quantity[A]] extends Serializer[Price[A]] {
   def parseQuantity: String ⇒ Try[A]
   private def QuantityValidator(s: String) = parseQuantity(s).isSuccess
   private def StringToQuantity(s: String) = parseQuantity(s).get
+  implicit val moneyContext = defaultMoneyContext
 
   /**
    * Implementation

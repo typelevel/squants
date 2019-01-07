@@ -387,15 +387,15 @@ object Money extends Dimension[Money] {
   def apply(value: BigDecimal)(implicit fxContext: MoneyContext) = new Money(value)(fxContext.defaultCurrency)
 
   def apply(value: BigDecimal, currency: Currency) = new Money(value)(currency)
-  def apply(value: BigDecimal, currency: String) = new Money(value)(defaultCurrencyMap(currency))
+  def apply(value: BigDecimal, currency: String)(implicit context: MoneyContext) = new Money(value)(context.currencyMap(currency))
 
   def apply[A](n: A, currency: Currency)(implicit num: Numeric[A]) = new Money(BigDecimal(num.toDouble(n)))(currency)
-  def apply[A](n: A, currency: String)(implicit num: Numeric[A]) = new Money(BigDecimal(num.toDouble(n)))(defaultCurrencyMap(currency))
+  def apply[A](n: A, currency: String)(implicit num: Numeric[A], context: MoneyContext) = new Money(BigDecimal(num.toDouble(n)))(context.currencyMap(currency))
 
-  def apply(s: String): Try[Money] = {
-    lazy val regex = ("([-+]?[0-9]*\\.?[0-9]+) *(" + defaultCurrencySet.map(_.code).reduceLeft(_ + "|" + _) + ")").r
+  def apply(s: String)(implicit context: MoneyContext): Try[Money] = {
+    lazy val regex = ("([-+]?[0-9]*\\.?[0-9]+) *(" + context.currencies.map(_.code).reduceLeft(_ + "|" + _) + ")").r
     s match {
-      case regex(value, currency) ⇒ Success(Money(value.toDouble, defaultCurrencyMap(currency)))
+      case regex(value, currency) ⇒ Success(Money(value.toDouble, context.currencyMap(currency)))
       case _                      ⇒ Failure(QuantityParseException("Unable to parse Money", s))
     }
   }

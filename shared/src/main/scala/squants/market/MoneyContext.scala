@@ -30,7 +30,10 @@ case class MoneyContext(
     defaultCurrency: Currency,
     currencies: Set[Currency],
     rates: Seq[CurrencyExchangeRate],
-    allowIndirectConversions: Boolean = true) {
+    allowIndirectConversions: Boolean = true
+) {
+
+  lazy val currencyMap: Map[String, Currency] = currencies.map { c: Currency ⇒ c.code → c }.toMap
 
   /**
     * Custom implementation using SortedSets to ensure consistent output

@@ -9,7 +9,7 @@
 package squants.experimental.json
 
 import org.json4s.{ Formats, Serializer }
-import squants.market.Money
+import squants.market.{ defaultMoneyContext, Money}
 import org.json4s.JsonAST._
 import org.json4s.JsonAST.JString
 import org.json4s.reflect.TypeInfo
@@ -22,6 +22,7 @@ class MoneySerializer extends Serializer[Money] {
 
   private val Clazz = classOf[Money]
   case class MoneyData(amount: BigDecimal, currency: String)
+  implicit val moneyContext = defaultMoneyContext
 
   def deserialize(implicit format: Formats) = {
     case (TypeInfo(money, _), json) if Clazz.isAssignableFrom(money) ⇒ json match {
