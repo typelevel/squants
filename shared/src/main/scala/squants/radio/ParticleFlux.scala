@@ -24,6 +24,10 @@ final class ParticleFlux private (
   def *(that: AreaTime): Activity = 
     Becquerels(
       this.toBecquerelsPerSquareMeterSecond * that.toSquareMeterSeconds)
+  // the 3600.0 is to convert watt hours to watt second which isn't a normal
+  // supported type in Squants
+  def *(that: Energy): Irradiance = WattsPerSquareMeter(
+    3600.0 * that.toWattHours * this.toBecquerelsPerSquareMeterSecond)
 
   def toBecquerelsPerSquareMeterSecond = to(BecquerelsPerSquareMeterSecond)
   def toBecquerelsPerSquareCentimeterSecond = 

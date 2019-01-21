@@ -9,7 +9,7 @@
 package squants.radio
 
 import squants._
-import squants.energy.{ErgsPerSecond, Watts}
+import squants.energy.{ErgsPerSecond, Watts, WattHours}
 import squants.space.{SquareCentimeters, SquareMeters}
 
 /**
@@ -24,6 +24,12 @@ final class Irradiance private (val value: Double, val unit: IrradianceUnit)
   def dimension = Irradiance
 
   def *(that: Area): Power = Watts(this.toWattsPerSquareMeter * that.toSquareMeters)
+  // the 3600.0 is to convert watt hours to watt second which isn't a normal
+  // supported type in Squants
+  def /(that: Energy): ParticleFlux = BecquerelsPerSquareMeterSecond(
+    toWattsPerSquareMeter / (that.toWattHours * 3600.0))
+  def /(that: ParticleFlux): Energy = WattHours(
+    (toWattsPerSquareMeter / that.toBecquerelsPerSquareMeterSecond) / 3600.0)
 
   def toWattsPerSquareMeter = to(WattsPerSquareMeter)
   def toErgsPerSecondPerSquareCentimeter = to(ErgsPerSecondPerSquareCentimeter)

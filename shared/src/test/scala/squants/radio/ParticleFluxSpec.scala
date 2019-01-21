@@ -13,7 +13,7 @@ import squants.QuantityParseException
 import squants.radio.{ 
   ParticleFlux, 
   BecquerelsPerSquareMeterSecond, BecquerelsPerSquareCentimeterSecond }
-import squants.time.Seconds
+import squants.energy.WattHours
 
 /**
  * @author  garyKeorkunian
@@ -57,6 +57,10 @@ class ParticleFluxSpec extends FlatSpec with Matchers {
   it should "return Activity when multiplied by AreaTime" in {
     BecquerelsPerSquareMeterSecond(1) * SquareMeterSeconds(1) should be(Becquerels(1))
     BecquerelsPerSquareCentimeterSecond(1) * SquareCentimeterSeconds(1) should be(Becquerels(1))
+  }
+
+  it should "return Irradiance when multiplied by Energy" in {
+    BecquerelsPerSquareMeterSecond(1) * WattHours(1) should be(WattsPerSquareMeter(3600))
   }
 
   behavior of "ParticleFluxConversions"
