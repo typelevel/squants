@@ -150,7 +150,7 @@ class EnergySpec extends FlatSpec with Matchers {
   }
 
   it should "return Irradiance when multiplied by ParticleFlux" in {
-    WattHours(1) * BecquerelsPerSquareMeterSecond(1) should be(WattsPerSquareMeter(3600))
+    WattHours(1) * BecquerelsPerSquareMeterSecond(1) should be(WattsPerSquareMeter(Hours(1).toSeconds))
   }
 
   it should "return Power when divided by Time" in {

@@ -14,6 +14,7 @@ import squants.radio.{
   ParticleFlux, 
   BecquerelsPerSquareMeterSecond, BecquerelsPerSquareCentimeterSecond }
 import squants.energy.WattHours
+import squants.time.Hours
 
 /**
  * @author  garyKeorkunian
@@ -60,7 +61,7 @@ class ParticleFluxSpec extends FlatSpec with Matchers {
   }
 
   it should "return Irradiance when multiplied by Energy" in {
-    BecquerelsPerSquareMeterSecond(1) * WattHours(1) should be(WattsPerSquareMeter(3600))
+    BecquerelsPerSquareMeterSecond(1) * WattHours(1) should be(WattsPerSquareMeter(Hours(1).toSeconds))
   }
 
   behavior of "ParticleFluxConversions"

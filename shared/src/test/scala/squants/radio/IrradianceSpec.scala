@@ -12,7 +12,7 @@ import org.scalatest.{FlatSpec, Matchers}
 import squants.QuantityParseException
 import squants.energy.{Watts, WattHours}
 import squants.space.{SquareCentimeters, SquareMeters}
-//import squants.radio.{
+import squants.time.Hours
 
 /**
  * @author  garyKeorkunian
@@ -59,17 +59,17 @@ class IrradianceSpec extends FlatSpec with Matchers {
     ((x - y).abs < precision)
 
   it should "return Energy when multiplied by AreaTime" in {
-    WattsPerSquareMeter(1) * SquareMeterSeconds(1) should be(WattHours(1.0 / 3600.0))
+    WattsPerSquareMeter(1) * SquareMeterSeconds(1) should be(WattHours(1.0 / Hours(1).toSeconds))
     // accuracy issues here due to weird units
     assert(~=((ErgsPerSecondPerSquareCentimeter(1) * SquareCentimeterSeconds(1)).toErgs, 1.0, 0.0001))
   }
 
   it should "return ParticleFlux when divided by Energy" in {
-    WattsPerSquareMeter(1) / WattHours(1) should be(BecquerelsPerSquareMeterSecond(1.0 / 3600.0))
+    WattsPerSquareMeter(1) / WattHours(1) should be(BecquerelsPerSquareMeterSecond(1.0 / Hours(1).toSeconds))
   }
 
   it should "return Energy when divided by ParticleFlux" in {
-    WattsPerSquareMeter(1) / BecquerelsPerSquareMeterSecond(1.0 / 3600.0) should be(WattHours(1))
+    WattsPerSquareMeter(1) / BecquerelsPerSquareMeterSecond(1.0 / Hours(1).toSeconds) should be(WattHours(1))
   }
 
   behavior of "IrradianceConversions"
