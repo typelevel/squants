@@ -26,6 +26,8 @@ final class Irradiance private (val value: Double, val unit: IrradianceUnit)
   def *(that: Area): Power = Watts(this.toWattsPerSquareMeter * that.toSquareMeters)
   // the 3600.0 is to convert watt hours to watt second which isn't a normal
   // supported type in Squants
+  def *(that: AreaTime): Energy = 
+    WattHours(this.toWattsPerSquareMeter * that.toSquareMeterSeconds / 3600.0)
   def /(that: Energy): ParticleFlux = BecquerelsPerSquareMeterSecond(
     toWattsPerSquareMeter / (that.toWattHours * 3600.0))
   def /(that: ParticleFlux): Energy = WattHours(
