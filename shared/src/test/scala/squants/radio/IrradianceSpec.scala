@@ -13,13 +13,14 @@ import squants.QuantityParseException
 import squants.energy.{Watts, WattHours}
 import squants.space.{SquareCentimeters, SquareMeters}
 import squants.time.Hours
+import squants.CustomMatchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class IrradianceSpec extends FlatSpec with Matchers {
+class IrradianceSpec extends FlatSpec with Matchers with CustomMatchers {
 
   behavior of "Irradiance and its Units of Measure"
 
@@ -55,13 +56,11 @@ class IrradianceSpec extends FlatSpec with Matchers {
     (ErgsPerSecondPerSquareCentimeter(1) * SquareCentimeters(1)).toErgsPerSecond should be(1.0 +- 1e-5)
   }
 
-  def ~=(x: Double, y: Double, precision: Double): Boolean =
-    ((x - y).abs < precision)
-
   it should "return Energy when multiplied by AreaTime" in {
+    implicit val tolerance = 0.0000000000001
     WattsPerSquareMeter(1) * SquareMeterSeconds(1) should be(WattHours(1.0 / Hours(1).toSeconds))
     // accuracy issues here due to weird units
-    assert(~=((ErgsPerSecondPerSquareCentimeter(1) * SquareCentimeterSeconds(1)).toErgs, 1.0, 0.0001))
+    (ErgsPerSecondPerSquareCentimeter(1) * SquareCentimeterSeconds(1)).toErgs should beApproximately(1.0)
   }
 
   it should "return ParticleFlux when divided by Energy" in {
