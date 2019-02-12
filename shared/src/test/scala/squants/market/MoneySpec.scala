@@ -13,8 +13,8 @@ import squants.QuantityParseException
 import squants.mass.Kilograms
 import squants.space.Meters
 import squants.time.Hours
-
 import scala.math.BigDecimal.RoundingMode
+import scala.util.{Failure, Success}
 
 /**
  * @author  garyKeorkunian
@@ -25,14 +25,22 @@ class MoneySpec extends FlatSpec with Matchers {
 
   behavior of "Money and its Units of Measure"
 
+  it should "create Currency values from currency string codes given an implicit MoneyContext in scope" in {
+    implicit val moneyContext = MoneyContext(USD, defaultCurrencySet, Nil)
+    Currency("USD") should be(Success(USD))
+    Currency("NAD") should be(Success(NAD))
+    Currency("DUM") should be(Failure(NoSuchCurrencyException("DUM", moneyContext)))
+  }
+
   it should "create values using factories that take Currency" in {
     Money(BigDecimal(10), USD) should be(Money(10, USD))
     Money(10, USD) should be(Money(10, USD))
   }
 
-  it should "create values using factories that take Currency Code (String)" in {
-    Money(BigDecimal(10), "USD") should be(Money(10, USD))
-    Money(10, "USD") should be(Money(10, USD))
+  it should "create values using factories that take Currency Code (String) and an implicit MoneyContext in scope" in {
+    implicit val moneyContext = MoneyContext(USD, defaultCurrencySet, Nil)
+    Money(BigDecimal(10), "USD") should be(Success(Money(10, USD)))
+    Money(10, "USD") should be(Success(Money(10, USD)))
   }
 
   it should "create values using Currency (UOM) factories" in {
@@ -46,7 +54,8 @@ class MoneySpec extends FlatSpec with Matchers {
     Money(10) should be(USD(10))
   }
 
-  it should "create values from formatted strings" in {
+  it should "create values from formatted strings given an implicit MoneyContext in scope" in {
+    implicit val moneyContext = MoneyContext(USD, defaultCurrencySet, Nil)
     Money("500 USD").get should be(USD(500))
     Money("500USD").get should be(USD(500))
     Money("5.50USD").get should be(USD(5.5))
@@ -506,7 +515,7 @@ class MoneySpec extends FlatSpec with Matchers {
   }
 
   it should "return quantity when dividing by price" in {
-    val p = Price(Money(10, "USD"), Meters(1))
-    Money(40, "USD") / p should be(Meters(4))
+    val p = Price(Money(10, USD), Meters(1))
+    Money(40, USD) / p should be(Meters(4))
   }
 }
