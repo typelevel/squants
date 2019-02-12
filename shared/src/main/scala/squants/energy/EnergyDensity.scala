@@ -9,6 +9,7 @@
 package squants.energy
 
 import squants._
+import squants.space.CubicMeters
 
 /**
  * Represents a quantity of energy
@@ -42,7 +43,7 @@ trait EnergyDensityUnit extends UnitOfMeasure[EnergyDensity] with UnitConverter 
 }
 
 object JoulesPerCubicMeter extends EnergyDensityUnit with PrimaryUnit with SiUnit {
-  val symbol = "j/m³"
+  val symbol = Joules.symbol + "/" + CubicMeters.symbol
 }
 
 object EnergyDensityConversions {
