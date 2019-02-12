@@ -22,12 +22,12 @@ class QuantitySerializerSpec extends FlatSpec with MustMatchers {
   object QuantitySerializerMarshaller {
     implicit val formats = DefaultFormats.withBigDecimal +
       new PowerSerializer +
-      new EnergyPriceSerializer +
-      new MassPriceSerializer +
-      new MoneySerializer +
+      new EnergyPriceSerializer(defaultMoneyContext) +
+      new MassPriceSerializer(defaultMoneyContext) +
+      new MoneySerializer(defaultMoneyContext) +
       new TimeSerializer +
       new MassSerializer +
-      new TimePriceSerializer
+      new TimePriceSerializer(defaultMoneyContext)
   }
 
   behavior of "QuantitySerializer"

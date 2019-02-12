@@ -387,15 +387,19 @@ object Money extends Dimension[Money] {
   def apply(value: BigDecimal)(implicit fxContext: MoneyContext) = new Money(value)(fxContext.defaultCurrency)
 
   def apply(value: BigDecimal, currency: Currency) = new Money(value)(currency)
-  def apply(value: BigDecimal, currency: String) = new Money(value)(defaultCurrencyMap(currency))
+  def apply(value: BigDecimal, currency: String)(implicit fxContext: MoneyContext): Try[Money] = {
+    Currency(currency).map(new Money(value)(_))
+  }
 
   def apply[A](n: A, currency: Currency)(implicit num: Numeric[A]) = new Money(BigDecimal(num.toDouble(n)))(currency)
-  def apply[A](n: A, currency: String)(implicit num: Numeric[A]) = new Money(BigDecimal(num.toDouble(n)))(defaultCurrencyMap(currency))
+  def apply[A](n: A, currency: String)(implicit num: Numeric[A], fxContext: MoneyContext): Try[Money] = {
+    Currency(currency).map(new Money(BigDecimal(num.toDouble(n)))(_))
+  }
 
-  def apply(s: String): Try[Money] = {
-    lazy val regex = ("([-+]?[0-9]*\\.?[0-9]+) *(" + defaultCurrencySet.map(_.code).reduceLeft(_ + "|" + _) + ")").r
+  def apply(s: String)(implicit fxContext: MoneyContext): Try[Money] = {
+    val regex = ("([-+]?[0-9]*\\.?[0-9]+) *(" + fxContext.currencies.map(_.code).reduceLeft(_ + "|" + _) + ")").r
     s match {
-      case regex(value, currency) ⇒ Success(Money(value.toDouble, defaultCurrencyMap(currency)))
+      case regex(value, currency) ⇒ Currency(currency).map(Money(value.toDouble, _))
       case _                      ⇒ Failure(QuantityParseException("Unable to parse Money", s))
     }
   }
@@ -421,6 +425,13 @@ abstract class Currency(val code: String, val name: String, val symbol: String, 
   protected def converterTo: Double ⇒ Double = ???
   def /(that: Money): CurrencyExchangeRate = that toThe Money(1, this)
   override def toString: String = code
+}
+
+object Currency {
+  def apply(currency: String)(implicit fxContext: MoneyContext) = {
+    fxContext.currencyMap.get(currency)
+    .fold(Try[Currency](throw NoSuchCurrencyException(currency, fxContext)))(Success(_))
+  }
 }
 
 object USD extends Currency("USD", "US Dollar", "$", 2)
