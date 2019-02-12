@@ -702,4 +702,8 @@ class QuantitySpec extends FlatSpec with Matchers with CustomMatchers with TryVa
     timeInMinutes.hashCode() shouldBe timeInSeconds.hashCode()
 
   }
+
+  it should "provide implicit instance for Dimension" in {
+    implicitly[Dimension[Thingee]] shouldBe Thingee
+  }
 }

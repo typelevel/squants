@@ -16,7 +16,7 @@ import squants.mass.Kilograms
 import squants.motion._
 import squants.photo.{ LumenSeconds, Lumens, Lux, LuxSeconds }
 import squants.space.{ CubicMeters, Meters, Radians }
-import squants.{ Each, MetricSystem, QuantityParseException }
+import squants.{ Dimension, Each, MetricSystem, QuantityParseException }
 
 /**
  * @author  garyKeorkunian
@@ -101,5 +101,9 @@ class FrequencySpec extends FlatSpec with Matchers {
     d.gigahertz should be(Gigahertz(d))
     d.terahertz should be(Terahertz(d))
     d.rpm should be(RevolutionsPerMinute(d))
+  }
+
+  it should "provide implicit instance for Dimension" in {
+    implicitly[Dimension[Frequency]] shouldBe Frequency
   }
 }
