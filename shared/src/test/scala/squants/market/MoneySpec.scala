@@ -470,11 +470,11 @@ class MoneySpec extends FlatSpec with Matchers {
     d.NOK should be(Money(d, squants.market.NOK))
     d.NZD should be(Money(d, squants.market.NZD))
     d.BTC should be(Money(d, squants.market.BTC))
-    d.bitCoin should be(BTC(d))
+    d.bitcoin should be(BTC(d))
     d.ETH should be(Money(d, squants.market.ETH))
     d.ether should be(ETH(d))
     d.LTC should be(Money(d, squants.market.LTC))
-    d.liteCoin should be(LTC(d))
+    d.litecoin should be(LTC(d))
     d.ZAR should be(ZAR(d))
     d.NAD should be(NAD(d))
   }
