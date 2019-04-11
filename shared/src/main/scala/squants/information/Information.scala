@@ -18,11 +18,18 @@ import squants.time.TimeIntegral
  * @since 0.6.0
  * @param value value in [[squants.information.Bytes]]
  */
-final class Information private(val value: Double, val unit: InformationUnit)
+final class Information private(val amount: Long, val unit: InformationUnit)
     extends Quantity[Information]
     with TimeIntegral[DataRate] {
 
   def dimension = Information
+
+  def value = amount.toDouble
+
+  // overridden to remove the forcing of doubles for this unit that makes
+  // no sense, now that this dimension is represented by a Long
+  override def toString(): String = s"$amount ${unit.symbol}"
+  override def toString(uom: UnitOfMeasure[Information]): String = in(uom).toString()
 
   protected def timeDerived = BytesPerSecond(toBytes)
   protected[squants] def time = Seconds(1)
@@ -72,7 +79,7 @@ trait InformationUnit extends UnitOfMeasure[Information] with UnitConverter {
  * Factory singleton for information
  */
 object Information extends Dimension[Information] with BaseDimension {
-  private[information] def apply[A](n: A, unit: InformationUnit)(implicit num: Numeric[A]) = new Information(num.toDouble(n), unit)
+  private[information] def apply[A](n: A, unit: InformationUnit)(implicit num: Numeric[A]) = new Information(num.toLong(n), unit)
   def apply(value: Any) = parse(value)
   def name = "Information"
   def primaryUnit = Bytes
