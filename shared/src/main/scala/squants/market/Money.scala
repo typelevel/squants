@@ -481,9 +481,10 @@ object MoneyConversions {
     def XAG = Money(n, squants.market.XAG)
     def USD = Money(n, squants.market.USD)
     def dollars = USD
-    def cents = Money(num.toDouble(n) / 100d, squants.market.USD)
+    def cents = Money(num.toDouble(n) / 100d, context.defaultCurrency)
     def EUR = Money(n, squants.market.EUR)
     def euros = EUR
+    def eurocents = Money(num.toDouble(n) / 100d, squants.market.EUR)
     def JPY = Money(n, squants.market.JPY)
     def yen = JPY
     def GBP = Money(n, squants.market.GBP)
