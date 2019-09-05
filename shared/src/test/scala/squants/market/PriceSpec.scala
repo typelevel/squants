@@ -40,16 +40,40 @@ class PriceSpec extends FlatSpec with Matchers {
     p3 should be(p1 - p2)
   }
 
-  it should "properly multiply by a Double" in {
+  it should "properly multiply by an Integer" in {
     val p1 = Price(Money(9, USD), Meters(1))
     val p2 = Price(Money(3, USD), Meters(1))
     p1 should be(p2 * 3)
+  }
+
+  it should "properly be multiplied by an Integer" in {
+    val p1 = Price(Money(9, USD), Meters(1))
+    val p2 = Price(Money(3, USD), Meters(1))
+    p1 should be(3 * p2)
+  }
+
+  it should "properly multiply by a Double" in {
+    val p1 = Price(Money(9.0, USD), Meters(1))
+    val p2 = Price(Money(3.0, USD), Meters(1))
+    p1 should be(p2 * 3.0)
+  }
+
+  it should "properly be multiplied by a Double" in {
+    val p1 = Price(Money(9.0, USD), Meters(1))
+    val p2 = Price(Money(3.0, USD), Meters(1))
+    p1 should be(3.0 * p2)
   }
 
   it should "properly multiply by a BigDecimal" in {
     val p1 = Price(Money(9, USD), Meters(1))
     val p2 = Price(Money(3, USD), Meters(1))
     p1 should be(p2 * BigDecimal(3))
+  }
+
+  it should "properly multiplied by a BigDecimal" in {
+    val p1 = Price(Money(9, USD), Meters(1))
+    val p2 = Price(Money(3, USD), Meters(1))
+    p1 should be(BigDecimal(3) * p2)
   }
 
   it should "properly divide by a Double" in {
@@ -79,6 +103,11 @@ class PriceSpec extends FlatSpec with Matchers {
   it should "return Money when multiplied by Quantity" in {
     val p = Price(Money(10, USD), Meters(1))
     p * Meters(10) should be(Money(100, USD))
+  }
+
+  it should "return Money when Quantity is multiplied by this" in {
+    val p = Price(Money(10, USD), Meters(1))
+    Meters(10) * p should be(Money(100, USD))
   }
 
   it should "return Quantity when divided by Money" in {

@@ -64,6 +64,8 @@ abstract class Quantity[A <: Quantity[A]] extends Serializable with Ordered[A] {
   def times(that: Double): A = unit(this.value * that)
   def *(that: Double): A = times(that)
 
+  def *(that: Price[A]): Money = that * this
+
   /**
    * Divide this quantity by some number
    * @param that Double
