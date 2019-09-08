@@ -7,10 +7,10 @@ import com.typesafe.sbt.osgi.SbtOsgi
 import com.typesafe.sbt.osgi.SbtOsgi.autoImport._
 
 object Versions {
-  val Squants = "1.5.0-SNAPSHOT"
+  val Squants = "1.5.0"
   val Scala = "2.11.12" // Don't use 2.12 yet to avoid troubles with native
   val scalaJSVersion =
-    Option(System.getenv("SCALAJS_VERSION")).getOrElse("0.6.25")
+    Option(System.getenv("SCALAJS_VERSION")).getOrElse("0.6.28")
   val ScalaCross =
     if (scalaJSVersion.startsWith("0.6")) {
       Seq("2.10.7", "2.11.12", "2.12.9")
@@ -18,12 +18,14 @@ object Versions {
       Seq("2.11.12", "2.12.9")
     }
 
-  val ScalaTest = "3.0.8"
+  val ScalaTest = "3.1.0-M2"
+  val ScalaTestOld = "3.0.7"
   val ScalaCheck = "1.13.5"
   val Json4s = "3.6.7"
 }
 
 object Dependencies {
+  val scalaTestOld = Def.setting(Seq("org.scalatest" %%% "scalatest" % Versions.ScalaTestOld % Test))
   val scalaTest = Def.setting(Seq("org.scalatest" %%% "scalatest" % Versions.ScalaTest % Test))
   val scalaCheck = Def.setting(Seq("org.scalacheck" %%% "scalacheck" % Versions.ScalaCheck % Test))
   val json4s = Def.setting(Seq("org.json4s" %% "json4s-native" % Versions.Json4s % Test))
@@ -63,33 +65,42 @@ object Project {
 
 object Compiler {
   lazy val newerCompilerLintSwitches = Seq(
-    "-Xlint:missing-interpolator", // Not availabile in 2.10
-    "-Ywarn-unused",               // Not available in 2.10
-    "-Ywarn-unused-import",        // Not available in 2.10
-    "-Ywarn-numeric-widen"         // In 2.10 this produces a some strange spurious error
+    "-Xlint:missing-interpolator",
+    "-Ywarn-unused",
+    "-Ywarn-unused-import",
+    "-Ywarn-numeric-widen",
+    "-deprecation:false"
   )
 
-  val defaultSettings = Seq(
-    scalacOptions in ThisBuild ++= Seq(
-      "-feature",
-      "-deprecation",
-      "-encoding", "UTF-8",       // yes, this is 2 args
-      "-Xfatal-warnings",
-      "-unchecked",
-      "-Xfuture",
-      "-Ywarn-dead-code",
-      "-Yno-adapted-args"
-    ),
+  lazy val defaultCompilerSwitches = Seq(
+    "-feature",
+    "-deprecation",
+    "-encoding", "UTF-8",       // yes, this is 2 args
+    "-Xfatal-warnings",
+    "-unchecked",
+    "-Xfuture",
+    "-Ywarn-dead-code",
+    "-Yno-adapted-args"
+  )
 
-    scalacOptions ++= PartialFunction.condOpt(CrossVersion.partialVersion(scalaVersion.value)){
-      case Some((2, scalaMajor)) if scalaMajor >= 11 => newerCompilerLintSwitches
-    }.toList.flatten,
+  lazy val defaultSettings = Seq(
+    scalacOptions ++= Seq(
+      "-deprecation",
+      "-feature",
+      "-encoding", "UTF-8",
+    ),
+    scalacOptions := {CrossVersion.partialVersion(scalaVersion.value) match {
+      case Some((2, scalaMajor)) if scalaMajor >= 11 => scalacOptions.value ++ defaultCompilerSwitches ++ newerCompilerLintSwitches
+      case _ => scalacOptions.value ++ defaultCompilerSwitches
+    }},
 
     scalaVersion in ThisBuild := Versions.Scala,
 
     crossScalaVersions := Versions.ScalaCross
   )
+
 }
+
 object Publish {
   val defaultSettings = Seq(
     publishTo := {
@@ -122,16 +133,12 @@ object Publish {
 
 object Tests {
   val defaultSettings =
-    if (Versions.scalaJSVersion.startsWith("0.6")) {
       Seq(
         libraryDependencies ++=
           Dependencies.scalaTest.value ++
           Dependencies.scalaCheck.value ++
           Dependencies.json4s.value
       )
-    } else {
-      Seq.empty
-    }
 }
 
 object Formatting {
@@ -167,7 +174,7 @@ object Formatting {
 
 object Console {
   val defaultSettings = Seq(
-  scalacOptions ~= (_ filterNot (Set("-Xfatal-warnings", "-Ywarn-unused-import").contains)),
+  scalacOptions in (Compile, console) ~= (_ filterNot (Set("-Xfatal-warnings", "-Ywarn-unused-import").contains)),
 
   initialCommands in console := """
      import scala.language.postfixOps,
@@ -248,6 +255,6 @@ object Docs {
       val (bd, v) = ((baseDirectory in LocalRootProject).value, version.value)
       val tagOrBranch = if(v endsWith "SNAPSHOT") gitHash else "v" + v
       Seq("-sourcepath", bd.getAbsolutePath, "-doc-source-url", "https://github.com/garyKeorkunian/squants/tree/" + tagOrBranch + "€{FILE_PATH}.scala")
-    }
+    },
   )
 }

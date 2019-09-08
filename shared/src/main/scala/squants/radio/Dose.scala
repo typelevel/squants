@@ -14,7 +14,7 @@ import squants.energy.{ Energy, Joules }
 import squants.time.Time
 
 /**
- * Its important to note that while Dose and SpecificEnergy are simliar 
+ * Its important to note that while Dose and SpecificEnergy are simliar
  * measures (both are energy/mass dimensions), they are decidedly different
  * and no conversions between the two dimensions should be directly possible
  * through implicit conversions EVER.  This is because SpecificEnergy is used to
@@ -25,7 +25,6 @@ import squants.time.Time
  * doesn't allow any sort of magic conversions that allow this mistake.
  * @author  Hunter Payne
  *
- * @param value value in [[squants.radio.Sievert]]
  */
 final class Dose private (val value: Double, val unit: DoseUnit) extends Quantity[Dose] {
 
@@ -71,4 +70,3 @@ object DoseConversions {
 
   implicit object DoseNumeric extends AbstractQuantityNumeric[Dose](Dose.primaryUnit)
 }
-

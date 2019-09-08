@@ -16,7 +16,7 @@ import squants.space.{CubicMeters, Meters}
 import squants.thermal.{JoulesPerKelvin, Kelvin}
 import squants.time.Hours
 import squants.{MetricSystem, QuantityParseException}
-import squants.radio.{Irradiance, WattsPerSquareMeter, BecquerelsPerSquareMeterSecond}
+import squants.radio.{WattsPerSquareMeter, BecquerelsPerSquareMeterSecond}
 
 /**
  * @author  garyKeorkunian
