@@ -109,13 +109,13 @@ trait PrimaryUnit extends UnitConverter { uom: UnitOfMeasure[_] ⇒
    * Implements the converterTo method to just return the underlying value
    * @return
    */
-  override final def converterTo[N]: (N, SquantsNumeric[N]) ⇒ N = (n, sqNum) ⇒ n
+  override final def converterTo[N]: (N, SquantsNumeric[N]) ⇒ N = (n, _) ⇒ n
 
   /**
    * Implements the converterFrom method to just return the underlying value
    * @return
    */
-  override final def converterFrom[N]: (N, SquantsNumeric[N]) ⇒ N = (n, sqNum) ⇒ n
+  override final def converterFrom[N]: (N, SquantsNumeric[N]) ⇒ N = (n, _) ⇒ n
 
   /**
    * Value unit multiplier is always equal to 1

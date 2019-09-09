@@ -15,7 +15,7 @@ import squants.mass.AreaDensity
 import squants.motion.{ Newtons, Pressure }
 import squants.photo.{ Candelas, _ }
 import squants.radio._
-import squants.time.{ Time, Seconds }
+import squants.time.Time
 
 /**
  * @author  garyKeorkunian

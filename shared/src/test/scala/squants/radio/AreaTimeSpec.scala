@@ -10,7 +10,6 @@ package squants.radio
 
 import org.scalatest.{FlatSpec, Matchers}
 import squants.QuantityParseException
-import squants.radio.AreaTime
 import squants.space.{ SquareMeters, SquareCentimeters }
 import squants.time.Seconds
 
@@ -86,7 +85,7 @@ class AreaTimeSpec extends FlatSpec with Matchers {
     val irrs = List(SquareCentimeterSeconds(10), SquareCentimeterSeconds(100))
     irrs.sum should be(SquareMeterSeconds(0.011))
 
-    val smsIrrs = 
+    val smsIrrs =
       List(SquareMeterSeconds(10), SquareMeterSeconds(100))
     smsIrrs.sum should be(SquareMeterSeconds(110))
   }

@@ -15,17 +15,17 @@ All types are immutable and thread-safe.
 |
 [![Join the chat at https://gitter.im/typelevel/squants](https://badges.gitter.im/typelevel/squants.svg)](https://gitter.im/typelevel/squants?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 |
-[![Scaladocs](https://www.javadoc.io/badge/org.typelevel/squants_2.12.svg?label=scaladoc)](https://static.javadoc.io/org.typelevel/squants_2.12/1.4.0/squants/index.html)
+[![Scaladocs](https://www.javadoc.io/badge/org.typelevel/squants_2.12.svg?label=scaladoc)](https://static.javadoc.io/org.typelevel/squants_2.12/1.5.0/squants/index.html)
 |
 [![Build Status](https://travis-ci.org/typelevel/squants.png?branch=master)](https://travis-ci.org/typelevel/squants)
 
 
 ### Current Versions
-Current Release: **1.4.0**
-([API Docs](https://oss.sonatype.org/service/local/repositories/releases/archive/org/typelevel/squants_2.12/1.4.0/squants_2.12-1.4.0-javadoc.jar/!/index.html#squants.package))
+Current Release: **1.5.0**
+([API Docs](https://oss.sonatype.org/service/local/repositories/releases/archive/org/typelevel/squants_2.12/1.5.0/squants_2.12-1.5.0-javadoc.jar/!/index.html#squants.package))
 
-Development Build: **1.5.0-SNAPSHOT**
-([API Docs](https://oss.sonatype.org/service/local/repositories/snapshots/archive/org/typelevel/squants_2.12/1.5.0-SNAPSHOT/squants_2.12-1.5.0-SNAPSHOT-javadoc.jar/!/index.html#squants.package))
+Development Build: **1.6.0-SNAPSHOT**
+([API Docs](https://oss.sonatype.org/service/local/repositories/snapshots/archive/org/typelevel/squants_2.12/1.6.0-SNAPSHOT/squants_2.12-1.6.0-SNAPSHOT-javadoc.jar/!/index.html#squants.package))
 
 [Release History](https://github.com/typelevel/squants/wiki/Release-History)
 
@@ -38,10 +38,10 @@ For more information on feature availability of a specific version see the Relea
 Repository hosting for Squants is provided by [Sonatype](https://oss.sonatype.org/).
 To use Squants in your SBT project add the following dependency to your build.
 
-    "org.typelevel"  %% "squants"  % "1.4.0"
+    "org.typelevel"  %% "squants"  % "1.5.0"
 or
 
-    "org.typelevel"  %% "squants"  % "1.5.0-SNAPSHOT"
+    "org.typelevel"  %% "squants"  % "1.6.0-SNAPSHOT"
 
 
 To use Squants in your Maven project add the following dependency
@@ -50,13 +50,13 @@ To use Squants in your Maven project add the following dependency
 <dependency>
     <groupId>org.typelevel</groupId>
     <artifactId>squants_2.11</artifactId>
-    <version>1.4.0</version>
+    <version>1.5.0</version>
 </dependency>
 ```
 
 Beginning with Squants 0.4.x series, both Scala 2.10 and 2.11 builds are available.
 Beginning with Squants 1.x series, Scala 2.10, 2.11 and 2.12 builds are available.
-Scala.js is supported on version 0.6.25 and 1.0.0-M6
+Scala.js is supported on version 0.6.28 and 1.0.0-M8
 
 To use Squants interactively in the Scala REPL, clone the git repo and run `sbt squantsJVM/console`
 
@@ -1205,9 +1205,9 @@ To make a release do the following:
   sbt squantsNative/publishSigned
 ```
 
-* Repeat for scala.js 1.0.0-M6
+* Repeat for scala.js 1.0.0-M8
 ```
-  SCALAJS_VERSION=1.0.0-M6 sbt +squantsJS/publishSigned
+  SCALAJS_VERSION=1.0.0-M8 sbt +squantsJS/publishSigned
 ```
 
 * Then make a release (Note: after this step the release cannot be replaced)

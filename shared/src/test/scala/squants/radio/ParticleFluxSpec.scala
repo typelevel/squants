@@ -10,9 +10,6 @@ package squants.radio
 
 import org.scalatest.{FlatSpec, Matchers}
 import squants.QuantityParseException
-import squants.radio.{ 
-  ParticleFlux, 
-  BecquerelsPerSquareMeterSecond, BecquerelsPerSquareCentimeterSecond }
 import squants.energy.WattHours
 import squants.time.Hours
 
@@ -85,7 +82,7 @@ class ParticleFluxSpec extends FlatSpec with Matchers {
     import ParticleFluxConversions.ParticleFluxNumeric
 
     val irrs = List(
-      BecquerelsPerSquareCentimeterSecond(10), 
+      BecquerelsPerSquareCentimeterSecond(10),
       BecquerelsPerSquareCentimeterSecond(100))
     irrs.sum should be(BecquerelsPerSquareCentimeterSecond(110))
 

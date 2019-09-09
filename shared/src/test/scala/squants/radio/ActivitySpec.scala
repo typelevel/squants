@@ -10,7 +10,6 @@ package squants.radio
 
 import org.scalatest.{FlatSpec, Matchers}
 import squants.QuantityParseException
-import squants.radio.Activity
 
 /**
  * @author  garyKeorkunian

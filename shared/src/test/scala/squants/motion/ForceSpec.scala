@@ -12,7 +12,7 @@ import org.scalatest.{ Matchers, FlatSpec }
 import squants.mass.Kilograms
 import squants.time.Seconds
 import squants.energy.Joules
-import squants.space.{ SquareMeters, Meters, Centimeters, Microns }
+import squants.space.{ SquareMeters, Meters }
 import squants.{ QuantityParseException, CustomMatchers }
 
 /**
