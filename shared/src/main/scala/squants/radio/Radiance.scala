@@ -31,7 +31,7 @@ final class Radiance private (val value: Double, val unit: RadianceUnit)
 
 object Radiance extends Dimension[Radiance] {
   private[radio] def apply[A](n: A, unit: RadianceUnit)(implicit num: Numeric[A]) = new Radiance(num.toDouble(n), unit)
-  def apply = parse _
+  def apply(value: Any) = parse(value)
   def name = "Radiance"
   def primaryUnit = WattsPerSteradianPerSquareMeter
   def siUnit = WattsPerSteradianPerSquareMeter

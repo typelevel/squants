@@ -15,6 +15,7 @@ import squants.mass.AreaDensity
 import squants.motion.{ Newtons, Pressure }
 import squants.photo.{ Candelas, _ }
 import squants.radio._
+import squants.time.Time
 
 /**
  * @author  garyKeorkunian
@@ -42,6 +43,7 @@ final class Area private (val value: Double, val unit: AreaUnit)
   def *(that: MagneticFluxDensity): MagneticFlux = Webers(this.toSquareMeters * that.toTeslas)
   def *(that: Irradiance): Power = Watts(this.toSquareMeters * that.toWattsPerSquareMeter)
   def *(that: Radiance): RadiantIntensity = WattsPerSteradian(this.toSquareMeters * that.toWattsPerSteradianPerSquareMeter)
+  def *(that: Time): AreaTime = SquareMeterSeconds(this.toSquareMeters * that.toSeconds)
 
   def /(that: Length): Length = unit match {
     case SquareUsMiles ⇒ UsMiles(this.value / that.toUsMiles)
@@ -67,7 +69,7 @@ final class Area private (val value: Double, val unit: AreaUnit)
 
 object Area extends Dimension[Area] {
   private[space] def apply[A](n: A, unit: AreaUnit)(implicit num: Numeric[A]) = new Area(num.toDouble(n), unit)
-  def apply = parse _
+  def apply(value: Any) = parse(value)
   def name = "Area"
   def primaryUnit = SquareMeters
   def siUnit = SquareMeters

@@ -13,7 +13,7 @@ package object strict {
   object implicits {
     implicit def mkSiUnitGroup[A <: Quantity[A]](implicit dimension: Dimension[A]): UnitGroup[A] = {
       new UnitGroup[A] {
-        val units: Set[UnitOfMeasure[A]] = dimension.units.collect { case si: SiUnit => si }
+        val units: Set[UnitOfMeasure[A]] = dimension.units.filter(_.isInstanceOf[SiUnit])
       }
     }
   }

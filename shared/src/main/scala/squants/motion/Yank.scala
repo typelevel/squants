@@ -34,7 +34,7 @@ final class Yank private (val value: Double, val unit: YankUnit)
 
 object Yank extends Dimension[Yank] {
   private[motion] def apply[A](n: A, unit: YankUnit)(implicit num: Numeric[A]) = new Yank(num.toDouble(n), unit)
-  def apply = parse _
+  def apply(value: Any) = parse(value)
   def name = "Yank"
   def primaryUnit = NewtonsPerSecond
   def siUnit = NewtonsPerSecond

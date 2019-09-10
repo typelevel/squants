@@ -22,7 +22,7 @@ final class MagneticFieldStrength private (val value: Double, val unit: Magnetic
 
 object MagneticFieldStrength extends Dimension[MagneticFieldStrength] {
   private[electro] def apply[A](n: A, unit: MagneticFieldStrengthUnit)(implicit num: Numeric[A]) = new MagneticFieldStrength(num.toDouble(n), unit)
-  def apply = parse _
+  def apply(value: Any) = parse(value)
   def name = "MagneticFieldStrength"
   def primaryUnit = AmperesPerMeter
   def siUnit = AmperesPerMeter

@@ -16,6 +16,7 @@ import squants.space.{CubicMeters, Meters}
 import squants.thermal.{JoulesPerKelvin, Kelvin}
 import squants.time.Hours
 import squants.{MetricSystem, QuantityParseException}
+import squants.radio.{WattsPerSquareMeter, BecquerelsPerSquareMeterSecond}
 
 /**
  * @author  garyKeorkunian
@@ -146,6 +147,10 @@ class EnergySpec extends FlatSpec with Matchers {
     TeraElectronVolt(1).toString(TeraElectronVolt) should be("1.0 TeV")
     PetaElectronVolt(1).toString(PetaElectronVolt) should be("1.0 PeV")
     ExaElectronVolt(1).toString(ExaElectronVolt) should be("1.0 EeV")
+  }
+
+  it should "return Irradiance when multiplied by ParticleFlux" in {
+    WattHours(1) * BecquerelsPerSquareMeterSecond(1) should be(WattsPerSquareMeter(Hours(1).toSeconds))
   }
 
   it should "return Power when divided by Time" in {

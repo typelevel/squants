@@ -81,7 +81,7 @@ final class Mass private (val value: Double, val unit: MassUnit)
  */
 object Mass extends Dimension[Mass] with BaseDimension {
   private[mass] def apply[A](n: A, unit: MassUnit)(implicit num: Numeric[A]) = new Mass(num.toDouble(n), unit)
-  def apply = parse _
+  def apply(value: Any) = parse(value)
   def name = "Mass"
   def primaryUnit = Grams
   def siUnit = Kilograms

@@ -9,7 +9,7 @@
 package squants.electro
 
 import org.scalatest.{FlatSpec, Matchers}
-import squants.{MetricSystem, QuantityParseException}
+import squants.QuantityParseException
 import squants.space.Meters
 
 /**

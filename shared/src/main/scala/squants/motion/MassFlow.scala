@@ -36,7 +36,7 @@ final class MassFlow private (val value: Double, val unit: MassFlowUnit)
 
 object MassFlow extends Dimension[MassFlow] {
   private[motion] def apply[A](n: A, unit: MassFlowUnit)(implicit num: Numeric[A]) = new MassFlow(num.toDouble(n), unit)
-  def apply = parse _
+  def apply(value: Any) = parse(value)
   def name = "MassFlow"
   def primaryUnit = KilogramsPerSecond
   def siUnit = KilogramsPerSecond

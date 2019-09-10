@@ -4,7 +4,7 @@ import org.scalatest.{FlatSpec, Matchers}
 import squants.UnitOfMeasure
 import squants.mass.{Kilograms, Mass}
 import squants.mass.MassConversions._
-import squants.space.{Inches, Length, Yards, UsMiles}
+import squants.space.{Inches, Yards, UsMiles}
 import squants.space.LengthConversions._
 import squants.experimental.unitgroups.UnitGroup
 import squants.experimental.unitgroups.uscustomary.space.UsCustomaryLengths

@@ -26,9 +26,9 @@ class EnergyDensitySpec extends FlatSpec with Matchers {
   }
 
   it should "create values from properly formatted Strings" in {
-    EnergyDensity("10.22 j/m³").get should be(JoulesPerCubicMeter(10.22))
+    EnergyDensity("10.22 J/m³").get should be(JoulesPerCubicMeter(10.22))
     EnergyDensity("10.22 zz").failed.get should be(QuantityParseException("Unable to parse EnergyDensity", "10.22 zz"))
-    EnergyDensity("ZZ j/m³").failed.get should be(QuantityParseException("Unable to parse EnergyDensity", "ZZ j/m³"))
+    EnergyDensity("ZZ J/m³").failed.get should be(QuantityParseException("Unable to parse EnergyDensity", "ZZ J/m³"))
   }
 
   it should "properly convert to all supported Units of Measure" in {
@@ -38,7 +38,7 @@ class EnergyDensitySpec extends FlatSpec with Matchers {
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
-    JoulesPerCubicMeter(1).toString(JoulesPerCubicMeter) should be("1.0 j/m³")
+    JoulesPerCubicMeter(1).toString(JoulesPerCubicMeter) should be("1.0 J/m³")
   }
 
   it should "return Energy when multiplied by Volume" in {

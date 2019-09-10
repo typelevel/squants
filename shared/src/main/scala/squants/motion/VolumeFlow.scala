@@ -39,7 +39,7 @@ final class VolumeFlow private (val value: Double, val unit: VolumeFlowRateUnit)
 
 object VolumeFlow extends Dimension[VolumeFlow] {
   private[motion] def apply[A](n: A, unit: VolumeFlowRateUnit)(implicit num: Numeric[A]) = new VolumeFlow(num.toDouble(n), unit)
-  def apply = parse _
+  def apply(value: Any) = parse(value)
   def name = "VolumeFlow"
   def primaryUnit = CubicMetersPerSecond
   def siUnit = CubicMetersPerSecond
@@ -56,27 +56,27 @@ object CubicMetersPerSecond extends VolumeFlowRateUnit with PrimaryUnit with SiU
 
 object CubicFeetPerHour extends VolumeFlowRateUnit {
   val symbol = "ft³/hr"
-  val conversionFactor = (CubicMeters.conversionFactor * CubicFeet.conversionFactor) / Time.SecondsPerHour
+  val conversionFactor = (CubicFeet.conversionFactor / CubicMeters.conversionFactor) / Time.SecondsPerHour
 }
 
 object GallonsPerDay extends VolumeFlowRateUnit {
   val symbol = "GPD"
-  val conversionFactor = (CubicMeters.conversionFactor * UsGallons.conversionFactor) / Time.SecondsPerDay
+  val conversionFactor = (UsGallons.conversionFactor / CubicMeters.conversionFactor) / Time.SecondsPerDay
 }
 
 object GallonsPerHour extends VolumeFlowRateUnit {
   val symbol = "GPH"
-  val conversionFactor = (CubicMeters.conversionFactor * UsGallons.conversionFactor) / Time.SecondsPerHour
+  val conversionFactor = (UsGallons.conversionFactor / CubicMeters.conversionFactor) / Time.SecondsPerHour
 }
 
 object GallonsPerMinute extends VolumeFlowRateUnit {
   val symbol = "GPM"
-  val conversionFactor = (CubicMeters.conversionFactor * UsGallons.conversionFactor) / Time.SecondsPerMinute
+  val conversionFactor = (UsGallons.conversionFactor / CubicMeters.conversionFactor) / Time.SecondsPerMinute
 }
 
 object GallonsPerSecond extends VolumeFlowRateUnit {
   val symbol = "GPS"
-  val conversionFactor = CubicMeters.conversionFactor * UsGallons.conversionFactor
+  val conversionFactor = UsGallons.conversionFactor / CubicMeters.conversionFactor
 }
 
 object VolumeFlowConversions {

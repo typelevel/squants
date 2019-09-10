@@ -267,7 +267,7 @@ case class QuantityVector[A <: Quantity[A]](coordinates: A*) extends SVector[A] 
     case _      ⇒ throw new UnsupportedOperationException("Cross Product is not supported on vectors with an arbitrary number of dimensions")
   }
 
-  def crossProduct[B <: Quantity[B], C <: Quantity[C]](that: SVector[B], quantTimes: (A, B) ⇒ C)(implicit num: Numeric[C]): QuantityVector[C] = {
+  def crossProduct[B <: Quantity[B], C <: Quantity[C]: Numeric](that: SVector[B], quantTimes: (A, B) ⇒ C): QuantityVector[C] = {
     (this.coordinates.length, that.coordinates.length) match {
       case (3, 3) ⇒
         QuantityVector(

@@ -2,7 +2,7 @@ package squants.mass
 
 import org.scalatest.{FlatSpec, Matchers}
 import squants.CustomMatchers
-import squants.motion.{AngularAccelerationConversions, NewtonMeters, RadiansPerSecondSquared}
+import squants.motion.{NewtonMeters, RadiansPerSecondSquared}
 import squants.space.{Feet, Meters}
 
 /**

@@ -27,6 +27,7 @@ class PressureSpec extends FlatSpec with Matchers {
     PoundsPerSquareInch(1).toPoundsPerSquareInch should be(1)
     StandardAtmospheres(1).toStandardAtmospheres should be(1)
     MillimetersOfMercury(1).toMillimetersOfMercury should be(1)
+    InchesOfMercury(1).toInchesOfMercury should be(1)
     Torrs(1).toTorr should be(1)
   }
 
@@ -35,6 +36,7 @@ class PressureSpec extends FlatSpec with Matchers {
     Pressure("10.22 bar").get should be(Bars(10.22))
     Pressure("10.22 psi").get should be(PoundsPerSquareInch(10.22))
     Pressure("10.22 mmHg").get should be(MillimetersOfMercury(10.22))
+    Pressure("10.22 inHg").get should be(InchesOfMercury(10.22))
     Pressure("10.22 Torr").get should be(Torrs(10.22))
     Pressure("10.22 zz").failed.get should be(QuantityParseException("Unable to parse Pressure", "10.22 zz"))
     Pressure("zz Pa").failed.get should be(QuantityParseException("Unable to parse Pressure", "zz Pa"))
@@ -48,6 +50,7 @@ class PressureSpec extends FlatSpec with Matchers {
     x.toPoundsPerSquareInch should be(Newtons(1).toPoundForce / SquareMeters(1).toSquareInches +- tolerance)
     x.toStandardAtmospheres should be(1d / 101325d)
     x.toMillimetersOfMercury should be(1d / 133.322387415d)
+    x.toInchesOfMercury should be(1d / 3386.389)
     x.toTorr should be(760d / 101325d)
   }
 
@@ -57,6 +60,7 @@ class PressureSpec extends FlatSpec with Matchers {
     PoundsPerSquareInch(1).toString(PoundsPerSquareInch) should be("1.0 psi")
     StandardAtmospheres(1).toString(StandardAtmospheres) should be("1.0 atm")
     MillimetersOfMercury(1).toString(MillimetersOfMercury) should be("1.0 mmHg")
+    InchesOfMercury(1).toString(InchesOfMercury) should be("1.0 inHg")
     Torrs(1).toString(Torrs) should be("1.0 Torr")
   }
 
@@ -74,6 +78,7 @@ class PressureSpec extends FlatSpec with Matchers {
     psi should be(PoundsPerSquareInch(1))
     atm should be(StandardAtmospheres(1))
     mmHg should be(MillimetersOfMercury(1))
+    inHg should be(InchesOfMercury(1))
     torr should be(Torrs(1))
   }
   it should "provide implicit conversion from Double" in {
@@ -85,6 +90,7 @@ class PressureSpec extends FlatSpec with Matchers {
     d.psi should be(PoundsPerSquareInch(d))
     d.atm should be(StandardAtmospheres(d))
     d.mmHg should be(MillimetersOfMercury(d))
+    d.inHg should be(InchesOfMercury(d))
     d.torr should be(Torrs(d))
   }
 

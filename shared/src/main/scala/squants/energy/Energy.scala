@@ -15,6 +15,7 @@ import squants.motion.{NewtonMeters, Newtons, Torque}
 import squants.space.CubicMeters
 import squants.thermal.{JoulesPerKelvin, Kelvin, ThermalCapacity}
 import squants.time.{Time, _}
+import squants.radio.{ Irradiance, ParticleFlux, WattsPerSquareMeter }
 
 /**
  * Represents a quantity of energy
@@ -34,6 +35,9 @@ final class Energy private (val value: Double, val unit: EnergyUnit)
   protected def timeDerived = Watts(toWattHours)
   protected def time = Hours(1)
 
+  def *(that: ParticleFlux): Irradiance = WattsPerSquareMeter(
+    Hours(1).toSeconds * this.toWattHours * 
+      that.toBecquerelsPerSquareMeterSecond)
   def /(that: Length): Force = Newtons(this.toJoules / that.toMeters)
   def /(that: Force): Length = Meters(this.toJoules / that.toNewtons)
   def /(that: Mass): SpecificEnergy = Grays(this.toJoules / that.toKilograms)
@@ -95,7 +99,7 @@ final class Energy private (val value: Double, val unit: EnergyUnit)
 object Energy extends Dimension[Energy] {
   private[energy] def apply[A](n: A, unit: EnergyUnit)(implicit num: Numeric[A]) = new Energy(num.toDouble(n), unit)
   def apply(load: Power, time: Time): Energy = load * time
-  def apply = parse _
+  def apply(value: Any) = parse(value)
 
   def name = "Energy"
   def primaryUnit = WattHours
