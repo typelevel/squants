@@ -6,7 +6,7 @@ val scalaJSVersion =
 addSbtPlugin("org.scala-js" % "sbt-scalajs" % scalaJSVersion)
 addSbtPlugin("org.scala-native"   % "sbt-scala-native"              % "0.3.9")
 
-addSbtPlugin("org.scalariform" % "sbt-scalariform" % "1.8.2")
+addSbtPlugin("org.scalariform" % "sbt-scalariform" % "1.8.3")
 
 addSbtPlugin("com.typesafe.sbt" % "sbt-osgi" % "0.9.5")
 
