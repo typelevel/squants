@@ -20,7 +20,7 @@ object Versions {
 
   val ScalaTest = "3.1.0-M2"
   val ScalaTestOld = "3.0.7"
-  val ScalaCheck = "1.13.5"
+  val ScalaCheck = "1.14.0"
   val Json4s = "3.6.7"
 }
 
