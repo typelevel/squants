@@ -343,6 +343,7 @@ final class Money private (val amount: BigDecimal)(val currency: Currency)
     case this.currency ⇒ throw new IllegalArgumentException("Can not create Exchange Rate on matching currencies")
     case _             ⇒ CurrencyExchangeRate(that, this)
   }
+
   /**
    * toThe
    */
