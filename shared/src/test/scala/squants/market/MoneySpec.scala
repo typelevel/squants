@@ -9,19 +9,18 @@
 package squants.market
 
 import org.scalatest.{FlatSpec, Matchers}
-import squants.{QuantityParseException, Seconds}
+import squants.QuantityParseException
 import squants.mass.Kilograms
 import squants.space.Meters
-import squants.time.{Hours, Minutes}
-
+import squants.time.Hours
 import scala.math.BigDecimal.RoundingMode
 import scala.util.{Failure, Success}
 
 /**
-  * @author  garyKeorkunian
-  * @since   0.1
-  *
-  */
+ * @author  garyKeorkunian
+ * @since   0.1
+ *
+ */
 class MoneySpec extends FlatSpec with Matchers {
 
   behavior of "Money and its Units of Measure"
@@ -63,9 +62,7 @@ class MoneySpec extends FlatSpec with Matchers {
     Money("500 EUR").get should be(EUR(500))
     Money("10000.0 JPY").get should be(JPY(10000))
     Money("23.45 CAD").get should be(CAD(23.45))
-    Money("23.45 ZZZ").failed.get should be(
-      QuantityParseException("Unable to parse Money", "23.45 ZZZ")
-    )
+    Money("23.45 ZZZ").failed.get should be(QuantityParseException("Unable to parse Money", "23.45 ZZZ"))
   }
 
   it should "return proper result when comparing like currencies" in {
@@ -268,6 +265,8 @@ class MoneySpec extends FlatSpec with Matchers {
     USD(10) * BigDecimal(2) should be(USD(20))
     JPY(23.50) * BigDecimal(3) should be(JPY(70.50))
   }
+
+
 
   it should "return proper results when multiplying by mix of BigDecimal, Double and Int" in {
     val x: Double = 2
@@ -504,8 +503,7 @@ class MoneySpec extends FlatSpec with Matchers {
   it should "provide Numeric support within a MoneyContext with applicable Exchange Rates" in {
     import MoneyConversions._
 
-    implicit val moneyContext =
-      defaultMoneyContext.withExchangeRates(List(USD(1) -> CAD(10), USD(1) -> JPY(100)))
+    implicit val moneyContext = defaultMoneyContext.withExchangeRates(List(USD(1) -> CAD(10), USD(1) -> JPY(100)))
     implicit val moneyNum = new MoneyNumeric()
 
     val ms = List(USD(100), USD(10), USD(1))

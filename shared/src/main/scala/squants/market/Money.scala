@@ -263,7 +263,7 @@ final class Money private (val amount: BigDecimal)(val currency: Currency)
    * Override for Quantity.hashCode because Money doesn't contain a primary unit
    * @return
    */
-  override def hashCode = java.util.Objects.hash(amount, currency)
+  override def hashCode: Int = Objects.hash(amount, currency)
 
   /**
    * Override for Quantity.compare to only work on Moneys of like Currency
@@ -384,9 +384,6 @@ final class Money private (val amount: BigDecimal)(val currency: Currency)
     * @return Money
     */
   def mapAmount(f: BigDecimal => BigDecimal) = currency(f(amount))
-
-
-
 }
 
 /**
