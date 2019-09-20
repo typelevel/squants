@@ -14,6 +14,7 @@ import scala.util.{Failure, Success, Try}
 import scala.language.implicitConversions
 import scala.math.BigDecimal.RoundingMode
 import scala.math.BigDecimal.RoundingMode.RoundingMode
+import java.util.Objects
 
 /**
  * Represents a quantity of Money.
@@ -259,6 +260,12 @@ final class Money private (val amount: BigDecimal)(val currency: Currency)
   }
 
   /**
+   * Override for Quantity.hashCode because Money doesn't contain a primary unit
+   * @return
+   */
+  override def hashCode: Int = Objects.hash(amount, currency)
+
+  /**
    * Override for Quantity.compare to only work on Moneys of like Currency
    * @param that Money
    * @return Int
@@ -336,6 +343,7 @@ final class Money private (val amount: BigDecimal)(val currency: Currency)
     case this.currency ⇒ throw new IllegalArgumentException("Can not create Exchange Rate on matching currencies")
     case _             ⇒ CurrencyExchangeRate(that, this)
   }
+
   /**
    * toThe
    */

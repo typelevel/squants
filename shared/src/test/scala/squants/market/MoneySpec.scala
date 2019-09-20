@@ -151,6 +151,12 @@ class MoneySpec extends FlatSpec with Matchers {
     x != y should be(right = true)
   }
 
+  it should "return consistent hashcode" in {
+    val someMoney = USD(2.1)
+
+    someMoney.hashCode() shouldBe someMoney.hashCode()
+  }
+
   it should "return a proper result on max/min operation with an implicit MoneyContext in scope" in {
     val r1 = CurrencyExchangeRate(USD(1), JPY(100))
     val r2 = CurrencyExchangeRate(USD(1), EUR(.75))
