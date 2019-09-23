@@ -10,7 +10,7 @@ object Versions {
   val Squants = "1.6.0-SNAPSHOT"
   val Scala = "2.11.12" // Don't use 2.12 yet to avoid troubles with native
   val scalaJSVersion =
-    Option(System.getenv("SCALAJS_VERSION")).getOrElse("0.6.28")
+    Option(System.getenv("SCALAJS_VERSION")).getOrElse("0.6.29")
   val ScalaCross =
     if (scalaJSVersion.startsWith("0.6")) {
       Seq("2.10.7", "2.11.12", "2.12.9")
