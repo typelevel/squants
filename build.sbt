@@ -1,27 +1,41 @@
-import sbtcrossproject.{crossProject, CrossType}
+import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
 
 lazy val defaultSettings =
   Project.defaultSettings ++
   Compiler.defaultSettings ++
   Publish.defaultSettings ++
-  Tests.defaultSettings ++
   Formatting.defaultSettings ++
   Console.defaultSettings ++
   Docs.defaultSettings
 
-lazy val squants = crossProject(JSPlatform, JVMPlatform, NativePlatform)
+Global / onChangedBuildSource := ReloadOnSourceChanges
+
+ThisBuild / turbo := true
+
+lazy val squants =
+  crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .crossType(CrossType.Full)
   .in(file("."))
   .settings(defaultSettings: _*)
+  .jvmConfigure(
+    _.enablePlugins(TutPlugin, SbtOsgi)
+  )
   .jvmSettings(
     osgiSettings,
-    tutSettings,
+    scalacOptions in Tut --= Seq("-Ywarn-unused-import", "-Ywarn-unused:imports"),
     tutTargetDirectory := file("."),
     tutSourceDirectory := file("shared") / "src" / "main" / "tut"
   )
+  .jvmSettings(Tests.defaultSettings: _*)
+  .jsSettings(Tests.defaultSettings: _*)
   .jsSettings(
     parallelExecution in Test := false,
-    excludeFilter in Test := "*Serializer.scala" || "*SerializerSpec.scala"
+    excludeFilter in Test := "*Serializer.scala" || "*SerializerSpec.scala",
+    scalacOptions in Tut --= Seq("-Ywarn-unused-import", "-Ywarn-unused:imports"),
+    sources in (Compile, test) := List() // This is a pity but we can't reliable compile on 1.0.0-M8
+  )
+  .nativeSettings(
+    sources in (Compile, doc) := List() // Can't build docs in native
   )
 
 lazy val root = project.in(file("."))
@@ -30,10 +44,6 @@ lazy val root = project.in(file("."))
     name := "squants",
     publish := {},
     publishLocal := {},
-    publishArtifact := false
+    useGpg := true
   )
-  .aggregate(squantsJVM, squantsJS, squantsNative)
-
-lazy val squantsJVM = squants.jvm.enablePlugins(SbtOsgi)
-lazy val squantsJS = squants.js
-lazy val squantsNative = squants.native
+  .aggregate(squants.jvm, squants.js, squants.native)

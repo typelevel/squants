@@ -10,7 +10,7 @@ package squants.motion
 
 import squants._
 import squants.space.{ Feet, Millimeters, UsMiles }
-import squants.time.{ Seconds, _ }
+import squants.time.{ Seconds, TimeDerivative, TimeIntegral, SecondTimeDerivative, TimeSquared, Time }
 
 /**
  * Represents a quantity of acceleration
@@ -60,7 +60,7 @@ final class Acceleration private (val value: Double, val unit: AccelerationUnit)
 
 object Acceleration extends Dimension[Acceleration] {
   private[motion] def apply[A](n: A, unit: AccelerationUnit)(implicit num: Numeric[A]) = new Acceleration(num.toDouble(n), unit)
-  def apply = parse _
+  def apply(value: Any) = parse(value)
   def name = "Acceleration"
   def primaryUnit = MetersPerSecondSquared
   def siUnit = MetersPerSecondSquared
@@ -90,12 +90,12 @@ object MetersPerSecondSquared extends AccelerationUnit with PrimaryUnit with SiU
 
 object FeetPerSecondSquared extends AccelerationUnit {
   val symbol = "ft/s²"
-  val conversionFactor = Feet.conversionFactor * Meters.conversionFactor
+  val conversionFactor = Feet.conversionFactor / Meters.conversionFactor
 }
 
 object UsMilesPerHourSquared extends AccelerationUnit {
   val symbol = "mph²"
-  val conversionFactor = (UsMiles.conversionFactor * Meters.conversionFactor) / math.pow(Time.SecondsPerHour, 2)
+  val conversionFactor = (UsMiles.conversionFactor / Meters.conversionFactor) / math.pow(Time.SecondsPerHour, 2)
 }
 
 /**

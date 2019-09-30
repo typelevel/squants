@@ -44,6 +44,24 @@ final class Information private(val value: Double, val unit: InformationUnit)
   def toZebibytes = to(Zebibytes)
   def toYottabytes = to(Yottabytes)
   def toYobibytes = to(Yobibytes)
+
+  def toBits = to(Bits)
+  def toKilobits = to(Kilobits)
+  def toKibibits = to(Kibibits)
+  def toMegabits = to(Megabits)
+  def toMebibits = to(Mebibits)
+  def toGigabits = to(Gigabits)
+  def toGibibits = to(Gibibits)
+  def toTerabits = to(Terabits)
+  def toTebibits = to(Tebibits)
+  def toPetabits = to(Petabits)
+  def toPebibits = to(Pebibits)
+  def toExabits = to(Exabits)
+  def toExbibits = to(Exbibits)
+  def toZettabits = to(Zettabits)
+  def toZebibits = to(Zebibits)
+  def toYottabits = to(Yottabits)
+  def toYobibits = to(Yobibits)
 }
 
 trait InformationUnit extends UnitOfMeasure[Information] with UnitConverter {
@@ -55,13 +73,16 @@ trait InformationUnit extends UnitOfMeasure[Information] with UnitConverter {
  */
 object Information extends Dimension[Information] with BaseDimension {
   private[information] def apply[A](n: A, unit: InformationUnit)(implicit num: Numeric[A]) = new Information(num.toDouble(n), unit)
-  def apply = parse _
+  def apply(value: Any) = parse(value)
   def name = "Information"
   def primaryUnit = Bytes
   def siUnit = Bytes
   def units = Set(Bytes, Kilobytes, Kibibytes, Megabytes, Mebibytes,
     Gigabytes, Gibibytes, Terabytes, Tebibytes, Petabytes, Pebibytes,
-    Exabytes, Exbibytes, Zettabytes, Zebibytes, Yottabytes, Yobibytes)
+    Exabytes, Exbibytes, Zettabytes, Zebibytes, Yottabytes, Yobibytes,
+    Bits, Kilobits, Kibibits, Megabits, Mebibits, Gigabits, Gibibits,
+    Terabits, Tebibits, Petabits, Pebibits, Exabits, Exbibits,
+    Zettabits, Zebibits, Yottabits, Yobibits)
   def dimensionSymbol = "B"
 }
 
@@ -154,6 +175,91 @@ object Yobibytes extends InformationUnit {
   def symbol = "YiB"
 }
 
+object Bits extends InformationUnit {
+  def conversionFactor = 0.125d
+  val symbol = "bit"
+}
+
+object Kilobits extends InformationUnit {
+  val conversionFactor = Bits.conversionFactor * MetricSystem.Kilo
+  val symbol = "Kbit"
+}
+
+object Kibibits extends InformationUnit {
+  val conversionFactor = Bits.conversionFactor * BinarySystem.Kilo
+  val symbol = "Kibit"
+}
+
+object Megabits extends InformationUnit {
+  val conversionFactor = Bits.conversionFactor * MetricSystem.Mega
+  val symbol = "Mbit"
+}
+
+object Mebibits extends InformationUnit {
+  val conversionFactor = Bits.conversionFactor * BinarySystem.Mega
+  val symbol = "Mibit"
+}
+
+object Gigabits extends InformationUnit {
+  val conversionFactor = Bits.conversionFactor * MetricSystem.Giga
+  val symbol = "Gbit"
+}
+
+object Gibibits extends InformationUnit {
+  val conversionFactor = Bits.conversionFactor * BinarySystem.Giga
+  val symbol = "Gibit"
+}
+
+object Terabits extends InformationUnit {
+  val conversionFactor = Bits.conversionFactor * MetricSystem.Tera
+  val symbol = "Tbit"
+}
+
+object Tebibits extends InformationUnit {
+  val conversionFactor = Bits.conversionFactor * BinarySystem.Tera
+  val symbol = "Tibit"
+}
+
+object Petabits extends InformationUnit {
+  val conversionFactor = Bits.conversionFactor * MetricSystem.Peta
+  val symbol = "Pbit"
+}
+
+object Pebibits extends InformationUnit {
+  val conversionFactor = Bits.conversionFactor * BinarySystem.Peta
+  val symbol = "Pibit"
+}
+
+object Exabits extends InformationUnit {
+  val conversionFactor = Bits.conversionFactor * MetricSystem.Exa
+  val symbol = "Ebit"
+}
+
+object Exbibits extends InformationUnit {
+  val conversionFactor = Bits.conversionFactor * BinarySystem.Exa
+  val symbol = "Eibit"
+}
+
+object Zettabits extends InformationUnit {
+  def conversionFactor = Bits.conversionFactor * MetricSystem.Zetta
+  def symbol = "Zbit"
+}
+
+object Zebibits extends InformationUnit {
+  def conversionFactor = Bits.conversionFactor * BinarySystem.Zetta
+  def symbol = "Zibit"
+}
+
+object Yottabits extends InformationUnit {
+  def conversionFactor = Bits.conversionFactor * MetricSystem.Yotta
+  def symbol = "Ybit"
+}
+
+object Yobibits extends InformationUnit {
+  def conversionFactor = Bits.conversionFactor * BinarySystem.Yotta
+  def symbol = "Yibit"
+}
+
 object InformationConversions {
   lazy val byte = Bytes(1)
   lazy val kilobyte = Kilobytes(1)
@@ -172,6 +278,24 @@ object InformationConversions {
   lazy val zebibyte = Zebibytes(1)
   lazy val yottabyte = Yottabytes(1)
   lazy val yobibyte = Yobibytes(1)
+
+  lazy val bit = Bits(1)
+  lazy val kilobit = Kilobits(1)
+  lazy val kibibit = Kibibits(1)
+  lazy val megabit = Megabits(1)
+  lazy val mebibit = Mebibits(1)
+  lazy val gigabit = Gigabits(1)
+  lazy val gibibit = Gibibits(1)
+  lazy val terabit = Terabits(1)
+  lazy val tebibit = Tebibits(1)
+  lazy val petabit = Petabits(1)
+  lazy val pebibit = Pebibits(1)
+  lazy val exabit = Exabits(1)
+  lazy val exbibit = Exbibits(1)
+  lazy val zettabit = Zettabits(1)
+  lazy val zebibit = Zebibits(1)
+  lazy val yottabit = Yottabits(1)
+  lazy val yobibit = Yobibits(1)
 
   implicit class InformationConversions[A](n: A)(implicit num: Numeric[A]) {
     def bytes = Bytes(n)
@@ -208,6 +332,25 @@ object InformationConversions {
     def zebibytes = Zebibytes(n)
     def yib = Yobibytes(n)
     def yobibytes = Yobibytes(n)
+
+    def bits = Bits(n)
+    def kilobits = Kilobits(n)
+    def megabits = Megabits(n)
+    def gigabits = Gigabits(n)
+    def terabits = Terabits(n)
+    def petabits = Petabits(n)
+    def exabits = Exabits(n)
+    def zettabits = Zettabits(n)
+    def yottabits = Yottabits(n)
+
+    def kibibits = Kibibits(n)
+    def mebibits = Mebibits(n)
+    def gibibits = Gibibits(n)
+    def tebibits = Tebibits(n)
+    def pebibits = Pebibits(n)
+    def exbibits = Exbibits(n)
+    def zebibits = Zebibits(n)
+    def yobibits = Yobibits(n)
   }
 
   implicit class InformationStringConversions(s: String) {

@@ -1,27 +1,37 @@
-import org.scalajs.sbtplugin.ScalaJSPlugin.autoImport._
+import org.portablescala.sbtplatformdeps.PlatformDepsPlugin.autoImport._
+import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
+import scalanativecrossproject.ScalaNativeCrossPlugin.autoImport._
 import sbt.Keys._
 import sbt._
 import com.typesafe.sbt.osgi.SbtOsgi
 import com.typesafe.sbt.osgi.SbtOsgi.autoImport._
 
 object Versions {
-  val Squants = "1.3.0"
-  val Scala = "2.11.11"
-  val ScalaCross = Seq("2.12.2", "2.11.11", "2.10.6")
+  val Squants = "1.6.0-SNAPSHOT"
+  val Scala = "2.11.12" // Don't use 2.12 yet to avoid troubles with native
+  val scalaJSVersion =
+    Option(System.getenv("SCALAJS_VERSION")).getOrElse("0.6.29")
+  val ScalaCross =
+    if (scalaJSVersion.startsWith("0.6")) {
+      Seq("2.10.7", "2.11.12", "2.12.9")
+    } else {
+      Seq("2.11.12", "2.12.9")
+    }
 
-  val ScalaTest = "3.0.3"
+  val ScalaTest = "3.1.0-M2"
+  val ScalaTestOld = "3.0.7"
   val ScalaCheck = "1.13.5"
-  val Json4s = "3.5.1"
+  val Json4s = "3.6.7"
 }
 
 object Dependencies {
+  val scalaTestOld = Def.setting(Seq("org.scalatest" %%% "scalatest" % Versions.ScalaTestOld % Test))
   val scalaTest = Def.setting(Seq("org.scalatest" %%% "scalatest" % Versions.ScalaTest % Test))
   val scalaCheck = Def.setting(Seq("org.scalacheck" %%% "scalacheck" % Versions.ScalaCheck % Test))
   val json4s = Def.setting(Seq("org.json4s" %% "json4s-native" % Versions.Json4s % Test))
 }
 
 object Resolvers {
-  val typeSafeRepo = "Typesafe Repo" at "http://repo.typesafe.com/typesafe/releases/"
   val sonatypeNexusSnapshots = "Sonatype Nexus Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
   val sonatypeNexusReleases = "Sonatype Nexus Releases" at "https://oss.sonatype.org/content/repositories/releases"
   val sonatypeNexusStaging = "Sonatype Nexus Staging" at "https://oss.sonatype.org/service/local/staging/deploy/maven2"
@@ -42,7 +52,6 @@ object Project {
     autoAPIMappings := true,
 
     resolvers ++= Seq(
-        Resolvers.typeSafeRepo,
         Resolvers.sonatypeNexusSnapshots,
         Resolvers.sonatypeNexusReleases,
         Resolvers.sonatypeNexusStaging
@@ -56,33 +65,42 @@ object Project {
 
 object Compiler {
   lazy val newerCompilerLintSwitches = Seq(
-    "-Xlint:missing-interpolator", // Not availabile in 2.10
-    "-Ywarn-unused",               // Not available in 2.10
-    "-Ywarn-unused-import",        // Not available in 2.10
-    "-Ywarn-numeric-widen"         // In 2.10 this produces a some strange spurious error
+    "-Xlint:missing-interpolator",
+    "-Ywarn-unused",
+    "-Ywarn-unused-import",
+    "-Ywarn-numeric-widen",
+    "-deprecation:false"
   )
 
-  val defaultSettings = Seq(
-    scalacOptions in ThisBuild ++= Seq(
-      "-feature",
-      "-deprecation",
-      "-encoding", "UTF-8",       // yes, this is 2 args
-      "-Xfatal-warnings",
-      "-unchecked",
-      "-Xfuture",
-      "-Ywarn-dead-code",
-      "-Yno-adapted-args"
-    ),
+  lazy val defaultCompilerSwitches = Seq(
+    "-feature",
+    "-deprecation",
+    "-encoding", "UTF-8",       // yes, this is 2 args
+    "-Xfatal-warnings",
+    "-unchecked",
+    "-Xfuture",
+    "-Ywarn-dead-code",
+    "-Yno-adapted-args"
+  )
 
-    scalacOptions ++= PartialFunction.condOpt(CrossVersion.partialVersion(scalaVersion.value)){
-      case Some((2, scalaMajor)) if scalaMajor >= 11 => newerCompilerLintSwitches
-    }.toList.flatten,
+  lazy val defaultSettings = Seq(
+    scalacOptions ++= Seq(
+      "-deprecation",
+      "-feature",
+      "-encoding", "UTF-8",
+    ),
+    scalacOptions := {CrossVersion.partialVersion(scalaVersion.value) match {
+      case Some((2, scalaMajor)) if scalaMajor >= 11 => scalacOptions.value ++ defaultCompilerSwitches ++ newerCompilerLintSwitches
+      case _ => scalacOptions.value ++ defaultCompilerSwitches
+    }},
 
     scalaVersion in ThisBuild := Versions.Scala,
 
     crossScalaVersions := Versions.ScalaCross
   )
+
 }
+
 object Publish {
   val defaultSettings = Seq(
     publishTo := {
@@ -114,18 +132,21 @@ object Publish {
 }
 
 object Tests {
-  val defaultSettings = Seq(
-    libraryDependencies ++=
-      Dependencies.scalaTest.value ++
-      Dependencies.scalaCheck.value ++
-      Dependencies.json4s.value
-  )
+  val defaultSettings =
+      Seq(
+        libraryDependencies ++=
+          Dependencies.scalaTest.value ++
+          Dependencies.scalaCheck.value ++
+          Dependencies.json4s.value
+      )
 }
 
 object Formatting {
   import com.typesafe.sbt.SbtScalariform._
+  import com.typesafe.sbt.SbtScalariform.autoImport.scalariformAutoformat
 
-  lazy val defaultSettings = scalariformSettings ++ Seq(
+  lazy val defaultSettings = Seq(
+    ScalariformKeys.autoformat := false,
     ScalariformKeys.preferences in Compile := defaultPreferences,
     ScalariformKeys.preferences in Test := defaultPreferences
   )
@@ -137,7 +158,7 @@ object Formatting {
       .setPreference(AlignSingleLineCaseStatements, true)
       .setPreference(CompactControlReadability, true)
       .setPreference(CompactStringConcatenation, false)
-      .setPreference(DoubleIndentClassDeclaration, true)
+      .setPreference(DoubleIndentConstructorArguments, true)
       .setPreference(FormatXml, true)
       .setPreference(IndentLocalDefs, false)
       .setPreference(IndentPackageBlocks, true)
@@ -153,7 +174,7 @@ object Formatting {
 
 object Console {
   val defaultSettings = Seq(
-  scalacOptions ~= (_ filterNot (Set("-Xfatal-warnings", "-Ywarn-unused-import").contains)),
+  scalacOptions in (Compile, console) ~= (_ filterNot (Set("-Xfatal-warnings", "-Ywarn-unused-import").contains)),
 
   initialCommands in console := """
      import scala.language.postfixOps,
@@ -228,12 +249,12 @@ object Console {
 }
 
 object Docs {
-  private def gitHash = sys.process.Process("git rev-parse HEAD").lines_!.head
+  private def gitHash = sys.process.Process("git rev-parse HEAD").lineStream_!.head
   val defaultSettings = Seq(
     scalacOptions in (Compile, doc) ++= {
       val (bd, v) = ((baseDirectory in LocalRootProject).value, version.value)
       val tagOrBranch = if(v endsWith "SNAPSHOT") gitHash else "v" + v
       Seq("-sourcepath", bd.getAbsolutePath, "-doc-source-url", "https://github.com/garyKeorkunian/squants/tree/" + tagOrBranch + "€{FILE_PATH}.scala")
-    }
+    },
   )
 }

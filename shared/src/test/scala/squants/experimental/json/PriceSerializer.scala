@@ -9,12 +9,11 @@
 package squants.experimental.json
 
 import squants.Quantity
-import org.json4s.{ Formats, Serializer }
-import squants.market.Money
+import org.json4s.{Formats, Serializer}
+import squants.market.{Money, MoneyContext, Price}
 import org.json4s.JsonAST._
 import squants.energy._
 import squants.time.Time
-import squants.market.Price
 import org.json4s.JsonAST.JString
 import org.json4s.reflect.TypeInfo
 import org.json4s.JsonAST.JInt
@@ -26,7 +25,9 @@ import scala.util.Try
  * Provides JSON serialization and deserialization for Price type
  * @tparam A The type of quantity of being priced
  */
-trait PriceSerializerT[A <: Quantity[A]] extends Serializer[Price[A]] {
+sealed trait PriceSerializerT[A <: Quantity[A]] extends Serializer[Price[A]] {
+
+  implicit def fxContext: MoneyContext
 
   protected def Clazz = classOf[Price[A]]
   def parseQuantity: String ⇒ Try[A]
@@ -58,12 +59,12 @@ trait PriceSerializerT[A <: Quantity[A]] extends Serializer[Price[A]] {
       JField("amount", JDecimal(amount)),
       JField("currency", JString(currency)),
       JField("per", JString(per)))) ⇒
-      Price(Money(amount, currency), stringToQuantity(per))
+      Price(Money(amount, currency).get, stringToQuantity(per))
     case JObject(List(
       JField("amount", JInt(amount)),
       JField("currency", JString(currency)),
       JField("per", JString(per)))) ⇒
-      Price(Money(amount.toDouble, currency), stringToQuantity(per))
+      Price(Money(amount.toDouble, currency).get, stringToQuantity(per))
   }
 
   def serialize(implicit format: Formats) = {
@@ -105,14 +106,17 @@ trait PriceSerializerT[A <: Quantity[A]] extends Serializer[Price[A]] {
 /*
  * Serializers for Prices of specific Quantity types
  */
-class EnergyPriceSerializer extends PriceSerializerT[Energy] {
+class EnergyPriceSerializer(ctx: MoneyContext) extends PriceSerializerT[Energy] {
+  implicit lazy val fxContext = ctx
   def parseQuantity = s ⇒ Energy(s)
 }
 
-class MassPriceSerializer extends PriceSerializerT[Mass] {
+class MassPriceSerializer(ctx: MoneyContext) extends PriceSerializerT[Mass] {
+  implicit lazy val fxContext = ctx
   def parseQuantity = s ⇒ Mass(s)
 }
 
-class TimePriceSerializer extends PriceSerializerT[Time] {
+class TimePriceSerializer(ctx: MoneyContext) extends PriceSerializerT[Time] {
+  implicit lazy val fxContext = ctx
   def parseQuantity = s ⇒ Time(s)
 }

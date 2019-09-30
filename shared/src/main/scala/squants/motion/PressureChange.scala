@@ -34,7 +34,7 @@ final class PressureChange private (val value: Double, val unit: PressureChangeU
 
 object PressureChange extends Dimension[PressureChange] {
   private[motion] def apply[A](n: A, unit: PressureChangeUnit)(implicit num: Numeric[A]) = new PressureChange(num.toDouble(n), unit)
-  def apply = parse _
+  def apply(value: Any) = parse(value)
   def name = "PressureChange"
   def primaryUnit = PascalsPerSecond
   def siUnit = PascalsPerSecond

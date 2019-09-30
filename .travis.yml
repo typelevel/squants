@@ -1,26 +1,22 @@
 language: scala
 
 scala:
-   - 2.10.6
-   - 2.11.11
+  - 2.11.12
+  - 2.12.9
+
+dist: trusty
 
 jdk:
-   - oraclejdk7
-   - oraclejdk8
-
-matrix:
-  include:
-    - scala: 2.12.2
-      jdk: oraclejdk8
-      env:
-        - TRAVIS_NODE_VERSION="6"
+  - oraclejdk8
+  - openjdk11
 
 branches:
   except:
     - /^wip-.*$/
 
 env:
-  - TRAVIS_NODE_VERSION="6"
+  - TRAVIS_NODE_VERSION="10.9.0" SCALAJS_VERSION="0.6.29"
+  # - TRAVIS_NODE_VERSION="10.9.0" SCALAJS_VERSION="1.0.0-M8"
 
 install:
   - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install $TRAVIS_NODE_VERSION
@@ -36,19 +32,17 @@ cache:
     - $HOME/.nvm
 
 before_cache:
-  - find $HOME/.sbt -name "*.lock" -type f -delete
-  - find $HOME/.ivy2/cache -name "ivydata-*.properties" -type f -delete
+  # Cleanup the cached directories to avoid unnecessary cache updates
+  - rm -fv $HOME/.ivy2/.sbt.ivy.lock
+  - find $HOME/.ivy2/cache -name "ivydata-*.properties" -print -delete
+  - find $HOME/.sbt        -name "*.lock"               -print -delete
 
 script:
   # Your normal script
-  - sbt ++$TRAVIS_SCALA_VERSION squantsJVM/test:compile squantsJS/test:compile squantsJS/fastOptJS
-  - if [[ $TRAVIS_SCALA_VERSION == "2.11.11" ]]; then sbt ++$TRAVIS_SCALA_VERSION squantsNative/compile; fi;
-  - sbt ++$TRAVIS_SCALA_VERSION squantsJS/test squantsJVM/test
-  - sbt ++$TRAVIS_SCALA_VERSION squantsJS/doc squantsJVM/doc tut
-
-  # Tricks to avoid unnecessary cache updates
-  - find $HOME/.sbt -name "*.lock" | xargs rm
-  - find $HOME/.ivy2 -name "ivydata-*.properties" | xargs rm
+  - sbt ++$TRAVIS_SCALA_VERSION squantsJVM/compile squantsJS/compile squantsJS/fastOptJS
+  - if [[ $TRAVIS_SCALA_VERSION == "2.11.12" ]]; then sbt ++$TRAVIS_SCALA_VERSION squantsNative/compile; fi;
+  - if [[ $SCALAJS_VERSION == "0.6.29" ]]; then sbt ++$TRAVIS_SCALA_VERSION squantsJS/test; fi;
+  - sbt ++$TRAVIS_SCALA_VERSION squantsJVM/test
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)

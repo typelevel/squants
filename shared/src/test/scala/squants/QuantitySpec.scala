@@ -34,7 +34,7 @@ class QuantitySpec extends FlatSpec with Matchers with CustomMatchers with TryVa
 
   object Thingee extends Dimension[Thingee] {
     private[squants] def apply[A](n: A, unit: ThingeeUnit)(implicit num: Numeric[A]) = new Thingee(num.toDouble(n), unit)
-    def apply = parse _
+    def apply(value: Any) = parse(value)
     def name = "Thingee"
     def primaryUnit = Thangs
     def siUnit = Thangs
@@ -685,5 +685,25 @@ class QuantitySpec extends FlatSpec with Matchers with CustomMatchers with TryVa
     th.success.value should be(Thangs(100))
     m.failure.exception shouldBe a[QuantityParseException]
     m.failure.exception should have message("Unable to identify Mass unit m:(100.0,m)")
+  }
+
+  it should "return consistent hashcode" in {
+    val timeInMinutes = Minutes(1)
+
+    timeInMinutes.hashCode() shouldBe timeInMinutes.hashCode()
+  }
+
+  it should "return equal hashcode, when objects are equal" in {
+
+    val timeInMinutes = Minutes(1)
+    val timeInSeconds = Seconds(60)
+
+    timeInMinutes.equals(timeInSeconds) shouldBe true
+    timeInMinutes.hashCode() shouldBe timeInSeconds.hashCode()
+
+  }
+
+  it should "provide implicit instance for Dimension" in {
+    implicitly[Dimension[Thingee]] shouldBe Thingee
   }
 }

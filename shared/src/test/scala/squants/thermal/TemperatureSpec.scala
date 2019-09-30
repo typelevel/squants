@@ -273,31 +273,31 @@ class TemperatureSpec extends FlatSpec
   }
 
   they should "return properly formatted strings for all supported Units of Measure" in {
-    Kelvin(10).toString should be("10.0°K")
+    Kelvin(10).toString should be("10.0 K")
     Fahrenheit(10).toString should be("10.0°F")
     Celsius(10).toString should be("10.0°C")
     Rankine(10).toString should be("10.0°R")
 
     val k = Kelvin(0)
-    k.toString(Kelvin) should be("0.0°K")
+    k.toString(Kelvin) should be("0.0 K")
     k.toString(Fahrenheit) should be("-459.67°F")
     k.toString(Celsius) should be("-273.15°C")
     k.toString(Rankine) should be("0.0°R")
 
     val c = Celsius(0)
-    c.toString(Kelvin) should be("273.15°K")
+    c.toString(Kelvin) should be("273.15 K")
     c.toString(Fahrenheit) should be("32.0°F")
     c.toString(Celsius) should be("0.0°C")
     c.toString(Rankine) should be("491.66999999999996°R")
 
     val f = Fahrenheit(32)
-    f.toString(Kelvin) should be("273.15°K")
+    f.toString(Kelvin) should be("273.15 K")
     f.toString(Fahrenheit) should be("32.0°F")
     f.toString(Celsius) should be("0.0°C")
     f.toString(Rankine) should be("491.67°R")
 
     val r = Rankine(0)
-    r.toString(Kelvin) should be("0.0°K")
+    r.toString(Kelvin) should be("0.0 K")
     r.toString(Fahrenheit) should be("-459.67°F")
     r.toString(Celsius) should be("-273.15°C")
   }

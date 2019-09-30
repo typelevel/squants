@@ -15,17 +15,17 @@ All types are immutable and thread-safe.
 |
 [![Join the chat at https://gitter.im/typelevel/squants](https://badges.gitter.im/typelevel/squants.svg)](https://gitter.im/typelevel/squants?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 |
-[![Scaladocs](https://www.javadoc.io/badge/org.typelevel/squants_2.12.svg?label=scaladoc)](https://static.javadoc.io/org.typelevel/squants_2.12/1.2.0/squants/index.html)
+[![Scaladocs](https://www.javadoc.io/badge/org.typelevel/squants_2.12.svg?label=scaladoc)](https://static.javadoc.io/org.typelevel/squants_2.12/1.5.0/squants/index.html)
 |
 [![Build Status](https://travis-ci.org/typelevel/squants.png?branch=master)](https://travis-ci.org/typelevel/squants)
 
 
 ### Current Versions
-Current Release: **1.3.0**
-([API Docs](https://oss.sonatype.org/service/local/repositories/releases/archive/org/typelevel/squants_2.11/1.3.0/squants_2.11-1.3.0-javadoc.jar/!/index.html#squants.package))
+Current Release: **1.5.0**
+([API Docs](https://oss.sonatype.org/service/local/repositories/releases/archive/org/typelevel/squants_2.12/1.5.0/squants_2.12-1.5.0-javadoc.jar/!/index.html#squants.package))
 
-Development Build: **1.4.0-SNAPSHOT**
-([API Docs](https://oss.sonatype.org/service/local/repositories/snapshots/archive/org/typelevel/squants_2.11/1.4.0-SNAPSHOT/squants_2.11-1.4.0-SNAPSHOT-javadoc.jar/!/index.html#squants.package))
+Development Build: **1.6.0-SNAPSHOT**
+([API Docs](https://oss.sonatype.org/service/local/repositories/snapshots/archive/org/typelevel/squants_2.12/1.6.0-SNAPSHOT/squants_2.12-1.6.0-SNAPSHOT-javadoc.jar/!/index.html#squants.package))
 
 [Release History](https://github.com/typelevel/squants/wiki/Release-History)
 
@@ -38,10 +38,10 @@ For more information on feature availability of a specific version see the Relea
 Repository hosting for Squants is provided by [Sonatype](https://oss.sonatype.org/).
 To use Squants in your SBT project add the following dependency to your build.
 
-    "org.typelevel"  %% "squants"  % "1.3.0"
+    "org.typelevel"  %% "squants"  % "1.5.0"
 or
 
-    "org.typelevel"  %% "squants"  % "1.4.0-SNAPSHOT"
+    "org.typelevel"  %% "squants"  % "1.6.0-SNAPSHOT"
 
 
 To use Squants in your Maven project add the following dependency
@@ -50,12 +50,13 @@ To use Squants in your Maven project add the following dependency
 <dependency>
     <groupId>org.typelevel</groupId>
     <artifactId>squants_2.11</artifactId>
-    <version>1.3.0</version>
+    <version>1.5.0</version>
 </dependency>
 ```
 
 Beginning with Squants 0.4.x series, both Scala 2.10 and 2.11 builds are available.
 Beginning with Squants 1.x series, Scala 2.10, 2.11 and 2.12 builds are available.
+Scala.js is supported on version 0.6.28 and 1.0.0-M8
 
 To use Squants interactively in the Scala REPL, clone the git repo and run `sbt squantsJVM/console`
 
@@ -506,16 +507,16 @@ scala> import squants.market.{BTC, JPY, USD, XAU}
 import squants.market.{BTC, JPY, USD, XAU}
 
 scala> val tenBucks = USD(10)      // Money: 10 USD
-tenBucks: squants.market.Money = 10.0 USD
+tenBucks: squants.market.Money = 1E+1 USD
 
 scala> val someYen = JPY(1200)     // Money: 1200 JPY
-someYen: squants.market.Money = 1200.0 JPY
+someYen: squants.market.Money = 1.2E+3 JPY
 
 scala> val goldStash = XAU(50)     // Money: 50 XAU
-goldStash: squants.market.Money = 50.0 XAU
+goldStash: squants.market.Money = 5E+1 XAU
 
 scala> val digitalCache = BTC(50)  // Money: 50 BTC
-digitalCache: squants.market.Money = 50.0 BTC
+digitalCache: squants.market.Money = 5E+1 BTC
 ```
 
 ### Price
@@ -535,16 +536,16 @@ import squants.space.UsGallons
 You can compute the following:
 ```scala
 scala> val threeForADollar = USD(1) / Each(3)
-threeForADollar: squants.market.Price[squants.Dimensionless] = 1.0 USD/3.0 ea
+threeForADollar: squants.market.Price[squants.Dimensionless] = 1 USD/3.0 ea
 
 scala> val energyPrice = USD(102.20) / MegawattHours(1)
 energyPrice: squants.market.Price[squants.energy.Energy] = 102.2 USD/1.0 MWh
 
 scala> val milkPrice = USD(4) / UsGallons(1)
-milkPrice: squants.market.Price[squants.space.Volume] = 4.0 USD/1.0 gal
+milkPrice: squants.market.Price[squants.space.Volume] = 4 USD/1.0 gal
 
 scala> val costForABunch = threeForADollar * Dozen(10)
-costForABunch: squants.market.Money = 40.0 USD
+costForABunch: squants.market.Money = 4E+1 USD
 
 scala> val energyCost = energyPrice * MegawattHours(4)
 energyCost: squants.market.Money = 408.8 USD
@@ -582,14 +583,14 @@ rate2: squants.market.CurrencyExchangeRate = USD/JPY 100.0
 
 scala> // OR
      | val rate3 = JPY(100) -> USD(1)
-rate3: (squants.market.Money, squants.market.Money) = (100.0 JPY,1.0 USD)
+rate3: squants.market.CurrencyExchangeRate = USD/JPY 100.0
 
 scala> // OR
      | val rate4 = JPY(100) toThe USD(1)
 rate4: squants.market.CurrencyExchangeRate = USD/JPY 100.0
 
 scala> val someYen: Money = JPY(350)
-someYen: squants.market.Money = 350.0 JPY
+someYen: squants.market.Money = 3.5E+2 JPY
 
 scala> val someBucks: Money = USD(23.50)
 someBucks: squants.market.Money = 23.5 USD
@@ -602,7 +603,7 @@ scala> val dollarAmount: Money = rate1.convert(someYen)
 dollarAmount: squants.market.Money = 3.5 USD
 
 scala> val yenAmount: Money = rate1.convert(someBucks)
-yenAmount: squants.market.Money = 2350.0 JPY
+yenAmount: squants.market.Money = 2.35E+3 JPY
 ```
 
 Or just use the `*` operator in either direction (money * rate, or rate * money):
@@ -611,7 +612,7 @@ scala> val dollarAmount2: Money = rate1 * someYen
 dollarAmount2: squants.market.Money = 3.5 USD
 
 scala> val yenAmount2: Money = someBucks * rate1
-yenAmount2: squants.market.Money = 2350.0 JPY
+yenAmount2: squants.market.Money = 2.35E+3 JPY
 ```
 
 ### Money Context
@@ -633,25 +634,25 @@ scala> val exchangeRates = List(USD / CAD(1.05), USD / MXN(12.50), USD / JPY(100
 exchangeRates: List[squants.market.CurrencyExchangeRate] = List(USD/CAD 1.05, USD/MXN 12.5, USD/JPY 100.0)
 
 scala> implicit val moneyContext = defaultMoneyContext withExchangeRates exchangeRates
-moneyContext: squants.market.MoneyContext = MoneyContext(DefaultCurrency(USD),Currencies(ARS,AUD,BRL,BTC,CAD,CHF,CLP,CNY,CZK,DKK,EUR,GBP,HKD,INR,JPY,KRW,MXN,MYR,NOK,NZD,RUB,SEK,USD,XAG,XAU),ExchangeRates(USD/CAD 1.05,USD/JPY 100.0,USD/MXN 12.5),AllowIndirectConversions(true))
+moneyContext: squants.market.MoneyContext = MoneyContext(DefaultCurrency(USD),Currencies(ARS,AUD,BRL,BTC,CAD,CHF,CLP,CNY,CZK,DKK,ETH,EUR,GBP,HKD,INR,JPY,KRW,LTC,MXN,MYR,NAD,NOK,NZD,RUB,SEK,USD,XAG,XAU,ZAR),ExchangeRates(USD/CAD 1.05,USD/JPY 100.0,USD/MXN 12.5),AllowIndirectConversions(true))
 
 scala> val energyPrice = USD(102.20) / MegawattHours(1)
 energyPrice: squants.market.Price[squants.energy.Energy] = 102.2 USD/1.0 MWh
 
 scala> val someMoney = Money(350) // 350 in the default Cur
-someMoney: squants.market.Money = 350.0 USD
+someMoney: squants.market.Money = 3.5E+2 USD
 
 scala> val usdMoney: Money = someMoney in USD
-usdMoney: squants.market.Money = 350.0 USD
+usdMoney: squants.market.Money = 3.5E+2 USD
 
 scala> val usdBigDecimal: BigDecimal = someMoney to USD
 usdBigDecimal: BigDecimal = 350.0
 
 scala> val yenCost: Money = (energyPrice * MegawattHours(5)) in JPY
-yenCost: squants.market.Money = 51100.0 JPY
+yenCost: squants.market.Money = 5.11E+4 JPY
 
 scala> val northAmericanSales: Money = (CAD(275) + USD(350) + MXN(290)) in USD
-northAmericanSales: squants.market.Money = 635.1047619047619 USD
+northAmericanSales: squants.market.Money = 635.1047619047619047619047619047619 USD
 ```
 
 ## Quantity Ranges
@@ -691,10 +692,10 @@ This will fail because `lower` = `upper`:
 scala> QuantityRange(1.km, 1.km)
 java.lang.IllegalArgumentException: QuantityRange upper bound must be strictly greater than to the lower bound
   at squants.QuantityRange.<init>(QuantityRange.scala:25)
-  ... 1023 elided
+  ... 44 elided
 ```
 
-`QuantityRange` contains two functions that check if an element is part of the range, `contains` and `includes`. 
+`QuantityRange` contains two functions that check if an element is part of the range, `contains` and `includes`.
 These differ in how they treat the range's upper bound: `contains()` _excludes_ it but `includes()` _includes_ it.
 
 ```scala
@@ -735,7 +736,7 @@ val rs3 = range / Kilowatts(400)
 ### QuantityRange operations
 
 `QuantityRange` supports foreach, map, and foldLeft/foldRight. These vary slightly from the versions
-in the Scala standard library in that they take a divisior as the first parameter. The examples below 
+in the Scala standard library in that they take a divisior as the first parameter. The examples below
 illustrate their use.
 
 Subdivide range into 1-Megawatt "slices", and foreach over each of slices:
@@ -858,10 +859,10 @@ speed: squants.motion.Velocity = 27.77777777777778 m/s
 
 scala> // MegawattHours(1) == 1.megawattHours == megawattHour == MWh
      | val hi = 100.dollars / MWh
-hi: squants.market.Price[squants.energy.Energy] = 100.0 USD/1.0 MWh
+hi: squants.market.Price[squants.energy.Energy] = 1E+2 USD/1.0 MWh
 
 scala> val low = 40.dollars / megawattHour
-low: squants.market.Price[squants.energy.Energy] = 40.0 USD/1.0 MWh
+low: squants.market.Price[squants.energy.Energy] = 4E+1 USD/1.0 MWh
 ```
 
 Implicit conversion support for using Doubles, Longs and BigDecimals on the left side of multiply and divide operations:
@@ -924,10 +925,10 @@ implicit val moneyContext = defaultMoneyContext
 
 ```scala
 scala> implicit val moneyNum = new MoneyNumeric()
-moneyNum: squants.market.MoneyConversions.MoneyNumeric = MoneyNumeric(MoneyContext(DefaultCurrency(USD),Currencies(ARS,AUD,BRL,BTC,CAD,CHF,CLP,CNY,CZK,DKK,EUR,GBP,HKD,INR,JPY,KRW,MXN,MYR,NOK,NZD,RUB,SEK,USD,XAG,XAU),ExchangeRates(),AllowIndirectConversions(true)))
+moneyNum: squants.market.MoneyConversions.MoneyNumeric = MoneyNumeric(MoneyContext(DefaultCurrency(USD),Currencies(ARS,AUD,BRL,BTC,CAD,CHF,CLP,CNY,CZK,DKK,ETH,EUR,GBP,HKD,INR,JPY,KRW,LTC,MXN,MYR,NAD,NOK,NZD,RUB,SEK,USD,XAG,XAU,ZAR),ExchangeRates(),AllowIndirectConversions(true)))
 
 scala> val sum = List(USD(100), USD(10)).sum
-sum: squants.market.Money = 110.0 USD
+sum: squants.market.Money = 1.1E+2 USD
 ```
 
 ## Unit groups
@@ -962,7 +963,7 @@ import squants.experimental.unitgroups.si.strict.implicits._
 // import squants.experimental.unitgroups.si.strict.implicits._
 
 val siLengths: UnitGroup[Length] = implicitly[UnitGroup[Length]]
-// siLengths: squants.experimental.unitgroups.UnitGroup[squants.space.Length] = squants.experimental.unitgroups.si.strict.package$implicits$$anon$1@264b156b
+// siLengths: squants.experimental.unitgroups.UnitGroup[squants.space.Length] = squants.experimental.unitgroups.si.strict.package$implicits$$anon$1@3bd46477
 ```
 
 To print out units and their conversion factors to the primary SI unit, you could use this code:
@@ -1015,20 +1016,20 @@ import squants.space._
 import squants.experimental.unitgroups.UnitGroup
 // import squants.experimental.unitgroups.UnitGroup
 
-val usCookingUnitGroup = new UnitGroup[Volume] { 
+val usCookingUnitGroup = new UnitGroup[Volume] {
   // units don't have to be specified in-order.
   val units: Set[UnitOfMeasure[Volume]] = Set(UsPints, UsGallons, Teaspoons, Tablespoons, UsQuarts, FluidOunces)
 }
-// usCookingUnitGroup: squants.experimental.unitgroups.UnitGroup[squants.space.Volume]{val units: Set[squants.UnitOfMeasure[squants.space.Volume]]} = $anon$1@27b100b6
+// usCookingUnitGroup: squants.experimental.unitgroups.UnitGroup[squants.space.Volume]{val units: Set[squants.UnitOfMeasure[squants.space.Volume]]} = $anon$1@13cf78bc
 
 // squants automatically sorts units
 usCookingUnitGroup.sortedUnits.foreach(println)
-// squants.space.Teaspoons$@525d11ee
-// squants.space.Tablespoons$@4037896b
-// squants.space.FluidOunces$@1d59b092
-// squants.space.UsPints$@5fd4d32b
-// squants.space.UsQuarts$@390357cd
-// squants.space.UsGallons$@48cd8671
+// squants.space.Teaspoons$@754c402e
+// squants.space.Tablespoons$@41f51dac
+// squants.space.FluidOunces$@4151520
+// squants.space.UsPints$@297ee46f
+// squants.space.UsQuarts$@1f76d461
+// squants.space.UsGallons$@5f688205
 ```
 
 The `UnitGroup` values provided with Squants are only samples and aren't intended to be exhaustive.
@@ -1037,7 +1038,7 @@ applicable.
 
 ## Formatters
 
-Squants provides an experimental API for formatting Quantities in the "best unit." For example, 
+Squants provides an experimental API for formatting Quantities in the "best unit." For example,
 convert Inches(12) to Feet(1). This is useful for producing human-friendly output.
 
 To use a formatter, you must implement the `squants.formatters.Formatter` trait:
@@ -1050,7 +1051,7 @@ trait Formatter[A <: Quantity[A]] {
 
 ### Default Formatter implementation
 
-There is a default formatter implementation in `squants.experimental.formatter.DefaultFormatter`. This builds on the `UnitGroup` 
+There is a default formatter implementation in `squants.experimental.formatter.DefaultFormatter`. This builds on the `UnitGroup`
 API discussed above to choose the best `UnitOfMeasure` for a `Quantity`. The `DefaultFormatter` algorithm will probably
 work for most use-cases, but users can create their own `Formatters` if they have custom needs.
 
@@ -1064,7 +1065,7 @@ import squants.experimental.unitgroups.misc.AstronomicalLengthUnitGroup
 Then create the formatter by passing in a unit group:
 ```scala
 val astroFormatter = new DefaultFormatter(AstronomicalLengthUnitGroup)
-// astroFormatter: squants.experimental.formatter.DefaultFormatter[squants.space.Length] = squants.experimental.formatter.DefaultFormatter@22aa737b
+// astroFormatter: squants.experimental.formatter.DefaultFormatter[squants.space.Length] = squants.experimental.formatter.DefaultFormatter@4a75b2e0
 ```
 
 Now, we create some values using human-unfriendly numbers:
@@ -1116,7 +1117,7 @@ import squants.experimental.unitgroups.misc.AstronomicalLengthUnitGroup
 
 ```scala
 implicit val astroFormatter = new DefaultFormatter(AstronomicalLengthUnitGroup)
-// astroFormatter: squants.experimental.formatter.DefaultFormatter[squants.space.Length] = squants.experimental.formatter.DefaultFormatter@652e1c16
+// astroFormatter: squants.experimental.formatter.DefaultFormatter[squants.space.Length] = squants.experimental.formatter.DefaultFormatter@679fbbc2
 
 val earthToJupiter = 588000000.km
 // earthToJupiter: squants.space.Length = 588000000.0 km
@@ -1148,7 +1149,7 @@ scala> 5000.grams.inBestUnit
 
 ### SI Formatters and implicit syntax
 
-When using SI units, and the default formatter algorithm, you don't have to declare a `Formatter` and place it in 
+When using SI units, and the default formatter algorithm, you don't have to declare a `Formatter` and place it in
 implicit scope. The compiler can do that for you. This creates a very human-friendly API by using the appropriate
 imports.
 
@@ -1321,7 +1322,7 @@ import squants.time.TimeConversions._
 
 ```scala
 scala> implicit val moneyContext = defaultMoneyContext
-moneyContext: squants.market.MoneyContext = MoneyContext(DefaultCurrency(USD),Currencies(ARS,AUD,BRL,BTC,CAD,CHF,CLP,CNY,CZK,DKK,EUR,GBP,HKD,INR,JPY,KRW,MXN,MYR,NOK,NZD,RUB,SEK,USD,XAG,XAU),ExchangeRates(),AllowIndirectConversions(true))
+moneyContext: squants.market.MoneyContext = MoneyContext(DefaultCurrency(USD),Currencies(ARS,AUD,BRL,BTC,CAD,CHF,CLP,CNY,CZK,DKK,ETH,EUR,GBP,HKD,INR,JPY,KRW,LTC,MXN,MYR,NAD,NOK,NZD,RUB,SEK,USD,XAG,XAU,ZAR),ExchangeRates(),AllowIndirectConversions(true))
 
 scala> val energyPrice: Price[Energy] = 45.25.money / megawattHour
 energyPrice: squants.market.Price[squants.energy.Energy] = 45.25 USD/1.0 MWh
@@ -1330,7 +1331,7 @@ scala> val energyUsage: Energy = 345.kilowatts * 5.4.hours
 energyUsage: squants.energy.Energy = 1863000.0000000002 Wh
 
 scala> val energyCost: Money = energyPrice * energyUsage
-energyCost: squants.market.Money = 84.30075000000001 USD
+energyCost: squants.market.Money = 84.30075000000000905 USD
 
 scala> val dodgeViper: Acceleration = 60.miles / hour / 3.9.seconds
 dodgeViper: squants.motion.Acceleration = 6.877552216615386 m/s²
@@ -1549,6 +1550,11 @@ To make a release do the following:
   sbt +squantsJVM/publishSigned
   sbt +squantsJS/publishSigned
   sbt squantsNative/publishSigned
+```
+
+* Repeat for scala.js 1.0.0-M8
+```
+  SCALAJS_VERSION=1.0.0-M8 sbt +squantsJS/publishSigned
 ```
 
 * Then make a release (Note: after this step the release cannot be replaced)

@@ -28,11 +28,11 @@ object MarketChecks extends Properties("Market") with QuantityChecks {
   }
 
   property("Money * Double = Money") = forAll(posNum, posNum) { (a: TestData, b: TestData) ⇒
-    USD(a * b) == USD(a) * b
+    USD(a * b) == USD(a) * b.toDouble
   }
 
   property("Money / Double = Money") = forAll(posNum, posNum) { (a: TestData, b: TestData) ⇒
-    USD(BigDecimal(a) / b) == USD(a) / b
+    USD(BigDecimal(a) / b) == USD(a) / b.toDouble
   }
 
   property("Money = ExchangeRate * Money") = forAll(posNum, posNum) { (a: TestData, b: TestData) ⇒

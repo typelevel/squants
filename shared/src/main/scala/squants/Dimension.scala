@@ -82,6 +82,8 @@ trait Dimension[A <: Quantity[A]] {
       case None       ⇒ Failure(QuantityParseException(s"Unable to identify $name unit ${symbol}", s"(${Platform.crossFormat(num.toDouble(value))},${symbol})"))
     }
   }
+
+  implicit val dimensionImplicit: Dimension[A] = this
 }
 
 case class QuantityParseException(message: String, expression: String) extends Exception(s"$message:$expression")

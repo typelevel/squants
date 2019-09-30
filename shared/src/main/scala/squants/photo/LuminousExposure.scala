@@ -31,7 +31,7 @@ final class LuminousExposure private (val value: Double, val unit: LuminousExpos
 
 object LuminousExposure extends Dimension[LuminousExposure] {
   private[photo] def apply[A](n: A, unit: LuminousExposureUnit)(implicit num: Numeric[A]) = new LuminousExposure(num.toDouble(n), unit)
-  def apply = parse _
+  def apply(value: Any) = parse(value)
   def name = "LuminousExposure"
   def primaryUnit = LuxSeconds
   def siUnit = LuxSeconds

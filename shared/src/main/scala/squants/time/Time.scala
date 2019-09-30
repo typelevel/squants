@@ -9,6 +9,8 @@
 package squants.time
 
 import squants._
+import squants.space.Area
+import squants.radio.{ AreaTime, SquareMeterSeconds }
 
 import scala.concurrent.duration.{ DAYS, Duration, HOURS, MICROSECONDS, MILLISECONDS, MINUTES, NANOSECONDS, SECONDS }
 import scala.language.implicitConversions
@@ -32,6 +34,7 @@ final class Time private (val value: Double, val unit: TimeUnit)
 
   def *(that: Time) = TimeSquared(this, that)
   def squared = TimeSquared(this)
+  def *(that: Area): AreaTime = SquareMeterSeconds(this.toSeconds * that.toSquareMeters)
 
   def toNanoseconds = to(Nanoseconds)
   def toMicroseconds = to(Microseconds)
@@ -58,7 +61,7 @@ object Time extends Dimension[Time] with BaseDimension {
   val HoursPerDay = 24d
 
   private[time] def apply[A](n: A, unit: TimeUnit)(implicit num: Numeric[A]) = new Time(num.toDouble(n), unit)
-  def apply = parse _
+  def apply(value: Any) = parse(value)
   def apply(duration: Duration): Time = duration.unit match {
     case NANOSECONDS  ⇒ Nanoseconds(duration.length)
     case MICROSECONDS ⇒ Microseconds(duration.length)
@@ -160,4 +163,3 @@ object TimeConversions {
 
   implicit def scalaDurationToTime(duration: Duration): Time = Time(duration)
 }
-

@@ -9,6 +9,7 @@
 package squants.energy
 
 import squants._
+import squants.space.CubicMeters
 
 /**
  * Represents a quantity of energy
@@ -30,7 +31,7 @@ final class EnergyDensity private (val value: Double, val unit: EnergyDensityUni
 
 object EnergyDensity extends Dimension[EnergyDensity] {
   private[energy] def apply[A](n: A, unit: EnergyDensityUnit)(implicit num: Numeric[A]) = new EnergyDensity(num.toDouble(n), unit)
-  def apply = parse _
+  def apply(value: Any) = parse(value)
   def name = "EnergyDensity"
   def primaryUnit = JoulesPerCubicMeter
   def siUnit = JoulesPerCubicMeter
@@ -42,7 +43,7 @@ trait EnergyDensityUnit extends UnitOfMeasure[EnergyDensity] with UnitConverter 
 }
 
 object JoulesPerCubicMeter extends EnergyDensityUnit with PrimaryUnit with SiUnit {
-  val symbol = "j/m³"
+  val symbol = Joules.symbol + "/" + CubicMeters.symbol
 }
 
 object EnergyDensityConversions {

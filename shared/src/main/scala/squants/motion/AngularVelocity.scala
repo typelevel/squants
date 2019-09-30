@@ -47,7 +47,7 @@ final class AngularVelocity private (val value: Double, val unit: AngularVelocit
 
 object AngularVelocity extends Dimension[AngularVelocity] {
   private[motion] def apply[A](n: A, unit: AngularVelocityUnit)(implicit num: Numeric[A]) = new AngularVelocity(num.toDouble(n), unit)
-  def apply = parse _
+  def apply(value: Any) = parse(value)
   def name = "AngularVelocity"
   def primaryUnit = RadiansPerSecond
   def siUnit = RadiansPerSecond
@@ -64,23 +64,23 @@ object RadiansPerSecond extends AngularVelocityUnit with PrimaryUnit with SiUnit
 
 object DegreesPerSecond extends AngularVelocityUnit {
   val symbol = "°/s"
-  val conversionFactor = Degrees.conversionFactor * Radians.conversionFactor
+  val conversionFactor = Degrees.conversionFactor / Radians.conversionFactor
 }
 
 object GradiansPerSecond extends AngularVelocityUnit {
   val symbol = "grad/s"
-  val conversionFactor = Gradians.conversionFactor * Radians.conversionFactor
+  val conversionFactor = Gradians.conversionFactor / Radians.conversionFactor
 }
 
 @deprecated(message = "Potentially confusing naming. Use GradiansPerSecond instead.", since = "Squants 1.3")
 object GradsPerSecond extends AngularVelocityUnit {
   val symbol = "grad/s"
-  val conversionFactor = Gradians.conversionFactor * Radians.conversionFactor
+  val conversionFactor = Gradians.conversionFactor / Radians.conversionFactor
 }
 
 object TurnsPerSecond extends AngularVelocityUnit {
   val symbol = "turns/s"
-  val conversionFactor = Turns.conversionFactor * Radians.conversionFactor
+  val conversionFactor = Turns.conversionFactor / Radians.conversionFactor
 }
 
 object AngularVelocityConversions {

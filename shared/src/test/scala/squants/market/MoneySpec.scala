@@ -13,8 +13,8 @@ import squants.QuantityParseException
 import squants.mass.Kilograms
 import squants.space.Meters
 import squants.time.Hours
-
 import scala.math.BigDecimal.RoundingMode
+import scala.util.{Failure, Success}
 
 /**
  * @author  garyKeorkunian
@@ -25,14 +25,22 @@ class MoneySpec extends FlatSpec with Matchers {
 
   behavior of "Money and its Units of Measure"
 
+  it should "create Currency values from currency string codes given an implicit MoneyContext in scope" in {
+    implicit val moneyContext = MoneyContext(USD, defaultCurrencySet, Nil)
+    Currency("USD") should be(Success(USD))
+    Currency("NAD") should be(Success(NAD))
+    Currency("DUM") should be(Failure(NoSuchCurrencyException("DUM", moneyContext)))
+  }
+
   it should "create values using factories that take Currency" in {
     Money(BigDecimal(10), USD) should be(Money(10, USD))
     Money(10, USD) should be(Money(10, USD))
   }
 
-  it should "create values using factories that take Currency Code (String)" in {
-    Money(BigDecimal(10), "USD") should be(Money(10, USD))
-    Money(10, "USD") should be(Money(10, USD))
+  it should "create values using factories that take Currency Code (String) and an implicit MoneyContext in scope" in {
+    implicit val moneyContext = MoneyContext(USD, defaultCurrencySet, Nil)
+    Money(BigDecimal(10), "USD") should be(Success(Money(10, USD)))
+    Money(10, "USD") should be(Success(Money(10, USD)))
   }
 
   it should "create values using Currency (UOM) factories" in {
@@ -46,7 +54,8 @@ class MoneySpec extends FlatSpec with Matchers {
     Money(10) should be(USD(10))
   }
 
-  it should "create values from formatted strings" in {
+  it should "create values from formatted strings given an implicit MoneyContext in scope" in {
+    implicit val moneyContext = MoneyContext(USD, defaultCurrencySet, Nil)
     Money("500 USD").get should be(USD(500))
     Money("500USD").get should be(USD(500))
     Money("5.50USD").get should be(USD(5.5))
@@ -140,6 +149,12 @@ class MoneySpec extends FlatSpec with Matchers {
     x.equals(y) should be(right = false)
     x == y should be(right = false)
     x != y should be(right = true)
+  }
+
+  it should "return consistent hashcode" in {
+    val someMoney = USD(2.1)
+
+    someMoney.hashCode() shouldBe someMoney.hashCode()
   }
 
   it should "return a proper result on max/min operation with an implicit MoneyContext in scope" in {
@@ -236,7 +251,7 @@ class MoneySpec extends FlatSpec with Matchers {
   }
 
   it should "return proper results when multiplying by Int" in {
-    val x: Int = 2
+    val x: Double = 2
     USD(10) * x should be(USD(20))
     x * USD(10) * x should be(USD(40))
     x * x * USD(10) should be(USD(40))
@@ -254,7 +269,7 @@ class MoneySpec extends FlatSpec with Matchers {
 
 
   it should "return proper results when multiplying by mix of BigDecimal, Double and Int" in {
-    val x: Int = 2
+    val x: Double = 2
     USD(10) * BigDecimal(2) should be(USD(20))
     JPY(23.50) * BigDecimal(3) should be(JPY(70.50))
     JPY(23.50) * BigDecimal(3) * 2 should be(JPY(141))
@@ -272,8 +287,8 @@ class MoneySpec extends FlatSpec with Matchers {
   }
 
   it should "return proper results when dividing by Int" in {
-    val x: Int = 2
-    val y: Int = 3
+    val x: Double = 2
+    val y: Double = 3
     USD(10) / x should be(USD(5))
     JPY(75) / y should be(JPY(25))
     (JPY(75) / y) / x should be(JPY(12.50))
@@ -461,11 +476,11 @@ class MoneySpec extends FlatSpec with Matchers {
     d.NOK should be(Money(d, squants.market.NOK))
     d.NZD should be(Money(d, squants.market.NZD))
     d.BTC should be(Money(d, squants.market.BTC))
-    d.bitCoin should be(BTC(d))
+    d.bitcoin should be(BTC(d))
     d.ETH should be(Money(d, squants.market.ETH))
     d.ether should be(ETH(d))
     d.LTC should be(Money(d, squants.market.LTC))
-    d.liteCoin should be(LTC(d))
+    d.litecoin should be(LTC(d))
     d.ZAR should be(ZAR(d))
     d.NAD should be(NAD(d))
   }
@@ -506,7 +521,7 @@ class MoneySpec extends FlatSpec with Matchers {
   }
 
   it should "return quantity when dividing by price" in {
-    val p = Price(Money(10, "USD"), Meters(1))
-    Money(40, "USD") / p should be(Meters(4))
+    val p = Price(Money(10, USD), Meters(1))
+    Money(40, USD) / p should be(Meters(4))
   }
 }

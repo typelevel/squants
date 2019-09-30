@@ -28,28 +28,43 @@ class ForceSpec extends FlatSpec with Matchers with CustomMatchers {
     Newtons(1).toNewtons should be(1)
     KilogramForce(1).toKilogramForce should be(1)
     PoundForce(1).toPoundForce should be(1)
+    KiloElectronVoltsPerMicrometer(1).toKiloElectronVoltsPerMicrometer should be(1)
+    MegaElectronVoltsPerCentimeter(1).toMegaElectronVoltsPerCentimeter should be(1)
   }
 
   it should "create values from properly formatted Strings" in {
     Force("10.22 N").get should be(Newtons(10.22))
     Force("10.22 kgf").get should be(KilogramForce(10.22))
     Force("10.22 lbf").get should be(PoundForce(10.22))
+    Force("10.22 keV/μm").get should be(KiloElectronVoltsPerMicrometer(10.22))
+    Force("10.22 MeV/cm").get should be(MegaElectronVoltsPerCentimeter(10.22))
     Force("10.22 zz").failed.get should be(QuantityParseException("Unable to parse Force", "10.22 zz"))
     Force("zz N").failed.get should be(QuantityParseException("Unable to parse Force", "zz N"))
   }
 
   it should "properly convert to all supported Units of Measure" in {
-    implicit val tolerance = 0.0000000000001
     val x = Newtons(1)
-    x.toNewtons should be(1)
-    x.toKilogramForce should be(Kilograms(1).toKilograms * MetersPerSecondSquared(1).toEarthGravities)
-    x.toPoundForce should beApproximately(Kilograms(1).toPounds * MetersPerSecondSquared(1).toEarthGravities)
+    def test1(): Unit = {
+      implicit val tolerance = 0.0000000000001
+      x.toNewtons should be(1)
+      x.toKilogramForce should be(Kilograms(1).toKilograms * MetersPerSecondSquared(1).toEarthGravities)
+      x.toPoundForce should beApproximately(Kilograms(1).toPounds * MetersPerSecondSquared(1).toEarthGravities)
+    }
+    def test2(): Unit = {
+      implicit val tolerance = 0.00001
+      x.toKiloElectronVoltsPerMicrometer should beApproximately(Joules(1).tokeV / Meters(1).toMicrons)
+      x.toMegaElectronVoltsPerCentimeter should beApproximately(Joules(1).toMeV / Meters(1).toCentimeters)
+    }
+    test1()
+    test2()
   }
 
   it should "return properly formatted strings for all supported Units of Measure" in {
     Newtons(1).toString(Newtons) should be("1.0 N")
     KilogramForce(1).toString(KilogramForce) should be("1.0 kgf")
     PoundForce(1).toString(PoundForce) should be("1.0 lbf")
+    KiloElectronVoltsPerMicrometer(1).toString(KiloElectronVoltsPerMicrometer) should be("1.0 keV/μm")
+    MegaElectronVoltsPerCentimeter(1).toString(MegaElectronVoltsPerCentimeter) should be("1.0 MeV/cm")
   }
 
   it should "return Momentum when multiplied by Time" in {
@@ -92,6 +107,8 @@ class ForceSpec extends FlatSpec with Matchers with CustomMatchers {
     newton should be(Newtons(1))
     kilogramForce should be(KilogramForce(1))
     poundForce should be(PoundForce(1))
+    kiloElectronVoltsPerMicrometer should be(KiloElectronVoltsPerMicrometer(1))
+    megaElectronVoltsPerCentimeter should be(MegaElectronVoltsPerCentimeter(1))
   }
 
   it should "provide implicit conversion from Double" in {
@@ -100,8 +117,10 @@ class ForceSpec extends FlatSpec with Matchers with CustomMatchers {
     val d = 10d
     d.newtons should be(Newtons(d))
     d.kilogramForce should be(KilogramForce(d))
-    d.poundForce should be(PoundForce(1))
-    d.lbf should be(PoundForce(1))
+    d.poundForce should be(PoundForce(d))
+    d.lbf should be(PoundForce(d))
+    d.kiloElectronVoltsPerMicrometer should be (KiloElectronVoltsPerMicrometer(d))
+    d.megaElectronVoltsPerCentimeter should be (MegaElectronVoltsPerCentimeter(d))
   }
 
   it should "provide Numeric support" in {

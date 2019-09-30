@@ -1,17 +1,17 @@
-addSbtPlugin("org.scala-js" % "sbt-scalajs" % "0.6.17")
+addSbtPlugin("org.portable-scala" % "sbt-scalajs-crossproject"      % "0.6.1")
+addSbtPlugin("org.portable-scala" % "sbt-scala-native-crossproject" % "0.6.1")
+val scalaJSVersion =
+  Option(System.getenv("SCALAJS_VERSION")).getOrElse("0.6.29")
 
-addSbtPlugin("org.scala-native" % "sbt-crossproject" % "0.2.0")
+addSbtPlugin("org.scala-js" % "sbt-scalajs" % scalaJSVersion)
+addSbtPlugin("org.scala-native"   % "sbt-scala-native"              % "0.3.9")
 
-addSbtPlugin("org.scala-native" % "sbt-scalajs-crossproject" % "0.2.0")
+addSbtPlugin("org.scalariform" % "sbt-scalariform" % "1.8.3")
 
-addSbtPlugin("org.scala-native" % "sbt-scala-native" % "0.3.0")
+addSbtPlugin("com.typesafe.sbt" % "sbt-osgi" % "0.9.5")
 
-addSbtPlugin("org.scalariform" % "sbt-scalariform" % "1.5.1")
+addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "3.7")
 
-addSbtPlugin("com.typesafe.sbt" % "sbt-osgi" % "0.8.0")
+addSbtPlugin("com.jsuereth" % "sbt-pgp" % "1.1.2")
 
-addSbtPlugin("com.jsuereth" % "sbt-pgp" % "1.0.1")
-
-addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "1.1")
-
-addSbtPlugin("org.tpolecat" % "tut-plugin" % "0.4.8")
+addSbtPlugin("org.tpolecat" % "tut-plugin" % "0.6.12")

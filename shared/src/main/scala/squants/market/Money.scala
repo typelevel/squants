@@ -14,6 +14,7 @@ import scala.util.{Failure, Success, Try}
 import scala.language.implicitConversions
 import scala.math.BigDecimal.RoundingMode
 import scala.math.BigDecimal.RoundingMode.RoundingMode
+import java.util.Objects
 
 /**
  * Represents a quantity of Money.
@@ -259,6 +260,12 @@ final class Money private (val amount: BigDecimal)(val currency: Currency)
   }
 
   /**
+   * Override for Quantity.hashCode because Money doesn't contain a primary unit
+   * @return
+   */
+  override def hashCode: Int = Objects.hash(amount, currency)
+
+  /**
    * Override for Quantity.compare to only work on Moneys of like Currency
    * @param that Money
    * @return Int
@@ -336,6 +343,7 @@ final class Money private (val amount: BigDecimal)(val currency: Currency)
     case this.currency ⇒ throw new IllegalArgumentException("Can not create Exchange Rate on matching currencies")
     case _             ⇒ CurrencyExchangeRate(that, this)
   }
+
   /**
    * toThe
    */
@@ -387,15 +395,19 @@ object Money extends Dimension[Money] {
   def apply(value: BigDecimal)(implicit fxContext: MoneyContext) = new Money(value)(fxContext.defaultCurrency)
 
   def apply(value: BigDecimal, currency: Currency) = new Money(value)(currency)
-  def apply(value: BigDecimal, currency: String) = new Money(value)(defaultCurrencyMap(currency))
+  def apply(value: BigDecimal, currency: String)(implicit fxContext: MoneyContext): Try[Money] = {
+    Currency(currency).map(new Money(value)(_))
+  }
 
   def apply[A](n: A, currency: Currency)(implicit num: Numeric[A]) = new Money(BigDecimal(num.toDouble(n)))(currency)
-  def apply[A](n: A, currency: String)(implicit num: Numeric[A]) = new Money(BigDecimal(num.toDouble(n)))(defaultCurrencyMap(currency))
+  def apply[A](n: A, currency: String)(implicit num: Numeric[A], fxContext: MoneyContext): Try[Money] = {
+    Currency(currency).map(new Money(BigDecimal(num.toDouble(n)))(_))
+  }
 
-  def apply(s: String): Try[Money] = {
-    lazy val regex = ("([-+]?[0-9]*\\.?[0-9]+) *(" + defaultCurrencySet.map(_.code).reduceLeft(_ + "|" + _) + ")").r
+  def apply(s: String)(implicit fxContext: MoneyContext): Try[Money] = {
+    val regex = ("([-+]?[0-9]*\\.?[0-9]+) *(" + fxContext.currencies.map(_.code).reduceLeft(_ + "|" + _) + ")").r
     s match {
-      case regex(value, currency) ⇒ Success(Money(value.toDouble, defaultCurrencyMap(currency)))
+      case regex(value, currency) ⇒ Currency(currency).map(Money(value.toDouble, _))
       case _                      ⇒ Failure(QuantityParseException("Unable to parse Money", s))
     }
   }
@@ -423,14 +435,21 @@ abstract class Currency(val code: String, val name: String, val symbol: String, 
   override def toString: String = code
 }
 
+object Currency {
+  def apply(currency: String)(implicit fxContext: MoneyContext) = {
+    fxContext.currencyMap.get(currency)
+    .fold(Try[Currency](throw NoSuchCurrencyException(currency, fxContext)))(Success(_))
+  }
+}
+
 object USD extends Currency("USD", "US Dollar", "$", 2)
 object ARS extends Currency("ARS", "Argentinean Peso", "$", 2)
 object AUD extends Currency("AUD", "Australian Dollar", "$", 2)
 object BRL extends Currency("BRL", "Brazilian Real", "R$", 2)
 object CAD extends Currency("CAD", "Canadian Dollar", "$", 2)
 object CHF extends Currency("CHF", "Swiss Franc", "CHF", 2)
-object CLP extends Currency("CLP", "Chilean Peso", "¥", 2)
-object CNY extends Currency("CNY", "Chinese Yuan Renmimbi", "¥", 2)
+object CLP extends Currency("CLP", "Chilean Peso", "$", 2)
+object CNY extends Currency("CNY", "Chinese Yuan Renminbi", "¥", 2)
 object CZK extends Currency("CZK", "Czech Republic Koruny", "Kč", 2)
 object DKK extends Currency("DKK", "Danish Kroner", "kr", 2)
 object EUR extends Currency("EUR", "Euro", "€", 2)
@@ -438,17 +457,17 @@ object GBP extends Currency("GBP", "British Pound", "£", 2)
 object HKD extends Currency("HKD", "Hong Kong Dollar", "$", 2)
 object INR extends Currency("INR", "Indian Rupee", "₹", 2)
 object JPY extends Currency("JPY", "Japanese Yen", "¥", 0)
-object KRW extends Currency("KRW", "South Korean Won", "kr", 0)
+object KRW extends Currency("KRW", "South Korean Won", "₩", 0)
 object MXN extends Currency("MXN", "Mexican Peso", "$", 2)
 object MYR extends Currency("MYR", "Malaysian Ringgit", "RM", 2)
 object NOK extends Currency("NOK", "Norwegian Krone", "kr", 2)
 object NZD extends Currency("NZD", "New Zealand Dollar", "$", 2)
-object RUB extends Currency("RUB", "Russian Ruble", "руб", 2)
+object RUB extends Currency("RUB", "Russian Ruble", "\u20BD", 2)
 object SEK extends Currency("SEK", "Swedish Kroner", "kr", 2)
 object XAG extends Currency("XAG", "Silver", "oz", 4)
 object XAU extends Currency("XAU", "Gold", "oz", 4)
-object BTC extends Currency("BTC", "BitCoin", "B", 15)
-object ETH extends Currency("ETH", "Ether", "\u039e", 15)
+object BTC extends Currency("BTC", "Bitcoin", "\u20BF", 15)
+object ETH extends Currency("ETH", "Ether", "\u039E", 15)
 object LTC extends Currency("LTC", "Litecoin", "\u0141", 15)
 object ZAR extends Currency("ZAR", "South African Rand", "R", 2)
 object NAD extends Currency("NAD", "Namibian Dollar", "N$", 2)
@@ -461,8 +480,8 @@ object MoneyConversions {
   lazy val euro = Money(1, EUR)
   lazy val yen = Money(1, JPY)
 
-  implicit def fromLong(l: Long) = new MoneyConversions(BigDecimal(l))
-  implicit def fromDouble(d: Double) = new MoneyConversions(BigDecimal(d))
+  implicit def fromLong(l: Long): MoneyConversions[BigDecimal] = new MoneyConversions(BigDecimal(l))
+  implicit def fromDouble(d: Double): MoneyConversions[BigDecimal] = new MoneyConversions(BigDecimal(d))
 
   implicit class MoneyConversions[A](n: A)(implicit num: Numeric[A]) {
     def money(implicit context: MoneyContext) = Money(n, context.defaultCurrency)
@@ -486,11 +505,11 @@ object MoneyConversions {
     def NOK = Money(n, squants.market.NOK)
     def NZD = Money(n, squants.market.NZD)
     def BTC = Money(n, squants.market.BTC)
-    def bitCoin = BTC
+    def bitcoin = BTC
     def ETH = Money(n, squants.market.ETH)
     def ether = ETH
     def LTC = Money(n, squants.market.LTC)
-    def liteCoin = LTC
+    def litecoin = LTC
     def ZAR = Money(n, squants.market.ZAR)
     def NAD = Money(n, squants.market.NAD)
   }
