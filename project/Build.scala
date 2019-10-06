@@ -12,20 +12,14 @@ object Versions {
   val scalaJSVersion =
     Option(System.getenv("SCALAJS_VERSION")).getOrElse("0.6.29")
   val ScalaCross =
-    if (scalaJSVersion.startsWith("0.6")) {
-      Seq("2.10.7", "2.11.12", "2.12.9")
-    } else {
-      Seq("2.11.12", "2.12.9")
-    }
+    Seq("2.11.12", "2.12.10")
 
   val ScalaTest = "3.1.0-M2"
-  val ScalaTestOld = "3.0.7"
-  val ScalaCheck = "1.13.5"
+  val ScalaCheck = "1.14.0"
   val Json4s = "3.6.7"
 }
 
 object Dependencies {
-  val scalaTestOld = Def.setting(Seq("org.scalatest" %%% "scalatest" % Versions.ScalaTestOld % Test))
   val scalaTest = Def.setting(Seq("org.scalatest" %%% "scalatest" % Versions.ScalaTest % Test))
   val scalaCheck = Def.setting(Seq("org.scalacheck" %%% "scalacheck" % Versions.ScalaCheck % Test))
   val json4s = Def.setting(Seq("org.json4s" %% "json4s-native" % Versions.Json4s % Test))
@@ -79,8 +73,7 @@ object Compiler {
     "-Xfatal-warnings",
     "-unchecked",
     "-Xfuture",
-    "-Ywarn-dead-code",
-    "-Yno-adapted-args"
+    "-Ywarn-dead-code"
   )
 
   lazy val defaultSettings = Seq(
