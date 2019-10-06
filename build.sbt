@@ -24,7 +24,8 @@ lazy val squants =
     osgiSettings,
     scalacOptions in Tut --= Seq("-Ywarn-unused-import", "-Ywarn-unused:imports"),
     tutTargetDirectory := file("."),
-    tutSourceDirectory := file("shared") / "src" / "main" / "tut"
+    tutSourceDirectory := file("shared") / "src" / "main" / "tut",
+    parallelExecution in Test := false
   )
   .jvmSettings(Tests.defaultSettings: _*)
   .jsSettings(Tests.defaultSettings: _*)
@@ -35,7 +36,8 @@ lazy val squants =
     sources in (Compile, test) := List() // This is a pity but we can't reliable compile on 1.0.0-M8
   )
   .nativeSettings(
-    sources in (Compile, doc) := List() // Can't build docs in native
+    sources in (Compile, doc) := List(), // Can't build docs in native
+    sources in (Compile, test) := List() // Can't yet compile in native
   )
 
 lazy val root = project.in(file("."))
@@ -43,7 +45,6 @@ lazy val root = project.in(file("."))
   .settings(
     name := "squants",
     publish := {},
-    publishLocal := {},
-    useGpg := true
+    publishLocal := {}
   )
   .aggregate(squants.jvm, squants.js, squants.native)
