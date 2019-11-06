@@ -37,4 +37,5 @@ abstract class AbstractQuantityNumeric[A <: Quantity[A]](val unit: UnitOfMeasure
   def toFloat(x: A) = x.to(unit).toFloat
   def toDouble(x: A) = x.to(unit)
   def compare(x: A, y: A) = if (x.to(unit) > y.to(unit)) 1 else if (x.to(unit) < y.to(unit)) -1 else 0
+  def parseString(str: String): Option[A] = unit(0).dimension.parseString(str).toOption
 }
