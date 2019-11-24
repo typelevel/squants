@@ -16,10 +16,10 @@ package squants
 package object energy {
 
   object KineticEnergy {
-    def apply(mass: Mass, velocity: Velocity): Energy =
+    def apply(mass: Mass, velocity: squants.motion.Velocity): Energy =
       Joules(0.5 * mass.toKilograms * velocity.toMetersPerSecond * velocity.toMetersPerSecond)
 
-    def apply(mass: Mass, momentum: Momentum): Energy =
+    def apply(mass: Mass, momentum: squants.motion.Momentum): Energy =
       Joules(momentum.toNewtonSeconds / (mass.toKilograms * 2.0))
 
   }
