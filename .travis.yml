@@ -7,7 +7,8 @@ scala:
 
 jdk:
   - openjdk8
-  - openjdk11
+  - oraclejdk11
+  # can be switched back to openjdk once Travis uses 11.0.3 fixing https://bugs.openjdk.java.net/browse/JDK-8208275
 
 branches:
   except:
