@@ -83,7 +83,7 @@ class AreaTimeSpec extends FlatSpec with Matchers {
     import AreaTimeConversions.AreaTimeNumeric
 
     val irrs = List(SquareCentimeterSeconds(10), SquareCentimeterSeconds(100))
-    irrs.sum should be(SquareMeterSeconds(0.011))
+    irrs.sum.in(SquareCentimeterSeconds) should be(SquareCentimeterSeconds(110))
 
     val smsIrrs =
       List(SquareMeterSeconds(10), SquareMeterSeconds(100))

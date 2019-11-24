@@ -95,6 +95,6 @@ class SpecificEnergySpec extends FlatSpec with Matchers {
     sesRad.sum should be(Rads(110))
 
     val sesErg = List(ErgsPerGram(100), ErgsPerGram(10))
-    sesErg.sum should be(Grays(0.011))
+    sesErg.sum.in(ErgsPerGram) should be(ErgsPerGram(110))
   }
 }
