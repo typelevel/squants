@@ -128,7 +128,7 @@ sum: squants.energy.Power = 35.0 kW
 scala> sum == Kilowatts(35)
 res0: Boolean = true
 
-scala> sum == Megawatts(0.035) // comparisions automatically convert scale
+scala> sum == Megawatts(0.035) // comparisons automatically convert scale
 res1: Boolean = true
 ```
 
