@@ -21,7 +21,7 @@ import squants.time.Time
  * measure absorbed dose which just measures energy deposited into a mass of
  * material while Dose is used to measure equivalent/effective/committed doses
  * which are measures of the damage done to biological tissues.  Since this
- * is an easy and disasterous mistake to make, it is critical that Squants
+ * is an easy and disastrous mistake to make, it is critical that Squants
  * doesn't allow any sort of magic conversions that allow this mistake.
  * @author  Hunter Payne
  *
