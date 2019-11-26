@@ -113,7 +113,7 @@ val load1: Power = Kilowatts(12)
 val load2: Power = Megawatts(0.023)
 val sum = load1 + load2
 sum == Kilowatts(35)
-sum == Megawatts(0.035) // comparisions automatically convert scale
+sum == Megawatts(0.035) // comparisons automatically convert scale
 ```
 
 The above sample works because Kilowatts and Megawatts are both units of Power.  Only the scale is
