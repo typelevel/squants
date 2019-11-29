@@ -74,6 +74,7 @@ class QuantitySpec extends FlatSpec with Matchers with CustomMatchers with TryVa
     implicit val stringNumeric = new BaseNumeric[String] {
       def fromInt(x: Int) = x.toString
       def toDouble(x: String) = augmentString(x).toDouble // augmentString is used to disambiguate implicit conversion
+      def parseString(str: String): Option[String] = Some(str) // for 2.13 compability
     }
 
     // Use them to initialize quantity values
