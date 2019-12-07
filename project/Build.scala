@@ -15,7 +15,7 @@ object Versions {
     Seq("2.11.12", "2.12.10")
 
   val ScalaTest = "3.1.0-RC3"
-  val ScalaCheck = "1.14.0"
+  val ScalaCheck = "1.14.2"
   val Json4s = "3.6.7"
 }
 
