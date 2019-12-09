@@ -94,7 +94,9 @@ class SpecificEnergySpec extends FlatSpec with Matchers {
     val sesRad = List(Rads(100), Rads(10))
     sesRad.sum should be(Rads(110))
 
-    val sesErg = List(ErgsPerGram(100), ErgsPerGram(10))
+    // The Grays(0) value ensures we get the sum in Grays, otherwise unit depends on Scala version
+    // due to changed .sum implementation in 2.13
+    val sesErg = List(Grays(0), ErgsPerGram(100), ErgsPerGram(10))
     sesErg.sum should be(Grays(0.011))
   }
 }
