@@ -36,7 +36,7 @@ final class Energy private (val value: Double, val unit: EnergyUnit)
   protected def time = Hours(1)
 
   def *(that: ParticleFlux): Irradiance = WattsPerSquareMeter(
-    Hours(1).toSeconds * this.toWattHours * 
+    Hours(1).toSeconds * this.toWattHours *
       that.toBecquerelsPerSquareMeterSecond)
   def /(that: Length): Force = Newtons(this.toJoules / that.toMeters)
   def /(that: Force): Length = Meters(this.toJoules / that.toNewtons)

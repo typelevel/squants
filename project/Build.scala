@@ -12,7 +12,7 @@ object Versions {
   val scalaJSVersion =
     Option(System.getenv("SCALAJS_VERSION")).getOrElse("0.6.31")
   val ScalaCross =
-    Seq("2.11.12", "2.12.10")
+    Seq("2.11.12", "2.12.10", "2.13.1")
 
   val ScalaTest = "3.1.0-RC3"
   val ScalaCheck = "1.14.2"
@@ -61,7 +61,6 @@ object Compiler {
   lazy val newerCompilerLintSwitches = Seq(
     "-Xlint:missing-interpolator",
     "-Ywarn-unused",
-    "-Ywarn-unused-import",
     "-Ywarn-numeric-widen",
     "-deprecation:false"
   )
@@ -83,7 +82,8 @@ object Compiler {
       "-encoding", "UTF-8",
     ),
     scalacOptions := {CrossVersion.partialVersion(scalaVersion.value) match {
-      case Some((2, scalaMajor)) if scalaMajor >= 11 => scalacOptions.value ++ defaultCompilerSwitches ++ newerCompilerLintSwitches
+      case Some((2, scalaMajor)) if scalaMajor >= 13 => scalacOptions.value ++ defaultCompilerSwitches ++ newerCompilerLintSwitches
+      case Some((2, scalaMajor)) if scalaMajor >= 11 => scalacOptions.value ++ defaultCompilerSwitches ++ newerCompilerLintSwitches :+ "-Ywarn-unused-import"
       case _ => scalacOptions.value ++ defaultCompilerSwitches
     }},
 
