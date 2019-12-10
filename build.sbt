@@ -28,13 +28,13 @@ lazy val squants =
     parallelExecution in Test := false
   )
   .jvmSettings(Tests.defaultSettings: _*)
-  .jsSettings(Tests.defaultSettings: _*)
   .jsSettings(
     parallelExecution in Test := false,
     excludeFilter in Test := "*Serializer.scala" || "*SerializerSpec.scala",
     scalacOptions in Tut --= Seq("-Ywarn-unused-import", "-Ywarn-unused:imports"),
-    sources in (Compile, test) := List() // This is a pity but we can't reliable compile on 1.0.0-M8
+    // sources in (Compile, test) := List() // This is a pity but we can't reliable compile on 1.0.0-M8
   )
+  .jsSettings(Tests.defaultSettings: _*)
   .nativeSettings(
     sources in (Compile, doc) := List(), // Can't build docs in native
     sources in (Compile, test) := List() // Can't yet compile in native
