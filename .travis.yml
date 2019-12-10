@@ -3,10 +3,12 @@ language: scala
 scala:
   - 2.11.12
   - 2.12.10
+  - 2.13.1
 
 jdk:
   - openjdk8
-  - openjdk11
+  - oraclejdk11
+  # can be switched back to openjdk once Travis uses 11.0.3 fixing https://bugs.openjdk.java.net/browse/JDK-8208275
 
 branches:
   except:

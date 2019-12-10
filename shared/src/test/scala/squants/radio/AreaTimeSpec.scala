@@ -82,7 +82,9 @@ class AreaTimeSpec extends FlatSpec with Matchers {
   it should "provide Numeric support" in {
     import AreaTimeConversions.AreaTimeNumeric
 
-    val irrs = List(SquareCentimeterSeconds(10), SquareCentimeterSeconds(100))
+    // The SquareMeterSeconds(0) value ensures we get sum in SquareMeterSeconds, otherwise it depends on Scala version
+    // due to changed .sum implementation in 2.13
+    val irrs = List(SquareMeterSeconds(0), SquareCentimeterSeconds(10), SquareCentimeterSeconds(100))
     irrs.sum should be(SquareMeterSeconds(0.011))
 
     val smsIrrs =
