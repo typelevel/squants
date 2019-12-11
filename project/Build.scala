@@ -7,7 +7,7 @@ import com.typesafe.sbt.osgi.SbtOsgi
 import com.typesafe.sbt.osgi.SbtOsgi.autoImport._
 
 object Versions {
-  val Squants = "1.6.0-SNAPSHOT"
+  val Squants = "1.6.0"
   val Scala = "2.11.12" // Don't use 2.12 yet to avoid troubles with native
   val scalaJSVersion =
     Option(System.getenv("SCALAJS_VERSION")).getOrElse("0.6.31")
@@ -126,12 +126,14 @@ object Publish {
 
 object Tests {
   val defaultSettings =
-      Seq(
-        libraryDependencies ++=
-          Dependencies.scalaTest.value ++
-          Dependencies.scalaCheck.value ++
-          Dependencies.json4s.value
-      )
+      if (Versions.scalaJSVersion.startsWith("0.6")) {
+        Seq(
+          libraryDependencies ++=
+            Dependencies.scalaTest.value ++
+            Dependencies.scalaCheck.value ++
+            Dependencies.json4s.value
+        )
+      } else Seq.empty
 }
 
 object Formatting {
