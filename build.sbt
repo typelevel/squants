@@ -12,6 +12,20 @@ Global / onChangedBuildSource := ReloadOnSourceChanges
 
 ThisBuild / turbo := true
 
+inThisBuild(List(
+  organization := "org.typelevel",
+  homepage := Some(url("http://www.squants.com/")),
+  licenses := Seq("Apache 2.0" -> url("http://www.opensource.org/licenses/Apache-2.0")),
+  developers := List(
+    Developer(
+      "garyKeorkunian",
+      "Gary Keorkunian",
+      "unknown",
+      url("http://www.linkedin.com/in/garykeorkunian")
+    )
+  )
+))
+
 lazy val squants =
   crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .crossType(CrossType.Full)
@@ -36,6 +50,7 @@ lazy val squants =
   )
   .jsSettings(Tests.defaultSettings: _*)
   .nativeSettings(
+    skip in publish := true,
     sources in (Compile, doc) := List(), // Can't build docs in native
     sources in (Compile, test) := List() // Can't yet compile in native
   )
