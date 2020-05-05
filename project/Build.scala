@@ -16,7 +16,7 @@ object Versions {
 
   val ScalaTest = "3.1.0"
   val ScalaCheck = "1.14.3"
-  val Json4s = "3.6.7"
+  val Json4s = "3.6.8"
 }
 
 object Dependencies {
