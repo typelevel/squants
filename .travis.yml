@@ -15,7 +15,7 @@ branches:
     - /^wip-.*$/
 
 env:
-  - TRAVIS_NODE_VERSION="10.9.0" SCALAJS_VERSION="0.6.33"
+  - TRAVIS_NODE_VERSION="10.9.0" SCALAJS_VERSION="1.0.1"
   # - TRAVIS_NODE_VERSION="10.9.0" SCALAJS_VERSION="1.0.0-M8"
 
 install:
@@ -41,5 +41,5 @@ script:
   # Your normal script
   - sbt ++$TRAVIS_SCALA_VERSION squantsJVM/compile squantsJS/compile squantsJS/fastOptJS
   - if [[ $TRAVIS_SCALA_VERSION == "2.11.12" ]]; then sbt ++$TRAVIS_SCALA_VERSION squantsNative/compile; fi;
-  - if [[ $SCALAJS_VERSION == "0.6.33" ]]; then sbt ++$TRAVIS_SCALA_VERSION squantsJS/test; fi;
+  - if [[ $SCALAJS_VERSION == "1.0.1" ]]; then sbt ++$TRAVIS_SCALA_VERSION squantsJS/test; fi;
   - sbt ++$TRAVIS_SCALA_VERSION squantsJVM/test
