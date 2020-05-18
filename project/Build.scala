@@ -9,7 +9,7 @@ import com.typesafe.sbt.osgi.SbtOsgi.autoImport._
 object Versions {
   val Scala = "2.11.12" // Don't use 2.12 yet to avoid troubles with native
   val scalaJSVersion =
-    Option(System.getenv("SCALAJS_VERSION")).getOrElse("0.6.33")
+    Option(System.getenv("SCALAJS_VERSION")).getOrElse("1.1.0")
   val ScalaCross =
     Seq("2.11.12", "2.12.10", "2.13.1")
 

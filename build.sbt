@@ -12,6 +12,8 @@ Global / onChangedBuildSource := ReloadOnSourceChanges
 
 ThisBuild / turbo := true
 
+val customScalaJSVersion = Option(System.getenv("SCALAJS_VERSION"))
+
 inThisBuild(List(
   organization := "org.typelevel",
   homepage := Some(url("http://www.squants.com/")),
@@ -39,7 +41,8 @@ lazy val squants =
     scalacOptions in Tut --= Seq("-Ywarn-unused-import", "-Ywarn-unused:imports"),
     tutTargetDirectory := file("."),
     tutSourceDirectory := file("shared") / "src" / "main" / "tut",
-    parallelExecution in Test := false
+    parallelExecution in Test := false,
+    skip.in(publish) := customScalaJSVersion.isDefined
   )
   .jvmSettings(Tests.defaultSettings: _*)
   .jsSettings(
