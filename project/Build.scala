@@ -7,7 +7,6 @@ import com.typesafe.sbt.osgi.SbtOsgi
 import com.typesafe.sbt.osgi.SbtOsgi.autoImport._
 
 object Versions {
-  val Squants = "1.6.0"
   val Scala = "2.11.12" // Don't use 2.12 yet to avoid troubles with native
   val scalaJSVersion =
     Option(System.getenv("SCALAJS_VERSION")).getOrElse("0.6.33")
@@ -33,15 +32,7 @@ object Resolvers {
 
 object Project {
   val defaultSettings = Seq(
-    organization in ThisBuild := "org.typelevel",
-
     name := "Squants",
-
-    version in ThisBuild := Versions.Squants,
-
-    licenses := Seq("Apache 2.0" -> url("http://www.opensource.org/licenses/Apache-2.0")),
-
-    homepage := Some(url("http://www.squants.com/")),
 
     autoAPIMappings := true,
 
@@ -96,44 +87,18 @@ object Compiler {
 
 object Publish {
   val defaultSettings = Seq(
-    publishTo := {
-      val nexus = "https://oss.sonatype.org/"
-      if (isSnapshot.value)
-        Some("snapshots" at nexus + "content/repositories/snapshots")
-      else
-        Some("releases" at nexus + "service/local/staging/deploy/maven2")
-    },
-
-    publishMavenStyle := true,
-
-    publishArtifact in Test := false,
-
-    pomIncludeRepository := { _ => false },
-
-    pomExtra := <scm>
-      <url>git@github.com:typelevel/squants.git</url>
-      <connection>scm:git:git@github.com:typelevel/squants.git</connection>
-    </scm>
-      <developers>
-        <developer>
-          <id>garyKeorkunian</id>
-          <name>Gary Keorkunian</name>
-          <url>http://www.linkedin.com/in/garykeorkunian</url>
-        </developer>
-      </developers>
+    publishArtifact in Test := false
   )
 }
 
 object Tests {
   val defaultSettings =
-      if (Versions.scalaJSVersion.startsWith("0.6")) {
-        Seq(
-          libraryDependencies ++=
-            Dependencies.scalaTest.value ++
-            Dependencies.scalaCheck.value ++
-            Dependencies.json4s.value
-        )
-      } else Seq.empty
+    Seq(
+      libraryDependencies ++=
+        Dependencies.scalaTest.value ++
+        Dependencies.scalaCheck.value ++
+        Dependencies.json4s.value
+    )
 }
 
 object Formatting {
