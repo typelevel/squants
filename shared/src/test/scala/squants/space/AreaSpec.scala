@@ -8,20 +8,21 @@
 
 package squants.space
 
-import org.scalatest.{ FlatSpec, Matchers }
 import squants.mass.{ Kilograms, KilogramsPerSquareMeter }
 import squants.motion.{ Newtons, Pascals }
 import squants.photo.{ Candelas, CandelasPerSquareMeter, Lumens, Lux }
 import squants.time.Seconds
 import squants.radio.SquareMeterSeconds
 import squants.{ MetricSystem, QuantityParseException }
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class AreaSpec extends FlatSpec with Matchers {
+class AreaSpec extends AnyFlatSpec with Matchers {
 
   behavior of "Area and its Units of Measure"
 

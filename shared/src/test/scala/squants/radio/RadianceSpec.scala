@@ -8,16 +8,17 @@
 
 package squants.radio
 
-import org.scalatest.{ FlatSpec, Matchers }
 import squants.QuantityParseException
 import squants.space.SquareMeters
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class RadianceSpec extends FlatSpec with Matchers {
+class RadianceSpec extends AnyFlatSpec with Matchers {
 
   behavior of "Radiance and its Units of Measure"
 

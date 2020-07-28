@@ -8,15 +8,16 @@
 
 package squants
 
-import org.scalatest.{ FlatSpec, Matchers }
 import squants.thermal.{ Celsius, Fahrenheit }
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class QuantityRangeSpec extends FlatSpec with Matchers {
+class QuantityRangeSpec extends AnyFlatSpec with Matchers {
 
   behavior of "QuantityRange"
 

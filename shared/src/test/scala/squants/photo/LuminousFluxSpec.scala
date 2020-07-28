@@ -8,17 +8,18 @@
 
 package squants.photo
 
-import org.scalatest.{ FlatSpec, Matchers }
 import squants.QuantityParseException
 import squants.space.{ SquareMeters, SquaredRadians }
 import squants.time.Seconds
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class LuminousFluxSpec extends FlatSpec with Matchers {
+class LuminousFluxSpec extends AnyFlatSpec with Matchers {
 
   behavior of "LuminousFlux and its Units of Measure"
 

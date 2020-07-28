@@ -8,15 +8,16 @@
 
 package squants.electro
 
-import org.scalatest.{FlatSpec, Matchers}
 import squants.{MetricSystem, QuantityParseException}
 import squants.space.Meters
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class InductanceSpec extends FlatSpec with Matchers {
+class InductanceSpec extends AnyFlatSpec with Matchers {
 
   behavior of "Inductance and its Units of Measure"
 

@@ -2,11 +2,12 @@ package squants.experimental.unitgroups
 
 import scala.collection.immutable.Set
 
-import org.scalatest.{FlatSpec, Matchers}
 import squants.UnitOfMeasure
 import squants.space.{Kilometers, Length, Meters, Nanometers}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
-class UnitGroupSpec extends FlatSpec with Matchers {
+class UnitGroupSpec extends AnyFlatSpec with Matchers {
 
   behavior of "UnitGroup"
 

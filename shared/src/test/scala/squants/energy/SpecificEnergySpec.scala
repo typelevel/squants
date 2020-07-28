@@ -8,16 +8,17 @@
 
 package squants.energy
 
-import org.scalatest.{ Matchers, FlatSpec }
 import squants.mass.Kilograms
 import squants.QuantityParseException
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class SpecificEnergySpec extends FlatSpec with Matchers {
+class SpecificEnergySpec extends AnyFlatSpec with Matchers {
 
   behavior of "SpecificEnergy and its Units of Measure"
 

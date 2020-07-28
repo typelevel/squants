@@ -8,20 +8,21 @@
 
 package squants.time
 
-import org.scalatest.{ FlatSpec, Matchers }
 import squants.{ Dimension, QuantityParseException }
 import squants.motion.{ MetersPerSecond, MetersPerSecondCubed, MetersPerSecondSquared }
 import squants.space.{ Meters, SquareMeters }
 import squants.radio.SquareMeterSeconds
 
 import scala.concurrent.duration.{ DAYS, Duration, HOURS, MICROSECONDS, MILLISECONDS, MINUTES, NANOSECONDS, SECONDS }
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class TimeSpec extends FlatSpec with Matchers {
+class TimeSpec extends AnyFlatSpec with Matchers {
 
   behavior of "Time and its Units of Measure"
 

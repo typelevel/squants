@@ -1,15 +1,16 @@
 package squants.electro
 
-import org.scalatest.{FlatSpec, Matchers}
 import squants.QuantityParseException
 import squants.space.{Meters, SquareMeters}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
   * @author Nicolas Vinuesa
   * @since 1.4
   *
   */
-class ElectricCurrentDensitySpec extends FlatSpec with Matchers {
+class ElectricCurrentDensitySpec extends AnyFlatSpec with Matchers {
 
   behavior of "ElectricCurrentDensity and its Units of Measure"
 

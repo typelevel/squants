@@ -8,16 +8,17 @@
 
 package squants.electro
 
-import org.scalatest.{FlatSpec, Matchers}
 import squants.QuantityParseException
 import squants.space.Meters
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  cquiroz
  * @since   1.4
  *
  */
-class PermeabilitySpec extends FlatSpec with Matchers {
+class PermeabilitySpec extends AnyFlatSpec with Matchers {
 
   behavior of "Permeability and its Units of Measure"
 
