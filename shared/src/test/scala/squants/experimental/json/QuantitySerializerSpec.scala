@@ -8,7 +8,6 @@
 
 package squants.experimental.json
 
-import org.scalatest._
 import org.json4s.DefaultFormats
 import squants.energy._
 import squants.time._
