@@ -8,18 +8,20 @@
 
 package squants.thermal
 
-import org.scalatest.{ FlatSpec, Matchers, TryValues }
+import org.scalatest.TryValues
 import org.scalatest.prop.TableDrivenPropertyChecks
 import squants.energy.Joules
 import squants.mass.Kilograms
 import squants.QuantityParseException
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class TemperatureSpec extends FlatSpec
+class TemperatureSpec extends AnyFlatSpec
   with Matchers with TableDrivenPropertyChecks with TryValues {
 
   behavior of "Temperature and its Units of Measure"

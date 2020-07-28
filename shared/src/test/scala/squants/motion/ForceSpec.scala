@@ -8,19 +8,20 @@
 
 package squants.motion
 
-import org.scalatest.{ Matchers, FlatSpec }
 import squants.mass.Kilograms
 import squants.time.Seconds
 import squants.energy.Joules
 import squants.space.{ SquareMeters, Meters }
 import squants.{ QuantityParseException, CustomMatchers }
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class ForceSpec extends FlatSpec with Matchers with CustomMatchers {
+class ForceSpec extends AnyFlatSpec with Matchers with CustomMatchers {
 
   behavior of "Force and its Units of Measure"
 

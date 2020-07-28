@@ -8,17 +8,18 @@
 
 package squants.time
 
-import org.scalatest.{ FlatSpec, Matchers }
 import squants.CustomMatchers
 import squants.motion.UsMilesPerHour
 import squants.space.UsMiles
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class TimeDerivativeSpec extends FlatSpec with Matchers with CustomMatchers {
+class TimeDerivativeSpec extends AnyFlatSpec with Matchers with CustomMatchers {
 
   behavior of "Time Derivatives and Integrals as implemented in Distance and Velocity"
 

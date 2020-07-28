@@ -8,7 +8,8 @@
 
 package squants
 
-import org.scalatest.{ FlatSpec, Matchers }
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * Singleton defining Metric System multipliers
@@ -17,7 +18,7 @@ import org.scalatest.{ FlatSpec, Matchers }
  * @since   0.1
  *
  */
-class BinarySystemSpec extends FlatSpec with Matchers {
+class BinarySystemSpec extends AnyFlatSpec with Matchers {
 
   "The Metric System multipliers" should "convert as expected" in {
     import BinarySystem._

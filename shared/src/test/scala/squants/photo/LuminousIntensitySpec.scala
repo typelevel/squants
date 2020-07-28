@@ -8,16 +8,17 @@
 
 package squants.photo
 
-import org.scalatest.{ FlatSpec, Matchers }
 import squants.QuantityParseException
 import squants.space.{ SquareMeters, SquaredRadians }
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class LuminousIntensitySpec extends FlatSpec with Matchers {
+class LuminousIntensitySpec extends AnyFlatSpec with Matchers {
 
   behavior of "LuminousIntensity and its Units of Measure"
 

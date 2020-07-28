@@ -1,16 +1,17 @@
 package squants.mass
 
-import org.scalatest.{FlatSpec, Matchers}
 import squants.CustomMatchers
 import squants.motion.{NewtonMeters, RadiansPerSecondSquared}
 import squants.space.{Feet, Meters}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
   *
   * @author paxelord
   * @since 1.3
   **/
-class MomentOfInertiaSpec extends FlatSpec with Matchers with CustomMatchers {
+class MomentOfInertiaSpec extends AnyFlatSpec with Matchers with CustomMatchers {
 
   behavior of "MomentOfInertia and its Units of Measure"
 

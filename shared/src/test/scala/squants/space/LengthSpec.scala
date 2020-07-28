@@ -8,19 +8,20 @@
 
 package squants.space
 
-import org.scalatest.{ FlatSpec, Matchers }
 import squants.electro.{ OhmMeters, Ohms, Siemens, SiemensPerMeter }
 import squants.energy.Joules
 import squants.motion.{ MetersPerSecond, Newtons }
 import squants.time.Seconds
 import squants.{ MetricSystem, QuantityParseException }
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class LengthSpec extends FlatSpec with Matchers {
+class LengthSpec extends AnyFlatSpec with Matchers {
 
   behavior of "Length and its Units of Measure"
 

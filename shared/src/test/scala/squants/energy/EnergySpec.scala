@@ -8,7 +8,6 @@
 
 package squants.energy
 
-import org.scalatest.{FlatSpec, Matchers}
 import squants.electro.{Coulombs, Volts}
 import squants.mass.{Kilograms, Moles}
 import squants.motion.{MetersPerSecond, NewtonSeconds, Newtons}
@@ -17,13 +16,15 @@ import squants.thermal.{JoulesPerKelvin, Kelvin}
 import squants.time.Hours
 import squants.{MetricSystem, QuantityParseException}
 import squants.radio.{WattsPerSquareMeter, BecquerelsPerSquareMeterSecond}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class EnergySpec extends FlatSpec with Matchers {
+class EnergySpec extends AnyFlatSpec with Matchers {
 
   behavior of "Energy and its Units of Measure"
 

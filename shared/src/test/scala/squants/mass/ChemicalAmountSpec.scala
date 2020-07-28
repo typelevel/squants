@@ -8,15 +8,16 @@
 
 package squants.mass
 
-import org.scalatest.{ FlatSpec, Matchers }
 import squants.QuantityParseException
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class ChemicalAmountSpec extends FlatSpec with Matchers {
+class ChemicalAmountSpec extends AnyFlatSpec with Matchers {
 
   behavior of "ChemicalAmount and its Units of Measure"
 

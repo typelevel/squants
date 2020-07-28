@@ -8,15 +8,16 @@
 
 package squants
 
-import org.scalatest.{FlatSpec, Matchers}
 import squants.time.Hertz
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class DimensionlessSpec extends FlatSpec with Matchers {
+class DimensionlessSpec extends AnyFlatSpec with Matchers {
 
   behavior of "Dimensionless and its Units of Measure"
 

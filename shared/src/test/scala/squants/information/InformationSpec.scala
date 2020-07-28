@@ -8,16 +8,17 @@
 
 package squants.information
 
-import org.scalatest.{FlatSpec, Matchers}
 import squants.time.Seconds
 import squants.{BinarySystem, MetricSystem, QuantityParseException}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  Derek Morr
  * @since   0.6.0
  *
  */
-class InformationSpec extends FlatSpec with Matchers {
+class InformationSpec extends AnyFlatSpec with Matchers {
 
   behavior of "Information and its Units of Measure"
 
