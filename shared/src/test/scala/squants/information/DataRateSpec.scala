@@ -1,14 +1,15 @@
 package squants.information
 
-import org.scalatest.{Matchers, FlatSpec}
 import squants.QuantityParseException
 import squants.time.Seconds
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
   * @author Derek Morr
   * @since xxx
   */
-class DataRateSpec extends FlatSpec with Matchers {
+class DataRateSpec extends AnyFlatSpec with Matchers {
 
   behavior of "DataRate and its Units of Measure"
 

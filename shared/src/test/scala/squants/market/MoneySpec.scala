@@ -8,20 +8,21 @@
 
 package squants.market
 
-import org.scalatest.{FlatSpec, Matchers}
 import squants.QuantityParseException
 import squants.mass.Kilograms
 import squants.space.Meters
 import squants.time.Hours
 import scala.math.BigDecimal.RoundingMode
 import scala.util.{Failure, Success}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class MoneySpec extends FlatSpec with Matchers {
+class MoneySpec extends AnyFlatSpec with Matchers {
 
   behavior of "Money and its Units of Measure"
 

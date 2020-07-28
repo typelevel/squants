@@ -1,8 +1,9 @@
 package squants.electro
 
-import org.scalatest.{FlatSpec, Matchers}
 import squants.QuantityParseException
 import squants.space.{Meters, SquareMeters}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
   *
@@ -10,7 +11,7 @@ import squants.space.{Meters, SquareMeters}
   * @since 1.4
   *
   */
-class AreaElectricChargeDensitySpec extends FlatSpec with Matchers {
+class AreaElectricChargeDensitySpec extends AnyFlatSpec with Matchers {
 
   behavior of "AreaElectricChargeDensity and its Units of Measure"
 

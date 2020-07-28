@@ -8,18 +8,19 @@
 
 package squants.mass
 
-import org.scalatest.{FlatSpec, Matchers}
 import squants.motion._
 import squants.space.{CubicMeters, Meters, SquareMeters}
 import squants.time.Seconds
 import squants.{MetricSystem, QuantityParseException}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class MassSpec extends FlatSpec with Matchers {
+class MassSpec extends AnyFlatSpec with Matchers {
 
   behavior of "Mass and its Units of Measure"
 

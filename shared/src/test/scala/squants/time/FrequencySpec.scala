@@ -8,7 +8,6 @@
 
 package squants.time
 
-import org.scalatest.{ FlatSpec, Matchers }
 import squants.electro.{ Amperes, Coulombs, Volts, Webers }
 import squants.energy.{ WattHours, Watts, WattsPerHour }
 import squants.information.{ Bytes, BytesPerSecond }
@@ -17,13 +16,15 @@ import squants.motion._
 import squants.photo.{ LumenSeconds, Lumens, Lux, LuxSeconds }
 import squants.space.{ CubicMeters, Meters, Radians }
 import squants.{ Dimension, Each, MetricSystem, QuantityParseException }
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class FrequencySpec extends FlatSpec with Matchers {
+class FrequencySpec extends AnyFlatSpec with Matchers {
 
   behavior of "Frequency and its Units of Measure"
 

@@ -8,16 +8,17 @@
 
 package squants.motion
 
-import org.scalatest.{ FlatSpec, Matchers }
 import squants.QuantityParseException
 import squants.time.Seconds
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  stevebarham
  * @since   0.5.2
  *
  */
-class PressureChangeSpec extends FlatSpec with Matchers {
+class PressureChangeSpec extends AnyFlatSpec with Matchers {
 
   behavior of "PressureChange and its Units of Measure"
 

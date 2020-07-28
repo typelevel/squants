@@ -8,19 +8,20 @@
 
 package squants.space
 
-import org.scalatest.{ FlatSpec, Matchers }
 import squants.QuantityParseException
 import squants.energy.{ Joules, JoulesPerCubicMeter }
 import squants.mass.{ Kilograms, KilogramsPerCubicMeter }
 import squants.motion.CubicMetersPerSecond
 import squants.time.Seconds
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class VolumeSpec extends FlatSpec with Matchers {
+class VolumeSpec extends AnyFlatSpec with Matchers {
 
   behavior of "Volume and its Units of Measure"
 
