@@ -1,14 +1,15 @@
 package squants.time
 
-import org.scalatest.{ FlatSpec, Matchers }
 import squants.CustomMatchers
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.5.1
  *
  */
-class TimeSquaredSpec extends FlatSpec with Matchers with CustomMatchers {
+class TimeSquaredSpec extends AnyFlatSpec with Matchers with CustomMatchers {
 
   behavior of "Time Squared as an intermediate operand in time derivative calculations"
 

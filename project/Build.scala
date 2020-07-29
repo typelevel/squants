@@ -7,16 +7,15 @@ import com.typesafe.sbt.osgi.SbtOsgi
 import com.typesafe.sbt.osgi.SbtOsgi.autoImport._
 
 object Versions {
-  val Squants = "1.6.0"
   val Scala = "2.11.12" // Don't use 2.12 yet to avoid troubles with native
   val scalaJSVersion =
-    Option(System.getenv("SCALAJS_VERSION")).getOrElse("0.6.32")
+    Option(System.getenv("SCALAJS_VERSION")).getOrElse("0.6.33")
   val ScalaCross =
     Seq("2.11.12", "2.12.10", "2.13.1")
 
-  val ScalaTest = "3.1.0"
+  val ScalaTest = "3.2.0"
   val ScalaCheck = "1.14.3"
-  val Json4s = "3.6.7"
+  val Json4s = "3.6.9"
 }
 
 object Dependencies {
@@ -33,15 +32,7 @@ object Resolvers {
 
 object Project {
   val defaultSettings = Seq(
-    organization in ThisBuild := "org.typelevel",
-
     name := "Squants",
-
-    version in ThisBuild := Versions.Squants,
-
-    licenses := Seq("Apache 2.0" -> url("http://www.opensource.org/licenses/Apache-2.0")),
-
-    homepage := Some(url("http://www.squants.com/")),
 
     autoAPIMappings := true,
 
@@ -96,44 +87,18 @@ object Compiler {
 
 object Publish {
   val defaultSettings = Seq(
-    publishTo := {
-      val nexus = "https://oss.sonatype.org/"
-      if (isSnapshot.value)
-        Some("snapshots" at nexus + "content/repositories/snapshots")
-      else
-        Some("releases" at nexus + "service/local/staging/deploy/maven2")
-    },
-
-    publishMavenStyle := true,
-
-    publishArtifact in Test := false,
-
-    pomIncludeRepository := { _ => false },
-
-    pomExtra := <scm>
-      <url>git@github.com:typelevel/squants.git</url>
-      <connection>scm:git:git@github.com:typelevel/squants.git</connection>
-    </scm>
-      <developers>
-        <developer>
-          <id>garyKeorkunian</id>
-          <name>Gary Keorkunian</name>
-          <url>http://www.linkedin.com/in/garykeorkunian</url>
-        </developer>
-      </developers>
+    publishArtifact in Test := false
   )
 }
 
 object Tests {
   val defaultSettings =
-      if (Versions.scalaJSVersion.startsWith("0.6")) {
-        Seq(
-          libraryDependencies ++=
-            Dependencies.scalaTest.value ++
-            Dependencies.scalaCheck.value ++
-            Dependencies.json4s.value
-        )
-      } else Seq.empty
+    Seq(
+      libraryDependencies ++=
+        Dependencies.scalaTest.value ++
+        Dependencies.scalaCheck.value ++
+        Dependencies.json4s.value
+    )
 }
 
 object Formatting {

@@ -8,18 +8,19 @@
 
 package squants.motion
 
-import org.scalatest.{ Matchers, FlatSpec }
 import squants.space.Meters
 import squants.time.Seconds
 import squants.mass.Kilograms
 import squants.QuantityParseException
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class AccelerationSpec extends FlatSpec with Matchers {
+class AccelerationSpec extends AnyFlatSpec with Matchers {
 
   behavior of "Acceleration and its Units of Measure"
 

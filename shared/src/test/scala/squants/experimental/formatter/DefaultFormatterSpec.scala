@@ -1,6 +1,5 @@
 package squants.experimental.formatter
 
-import org.scalatest.{FlatSpec, Matchers}
 import squants.UnitOfMeasure
 import squants.mass.{Kilograms, Mass}
 import squants.mass.MassConversions._
@@ -8,8 +7,10 @@ import squants.space.{Inches, Yards, UsMiles}
 import squants.space.LengthConversions._
 import squants.experimental.unitgroups.UnitGroup
 import squants.experimental.unitgroups.uscustomary.space.UsCustomaryLengths
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
-class DefaultFormatterSpec extends FlatSpec with Matchers {
+class DefaultFormatterSpec extends AnyFlatSpec with Matchers {
 
   val usLengthFormatter = new DefaultFormatter(UsCustomaryLengths)
 

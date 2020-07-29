@@ -8,19 +8,20 @@
 
 package squants.radio
 
-import org.scalatest.{FlatSpec, Matchers}
 import squants.QuantityParseException
 import squants.energy.{Watts, WattHours}
 import squants.space.{SquareCentimeters, SquareMeters}
 import squants.time.Hours
 import squants.CustomMatchers
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class IrradianceSpec extends FlatSpec with Matchers with CustomMatchers {
+class IrradianceSpec extends AnyFlatSpec with Matchers with CustomMatchers {
 
   behavior of "Irradiance and its Units of Measure"
 

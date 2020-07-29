@@ -8,17 +8,18 @@
 
 package squants.radio
 
-import org.scalatest.{ FlatSpec, Matchers }
 import squants.QuantityParseException
 import squants.energy.Watts
 import squants.space.{ Meters, SquareMeters, SquaredRadians }
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class RadiantIntensitySpec extends FlatSpec with Matchers {
+class RadiantIntensitySpec extends AnyFlatSpec with Matchers {
 
   behavior of "RadiantIntensity and its Units of Measure"
 

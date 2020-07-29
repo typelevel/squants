@@ -8,16 +8,17 @@
 
 package squants.motion
 
-import org.scalatest.{ Matchers, FlatSpec }
 import squants.space.SquareMeters
 import squants.QuantityParseException
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class PressureSpec extends FlatSpec with Matchers {
+class PressureSpec extends AnyFlatSpec with Matchers {
 
   behavior of "Pressure and its Units of Measure"
 

@@ -8,16 +8,17 @@
 
 package squants.space
 
-import org.scalatest.{ FlatSpec, Matchers }
 import squants.QuantityParseException
 import squants.photo.{ Candelas, Lumens }
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class SolidAngleSpec extends FlatSpec with Matchers {
+class SolidAngleSpec extends AnyFlatSpec with Matchers {
 
   behavior of "SolidAngle and its Units of Measure"
 

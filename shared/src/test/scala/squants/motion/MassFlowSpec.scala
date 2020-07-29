@@ -8,17 +8,18 @@
 
 package squants.motion
 
-import org.scalatest.{ Matchers, FlatSpec }
 import squants.mass.Kilograms
 import squants.time.Seconds
 import squants.QuantityParseException
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class MassFlowSpec extends FlatSpec with Matchers {
+class MassFlowSpec extends AnyFlatSpec with Matchers {
 
   behavior of "MassFlow and its Units of Measure"
 

@@ -8,7 +8,9 @@
 
 package squants
 
-import org.scalatest.{FlatSpec, Matchers, TryValues}
+import org.scalatest.TryValues
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 import scala.math.BigDecimal.RoundingMode
 import scala.util.{Failure, Try}
@@ -20,7 +22,7 @@ import squants.time.{Hertz, Hours, Minutes}
  * @since   0.1
  *
  */
-class QuantitySpec extends FlatSpec with Matchers with CustomMatchers with TryValues {
+class QuantitySpec extends AnyFlatSpec with Matchers with CustomMatchers with TryValues {
 
   /*
     Create a Quantity with two Units of Measure

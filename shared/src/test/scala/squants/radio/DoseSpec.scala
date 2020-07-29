@@ -8,14 +8,15 @@
 
 package squants.radio
 
-import org.scalatest.{FlatSpec, Matchers}
 import squants.QuantityParseException
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  Hunter Payne
  *
  */
-class DoseSpec extends FlatSpec with Matchers {
+class DoseSpec extends AnyFlatSpec with Matchers {
 
   behavior of "Dose and its Units of Measure"
 

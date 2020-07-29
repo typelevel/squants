@@ -8,17 +8,18 @@
 
 package squants.radio
 
-import org.scalatest.{FlatSpec, Matchers}
 import squants.QuantityParseException
 import squants.space.{ SquareMeters, SquareCentimeters }
 import squants.time.Seconds
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class AreaTimeSpec extends FlatSpec with Matchers {
+class AreaTimeSpec extends AnyFlatSpec with Matchers {
 
   behavior of "AreaTime and its Units of Measure"
 

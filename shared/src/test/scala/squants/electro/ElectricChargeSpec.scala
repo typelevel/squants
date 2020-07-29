@@ -8,17 +8,18 @@
 
 package squants.electro
 
-import org.scalatest.{ Matchers, FlatSpec }
 import squants.{ QuantityParseException, MetricSystem }
 import squants.time.{ Seconds, Time }
 import squants.energy.Joules
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class ElectricChargeSpec extends FlatSpec with Matchers {
+class ElectricChargeSpec extends AnyFlatSpec with Matchers {
 
   behavior of "ElectricCharge and its Units of Measure"
 

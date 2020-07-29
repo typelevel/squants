@@ -1,16 +1,17 @@
 package squants.motion
 
-import org.scalatest.{FlatSpec, Matchers}
 import squants.{CustomMatchers, QuantityParseException}
 import squants.mass.{KilogramsMetersSquared, PoundsSquareFeet}
 import squants.space.{Feet, Meters}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
   *
   * @author paxelord
   * @since 1.2
   */
-class TorqueSpec extends FlatSpec with Matchers with CustomMatchers {
+class TorqueSpec extends AnyFlatSpec with Matchers with CustomMatchers {
 
   behavior of "Torque and its Units of Measure"
   

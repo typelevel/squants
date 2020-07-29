@@ -8,16 +8,17 @@
 
 package squants.mass
 
-import org.scalatest.{ FlatSpec, Matchers }
 import squants.QuantityParseException
 import squants.space.CubicMeters
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class DensitySpec extends FlatSpec with Matchers {
+class DensitySpec extends AnyFlatSpec with Matchers {
 
   behavior of "Density and its Units of Measure"
 

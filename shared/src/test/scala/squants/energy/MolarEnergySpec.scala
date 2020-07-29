@@ -1,15 +1,16 @@
 package squants.energy
 
-import org.scalatest.{FlatSpec, Matchers}
 import squants.QuantityParseException
 import squants.mass.Moles
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
   * @author Nicolas Vinuesa
   * @since 1.4
   *
   */
-class MolarEnergySpec extends FlatSpec with Matchers {
+class MolarEnergySpec extends AnyFlatSpec with Matchers {
 
   behavior of "MolarEnergy and its Units of Measure"
 

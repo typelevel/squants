@@ -3,7 +3,7 @@ package squants.motion
 import squants.mass.MomentOfInertia
 import squants.space._
 import squants.time.{Seconds, Time, TimeDerivative}
-import squants.{AbstractQuantityNumeric, Dimension, Length, PrimaryUnit, Quantity, SiUnit, UnitConverter, UnitOfMeasure}
+import squants.{AbstractQuantityNumeric, Dimension, Length, PrimaryUnit, Quantity, SiUnit, SquantifiedDouble, UnitConverter, UnitOfMeasure}
 
 /**
   *
