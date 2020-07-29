@@ -144,7 +144,7 @@ case class DoubleVector(coordinates: Double*) extends SVector[Double] {
 
   type SVectorType = DoubleVector
 
-  def magnitude: Double = math.sqrt(coordinates.toTraversable.map(v ⇒ v * v).sum)
+  def magnitude: Double = math.sqrt(coordinates.map(v ⇒ v * v).sum)
   def angle(coordinateX: Int = 0, coordinateY: Int = 1, unit: AngleUnit = Radians): Angle =
     Radians(math.atan2(coordinates(coordinateY), coordinates(coordinateX))) in unit
 
@@ -155,7 +155,7 @@ case class DoubleVector(coordinates: Double*) extends SVector[Double] {
    * @param f A => Double map function
    * @return
    */
-  def map[A <: Double](f: Double ⇒ Double): DoubleVector = DoubleVector(coordinates.toTraversable.map(f).toSeq: _*)
+  def map[A <: Double](f: Double ⇒ Double): DoubleVector = DoubleVector(coordinates.map(f): _*)
 
   /**
    * Creates a QuantityVector by mapping over each coordinate with the supplied function
@@ -163,13 +163,13 @@ case class DoubleVector(coordinates: Double*) extends SVector[Double] {
    * @tparam A <: Quantity
    * @return
    */
-  def map[A <: Quantity[A]](f: Double ⇒ A): QuantityVector[A] = QuantityVector(coordinates.toTraversable.map(f).toSeq: _*)
+  def map[A <: Quantity[A]](f: Double ⇒ A): QuantityVector[A] = QuantityVector(coordinates.map(f): _*)
 
   def plus(that: SVectorType): SVectorType =
-    DoubleVector(coordinates.toIterable.zipAll(that.coordinates.toIterable, 0d, 0d).toTraversable.map(v ⇒ v._1 + v._2).toSeq: _*)
+    DoubleVector(coordinates.toIterable.zipAll(that.coordinates, 0d, 0d).map(v ⇒ v._1 + v._2).toSeq: _*)
 
   def minus(that: SVectorType): SVectorType =
-    DoubleVector(coordinates.toIterable.zipAll(that.coordinates.toIterable, 0d, 0d).toTraversable.map(v ⇒ v._1 - v._2).toSeq: _*)
+    DoubleVector(coordinates.toIterable.zipAll(that.coordinates, 0d, 0d).map(v ⇒ v._1 - v._2).toSeq: _*)
 
   def times(that: Double): SVectorType = map(_ * that)
   def times[A <: Quantity[A]](that: A): QuantityVector[A] = map(_ * that)
@@ -177,7 +177,7 @@ case class DoubleVector(coordinates: Double*) extends SVector[Double] {
   def divide(that: Double): SVectorType = map(_ / that)
 
   def dotProduct(that: SVectorType): Double =
-    coordinates.toIterable.zipAll(that.coordinates.toIterable, 0d, 0d).toTraversable.map(v ⇒ v._1 * v._2).sum
+    coordinates.toIterable.zipAll(that.coordinates, 0d, 0d).map(v ⇒ v._1 * v._2).sum
 
   def dotProduct[B <: Quantity[B]](that: QuantityVector[B]) = that dotProduct this
 
@@ -207,7 +207,7 @@ case class QuantityVector[A <: Quantity[A]](coordinates: A*) extends SVector[A] 
   type SVectorType = QuantityVector[A]
 
   def valueUnit = coordinates(0).unit
-  def magnitude: A = valueUnit(math.sqrt(coordinates.toTraversable.map(v ⇒ v.to(valueUnit) * v.to(valueUnit)).sum))
+  def magnitude: A = valueUnit(math.sqrt(coordinates.map(v ⇒ v.to(valueUnit) * v.to(valueUnit)).sum))
   def angle(coordinateX: Int = 0, coordinateY: Int = 1, unit: AngleUnit = Radians): Angle =
     Radians(math.atan(coordinates(coordinateY) / coordinates(coordinateX))) in unit
 
@@ -224,7 +224,7 @@ case class QuantityVector[A <: Quantity[A]](coordinates: A*) extends SVector[A] 
    * @param f A => Double map function
    * @return
    */
-  def map[B <: Double](f: A ⇒ Double): DoubleVector = DoubleVector(coordinates.toTraversable.map(f).toSeq: _*)
+  def map[B <: Double](f: A ⇒ Double): DoubleVector = DoubleVector(coordinates.map(f): _*)
 
   /**
    * Creates a QuantityVector by mapping over each coordinate with the supplied function
@@ -232,12 +232,12 @@ case class QuantityVector[A <: Quantity[A]](coordinates: A*) extends SVector[A] 
    * @tparam B <: Quantity
    * @return
    */
-  def map[B <: Quantity[B]](f: A ⇒ B): QuantityVector[B] = QuantityVector(coordinates.toTraversable.map(f).toSeq: _*)
+  def map[B <: Quantity[B]](f: A ⇒ B): QuantityVector[B] = QuantityVector(coordinates.map(f): _*)
 
   def plus(that: SVectorType): SVectorType =
-    QuantityVector(coordinates.toIterable.zipAll(that.coordinates.toIterable, valueUnit(0), valueUnit(0)).toTraversable.map(v ⇒ v._1 + v._2).toSeq: _*)
+    QuantityVector(coordinates.zipAll(that.coordinates, valueUnit(0), valueUnit(0)).map(v ⇒ v._1 + v._2): _*)
   def minus(that: SVectorType): SVectorType =
-    QuantityVector(coordinates.toIterable.zipAll(that.coordinates.toIterable, valueUnit(0), valueUnit(0)).toTraversable.map(v ⇒ v._1 - v._2).toSeq: _*)
+    QuantityVector(coordinates.zipAll(that.coordinates, valueUnit(0), valueUnit(0)).map(v ⇒ v._1 - v._2): _*)
 
   def times(that: Double): SVectorType = map(_ * that)
   def *(that: Double): SVectorType = times(that)
@@ -252,10 +252,10 @@ case class QuantityVector[A <: Quantity[A]](coordinates: A*) extends SVector[A] 
   def divide[B <: Quantity[B], C <: Quantity[C]](quantDiv: A ⇒ C): QuantityVector[C] = map(quantDiv(_))
 
   def dotProduct(that: DoubleVector): A =
-    valueUnit(coordinates.toIterable.zipAll(that.coordinates.toIterable, valueUnit(0), 0d).toTraversable.map(v ⇒ v._1.to(valueUnit) * v._2).sum)
+    valueUnit(coordinates.zipAll(that.coordinates, valueUnit(0), 0d).map(v ⇒ v._1.to(valueUnit) * v._2).sum)
 
   def dotProduct[B <: Quantity[B], C <: Quantity[C]](that: SVector[B], quantTimes: (A, B) ⇒ C)(implicit num: Numeric[C]): C =
-    coordinates.toIterable.zipAll(that.coordinates.toIterable, valueUnit(0), that.coordinates.head.unit(0)).toTraversable.map(v ⇒ quantTimes(v._1, v._2)).sum
+    coordinates.zipAll(that.coordinates, valueUnit(0), that.coordinates.head.unit(0)).map(v ⇒ quantTimes(v._1, v._2)).sum
 
   def crossProduct(that: DoubleVector): SVectorType = (this.coordinates.length, that.coordinates.length) match {
     case (3, 3) ⇒

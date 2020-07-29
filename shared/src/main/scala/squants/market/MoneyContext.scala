@@ -32,7 +32,7 @@ case class MoneyContext(
     rates: Seq[CurrencyExchangeRate],
     allowIndirectConversions: Boolean = true) {
 
-  lazy val currencyMap = currencies.map { c: Currency ⇒ c.code -> c }.toMap
+  lazy val currencyMap = currencies.map { (c: Currency) ⇒ c.code -> c }.toMap
 
   /**
     * Custom implementation using SortedSets to ensure consistent output
