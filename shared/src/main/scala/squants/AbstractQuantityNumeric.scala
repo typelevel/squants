@@ -37,7 +37,7 @@ abstract class AbstractQuantityNumeric[A <: Quantity[A]](val unit: UnitOfMeasure
   def toFloat(x: A) = x.to(unit).toFloat
   def toDouble(x: A) = x.to(unit)
   def compare(x: A, y: A) = if (x.to(unit) > y.to(unit)) 1 else if (x.to(unit) < y.to(unit)) -1 else 0
-  // As there's no direct access to the Dimension (which has parseString) from a UnitOfMeasure, 
+  // As there's no direct access to the Dimension (which has parseString) from a UnitOfMeasure,
   // we create a dummy instance here and access its dimension member
   def parseString(str: String): Option[A] = unit(0).dimension.parseString(str).toOption
 }
