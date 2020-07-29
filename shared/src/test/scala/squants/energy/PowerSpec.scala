@@ -8,16 +8,17 @@
 
 package squants.energy
 
-import org.scalatest.{ FlatSpec, Matchers }
 import squants.time.Hours
 import squants.{ MetricSystem, QuantityParseException }
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class PowerSpec extends FlatSpec with Matchers {
+class PowerSpec extends AnyFlatSpec with Matchers {
 
   behavior of "Power and its Units of Measure"
 

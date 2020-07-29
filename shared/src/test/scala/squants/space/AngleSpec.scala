@@ -8,17 +8,18 @@
 
 package squants.space
 
-import org.scalatest.{ FlatSpec, Matchers }
 import squants.QuantityParseException
 import squants.motion.RadiansPerSecond
 import squants.time.Seconds
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class AngleSpec extends FlatSpec with Matchers {
+class AngleSpec extends AnyFlatSpec with Matchers {
 
   behavior of "Angle and its Units of Measure"
 

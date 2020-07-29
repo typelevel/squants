@@ -8,15 +8,16 @@
 
 package squants
 
-import org.scalatest.{ FlatSpec, Matchers }
 import squants.energy.{ Kilowatts, PowerUnit, Watts }
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class UnitOfMeasureSpec extends FlatSpec with Matchers {
+class UnitOfMeasureSpec extends AnyFlatSpec with Matchers {
 
   /*
     Create a new UnitOfMeasure for an existing Quantity Type

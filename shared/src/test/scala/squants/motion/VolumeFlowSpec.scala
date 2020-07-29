@@ -8,17 +8,18 @@
 
 package squants.motion
 
-import org.scalatest.{ Matchers, FlatSpec }
 import squants.space.CubicMeters
 import squants.time.Seconds
 import squants.{ QuantityParseException, CustomMatchers }
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class VolumeFlowSpec extends FlatSpec with Matchers with CustomMatchers {
+class VolumeFlowSpec extends AnyFlatSpec with Matchers with CustomMatchers {
 
   behavior of "VolumeFlow and its Units of Measure"
 

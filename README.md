@@ -15,17 +15,17 @@ All types are immutable and thread-safe.
 |
 [![Join the chat at https://gitter.im/typelevel/squants](https://badges.gitter.im/typelevel/squants.svg)](https://gitter.im/typelevel/squants?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 |
-[![Scaladocs](https://www.javadoc.io/badge/org.typelevel/squants_2.12.svg?label=scaladoc)](https://static.javadoc.io/org.typelevel/squants_2.12/1.5.0/squants/index.html)
+[![Scaladocs](https://www.javadoc.io/badge/org.typelevel/squants_2.13.svg?label=scaladoc)](https://static.javadoc.io/org.typelevel/squants_2.13/1.6.0/squants/index.html)
 |
 [![Build Status](https://travis-ci.org/typelevel/squants.png?branch=master)](https://travis-ci.org/typelevel/squants)
 
 
 ### Current Versions
-Current Release: **1.5.0**
-([API Docs](https://oss.sonatype.org/service/local/repositories/releases/archive/org/typelevel/squants_2.12/1.5.0/squants_2.12-1.5.0-javadoc.jar/!/index.html#squants.package))
+Current Release: **1.6.0**
+([API Docs](https://oss.sonatype.org/service/local/repositories/releases/archive/org/typelevel/squants_2.13/1.6.0/squants_2.13-1.6.0-javadoc.jar/!/index.html#squants.package))
 
-Development Build: **1.6.0-SNAPSHOT**
-([API Docs](https://oss.sonatype.org/service/local/repositories/snapshots/archive/org/typelevel/squants_2.12/1.6.0-SNAPSHOT/squants_2.12-1.6.0-SNAPSHOT-javadoc.jar/!/index.html#squants.package))
+Development Build: **1.7.0-SNAPSHOT**
+([API Docs](https://oss.sonatype.org/service/local/repositories/snapshots/archive/org/typelevel/squants_2.13/1.6.0-SNAPSHOT/squants_2.13-1.7.0-SNAPSHOT-javadoc.jar/!/index.html#squants.package))
 
 [Release History](https://github.com/typelevel/squants/wiki/Release-History)
 
@@ -38,10 +38,10 @@ For more information on feature availability of a specific version see the Relea
 Repository hosting for Squants is provided by [Sonatype](https://oss.sonatype.org/).
 To use Squants in your SBT project add the following dependency to your build.
 
-    "org.typelevel"  %% "squants"  % "1.5.0"
+    "org.typelevel"  %% "squants"  % "1.6.0"
 or
 
-    "org.typelevel"  %% "squants"  % "1.6.0-SNAPSHOT"
+    "org.typelevel"  %% "squants"  % "1.7.0-SNAPSHOT"
 
 
 To use Squants in your Maven project add the following dependency
@@ -50,13 +50,13 @@ To use Squants in your Maven project add the following dependency
 <dependency>
     <groupId>org.typelevel</groupId>
     <artifactId>squants_2.11</artifactId>
-    <version>1.5.0</version>
+    <version>1.6.0</version>
 </dependency>
 ```
 
 Beginning with Squants 0.4.x series, both Scala 2.10 and 2.11 builds are available.
-Beginning with Squants 1.x series, Scala 2.10, 2.11 and 2.12 builds are available.
-Scala.js is supported on version 0.6.28 and 1.0.0-M8
+Beginning with Squants 1.x series, Scala 2.11, 2.12 and 2.13 builds are available.
+Scala.js is supported on version 0.6.31 and 1.0.0-RC1
 
 To use Squants interactively in the Scala REPL, clone the git repo and run `sbt squantsJVM/console`
 
@@ -128,7 +128,7 @@ sum: squants.energy.Power = 35.0 kW
 scala> sum == Kilowatts(35)
 res0: Boolean = true
 
-scala> sum == Megawatts(0.035) // comparisions automatically convert scale
+scala> sum == Megawatts(0.035) // comparisons automatically convert scale
 res1: Boolean = true
 ```
 
@@ -692,7 +692,7 @@ This will fail because `lower` = `upper`:
 scala> QuantityRange(1.km, 1.km)
 java.lang.IllegalArgumentException: QuantityRange upper bound must be strictly greater than to the lower bound
   at squants.QuantityRange.<init>(QuantityRange.scala:25)
-  ... 44 elided
+  ... 43 elided
 ```
 
 `QuantityRange` contains two functions that check if an element is part of the range, `contains` and `includes`.
@@ -963,7 +963,7 @@ import squants.experimental.unitgroups.si.strict.implicits._
 // import squants.experimental.unitgroups.si.strict.implicits._
 
 val siLengths: UnitGroup[Length] = implicitly[UnitGroup[Length]]
-// siLengths: squants.experimental.unitgroups.UnitGroup[squants.space.Length] = squants.experimental.unitgroups.si.strict.package$implicits$$anon$1@3bd46477
+// siLengths: squants.experimental.unitgroups.UnitGroup[squants.space.Length] = squants.experimental.unitgroups.si.strict.package$implicits$$anon$1@f52ca1b
 ```
 
 To print out units and their conversion factors to the primary SI unit, you could use this code:
@@ -1020,16 +1020,16 @@ val usCookingUnitGroup = new UnitGroup[Volume] {
   // units don't have to be specified in-order.
   val units: Set[UnitOfMeasure[Volume]] = Set(UsPints, UsGallons, Teaspoons, Tablespoons, UsQuarts, FluidOunces)
 }
-// usCookingUnitGroup: squants.experimental.unitgroups.UnitGroup[squants.space.Volume]{val units: Set[squants.UnitOfMeasure[squants.space.Volume]]} = $anon$1@13cf78bc
+// usCookingUnitGroup: squants.experimental.unitgroups.UnitGroup[squants.space.Volume]{val units: Set[squants.UnitOfMeasure[squants.space.Volume]]} = $anon$1@495c28e0
 
 // squants automatically sorts units
 usCookingUnitGroup.sortedUnits.foreach(println)
-// squants.space.Teaspoons$@754c402e
-// squants.space.Tablespoons$@41f51dac
-// squants.space.FluidOunces$@4151520
-// squants.space.UsPints$@297ee46f
-// squants.space.UsQuarts$@1f76d461
-// squants.space.UsGallons$@5f688205
+// squants.space.Teaspoons$@1f2aa9fd
+// squants.space.Tablespoons$@20a4318e
+// squants.space.FluidOunces$@3f31c22
+// squants.space.UsPints$@6b5332c3
+// squants.space.UsQuarts$@5293da73
+// squants.space.UsGallons$@25de9dee
 ```
 
 The `UnitGroup` values provided with Squants are only samples and aren't intended to be exhaustive.
@@ -1065,7 +1065,7 @@ import squants.experimental.unitgroups.misc.AstronomicalLengthUnitGroup
 Then create the formatter by passing in a unit group:
 ```scala
 val astroFormatter = new DefaultFormatter(AstronomicalLengthUnitGroup)
-// astroFormatter: squants.experimental.formatter.DefaultFormatter[squants.space.Length] = squants.experimental.formatter.DefaultFormatter@4a75b2e0
+// astroFormatter: squants.experimental.formatter.DefaultFormatter[squants.space.Length] = squants.experimental.formatter.DefaultFormatter@790fe346
 ```
 
 Now, we create some values using human-unfriendly numbers:
@@ -1117,7 +1117,7 @@ import squants.experimental.unitgroups.misc.AstronomicalLengthUnitGroup
 
 ```scala
 implicit val astroFormatter = new DefaultFormatter(AstronomicalLengthUnitGroup)
-// astroFormatter: squants.experimental.formatter.DefaultFormatter[squants.space.Length] = squants.experimental.formatter.DefaultFormatter@679fbbc2
+// astroFormatter: squants.experimental.formatter.DefaultFormatter[squants.space.Length] = squants.experimental.formatter.DefaultFormatter@135301a1
 
 val earthToJupiter = 588000000.km
 // earthToJupiter: squants.space.Length = 588000000.0 km
@@ -1552,9 +1552,9 @@ To make a release do the following:
   sbt squantsNative/publishSigned
 ```
 
-* Repeat for scala.js 1.0.0-M8
+* Repeat for scala.js 1.0.0-RC1
 ```
-  SCALAJS_VERSION=1.0.0-M8 sbt +squantsJS/publishSigned
+  SCALAJS_VERSION=1.0.0-RC1 sbt +squantsJS/publishSigned
 ```
 
 * Then make a release (Note: after this step the release cannot be replaced)

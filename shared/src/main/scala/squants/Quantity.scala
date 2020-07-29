@@ -123,7 +123,7 @@ abstract class Quantity[A <: Quantity[A]] extends Serializable with Ordered[A] {
    * @return Quantity
    */
   def negate: A = unit(-value)
-  def unary_-(): A = negate
+  def unary_- : A = negate
 
   /**
    * Returns the absolute value of this Quantity
@@ -171,7 +171,7 @@ abstract class Quantity[A <: Quantity[A]] extends Serializable with Ordered[A] {
    * @return
    */
   override def equals(that: Any) = that match {
-    case x: Quantity[A] if x.dimension == dimension ⇒ value == x.to(unit)
+    case x: Quantity[_] if x.dimension == dimension ⇒ value == x.asInstanceOf[Quantity[A]].to(unit)
     case _ ⇒ false
   }
 

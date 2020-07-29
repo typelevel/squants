@@ -8,7 +8,9 @@
 
 package squants
 
-import org.scalatest.{FlatSpec, Matchers, TryValues}
+import org.scalatest.TryValues
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 import scala.math.BigDecimal.RoundingMode
 import scala.util.{Failure, Try}
@@ -20,7 +22,7 @@ import squants.time.{Hertz, Hours, Minutes}
  * @since   0.1
  *
  */
-class QuantitySpec extends FlatSpec with Matchers with CustomMatchers with TryValues {
+class QuantitySpec extends AnyFlatSpec with Matchers with CustomMatchers with TryValues {
 
   /*
     Create a Quantity with two Units of Measure
@@ -65,15 +67,16 @@ class QuantitySpec extends FlatSpec with Matchers with CustomMatchers with TryVa
       def minus(x: T, y: T) = x - y
       def times(x: T, y: T) = x * y
       def negate(x: T) = -x
-      def toInt(x: T) = x.toInt()
-      def toLong(x: T) = x.toLong()
-      def toFloat(x: T) = x.toFloat()
-      def compare(x: T, y: T) = if (x == y) 0 else if (x.toDouble() > y.toDouble()) 1 else -1
+      def toInt(x: T) = x.toInt
+      def toLong(x: T) = x.toLong
+      def toFloat(x: T) = x.toFloat
+      def compare(x: T, y: T) = if (x == y) 0 else if (x.toDouble > y.toDouble) 1 else -1
     }
 
     implicit val stringNumeric = new BaseNumeric[String] {
       def fromInt(x: Int) = x.toString
       def toDouble(x: String) = augmentString(x).toDouble // augmentString is used to disambiguate implicit conversion
+      def parseString(str: String): Option[String] = Some(str) // for 2.13 compability
     }
 
     // Use them to initialize quantity values

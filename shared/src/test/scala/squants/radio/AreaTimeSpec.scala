@@ -8,17 +8,18 @@
 
 package squants.radio
 
-import org.scalatest.{FlatSpec, Matchers}
 import squants.QuantityParseException
 import squants.space.{ SquareMeters, SquareCentimeters }
 import squants.time.Seconds
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class AreaTimeSpec extends FlatSpec with Matchers {
+class AreaTimeSpec extends AnyFlatSpec with Matchers {
 
   behavior of "AreaTime and its Units of Measure"
 
@@ -82,7 +83,9 @@ class AreaTimeSpec extends FlatSpec with Matchers {
   it should "provide Numeric support" in {
     import AreaTimeConversions.AreaTimeNumeric
 
-    val irrs = List(SquareCentimeterSeconds(10), SquareCentimeterSeconds(100))
+    // The SquareMeterSeconds(0) value ensures we get sum in SquareMeterSeconds, otherwise it depends on Scala version
+    // due to changed .sum implementation in 2.13
+    val irrs = List(SquareMeterSeconds(0), SquareCentimeterSeconds(10), SquareCentimeterSeconds(100))
     irrs.sum should be(SquareMeterSeconds(0.011))
 
     val smsIrrs =

@@ -8,17 +8,18 @@
 
 package squants.radio
 
-import org.scalatest.{FlatSpec, Matchers}
 import squants.QuantityParseException
 import squants.energy.WattHours
 import squants.time.Hours
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class ParticleFluxSpec extends FlatSpec with Matchers {
+class ParticleFluxSpec extends AnyFlatSpec with Matchers {
 
   behavior of "ParticleFlux and its Units of Measure"
 

@@ -1,6 +1,5 @@
 package squants.experimental.formatter
 
-import org.scalatest.{FlatSpec, Matchers}
 import squants.UnitOfMeasure
 import squants.experimental.formatter.implicits._
 import squants.experimental.formatter.syntax._
@@ -11,8 +10,10 @@ import squants.mass.MassConversions._
 import squants.space.LengthConversions._
 import squants.space.{Centimeters, Kilometers, Meters}
 import squants.experimental.unitgroups.UnitGroup
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
-class ImplicitFormatterSpec extends FlatSpec with Matchers {
+class ImplicitFormatterSpec extends AnyFlatSpec with Matchers {
 
   behavior of "ImplicitFormatter"
 

@@ -8,16 +8,17 @@
 
 package squants.electro
 
-import org.scalatest.{ Matchers, FlatSpec }
 import squants.space.Meters
 import squants.QuantityParseException
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class ElectricalConductanceSpec extends FlatSpec with Matchers {
+class ElectricalConductanceSpec extends AnyFlatSpec with Matchers {
 
   behavior of "ElectricalConductance and its Units of Measure"
 

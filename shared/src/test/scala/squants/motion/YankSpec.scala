@@ -8,16 +8,17 @@
 
 package squants.motion
 
-import org.scalatest.{ Matchers, FlatSpec }
 import squants.time.Seconds
 import squants.QuantityParseException
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class YankSpec extends FlatSpec with Matchers {
+class YankSpec extends AnyFlatSpec with Matchers {
 
   behavior of "Yank and its Units of Measure"
 
