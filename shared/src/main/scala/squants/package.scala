@@ -85,6 +85,7 @@ package object squants {
   implicit class SquantifiedDouble(d: Double) {
     def *[A <: Quantity[A]](that: A): A = that * d
     def *[A](that: SVector[A]): SVector[A] = that * d
+    def *[A <: Quantity[A]](that: Price[A]): Price[A] = that * d
     def /(that: Time): Frequency = Each(d) / that
     def per(that: Time): Frequency = /(that)
   }
@@ -100,6 +101,7 @@ package object squants {
   implicit class SquantifiedLong(l: Long) {
     def *[A <: Quantity[A]](that: A): A = that * l.toDouble
     def *[A](that: SVector[A]): SVector[A] = that * l.toDouble
+    def *[A <: Quantity[A]](that: Price[A]): Price[A] = that * l.toDouble
     def /(that: Time) = Each(l) / that
     def per(that: Time): Frequency = /(that)
   }
@@ -115,6 +117,7 @@ package object squants {
   implicit class SquantifiedInt(l: Int) {
     def *[A <: Quantity[A]](that: A): A = that * l.toDouble
     def *[A](that: SVector[A]): SVector[A] = that * l.toDouble
+    def *[A <: Quantity[A]](that: Price[A]): Price[A] = that * l.toDouble
     def /(that: Time) = Each(l) / that
     def per(that: Time): Frequency = /(that)
   }
@@ -130,6 +133,7 @@ package object squants {
   implicit class SquantifiedBigDecimal(bd: BigDecimal) {
     def *[A <: Quantity[A]](that: A): A = that * bd.toDouble
     def *[A](that: SVector[A]): SVector[A] = that * bd.toDouble
+    def *[A <: Quantity[A]](that: Price[A]): Price[A] = that * bd.toDouble
     def /(that: Time) = Each(bd) / that
     def per(that: Time): Frequency = /(that)
   }

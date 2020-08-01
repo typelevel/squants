@@ -8,17 +8,18 @@
 
 package squants.motion
 
-import org.scalatest.{ Matchers, FlatSpec }
 import squants.space.Meters
 import squants.time.Seconds
 import squants.QuantityParseException
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class JerkSpec extends FlatSpec with Matchers {
+class JerkSpec extends AnyFlatSpec with Matchers {
 
   behavior of "Jerk and its Units of Measure"
 

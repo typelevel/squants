@@ -8,16 +8,17 @@
 
 package squants.thermal
 
-import org.scalatest.{ Matchers, FlatSpec }
 import squants.energy.Joules
 import squants.QuantityParseException
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class ThermalCapacitySpec extends FlatSpec with Matchers {
+class ThermalCapacitySpec extends AnyFlatSpec with Matchers {
 
   behavior of "ThermalCapacity and its Units of Measure"
 

@@ -3,7 +3,7 @@ package squants.motion
 import squants.mass.MomentOfInertia
 import squants.space._
 import squants.time.{Seconds, Time, TimeDerivative}
-import squants.{AbstractQuantityNumeric, Dimension, Length, PrimaryUnit, Quantity, SiUnit, UnitConverter, UnitOfMeasure}
+import squants.{AbstractQuantityNumeric, Dimension, Length, PrimaryUnit, Quantity, SiUnit, SquantifiedDouble, UnitConverter, UnitOfMeasure}
 
 /**
   *
@@ -44,7 +44,7 @@ final class AngularAcceleration private (val value: Double, val unit: AngularAcc
 
 object AngularAcceleration extends Dimension[AngularAcceleration] {
   private[motion] def apply[A](n: A, unit: AngularAccelerationUnit)(implicit num: Numeric[A]) = new AngularAcceleration(num.toDouble(n), unit)
-  def apply = parse _
+  def apply(value: Any) = parse(value)
   def name = "AngularAcceleration"
   def primaryUnit = RadiansPerSecondSquared
   def siUnit = RadiansPerSecondSquared

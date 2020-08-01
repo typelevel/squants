@@ -8,16 +8,17 @@
 
 package squants.energy
 
-import org.scalatest.{ Matchers, FlatSpec }
 import squants.space.CubicMeters
 import squants.QuantityParseException
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
   * @author  Nicolas Vinuesa
   * @since   1.4
   *
   */
-class PowerDensitySpec extends FlatSpec with Matchers {
+class PowerDensitySpec extends AnyFlatSpec with Matchers {
 
   behavior of "PowerDensity and its Units of Measure"
 

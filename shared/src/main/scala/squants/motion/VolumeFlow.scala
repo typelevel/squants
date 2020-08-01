@@ -37,7 +37,7 @@ final class VolumeFlow private (val value: Double, val unit: VolumeFlowRateUnit)
 
 object VolumeFlow extends Dimension[VolumeFlow] {
   private[motion] def apply[A](n: A, unit: VolumeFlowRateUnit)(implicit num: Numeric[A]) = new VolumeFlow(num.toDouble(n), unit)
-  def apply = parse _
+  def apply(value: Any) = parse(value)
   def name = "VolumeFlow"
   def primaryUnit = CubicMetersPerSecond
   def siUnit = CubicMetersPerSecond

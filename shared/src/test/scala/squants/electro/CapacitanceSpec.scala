@@ -8,16 +8,17 @@
 
 package squants.electro
 
-import org.scalatest.{FlatSpec, Matchers}
 import squants.space.Meters
 import squants.{MetricSystem, QuantityParseException}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class CapacitanceSpec extends FlatSpec with Matchers {
+class CapacitanceSpec extends AnyFlatSpec with Matchers {
 
   behavior of "Capacitance and its Units of Measure"
 

@@ -8,11 +8,12 @@
 
 package squants.experimental
 
-import org.scalatest.{Matchers, FlatSpec}
 
 import scala.util.Success
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
-class ExperimentalSpec extends FlatSpec with Matchers {
+class ExperimentalSpec extends AnyFlatSpec with Matchers {
 
   behavior of "Experimental Code"
 

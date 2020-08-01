@@ -28,11 +28,11 @@ object MarketChecks extends Properties("Market") with QuantityChecks {
   }
 
   property("Money * Double = Money") = forAll(posNum, posNum) { (a: TestData, b: TestData) ⇒
-    USD(a * b) == USD(a) * b
+    USD(a * b) == USD(a) * b.toDouble
   }
 
   property("Money / Double = Money") = forAll(posNum, posNum) { (a: TestData, b: TestData) ⇒
-    USD(BigDecimal(a) / b) == USD(a) / b
+    USD(BigDecimal(a) / b) == USD(a) / b.toDouble
   }
 
   property("Money = ExchangeRate * Money") = forAll(posNum, posNum) { (a: TestData, b: TestData) ⇒
@@ -55,7 +55,7 @@ object MarketChecks extends Properties("Market") with QuantityChecks {
   }
 
   property("Money / Double + Money / Double = (Money / Double) * 2") = forAll(posNum, posNum) { (a: TestData, b: TestData) ⇒
-    implicit val tolUSD = USD(1e-32)
+    implicit val tolUSD = USD(1e-30)
     val m = if (a > 0) USD(a.toDouble) else USD(1)
     val x = if (b > 0) b.toDouble else 1d
 

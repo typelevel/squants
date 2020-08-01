@@ -22,7 +22,7 @@ final class ElectricChargeMassRatio private (val value: Double, val unit: Electr
 
 object ElectricChargeMassRatio extends Dimension[ElectricChargeMassRatio] {
   private[electro] def apply[A](n: A, unit: ElectricChargeMassRatioUnit)(implicit num: Numeric[A]) = new ElectricChargeMassRatio(num.toDouble(n), unit)
-  def apply = parse _
+  def apply(value: Any) = parse(value)
   def name = "ElectricChargeMassRatio"
   def primaryUnit = CoulombsPerKilogram
   def siUnit = CoulombsPerKilogram

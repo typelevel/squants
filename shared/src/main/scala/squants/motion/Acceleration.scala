@@ -8,9 +8,10 @@
 
 package squants.motion
 
-import squants._
-import squants.space.{ Feet, Millimeters, UsMiles }
-import squants.time.{ Seconds, _ }
+import squants.{AbstractQuantityNumeric, Dimension, PrimaryUnit, Quantity, SiUnit, UnitConverter, UnitOfMeasure}
+import squants.mass.Mass
+import squants.space.{Feet, Length, Meters, Millimeters, UsMiles}
+import squants.time.{SecondTimeDerivative, Seconds, Time, TimeDerivative, TimeIntegral, TimeSquared}
 
 /**
  * Represents a quantity of acceleration
@@ -60,7 +61,7 @@ final class Acceleration private (val value: Double, val unit: AccelerationUnit)
 
 object Acceleration extends Dimension[Acceleration] {
   private[motion] def apply[A](n: A, unit: AccelerationUnit)(implicit num: Numeric[A]) = new Acceleration(num.toDouble(n), unit)
-  def apply = parse _
+  def apply(value: Any) = parse(value)
   def name = "Acceleration"
   def primaryUnit = MetersPerSecondSquared
   def siUnit = MetersPerSecondSquared

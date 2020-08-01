@@ -8,19 +8,21 @@
 
 package squants.time
 
-import org.scalatest.{ FlatSpec, Matchers }
-import squants.QuantityParseException
+import squants.{ Dimension, QuantityParseException }
 import squants.motion.{ MetersPerSecond, MetersPerSecondCubed, MetersPerSecondSquared }
-import squants.space.Meters
+import squants.space.{ Meters, SquareMeters }
+import squants.radio.SquareMeterSeconds
 
 import scala.concurrent.duration.{ DAYS, Duration, HOURS, MICROSECONDS, MILLISECONDS, MINUTES, NANOSECONDS, SECONDS }
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class TimeSpec extends FlatSpec with Matchers {
+class TimeSpec extends AnyFlatSpec with Matchers {
 
   behavior of "Time and its Units of Measure"
 
@@ -101,6 +103,10 @@ class TimeSpec extends FlatSpec with Matchers {
     Seconds(1) * MetersPerSecond(1) should be(Meters(1))
     Seconds(1) * MetersPerSecondSquared(1) should be(MetersPerSecond(1))
     Seconds(1) * MetersPerSecondCubed(1) should be(MetersPerSecondSquared(1))
+  }
+
+  it should "return AreaTime when multiplied by an Area" in {
+    Seconds(1) * SquareMeters(1) should be(SquareMeterSeconds(1))
   }
 
   behavior of "TimeConversions"
@@ -221,5 +227,9 @@ class TimeSpec extends FlatSpec with Matchers {
     def doSomethingWithDuration(duration: Duration): Unit = duration should be(Duration(10, SECONDS))
 
     doSomethingWithDuration(Seconds(10))
+  }
+
+  it should "provide implicit instance for Dimension" in {
+    implicitly[Dimension[Time]] shouldBe Time
   }
 }

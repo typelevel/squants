@@ -8,16 +8,17 @@
 
 package squants.mass
 
-import org.scalatest.{FlatSpec, Matchers}
 import squants.QuantityParseException
 import squants.space.{Acres, Hectares, SquareMeters}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.2.3
  *
  */
-class AreaDensitySpec extends FlatSpec with Matchers {
+class AreaDensitySpec extends AnyFlatSpec with Matchers {
 
   behavior of "AreaDensity and its Units of Measure"
 

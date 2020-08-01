@@ -8,17 +8,18 @@
 
 package squants.time
 
-import org.scalatest.{ FlatSpec, Matchers }
 import squants.CustomMatchers
 import squants.motion.MetersPerSecondSquared
 import squants.space.Meters
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.5.0
  *
  */
-class SecondTimeDerivativeSpec extends FlatSpec with Matchers with CustomMatchers {
+class SecondTimeDerivativeSpec extends AnyFlatSpec with Matchers with CustomMatchers {
 
   behavior of "Second Time Derivatives and Integrals as implemented in Distance and Acceleration"
 

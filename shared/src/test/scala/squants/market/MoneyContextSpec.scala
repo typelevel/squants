@@ -8,14 +8,15 @@
 
 package squants.market
 
-import org.scalatest.{ Matchers, FlatSpec }
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class MoneyContextSpec extends FlatSpec with Matchers {
+class MoneyContextSpec extends AnyFlatSpec with Matchers {
 
   val defCur = USD
   val rates = List(

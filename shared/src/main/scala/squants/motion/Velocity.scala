@@ -8,9 +8,10 @@
 
 package squants.motion
 
-import squants.{ Time, _ }
-import squants.space.{ Feet, InternationalMiles, Kilometers, Millimeters, NauticalMiles, UsMiles }
-import squants.time.{ Seconds, _ }
+import squants.mass.Mass
+import squants.space._
+import squants.time._
+import squants.{AbstractQuantityNumeric, Dimension, PrimaryUnit, Quantity, SiUnit, UnitConverter, UnitOfMeasure}
 
 /**
  * Represents a quantify of Velocity
@@ -50,7 +51,7 @@ final class Velocity private (val value: Double, val unit: VelocityUnit)
 object Velocity extends Dimension[Velocity] {
   private[motion] def apply[A](n: A, unit: VelocityUnit)(implicit num: Numeric[A]) = new Velocity(num.toDouble(n), unit)
   def apply(l: Length, t: Time) = MetersPerSecond(l.toMeters / t.toSeconds)
-  def apply = parse _
+  def apply(value: Any) = parse(value)
   def name = "Velocity"
   def primaryUnit = MetersPerSecond
   def siUnit = MetersPerSecond

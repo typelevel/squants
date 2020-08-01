@@ -1,15 +1,16 @@
 package squants.electro
 
-import org.scalatest.{FlatSpec, Matchers}
 import squants.QuantityParseException
 import squants.space.Meters
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
   * @author Nicolas Vinuesa
   * @since 1.4
   *
   */
-class PermittivitySpec extends FlatSpec with Matchers {
+class PermittivitySpec extends AnyFlatSpec with Matchers {
 
   behavior of "Permittivity and its Units of Measure"
 

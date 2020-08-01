@@ -8,7 +8,6 @@
 
 package squants.experimental.json
 
-import org.scalatest._
 import org.json4s.DefaultFormats
 import squants.energy._
 import squants.time._
@@ -16,18 +15,20 @@ import org.json4s.native.Serialization._
 import squants.market._
 import squants.market.Price
 import squants.mass.{ Mass, Pounds }
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.must.Matchers
 
-class QuantitySerializerSpec extends FlatSpec with MustMatchers {
+class QuantitySerializerSpec extends AnyFlatSpec with Matchers {
 
   object QuantitySerializerMarshaller {
     implicit val formats = DefaultFormats.withBigDecimal +
       new PowerSerializer +
-      new EnergyPriceSerializer +
-      new MassPriceSerializer +
-      new MoneySerializer +
+      new EnergyPriceSerializer(defaultMoneyContext) +
+      new MassPriceSerializer(defaultMoneyContext) +
+      new MoneySerializer(defaultMoneyContext) +
       new TimeSerializer +
       new MassSerializer +
-      new TimePriceSerializer
+      new TimePriceSerializer(defaultMoneyContext)
   }
 
   behavior of "QuantitySerializer"
