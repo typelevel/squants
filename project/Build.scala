@@ -11,9 +11,9 @@ object Versions {
   val scalaJSVersion =
     Option(System.getenv("SCALAJS_VERSION")).getOrElse("0.6.33")
   val ScalaCross =
-    Seq("2.11.12", "2.12.10", "2.13.1")
+    Seq("2.11.12", "2.12.11", "2.13.3")
 
-  val ScalaTest = "3.2.0"
+  val ScalaTest = "3.2.1"
   val ScalaCheck = "1.14.3"
   val Json4s = "3.6.9"
 }
