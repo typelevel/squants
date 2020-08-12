@@ -46,6 +46,7 @@ tmp/
 .project
 .scala_dependencies
 .settings/
+project/metals.sbt
 
 # Mac OS X
 ._*

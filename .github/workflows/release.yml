@@ -23,9 +23,9 @@ jobs:
           key: ${{ runner.os }}-sbt-${{ hashFiles('build.sbt') }}-${{ hashFiles('project/*.scala') }}
           restore-keys: ${{ runner.os }}-sbt-
       - name: Publish
-        run: |
-          csbt ci-release
-          SCALAJS_VERSION=0.6.33 csbt ci-release
+        run: csbt ci-release
+      - name: Publish 0.6
+        run: SCALAJS_VERSION=0.6.33 csbt ci-release
         env:
           PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
           PGP_SECRET: ${{ secrets.PGP_SECRET }}
