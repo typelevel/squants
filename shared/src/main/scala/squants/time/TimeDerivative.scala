@@ -29,6 +29,14 @@ trait TimeDerivative[A <: Quantity[A] with TimeIntegral[_]] {
    * @return
    */
   def *(that: Time): A = timeIntegrated * (that / this.time)
+
+  /**
+   * Returns the portion of quantity change per unit of Time
+   *
+   * @param that The amount of Quantity
+   * @return
+   */
+  def /(that: A): Frequency = (timeIntegrated / that) / time
 }
 
 trait SecondTimeDerivative[A <: SecondTimeIntegral[_]] { self: TimeDerivative[_] ⇒
