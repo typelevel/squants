@@ -8,24 +8,26 @@
 
 package squants.motion
 
-import org.scalatest.{ Matchers, FlatSpec }
 import squants.time.Seconds
 import squants.space.Meters
 import squants.mass.Kilograms
 import squants.QuantityParseException
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class VelocitySpec extends FlatSpec with Matchers {
+class VelocitySpec extends AnyFlatSpec with Matchers {
 
   behavior of "Velocity and its Units of Measure"
 
   it should "create values using UOM factories" in {
     MetersPerSecond(1).toMetersPerSecond should be(1)
     FeetPerSecond(1).toFeetPerSecond should be(1)
+    MillimetersPerSecond(1).toMillimetersPerSecond should be(1)
     KilometersPerSecond(1).toKilometersPerSecond should be(1)
     KilometersPerHour(1).toKilometersPerHour should be(1)
     UsMilesPerHour(1).toUsMilesPerHour should be(1)
@@ -35,6 +37,7 @@ class VelocitySpec extends FlatSpec with Matchers {
   it should "create values from properly formatted Strings" in {
     Velocity("10.22 m/s").get should be(MetersPerSecond(10.22))
     Velocity("10.22 ft/s").get should be(FeetPerSecond(10.22))
+    Velocity("10.22 mm/s").get should be(MillimetersPerSecond(10.22))
     Velocity("10.22 km/s").get should be(KilometersPerSecond(10.22))
     Velocity("10.22 km/h").get should be(KilometersPerHour(10.22))
     Velocity("10.22 mph").get should be(UsMilesPerHour(10.22))
@@ -47,6 +50,8 @@ class VelocitySpec extends FlatSpec with Matchers {
     val x = MetersPerSecond(1)
     x.toMetersPerSecond should be(1)
     x.toFeetPerSecond should be(Meters(1).toFeet)
+    x.toMillimetersPerSecond should be(Meters(1).toMillimeters)
+    x.toKilometersPerSecond should be(Meters(1).toKilometers)
     x.toKilometersPerHour should be(Meters(1).toKilometers / Seconds(1).toHours +- tolerance)
     x.toUsMilesPerHour should be(Meters(1).toUsMiles / Seconds(1).toHours +- tolerance)
     x.toInternationalMilesPerHour should be(Meters(1).toInternationalMiles / Seconds(1).toHours +- tolerance)
@@ -56,6 +61,7 @@ class VelocitySpec extends FlatSpec with Matchers {
   it should "return properly formatted strings for all supported Units of Measure" in {
     MetersPerSecond(1).toString(MetersPerSecond) should be("1.0 m/s")
     FeetPerSecond(1).toString(FeetPerSecond) should be("1.0 ft/s")
+    MillimetersPerSecond(1).toString(MillimetersPerSecond) should be("1.0 mm/s")
     KilometersPerSecond(1).toString(KilometersPerSecond) should be("1.0 km/s")
     KilometersPerHour(1).toString(KilometersPerHour) should be("1.0 km/h")
     UsMilesPerHour(1).toString(UsMilesPerHour) should be("1.0 mph")
@@ -86,6 +92,7 @@ class VelocitySpec extends FlatSpec with Matchers {
 
     meterPerSecond should be(MetersPerSecond(1))
     footPerSecond should be(FeetPerSecond(1))
+    millimeterPerSecond should be(MillimetersPerSecond(1))
     kilometerPerSecond should be(KilometersPerSecond(1))
     kilometerPerHour should be(KilometersPerHour(1))
     milePerHour should be(UsMilesPerHour(1))

@@ -10,7 +10,7 @@ package squants.energy
 
 import squants._
 import squants.electro.{ Amperes, ElectricCurrent, ElectricPotential, Volts }
-import squants.radio.{ Irradiance, RadiantIntensity, SpectralPower, _ }
+import squants.radio.{ Irradiance, RadiantIntensity, SpectralPower, WattsPerMeter, WattsPerSquareMeter, WattsPerSteradian }
 import squants.space.{ SolidAngle, SquareMeters, SquaredRadians }
 import squants.time.{ Hours, TimeDerivative, TimeIntegral }
 
@@ -43,7 +43,7 @@ final class Power private (val value: Double, val unit: PowerUnit)
   def /(that: SolidAngle): RadiantIntensity = WattsPerSteradian(this.toWatts / that.toSteradians)
   def /(that: ElectricPotential): ElectricCurrent = Amperes(this.toWatts / that.toVolts)
   def /(that: ElectricCurrent): ElectricPotential = Volts(this.toWatts / that.toAmperes)
-  def /(that: Volume) = ??? // Power Density
+  def /(that: Volume): PowerDensity = WattsPerCubicMeter(this.toWatts / that.toCubicMeters)
 
   def toMilliwatts = to(Milliwatts)
   def toWatts = to(Watts)
@@ -61,7 +61,7 @@ final class Power private (val value: Double, val unit: PowerUnit)
 object Power extends Dimension[Power] {
   private[energy] def apply[A](n: A, unit: PowerUnit)(implicit num: Numeric[A]) = new Power(num.toDouble(n), unit)
   def apply(energy: Energy, time: Time): Power = apply(energy.toWattHours / time.toHours, Watts)
-  def apply = parse _
+  def apply(value: Any) = parse(value)
 
   def name = "Power"
   def primaryUnit = Watts
@@ -147,4 +147,3 @@ object PowerConversions {
 
   implicit object PowerNumeric extends AbstractQuantityNumeric[Power](Power.primaryUnit)
 }
-

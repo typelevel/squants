@@ -8,8 +8,6 @@
 
 package squants.market
 
-import scala.collection.SortedSet
-
 /**
  * MoneyContext
  *
@@ -33,6 +31,8 @@ case class MoneyContext(
     currencies: Set[Currency],
     rates: Seq[CurrencyExchangeRate],
     allowIndirectConversions: Boolean = true) {
+
+  lazy val currencyMap = currencies.map { (c: Currency) ⇒ c.code -> c }.toMap
 
   /**
     * Custom implementation using SortedSets to ensure consistent output
@@ -161,9 +161,16 @@ case class MoneyContext(
     else 0
 
   /**
-   * Create a copy of this context with a new list of rates
-   * @param rates List[CurrencyExchangeRate]
-   * @return
-   */
+    * Create a copy of this context with additional currencies added to the existing set
+    * @param additionalCurrencies Set[Currency]
+    * @return
+    */
+  def withAdditionalCurrencies(additionalCurrencies: Set[Currency]) = copy (currencies = currencies ++ additionalCurrencies)
+
+  /**
+    * Create a copy of this context with a new list of rates
+    * @param rates List[CurrencyExchangeRate]
+    * @return
+    */
   def withExchangeRates(rates: List[CurrencyExchangeRate]) = copy(rates = rates)
 }

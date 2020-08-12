@@ -11,6 +11,8 @@ project/plugins/project/
 .history
 .cache
 .lib/
+.bloop/
+.metals/
 
 # Java
 *.class
@@ -52,4 +54,3 @@ tmp/
 # Windows
 Desktop.ini
 Thumbs.db
-

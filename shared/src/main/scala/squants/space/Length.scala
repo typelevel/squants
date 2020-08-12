@@ -81,8 +81,20 @@ final class Length private (val value: Double, val unit: LengthUnit)
   def toAstronomicalUnits = to(AstronomicalUnits)
   def toLightYears = to(LightYears)
   def toParsecs = to(Parsecs)
+  def toKiloParsecs = to(KiloParsecs)
+  def toMegaParsecs = to(MegaParsecs)
+  def toGigaParsecs = to(GigaParsecs)
   def toSolarRadii = to(SolarRadii)
   def toNominalSolarRadii = to(NominalSolarRadii)
+  def toeV = to(ElectronVoltLength)
+  def tomeV = to(MilliElectronVoltLength)
+  def tokeV = to(KiloElectronVoltLength)
+  def toMeV = to(MegaElectronVoltLength)
+  def toGeV = to(GigaElectronVoltLength)
+  def toTeV = to(TeraElectronVoltLength)
+  def toPeV = to(PetaElectronVoltLength)
+  def toEeV = to(ExaElectronVoltLength)
+
 }
 
 /**
@@ -90,14 +102,16 @@ final class Length private (val value: Double, val unit: LengthUnit)
  */
 object Length extends Dimension[Length] with BaseDimension {
   private[space] def apply[A](n: A, unit: LengthUnit)(implicit num: Numeric[A]) = new Length(num.toDouble(n), unit)
-  def apply = parse _
+  def apply(value: Any) = parse(value)
   def name = "Length"
   def primaryUnit = Meters
   def siUnit = Meters
   def units = Set(Angstroms, Nanometers, Microns, Millimeters, Centimeters,
     Decimeters, Meters, Decameters, Hectometers, Kilometers,
     Inches, Feet, Yards, UsMiles, InternationalMiles, NauticalMiles,
-    AstronomicalUnits, LightYears, Parsecs, SolarRadii, NominalSolarRadii)
+    AstronomicalUnits, LightYears, Parsecs, KiloParsecs, MegaParsecs, GigaParsecs, SolarRadii, NominalSolarRadii,
+    ElectronVoltLength, MilliElectronVoltLength, KiloElectronVoltLength, MegaElectronVoltLength,
+    GigaElectronVoltLength, TeraElectronVoltLength, PetaElectronVoltLength, ExaElectronVoltLength)
   def dimensionSymbol = "L"
 }
 
@@ -204,6 +218,21 @@ object Parsecs extends LengthUnit {
   val symbol = "pc"
 }
 
+object KiloParsecs extends LengthUnit {
+  val conversionFactor = Parsecs.conversionFactor * MetricSystem.Kilo
+  val symbol = "kpc"
+}
+
+object MegaParsecs extends LengthUnit {
+  val conversionFactor = Parsecs.conversionFactor * MetricSystem.Mega
+  val symbol = "Mpc"
+}
+
+object GigaParsecs extends LengthUnit {
+  val conversionFactor = Parsecs.conversionFactor * MetricSystem.Giga
+  val symbol = "Gpc"
+}
+
 object SolarRadii extends LengthUnit {
   val conversionFactor = 6.957e8
   val symbol = "R☉"
@@ -212,6 +241,46 @@ object SolarRadii extends LengthUnit {
 object NominalSolarRadii extends LengthUnit {
   val conversionFactor = 6.957e8
   val symbol = "RN☉"
+}
+
+object ElectronVoltLength extends LengthUnit {
+  val conversionFactor = 1.97327e-7
+  val symbol = "ħc/eV"
+}
+
+object MilliElectronVoltLength extends LengthUnit {
+  val conversionFactor = ElectronVoltLength.conversionFactor * MetricSystem.Milli
+  val symbol = "mħc/eV"
+}
+
+object KiloElectronVoltLength extends LengthUnit {
+  val conversionFactor = ElectronVoltLength.conversionFactor * MetricSystem.Kilo
+  val symbol = "kħc/eV"
+}
+
+object MegaElectronVoltLength extends LengthUnit {
+  val conversionFactor = ElectronVoltLength.conversionFactor * MetricSystem.Mega
+  val symbol = "Mħc/eV"
+}
+
+object GigaElectronVoltLength extends LengthUnit {
+  val conversionFactor = ElectronVoltLength.conversionFactor * MetricSystem.Giga
+  val symbol = "Għc/eV"
+}
+
+object TeraElectronVoltLength extends LengthUnit {
+  val conversionFactor = ElectronVoltLength.conversionFactor * MetricSystem.Tera
+  val symbol = "Tħc/eV"
+}
+
+object PetaElectronVoltLength extends LengthUnit {
+  val conversionFactor = ElectronVoltLength.conversionFactor * MetricSystem.Peta
+  val symbol = "Pħc/eV"
+}
+
+object ExaElectronVoltLength extends LengthUnit {
+  val conversionFactor = ElectronVoltLength.conversionFactor * MetricSystem.Exa
+  val symbol = "Eħc/eV"
 }
 
 object LengthConversions {
@@ -243,8 +312,20 @@ object LengthConversions {
   lazy val astronomicalUnit = AstronomicalUnits(1)
   lazy val lightYear = LightYears(1)
   lazy val parsec = Parsecs(1)
+  lazy val kiloparsec = KiloParsecs(1)
+  lazy val megaparsec = MegaParsecs(1)
+  lazy val gigaparsec = GigaParsecs(1)
   lazy val solarRadius = SolarRadii(1)
   lazy val nominalSolarRadius = NominalSolarRadii(1)
+
+  lazy val eV = ElectronVoltLength(1)
+  lazy val meV = MilliElectronVoltLength(1)
+  lazy val keV = KiloElectronVoltLength(1)
+  lazy val MeV = MegaElectronVoltLength(1)
+  lazy val GeV = GigaElectronVoltLength(1)
+  lazy val TeV = TeraElectronVoltLength(1)
+  lazy val PeV = PetaElectronVoltLength(1)
+  lazy val EeV = ExaElectronVoltLength(1)
 
   implicit class LengthConversions[A](n: A)(implicit num: Numeric[A]) {
     def Å = Angstroms(n)
@@ -282,8 +363,19 @@ object LengthConversions {
     def lightYears = LightYears(n)
     def parsecs = Parsecs(n)
     def pc = Parsecs(n)
+    def kpc = KiloParsecs(n)
+    def Mpc = MegaParsecs(n)
+    def Gpc = GigaParsecs(n)
     def solarRadii = SolarRadii(n)
     def nominalSolarRadii = NominalSolarRadii(n)
+    def eV = ElectronVoltLength(n)
+    def meV = MilliElectronVoltLength(n)
+    def keV = KiloElectronVoltLength(n)
+    def MeV = MegaElectronVoltLength(n)
+    def GeV = GigaElectronVoltLength(n)
+    def TeV = TeraElectronVoltLength(n)
+    def PeV = PetaElectronVoltLength(n)
+    def EeV = ExaElectronVoltLength(n)
   }
 
   implicit class LengthStringConversions(s: String) {

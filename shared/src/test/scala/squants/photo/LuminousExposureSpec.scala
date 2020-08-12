@@ -8,16 +8,17 @@
 
 package squants.photo
 
-import org.scalatest.{ FlatSpec, Matchers }
 import squants.QuantityParseException
 import squants.time.Seconds
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class LuminousExposureSpec extends FlatSpec with Matchers {
+class LuminousExposureSpec extends AnyFlatSpec with Matchers {
 
   behavior of "LuminousExposure and its Units of Measure"
 

@@ -8,18 +8,21 @@
 
 package squants
 
-import org.scalatest.{ FlatSpec, Matchers }
+import org.scalatest.TryValues
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
+
 import scala.math.BigDecimal.RoundingMode
-import scala.util.Failure
-import squants.thermal.{ Celsius, Fahrenheit }
-import squants.time.{ Hertz, Hours }
+import scala.util.{Failure, Try}
+import squants.thermal.{Celsius, Fahrenheit}
+import squants.time.{Hertz, Hours, Minutes}
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class QuantitySpec extends FlatSpec with Matchers with CustomMatchers {
+class QuantitySpec extends AnyFlatSpec with Matchers with CustomMatchers with TryValues {
 
   /*
     Create a Quantity with two Units of Measure
@@ -33,7 +36,7 @@ class QuantitySpec extends FlatSpec with Matchers with CustomMatchers {
 
   object Thingee extends Dimension[Thingee] {
     private[squants] def apply[A](n: A, unit: ThingeeUnit)(implicit num: Numeric[A]) = new Thingee(num.toDouble(n), unit)
-    def apply = parse _
+    def apply(value: Any) = parse(value)
     def name = "Thingee"
     def primaryUnit = Thangs
     def siUnit = Thangs
@@ -64,15 +67,16 @@ class QuantitySpec extends FlatSpec with Matchers with CustomMatchers {
       def minus(x: T, y: T) = x - y
       def times(x: T, y: T) = x * y
       def negate(x: T) = -x
-      def toInt(x: T) = x.toInt()
-      def toLong(x: T) = x.toLong()
-      def toFloat(x: T) = x.toFloat()
-      def compare(x: T, y: T) = if (x == y) 0 else if (x.toDouble() > y.toDouble()) 1 else -1
+      def toInt(x: T) = x.toInt
+      def toLong(x: T) = x.toLong
+      def toFloat(x: T) = x.toFloat
+      def compare(x: T, y: T) = if (x == y) 0 else if (x.toDouble > y.toDouble) 1 else -1
     }
 
     implicit val stringNumeric = new BaseNumeric[String] {
       def fromInt(x: Int) = x.toString
       def toDouble(x: String) = augmentString(x).toDouble // augmentString is used to disambiguate implicit conversion
+      def parseString(str: String): Option[String] = Some(str) // for 2.13 compability
     }
 
     // Use them to initialize quantity values
@@ -604,5 +608,105 @@ class QuantitySpec extends FlatSpec with Matchers with CustomMatchers {
 
     val ts = List(Thangs(1000), Kilothangs(10), Kilothangs(100))
     ts.sum should be(Kilothangs(111))
+  }
+
+  behavior of "Dimension"
+
+  it should "Parse a String into a Quantity based on the supplied Type parameter" in {
+    import squants.mass.Mass
+    import squants.space.Length
+    import squants.time.Time
+
+    def parse[A <: Quantity[A]: Dimension](s: String): Try[A] = {
+      implicitly[Dimension[A]].parseString(s)
+    }
+
+    implicit val length = Length
+    implicit val time = Time
+    implicit val thingee = Thingee
+    implicit val mass = Mass
+
+    val l = parse[Length]("100 m")
+    val t = parse[Time]("100 m")
+    val th = parse[Thingee]("100 th")
+    val m = parse[Mass]("100 m")
+
+    l.success.value should be(Meters(100))
+    t.success.value should be(Minutes(100))
+    th.success.value should be(Thangs(100))
+    m.failure.exception shouldBe a[QuantityParseException]
+    m.failure.exception should have message("Unable to parse Mass:100 m")
+  }
+
+  it should "Parse a Tuple with a Double into a Quantity based on the supplied Type parameter" in {
+    import squants.mass.Mass
+    import squants.space.Length
+    import squants.time.Time
+
+    def parse[A <: Quantity[A]: Dimension](t: (Double,  String)): Try[A] = {
+      implicitly[Dimension[A]].parseTuple[Double](t)
+    }
+
+    implicit val length = Length
+    implicit val time = Time
+    implicit val thingee = Thingee
+    implicit val mass = Mass
+
+    val l = parse[Length]((100d, "m"))
+    val t = parse[Time]((100d, "m"))
+    val th = parse[Thingee]((100d, "th"))
+    val m = parse[Mass]((100d, "m"))
+
+    l.success.value should be(Meters(100d))
+    t.success.value should be(Minutes(100d))
+    th.success.value should be(Thangs(100d))
+    m.failure.exception shouldBe a[QuantityParseException]
+    m.failure.exception should have message("Unable to identify Mass unit m:(100.0,m)")
+  }
+
+  it should "Parse a Tuple with an Int into a Quantity based on the supplied Type parameter" in {
+    import squants.mass.Mass
+    import squants.space.Length
+    import squants.time.Time
+
+    def parse[A <: Quantity[A]: Dimension](t: (Int,  String)): Try[A] = {
+      implicitly[Dimension[A]].parseTuple[Int](t)
+    }
+
+    implicit val length = Length
+    implicit val time = Time
+    implicit val thingee = Thingee
+    implicit val mass = Mass
+
+    val l = parse[Length]((100, "m"))
+    val t = parse[Time]((100, "m"))
+    val th = parse[Thingee]((100, "th"))
+    val m = parse[Mass]((100, "m"))
+
+    l.success.value should be(Meters(100))
+    t.success.value should be(Minutes(100))
+    th.success.value should be(Thangs(100))
+    m.failure.exception shouldBe a[QuantityParseException]
+    m.failure.exception should have message("Unable to identify Mass unit m:(100.0,m)")
+  }
+
+  it should "return consistent hashcode" in {
+    val timeInMinutes = Minutes(1)
+
+    timeInMinutes.hashCode() shouldBe timeInMinutes.hashCode()
+  }
+
+  it should "return equal hashcode, when objects are equal" in {
+
+    val timeInMinutes = Minutes(1)
+    val timeInSeconds = Seconds(60)
+
+    timeInMinutes.equals(timeInSeconds) shouldBe true
+    timeInMinutes.hashCode() shouldBe timeInSeconds.hashCode()
+
+  }
+
+  it should "provide implicit instance for Dimension" in {
+    implicitly[Dimension[Thingee]] shouldBe Thingee
   }
 }

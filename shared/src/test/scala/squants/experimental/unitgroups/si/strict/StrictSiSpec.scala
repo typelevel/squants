@@ -1,6 +1,5 @@
 package squants.experimental.unitgroups.si.strict
 
-import org.scalatest.{FlatSpec, Matchers}
 import squants.energy.Energy
 import squants.mass.Mass
 import squants.space.Length
@@ -9,8 +8,10 @@ import squants.experimental.unitgroups.ImplicitDimensions.energy._
 import squants.experimental.unitgroups.ImplicitDimensions.mass._
 import squants.experimental.unitgroups.UnitGroup
 import squants.experimental.unitgroups.si.strict.implicits._
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
-class StrictSiSpec extends FlatSpec with Matchers {
+class StrictSiSpec extends AnyFlatSpec with Matchers {
 
   behavior of "Strict SI UnitGroups"
 

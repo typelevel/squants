@@ -1,9 +1,9 @@
 package squants.electro
 
-import org.scalatest.{FlatSpec, Matchers}
 import squants.QuantityParseException
 import squants.mass.Kilograms
-import squants.space.{CubicMeters, Meters, SquareMeters}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
   *
@@ -11,7 +11,7 @@ import squants.space.{CubicMeters, Meters, SquareMeters}
   * @since 1.4
   *
   */
-class ElectricChargeMassRatioSpec extends FlatSpec with Matchers {
+class ElectricChargeMassRatioSpec extends AnyFlatSpec with Matchers {
 
   behavior of "ElectricChargeMassRatio and its Units of Measure"
 

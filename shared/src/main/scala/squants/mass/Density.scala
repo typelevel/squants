@@ -29,7 +29,7 @@ final class Density private (val value: Double, val unit: DensityUnit)
 object Density extends Dimension[Density] {
   private[mass] def apply[A](n: A, unit: DensityUnit)(implicit num: Numeric[A]) = new Density(num.toDouble(n), unit)
   def apply(m: Mass, v: Volume): Density = KilogramsPerCubicMeter(m.toKilograms / v.toCubicMeters)
-  def apply = parse _
+  def apply(value: Any) = parse(value)
   def name = "Density"
   def primaryUnit = KilogramsPerCubicMeter
   def siUnit = KilogramsPerCubicMeter

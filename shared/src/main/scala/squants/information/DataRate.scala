@@ -4,7 +4,7 @@ import squants._
 import squants.time.TimeDerivative
 
 /**
-  * Represnets a rate of transfer of information
+  * Represents a rate of transfer of information
   */
 final class DataRate private(val value: Double, val unit: DataRateUnit)
     extends Quantity[DataRate]
@@ -32,6 +32,25 @@ final class DataRate private(val value: Double, val unit: DataRateUnit)
   def toExbibytesPerSecond = to(ExbibytesPerSecond)
   def toZebibytesPerSecond = to(ZebibytesPerSecond)
   def toYobibytesPerSecond = to(YobibytesPerSecond)
+
+  def toBitsPerSecond = to(BitsPerSecond)
+  def toKilobitsPerSecond = to(KilobitsPerSecond)
+  def toMegabitsPerSecond = to(MegabitsPerSecond)
+  def toGigabitsPerSecond = to(GigabitsPerSecond)
+  def toTerabitsPerSecond = to(TerabitsPerSecond)
+  def toPetabitsPerSecond = to(PetabitsPerSecond)
+  def toExabitsPerSecond = to(ExabitsPerSecond)
+  def toZettabitsPerSecond = to(ZettabitsPerSecond)
+  def toYottabitsPerSecond = to(YottabitsPerSecond)
+
+  def toKibibitsPerSecond = to(KibibitsPerSecond)
+  def toMebibitsPerSecond = to(MebibitsPerSecond)
+  def toGibibitsPerSecond = to(GibibitsPerSecond)
+  def toTebibitsPerSecond = to(TebibitsPerSecond)
+  def toPebibitsPerSecond = to(PebibitsPerSecond)
+  def toExbibitsPerSecond = to(ExbibitsPerSecond)
+  def toZebibitsPerSecond = to(ZebibitsPerSecond)
+  def toYobibitsPerSecond = to(YobibitsPerSecond)
 }
 
 
@@ -40,14 +59,18 @@ object DataRate extends Dimension[DataRate] {
     new DataRate(num.toDouble(n), unit)
 
   def apply(i: Information, t: Time) = BytesPerSecond(i.toBytes / t.toSeconds)
-  def apply = parse _
+  def apply(value: Any) = parse(value)
   def name = "DataRate"
   def primaryUnit = BytesPerSecond
   def siUnit = BytesPerSecond
   def units = Set(BytesPerSecond, KilobytesPerSecond, KibibytesPerSecond, MegabytesPerSecond, MebibytesPerSecond,
     GigabytesPerSecond, GibibytesPerSecond, TerabytesPerSecond, TebibytesPerSecond,
     PetabytesPerSecond, PebibytesPerSecond, ExabytesPerSecond, ExbibytesPerSecond,
-    ZettabytesPerSecond, ZebibytesPerSecond, YottabytesPerSecond, YobibytesPerSecond)
+    ZettabytesPerSecond, ZebibytesPerSecond, YottabytesPerSecond, YobibytesPerSecond,
+    BitsPerSecond, KilobitsPerSecond, KibibitsPerSecond, MegabitsPerSecond, MebibitsPerSecond,
+    GigabitsPerSecond, GibibitsPerSecond, TerabitsPerSecond, TebibitsPerSecond,
+    PetabitsPerSecond, PebibitsPerSecond, ExabitsPerSecond, ExbibitsPerSecond,
+    ZettabitsPerSecond, ZebibitsPerSecond, YottabitsPerSecond, YobibitsPerSecond)
 }
 
 trait DataRateUnit extends UnitOfMeasure[DataRate] with UnitConverter {
@@ -138,6 +161,92 @@ object YobibytesPerSecond extends DataRateUnit {
   val conversionFactor = Yobibytes.conversionFactor
 }
 
+object BitsPerSecond extends DataRateUnit {
+  val symbol = "bps"
+  val conversionFactor = Bits.conversionFactor
+}
+
+object KilobitsPerSecond extends DataRateUnit {
+  val symbol = "Kbps"
+  val conversionFactor = BitsPerSecond.conversionFactor * Kilobytes.conversionFactor
+}
+
+object KibibitsPerSecond extends DataRateUnit {
+  val symbol = "Kibps"
+  val conversionFactor = BitsPerSecond.conversionFactor * Kibibytes.conversionFactor
+}
+
+object MegabitsPerSecond extends DataRateUnit {
+  val symbol = "Mbps"
+  val conversionFactor = BitsPerSecond.conversionFactor * Megabytes.conversionFactor
+}
+
+object MebibitsPerSecond extends DataRateUnit {
+  val symbol = "Mibps"
+  val conversionFactor = BitsPerSecond.conversionFactor * Mebibytes.conversionFactor
+}
+
+object GigabitsPerSecond extends DataRateUnit {
+  val symbol = "Gbps"
+  val conversionFactor = BitsPerSecond.conversionFactor * Gigabytes.conversionFactor
+}
+
+object GibibitsPerSecond extends DataRateUnit {
+  val symbol = "Gibps"
+  val conversionFactor = BitsPerSecond.conversionFactor * Gibibytes.conversionFactor
+}
+
+object TerabitsPerSecond extends DataRateUnit {
+  val symbol = "Tbps"
+  val conversionFactor = BitsPerSecond.conversionFactor * Terabytes.conversionFactor
+}
+
+object TebibitsPerSecond extends DataRateUnit {
+  val symbol = "Tibps"
+  val conversionFactor = BitsPerSecond.conversionFactor * Tebibytes.conversionFactor
+}
+
+object PetabitsPerSecond extends DataRateUnit {
+  val symbol = "Pbps"
+  val conversionFactor = BitsPerSecond.conversionFactor * Petabytes.conversionFactor
+}
+
+object PebibitsPerSecond extends DataRateUnit {
+  val symbol = "Pibps"
+  val conversionFactor = BitsPerSecond.conversionFactor * Pebibytes.conversionFactor
+}
+
+object ExabitsPerSecond extends DataRateUnit {
+  val symbol = "Ebps"
+  val conversionFactor = BitsPerSecond.conversionFactor * Exabytes.conversionFactor
+}
+
+object ExbibitsPerSecond extends DataRateUnit {
+  val symbol = "Eibps"
+  val conversionFactor = BitsPerSecond.conversionFactor * Exbibytes.conversionFactor
+}
+
+object ZettabitsPerSecond extends DataRateUnit {
+  val symbol = "Zbps"
+  val conversionFactor = BitsPerSecond.conversionFactor * Zettabytes.conversionFactor
+}
+
+object ZebibitsPerSecond extends DataRateUnit {
+  val symbol = "Zibps"
+  val conversionFactor = BitsPerSecond.conversionFactor * Zebibytes.conversionFactor
+}
+
+object YottabitsPerSecond extends DataRateUnit {
+  val symbol = "Ybps"
+  val conversionFactor = BitsPerSecond.conversionFactor * Yottabytes.conversionFactor
+}
+
+object YobibitsPerSecond extends DataRateUnit {
+  val symbol = "Yibps"
+  val conversionFactor = BitsPerSecond.conversionFactor * Yobibytes.conversionFactor
+}
+
+
 object DataRateConversions {
   lazy val bytesPerSecond = BytesPerSecond(1)
   lazy val kilobytesPerSecond = KilobytesPerSecond(1)
@@ -157,6 +266,24 @@ object DataRateConversions {
   lazy val yottabytesPerSecond = YottabytesPerSecond(1)
   lazy val yobibytesPerSecond = YobibytesPerSecond(1)
 
+  lazy val bitsPerSecond = BitsPerSecond(1)
+  lazy val kilobitsPerSecond = KilobitsPerSecond(1)
+  lazy val kibibitsPerSecond = KibibitsPerSecond(1)
+  lazy val megabitsPerSecond = MegabitsPerSecond(1)
+  lazy val mebibitsPerSecond = MebibitsPerSecond(1)
+  lazy val gigabitsPerSecond = GigabitsPerSecond(1)
+  lazy val gibibitsPerSecond = GibibitsPerSecond(1)
+  lazy val terabitsPerSecond = TerabitsPerSecond(1)
+  lazy val tebibitsPerSecond = TebibitsPerSecond(1)
+  lazy val petabitsPerSecond = PetabitsPerSecond(1)
+  lazy val pebibitsPerSecond = PebibitsPerSecond(1)
+  lazy val exabitsPerSecond = ExabitsPerSecond(1)
+  lazy val exbibitsPerSecond = ExbibitsPerSecond(1)
+  lazy val zettabitsPerSecond = ZettabitsPerSecond(1)
+  lazy val zebibitsPerSecond = ZebibitsPerSecond(1)
+  lazy val yottabitsPerSecond = YottabitsPerSecond(1)
+  lazy val yobibitsPerSecond = YobibitsPerSecond(1)
+
   implicit class DataRateConversions[A](n: A)(implicit num: Numeric[A]) {
     def bytesPerSecond = BytesPerSecond(n)
     def kilobytesPerSecond = KilobytesPerSecond(n)
@@ -175,6 +302,24 @@ object DataRateConversions {
     def zebibytesPerSecond = ZebibytesPerSecond(n)
     def yottabytesPerSecond = YottabytesPerSecond(n)
     def yobibytesPerSecond = YobibytesPerSecond(n)
+
+    def bitsPerSecond = BitsPerSecond(n)
+    def kilobitsPerSecond = KilobitsPerSecond(n)
+    def kibibitsPerSecond = KibibitsPerSecond(n)
+    def megabitsPerSecond = MegabitsPerSecond(n)
+    def mebibitsPerSecond = MebibitsPerSecond(n)
+    def gigabitsPerSecond = GigabitsPerSecond(n)
+    def gibibitsPerSecond = GibibitsPerSecond(n)
+    def terabitsPerSecond = TerabitsPerSecond(n)
+    def tebibitsPerSecond = TebibitsPerSecond(n)
+    def petabitsPerSecond = PetabitsPerSecond(n)
+    def pebibitsPerSecond = PebibitsPerSecond(n)
+    def exabitsPerSecond = ExabitsPerSecond(n)
+    def exbibitsPerSecond = ExbibitsPerSecond(n)
+    def zettabitsPerSecond = ZettabitsPerSecond(n)
+    def zebibitsPerSecond = ZebibitsPerSecond(n)
+    def yottabitsPerSecond = YottabitsPerSecond(n)
+    def yobibitsPerSecond = YobibitsPerSecond(n)
   }
   
   implicit object DataRateNumeric extends AbstractQuantityNumeric[DataRate](DataRate.primaryUnit)

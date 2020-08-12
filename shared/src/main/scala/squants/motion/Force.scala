@@ -41,15 +41,19 @@ final class Force private (val value: Double, val unit: ForceUnit)
   def toNewtons = to(Newtons)
   def toKilogramForce = to(KilogramForce)
   def toPoundForce = to(PoundForce)
+  def toKiloElectronVoltsPerMicrometer = to(KiloElectronVoltsPerMicrometer)
+  def toMegaElectronVoltsPerCentimeter = to(MegaElectronVoltsPerCentimeter)
 }
 
 object Force extends Dimension[Force] {
   private[motion] def apply[A](n: A, unit: ForceUnit)(implicit num: Numeric[A]) = new Force(num.toDouble(n), unit)
-  def apply = parse _
+  def apply(value: Any) = parse(value)
   def name = "Force"
   def primaryUnit = Newtons
   def siUnit = Newtons
-  def units = Set(Newtons, KilogramForce, PoundForce)
+  def units = Set(
+    Newtons, KilogramForce, PoundForce, 
+    KiloElectronVoltsPerMicrometer, MegaElectronVoltsPerCentimeter)
 }
 
 trait ForceUnit extends UnitOfMeasure[Force] with UnitConverter {
@@ -70,16 +74,30 @@ object PoundForce extends ForceUnit {
   val conversionFactor = Pounds.conversionFactor * KilogramForce.conversionFactor / Kilograms.conversionFactor
 }
 
+object KiloElectronVoltsPerMicrometer extends ForceUnit {
+  val symbol = "keV/μm"
+  val conversionFactor = 1.602176565e-16 / MetricSystem.Micro
+}
+
+object MegaElectronVoltsPerCentimeter extends ForceUnit {
+  val symbol = "MeV/cm"
+  val conversionFactor = 1.602176565e-13 / MetricSystem.Centi
+}
+
 object ForceConversions {
   lazy val newton = Newtons(1)
   lazy val kilogramForce = KilogramForce(1)
   lazy val poundForce = PoundForce(1)
+  lazy val kiloElectronVoltsPerMicrometer = KiloElectronVoltsPerMicrometer(1)
+  lazy val megaElectronVoltsPerCentimeter = MegaElectronVoltsPerCentimeter(1)
 
   implicit class ForceConversions[A](n: A)(implicit num: Numeric[A]) {
     def newtons = Newtons(n)
     def kilogramForce = KilogramForce(n)
-    def poundForce = PoundForce(1)
-    def lbf = PoundForce(1)
+    def poundForce = PoundForce(n)
+    def lbf = PoundForce(n)
+    def kiloElectronVoltsPerMicrometer = KiloElectronVoltsPerMicrometer(n)
+    def megaElectronVoltsPerCentimeter = MegaElectronVoltsPerCentimeter(n)
   }
 
   implicit object ForceNumeric extends AbstractQuantityNumeric[Force](Force.primaryUnit)

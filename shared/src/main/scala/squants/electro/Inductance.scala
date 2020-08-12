@@ -22,7 +22,7 @@ final class Inductance private (val value: Double, val unit: InductanceUnit)
   def dimension = Inductance
 
   def *(that: ElectricCurrent): MagneticFlux = Webers(this.toHenry * that.toAmperes)
-  def /(that: Length) = ??? // returns Permeability
+  def /(that: Length): Permeability = HenriesPerMeter(this.toHenry / that.toMeters)
 
   def toHenry = to(Henry)
   def toMillihenry = to(Millihenry)
@@ -33,7 +33,7 @@ final class Inductance private (val value: Double, val unit: InductanceUnit)
 
 object Inductance extends Dimension[Inductance] {
   private[electro] def apply[A](n: A, unit: InductanceUnit)(implicit num: Numeric[A]) = new Inductance(num.toDouble(n), unit)
-  def apply = parse _
+  def apply(value: Any) = parse(value)
   def name = "Inductance"
   def primaryUnit = Henry
   def siUnit = Henry

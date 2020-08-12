@@ -8,15 +8,16 @@
 
 package squants
 
-import org.scalatest.{FlatSpec, Matchers}
 import squants.space.{Degrees, Kilometers, SquareKilometers, SquareMeters}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.3.0
  *
  */
-class SVectorSpec extends FlatSpec with Matchers {
+class SVectorSpec extends AnyFlatSpec with Matchers {
 
   // TODO Expand tests
 

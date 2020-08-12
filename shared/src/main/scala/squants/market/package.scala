@@ -61,11 +61,14 @@ package object market {
     EUR, GBP, HKD, INR, JPY,
     KRW, MXN, MYR, NOK, NZD,
     RUB, SEK, XAG, XAU, BTC,
-    ETH, LTC)
-
-  lazy val defaultCurrencyMap: Map[String, Currency] = defaultCurrencySet.map { c: Currency ⇒ c.code -> c }.toMap
+    ETH, LTC, ZAR, NAD)
 
   lazy val defaultMoneyContext = MoneyContext(USD, defaultCurrencySet, Nil)
 
   class NoSuchExchangeRateException(val s: String) extends Exception
+
+  case class NoSuchCurrencyException(code: String, fxContext: MoneyContext) extends Exception(
+    s"Code $code cannot be matched against any context defined Currency. " +
+      s"Available Currencies are ${fxContext.currencies.map(_.code).mkString(", ")}"
+  )
 }

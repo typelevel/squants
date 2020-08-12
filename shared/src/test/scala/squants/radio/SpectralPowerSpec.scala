@@ -8,17 +8,18 @@
 
 package squants.radio
 
-import org.scalatest.{ FlatSpec, Matchers }
 import squants.QuantityParseException
 import squants.energy.Watts
 import squants.space.Meters
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class SpectralPowerSpec extends FlatSpec with Matchers {
+class SpectralPowerSpec extends AnyFlatSpec with Matchers {
 
   behavior of "SpectralPower and its Units of Measure"
 

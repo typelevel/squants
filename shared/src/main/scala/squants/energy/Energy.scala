@@ -15,6 +15,7 @@ import squants.motion.{NewtonMeters, Newtons, Torque}
 import squants.space.CubicMeters
 import squants.thermal.{JoulesPerKelvin, Kelvin, ThermalCapacity}
 import squants.time.{Time, _}
+import squants.radio.{ Irradiance, ParticleFlux, WattsPerSquareMeter }
 
 /**
  * Represents a quantity of energy
@@ -34,6 +35,9 @@ final class Energy private (val value: Double, val unit: EnergyUnit)
   protected def timeDerived = Watts(toWattHours)
   protected def time = Hours(1)
 
+  def *(that: ParticleFlux): Irradiance = WattsPerSquareMeter(
+    Hours(1).toSeconds * this.toWattHours *
+      that.toBecquerelsPerSquareMeterSecond)
   def /(that: Length): Force = Newtons(this.toJoules / that.toMeters)
   def /(that: Force): Length = Meters(this.toJoules / that.toNewtons)
   def /(that: Mass): SpecificEnergy = Grays(this.toJoules / that.toKilograms)
@@ -53,6 +57,7 @@ final class Energy private (val value: Double, val unit: EnergyUnit)
   def /(that: PowerRamp): TimeSquared = (this / that.timeIntegrated) * time
 
   def toWattHours = to(WattHours)
+  def toMilliwattHours = to(MilliwattHours)
   def toKilowattHours = to(KilowattHours)
   def toMegawattHours = to(MegawattHours)
   def toGigawattHours = to(GigawattHours)
@@ -66,6 +71,15 @@ final class Energy private (val value: Double, val unit: EnergyUnit)
   def toMegajoules = to(Megajoules)
   def toGigajoules = to(Gigajoules)
   def toTerajoules = to(Terajoules)
+
+  def toeV = to(ElectronVolt)
+  def tomeV = to(MilliElectronVolt)
+  def tokeV = to(KiloElectronVolt)
+  def toMeV = to(MegaElectronVolt)
+  def toGeV = to(GigaElectronVolt)
+  def toTeV = to(TeraElectronVolt)
+  def toPeV = to(PetaElectronVolt)
+  def toEeV = to(ExaElectronVolt)
 
   def toBtus = to(BritishThermalUnits)
   def toMBtus = to(MBtus)
@@ -85,15 +99,17 @@ final class Energy private (val value: Double, val unit: EnergyUnit)
 object Energy extends Dimension[Energy] {
   private[energy] def apply[A](n: A, unit: EnergyUnit)(implicit num: Numeric[A]) = new Energy(num.toDouble(n), unit)
   def apply(load: Power, time: Time): Energy = load * time
-  def apply = parse _
+  def apply(value: Any) = parse(value)
 
   def name = "Energy"
   def primaryUnit = WattHours
   def siUnit = Joules
-  def units = Set(WattHours, KilowattHours, MegawattHours, GigawattHours,
+  def units = Set(WattHours, MilliwattHours, KilowattHours, MegawattHours, GigawattHours,
     Joules, Picojoules, Nanojoules, Microjoules, Millijoules,
     Kilojoules, Megajoules, Gigajoules, Terajoules,
-    BritishThermalUnits, MBtus, MMBtus, Ergs)
+    BritishThermalUnits, MBtus, MMBtus, Ergs,
+    ElectronVolt, MilliElectronVolt, KiloElectronVolt, MegaElectronVolt,
+    GigaElectronVolt, TeraElectronVolt, PetaElectronVolt, ExaElectronVolt)
 }
 
 /**
@@ -105,6 +121,11 @@ trait EnergyUnit extends UnitOfMeasure[Energy] with UnitConverter {
 
 object WattHours extends EnergyUnit with PrimaryUnit {
   val symbol = "Wh"
+}
+
+object MilliwattHours extends EnergyUnit {
+  val conversionFactor = Watts.conversionFactor * MetricSystem.Milli
+  val symbol = "mWh"
 }
 
 object KilowattHours extends EnergyUnit {
@@ -187,9 +208,51 @@ object Ergs extends EnergyUnit {
   val symbol = "erg"
 }
 
+object ElectronVolt extends EnergyUnit {
+  val conversionFactor = Joules.conversionFactor * 1.602176565e-19
+  val symbol = "eV"
+}
+
+object MilliElectronVolt extends EnergyUnit {
+  val conversionFactor = ElectronVolt.conversionFactor * MetricSystem.Milli
+  val symbol = "meV"
+}
+
+object KiloElectronVolt extends EnergyUnit {
+  val conversionFactor = ElectronVolt.conversionFactor * MetricSystem.Kilo
+  val symbol = "keV"
+}
+
+object MegaElectronVolt extends EnergyUnit {
+  val conversionFactor = ElectronVolt.conversionFactor * MetricSystem.Mega
+  val symbol = "MeV"
+}
+
+object GigaElectronVolt extends EnergyUnit {
+  val conversionFactor = ElectronVolt.conversionFactor * MetricSystem.Giga
+  val symbol = "GeV"
+}
+
+object TeraElectronVolt extends EnergyUnit {
+  val conversionFactor = ElectronVolt.conversionFactor * MetricSystem.Tera
+  val symbol = "TeV"
+}
+
+object PetaElectronVolt extends EnergyUnit {
+  val conversionFactor = ElectronVolt.conversionFactor * MetricSystem.Peta
+  val symbol = "PeV"
+}
+
+object ExaElectronVolt extends EnergyUnit {
+  val conversionFactor = ElectronVolt.conversionFactor * MetricSystem.Exa
+  val symbol = "EeV"
+}
+
 object EnergyConversions {
   lazy val wattHour = WattHours(1)
   lazy val Wh = wattHour
+  lazy val milliwattHour = MilliwattHours(1)
+  lazy val mWh = milliwattHour
   lazy val kilowattHour = KilowattHours(1)
   lazy val kWh = kilowattHour
   lazy val megawattHour = MegawattHours(1)
@@ -209,6 +272,15 @@ object EnergyConversions {
 
   lazy val btu = BritishThermalUnits(1)
   lazy val btuMultiplier = 2.930710701722222e-1
+
+  lazy val eV = ElectronVolt(1)
+  lazy val meV = MilliElectronVolt(1)
+  lazy val keV = KiloElectronVolt(1)
+  lazy val MeV = MegaElectronVolt(1)
+  lazy val GeV = GigaElectronVolt(1)
+  lazy val TeV = TeraElectronVolt(1)
+  lazy val PeV = PetaElectronVolt(1)
+  lazy val EeV = ExaElectronVolt(1)
 
   implicit class EnergyConversions[A](n: A)(implicit num: Numeric[A]) {
     def J = Joules(n)
@@ -231,6 +303,7 @@ object EnergyConversions {
     def terajoules = Terajoules(n)
 
     def Wh = WattHours(n)
+    def mWh = MilliwattHours(n)
     def kWh = KilowattHours(n)
     def MWh = MegawattHours(n)
     def GWh = GigawattHours(n)
@@ -242,6 +315,15 @@ object EnergyConversions {
     def kilowattHours = KilowattHours(n)
     def megawattHours = MegawattHours(n)
     def gigawattHours = GigawattHours(n)
+
+    def eV = ElectronVolt(n)
+    def meV = MilliElectronVolt(n)
+    def keV = KiloElectronVolt(n)
+    def MeV = MegaElectronVolt(n)
+    def GeV = GigaElectronVolt(n)
+    def TeV = TeraElectronVolt(n)
+    def PeV = PetaElectronVolt(n)
+    def EeV = ExaElectronVolt(n)
   }
 
   implicit class EnergyStringConversions(s: String) {

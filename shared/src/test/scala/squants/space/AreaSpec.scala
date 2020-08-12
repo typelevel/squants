@@ -8,18 +8,21 @@
 
 package squants.space
 
-import org.scalatest.{ FlatSpec, Matchers }
 import squants.mass.{ Kilograms, KilogramsPerSquareMeter }
 import squants.motion.{ Newtons, Pascals }
 import squants.photo.{ Candelas, CandelasPerSquareMeter, Lumens, Lux }
+import squants.time.Seconds
+import squants.radio.SquareMeterSeconds
 import squants.{ MetricSystem, QuantityParseException }
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class AreaSpec extends FlatSpec with Matchers {
+class AreaSpec extends AnyFlatSpec with Matchers {
 
   behavior of "Area and its Units of Measure"
 
@@ -105,6 +108,10 @@ class AreaSpec extends FlatSpec with Matchers {
 
   it should "return Length when square rooted" in {
     SquareMeters(4).squareRoot should be(Meters(2))
+  }
+
+  it should "return AreaTime when multiplied by Time" in {
+    SquareMeters(4) * Seconds(1) should be(SquareMeterSeconds(4))
   }
 
   behavior of "AreaConversion"

@@ -8,14 +8,15 @@
 
 package squants.market
 
-import org.scalatest.{ Matchers, FlatSpec }
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class MoneyContextSpec extends FlatSpec with Matchers {
+class MoneyContextSpec extends AnyFlatSpec with Matchers {
 
   val defCur = USD
   val rates = List(
@@ -138,5 +139,17 @@ class MoneyContextSpec extends FlatSpec with Matchers {
     newContext.defaultCurrency should be(moneyContext.defaultCurrency)
     newContext.currencies should be(moneyContext.currencies)
     newContext.rates should be(newRates)
+  }
+
+  it should "return a copy with additional currencies" in {
+
+    object NMY extends Currency("NMY", "New Money", "$", 2)
+    object OTM extends Currency("OTM", "Other Money", "$", 2)
+
+    val additionalCurrencies = Set(NMY, OTM)
+    val newContext = moneyContext.withAdditionalCurrencies(additionalCurrencies)
+    newContext.defaultCurrency should be(moneyContext.defaultCurrency)
+    newContext.currencies should be(moneyContext.currencies ++ additionalCurrencies)
+    newContext.rates should be(moneyContext.rates)
   }
 }

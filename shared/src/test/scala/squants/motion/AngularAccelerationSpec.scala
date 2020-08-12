@@ -1,16 +1,17 @@
 package squants.motion
 
-import org.scalatest.{FlatSpec, Matchers}
 import squants.QuantityParseException
 import squants.space.{Meters, Radians}
 import squants.time.Seconds
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
   *
   * @author paxelord
   * @since 1.3
   */
-class AngularAccelerationSpec extends FlatSpec with Matchers{
+class AngularAccelerationSpec extends AnyFlatSpec with Matchers{
 
   behavior of "AngularAcceleration and its Units of Measure"
 

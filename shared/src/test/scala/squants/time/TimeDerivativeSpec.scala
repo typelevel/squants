@@ -8,17 +8,18 @@
 
 package squants.time
 
-import org.scalatest.{ FlatSpec, Matchers }
 import squants.CustomMatchers
-import squants.motion.UsMilesPerHour
-import squants.space.UsMiles
+import squants.motion.{MetersPerSecond, UsMilesPerHour}
+import squants.space.{Meters, UsMiles}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 /**
  * @author  garyKeorkunian
  * @since   0.1
  *
  */
-class TimeDerivativeSpec extends FlatSpec with Matchers with CustomMatchers {
+class TimeDerivativeSpec extends AnyFlatSpec with Matchers with CustomMatchers {
 
   behavior of "Time Derivatives and Integrals as implemented in Distance and Velocity"
 
@@ -40,6 +41,16 @@ class TimeDerivativeSpec extends FlatSpec with Matchers with CustomMatchers {
 
   it should "satisfy Derivative = Integral * Frequency" in {
     implicit val tolerance = UsMilesPerHour(0.0000000000001)
-    UsMilesPerHour(55) should beApproximately(UsMiles(55) * 1/Hours(1))
+    UsMilesPerHour(55) should beApproximately(UsMiles(55) * 1 / Hours(1))
+  }
+
+  it should "satisfy Frequency = Derivative / Integral (Time value in hours)" in {
+    implicit val tolerance = Hertz(0.0000000000001)
+    Hertz(0.01) should beApproximately(UsMilesPerHour(72) / UsMiles(2))
+  }
+
+  it should "satisfy Frequency = Derivative / Integral (Time value in Seconds)" in {
+    implicit val tolerance = Hertz(0.0000000000001)
+    Hertz(55) should beApproximately(MetersPerSecond(110) / Meters(2))
   }
 }
