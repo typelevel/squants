@@ -49,7 +49,6 @@ lazy val squants =
     parallelExecution in Test := false,
     excludeFilter in Test := "*Serializer.scala" || "*SerializerSpec.scala",
     scalacOptions in Tut --= Seq("-Ywarn-unused-import", "-Ywarn-unused:imports"),
-    // sources in (Compile, test) := List() // This is a pity but we can't reliable compile on 1.0.0-M8
   )
   .jsSettings(Tests.defaultSettings: _*)
   .nativeSettings(
@@ -60,9 +59,15 @@ lazy val squants =
 
 lazy val root = project.in(file("."))
   .settings(defaultSettings: _*)
+  .settings(noPublishSettings)
   .settings(
     name := "squants",
-    publish := {},
-    publishLocal := {}
   )
   .aggregate(squants.jvm, squants.js, squants.native)
+
+lazy val noPublishSettings = Seq(
+  publish := {},
+  publishLocal := {},
+  publishArtifact := false,
+  skip in publish := true
+)
