@@ -8,7 +8,7 @@ addSbtPlugin("org.scala-native"   % "sbt-scala-native"              % "0.3.9")
 
 addSbtPlugin("org.scalariform" % "sbt-scalariform" % "1.8.3")
 
-addSbtPlugin("com.typesafe.sbt" % "sbt-osgi" % "0.9.5")
+addSbtPlugin("com.typesafe.sbt" % "sbt-osgi" % "0.9.6")
 
 addSbtPlugin("org.tpolecat" % "tut-plugin" % "0.6.13")
 
