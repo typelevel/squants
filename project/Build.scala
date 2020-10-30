@@ -15,13 +15,11 @@ object Versions {
 
   val ScalaTest = "3.2.2"
   val ScalaCheck = "1.14.3"
-  val Json4s = "3.6.10"
 }
 
 object Dependencies {
   val scalaTest = Def.setting(Seq("org.scalatest" %%% "scalatest" % Versions.ScalaTest % Test))
   val scalaCheck = Def.setting(Seq("org.scalacheck" %%% "scalacheck" % Versions.ScalaCheck % Test))
-  val json4s = Def.setting(Seq("org.json4s" %% "json4s-native" % Versions.Json4s % Test))
 }
 
 object Resolvers {
@@ -96,8 +94,7 @@ object Tests {
     Seq(
       libraryDependencies ++=
         Dependencies.scalaTest.value ++
-        Dependencies.scalaCheck.value ++
-        Dependencies.json4s.value
+        Dependencies.scalaCheck.value
     )
 }
 
