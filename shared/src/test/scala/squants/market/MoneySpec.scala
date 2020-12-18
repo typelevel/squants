@@ -30,6 +30,8 @@ class MoneySpec extends AnyFlatSpec with Matchers {
     implicit val moneyContext = MoneyContext(USD, defaultCurrencySet, Nil)
     Currency("USD") should be(Success(USD))
     Currency("NAD") should be(Success(NAD))
+    Currency("COP") should be(Success(COP))
+    Currency("PLN") should be(Success(PLN))
     Currency("DUM") should be(Failure(NoSuchCurrencyException("DUM", moneyContext)))
   }
 
@@ -484,6 +486,8 @@ class MoneySpec extends AnyFlatSpec with Matchers {
     d.litecoin should be(LTC(d))
     d.ZAR should be(ZAR(d))
     d.NAD should be(NAD(d))
+    d.COP should be(COP(d))
+    d.PLN should be(PLN(d))
   }
 
   it should "provide Numeric support within a MoneyContext with no Exchange Rates" in {
