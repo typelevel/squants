@@ -61,7 +61,7 @@ package object market {
     EUR, GBP, HKD, INR, JPY,
     KRW, MXN, MYR, NOK, NZD,
     RUB, SEK, XAG, XAU, BTC,
-    ETH, LTC, ZAR, NAD)
+    ETH, LTC, ZAR, NAD, TRY)
 
   lazy val defaultMoneyContext = MoneyContext(USD, defaultCurrencySet, Nil)
 

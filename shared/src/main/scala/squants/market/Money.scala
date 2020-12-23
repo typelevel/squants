@@ -471,6 +471,7 @@ object ETH extends Currency("ETH", "Ether", "\u039E", 15)
 object LTC extends Currency("LTC", "Litecoin", "\u0141", 15)
 object ZAR extends Currency("ZAR", "South African Rand", "R", 2)
 object NAD extends Currency("NAD", "Namibian Dollar", "N$", 2)
+object TRY extends Currency("TRY", "Turkish lira", "₺", 2)
 
 /**
  * Support for Money DSL
@@ -512,6 +513,7 @@ object MoneyConversions {
     def litecoin = LTC
     def ZAR = Money(n, squants.market.ZAR)
     def NAD = Money(n, squants.market.NAD)
+    def TRY = Money(n, squants.market.TRY)
   }
 
   class MoneyNumeric()(implicit mc: MoneyContext) extends Numeric[Money] {
