@@ -484,6 +484,7 @@ class MoneySpec extends AnyFlatSpec with Matchers {
     d.litecoin should be(LTC(d))
     d.ZAR should be(ZAR(d))
     d.NAD should be(NAD(d))
+    d.TRY should be(TRY(d))
   }
 
   it should "provide Numeric support within a MoneyContext with no Exchange Rates" in {
