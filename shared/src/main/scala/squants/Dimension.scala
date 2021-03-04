@@ -84,6 +84,14 @@ trait Dimension[A <: Quantity[A]] {
   }
 
   implicit val dimensionImplicit: Dimension[A] = this
+
+  override def equals(that: Any): Boolean = that match {
+    case dimension: Dimension[_] => dimension.getClass.getName == this.getClass.getName
+    case _ => false
+  }
+
+  override def hashCode(): Int = getClass.getName.hashCode
+
 }
 
 case class QuantityParseException(message: String, expression: String) extends Exception(s"$message:$expression")
