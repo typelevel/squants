@@ -70,8 +70,7 @@ trait Dimension[A <: Quantity[A, _]] {
       case _                             ⇒ Failure(QuantityParseException(s"Unable to parse $name", s))
     }
   }
-  private lazy val QuantityString = ("^([-+]?[0-9]*\\.?[0-9]+(?:[eE][-+]?[0-9]+)?) *(" + units.map { u: UnitOfMeasure[A] ⇒ u.symbol }.reduceLeft(_ + "|" + _) + ")$").r
-
+  private lazy val QuantityString = ("^([-+]?[0-9]*\\.?[0-9]+(?:[eE][-+]?[0-9]+)?) *(" + units.map { (u: UnitOfMeasure[A]) => u.symbol }.reduceLeft(_ + "|" + _) + ")$").r
   private def parseTuple[N : SquantsNumeric](value: N, symbol: String): Try[Quantity[A, N]] = {
     symbolToUnit(symbol) match {
       case Some(unit) ⇒ Success(unit(value))

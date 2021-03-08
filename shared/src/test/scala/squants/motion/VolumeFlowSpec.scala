@@ -205,7 +205,7 @@ class VolumeFlowSpec extends AnyFlatSpec with Matchers with CustomMatchers {
 
   it should "provide Numeric support" in {
     import VolumeFlowConversions.VolumeFlowNumeric
-    implicit val tolerance = GallonsPerDay(0.0000000000001)
+    implicit val tolerance: VolumeFlow = GallonsPerDay(0.0000000000001)
     val vfrs = List(GallonsPerDay(24), GallonsPerHour(1))
     vfrs.sum should beApproximately(GallonsPerDay(48))
   }

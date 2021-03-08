@@ -37,7 +37,7 @@ trait SquantsNumeric[T] extends Ordering[T] {
     def /(rhs: T) = divide(lhs, rhs)
     def %(rhs: T) = remainder(lhs, rhs)
     def /%(rhs: T) = divideAndRemainder(lhs, rhs)
-    def unary_-() = negate(lhs)
+    def unary_- = negate(lhs)
     def >(rhs: T) = gt(lhs, rhs)
     def >=(rhs: T) = gteq(lhs, rhs)
     def <(rhs: T) = lt(lhs, rhs)

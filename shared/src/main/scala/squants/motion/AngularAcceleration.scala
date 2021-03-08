@@ -57,8 +57,7 @@ object AngularAcceleration extends Dimension[AngularAcceleration] {
     ArcsecondsPerSecondSquared)
 }
 
-trait AngularAccelerationUnit extends UnitOfMeasure[AngularAcceleration] with
-                                      UnitConverter {
+trait AngularAccelerationUnit extends UnitOfMeasure[AngularAcceleration] with UnitConverter {
   def apply[A](n: A)(implicit num: Numeric[A]) = {
     AngularAcceleration(num.toDouble(n), this)
   }

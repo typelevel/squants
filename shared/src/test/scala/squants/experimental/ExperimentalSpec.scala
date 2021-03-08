@@ -12,36 +12,38 @@ package squants.experimental
 import scala.util.Success
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
+// import squants.experimental.DimensionlessConversions._
+// import squants.experimental.SquantsNumeric._
 
 class ExperimentalSpec extends AnyFlatSpec with Matchers {
 
   behavior of "Experimental Code"
 
-  it should "create an Int based Quantity as previously" in {
-    val x = Each(10)
-    x.toEach should be(10)
-  }
-
-  it should "create an Long based Quantity as previously" in {
-    val x = Each(10L)
-    x.toEach should be(10L)
-  }
-
-  it should "create a Float based Quantity as previously" in {
-    val x = Each(10.22F)
-    x.toEach should be(10.22F)
-  }
-
-  it should "create a Double based Quantity as previously" in {
-    val x = Each(10.22)
-    x.toEach should be(10.22)
-  }
-
-  it should "create a BigDecimal based Quantity as previously" in {
-    val x = Each(BigDecimal(10.22))
-    x.toEach should be(BigDecimal(10.22))
-  }
-
+  // it should "create an Int based Quantity as previously" in {
+  //   val x = Each(10)
+  //   x.toEach should be(10)
+  // }
+  //
+  // it should "create an Long based Quantity as previously" in {
+  //   val x = Each(10L)
+  //   x.toEach should be(10L)
+  // }
+  //
+  // it should "create a Float based Quantity as previously" in {
+  //   val x = Each(10.22F)
+  //   x.toEach should be(10.22F)
+  // }
+  //
+  // it should "create a Double based Quantity as previously" in {
+  //   val x = Each(10.22)
+  //   x.toEach should be(10.22)
+  // }
+  //
+  // it should "create a BigDecimal based Quantity as previously" in {
+  //   val x = Each(BigDecimal(10.22))
+  //   x.toEach should be(BigDecimal(10.22))
+  // }
+  //
   it should "create a BigDecimal based Quantity from parsing a String" in {
     val x = Dimensionless("10.22 ea")
     x should be(Success(Each(BigDecimal(10.22))))
@@ -56,7 +58,7 @@ class ExperimentalSpec extends AnyFlatSpec with Matchers {
   }
 
   it should "add two Quantities that are based on the same numeric type" in {
-    val x = Each(10) + Each(10)
+    val x: Dimensionless[_] = Each(10) + Each(10)
     x.toEach should be(20)
   }
 

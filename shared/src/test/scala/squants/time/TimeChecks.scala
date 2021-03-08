@@ -19,7 +19,7 @@ import squants.{ Each, QuantityChecks }
  */
 object TimeChecks extends Properties("Time") with QuantityChecks {
 
-  implicit val tolFreq = Hertz(tol)
+  implicit val tolFreq: Frequency = Hertz(tol)
 
   property("Milliseconds = Seconds * 1000") = forAll(posNum) { (seconds: TestData) ⇒
     Milliseconds(seconds * 1000) == Seconds(seconds)

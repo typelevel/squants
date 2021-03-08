@@ -108,7 +108,7 @@ class QuantitySpec extends AnyFlatSpec with Matchers with CustomMatchers with Tr
   it should "create values from properly formatted Tuples with any numeric anyval" in {
 
     // floating-point conversions introduce error.
-    implicit val tolerance = Thangs(0.000001)
+    implicit val tolerance: Thingee = Thangs(0.000001)
 
     // Using tuples of arbitrary numeric anyval's
     Thingee((10.toByte, "th")).get should be(Thangs(10d))
@@ -179,7 +179,7 @@ class QuantitySpec extends AnyFlatSpec with Matchers with CustomMatchers with Tr
   }
 
   it should "approx a like value that is within an implicitly defined tolerance" in {
-    implicit val tol = Thangs(.1)
+    implicit val tol: Thingee = Thangs(.1)
     val x = Kilothangs(2.0)
     val y = Kilothangs(1.9999)
     x approx y should be(right = true)
@@ -189,7 +189,7 @@ class QuantitySpec extends AnyFlatSpec with Matchers with CustomMatchers with Tr
   }
 
   it should "not approx a like value that is not within an implicitly defined tolerance" in {
-    implicit val tol = Thangs(.1)
+    implicit val tol: Thingee = Thangs(.1)
     val x = Kilothangs(2.0)
     val y = Kilothangs(1.9998)
     x approx y should be(right = false)
@@ -198,7 +198,7 @@ class QuantitySpec extends AnyFlatSpec with Matchers with CustomMatchers with Tr
   }
 
   it should "approx a like value that is within an explicitly passed tolerance" in {
-    implicit val tol = Thangs(.1)
+    implicit val tol: Thingee = Thangs(.1)
     val x = Kilothangs(2.0)
     val y = Kilothangs(1.9999)
     x approx y should be(right = true)

@@ -17,6 +17,10 @@ import squants.motion.Newtons
 import squants.space.{ CubicMeters, Meters }
 import squants.thermal.{ JoulesPerKelvin, Kelvin }
 import squants.time.Hours
+import squants._
+import squants.electro.ElectricPotential
+import squants.electro.ElectricCharge
+import squants.thermal.ThermalCapacity
 
 /**
  * @author  garyKeorkunian
@@ -27,19 +31,19 @@ object EnergyChecks extends Properties("Energy") with QuantityChecks {
 
   override val tol = 1e-12
   override implicit val tolTime = Hours(tol)
-  implicit val tolPower = Watts(tol)
-  implicit val tolPowerRamp = WattsPerHour(tol)
-  implicit val tolEnergy = Joules(tol)
-  implicit val tolLength = Meters(tol)
-  implicit val tolForce = Newtons(tol)
-  implicit val tolSpecificEnergy = Grays(tol)
-  implicit val tolMass = Kilograms(tol)
-  implicit val tolEnergyDensity = JoulesPerCubicMeter(tol)
-  implicit val tolTemp = Kelvin(tol)
-  implicit val tolElectricCharge = Coulombs(tol)
-  implicit val tolVolume = CubicMeters(tol)
-  implicit val tolThermalCap = JoulesPerKelvin(tol)
-  implicit val tolElectricPotential = Volts(tol)
+  implicit val tolPower: Power = Watts(tol)
+  implicit val tolPowerRamp: PowerRamp = WattsPerHour(tol)
+  implicit val tolEnergy: Energy = Joules(tol)
+  implicit val tolLength: Length = Meters(tol)
+  implicit val tolForce: Force = Newtons(tol)
+  implicit val tolSpecificEnergy: SpecificEnergy= Grays(tol)
+  implicit val tolMass: Mass = Kilograms(tol)
+  implicit val tolEnergyDensity: EnergyDensity = JoulesPerCubicMeter(tol)
+  implicit val tolTemp: Temperature = Kelvin(tol)
+  implicit val tolElectricCharge: ElectricCharge = Coulombs(tol)
+  implicit val tolVolume: Volume = CubicMeters(tol)
+  implicit val tolThermalCap: ThermalCapacity = JoulesPerKelvin(tol)
+  implicit val tolElectricPotential: ElectricPotential = Volts(tol)
 
   property("WattHours = Watts * Hours") = forAll(posNum, posNum) { (watts: TestData, hours: TestData) ⇒
     WattHours(watts * hours) == Watts(watts) * Hours(hours) &&

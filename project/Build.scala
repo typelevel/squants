@@ -7,12 +7,12 @@ import com.typesafe.sbt.osgi.SbtOsgi
 import com.typesafe.sbt.osgi.SbtOsgi.autoImport._
 
 object Versions {
-  val Scala = "2.11.12" // Don't use 2.12 yet to avoid troubles with native
+  val Scala = "3.0.0-RC3"
   val ScalaCross =
-    Seq("2.11.12", "2.12.11", "2.13.3")
+    Seq("2.12.13", "2.13.5", "3.0.0-RC3")
 
   val ScalaTest = "3.2.8"
-  val ScalaCheck = "1.15.2"
+  val ScalaCheck = "1.15.3"
 }
 
 object Dependencies {
@@ -58,16 +58,11 @@ object Compiler {
     "-encoding", "UTF-8",       // yes, this is 2 args
     "-Xfatal-warnings",
     "-unchecked",
-    "-Xfuture",
-    "-Ywarn-dead-code"
+    // "-Xfuture",
+    // "-Ywarn-dead-code"
   )
 
   lazy val defaultSettings = Seq(
-    scalacOptions ++= Seq(
-      "-deprecation",
-      "-feature",
-      "-encoding", "UTF-8",
-    ),
     scalacOptions := {CrossVersion.partialVersion(scalaVersion.value) match {
       case Some((2, scalaMajor)) if scalaMajor >= 13 => scalacOptions.value ++ defaultCompilerSwitches ++ newerCompilerLintSwitches
       case Some((2, scalaMajor)) if scalaMajor >= 11 => scalacOptions.value ++ defaultCompilerSwitches ++ newerCompilerLintSwitches :+ "-Ywarn-unused-import"

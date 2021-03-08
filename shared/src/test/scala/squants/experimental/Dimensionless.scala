@@ -31,7 +31,7 @@ final class Dimensionless[N : SquantsNumeric] private (val value: N, val unit: D
   def *(that: Quantity[_, N]) = that * toEach
 
   def toPercent = to(Percent)
-  def toEach = to(Each)
+  def toEach: N = to(Each)
   def toDozen = to(Dozen)
   def toScore = to(Score)
   def toGross = to(Gross)

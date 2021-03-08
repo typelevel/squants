@@ -12,6 +12,7 @@ import squants.QuantityParseException
 import squants.mass.Kilograms
 import squants.space.Meters
 import squants.time.Hours
+import squants._
 import scala.math.BigDecimal.RoundingMode
 import scala.util.{Failure, Success}
 import org.scalatest.flatspec.AnyFlatSpec
@@ -27,7 +28,7 @@ class MoneySpec extends AnyFlatSpec with Matchers {
   behavior of "Money and its Units of Measure"
 
   it should "create Currency values from currency string codes given an implicit MoneyContext in scope" in {
-    implicit val moneyContext = MoneyContext(USD, defaultCurrencySet, Nil)
+    implicit val moneyContext: MoneyContext  = MoneyContext(USD, defaultCurrencySet, Nil)
     Currency("USD") should be(Success(USD))
     Currency("NAD") should be(Success(NAD))
     Currency("DUM") should be(Failure(NoSuchCurrencyException("DUM", moneyContext)))
@@ -39,7 +40,7 @@ class MoneySpec extends AnyFlatSpec with Matchers {
   }
 
   it should "create values using factories that take Currency Code (String) and an implicit MoneyContext in scope" in {
-    implicit val moneyContext = MoneyContext(USD, defaultCurrencySet, Nil)
+    implicit val moneyContext: MoneyContext  = MoneyContext(USD, defaultCurrencySet, Nil)
     Money(BigDecimal(10), "USD") should be(Success(Money(10, USD)))
     Money(10, "USD") should be(Success(Money(10, USD)))
   }
@@ -50,13 +51,13 @@ class MoneySpec extends AnyFlatSpec with Matchers {
   }
 
   it should "create values using 'no currency' factories with an implicit MoneyContext in scope" in {
-    implicit val moneyContext = MoneyContext(USD, defaultCurrencySet, Nil)
+    implicit val moneyContext: MoneyContext  = MoneyContext(USD, defaultCurrencySet, Nil)
     Money(BigDecimal(10)) should be(USD(10))
     Money(10) should be(USD(10))
   }
 
   it should "create values from formatted strings given an implicit MoneyContext in scope" in {
-    implicit val moneyContext = MoneyContext(USD, defaultCurrencySet, Nil)
+    implicit val moneyContext: MoneyContext = MoneyContext(USD, defaultCurrencySet, Nil)
     Money("500 USD").get should be(USD(500))
     Money("500USD").get should be(USD(500))
     Money("5.50USD").get should be(USD(5.5))
@@ -88,7 +89,7 @@ class MoneySpec extends AnyFlatSpec with Matchers {
   }
 
   it should "return proper result when comparing dislike currencies with a MoneyContext in scope" in {
-    implicit val moneyContext = defaultMoneyContext.withExchangeRates(List(USD(1) -> JPY(100)))
+    implicit val moneyContext: MoneyContext = defaultMoneyContext.withExchangeRates(List(USD(1) -> JPY(100)))
 
     USD(10) moneyEquals JPY(1000) should be(right = true)
     USD(10) ==# JPY(1000) should be(right = true)
@@ -161,7 +162,7 @@ class MoneySpec extends AnyFlatSpec with Matchers {
   it should "return a proper result on max/min operation with an implicit MoneyContext in scope" in {
     val r1 = CurrencyExchangeRate(USD(1), JPY(100))
     val r2 = CurrencyExchangeRate(USD(1), EUR(.75))
-    implicit val moneyContext = MoneyContext(USD, defaultCurrencySet, List(r1, r2))
+    implicit val moneyContext: MoneyContext = MoneyContext(USD, defaultCurrencySet, List(r1, r2))
     val x = USD(100)
     val y = JPY(100)
     x.moneyMax(y) should be(x)
@@ -327,7 +328,7 @@ class MoneySpec extends AnyFlatSpec with Matchers {
   it should "return proper result when dividing by a Money of another Currency" in {
     val r1 = CurrencyExchangeRate(USD(1), JPY(100))
     val r2 = CurrencyExchangeRate(USD(1), EUR(.75))
-    implicit val moneyContext = MoneyContext(USD, defaultCurrencySet, List(r1, r2))
+    implicit val moneyContext: MoneyContext = MoneyContext(USD, defaultCurrencySet, List(r1, r2))
 
     USD(10) / JPY(200) should be(5)
     EUR(7.5) / USD(10) should be(1)
@@ -348,7 +349,7 @@ class MoneySpec extends AnyFlatSpec with Matchers {
   it should "add cross currencies with a MoneyContext and applicable rates in scope" in {
     val r1 = CurrencyExchangeRate(USD(1), JPY(100))
     val r2 = CurrencyExchangeRate(USD(1), EUR(.50))
-    implicit val moneyContext = MoneyContext(USD, defaultCurrencySet, List(r1, r2))
+    implicit val moneyContext: MoneyContext = MoneyContext(USD, defaultCurrencySet, List(r1, r2))
 
     USD(10) + JPY(500) should be(USD(15))
     EUR(10) + USD(10) should be(EUR(15))
@@ -389,7 +390,7 @@ class MoneySpec extends AnyFlatSpec with Matchers {
   it should "convert currencies based on the MoneyContext" in {
     val r1 = CurrencyExchangeRate(USD(1), JPY(100))
     val r2 = CurrencyExchangeRate(USD(1), EUR(.75))
-    implicit val moneyContext = MoneyContext(USD, defaultCurrencySet, List(r1, r2))
+    implicit val moneyContext: MoneyContext = MoneyContext(USD, defaultCurrencySet, List(r1, r2))
 
     USD(1.5) in JPY should be(JPY(150))
     USD(1) in EUR should be(EUR(0.75))
@@ -429,13 +430,13 @@ class MoneySpec extends AnyFlatSpec with Matchers {
   }
 
   it should "return properly formatted strings in different currency with an implicit MoneyContext in scope" in {
-    implicit val moneyContext = MoneyContext(USD, defaultCurrencySet, Seq(USD(1) toThe JPY(100)))
+    implicit val moneyContext: MoneyContext = MoneyContext(USD, defaultCurrencySet, Seq(USD(1) toThe JPY(100)))
     USD(BigDecimal("10.123")).toString(JPY) should be("1012.3 JPY")
     USD(BigDecimal("10.123")).toFormattedString(JPY) should be("¥1012")
   }
 
   it should "return a properly sorted list of Moneys" in {
-    implicit val fxContext = MoneyContext(USD, defaultCurrencySet, Nil)
+    implicit val fxContext: MoneyContext = MoneyContext(USD, defaultCurrencySet, Nil)
     val unorderedList = List(Money(10), Money(100), Money(1))
     val orderedList = unorderedList.sorted
     orderedList.head should be(Money(1))
@@ -455,7 +456,7 @@ class MoneySpec extends AnyFlatSpec with Matchers {
   it should "provide implicit conversion from Double" in {
     import MoneyConversions._
 
-    implicit val moneyContext = MoneyContext(USD, defaultCurrencySet, Nil)
+    implicit val moneyContext: MoneyContext = MoneyContext(USD, defaultCurrencySet, Nil)
     val d = 10d
 
     d.money should be(Money(d, USD))
@@ -490,8 +491,8 @@ class MoneySpec extends AnyFlatSpec with Matchers {
   it should "provide Numeric support within a MoneyContext with no Exchange Rates" in {
     import MoneyConversions._
 
-    implicit val moneyContext = defaultMoneyContext
-    implicit val moneyNum = new MoneyNumeric()
+    implicit val moneyContext: MoneyContext = defaultMoneyContext
+    implicit val moneyNum: MoneyNumeric = new MoneyNumeric()
 
     val ms = List(USD(100), USD(10), USD(1))
     ms.sum should be(USD(111))
@@ -505,8 +506,8 @@ class MoneySpec extends AnyFlatSpec with Matchers {
   it should "provide Numeric support within a MoneyContext with applicable Exchange Rates" in {
     import MoneyConversions._
 
-    implicit val moneyContext = defaultMoneyContext.withExchangeRates(List(USD(1) -> CAD(10), USD(1) -> JPY(100)))
-    implicit val moneyNum = new MoneyNumeric()
+    implicit val moneyContext: MoneyContext = defaultMoneyContext.withExchangeRates(List(USD(1) -> CAD(10), USD(1) -> JPY(100)))
+    implicit val moneyNum: MoneyNumeric = new MoneyNumeric()
 
     val ms = List(USD(100), USD(10), USD(1))
     ms.sum should be(USD(111))

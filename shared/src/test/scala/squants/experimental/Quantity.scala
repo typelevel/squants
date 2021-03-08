@@ -120,7 +120,7 @@ abstract class Quantity[A <: Quantity[A, _], N](implicit val sqNum: SquantsNumer
    * @return Quantity
    */
   def negate: A = unit(-value).asInstanceOf[A]
-  def unary_-(): A = negate
+  def unary_- : A = negate
 
   /**
    * Returns the absolute value of this Quantity
@@ -135,7 +135,7 @@ abstract class Quantity[A <: Quantity[A, _], N](implicit val sqNum: SquantsNumer
    * @return
    */
   override def equals(that: Any) = that match {
-    case x: Quantity[A, _] if x.dimension == dimension ⇒ value == x.to(unit)
+    case x: Quantity[_, _] if x.dimension == dimension => value == x.asInstanceOf[Quantity[A, _]].to(unit)
     case _ ⇒ false
   }
 
@@ -238,7 +238,7 @@ abstract class Quantity[A <: Quantity[A, _], N](implicit val sqNum: SquantsNumer
    * Returns a string representing the quantity's value in unit
    * @return String
    */
-  override def toString = toString(unit)
+  override def toString: String = toString(unit)
 
   /**
    * Returns a string representing the quantity's value in the given `unit`

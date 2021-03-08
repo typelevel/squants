@@ -21,8 +21,8 @@ import squants.time.Seconds
  */
 object PhotoChecks extends Properties("Photo") with QuantityChecks {
 
-  implicit val tolLumFlux = Lumens(tol)
-  implicit val tolIllum = Lux(tol)
+  implicit val tolLumFlux: LuminousFlux = Lumens(tol)
+  implicit val tolIllum: Illuminance = Lux(tol)
 
   property("Lumens = Lux * SquareMeters") = forAll(posNum, posNum) { (lux: TestData, sm: TestData) ⇒
     Lumens(lux * sm) == Lux(lux) * SquareMeters(sm) &&

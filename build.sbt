@@ -12,8 +12,6 @@ Global / onChangedBuildSource := ReloadOnSourceChanges
 
 ThisBuild / turbo := true
 
-val customScalaJSVersion = Option(System.getenv("SCALAJS_VERSION"))
-
 inThisBuild(List(
   organization := "org.typelevel",
   homepage := Some(url("http://www.squants.com/")),
@@ -34,23 +32,20 @@ lazy val squants =
   .in(file("."))
   .settings(defaultSettings: _*)
   .jvmConfigure(
-    _.enablePlugins(TutPlugin, SbtOsgi)
+    _.enablePlugins(MdocPlugin, SbtOsgi)
   )
   .jvmSettings(
     osgiSettings,
-    Tut / scalacOptions --= Seq("-Ywarn-unused-import", "-Ywarn-unused:imports"),
-    tutTargetDirectory := file("."),
-    tutSourceDirectory := file("shared") / "src" / "main" / "tut",
     Test / parallelExecution := false,
-    publish / skip := customScalaJSVersion.isDefined
   )
   .jvmSettings(Tests.defaultSettings: _*)
   .jsSettings(
-    Test / parallelExecution := false,
-    Test / excludeFilter := "*Serializer.scala" || "*SerializerSpec.scala",
-    Tut / scalacOptions --= Seq("-Ywarn-unused-import", "-Ywarn-unused:imports"),
+    skip in test := isDotty.value,
+    parallelExecution in Test := false,
+    excludeFilter in Test := "*Serializer.scala" || "*SerializerSpec.scala",
+    Test / sources := { if (isDotty.value) Seq() else (Test / sources).value }
   )
-  .jsSettings(Tests.defaultSettings: _*)
+  .jsSettings(libraryDependencies ++= { if (isDotty.value) Seq() else Dependencies.scalaTest.value ++ Dependencies.scalaCheck.value})
   .nativeSettings(
     publish / skip := true,
     Compile / doc / sources := List(), // Can't build docs in native
