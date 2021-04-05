@@ -58,7 +58,7 @@ class ExperimentalSpec extends AnyFlatSpec with Matchers {
   }
 
   it should "add two Quantities that are based on the same numeric type" in {
-    val x: Dimensionless[_] = Each(10) + Each(10)
+    val x = Each(10) + Each(10)
     x.toEach should be(20)
   }
 
