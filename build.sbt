@@ -38,23 +38,23 @@ lazy val squants =
   )
   .jvmSettings(
     osgiSettings,
-    scalacOptions in Tut --= Seq("-Ywarn-unused-import", "-Ywarn-unused:imports"),
+    Tut / scalacOptions --= Seq("-Ywarn-unused-import", "-Ywarn-unused:imports"),
     tutTargetDirectory := file("."),
     tutSourceDirectory := file("shared") / "src" / "main" / "tut",
-    parallelExecution in Test := false,
-    skip.in(publish) := customScalaJSVersion.isDefined
+    Test / parallelExecution := false,
+    publish / skip := customScalaJSVersion.isDefined
   )
   .jvmSettings(Tests.defaultSettings: _*)
   .jsSettings(
-    parallelExecution in Test := false,
-    excludeFilter in Test := "*Serializer.scala" || "*SerializerSpec.scala",
-    scalacOptions in Tut --= Seq("-Ywarn-unused-import", "-Ywarn-unused:imports"),
+    Test / parallelExecution := false,
+    Test / excludeFilter := "*Serializer.scala" || "*SerializerSpec.scala",
+    Tut / scalacOptions --= Seq("-Ywarn-unused-import", "-Ywarn-unused:imports"),
   )
   .jsSettings(Tests.defaultSettings: _*)
   .nativeSettings(
-    skip in publish := true,
-    sources in (Compile, doc) := List(), // Can't build docs in native
-    sources in (Compile, test) := List() // Can't yet compile in native
+    publish / skip := true,
+    Compile / doc / sources := List(), // Can't build docs in native
+    Compile / test / sources := List() // Can't yet compile in native
   )
 
 lazy val root = project.in(file("."))
@@ -69,5 +69,5 @@ lazy val noPublishSettings = Seq(
   publish := {},
   publishLocal := {},
   publishArtifact := false,
-  skip in publish := true
+  publish / skip := true
 )
