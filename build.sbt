@@ -6,7 +6,8 @@ lazy val defaultSettings =
   Publish.defaultSettings ++
   Formatting.defaultSettings ++
   Console.defaultSettings ++
-  Docs.defaultSettings
+  Docs.defaultSettings ++
+  Tests.defaultSettings
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
@@ -40,16 +41,12 @@ lazy val squants =
   )
   .jvmSettings(Tests.defaultSettings: _*)
   .jsSettings(
-    skip in test := isDotty.value,
-    parallelExecution in Test := false,
-    excludeFilter in Test := "*Serializer.scala" || "*SerializerSpec.scala",
-    Test / sources := { if (isDotty.value) Seq() else (Test / sources).value }
+    Test / parallelExecution := false,
+    Test / excludeFilter := "*Serializer.scala" || "*SerializerSpec.scala",
   )
-  .jsSettings(libraryDependencies ++= { if (isDotty.value) Seq() else Dependencies.scalaTest.value ++ Dependencies.scalaCheck.value})
   .nativeSettings(
-    publish / skip := true,
+    crossScalaVersions := Versions.ScalaCross.filterNot(_.startsWith("3")),
     Compile / doc / sources := List(), // Can't build docs in native
-    Compile / test / sources := List() // Can't yet compile in native
   )
 
 lazy val root = project.in(file("."))

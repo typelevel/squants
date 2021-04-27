@@ -57,9 +57,7 @@ object Compiler {
     "-deprecation",
     "-encoding", "UTF-8",       // yes, this is 2 args
     "-Xfatal-warnings",
-    "-unchecked",
-    // "-Xfuture",
-    // "-Ywarn-dead-code"
+    "-unchecked"
   )
 
   lazy val defaultSettings = Seq(
