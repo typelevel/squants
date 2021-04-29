@@ -8,7 +8,7 @@
 
 package squants.time
 
-import squants.Quantity
+import squants._
 
 /**
  * Represents a rate of change over time of the integral quantity

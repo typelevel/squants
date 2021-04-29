@@ -27,7 +27,6 @@ class AngularVelocitySpec extends AnyFlatSpec with Matchers {
     RadiansPerSecond(1).toRadiansPerSecond should be(1)
     DegreesPerSecond(1).toDegreesPerSecond should be(1)
     GradiansPerSecond(1).toGradiansPerSecond should be(1)
-    GradiansPerSecond(1).toGradsPerSecond should be(1)
     TurnsPerSecond(1).toTurnsPerSecond should be(1)
   }
 
@@ -44,7 +43,6 @@ class AngularVelocitySpec extends AnyFlatSpec with Matchers {
     val x = RadiansPerSecond(1)
     x.toRadiansPerSecond should be(1)
     x.toDegreesPerSecond should be(Radians(1).toDegrees)
-    x.toGradsPerSecond should be(Radians(1).toGradians)
     x.toGradiansPerSecond should be(Radians(1).toGradians)
     x.toTurnsPerSecond should be(Radians(1).toTurns)
   }
@@ -86,7 +84,6 @@ class AngularVelocitySpec extends AnyFlatSpec with Matchers {
     val d = 10.22d
     d.radiansPerSecond should be(RadiansPerSecond(d))
     d.degreesPerSecond should be(DegreesPerSecond(d))
-    d.gradsPerSecond should be(GradiansPerSecond(d))
     d.gradiansPerSecond should be(GradiansPerSecond(d))
     d.turnsPerSecond should be(TurnsPerSecond(d))
   }

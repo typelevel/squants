@@ -80,7 +80,7 @@ trait SVector[A] {
    * @return
    */
   def times(that: Double): SVectorType
-  def * = times _
+  def *(that: Double)  = times(that)
 
   /**
    * Reduce a Vector
@@ -240,7 +240,6 @@ case class QuantityVector[A <: Quantity[A]](coordinates: A*) extends SVector[A] 
     QuantityVector(coordinates.zipAll(that.coordinates, valueUnit(0), valueUnit(0)).map(v ⇒ v._1 - v._2): _*)
 
   def times(that: Double): SVectorType = map(_ * that)
-  def *(that: Double): SVectorType = times(that)
 
   def times[B <: Quantity[B], C <: Quantity[C]](quantTimes: A ⇒ C): QuantityVector[C] = map(quantTimes)
 
@@ -267,7 +266,7 @@ case class QuantityVector[A <: Quantity[A]](coordinates: A*) extends SVector[A] 
     case _      ⇒ throw new UnsupportedOperationException("Cross Product is not supported on vectors with an arbitrary number of dimensions")
   }
 
-  def crossProduct[B <: Quantity[B], C <: Quantity[C]: Numeric](that: SVector[B], quantTimes: (A, B) ⇒ C): QuantityVector[C] = {
+  def crossProduct[B <: Quantity[B], C <: Quantity[C]](that: SVector[B], quantTimes: (A, B) ⇒ C): QuantityVector[C] = {
     (this.coordinates.length, that.coordinates.length) match {
       case (3, 3) ⇒
         QuantityVector(

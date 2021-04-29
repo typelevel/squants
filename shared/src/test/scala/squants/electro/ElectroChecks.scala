@@ -13,6 +13,7 @@ import squants.energy.{ Grays, Joules, Watts }
 import squants.motion.Newtons
 import squants.space.{ SquareMeters, Meters }
 import squants.time.Seconds
+import squants.energy.Energy
 import org.scalacheck.Properties
 import org.scalacheck.Prop._
 import squants.QuantityChecks
@@ -24,9 +25,9 @@ import squants.QuantityChecks
  */
 object ElectroChecks extends Properties("Electro") with QuantityChecks {
 
-  implicit val tolCurrent = Amperes(tol)
-  implicit val tolPotentional = Volts(tol)
-  implicit val tolEnergy = Joules(1e-12)
+  implicit val tolCurrent: ElectricCurrent = Amperes(tol)
+  implicit val tolPotentional: ElectricPotential = Volts(tol)
+  implicit val tolEnergy: Energy = Joules(1e-12)
 
   property("Volts = Amps * Ohms (Ohm's Law)") = forAll(posNum, posNum) { (amps: TestData, ohms: TestData) ⇒
     Volts(amps * ohms) == Amperes(amps) * Ohms(ohms) &&

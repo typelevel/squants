@@ -22,11 +22,11 @@ import org.scalacheck.Prop._
  */
 object MotionChecks extends Properties("Motion") with QuantityChecks {
 
-  implicit val tolVel = MetersPerSecond(tol)
-  implicit val tolAcc = MetersPerSecondSquared(tol)
-  implicit val tolJerk = MetersPerSecondCubed(tol)
-  implicit val tolMfr = KilogramsPerSecond(tol)
-  implicit val tolVfr = CubicMetersPerSecond(tol)
+  implicit val tolVel: Velocity = MetersPerSecond(tol)
+  implicit val tolAcc: Acceleration = MetersPerSecondSquared(tol)
+  implicit val tolJerk: Jerk = MetersPerSecondCubed(tol)
+  implicit val tolMfr: MassFlow = KilogramsPerSecond(tol)
+  implicit val tolVfr: VolumeFlow = CubicMetersPerSecond(tol)
 
   property("Distance = Velocity * Time") = forAll(posNum, posNum) { (velocity: TestData, time: TestData) ⇒
     Meters(velocity * time) == MetersPerSecond(velocity) * Seconds(time) &&

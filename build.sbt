@@ -6,13 +6,12 @@ lazy val defaultSettings =
   Publish.defaultSettings ++
   Formatting.defaultSettings ++
   Console.defaultSettings ++
-  Docs.defaultSettings
+  Docs.defaultSettings ++
+  Tests.defaultSettings
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
 ThisBuild / turbo := true
-
-val customScalaJSVersion = Option(System.getenv("SCALAJS_VERSION"))
 
 inThisBuild(List(
   organization := "org.typelevel",
@@ -34,27 +33,20 @@ lazy val squants =
   .in(file("."))
   .settings(defaultSettings: _*)
   .jvmConfigure(
-    _.enablePlugins(TutPlugin, SbtOsgi)
+    _.enablePlugins(MdocPlugin, SbtOsgi)
   )
   .jvmSettings(
     osgiSettings,
-    Tut / scalacOptions --= Seq("-Ywarn-unused-import", "-Ywarn-unused:imports"),
-    tutTargetDirectory := file("."),
-    tutSourceDirectory := file("shared") / "src" / "main" / "tut",
     Test / parallelExecution := false,
-    publish / skip := customScalaJSVersion.isDefined
   )
   .jvmSettings(Tests.defaultSettings: _*)
   .jsSettings(
     Test / parallelExecution := false,
     Test / excludeFilter := "*Serializer.scala" || "*SerializerSpec.scala",
-    Tut / scalacOptions --= Seq("-Ywarn-unused-import", "-Ywarn-unused:imports"),
   )
-  .jsSettings(Tests.defaultSettings: _*)
   .nativeSettings(
-    publish / skip := true,
+    crossScalaVersions := Versions.ScalaCross.filterNot(_.startsWith("3")),
     Compile / doc / sources := List(), // Can't build docs in native
-    Compile / test / sources := List() // Can't yet compile in native
   )
 
 lazy val root = project.in(file("."))
