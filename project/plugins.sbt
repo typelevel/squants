@@ -10,5 +10,3 @@ addSbtPlugin("com.typesafe.sbt" % "sbt-osgi" % "0.9.6")
 addSbtPlugin("org.scalameta" % "sbt-mdoc" % "2.2.20")
 
 addSbtPlugin("com.geirsson" % "sbt-ci-release" % "1.5.7")
-
-addSbtPlugin("ch.epfl.lamp" % "sbt-dotty" % "0.5.3")
