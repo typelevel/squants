@@ -12,7 +12,7 @@ object Versions {
     Seq("2.12.13", "2.13.5", "3.0.0-RC3")
 
   val ScalaTest = "3.2.8"
-  val ScalaCheck = "1.15.3"
+  val ScalaCheck = "1.15.4"
 }
 
 object Dependencies {
