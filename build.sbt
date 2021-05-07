@@ -33,7 +33,7 @@ lazy val squants =
   .in(file("."))
   .settings(defaultSettings: _*)
   .jvmConfigure(
-    _.enablePlugins(MdocPlugin, SbtOsgi)
+    _.enablePlugins(SbtOsgi)
   )
   .jvmSettings(
     osgiSettings,
@@ -48,6 +48,15 @@ lazy val squants =
     crossScalaVersions := Versions.ScalaCross.filterNot(_.startsWith("3")),
     Compile / doc / sources := List(), // Can't build docs in native
   )
+
+lazy val docs =
+  project.in(file("squants-docs"))
+    .dependsOn(squants.jvm)
+    .enablePlugins(MdocPlugin)
+    .settings(
+      scalaVersion := "2.13.5",
+      mdocOut := (ThisBuild / baseDirectory).value
+    )
 
 lazy val root = project.in(file("."))
   .settings(defaultSettings: _*)
