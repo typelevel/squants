@@ -7,6 +7,6 @@ addSbtPlugin("org.scalariform" % "sbt-scalariform" % "1.8.3")
 
 addSbtPlugin("com.typesafe.sbt" % "sbt-osgi" % "0.9.6")
 
-addSbtPlugin("org.scalameta" % "sbt-mdoc" % "2.2.20")
+addSbtPlugin("org.scalameta" % "sbt-mdoc" % "2.2.21")
 
 addSbtPlugin("com.geirsson" % "sbt-ci-release" % "1.5.7")
