@@ -54,7 +54,7 @@ lazy val docs =
     .dependsOn(squants.jvm)
     .enablePlugins(MdocPlugin)
     .settings(
-      scalaVersion := "2.13.5",
+      scalaVersion := "2.13.6",
       mdocOut := (ThisBuild / baseDirectory).value
     )
 
