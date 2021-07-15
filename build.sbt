@@ -56,6 +56,7 @@ lazy val docs =
     .settings(
       scalaVersion := "2.13.6",
       mdocOut := (ThisBuild / baseDirectory).value
+      mdocAutoDependency := false
     )
 
 lazy val root = project.in(file("."))
