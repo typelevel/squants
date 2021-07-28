@@ -55,7 +55,8 @@ lazy val docs =
     .enablePlugins(MdocPlugin)
     .settings(
       scalaVersion := "2.13.6",
-      mdocOut := (ThisBuild / baseDirectory).value
+      mdocOut := (ThisBuild / baseDirectory).value,
+      mdocAutoDependency := false,
     )
 
 lazy val root = project.in(file("."))
