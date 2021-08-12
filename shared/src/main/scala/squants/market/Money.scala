@@ -433,6 +433,24 @@ abstract class Currency(val code: String, val name: String, val symbol: String, 
   protected def converterTo: Double ⇒ Double = ???
   def /(that: Money): CurrencyExchangeRate = that toThe Money(1, this)
   override def toString: String = code
+
+
+  def canEqual(other: Any): Boolean = other.isInstanceOf[Currency]
+
+  override def equals(other: Any): Boolean = other match {
+    case that: Currency =>
+      (that canEqual this) &&
+        code == that.code &&
+        name == that.name &&
+        symbol == that.symbol &&
+        formatDecimals == that.formatDecimals
+    case _ => false
+  }
+
+  override def hashCode(): Int = {
+    val state = Seq(code, name, symbol, formatDecimals)
+    state.map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)
+  }
 }
 
 object Currency {
