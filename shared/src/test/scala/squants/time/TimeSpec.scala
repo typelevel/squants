@@ -143,7 +143,7 @@ class TimeSpec extends AnyFlatSpec with Matchers {
     "10.22 µs".toTime.get should be(Microseconds(10.22))
     "10.22 ms".toTime.get should be(Milliseconds(10.22))
     "10.22 s".toTime.get should be(Seconds(10.22))
-    "10.22 m".toTime.get should be(Minutes(10.22))
+    "10.22 min".toTime.get should be(Minutes(10.22))
     "10.22 h".toTime.get should be(Hours(10.22))
     "10.22 d".toTime.get should be(Days(10.22))
     "10.22 z".toTime.failed.get should be(QuantityParseException("Unable to parse Time", "10.22 z"))
