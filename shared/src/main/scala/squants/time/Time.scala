@@ -104,7 +104,7 @@ object Seconds extends TimeUnit with SiBaseUnit {
 
 object Minutes extends TimeUnit {
   val conversionFactor = Seconds.conversionFactor * Time.SecondsPerMinute
-  val symbol = "m"
+  val symbol = "min"
 }
 
 object Hours extends TimeUnit {

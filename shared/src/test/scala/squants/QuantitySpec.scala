@@ -627,7 +627,7 @@ class QuantitySpec extends AnyFlatSpec with Matchers with CustomMatchers with Tr
     implicit val mass = Mass
 
     val l = parse[Length]("100 m")
-    val t = parse[Time]("100 m")
+    val t = parse[Time]("100 min")
     val th = parse[Thingee]("100 th")
     val m = parse[Mass]("100 m")
 
@@ -653,7 +653,7 @@ class QuantitySpec extends AnyFlatSpec with Matchers with CustomMatchers with Tr
     implicit val mass = Mass
 
     val l = parse[Length]((100d, "m"))
-    val t = parse[Time]((100d, "m"))
+    val t = parse[Time]((100d, "min"))
     val th = parse[Thingee]((100d, "th"))
     val m = parse[Mass]((100d, "m"))
 
@@ -679,7 +679,7 @@ class QuantitySpec extends AnyFlatSpec with Matchers with CustomMatchers with Tr
     implicit val mass = Mass
 
     val l = parse[Length]((100, "m"))
-    val t = parse[Time]((100, "m"))
+    val t = parse[Time]((100, "min"))
     val th = parse[Thingee]((100, "th"))
     val m = parse[Mass]((100, "m"))
 
