@@ -629,7 +629,7 @@ class QuantitySpec extends AnyFlatSpec with Matchers with CustomMatchers with Tr
     val l = parse[Length]("100 m")
     val t = parse[Time]("100 min")
     val th = parse[Thingee]("100 th")
-    val m = parse[Mass]("100 min")
+    val m = parse[Mass]("100 m")
 
     l.success.value should be(Meters(100))
     t.success.value should be(Minutes(100))
