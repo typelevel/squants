@@ -58,21 +58,21 @@ class QuantitySpec extends AnyFlatSpec with Matchers with CustomMatchers with Tr
 
   implicit object ThingeeNumeric extends AbstractQuantityNumeric[Thingee](Thangs)
 
-  behavior of "Quantity as implemented in Thingee"
+  // behavior of "Quantity as implemented in Thingee"
+
+  // define Numeric for each type
+  abstract class BaseNumeric[T] extends Numeric[T] {
+    def plus(x: T, y: T) = x + y
+    def minus(x: T, y: T) = x - y
+    def times(x: T, y: T) = x * y
+    def negate(x: T) = -x
+    def toInt(x: T) = x.toInt
+    def toLong(x: T) = x.toLong
+    def toFloat(x: T) = x.toFloat
+    def compare(x: T, y: T) = if (x == y) 0 else if (x.toDouble > y.toDouble) 1 else -1
+  }
 
   it should "create values using arbitrary numeric types" in {
-    // define Numeric for each type
-    abstract class BaseNumeric[T] extends Numeric[T] {
-      def plus(x: T, y: T) = x + y
-      def minus(x: T, y: T) = x - y
-      def times(x: T, y: T) = x * y
-      def negate(x: T) = -x
-      def toInt(x: T) = x.toInt
-      def toLong(x: T) = x.toLong
-      def toFloat(x: T) = x.toFloat
-      def compare(x: T, y: T) = if (x == y) 0 else if (x.toDouble > y.toDouble) 1 else -1
-    }
-
     implicit val stringNumeric = new BaseNumeric[String] {
       def fromInt(x: Int) = x.toString
       def toDouble(x: String) = augmentString(x).toDouble // augmentString is used to disambiguate implicit conversion
