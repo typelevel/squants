@@ -9,7 +9,7 @@ import com.typesafe.sbt.osgi.SbtOsgi.autoImport._
 object Versions {
   val Scala = "3.0.2"
   val ScalaCross =
-    Seq("2.12.13", "2.13.6", Scala)
+    Seq("2.12.15", "2.13.6", Scala)
 
   val ScalaTest = "3.2.10"
   val ScalaCheck = "1.15.4"
