@@ -190,6 +190,7 @@ object SolarMasses extends MassUnit {
 }
 
 object Dalton extends MassUnit  {
+  // Value with reference to NIST (https://physics.nist.gov/cgi-bin/cuu/Value?u)
   val conversionFactor = 1.66053906660e-27 * MetricSystem.Kilo
   val symbol = "Da"
 }
