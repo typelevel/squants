@@ -43,6 +43,7 @@ class MassSpec extends AnyFlatSpec with Matchers {
     Tolas(10.22).toTolas should be(10.22)
     Carats(10.22).toCarats should be(10.22)
     SolarMasses(10.22).toSolarMasses should be(10.22)
+    Dalton(10.22).toDalton should be(10.22)
 
     ElectronVoltMass(1).toeV should be(1)
     MilliElectronVoltMass(1).tomeV should be(1)
@@ -73,6 +74,7 @@ class MassSpec extends AnyFlatSpec with Matchers {
     Mass("10.22 tola").get should be(Tolas(10.22))
     Mass("10.22 ct").get should be(Carats(10.22))
     Mass("10.22 M☉").get should be(SolarMasses(10.22))
+    Mass("10.22 Da").get should be(Dalton(10.22))
     Mass("10.22 eV/c²").get should be(ElectronVoltMass(10.22))
     Mass("10.22 meV/c²").get should be(MilliElectronVoltMass(10.22))
     Mass("10.22 keV/c²").get should be(KiloElectronVoltMass(10.22))
@@ -101,6 +103,7 @@ class MassSpec extends AnyFlatSpec with Matchers {
     x.toTroyPounds should be (1 / TroyPounds.conversionFactor)
     x.toCarats should be (1 / Carats.conversionFactor)
     x.toSolarMasses should be (1 / SolarMasses.conversionFactor)
+    x.toDalton should be  (1 /  Dalton.conversionFactor)
     x.toeV should be (1 / ElectronVoltMass.conversionFactor)
 
     Grams(1000) should be(Kilograms(1))
@@ -116,6 +119,7 @@ class MassSpec extends AnyFlatSpec with Matchers {
     TroyOunces(1).toGrams should be(31.1034768)
     Pennyweights(1).toGrams should be(1.55517384 +- 0.000000001)
     SolarMasses(1).toKilograms should be(1.98855e30 +- 0.00025)
+    Dalton(1).toKilograms should be(1.66053906660e-27)
 
     x.toeV should be(1 / ElectronVoltMass.conversionFactor)
     x.tomeV should be(1 / MilliElectronVoltMass.conversionFactor)
@@ -146,6 +150,7 @@ class MassSpec extends AnyFlatSpec with Matchers {
     Tolas(1).toString(Tolas) should be("1.0 tola")
     Carats(1).toString(Carats) should be("1.0 ct")
     SolarMasses(1).toString(SolarMasses) should be("1.0 M☉")
+    Dalton(1).toString(Dalton) should be("1.0 Da")
 
     ElectronVoltMass(1).toString(ElectronVoltMass) should be("1.0 eV/c²")
     MilliElectronVoltMass(1).toString(MilliElectronVoltMass) should be("1.0 meV/c²")
@@ -215,6 +220,7 @@ class MassSpec extends AnyFlatSpec with Matchers {
     tola should be(Tolas(1))
     carat should be(Carats(1))
     solarMass should be(SolarMasses(1))
+    dalton should be(Dalton(1))
 
     eV should be(ElectronVoltMass(1))
     meV should be(MilliElectronVoltMass(1))
@@ -254,6 +260,7 @@ class MassSpec extends AnyFlatSpec with Matchers {
     d.ct should be(Carats(d))
     d.carats should be(Carats(d))
     d.solarMasses should be(SolarMasses(d))
+    d.dalton should be(Dalton(d))
 
     d.eV should be(ElectronVoltMass(d))
     d.meV should be(MilliElectronVoltMass(d))
@@ -294,6 +301,7 @@ class MassSpec extends AnyFlatSpec with Matchers {
     "10.45 tola".toMass.get should be(Tolas(10.45))
     "10.45 ct".toMass.get should be(Carats(10.45))
     "10.45 M☉".toMass.get should be(SolarMasses(10.45))
+    "10.45 Da".toMass.get should be(Dalton(10.45))
     "10.22 eV/c²".toMass.get should be(ElectronVoltMass(10.22))
     "10.22 meV/c²".toMass.get should be(MilliElectronVoltMass(10.22))
     "10.22 keV/c²".toMass.get should be(KiloElectronVoltMass(10.22))
