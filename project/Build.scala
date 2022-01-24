@@ -11,7 +11,7 @@ object Versions {
   val ScalaCross =
     Seq("2.12.15", "2.13.6", Scala)
 
-  val ScalaTest = "3.2.10"
+  val ScalaTest = "3.2.11"
   val ScalaCheck = "1.15.4"
 }
 
