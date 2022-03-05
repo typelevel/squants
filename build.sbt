@@ -28,7 +28,8 @@ inThisBuild(List(
   crossScalaVersions := Versions.ScalaCross,
   githubWorkflowBuildMatrixExclusions +=
     MatrixExclude(Map("project" -> "rootNative", "scala" -> Versions.Scala3)),
-  tlVersionIntroduced := Map("3" -> "1.8.3")
+  tlVersionIntroduced := Map("2.13" -> "1.6.0", "3" -> "1.8.3"),
+  tlMimaPreviousVersions ~= { _.filterNot(Set("1.7.1", "1.7.2", "1.7.3")) } // unpublished tags (?)
 ))
 
 lazy val squants =
@@ -52,7 +53,7 @@ lazy val squants =
   .nativeSettings(
     crossScalaVersions := Versions.ScalaCross.filterNot(_.startsWith("3")),
     Compile / doc / sources := List(), // Can't build docs in native
-    tlVersionIntroduced := List("2.12", "2.13").map(_ -> "1.7.2").toMap,
+    tlVersionIntroduced := List("2.12", "2.13").map(_ -> "1.8.0").toMap,
   )
 
 lazy val docs =
