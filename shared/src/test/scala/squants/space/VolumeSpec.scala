@@ -167,7 +167,7 @@ class VolumeSpec extends AnyFlatSpec with Matchers {
   }
 
   it should "return Length when cube rooted" in {
-    CubicMeters(27).cubeRoot should be(Meters(3))
+    CubicMeters(64).cubeRoot should be(Meters(4))
   }
 
   behavior of "VolumeConversions"
