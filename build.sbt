@@ -12,7 +12,7 @@ Global / onChangedBuildSource := ReloadOnSourceChanges
 ThisBuild / turbo := true
 
 inThisBuild(List(
-  tlBaseVersion := "1.8",
+  tlBaseVersion := "2.0",
   organization := "org.typelevel",
   homepage := Some(url("http://www.squants.com/")),
   licenses := Seq("Apache 2.0" -> url("http://www.opensource.org/licenses/Apache-2.0")),
@@ -28,8 +28,6 @@ inThisBuild(List(
   crossScalaVersions := Versions.ScalaCross,
   githubWorkflowBuildMatrixExclusions +=
     MatrixExclude(Map("project" -> "rootNative", "scala" -> Versions.Scala3)),
-  tlVersionIntroduced := Map("2.13" -> "1.6.0", "3" -> "1.8.3"),
-  tlMimaPreviousVersions ~= { _.filterNot(Set("1.7.1", "1.7.2", "1.7.3")) } // unpublished tags (?)
 ))
 
 lazy val squants =
@@ -48,20 +46,18 @@ lazy val squants =
   .jsSettings(
     Test / parallelExecution := false,
     Test / excludeFilter := "*Serializer.scala" || "*SerializerSpec.scala",
-    tlVersionIntroduced ++= List("2.12", "2.13").map(_ -> "1.6.0").toMap,
   )
   .nativeSettings(
     crossScalaVersions := Versions.ScalaCross.filterNot(_.startsWith("3")),
     Compile / doc / sources := List(), // Can't build docs in native
-    tlVersionIntroduced := List("2.12", "2.13").map(_ -> "1.8.0").toMap,
   )
 
 lazy val docs =
   project.in(file("squants-docs"))
     .dependsOn(squants.jvm)
-    .enablePlugins(MdocPlugin)
+    .enablePlugins(MdocPlugin, NoPublishPlugin)
     .settings(
-      scalaVersion := "2.13.7",
+      scalaVersion := Versions.Scala,
       mdocOut := (ThisBuild / baseDirectory).value,
       mdocAutoDependency := false,
     )
