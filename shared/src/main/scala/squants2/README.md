@@ -194,7 +194,11 @@ The 7 SI base dimensions and `Dimensionless` have been refactored.
 
 ### Derived Dimensions
 
-2 Derived Dimensions (`Area` and `Volume`) have been refactored, but with only a couple units each.
+The following derived dimensions are functioning:
+
+* Angle
+* Area (only 2 units)
+* Volume (only 2 units)
 
 ### Approach to Complete Refactoring
 
