@@ -135,8 +135,7 @@ However, each quantity type must be refactored to use `QNumeric`, and provide nu
 
 ```scala
 
-final case class Length[A: QNumeric] private (value: A, unit: LengthUnit) 
-        extends Quantity[A, Length.type] {
+final case class Length[A: QNumeric] private (value: A, unit: LengthUnit) extends Quantity[A, Length.type] {
  
   override type Q[B] = Length[B]
 
@@ -161,8 +160,7 @@ object Length extends BaseDimension("Length", "L") {
 
 }
 
-abstract class LengthUnit(val symbol: String, val conversionFactor: Double) 
-        extends UnitOfMeasure[Length.type] {
+abstract class LengthUnit(val symbol: String, val conversionFactor: Double) extends UnitOfMeasure[Length.type] {
   override def dimension: Length.type = Length
   override def apply[A: QNumeric](value: A): Length[A] = Length(value, this)
 }
@@ -234,5 +232,4 @@ package object double {
 User code would then need to replace `import squants.*` with `import squants.double.*`,
 which should minimize required code changes.
 
-This could be validated by applying the existing 1.x suite (or some subset of it) to that shadow package.
-
+This could be validated by applying the existing 1.x test suite (or some subset of it) to that shadow package.
