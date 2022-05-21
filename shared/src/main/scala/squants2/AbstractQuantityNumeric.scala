@@ -11,7 +11,7 @@ package squants2
  *
  * @tparam A Quantity type
  */
-abstract class AbstractQuantityNumeric[A, D <: Dimension](val unit: UnitOfMeasure[D] with PrimaryUnit)(implicit qNum: QNumeric[A]) extends Numeric[Quantity[A, D]] {
+abstract class AbstractQuantityNumeric[A, D <: Dimension](val unit: UnitOfMeasure[D] with PrimaryUnit)(implicit num: Numeric[A]) extends Numeric[Quantity[A, D]] {
   override def plus(x: Quantity[A, D], y: Quantity[A, D]): Quantity[A, D] = x + y
   override def minus(x: Quantity[A, D], y: Quantity[A, D]): Quantity[A, D] = x - y
 
@@ -27,11 +27,11 @@ abstract class AbstractQuantityNumeric[A, D <: Dimension](val unit: UnitOfMeasur
    */
   override def times(x: Quantity[A, D], y: Quantity[A, D]): Quantity[A, D] = throw new UnsupportedOperationException(s"Numeric.times not supported for ${unit.dimension.name}")
   override def negate(x: Quantity[A, D]): Quantity[A, D] = -x
-  override def fromInt(x: Int): Quantity[A, D] = unit(qNum.fromInt(x))
-  override def toInt(x: Quantity[A, D]): Int = qNum.toInt(x.to(unit))
-  override def toLong(x: Quantity[A, D]): Long = qNum.toLong(x.to(unit))
-  override def toFloat(x: Quantity[A, D]): Float = qNum.toFloat(x.to(unit))
-  override def toDouble(x: Quantity[A, D]): Double = qNum.toDouble(x.to(unit))
+  override def fromInt(x: Int): Quantity[A, D] = unit(num.fromInt(x))
+  override def toInt(x: Quantity[A, D]): Int = num.toInt(x.to(unit))
+  override def toLong(x: Quantity[A, D]): Long = num.toLong(x.to(unit))
+  override def toFloat(x: Quantity[A, D]): Float = num.toFloat(x.to(unit))
+  override def toDouble(x: Quantity[A, D]): Double = num.toDouble(x.to(unit))
   override def compare(x: Quantity[A, D], y: Quantity[A, D]): Int = x.compare(y)
-  override def parseString(str: String): Option[Quantity[A, D]] = qNum.fromString(str).map(a => unit(a))
+  override def parseString(str: String): Option[Quantity[A, D]] = num.parseString(str).map(a => unit(a))
 }

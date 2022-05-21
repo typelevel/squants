@@ -3,7 +3,7 @@ package squants2.space
 import squants2.time.Minutes
 import squants2._
 
-final case class Angle[A] private[squants2] (value: A, unit: AngleUnit)(implicit qNum: QNumeric[A]) extends Quantity[A, Angle.type] {
+final case class Angle[A] private[squants2] (value: A, unit: AngleUnit)(implicit num: Numeric[A]) extends Quantity[A, Angle.type] {
   override type Q[B] = Angle[B]
 
   def toRadians: A = to(Radians)
@@ -13,12 +13,12 @@ final case class Angle[A] private[squants2] (value: A, unit: AngleUnit)(implicit
   def toArcminutes: A = to(Arcminutes)
   def toArcseconds: A = to(Arcseconds)
 
-  def cos: A = qNum.cos(toRadians)
-  def tan: A = qNum.tan(toRadians)
-  def sin: A = qNum.sin(toRadians)
-  def asin: A = qNum.asin(toRadians)
-  def acos: A = qNum.acos(toRadians)
-  def atan: A = qNum.atan(toRadians)
+  def cos: Double = math.cos(num.toDouble(toRadians))
+  def tan: Double = math.tan(num.toDouble(toRadians))
+  def sin: Double = math.sin(num.toDouble(toRadians))
+  def asin: Double = math.asin(num.toDouble(toRadians))
+  def acos: Double = math.acos(num.toDouble(toRadians))
+  def atan: Double = math.atan(num.toDouble(toRadians))
 
   def onRadius[B](radius: Length[B])(implicit f: B => A): Length[A] = radius.asNum[A] * to(Radians)
 
@@ -30,8 +30,8 @@ object Angle extends Dimension("Angle") {
   override def siUnit: UnitOfMeasure[this.type] with SiUnit = Radians
   override lazy val units: Set[UnitOfMeasure[this.type]] = Set(Radians, Degrees, Gradians, Turns, Arcminutes, Arcseconds)
 
-  // Constructors from QNumeric values
-  implicit class AngleCons[A](a: A)(implicit num: QNumeric[A]) {
+  // Constructors from Numeric values
+  implicit class AngleCons[A](a: A)(implicit num: Numeric[A]) {
     def radians: Angle[A] = Radians(a)
     def degrees: Angle[A] = Degrees(a)
     def gradians: Angle[A] = Gradians(a)
@@ -52,7 +52,7 @@ object Angle extends Dimension("Angle") {
 
 abstract class AngleUnit(val symbol: String, val conversionFactor: Double) extends UnitOfMeasure[Angle.type] {
   override lazy val dimension: Angle.type = Angle
-  override def apply[A: QNumeric](value: A): Angle[A] = Angle(value, this)
+  override def apply[A: Numeric](value: A): Angle[A] = Angle(value, this)
 }
 
 case object Radians extends AngleUnit("rad", 1) with PrimaryUnit with SiUnit

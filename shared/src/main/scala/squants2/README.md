@@ -8,7 +8,7 @@ Allowing the user to choose the numeric type for a Quantity will remove this lim
 
 ## Goals
 
-* Generic Numeric type for Quantity values with Interoperability ✓ 
+* Support for `Numeric` as Quantity values with Interoperability between types ✓ 
 * Refactor Core Model to Support Generics ✓
 * Refactor SI Base Dimensions to validate model ✓
 * Refactor all Dimensions - #TODO
@@ -16,33 +16,14 @@ Allowing the user to choose the numeric type for a Quantity will remove this lim
 
 ## Generic Numerics and Interoperability
 
-This refactoring supports using a generic type for `Quantity.value`.
-
-It is based on the new `QNumeric` type class.
-
-```scala
-trait QNumeric[A] {
-  def zero: A
-  def one: A
-  def plus[B](a: A, b: B)(implicit f: B => A): A
-  def minus[B](a: A, b: B)(implicit f: B => A): A
-  def times[B](a: A, b: B)(implicit f: B => A): A
-  def divide[B](a: A, b: B)(implicit f: B => A): A
-  def mod[B](a: A, b: B)(implicit f: B => A): A
-  /* ... */
-}
-```
-Unlike the `Numeric` trait in the standard library `QNumeric` implements its binary operations to accept
-any value for the second operand, along with an implicit conversion from that type to the `QNumeric` type parameter.
-
-This allows for more readable operations between different numeric types.
+This refactoring supports using a `Numeric` type for `Quantity.value`.
 
 ```scala
 val massN = Kilograms(1) // Mass[Int]
 val massD = Kilograms(10.22) // Mass[Double]
 val massBD = Kilograms(BigDecimal(10.22)) // Mass[BigDecimal]
 
-// convert numbers to others types (requires implicit conversion to QNumeric in scope)
+// convert numbers to others types (requires implicit conversion to Numeric in scope)
 val massN2D: Mass[Double] = massN.asNum[Double]
 val massD2B: Mass[BigDecimal] = massD.asNum[BigDecimal]
 
@@ -60,16 +41,9 @@ val massSumN = massN + massD.map(_.toInt)  // Mass[Int]
 val massSumD = massN.asNum[Double] + massD // Mass[Double]
 ```
 
-Of course, this ability is provided by the standard library to some degree, but this type class
-allows us to support conversions for other, 3rd party types.
-
-Any type can be used as `Quantity.value` for which there is a `QNumeric` type class implementation.
-This library provides implicit conversions from any `Numeric` to `QNumeric`,
-allowing use of any third-party number library that implements `Numeric` for its types.
-However, it may be wise to create explicit implementations that override defaults with better implementations.
-
 Unit conversion factors are still defined using `Double`. 
-However, they are converted to the `QNumeric` type used in the `Quantity` before conversions are applied.
+However, they are converted to the `Numeric` type used in the `Quantity` before conversions are applied.
+The way this is done is by converting the factor to a string and using `Numeric.parseString`.  This needs work.
 This should help preserve precision, however, we may want to consider using `BigDecimal` to hold conversion factors.
 
 ## Refactor Model to Support Generics
@@ -92,11 +66,11 @@ trait UnitOfMeasure[D <: Dimension] {
   def dimension: D
   def symbol: String
   def conversionFactor: Double  // maybe BigDecimal instead
-  def apply[A: QNumeric](a: A): Quantity[A, D]
+  def apply[A: Numeric](a: A): Quantity[A, D]
   /* ... */
 }
 
-abstract class Quantity[A: QNumeric, D <: Dimension] {
+abstract class Quantity[A: Numeric, D <: Dimension] {
   type Q[B] <: Quantity[B, D]
   def value: A
   def unit: UnitOfMeasure[D]
@@ -108,13 +82,13 @@ abstract class Quantity[A: QNumeric, D <: Dimension] {
 
 Most of the complexity at this point, particularly around the type system, is encapsulated within the `Quantity` and other core classes.
 
-However, each quantity type must be refactored to use `QNumeric`, and provide numeric interoperability for dimensional operations.
+However, each quantity type must be refactored to use `Numeric`, and provide numeric interoperability for dimensional operations.
 
 `UnitOfMeasure` definitions are much easier to create, read and maintain by using an abstract class instead of a trait for the base unit type.
 (*A refactoring that is possible in the current 1.x model, as well*)
 
 ```scala
-final case class Length[A: QNumeric] private (value: A, unit: LengthUnit) extends Quantity[A, Length.type] {
+final case class Length[A: Numeric] private (value: A, unit: LengthUnit) extends Quantity[A, Length.type] {
  
   override type Q[B] = Length[B]
 
@@ -128,8 +102,8 @@ object Length extends BaseDimension("Length", "L") {
   override lazy val siUnit: UnitOfMeasure[this.type] with SiBaseUnit = Meters
   override lazy val units: Set[UnitOfMeasure[this.type]] = Set(Meters, Feet)
 
-  // Constructors from QNumeric values
-  implicit class LengthCons[A: QNumeric](a: A) {
+  // Constructors from Numeric values
+  implicit class LengthCons[A: Numeric](a: A) {
     def meters: Length[A] = Meters(a)
     def feet: Length[A] = Feet(a)
   }
@@ -141,7 +115,7 @@ object Length extends BaseDimension("Length", "L") {
 
 abstract class LengthUnit(val symbol: String, val conversionFactor: Double) extends UnitOfMeasure[Length.type] {
   override def dimension: Length.type = Length
-  override def apply[A: QNumeric](value: A): Length[A] = Length(value, this)
+  override def apply[A: Numeric](value: A): Length[A] = Length(value, this)
 }
 
 case object Meters extends LengthUnit("m", 1) with PrimaryUnit with SiBaseUnit
@@ -152,7 +126,7 @@ case object Feet extends LengthUnit("ft", .3048006096)
 
 ### Generic Value and Core Model 
 
-All components of the core model has been refactored to use `QNumeric` types for values.
+All components of the core model has been refactored to use `Numeric` types for values.
 
 `SVector` has been reduced to only working with `Quantity`s.  The DoubleVector has been deprecated in favor of just using `SVector[Dimensionless]`
 
@@ -199,7 +173,7 @@ How dimensions, units and quantities are defined and implemented is very differe
 User code that defines new dimensions or units will require refactoring.
 
 However, we may be able to provide a "shadow" package that provides backward compatibility for more basic usage of 1.x.
-It could do this by providing type aliases that use `QNumeric[Double]`
+It could do this by providing type aliases that use `Numeric[Double]`
 
 ```scala
 package squants

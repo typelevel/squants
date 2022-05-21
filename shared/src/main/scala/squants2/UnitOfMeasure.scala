@@ -1,7 +1,5 @@
 package squants2
 
-import squants2.QNumeric.*
-
 /**
  * A Unit of Measure is used to define the scale of a quantity measurement
  *
@@ -10,7 +8,6 @@ import squants2.QNumeric.*
  *
  * @author  garyKeorkunian
  * @since   0.1
- *
  * @tparam D The Dimension being measured
  */
 trait UnitOfMeasure[D <: Dimension] extends Serializable {
@@ -23,7 +20,7 @@ trait UnitOfMeasure[D <: Dimension] extends Serializable {
    * @tparam A the QNumeric type for `a`
    * @return
    */
-  def apply[A: QNumeric](a: A): Quantity[A, D]
+  def apply[A: Numeric](a: A): Quantity[A, D]
 
   /**
    * Extractor method for getting the QNumeric value of a Quantity in this UnitOfMeasure
@@ -31,7 +28,7 @@ trait UnitOfMeasure[D <: Dimension] extends Serializable {
    * @tparam A the QNumeric type
    * @return
    */
-  def unapply[A: QNumeric](q: Quantity[A, D]): Option[A] = Some(q.to(this))
+  def unapply[A: Numeric](q: Quantity[A, D]): Option[A] = Some(q.to(this))
 
   /**
    * Symbol used when representing Quantities in this UnitOfMeasure
@@ -53,13 +50,18 @@ trait UnitOfMeasure[D <: Dimension] extends Serializable {
    *
    * @param quantity the Quantity being converted
    * @param uom the Unit to which the Quantity is being converted
-   * @param qNum QNumeric for the Quantity
+   * @param num QNumeric for the Quantity
    * @tparam A QNumeric type
    * @return
    */
-  def convertTo[A](quantity: Quantity[A, D], uom: UnitOfMeasure[D])(implicit qNum: QNumeric[A]): Quantity[A, D] = {
+  def convertTo[A](quantity: Quantity[A, D], uom: UnitOfMeasure[D])(implicit num: Numeric[A]): Quantity[A, D] = {
     if (uom eq this) quantity else {
-      uom(quantity.value * qNum.fromDouble(conversionFactor) / qNum.fromDouble(uom.conversionFactor))
+      val newValue = num match {
+        case fnum: Fractional[A] => fnum.times(quantity.value, fnum.div(num.parseString(conversionFactor.toString).get, num.parseString(uom.conversionFactor.toString).get))
+        case inum: Integral[A] => inum.times(quantity.value, inum.quot(num.parseString(conversionFactor.toString).get, num.parseString(uom.conversionFactor.toString).get))
+        case _ => throw new UnsupportedOperationException("Unknown numeric type")
+      }
+      uom(newValue)
     }
   }
 }

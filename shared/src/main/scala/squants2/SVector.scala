@@ -9,7 +9,8 @@
 package squants2
 
 import squants2.space._
-import squants2.QNumeric.QNumericOps
+
+import scala.math.Numeric.Implicits.infixNumericOps
 
 /**
  * Root trait for representing Vectors
@@ -19,7 +20,7 @@ import squants2.QNumeric.QNumericOps
  *
  * @tparam A The numeric type for the Vector's coordinate values
  */
-abstract class SVector[A: QNumeric, D <: Dimension] {
+abstract class SVector[A: Numeric, D <: Dimension] {
 
   type SVectorType <: SVector[A, D]
   type Q = Quantity[A, D]
@@ -122,7 +123,7 @@ object SVector {
 //   * @param theta the angle from the polar axis
 //   * @return
 //   */
-  //  def apply[B: QNumeric](radius: Double, theta: Angle[B]): DoubleVector = apply(radius * theta.cos, radius * theta.sin)
+  //  def apply[B: Numeric](radius: Double, theta: Angle[B]): DoubleVector = apply(radius * theta.cos, radius * theta.sin)
 
 //  /**
 //   * Create a 2-dimensional QuantityVector[A] from Polar Coordinates
@@ -140,7 +141,7 @@ object SVector {
  * @tparam A The numeric type for the Vector's coordinate values
  * @tparam D The Dimension of the Vector's coordinate values
  */
-case class SVectorImpl[A, D <: Dimension](coordinates: Seq[Quantity[A, D]])(implicit qNum: QNumeric[A]) extends SVector[A, D] {
+case class SVectorImpl[A, D <: Dimension](coordinates: Seq[Quantity[A, D]])(implicit qNum: Numeric[A]) extends SVector[A, D] {
   override type SVectorType = this.type
 
   private val valueUnit = coordinates.head.unit
@@ -149,7 +150,8 @@ case class SVectorImpl[A, D <: Dimension](coordinates: Seq[Quantity[A, D]])(impl
    *
    * @return
    */
-  override def magnitude: Q = valueUnit(qNum.sqrt(coordinates.map(v ⇒ v.to(valueUnit) * v.to(valueUnit)).foldLeft(qNum.zero)(_ + _)))
+  override def magnitude: Q = ???
+  // TODO:   valueUnit(qNum.sqrt(coordinates.map(v ⇒ v.to(valueUnit) * v.to(valueUnit)).foldLeft(qNum.zero)(_ + _)))
 
   /**
    * The angle between the two Cartesian coordinates at the supplied indices
@@ -159,8 +161,8 @@ case class SVectorImpl[A, D <: Dimension](coordinates: Seq[Quantity[A, D]])(impl
    * @param unit        unit for the angle (theta) component (defaults to Radians)
    * @return Angle
    */
-  override def angle(coordinateX: Int, coordinateY: Int, unit: AngleUnit): Angle[A] =
-    Radians(qNum.atan(coordinates(coordinateY) / coordinates(coordinateX))) in unit
+  override def angle(coordinateX: Int, coordinateY: Int, unit: AngleUnit): Angle[A] = ???
+  // TODO:   Radians(qNum.atan(coordinates(coordinateY) / coordinates(coordinateX))) in unit
 
   /**
    * Creates the Unit Vector which corresponds to this vector
@@ -185,7 +187,7 @@ case class SVectorImpl[A, D <: Dimension](coordinates: Seq[Quantity[A, D]])(impl
    * @tparam E - the Dimension of the new SVector
    * @return
    */
-  def map[B: QNumeric, E <: Dimension](f: Quantity[A, D] => Quantity[B, E]): SVector[B, E] = SVectorImpl(coordinates.map(q => f(q)))
+  def map[B: Numeric, E <: Dimension](f: Quantity[A, D] => Quantity[B, E]): SVector[B, E] = SVectorImpl(coordinates.map(q => f(q)))
 
   /**
    * Add two Vectors

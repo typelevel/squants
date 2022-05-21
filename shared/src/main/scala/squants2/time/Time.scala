@@ -2,7 +2,7 @@ package squants2.time
 
 import squants2._
 
-final case class Time[A: QNumeric] private  [time] (value: A, unit: TimeUnit) extends Quantity[A, Time.type] {
+final case class Time[A: Numeric] private  [time] (value: A, unit: TimeUnit) extends Quantity[A, Time.type] {
   override type Q[B] = Time[B]
 }
 
@@ -13,8 +13,8 @@ object Time extends BaseDimension("Time", "T") {
   override lazy val units: Set[UnitOfMeasure[this.type]] =
     Set(Seconds, Minutes, Hours, Days, Milliseconds, Microseconds, Nanoseconds, Picoseconds)
 
-  // Constructors from QNumeric values
-  implicit class TimeCons[A: QNumeric](a: A) {
+  // Constructors from Numeric values
+  implicit class TimeCons[A: Numeric](a: A) {
     def seconds: Time[A] = Seconds(a)
     def minutes: Time[A] = Minutes(a)
     def hours: Time[A] = Hours(a)
@@ -31,7 +31,7 @@ object Time extends BaseDimension("Time", "T") {
 
 abstract class TimeUnit(val symbol: String, val conversionFactor: Double) extends UnitOfMeasure[Time.type] {
   override def dimension: Time.type = Time
-  override def apply[A: QNumeric](value: A): Time[A] = Time(value, this)
+  override def apply[A: Numeric](value: A): Time[A] = Time(value, this)
 }
 
 case object Seconds extends TimeUnit("s", 1) with PrimaryUnit with SiBaseUnit

@@ -1,14 +1,14 @@
 package squants2
 
-import squants2.QNumeric.QNumericOps
+import math.Numeric.Implicits.infixNumericOps
 
-final case class Dimensionless[A: QNumeric] private[squants2] (value: A, unit: DimensionlessUnit) extends Quantity[A, Dimensionless.type] {
+final case class Dimensionless[A: Numeric] private[squants2] (value: A, unit: DimensionlessUnit) extends Quantity[A, Dimensionless.type] {
   override type Q[B] = Dimensionless[B]
 
-  def *[B](that: Dimensionless[B])(implicit f: B => A): Dimensionless[A] = Each(to(Each) * that.to(Each))
+  def *[B](that: Dimensionless[B])(implicit f: B => A): Dimensionless[A] = Each(to(Each) * f(that.to(Each)))
   def *[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = that.asNum[A] * to(Each)
 
-  def +[B](that: B)(implicit f: B => A): Dimensionless[A] = Each(to(Each) + that)
+  def +[B](that: B)(implicit f: B => A): Dimensionless[A] = Each(to(Each) + f(that))
 
   def toPercent: A = to(Percent)
   def toEach: A = to(Each)
@@ -23,8 +23,8 @@ object Dimensionless extends Dimension("Dimensionless") {
   override def siUnit: UnitOfMeasure[this.type] with SiUnit = Each
   override lazy val units: Set[UnitOfMeasure[this.type]] = Set(Each, Percent, Dozen, Score, Gross)
 
-  // Constructors from QNumeric values
-  implicit class DimensionlessCons[A](a: A)(implicit num: QNumeric[A]) {
+  // Constructors from Numeric values
+  implicit class DimensionlessCons[A](a: A)(implicit num: Numeric[A]) {
     def percent: Dimensionless[A] = Percent(a)
     def each: Dimensionless[A] = Each(a)
     def dozen: Dimensionless[A] = Dozen(a)
@@ -49,7 +49,7 @@ object Dimensionless extends Dimension("Dimensionless") {
 
 abstract class DimensionlessUnit(val symbol: String, val conversionFactor: Double) extends UnitOfMeasure[Dimensionless.type] {
   override lazy val dimension: Dimensionless.type = Dimensionless
-  override def apply[A: QNumeric](value: A): Dimensionless[A] = Dimensionless(value, this)
+  override def apply[A: Numeric](value: A): Dimensionless[A] = Dimensionless(value, this)
 }
 
 case object Each extends DimensionlessUnit("ea", 1) with PrimaryUnit with SiUnit

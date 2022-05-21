@@ -1,11 +1,12 @@
 package squants2
 
 
-import squants2.QNumeric.QNumericOps
-
 import java.util.Objects
 import scala.math.BigDecimal.RoundingMode
 import scala.math.BigDecimal.RoundingMode.RoundingMode
+import scala.math.Numeric.BigDecimalIsConflicted
+import scala.math.Numeric.Implicits.infixNumericOps
+import scala.math.Ordered.orderingToOrdered
 
 /**
  * A base class for measurable quantities, instances of which contain a value and a unit
@@ -14,7 +15,7 @@ import scala.math.BigDecimal.RoundingMode.RoundingMode
  * @since   0.1
  *
  */
-abstract class Quantity[A, D <: Dimension](implicit qNum: QNumeric[A]) extends Serializable with Ordered[Quantity[A, D]] {
+abstract class Quantity[A, D <: Dimension](implicit num: Numeric[A]) extends Serializable with Ordered[Quantity[A, D]] {
   type Q[B] <: Quantity[B, D]
 
   /**
@@ -40,23 +41,23 @@ abstract class Quantity[A, D <: Dimension](implicit qNum: QNumeric[A]) extends S
    * @param that Quantity
    * @return Quantity
    */
-  def plus[B: QNumeric](that: Quantity[B, D])(implicit f: B => A): this.type = unit(value + that.to(unit)).asInstanceOf[this.type]
-  def +[B: QNumeric](that: Quantity[B, D])(implicit f: B => A): this.type = plus(that)
+  def plus[B: Numeric](that: Quantity[B, D])(implicit f: B => A): this.type = unit(value + f(that.to(unit))).asInstanceOf[this.type]
+  def +[B: Numeric](that: Quantity[B, D])(implicit f: B => A): this.type = plus(that)
 
   /**
    * Subtract two like quantities
    * @param that Quantity
    * @return Quantity
    */
-  def minus[B: QNumeric](that: Quantity[B, D])(implicit f: B => A): this.type = unit(value - that.to(unit)).asInstanceOf[this.type]
-  def -[B: QNumeric](that: Quantity[B, D])(implicit f: B => A): this.type = minus(that)
+  def minus[B: Numeric](that: Quantity[B, D])(implicit f: B => A): this.type = unit(value - f(that.to(unit))).asInstanceOf[this.type]
+  def -[B: Numeric](that: Quantity[B, D])(implicit f: B => A): this.type = minus(that)
 
   /**
    * Multiply this quantity by some number
    * @param that Double
    * @return Quantity
    */
-  def times[B](that: B)(implicit f: B => A): this.type = unit(value * that).asInstanceOf[this.type]
+  def times[B](that: B)(implicit f: B => A): this.type = unit(value * f(that)).asInstanceOf[this.type]
   def *[B](that: B)(implicit f: B => A): this.type = times(that)
 
   // TODO - def * (that: Price[Quantity[_, D])
@@ -66,7 +67,7 @@ abstract class Quantity[A, D <: Dimension](implicit qNum: QNumeric[A]) extends S
    * @param that Double
    * @return Quantity
    */
-  def divide[B](that: B)(implicit f: B => A): this.type = unit(value / that).asInstanceOf[this.type]
+  def divide[B](that: B)(implicit f: B => A): this.type = unit(value / f(that)).asInstanceOf[this.type]
   def /[B](that: B)(implicit f: B => A): this.type = divide(that)
 
   /**
@@ -74,15 +75,15 @@ abstract class Quantity[A, D <: Dimension](implicit qNum: QNumeric[A]) extends S
    * @param that Quantity
    * @return Double
    */
-  def divide[B: QNumeric](that: Quantity[B, D])(implicit f: B => A): A = value / that.to(unit)
-  def /[B: QNumeric](that: Quantity[B, D])(implicit f: B => A): A = divide(that)
+  def divide[B: Numeric](that: Quantity[B, D])(implicit f: B => A): A = value / that.asNum[A].to(unit)
+  def /[B: Numeric](that: Quantity[B, D])(implicit f: B => A): A = divide(that)
 
   /**
    * Returns the remainder of a division by a number
    * @param that Quantity
    * @return Quantity
    */
-  def remainder[B](that: B)(implicit f: B => A): this.type = unit(value % that).asInstanceOf[this.type]
+  def remainder[B](that: B)(implicit f: B => A): this.type = (value % f(that)).asInstanceOf[this.type]
   def %[B](that: B)(implicit f: B => A): this.type = remainder(that)
 
   /**
@@ -90,8 +91,8 @@ abstract class Quantity[A, D <: Dimension](implicit qNum: QNumeric[A]) extends S
    * @param that Quantity
    * @return Double
    */
-  def remainder[B: QNumeric](that: Quantity[B, D])(implicit f: B => A): A = value % that.to(unit)
-  def %[B: QNumeric](that: Quantity[B, D])(implicit f: B => A): A = remainder(that)
+  def remainder[B: Numeric](that: Quantity[B, D])(implicit f: B => A): A = value % that.asNum[A].to(unit)
+  def %[B: Numeric](that: Quantity[B, D])(implicit f: B => A): A = remainder(that)
 
   /**
    * Returns a Pair that includes the result of divideToInteger and remainder
@@ -99,8 +100,7 @@ abstract class Quantity[A, D <: Dimension](implicit qNum: QNumeric[A]) extends S
    * @return (Quantity, Quantity)
    */
   def divideAndRemainder[B](that: B)(implicit f: B => A): (this.type, this.type) = {
-    val r = value % f(that)
-    val q = value / f(that) - r
+    val (q, r) = value /% f(that)
     (unit(q).asInstanceOf[this.type], unit(r).asInstanceOf[this.type])
   }
   def /%[B](that: B)(implicit f: B => A): (this.type, this.type) = divideAndRemainder(that)
@@ -110,26 +110,24 @@ abstract class Quantity[A, D <: Dimension](implicit qNum: QNumeric[A]) extends S
    * @param that Quantity
    * @return (Double, Quantity)
    */
-  def divideAndRemainder[B: QNumeric](that: Quantity[B, D])(implicit f: B => A): (A, this.type) = {
-    val thatVal = f(that.to(unit))
-    val r = value % thatVal
-    val q = value / thatVal
+  def divideAndRemainder[B: Numeric](that: Quantity[B, D])(implicit f: B => A): (A, this.type) = {
+    val (q, r) = value /% that.asNum[A].to(unit)
     (q, unit(r).asInstanceOf[this.type])
   }
-  def /%[B: QNumeric](that: Quantity[B, D])(implicit f: B => A): (A, this.type) = divideAndRemainder(that)
+  def /%[B: Numeric](that: Quantity[B, D])(implicit f: B => A): (A, this.type) = divideAndRemainder(that)
 
   /**
    * Returns the negative value of this Quantity
    * @return Quantity
    */
-  def negate: this.type = map(qNum.negate).asInstanceOf[this.type]
+  def negate: this.type = map(num.negate).asInstanceOf[this.type]
   def unary_- : this.type = negate
 
   /**
    * Returns the absolute value of this Quantity
    * @return Quantity
    */
-  def abs: this.type = map(qNum.abs).asInstanceOf[this.type]
+  def abs: this.type = map(num.abs).asInstanceOf[this.type]
 
   /**
    * Returns the smallest (closest to negative infinity) Quantity value that is greater than or equal to the argument and is equal to a mathematical integer.
@@ -137,7 +135,7 @@ abstract class Quantity[A, D <: Dimension](implicit qNum: QNumeric[A]) extends S
    * @see java.lang.Math#ceil(double)
    * @return Quantity
    */
-  def ceil: this.type = map(qNum.ceil).asInstanceOf[this.type]
+  def ceil: this.type = rounded(0, RoundingMode.CEILING)
 
   /**
    * Returns the largest (closest to positive infinity) Quantity value that is less than or equal to the argument and is equal to a mathematical integer
@@ -145,7 +143,7 @@ abstract class Quantity[A, D <: Dimension](implicit qNum: QNumeric[A]) extends S
    * @see java.lang.Math#floor(double)
    * @return Quantity
    */
-  def floor: this.type = map(qNum.floor).asInstanceOf[this.type]
+  def floor: this.type = rounded(0, RoundingMode.FLOOR)
 
   /**
    * Returns the Quantity value that is closest in value to the argument and is equal to a mathematical integer.
@@ -153,7 +151,7 @@ abstract class Quantity[A, D <: Dimension](implicit qNum: QNumeric[A]) extends S
    * @see java.lang.Math#rint(double)
    * @return Quantity
    */
-  def rint: this.type = map(qNum.rint).asInstanceOf[this.type]
+  def rint: this.type = rounded(0, RoundingMode.HALF_EVEN)
 
   /**
    * Returns the Quantity with its coefficient value rounded using scale and mode.  The unit is maintained.
@@ -162,7 +160,11 @@ abstract class Quantity[A, D <: Dimension](implicit qNum: QNumeric[A]) extends S
    * @param mode RoundingMode - defaults to HALF_EVEN
    * @return Quantity
    */
-  def rounded(scale: Int, mode: RoundingMode = RoundingMode.HALF_EVEN): this.type = map(qNum.rounded(_, scale, mode)).asInstanceOf[this.type]
+  def rounded(scale: Int, mode: RoundingMode = RoundingMode.HALF_EVEN): this.type = num match {
+    case _: BigDecimalIsConflicted => unit(value.asInstanceOf[BigDecimal].setScale(scale, mode).asInstanceOf[A]).asInstanceOf[this.type]
+    case _: Fractional[A]          => unit(BigDecimal(num.toDouble(value)).setScale(scale, mode).asInstanceOf[A]).asInstanceOf[this.type]
+    case _: Integral[A]            => this
+  }
 
   /**
    * Override of equals method
@@ -198,14 +200,14 @@ abstract class Quantity[A, D <: Dimension](implicit qNum: QNumeric[A]) extends S
    * @param that Quantity
    * @return Quantity
    */
-  def max[B](that: Quantity[B, D])(implicit f: B => A): Quantity[A, D] = if (this.value <= that.to(unit)) this else that.asNum[A]
+  def max[B](that: Quantity[B, D])(implicit f: B => A): Quantity[A, D] = if (this.value <= f(that.to(unit))) this else that.asNum[A]
 
   /**
    * Returns the min of this and that Quantity
    * @param that Quantity
    * @return Quantity
    */
-  def min[B](that: Quantity[B, D])(implicit f: B => A): Quantity[A, D] = if (this.value >= that.to(unit)) this else that.asNum[A]
+  def min[B](that: Quantity[B, D])(implicit f: B => A): Quantity[A, D] = if (this.value >= f(that.to(unit))) this else that.asNum[A]
 
   /**
    * Returns boolean result of approximate equality comparison
@@ -213,22 +215,22 @@ abstract class Quantity[A, D <: Dimension](implicit qNum: QNumeric[A]) extends S
    * @param tolerance Quantity
    * @return
    */
-  def approx[B: QNumeric, T](that: Quantity[B, D])(implicit tolerance: Quantity[T, D], f: B => A, t2a: T => A): Boolean =
+  def approx[B: Numeric, T](that: Quantity[B, D])(implicit tolerance: Quantity[T, D], f: B => A, t2a: T => A): Boolean =
     that.asNum[A] within this.plusOrMinus(tolerance.asNum[A])
   /** approx */
-  def =~[B: QNumeric, T: QNumeric](that: Quantity[B, D])(implicit tolerance: Quantity[T, D], f: B => A, t2a: T => A): Boolean = approx(that)
+  def =~[B: Numeric, T: Numeric](that: Quantity[B, D])(implicit tolerance: Quantity[T, D], f: B => A, t2a: T => A): Boolean = approx(that)
   /** approx */
-  def ≈[B: QNumeric, T: QNumeric](that: Quantity[B, D])(implicit tolerance: Quantity[T, D], f: B => A, t2a: T => A): Boolean = approx(that)
+  def ≈[B: Numeric, T: Numeric](that: Quantity[B, D])(implicit tolerance: Quantity[T, D], f: B => A, t2a: T => A): Boolean = approx(that)
   /** approx */
-  def ~=[B: QNumeric, T: QNumeric](that: Quantity[B, D])(implicit tolerance: Quantity[T, D], f: B => A, t2a: T => A): Boolean = approx(that)
+  def ~=[B: Numeric, T: Numeric](that: Quantity[B, D])(implicit tolerance: Quantity[T, D], f: B => A, t2a: T => A): Boolean = approx(that)
 
   /**
    * Returns a QuantityRange representing the range for this value +- that
    * @param that Quantity
    * @return QuantityRange
    */
-  def plusOrMinus[B: QNumeric](that: Quantity[B, D])(implicit f: B => A): QuantityRange[A, D] = QuantityRange(this - that, this + that)
-  def +-[B: QNumeric](that: Quantity[B, D])(implicit f: B => A): QuantityRange[A, D] = plusOrMinus(that)
+  def plusOrMinus[B: Numeric](that: Quantity[B, D])(implicit f: B => A): QuantityRange[A, D] = QuantityRange(this - that, this + that)
+  def +-[B: Numeric](that: Quantity[B, D])(implicit f: B => A): QuantityRange[A, D] = plusOrMinus(that)
 
   /**
    * Returns a QuantityRange that goes from this to that
@@ -270,12 +272,12 @@ abstract class Quantity[A, D <: Dimension](implicit qNum: QNumeric[A]) extends S
   def in(uom: UnitOfMeasure[D]): Q[A] = unit.convertTo(this, uom).asInstanceOf[Q[A]]
 
   /**
-   * Convert this Quantity to one with the QNumeric type B
+   * Convert this Quantity to one with the Numeric type B
    * @param f an implicit function that converts A to B
-   * @tparam B the target QNumeric type
+   * @tparam B the target Numeric type
    * @return
    */
-  def asNum[B: QNumeric](implicit f: A => B): Q[B] = unit(f(value)).asInstanceOf[Q[B]]
+  def asNum[B: Numeric](implicit f: A => B): Q[B] = unit(f(value)).asInstanceOf[Q[B]]
 
   /**
    * Returns a string representing the quantity's value in unit
@@ -317,19 +319,19 @@ abstract class Quantity[A, D <: Dimension](implicit qNum: QNumeric[A]) extends S
 
   /**
    * Applies a function to the underlying value of the Quantity, returning a new Quantity in the same unit,
-   * but with a any QNumeric type
+   * but with a any Numeric type
    * @param f Double => Double function
    * @return
    */
-  def map[B: QNumeric](f: A => B): Q[B] = unit(f(value)).asInstanceOf[Q[B]]
+  def map[B: Numeric](f: A => B): Q[B] = unit(f(value)).asInstanceOf[Q[B]]
 
   /**
-   * EXPERIMENTAL - Transform a Quantity to new Quantity of any Dimension, Unit and QNumeric type
+   * EXPERIMENTAL - Transform a Quantity to new Quantity of any Dimension, Unit and Numeric type
    * @param f the function applied to the Quantity
-   * @tparam B the QNumeric type for the result Quantity
+   * @tparam B the Numeric type for the result Quantity
    * @tparam E the Dimension for the result Quantity
    * @return
    */
-  def flatMap[B: QNumeric, E <: Dimension](f: Quantity[A, D] => Quantity[B, E]): Quantity[B, E] = f(this)
+  def flatMap[B: Numeric, E <: Dimension](f: Quantity[A, D] => Quantity[B, E]): Quantity[B, E] = f(this)
 
 }
