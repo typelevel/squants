@@ -4,7 +4,7 @@ import scala.annotation.tailrec
 import scala.language.implicitConversions
 import scala.math.BigDecimal.RoundingMode
 import scala.math.BigDecimal.RoundingMode.RoundingMode
-import scala.math.Numeric.DoubleIsFractional
+import scala.math.Numeric.{ BigDecimalIsConflicted, DoubleIsFractional }
 
 trait QNumeric[A] {
   def zero: A
@@ -102,7 +102,7 @@ object QNumeric {
     override def abs(a: A): A = num.abs(a)
 
     // TODO: The following may only be useful for Double.
-    //  BigDecimals will lose precision and, not terribly useful for integers
+    //  BigDecimals will lose precision, and not terribly useful for integer types
     override def sqrt(a: A): A = fromDouble(math.sqrt(toDouble(a)))
     override def sin(a: A): A = fromDouble(math.sin(toDouble(a)))
     override def cos(a: A): A = fromDouble(math.cos(toDouble(a)))
@@ -111,9 +111,9 @@ object QNumeric {
     override def acos(a: A): A = fromDouble(math.acos(toDouble(a)))
     override def atan(a: A): A = fromDouble(math.atan(toDouble(a)))
 
-    // TODO: This should work, but could be flaky for BigDecimal round-tripping through Double
-    // An explicit implementation for BigDecimal is below
+    // TODO: This should work, but could be flaky for other numeric types and should be overridden
     override def rounded(a: A, scale: Int, mode: RoundingMode): A = num match {
+      case _: BigDecimalIsConflicted => a.asInstanceOf[BigDecimal].setScale(scale, mode).asInstanceOf[A]
       case _: Fractional[A]          => fromDouble(BigDecimal(toDouble(a)).setScale(scale, mode).toDouble)
       case _: Integral[A]            => a
     }
@@ -133,7 +133,7 @@ object QNumeric {
     override def fromInt(n: Int): A = num.fromInt(n)
     override def fromString(str: String): Option[A] = num.parseString(str)
 
-    // TODO: Not the best solution for these, but can be overridden by specific QNumeric implementations
+    // TODO: Not the best solution for this, but can be overridden by specific QNumeric implementations
     override def fromDouble(d: Double): A = fromString(d.toString).get
   }
 
@@ -144,13 +144,5 @@ object QNumeric {
    * @return
    */
   implicit def numericToQNumeric[A: Numeric]: NumericIsQNumeric[A] = new NumericIsQNumeric[A]
-
-  /**
-   * Specific implementation of QNumeric for BigDecimal
-   */
-  implicit object QBigDecimal extends NumericIsQNumeric[BigDecimal]{
-    override def rounded(a: BigDecimal, scale: Int, mode: RoundingMode): BigDecimal = a.setScale(scale, mode)
-    override def fromDouble(d: Double): BigDecimal = BigDecimal(d)
-  }
 
 }

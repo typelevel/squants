@@ -215,3 +215,9 @@ User code would then need to replace `import squants.*` with `import squants.dou
 which should minimize required code changes.
 
 This could be validated by applying the existing 1.x test suite (or some subset of it) to that shadow package.
+
+
+## Alternative Solutions
+
+[Terra](https://github.com/hunterpayne/terra) is another library, based on Squants, that has taken a different approach to implementing support for generic values.
+Checkout that project to see if it fits your use case better.
