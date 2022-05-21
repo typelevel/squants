@@ -4,6 +4,7 @@ import scala.annotation.tailrec
 import scala.language.implicitConversions
 import scala.math.BigDecimal.RoundingMode
 import scala.math.BigDecimal.RoundingMode.RoundingMode
+import scala.math.Numeric.DoubleIsFractional
 
 trait QNumeric[A] {
   def zero: A
@@ -24,10 +25,10 @@ trait QNumeric[A] {
   def acos(a: A): A
   def atan(a: A): A
 
-  def ceil(a: A): A
-  def floor(a: A): A
-  def rint(a: A): A
   def rounded(a: A, scale: Int, mode: RoundingMode = RoundingMode.HALF_EVEN): A
+  def ceil(a: A): A = rounded(a, 0, RoundingMode.CEILING)
+  def floor(a: A): A = rounded(a, 0, RoundingMode.FLOOR)
+  def rint(a: A): A = rounded(a, 0, RoundingMode.HALF_EVEN)
 
   def compare[B](a: A, b: B)(implicit f: B => A): Int
   def lt[B](a: A, b: B)(implicit f: B => A): Boolean = compare(a, b) < 0
@@ -62,9 +63,6 @@ object QNumeric {
     def >[B](that: B)(implicit f: B => A): Boolean = qNum.gt(a, that)
     def >=[B](that: B)(implicit f: B => A): Boolean = qNum.gteq(a, that)
     def equiv[B](that: B)(implicit f: B => A): Boolean = qNum.equiv(a, that)
-
-
-//    override def compare(that: A): Int = qNum.compare(a, that)
 
     def *[B](that: Quantity[B, _])(implicit f: B => A): that.Q[A] = that.asNum[A] * a
     // TODO: this*SVector; this*Price; this/Time; this per Time /
@@ -103,6 +101,28 @@ object QNumeric {
     override def negate(a: A): A = num.negate(a)
     override def abs(a: A): A = num.abs(a)
 
+    // TODO: The following may only be useful for Double.
+    //  BigDecimals will lose precision and, not terribly useful for integers
+    override def sqrt(a: A): A = fromDouble(math.sqrt(toDouble(a)))
+    override def sin(a: A): A = fromDouble(math.sin(toDouble(a)))
+    override def cos(a: A): A = fromDouble(math.cos(toDouble(a)))
+    override def tan(a: A): A = fromDouble(math.tan(toDouble(a)))
+    override def asin(a: A): A = fromDouble(math.asin(toDouble(a)))
+    override def acos(a: A): A = fromDouble(math.acos(toDouble(a)))
+    override def atan(a: A): A = fromDouble(math.atan(toDouble(a)))
+
+    // TODO: This should work, but could be flaky for BigDecimal round-tripping through Double
+    // An explicit implementation for BigDecimal is below
+    override def rounded(a: A, scale: Int, mode: RoundingMode): A = num match {
+      case _: Fractional[A]          => fromDouble(BigDecimal(toDouble(a)).setScale(scale, mode).toDouble)
+      case _: Integral[A]            => a
+    }
+
+    override def rint(a: A): A = num match {
+      case _: DoubleIsFractional => fromDouble(math.rint(toDouble(a)))
+      case _ => super.rint(a)
+    }
+
     override def compare[B](a: A, b: B)(implicit f: B => A): Int = num.compare(a, f(b))
 
     override def toInt(a: A): Int = num.toInt(a)
@@ -115,20 +135,6 @@ object QNumeric {
 
     // TODO: Not the best solution for these, but can be overridden by specific QNumeric implementations
     override def fromDouble(d: Double): A = fromString(d.toString).get
-    override def sqrt(a: A): A = fromDouble(math.sqrt(toDouble(a)))
-    override def sin(a: A): A = fromDouble(math.sin(toDouble(a)))
-    override def cos(a: A): A = fromDouble(math.cos(toDouble(a)))
-    override def tan(a: A): A = fromDouble(math.tan(toDouble(a)))
-    override def asin(a: A): A = fromDouble(math.asin(toDouble(a)))
-    override def acos(a: A): A = fromDouble(math.acos(toDouble(a)))
-    override def atan(a: A): A = fromDouble(math.atan(toDouble(a)))
-    override def ceil(a: A): A = fromDouble(math.ceil(toDouble(a)))
-    override def floor(a: A): A = fromDouble(math.floor(toDouble(a)))
-    override def rint(a: A): A = fromDouble(math.rint(toDouble(a)))
-    override def rounded(a: A, scale: Int, mode: RoundingMode): A = num match {
-      case _: Fractional[A]          => fromDouble(BigDecimal(toDouble(a)).setScale(scale, mode).toDouble)
-      case _: Integral[A]            => a
-    }
   }
 
   /**
@@ -144,6 +150,7 @@ object QNumeric {
    */
   implicit object QBigDecimal extends NumericIsQNumeric[BigDecimal]{
     override def rounded(a: BigDecimal, scale: Int, mode: RoundingMode): BigDecimal = a.setScale(scale, mode)
+    override def fromDouble(d: Double): BigDecimal = BigDecimal(d)
   }
 
 }
