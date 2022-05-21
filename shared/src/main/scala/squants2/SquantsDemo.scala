@@ -1,9 +1,6 @@
 package squants2
 
-import squants2.space.Length.*
-import squants2.mass.Mass.*
-import squants2.mass.*
-import squants2.space.*
+import squants2.mass._
 
 import scala.language.implicitConversions
 

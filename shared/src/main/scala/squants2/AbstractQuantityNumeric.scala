@@ -27,7 +27,7 @@ abstract class AbstractQuantityNumeric[A, D <: Dimension](val unit: UnitOfMeasur
    */
   override def times(x: Quantity[A, D], y: Quantity[A, D]): Quantity[A, D] = throw new UnsupportedOperationException(s"Numeric.times not supported for ${unit.dimension.name}")
   override def negate(x: Quantity[A, D]): Quantity[A, D] = -x
-  override def fromInt(x: Int): Quantity[A, D] = unit(qNum.fromDouble(x))
+  override def fromInt(x: Int): Quantity[A, D] = unit(qNum.fromInt(x))
   override def toInt(x: Quantity[A, D]): Int = qNum.toInt(x.to(unit))
   override def toLong(x: Quantity[A, D]): Long = qNum.toLong(x.to(unit))
   override def toFloat(x: Quantity[A, D]): Float = qNum.toFloat(x.to(unit))
