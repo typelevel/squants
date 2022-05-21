@@ -15,9 +15,7 @@ trait QNumeric[A] {
   def mod[B](a: A, b: B)(implicit f: B => A): A
   def negate(a: A): A
   def abs(a: A): A
-  def ceil(a: A): A
-  def floor(a: A): A
-  def rint(a: A): A
+
   def sqrt(a: A): A
   def sin(a: A): A
   def cos(a: A): A
@@ -25,6 +23,10 @@ trait QNumeric[A] {
   def asin(a: A): A
   def acos(a: A): A
   def atan(a: A): A
+
+  def ceil(a: A): A
+  def floor(a: A): A
+  def rint(a: A): A
   def rounded(a: A, scale: Int, mode: RoundingMode = RoundingMode.HALF_EVEN): A
 
   def compare[B](a: A, b: B)(implicit f: B => A): Int
@@ -113,9 +115,6 @@ object QNumeric {
 
     // TODO: Not the best solution for these, but can be overridden by specific QNumeric implementations
     override def fromDouble(d: Double): A = fromString(d.toString).get
-    override def ceil(a: A): A = fromDouble(math.ceil(toDouble(a)))
-    override def floor(a: A): A = fromDouble(math.floor(toDouble(a)))
-    override def rint(a: A): A = fromDouble(math.rint(toDouble(a)))
     override def sqrt(a: A): A = fromDouble(math.sqrt(toDouble(a)))
     override def sin(a: A): A = fromDouble(math.sin(toDouble(a)))
     override def cos(a: A): A = fromDouble(math.cos(toDouble(a)))
@@ -123,6 +122,9 @@ object QNumeric {
     override def asin(a: A): A = fromDouble(math.asin(toDouble(a)))
     override def acos(a: A): A = fromDouble(math.acos(toDouble(a)))
     override def atan(a: A): A = fromDouble(math.atan(toDouble(a)))
+    override def ceil(a: A): A = fromDouble(math.ceil(toDouble(a)))
+    override def floor(a: A): A = fromDouble(math.floor(toDouble(a)))
+    override def rint(a: A): A = fromDouble(math.rint(toDouble(a)))
     override def rounded(a: A, scale: Int, mode: RoundingMode): A = num match {
       case _: Fractional[A]          => fromDouble(BigDecimal(toDouble(a)).setScale(scale, mode).toDouble)
       case _: Integral[A]            => a
@@ -138,7 +140,7 @@ object QNumeric {
   implicit def numericToQNumeric[A: Numeric]: NumericIsQNumeric[A] = new NumericIsQNumeric[A]
 
   /**
-   * Explicit QNumeric for BigDecimal
+   * Specific implementation of QNumeric for BigDecimal
    */
   implicit object QBigDecimal extends NumericIsQNumeric[BigDecimal]{
     override def rounded(a: BigDecimal, scale: Int, mode: RoundingMode): BigDecimal = a.setScale(scale, mode)

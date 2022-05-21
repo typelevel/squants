@@ -13,7 +13,6 @@ Allowing the user to choose the numeric type for a Quantity will remove this lim
 * Refactor SI Base Dimensions to validate model ✓
 * Refactor all Dimensions - #TODO
 * Update Docs - #TODO
-* Companion project for Spire - #TODO
 
 ## Generic Numerics and Interoperability
 
@@ -65,9 +64,9 @@ Of course, this ability is provided by the standard library to some degree, but 
 allows us to support conversions for other, 3rd party types.
 
 Any type can be used as `Quantity.value` for which there is a `QNumeric` type class implementation.
-This library provides type classes for `Double`, `Float`, `Int`, `Long` and `BigDecimal`.
-
-A companion project is planned for Spire types, which can also be used as an example for creating companions to other numeric type libraries.
+This library provides implicit conversions from any `Numeric` to `QNumeric`,
+allowing use of any third-party number library that implements `Numeric` for its types.
+However, it may be wise to create explicit implementations that override defaults with better implementations.
 
 Unit conversion factors are still defined using `Double`. 
 However, they are converted to the `QNumeric` type used in the `Quantity` before conversions are applied.
@@ -115,7 +114,6 @@ However, each quantity type must be refactored to use `QNumeric`, and provide nu
 (*A refactoring that is possible in the current 1.x model, as well*)
 
 ```scala
-
 final case class Length[A: QNumeric] private (value: A, unit: LengthUnit) extends Quantity[A, Length.type] {
  
   override type Q[B] = Length[B]
@@ -189,7 +187,6 @@ The following derived dimensions are functioning:
 3. Migrate remaining derived dimensions
 4. Refactor and Migrate Tests
 5. Update Docs
-6. Create a `squants-spire` companion project
 
 The refactored code can continue being added to the `squants2` package within this development branch.
 Once things are fully migrated, `squants` can be removed and `squants2` renamed to `squants`.
