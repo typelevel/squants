@@ -1,26 +1,24 @@
 package squants2.space
 
-import squants.space.{ Arcminutes, Arcseconds, Degrees, Gradians, Radians, Turns }
-import squants.time.Time
-import squants2.QNumeric.QNumericOps
-import squants2.*
+import squants2.time.Minutes
+import squants2._
 
-final case class Angle[A: QNumeric] private[squants2] (value: A, unit: AngleUnit) extends Quantity[A, Angle.type] {
+final case class Angle[A] private[squants2] (value: A, unit: AngleUnit)(implicit qNum: QNumeric[A]) extends Quantity[A, Angle.type] {
   override type Q[B] = Angle[B]
 
-  def toRadians = to(Radians)
-  def toDegrees = to(Degrees)
-  def toGradians = to(Gradians)
-  def toTurns = to(Turns)
-  def toArcminutes = to(Arcminutes)
-  def toArcseconds = to(Arcseconds)
+  def toRadians: A = to(Radians)
+  def toDegrees: A = to(Degrees)
+  def toGradians: A = to(Gradians)
+  def toTurns: A = to(Turns)
+  def toArcminutes: A = to(Arcminutes)
+  def toArcseconds: A = to(Arcseconds)
 
-  // TODO - implement trig functions in QNumeric
-  //  def cos = math.cos(toRadians)
-  //  def tan = math.tan(toRadians)
-  //  def asin = math.asin(toRadians)
-  //  def acos = math.acos(toRadians)
-  //  def sin = math.sin(toRadians)
+  def cos: A = qNum.cos(toRadians)
+  def tan: A = qNum.tan(toRadians)
+  def sin: A = qNum.sin(toRadians)
+  def asin: A = qNum.asin(toRadians)
+  def acos: A = qNum.acos(toRadians)
+  def atan: A = qNum.atan(toRadians)
 
   def onRadius[B](radius: Length[B])(implicit f: B => A): Length[A] = radius.asNum[A] * to(Radians)
 
@@ -62,4 +60,4 @@ case object Degrees extends AngleUnit("°", math.Pi / 180d)
 case object Gradians extends AngleUnit("grad", Turns.conversionFactor / 400d)
 case object Turns extends AngleUnit("°", 2d * math.Pi)
 case object Arcminutes extends AngleUnit("°", math.Pi / 10800d)
-case object Arcseconds extends AngleUnit("°", 1d / Time.SecondsPerMinute * Arcminutes.conversionFactor)
+case object Arcseconds extends AngleUnit("°", 1d / Minutes.conversionFactor * Arcminutes.conversionFactor)

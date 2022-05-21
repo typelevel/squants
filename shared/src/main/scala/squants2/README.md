@@ -30,26 +30,7 @@ trait QNumeric[A] {
   def times[B](a: A, b: B)(implicit f: B => A): A
   def divide[B](a: A, b: B)(implicit f: B => A): A
   def mod[B](a: A, b: B)(implicit f: B => A): A
-  def negate(a: A): A
-  def abs(a: A): A
-  def ceil(a: A): A
-  def floor(a: A): A
-  def rint(a: A): A
-  def rounded(a: A, scale: Int, mode: RoundingMode = RoundingMode.HALF_EVEN): A
-
-  def compare[B](a: A, b: B)(implicit f: B => A): Int
-  def lt[B](a: A, b: B)(implicit f: B => A): Boolean = compare(a, b) < 0
-  def lteq[B](a: A, b: B)(implicit f: B => A): Boolean = compare(a, b) <= 0
-  def gt[B](a: A, b: B)(implicit f: B => A): Boolean = compare(a, b) > 0
-  def gteq[B](a: A, b: B)(implicit f: B => A): Boolean = compare(a, b) >= 0
-  def equiv[B](a: A, b: B)(implicit f: B => A): Boolean = compare(a, b) == 0
-
-  def toInt(a: A): Int
-  def toLong(a: A): Long
-  def toFloat(a: A): Float
-  def toDouble(a: A): Double
-  def fromDouble(a: Double): A
-  def fromString(str: String): Option[A]
+  /* ... */
 }
 ```
 Unlike the `Numeric` trait in the standard library `QNumeric` implements its binary operations to accept
@@ -173,8 +154,9 @@ case object Feet extends LengthUnit("ft", .3048006096)
 
 ### Generic Value and Core Model 
 
-The core model has been refactored to use `QNumeric` types for values.
-This includes all classes except `SVector`
+All components of the core model has been refactored to use `QNumeric` types for values.
+
+`SVector` has been reduced to only working with `Quantity`s.  The DoubleVector has been deprecated in favor of just using `SVector[Dimensionless]`
 
 This refactored code has been added to this new `squants2` package within the `shared [squants-sources]` project,
 where it can live during refactoring.
@@ -203,12 +185,11 @@ The following derived dimensions are functioning:
 ### Approach to Complete Refactoring
 
 1. Refactor `TimeDerivative` and `TimeIntegral` traits
-2. Refactor `SVector`
-3. Refactor `market` package
-4. Migrate remaining derived dimensions
-5. Refactor and Migrate Tests
-6. Update Docs
-7. Create a `squants-spire` companion project
+2. Refactor `market` package
+3. Migrate remaining derived dimensions
+4. Refactor and Migrate Tests
+5. Update Docs
+6. Create a `squants-spire` companion project
 
 The refactored code can continue being added to the `squants2` package within this development branch.
 Once things are fully migrated, `squants` can be removed and `squants2` renamed to `squants`.
