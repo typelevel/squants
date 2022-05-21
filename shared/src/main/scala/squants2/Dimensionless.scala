@@ -30,9 +30,9 @@ object Dimensionless extends Dimension("Dimensionless") {
     def dozen: Dimensionless[A] = Dozen(a)
     def score: Dimensionless[A] = Score(a)
     def gross: Dimensionless[A] = Gross(a)
-    def hundred: Dimensionless[A] = Each(a * num.fromDouble(1e2))
-    def thousand: Dimensionless[A] = Each(a * num.fromDouble(1e3))
-    def million: Dimensionless[A] = Each(a * num.fromDouble(1e6))
+    def hundred: Dimensionless[A] = Each(a * num.fromInt(100))
+    def thousand: Dimensionless[A] = Each(a * num.fromInt(1000))
+    def million: Dimensionless[A] = Each(a * num.fromInt(1000000))
   }
 
   // Constants

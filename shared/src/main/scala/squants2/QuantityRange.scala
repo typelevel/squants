@@ -34,7 +34,7 @@ case class QuantityRange[A, D <: Dimension](lower: Quantity[A, D], upper: Quanti
     val remainder = multipleA % qNum.one
     val count = (multipleA - remainder) / qNum.one
     val ranges = (0 until count.toInt)
-      .map(n => QuantityRange(lower + (toQuantity * qNum.fromDouble(n)), upper + (toQuantity * qNum.fromDouble(n))))
+      .map(n => QuantityRange(lower + (toQuantity * qNum.fromInt(n)), upper + (toQuantity * qNum.fromInt(n))))
     if (remainder > qNum.zero)
       ranges :+ QuantityRange(lower + (toQuantity * count), lower + (toQuantity * qNum.plus(count, remainder)))
     else ranges

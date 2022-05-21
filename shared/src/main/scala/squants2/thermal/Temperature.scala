@@ -38,23 +38,23 @@ abstract class TemperatureUnit(val symbol: String, val conversionFactor: Double,
       case (Celsius, Celsius)       => quantity
       case (Fahrenheit, Fahrenheit) => quantity
 
-      case (Kelvin, Rankine)        => Rankine(quantity.value * qNum.fromDouble(9) / qNum.fromDouble(5))
-      case (Rankine, Kelvin)        => Kelvin(quantity.value * qNum.fromDouble(5) / qNum.fromDouble(9))
+      case (Kelvin, Rankine)        => Rankine(quantity.value * qNum.fromInt(9) / qNum.fromInt(5))
+      case (Rankine, Kelvin)        => Kelvin(quantity.value * qNum.fromInt(5) / qNum.fromInt(9))
 
       case (Kelvin, Celsius)        => Celsius(quantity.value - qNum.fromDouble(Celsius.zeroOffset))
       case (Celsius, Kelvin)        => Kelvin(quantity.value + qNum.fromDouble(Celsius.zeroOffset))
 
-      case (Kelvin, Fahrenheit)     => Fahrenheit(quantity.value * qNum.fromDouble(9) / qNum.fromDouble(5) + qNum.fromDouble(32))
-      case (Fahrenheit, Kelvin)     => Celsius((quantity.value - qNum.fromDouble(32)) * qNum.fromDouble(5) / qNum.fromDouble(9))
+      case (Kelvin, Fahrenheit)     => Fahrenheit(quantity.value * qNum.fromInt(9) / qNum.fromInt(5) + qNum.fromInt(32))
+      case (Fahrenheit, Kelvin)     => Celsius((quantity.value - qNum.fromInt(32)) * qNum.fromInt(5) / qNum.fromInt(9))
 
       case (Rankine, Fahrenheit)    => Fahrenheit(quantity.value - qNum.fromDouble(Fahrenheit.zeroOffset))
       case (Fahrenheit, Rankine)    => Rankine(quantity.value + qNum.fromDouble(Fahrenheit.zeroOffset))
 
-      case (Rankine, Celsius)       => Celsius((quantity.value - qNum.fromDouble(491.67)) * qNum.fromDouble(5) / qNum.fromDouble(9))
-      case (Celsius, Rankine)       => Rankine((quantity.value + qNum.fromDouble(Celsius.zeroOffset)) * qNum.fromDouble(9) / qNum.fromDouble(5))
+      case (Rankine, Celsius)       => Celsius((quantity.value - qNum.fromDouble(491.67)) * qNum.fromInt(5) / qNum.fromInt(9))
+      case (Celsius, Rankine)       => Rankine((quantity.value + qNum.fromDouble(Celsius.zeroOffset)) * qNum.fromInt(9) / qNum.fromInt(5))
 
-      case (Celsius, Fahrenheit)    => Fahrenheit(quantity.value * qNum.fromDouble(9) / qNum.fromDouble(5) + qNum.fromDouble(32))
-      case (Fahrenheit, Celsius)    => Celsius((quantity.value - qNum.fromDouble(32)) * qNum.fromDouble(5) / qNum.fromDouble(9))
+      case (Celsius, Fahrenheit)    => Fahrenheit(quantity.value * qNum.fromInt(9) / qNum.fromInt(5) + qNum.fromInt(32))
+      case (Fahrenheit, Celsius)    => Celsius((quantity.value - qNum.fromInt(32)) * qNum.fromInt(5) / qNum.fromInt(9))
 
     }
   }
