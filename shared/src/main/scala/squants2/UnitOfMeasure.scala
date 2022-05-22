@@ -55,10 +55,13 @@ trait UnitOfMeasure[D <: Dimension] extends Serializable {
    * @return
    */
   def convertTo[A](quantity: Quantity[A, D], uom: UnitOfMeasure[D])(implicit num: Numeric[A]): Quantity[A, D] = {
+
+    def fromDouble(d: Double): A = num.parseString(d.toString).get // TODO: Fix this
+
     if (uom eq this) quantity else {
       val newValue = num match {
-        case fnum: Fractional[A] => fnum.times(quantity.value, fnum.div(num.parseString(conversionFactor.toString).get, num.parseString(uom.conversionFactor.toString).get))
-        case inum: Integral[A] => inum.times(quantity.value, inum.quot(num.parseString(conversionFactor.toString).get, num.parseString(uom.conversionFactor.toString).get))
+        case fnum: Fractional[A] => fnum.times(quantity.value, fnum.div(fromDouble(conversionFactor), fromDouble(uom.conversionFactor)))
+        case inum: Integral[A] => inum.times(quantity.value, inum.quot(fromDouble(conversionFactor), fromDouble(uom.conversionFactor)))
         case _ => throw new UnsupportedOperationException("Unknown numeric type")
       }
       uom(newValue)

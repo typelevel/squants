@@ -41,7 +41,8 @@ package object squants2 {
           else innerMod(rem - quot, quot, n + 1)
         }
         val (q, r) = innerMod(a.abs, that.abs, 0)
-        (q * a.sign * that.sign, r)
+        val sign = num.fromInt(if(a * that < num.zero) -1 else 1)
+        (q * sign, r)
 
       case iNum: Integral[A] => (iNum.quot(a, that), iNum.rem(a, that))
       case _ => throw new UnsupportedOperationException("Unknown Numeric type")

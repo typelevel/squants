@@ -13,7 +13,6 @@ object SquantsDemo extends App {
   val massD2B: Mass[BigDecimal] = massD.asNum[BigDecimal]
 
   val massQR: (Mass[BigDecimal], Mass[BigDecimal]) = Kilograms(33.4).asNum[BigDecimal] /% 2
-  println(massQR)
 
   // the right-side operand is automatically converted before operations are applied
   // For standard types, built-in implicit conversions are used.

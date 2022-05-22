@@ -6,7 +6,6 @@ import scala.math.BigDecimal.RoundingMode
 import scala.math.BigDecimal.RoundingMode.RoundingMode
 import scala.math.Numeric.Implicits.infixNumericOps
 import scala.math.Ordered.orderingToOrdered
-import scala.language.higherKinds
 
 /**
  * A base class for measurable quantities, instances of which contain a value and a unit
@@ -128,12 +127,6 @@ abstract class Quantity[A, D <: Dimension](implicit num: Numeric[A]) extends Ser
    * @return Quantity
    */
   def abs: this.type = map(num.abs).asInstanceOf[this.type]
-
-  /**
-   * Returns the signum of this Quantity
-   * @return Quantity
-   */
-  def sign: this.type = map(num.sign).asInstanceOf[this.type]
 
   /**
    * Returns the smallest (closest to negative infinity) Quantity value that is greater than or equal to the argument and is equal to a mathematical integer.
