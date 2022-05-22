@@ -1,4 +1,6 @@
-
+import scala.math.BigDecimal.RoundingMode
+import scala.math.BigDecimal.RoundingMode.RoundingMode
+import scala.math.Numeric.BigDecimalIsConflicted
 
 package object squants2 {
 
@@ -6,19 +8,31 @@ package object squants2 {
 
   type QuantitySeries[A, D <: Dimension] = IndexedSeq[QuantityRange[A, D]]
 
-  implicit class QuantityValueDivider[A](a: A)(implicit num: Numeric[A]) {
+  /**
+   * Adds extensions to Numeric used by Quantity operations.
+   * It `protected` to prevent it leaking to user code scope
+   *
+   * @param a the Numeric value
+   * @param num the Numeric
+   * @tparam A the Numeric type
+   */
+  protected [squants2] implicit class QuantityValueExtensions[A](a: A)(implicit num: Numeric[A]) {
     def /(that: A): A = num match {
-      case fnum: Fractional[A] => fnum.div(a, that)
-      case inum: Integral[A] => inum.quot(a, that)
+      case fNum: Fractional[A] => fNum.div(a, that)
+      case iNum: Integral[A]   => iNum.quot(a, that)
     }
     def %(that: A): A = num match {
-      case fnum: Fractional[A] => ??? // TODO:   fnum.div(a, that)
-      case inum: Integral[A] => inum.rem(a, that)
+      case fNum: Fractional[A] => ??? // TODO:   fnum.div(a, that)
+      case iNum: Integral[A] => iNum.rem(a, that)
     }
-    def /%(that: A): (A, A) = num match {
-      case fnum: Fractional[A] => ??? // TODO:   fnum.div(a, that)
-      case inum: Integral[A] => (inum.quot(a, that), inum.rem(a, that))
+    def /%(that: A): (A, A) = (/(that), %(that))
+
+    def rounded(scale: Int, mode: RoundingMode = RoundingMode.HALF_EVEN): A = num match {
+      case _: BigDecimalIsConflicted => a.asInstanceOf[BigDecimal].setScale(scale, mode).asInstanceOf[A]
+      case _: Fractional[A]          => BigDecimal(num.toDouble(a)).setScale(scale, mode).asInstanceOf[A]
+      case _: Integral[A]            => a
     }
+
   }
 
 }

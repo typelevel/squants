@@ -4,7 +4,6 @@ package squants2
 import java.util.Objects
 import scala.math.BigDecimal.RoundingMode
 import scala.math.BigDecimal.RoundingMode.RoundingMode
-import scala.math.Numeric.BigDecimalIsConflicted
 import scala.math.Numeric.Implicits.infixNumericOps
 import scala.math.Ordered.orderingToOrdered
 
@@ -160,11 +159,8 @@ abstract class Quantity[A, D <: Dimension](implicit num: Numeric[A]) extends Ser
    * @param mode RoundingMode - defaults to HALF_EVEN
    * @return Quantity
    */
-  def rounded(scale: Int, mode: RoundingMode = RoundingMode.HALF_EVEN): this.type = num match {
-    case _: BigDecimalIsConflicted => unit(value.asInstanceOf[BigDecimal].setScale(scale, mode).asInstanceOf[A]).asInstanceOf[this.type]
-    case _: Fractional[A]          => unit(BigDecimal(num.toDouble(value)).setScale(scale, mode).asInstanceOf[A]).asInstanceOf[this.type]
-    case _: Integral[A]            => this
-  }
+  def rounded(scale: Int, mode: RoundingMode = RoundingMode.HALF_EVEN): this.type =
+    unit(value.rounded(scale, mode)).asInstanceOf[this.type]
 
   /**
    * Override of equals method
@@ -284,8 +280,8 @@ abstract class Quantity[A, D <: Dimension](implicit num: Numeric[A]) extends Ser
    * @return String
    */
   override def toString: String = { // TODO
-    val formatter = java.text.NumberFormat.getNumberInstance
-    s"${formatter.format(value)} ${unit.symbol}"
+//    val formatter = java.text.NumberFormat.getNumberInstance
+//    s"${formatter.format(value)} ${unit.symbol}"
     s"$value ${unit.symbol}"
   }
 
@@ -299,10 +295,10 @@ abstract class Quantity[A, D <: Dimension](implicit num: Numeric[A]) extends Ser
   /**
    * Returns a string representing the quantity's value in the given `unit` in the given `format`
    * @param uom UnitOfMeasure[A] with UnitConverter
-   * @param format String containing the format for the value (ie "%.3f")
+   * @param formatString String containing the format for the value (ie "%.3f")
    * @return String
    */
-  def toString(uom: UnitOfMeasure[D], format: String): String = "%s %s".format(format.format(to(uom)), uom.symbol)
+  def toString(uom: UnitOfMeasure[D], formatString: String): String = "%s %s".format(formatString.format(to(uom)), uom.symbol)
 
   /**
    * Returns a tuple representing the numeric value and the unit's symbol
