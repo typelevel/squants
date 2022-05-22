@@ -285,11 +285,7 @@ abstract class Quantity[A, D <: Dimension](implicit num: Numeric[A]) extends Ser
    * Returns a string representing the quantity's value in unit
    * @return String
    */
-  override def toString: String = { // TODO
-//    val formatter = java.text.NumberFormat.getNumberInstance
-//    s"${formatter.format(value)} ${unit.symbol}"
-    s"$value ${unit.symbol}"
-  }
+  override def toString: String = toString(unit)
 
   /**
    * Returns a string representing the quantity's value in the given `unit`
@@ -304,7 +300,7 @@ abstract class Quantity[A, D <: Dimension](implicit num: Numeric[A]) extends Ser
    * @param formatString String containing the format for the value (ie "%.3f")
    * @return String
    */
-  def toString(uom: UnitOfMeasure[D], formatString: String): String = "%s %s".format(formatString.format(to(uom)), uom.symbol)
+  def toString(uom: UnitOfMeasure[D], formatString: String): String = s"${formatString.format(to(uom))} ${uom.symbol}"
 
   /**
    * Returns a tuple representing the numeric value and the unit's symbol
