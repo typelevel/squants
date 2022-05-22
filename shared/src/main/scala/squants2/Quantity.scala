@@ -6,6 +6,7 @@ import scala.math.BigDecimal.RoundingMode
 import scala.math.BigDecimal.RoundingMode.RoundingMode
 import scala.math.Numeric.Implicits.infixNumericOps
 import scala.math.Ordered.orderingToOrdered
+import scala.language.higherKinds
 
 /**
  * A base class for measurable quantities, instances of which contain a value and a unit
@@ -184,7 +185,7 @@ abstract class Quantity[A, D <: Dimension](implicit num: Numeric[A]) extends Ser
    *
    * @return
    */
-  override def hashCode(): Int = Objects.hash(dimension, to(dimension.primaryUnit.asInstanceOf[UnitOfMeasure[D]]))
+  override def hashCode(): Int = Objects.hash(dimension, to(dimension.primaryUnit.asInstanceOf[UnitOfMeasure[D]]).hashCode())
 
   /**
    * Implements Ordered.compare
@@ -309,7 +310,7 @@ abstract class Quantity[A, D <: Dimension](implicit num: Numeric[A]) extends Ser
   def toTuple: (A, String) = (value, unit.symbol)
 
   /**
-   * Returns a pair representing the numeric value and the uom's symbol
+   * Returns a pair representing the numeric value and the unit's symbol
    * @param uom UnitOfMeasure[A]
    * @return
    */
