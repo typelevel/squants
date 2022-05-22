@@ -20,7 +20,7 @@ trait UnitOfMeasure[D <: Dimension] extends Serializable {
    * @tparam A the QNumeric type for `a`
    * @return
    */
-  def apply[A: Numeric](a: A): Quantity[A, D]
+  def apply[A: Numeric: Converter](a: A): Quantity[A, D]
 
   /**
    * Extractor method for getting the QNumeric value of a Quantity in this UnitOfMeasure
@@ -41,7 +41,7 @@ trait UnitOfMeasure[D <: Dimension] extends Serializable {
    *
    * @return
    */
-  protected def conversionFactor: Double
+  protected def conversionFactor: ConversionFactor
 
   /**
    * Converts a Quantity to this UnitOfMeasure
@@ -54,14 +54,13 @@ trait UnitOfMeasure[D <: Dimension] extends Serializable {
    * @tparam A QNumeric type
    * @return
    */
-  def convertTo[A](quantity: Quantity[A, D], uom: UnitOfMeasure[D])(implicit num: Numeric[A]): Quantity[A, D] = {
-
-    def fromDouble(d: Double): A = num.parseString(d.toString).get // TODO: Fix this
-
+  def convertTo[A](quantity: Quantity[A, D], uom: UnitOfMeasure[D])(implicit num: Numeric[A], c: Converter[A]): Quantity[A, D] = {
     if (uom eq this) quantity else {
       val newValue = num match {
-        case fnum: Fractional[A] => fnum.times(quantity.value, fnum.div(fromDouble(conversionFactor), fromDouble(uom.conversionFactor)))
-        case inum: Integral[A] => inum.times(quantity.value, inum.quot(fromDouble(conversionFactor), fromDouble(uom.conversionFactor)))
+        case fnum: Fractional[A] =>
+          fnum.times(quantity.value, fnum.div(c(conversionFactor), c(uom.conversionFactor)))
+        case inum: Integral[A] =>
+          inum.times(quantity.value, inum.quot(c(conversionFactor), c(uom.conversionFactor)))
         case _ => throw new UnsupportedOperationException("Unknown numeric type")
       }
       uom(newValue)

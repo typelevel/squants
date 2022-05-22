@@ -43,8 +43,13 @@ val massSumD = massN.asNum[Double] + massD // Mass[Double]
 
 Unit conversion factors are still defined using `Double`. 
 However, they are converted to the `Numeric` type used in the `Quantity` before conversions are applied.
-The way this is done is by converting the factor to a string and using `Numeric.parseString`.  This needs work.
 This should help preserve precision, however, we may want to consider using `BigDecimal` to hold conversion factors.
+
+NOTE - Numeric does not provide a way of constructing new values from Doubles (only Ints).
+To do this, there is a new `Converter` type class which as an added type constraint to the value.
+Converters are provided for all the standard Numeric types.
+This does mean the quantities of type Int will not convert to other units properly.
+This needs additional work.
 
 ## Refactor Model to Support Generics
 
@@ -70,7 +75,13 @@ trait UnitOfMeasure[D <: Dimension] {
   /* ... */
 }
 
-abstract class Quantity[A: Numeric, D <: Dimension] {
+// Used to Convert conversion factors to type A
+// Converters for standard types are provided
+abstract class Converter[A] {
+  def apply(factor: Double): A
+}
+
+abstract class Quantity[A: Numeric : Converter, D <: Dimension] {
   type Q[B] <: Quantity[B, D]
   def value: A
   def unit: UnitOfMeasure[D]
@@ -88,7 +99,7 @@ However, each quantity type must be refactored to use `Numeric`, and provide num
 (*A refactoring that is possible in the current 1.x model, as well*)
 
 ```scala
-final case class Length[A: Numeric] private (value: A, unit: LengthUnit) extends Quantity[A, Length.type] {
+final case class Length[A: Numeric : Converter] private (value: A, unit: LengthUnit) extends Quantity[A, Length.type] {
  
   override type Q[B] = Length[B]
 
@@ -103,7 +114,7 @@ object Length extends BaseDimension("Length", "L") {
   override lazy val units: Set[UnitOfMeasure[this.type]] = Set(Meters, Feet)
 
   // Constructors from Numeric values
-  implicit class LengthCons[A: Numeric](a: A) {
+  implicit class LengthCons[A: Numeric : Converter](a: A) {
     def meters: Length[A] = Meters(a)
     def feet: Length[A] = Feet(a)
   }
@@ -115,7 +126,7 @@ object Length extends BaseDimension("Length", "L") {
 
 abstract class LengthUnit(val symbol: String, val conversionFactor: Double) extends UnitOfMeasure[Length.type] {
   override def dimension: Length.type = Length
-  override def apply[A: Numeric](value: A): Length[A] = Length(value, this)
+  override def apply[A: Numeric : Converter](value: A): Length[A] = Length(value, this)
 }
 
 case object Meters extends LengthUnit("m", 1) with PrimaryUnit with SiBaseUnit

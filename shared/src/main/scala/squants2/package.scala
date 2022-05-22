@@ -11,6 +11,31 @@ package object squants2 {
 
   type QuantitySeries[A, D <: Dimension] = IndexedSeq[QuantityRange[A, D]]
 
+  type ConversionFactor = Double // Could be replaced with something more robust and precise
+
+  abstract class Converter[A] {
+    def apply(factor: ConversionFactor): A
+  }
+
+  implicit object DoubleConverter extends Converter[Double] {
+    override def apply(factor: ConversionFactor): Double = factor
+  }
+  implicit object BigDecimalConverter extends Converter[BigDecimal] {
+    override def apply(factor: ConversionFactor): BigDecimal = factor
+  }
+  implicit object FloatConverter extends Converter[Float] {
+    override def apply(factor: ConversionFactor): Float = factor.toFloat
+  }
+  implicit object IntConverter extends Converter[Int] {
+    override def apply(factor: ConversionFactor): Int = factor.toInt
+  }
+  implicit object LongConverter extends Converter[Long] {
+    override def apply(factor: ConversionFactor): Long = factor.toLong
+  }
+  implicit object BigIntConverter extends Converter[BigInt] {
+    override def apply(factor: ConversionFactor): BigInt = factor.toLong
+  }
+
   /**
    * Adds extensions to Numeric used by Quantity operations.
    * It `protected` to prevent it leaking to user code scope

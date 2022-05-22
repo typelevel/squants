@@ -4,7 +4,7 @@ import squants2._
 
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class Area[A: Numeric] private [space]  (value: A, unit: AreaUnit) extends Quantity[A, Area.type] {
+final case class Area[A: Numeric : Converter] private [space]  (value: A, unit: AreaUnit) extends Quantity[A, Area.type] {
   override type Q[B] = Area[B]
 
   def /[B](that: Length[B])(implicit f: B => A): Length[A] = Meters(to(SquareMeters) / that.asNum[A].to(Meters))
@@ -19,7 +19,7 @@ object Area extends Dimension("Area") {
   override lazy val units: Set[UnitOfMeasure[this.type]] = Set(SquareMeters, SquareFeet)
 
   // Constructors from Numeric values
-  implicit class AreaCons[A: Numeric](a: A) {
+  implicit class AreaCons[A: Numeric : Converter](a: A) {
     def squareMeters: Area[A] = SquareMeters(a)
   }
 
@@ -28,9 +28,9 @@ object Area extends Dimension("Area") {
 
 }
 
-abstract class AreaUnit(val symbol: String, val conversionFactor: Double) extends UnitOfMeasure[Area.type] {
+abstract class AreaUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Area.type] {
   override def dimension: Area.type = Area
-  override def apply[A: Numeric](value: A): Area[A] = Area(value, this)
+  override def apply[A: Numeric : Converter](value: A): Area[A] = Area(value, this)
 }
 
 case object SquareMeters extends AreaUnit("m²", 1) with PrimaryUnit with SiUnit

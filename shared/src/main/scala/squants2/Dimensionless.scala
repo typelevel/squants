@@ -1,8 +1,9 @@
 package squants2
 
-import math.Numeric.Implicits.infixNumericOps
+import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class Dimensionless[A: Numeric] private[squants2] (value: A, unit: DimensionlessUnit) extends Quantity[A, Dimensionless.type] {
+final case class Dimensionless[A: Numeric : Converter] private[squants2] (value: A, unit: DimensionlessUnit)
+  extends Quantity[A, Dimensionless.type] {
   override type Q[B] = Dimensionless[B]
 
   def *[B](that: Dimensionless[B])(implicit f: B => A): Dimensionless[A] = Each(to(Each) * f(that.to(Each)))
@@ -24,7 +25,7 @@ object Dimensionless extends Dimension("Dimensionless") {
   override lazy val units: Set[UnitOfMeasure[this.type]] = Set(Each, Percent, Dozen, Score, Gross)
 
   // Constructors from Numeric values
-  implicit class DimensionlessCons[A](a: A)(implicit num: Numeric[A]) {
+  implicit class DimensionlessCons[A](a: A)(implicit num: Numeric[A], c: Converter[A]) {
     def percent: Dimensionless[A] = Percent(a)
     def each: Dimensionless[A] = Each(a)
     def dozen: Dimensionless[A] = Dozen(a)
@@ -47,13 +48,13 @@ object Dimensionless extends Dimension("Dimensionless") {
 
 }
 
-abstract class DimensionlessUnit(val symbol: String, val conversionFactor: Double) extends UnitOfMeasure[Dimensionless.type] {
+abstract class DimensionlessUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Dimensionless.type] {
   override lazy val dimension: Dimensionless.type = Dimensionless
-  override def apply[A: Numeric](value: A): Dimensionless[A] = Dimensionless(value, this)
+  override def apply[A: Numeric : Converter](value: A): Dimensionless[A] = Dimensionless(value, this)
 }
 
 case object Each extends DimensionlessUnit("ea", 1) with PrimaryUnit with SiUnit
 case object Percent extends DimensionlessUnit("%", 1e-2)
-case object Dozen extends DimensionlessUnit("dz", 12d)
-case object Score extends DimensionlessUnit("score", 20d)
-case object Gross extends DimensionlessUnit("gr", 144d)
+case object Dozen extends DimensionlessUnit("dz", 12)
+case object Score extends DimensionlessUnit("score", 20)
+case object Gross extends DimensionlessUnit("gr", 144)

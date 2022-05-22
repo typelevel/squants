@@ -8,6 +8,11 @@ object SquantsDemo extends App {
   val massD = Kilograms(10.22) // Mass[Double]
   val massBD = Kilograms(BigDecimal(10.22)) // Mass[BigDecimal]
 
+  println(massD)
+  println(massD.in(Pounds))
+  println(massBD)
+  println(massBD.in(Pounds))
+
   // convert numbers to others types (requires implicit conversion to QNumeric in scope)
   val massN2D: Mass[Double] = massN.asNum[Double]
   val massD2B: Mass[BigDecimal] = massD.asNum[BigDecimal]

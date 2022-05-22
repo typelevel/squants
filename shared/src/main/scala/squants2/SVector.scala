@@ -141,7 +141,7 @@ object SVector {
  * @tparam A The numeric type for the Vector's coordinate values
  * @tparam D The Dimension of the Vector's coordinate values
  */
-case class SVectorImpl[A, D <: Dimension](coordinates: Seq[Quantity[A, D]])(implicit qNum: Numeric[A]) extends SVector[A, D] {
+case class SVectorImpl[A, D <: Dimension](coordinates: Seq[Quantity[A, D]])(implicit num: Numeric[A], c: Converter[A]) extends SVector[A, D] {
   override type SVectorType = this.type
 
   private val valueUnit = coordinates.head.unit
@@ -187,7 +187,7 @@ case class SVectorImpl[A, D <: Dimension](coordinates: Seq[Quantity[A, D]])(impl
    * @tparam E - the Dimension of the new SVector
    * @return
    */
-  def map[B: Numeric, E <: Dimension](f: Quantity[A, D] => Quantity[B, E]): SVector[B, E] = SVectorImpl(coordinates.map(q => f(q)))
+  def map[B: Numeric : Converter, E <: Dimension](f: Quantity[A, D] => Quantity[B, E]): SVector[B, E] = SVectorImpl(coordinates.map(q => f(q)))
 
   /**
    * Add two Vectors
@@ -196,7 +196,7 @@ case class SVectorImpl[A, D <: Dimension](coordinates: Seq[Quantity[A, D]])(impl
    * @return
    */
   override def plus(that: SVectorType): SVectorType =
-    SVectorImpl(coordinates.zipAll(that.coordinates, valueUnit(qNum.zero), valueUnit(qNum.zero)).map(v ⇒ (v._1 + v._2).asInstanceOf[Quantity[A,D]])).asInstanceOf[SVectorType]
+    SVectorImpl(coordinates.zipAll(that.coordinates, valueUnit(num.zero), valueUnit(num.zero)).map(v ⇒ (v._1 + v._2).asInstanceOf[Quantity[A,D]])).asInstanceOf[SVectorType]
 
   /**
    * Subtract two Vectors
@@ -205,7 +205,7 @@ case class SVectorImpl[A, D <: Dimension](coordinates: Seq[Quantity[A, D]])(impl
    * @return
    */
   override def minus(that: SVectorType): SVectorType =
-    SVectorImpl(coordinates.zipAll(that.coordinates, valueUnit(qNum.zero), valueUnit(qNum.zero)).map(v ⇒ (v._1 - v._2).asInstanceOf[Quantity[A,D]])).asInstanceOf[SVectorType]
+    SVectorImpl(coordinates.zipAll(that.coordinates, valueUnit(num.zero), valueUnit(num.zero)).map(v ⇒ (v._1 - v._2).asInstanceOf[Quantity[A,D]])).asInstanceOf[SVectorType]
 
 
   /**
@@ -231,8 +231,8 @@ case class SVectorImpl[A, D <: Dimension](coordinates: Seq[Quantity[A, D]])(impl
    * @return
    */
   override def dotProduct[B](that: SVector[B, Dimensionless.type])(implicit f: B => A): A =
-    valueUnit(coordinates.zipAll(that.coordinates.map(_.asNum[A]), valueUnit(qNum.zero), Each(qNum.zero))
-      .map(v ⇒ v._1.to(valueUnit) * v._2.to(Each)).foldLeft(qNum.zero)(_ + _)).to(valueUnit)
+    valueUnit(coordinates.zipAll(that.coordinates.map(_.asNum[A]), valueUnit(num.zero), Each(num.zero))
+      .map(v ⇒ v._1.to(valueUnit) * v._2.to(Each)).foldLeft(num.zero)(_ + _)).to(valueUnit)
   // TODO dotProduct against other quantity types
 
   /**

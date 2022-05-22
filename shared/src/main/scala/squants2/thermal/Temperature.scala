@@ -4,7 +4,7 @@ import squants2._
 
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class Temperature[A: Numeric] private [thermal]  (value: A, unit: TemperatureUnit) extends Quantity[A, Temperature.type] {
+final case class Temperature[A: Numeric : Converter] private [thermal]  (value: A, unit: TemperatureUnit) extends Quantity[A, Temperature.type] {
   override type Q[B] = Temperature[B]
 }
 
@@ -15,7 +15,7 @@ object Temperature extends BaseDimension("Temperature", "Θ") {
   override lazy val units: Set[UnitOfMeasure[this.type]] = Set(Kelvin, Rankine, Celsius, Fahrenheit)
 
   // Constructors from Numeric values
-  implicit class TemperatureCons[A: Numeric](a: A) {
+  implicit class TemperatureCons[A: Numeric : Converter](a: A) {
     def kelvin: Temperature[A] = Kelvin(a)
     def rankine: Temperature[A] = Rankine(a)
     def celsius: Temperature[A] = Celsius(a)
@@ -27,12 +27,12 @@ object Temperature extends BaseDimension("Temperature", "Θ") {
 
 }
 
-abstract class TemperatureUnit(val symbol: String, val conversionFactor: Double, val zeroOffset: Double) extends UnitOfMeasure[Temperature.type] {
+abstract class TemperatureUnit(val symbol: String, val conversionFactor: ConversionFactor, val zeroOffset: Double) extends UnitOfMeasure[Temperature.type] {
   override def dimension: Temperature.type = Temperature
 
-  override def apply[A: Numeric](value: A): Temperature[A] = Temperature(value, this)
+  override def apply[A: Numeric : Converter](value: A): Temperature[A] = Temperature(value, this)
 
-  override def convertTo[A](quantity: Quantity[A, Temperature.type], uom: UnitOfMeasure[Temperature.type])(implicit num: Numeric[A]): Quantity[A, Temperature.type] = {
+  override def convertTo[A](quantity: Quantity[A, Temperature.type], uom: UnitOfMeasure[Temperature.type])(implicit num: Numeric[A], c: Converter[A]): Quantity[A, Temperature.type] = {
     (quantity.unit, uom) match {
       case (Kelvin, Kelvin)         => quantity
       case (Rankine, Rankine)       => quantity

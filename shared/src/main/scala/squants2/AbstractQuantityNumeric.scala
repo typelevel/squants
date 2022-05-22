@@ -11,7 +11,7 @@ package squants2
  *
  * @tparam A Quantity type
  */
-abstract class AbstractQuantityNumeric[A, D <: Dimension](val unit: UnitOfMeasure[D] with PrimaryUnit)(implicit num: Numeric[A]) extends Numeric[Quantity[A, D]] {
+abstract class AbstractQuantityNumeric[A, D <: Dimension](val unit: UnitOfMeasure[D] with PrimaryUnit)(implicit num: Numeric[A], c: Converter[A]) extends Numeric[Quantity[A, D]] {
   override def plus(x: Quantity[A, D], y: Quantity[A, D]): Quantity[A, D] = x + y
   override def minus(x: Quantity[A, D], y: Quantity[A, D]): Quantity[A, D] = x - y
 

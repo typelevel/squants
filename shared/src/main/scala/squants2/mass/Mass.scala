@@ -2,7 +2,7 @@ package squants2.mass
 
 import squants2._
 
-final case class Mass[A: Numeric] private [mass] (value: A, unit: MassUnit) extends Quantity[A, Mass.type] {
+final case class Mass[A: Numeric : Converter] private [mass] (value: A, unit: MassUnit) extends Quantity[A, Mass.type] {
   override type Q[B] = Mass[B]
 }
 
@@ -17,7 +17,7 @@ object Mass extends BaseDimension("Mass", "M") {
     GigaElectronVoltMass, TeraElectronVoltMass, PetaElectronVoltMass, ExaElectronVoltMass)
 
   // Constructors from Numeric values
-  implicit class MassCons[A: Numeric](a: A) {
+  implicit class MassCons[A: Numeric : Converter](a: A) {
     def grams: Mass[A] = Grams(a)
     def kilograms: Mass[A] = Kilograms(a)
   }
@@ -28,9 +28,9 @@ object Mass extends BaseDimension("Mass", "M") {
 
 }
 
-abstract class MassUnit(val symbol: String, val conversionFactor: Double) extends UnitOfMeasure[Mass.type] {
+abstract class MassUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Mass.type] {
   override def dimension: Mass.type = Mass
-  override def apply[A: Numeric](value: A): Mass[A] = Mass(value, this)
+  override def apply[A: Numeric : Converter](value: A): Mass[A] = Mass(value, this)
 }
 
 case object Kilograms extends MassUnit("kg", MetricSystem.Kilo) with PrimaryUnit with SiBaseUnit

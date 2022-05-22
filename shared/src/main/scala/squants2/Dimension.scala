@@ -64,7 +64,7 @@ abstract class Dimension(val name: String) {
 
   private lazy val QuantityString = ("^([-+]?[0-9]*\\.?[0-9]+(?:[eE][-+]?[0-9]+)?) *(" + units.map { (u: UnitOfMeasure[D]) => u.symbol }.reduceLeft(_ + "|" + _) + ")$").r
 
-  def parseTuple[A](t: (A, String))(implicit num: Numeric[A]): Try[Quantity[_, D]] = {
+  def parseTuple[A](t: (A, String))(implicit num: Numeric[A], c: Converter[A]): Try[Quantity[_, D]] = {
     val value = t._1
     val symbol = t._2
     symbolToUnit(symbol) match {
