@@ -2,8 +2,6 @@ package squants2
 
 import squants2.mass._
 
-import scala.language.implicitConversions
-
 object SquantsDemo extends App {
 
   val massN = Kilograms(1) // Mass[Int]
@@ -13,6 +11,9 @@ object SquantsDemo extends App {
   // convert numbers to others types (requires implicit conversion to QNumeric in scope)
   val massN2D: Mass[Double] = massN.asNum[Double]
   val massD2B: Mass[BigDecimal] = massD.asNum[BigDecimal]
+
+  val massQR: (Mass[BigDecimal], Mass[BigDecimal]) = Kilograms(33.4).asNum[BigDecimal] /% 2
+  println(massQR)
 
   // the right-side operand is automatically converted before operations are applied
   // For standard types, built-in implicit conversions are used.

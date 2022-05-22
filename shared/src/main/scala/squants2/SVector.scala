@@ -20,7 +20,7 @@ import scala.math.Numeric.Implicits.infixNumericOps
  *
  * @tparam A The numeric type for the Vector's coordinate values
  */
-abstract class SVector[A: Numeric, D <: Dimension] {
+abstract class SVector[A, D <: Dimension] {
 
   type SVectorType <: SVector[A, D]
   type Q = Quantity[A, D]

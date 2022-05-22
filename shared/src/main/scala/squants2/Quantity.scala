@@ -40,16 +40,16 @@ abstract class Quantity[A, D <: Dimension](implicit num: Numeric[A]) extends Ser
    * @param that Quantity
    * @return Quantity
    */
-  def plus[B: Numeric](that: Quantity[B, D])(implicit f: B => A): this.type = unit(value + f(that.to(unit))).asInstanceOf[this.type]
-  def +[B: Numeric](that: Quantity[B, D])(implicit f: B => A): this.type = plus(that)
+  def plus[B](that: Quantity[B, D])(implicit f: B => A): this.type = unit(value + f(that.to(unit))).asInstanceOf[this.type]
+  def +[B](that: Quantity[B, D])(implicit f: B => A): this.type = plus(that)
 
   /**
    * Subtract two like quantities
    * @param that Quantity
    * @return Quantity
    */
-  def minus[B: Numeric](that: Quantity[B, D])(implicit f: B => A): this.type = unit(value - f(that.to(unit))).asInstanceOf[this.type]
-  def -[B: Numeric](that: Quantity[B, D])(implicit f: B => A): this.type = minus(that)
+  def minus[B](that: Quantity[B, D])(implicit f: B => A): this.type = unit(value - f(that.to(unit))).asInstanceOf[this.type]
+  def -[B](that: Quantity[B, D])(implicit f: B => A): this.type = minus(that)
 
   /**
    * Multiply this quantity by some number
@@ -74,8 +74,8 @@ abstract class Quantity[A, D <: Dimension](implicit num: Numeric[A]) extends Ser
    * @param that Quantity
    * @return Double
    */
-  def divide[B: Numeric](that: Quantity[B, D])(implicit f: B => A): A = value / that.asNum[A].to(unit)
-  def /[B: Numeric](that: Quantity[B, D])(implicit f: B => A): A = divide(that)
+  def divide[B](that: Quantity[B, D])(implicit f: B => A): A = value / that.asNum[A].to(unit)
+  def /[B](that: Quantity[B, D])(implicit f: B => A): A = divide(that)
 
   /**
    * Returns the remainder of a division by a number
@@ -90,8 +90,8 @@ abstract class Quantity[A, D <: Dimension](implicit num: Numeric[A]) extends Ser
    * @param that Quantity
    * @return Double
    */
-  def remainder[B: Numeric](that: Quantity[B, D])(implicit f: B => A): A = value % that.asNum[A].to(unit)
-  def %[B: Numeric](that: Quantity[B, D])(implicit f: B => A): A = remainder(that)
+  def remainder[B](that: Quantity[B, D])(implicit f: B => A): A = value % that.asNum[A].to(unit)
+  def %[B](that: Quantity[B, D])(implicit f: B => A): A = remainder(that)
 
   /**
    * Returns a Pair that includes the result of divideToInteger and remainder
@@ -109,11 +109,11 @@ abstract class Quantity[A, D <: Dimension](implicit num: Numeric[A]) extends Ser
    * @param that Quantity
    * @return (Double, Quantity)
    */
-  def divideAndRemainder[B: Numeric](that: Quantity[B, D])(implicit f: B => A): (A, this.type) = {
+  def divideAndRemainder[B](that: Quantity[B, D])(implicit f: B => A): (A, this.type) = {
     val (q, r) = value /% that.asNum[A].to(unit)
     (q, unit(r).asInstanceOf[this.type])
   }
-  def /%[B: Numeric](that: Quantity[B, D])(implicit f: B => A): (A, this.type) = divideAndRemainder(that)
+  def /%[B](that: Quantity[B, D])(implicit f: B => A): (A, this.type) = divideAndRemainder(that)
 
   /**
    * Returns the negative value of this Quantity
@@ -127,6 +127,12 @@ abstract class Quantity[A, D <: Dimension](implicit num: Numeric[A]) extends Ser
    * @return Quantity
    */
   def abs: this.type = map(num.abs).asInstanceOf[this.type]
+
+  /**
+   * Returns the signum of this Quantity
+   * @return Quantity
+   */
+  def sign: this.type = map(num.sign).asInstanceOf[this.type]
 
   /**
    * Returns the smallest (closest to negative infinity) Quantity value that is greater than or equal to the argument and is equal to a mathematical integer.
@@ -211,22 +217,22 @@ abstract class Quantity[A, D <: Dimension](implicit num: Numeric[A]) extends Ser
    * @param tolerance Quantity
    * @return
    */
-  def approx[B: Numeric, T](that: Quantity[B, D])(implicit tolerance: Quantity[T, D], f: B => A, t2a: T => A): Boolean =
+  def approx[B, T](that: Quantity[B, D])(implicit tolerance: Quantity[T, D], f: B => A, t2a: T => A): Boolean =
     that.asNum[A] within this.plusOrMinus(tolerance.asNum[A])
   /** approx */
-  def =~[B: Numeric, T: Numeric](that: Quantity[B, D])(implicit tolerance: Quantity[T, D], f: B => A, t2a: T => A): Boolean = approx(that)
+  def =~[B, T](that: Quantity[B, D])(implicit tolerance: Quantity[T, D], f: B => A, t2a: T => A): Boolean = approx(that)
   /** approx */
-  def ≈[B: Numeric, T: Numeric](that: Quantity[B, D])(implicit tolerance: Quantity[T, D], f: B => A, t2a: T => A): Boolean = approx(that)
+  def ≈[B, T](that: Quantity[B, D])(implicit tolerance: Quantity[T, D], f: B => A, t2a: T => A): Boolean = approx(that)
   /** approx */
-  def ~=[B: Numeric, T: Numeric](that: Quantity[B, D])(implicit tolerance: Quantity[T, D], f: B => A, t2a: T => A): Boolean = approx(that)
+  def ~=[B, T](that: Quantity[B, D])(implicit tolerance: Quantity[T, D], f: B => A, t2a: T => A): Boolean = approx(that)
 
   /**
    * Returns a QuantityRange representing the range for this value +- that
    * @param that Quantity
    * @return QuantityRange
    */
-  def plusOrMinus[B: Numeric](that: Quantity[B, D])(implicit f: B => A): QuantityRange[A, D] = QuantityRange(this - that, this + that)
-  def +-[B: Numeric](that: Quantity[B, D])(implicit f: B => A): QuantityRange[A, D] = plusOrMinus(that)
+  def plusOrMinus[B](that: Quantity[B, D])(implicit f: B => A): QuantityRange[A, D] = QuantityRange(this - that, this + that)
+  def +-[B](that: Quantity[B, D])(implicit f: B => A): QuantityRange[A, D] = plusOrMinus(that)
 
   /**
    * Returns a QuantityRange that goes from this to that
@@ -328,6 +334,6 @@ abstract class Quantity[A, D <: Dimension](implicit num: Numeric[A]) extends Ser
    * @tparam E the Dimension for the result Quantity
    * @return
    */
-  def flatMap[B: Numeric, E <: Dimension](f: Quantity[A, D] => Quantity[B, E]): Quantity[B, E] = f(this)
+  def flatMap[B, E <: Dimension](f: Quantity[A, D] => Quantity[B, E]): Quantity[B, E] = f(this)
 
 }

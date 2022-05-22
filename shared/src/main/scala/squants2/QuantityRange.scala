@@ -206,10 +206,10 @@ case class QuantityRange[A, D <: Dimension](lower: Quantity[A, D], upper: Quanti
    * @tparam B the numeric type of the parameter
    * @return
    */
-  def inc[B: Numeric](that: Quantity[B, D])(implicit f: B => A): QuantityRange[A, D] =
+  def inc[B](that: Quantity[B, D])(implicit f: B => A): QuantityRange[A, D] =
     QuantityRange(this.lower + that, this.upper + that)
   /** int */
-  def ++[B: Numeric](that: Quantity[B, D])(implicit f: B => A): QuantityRange[A, D] = inc(that)
+  def ++[B](that: Quantity[B, D])(implicit f: B => A): QuantityRange[A, D] = inc(that)
 
   /**
    * Decrements the range's from and to value by an amount equal to the Quantity value of the range
@@ -226,10 +226,10 @@ case class QuantityRange[A, D <: Dimension](lower: Quantity[A, D], upper: Quanti
    * @tparam B the numeric type of the parameter
    * @return
    */
-  def dec[B: Numeric](that: Quantity[B, D])(implicit f: B => A): QuantityRange[A, D] =
+  def dec[B](that: Quantity[B, D])(implicit f: B => A): QuantityRange[A, D] =
     QuantityRange(this.lower - that, this.upper - that)
   /** dec */
-  def --[B: Numeric](that: Quantity[B, D])(implicit f: B => A): QuantityRange[A, D] = dec(that)
+  def --[B](that: Quantity[B, D])(implicit f: B => A): QuantityRange[A, D] = dec(that)
 
   /**
    * Increments the `to` value by an amount equal to the value of `that`
@@ -238,15 +238,15 @@ case class QuantityRange[A, D <: Dimension](lower: Quantity[A, D], upper: Quanti
    * @tparam B the numeric type of the parameter
    * @return
    */
-  def incTo[B: Numeric](that: Quantity[B, D])(implicit f: B => A): QuantityRange[A, D] =
+  def incTo[B](that: Quantity[B, D])(implicit f: B => A): QuantityRange[A, D] =
     QuantityRange(this.lower, this.upper + that)
   /** incTo */
-  def =+[B: Numeric](that: Quantity[B, D])(implicit f: B => A): QuantityRange[A, D] = incTo(that)
+  def =+[B](that: Quantity[B, D])(implicit f: B => A): QuantityRange[A, D] = incTo(that)
 
-  def decTo[B: Numeric](that: Quantity[B, D])(implicit f: B => A): QuantityRange[A, D] =
+  def decTo[B](that: Quantity[B, D])(implicit f: B => A): QuantityRange[A, D] =
     QuantityRange(this.lower, this.upper - that)
   /** decTo */
-  def =-[B: Numeric](that: Quantity[B, D])(implicit f: B => A): QuantityRange[A, D] = decTo(that)
+  def =-[B](that: Quantity[B, D])(implicit f: B => A): QuantityRange[A, D] = decTo(that)
 
   /**
    * Increments the `from` value by an amount equal to the value of `that`
@@ -255,10 +255,10 @@ case class QuantityRange[A, D <: Dimension](lower: Quantity[A, D], upper: Quanti
    * @tparam B the numeric type of the parameter
    * @return
    */
-  def incFrom[B: Numeric](that: Quantity[B, D])(implicit f: B => A): QuantityRange[A, D] =
+  def incFrom[B](that: Quantity[B, D])(implicit f: B => A): QuantityRange[A, D] =
     QuantityRange(this.lower + that, this.upper)
   /** incFrom */
-  def +=[B: Numeric](that: Quantity[B, D])(implicit f: B => A): QuantityRange[A, D] = incFrom(that)
+  def +=[B](that: Quantity[B, D])(implicit f: B => A): QuantityRange[A, D] = incFrom(that)
 
   /**
    * Decrements the `from` value by an amount equal to the value of `that`
@@ -267,10 +267,10 @@ case class QuantityRange[A, D <: Dimension](lower: Quantity[A, D], upper: Quanti
    * @tparam B the numeric type of the parameter
    * @return
    */
-  def decFrom[B: Numeric](that: Quantity[B, D])(implicit f: B => A): QuantityRange[A, D] =
+  def decFrom[B](that: Quantity[B, D])(implicit f: B => A): QuantityRange[A, D] =
     QuantityRange(this.lower - that, this.upper)
   /** decFrom */
-  def -=[B: Numeric](that: Quantity[B, D])(implicit f: B => A): QuantityRange[A, D] = decFrom(that)
+  def -=[B](that: Quantity[B, D])(implicit f: B => A): QuantityRange[A, D] = decFrom(that)
 
   /**
    * Decrements the `from` value and increments the `to` by an amount equal to the value of `that`
@@ -279,10 +279,10 @@ case class QuantityRange[A, D <: Dimension](lower: Quantity[A, D], upper: Quanti
    * @tparam B the numeric type of the parameter
    * @return
    */
-  def decFromIncTo[B: Numeric](that: Quantity[B, D])(implicit f: B => A): QuantityRange[A, D] =
+  def decFromIncTo[B](that: Quantity[B, D])(implicit f: B => A): QuantityRange[A, D] =
     QuantityRange(this.lower - that, this.upper + that)
   /** decFromIncTo */
-  def -+[B: Numeric](that: Quantity[B, D])(implicit f: B => A): QuantityRange[A, D] = decFromIncTo(that)
+  def -+[B](that: Quantity[B, D])(implicit f: B => A): QuantityRange[A, D] = decFromIncTo(that)
 
   /**
    * Increments the `from` value and decrements the `to` by an amount equal to the value of `that`
@@ -291,10 +291,10 @@ case class QuantityRange[A, D <: Dimension](lower: Quantity[A, D], upper: Quanti
    * @tparam B the numeric type of the parameter
    * @return
    */
-  def incFromDecTo[B: Numeric](that: Quantity[B, D])(implicit f: B => A): QuantityRange[A, D] =
+  def incFromDecTo[B](that: Quantity[B, D])(implicit f: B => A): QuantityRange[A, D] =
     QuantityRange(this.lower + that, this.upper - that)
   /** incFromDecTo */
-  def +-[B: Numeric](that: Quantity[B, D])(implicit f: B => A): QuantityRange[A, D] = incFromDecTo(that)
+  def +-[B](that: Quantity[B, D])(implicit f: B => A): QuantityRange[A, D] = incFromDecTo(that)
 
   /**
    * Returns true if the quantity is contained within this range, otherwise false.
@@ -304,7 +304,7 @@ case class QuantityRange[A, D <: Dimension](lower: Quantity[A, D], upper: Quanti
    * @tparam B the numeric type of the parameter
    * @return
    */
-  def contains[B: Numeric](q: Quantity[B, D])(implicit f: B => A): Boolean =
+  def contains[B](q: Quantity[B, D])(implicit f: B => A): Boolean =
     (q.asNum[A] >= lower) && (q.asNum[A] < upper)
 
   /**
@@ -314,7 +314,7 @@ case class QuantityRange[A, D <: Dimension](lower: Quantity[A, D], upper: Quanti
    * @tparam B the numeric type of the parameter
    * @return
    */
-  def contains[B: Numeric](that: QuantityRange[B, D])(implicit f: B => A): Boolean = {
+  def contains[B](that: QuantityRange[B, D])(implicit f: B => A): Boolean = {
     val thatA = that.asNum[A]
     thatA.lower >= this.lower &&
       thatA.lower < this.upper &&
@@ -367,8 +367,8 @@ case class QuantityRange[A, D <: Dimension](lower: Quantity[A, D], upper: Quanti
    * @tparam B the numeric type of the parameter
    * @return
    */
-  def partiallyIncludes[B](range: QuantityRange[A, D])(implicit f: B => A): Boolean =
-    range.lower <= upper && range.upper >= lower
+  def partiallyIncludes[B](range: QuantityRange[B, D])(implicit f: B => A): Boolean =
+    range.asNum[A].lower <= upper && range.asNum[A].upper >= lower
 
   /**
    * Creates a like QuantityRange using the B as the Numeric type

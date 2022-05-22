@@ -1,7 +1,6 @@
 package squants2.space
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class Volume[A: Numeric] private [space] (value: A, unit: VolumeUnit) extends Quantity[A, Volume.type] {
   override type Q[B] = Volume[B]

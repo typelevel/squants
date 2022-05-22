@@ -28,7 +28,7 @@ trait UnitOfMeasure[D <: Dimension] extends Serializable {
    * @tparam A the QNumeric type
    * @return
    */
-  def unapply[A: Numeric](q: Quantity[A, D]): Option[A] = Some(q.to(this))
+  def unapply[A](q: Quantity[A, D]): Option[A] = Some(q.to(this))
 
   /**
    * Symbol used when representing Quantities in this UnitOfMeasure
