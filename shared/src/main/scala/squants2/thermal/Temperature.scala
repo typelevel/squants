@@ -42,17 +42,17 @@ abstract class TemperatureUnit(val symbol: String, val conversionFactor: Convers
       case (Kelvin, Rankine)        => Rankine(quantity.value * nineFifths)
       case (Rankine, Kelvin)        => Kelvin(quantity.value * fiveNinths)
 
-      case (Kelvin, Celsius)        => Celsius(quantity.value - celsOffset)
-      case (Celsius, Kelvin)        => Kelvin(quantity.value + celsOffset)
+      case (Kelvin, Celsius)        => Celsius(quantity.value - celsOffset(c))
+      case (Celsius, Kelvin)        => Kelvin(quantity.value + celsOffset(c))
 
       case (Kelvin, Fahrenheit)     => Fahrenheit(quantity.value * nineFifths + num.fromInt(32))
       case (Fahrenheit, Kelvin)     => Celsius((quantity.value - num.fromInt(32)) * fiveNinths)
 
-      case (Rankine, Fahrenheit)    => Fahrenheit(quantity.value - fahrOffset)
-      case (Fahrenheit, Rankine)    => Rankine(quantity.value + fahrOffset)
+      case (Rankine, Fahrenheit)    => Fahrenheit(quantity.value - fahrOffset(c))
+      case (Fahrenheit, Rankine)    => Rankine(quantity.value + fahrOffset(c))
 
-      case (Rankine, Celsius)       => Celsius((quantity.value - (fahrOffset + num.fromInt(32))) * fiveNinths)
-      case (Celsius, Rankine)       => Rankine((quantity.value + celsOffset) * nineFifths)
+      case (Rankine, Celsius)       => Celsius((quantity.value - (fahrOffset(c) + num.fromInt(32))) * fiveNinths)
+      case (Celsius, Rankine)       => Rankine((quantity.value + celsOffset(c)) * nineFifths)
 
       case (Celsius, Fahrenheit)    => Fahrenheit(quantity.value * nineFifths + num.fromInt(32))
       case (Fahrenheit, Celsius)    => Celsius((quantity.value - num.fromInt(32)) * fiveNinths)
@@ -68,8 +68,8 @@ abstract class TemperatureUnit(val symbol: String, val conversionFactor: Convers
     case fnum: Fractional[A] => fnum.div(fnum.fromInt(9), fnum.fromInt(5))
     case _ => throw new UnsupportedOperationException("Unknown Numeric Type")
   }
-  private def celsOffset[A](implicit num: Numeric[A], c: Converter[A]): A = c(Celsius.zeroOffset)
-  private def fahrOffset[A](implicit num: Numeric[A], c: Converter[A]): A = c(Fahrenheit.zeroOffset)
+  private def celsOffset[A](implicit c: Converter[A]): A = c(Celsius.zeroOffset)
+  private def fahrOffset[A](implicit c: Converter[A]): A = c(Fahrenheit.zeroOffset)
 
 }
 
