@@ -19,6 +19,8 @@ Allowing the user to choose the numeric type for a Quantity will remove this lim
 This refactoring supports using a `Numeric` type for `Quantity.value`.
 
 ```scala
+import squants2.mass._
+
 val massN = Kilograms(1) // Mass[Int]
 val massD = Kilograms(10.22) // Mass[Double]
 val massBD = Kilograms(BigDecimal(10.22)) // Mass[BigDecimal]
@@ -45,6 +47,9 @@ Unit conversion factors are still defined using `Double`.
 However, they are converted to the `Numeric` type used in the `Quantity` before conversions are applied.
 This should help preserve precision, however, we may want to consider using `BigDecimal` to hold conversion factors.
 
+In either case, the conversionFactor is converted to the target Numeric using the `Numeric.parseString` method.
+This is only available in Scala 2.13 and above, therefore Scala 2.12 has been removed from the build.
+Alternatives ideas to this are welcome.
 
 ## Refactor Model to Support Generics
 
@@ -54,6 +59,8 @@ The core model has been significantly refactored.
 
 An abbreviated view ...
 ```scala
+import squants2._
+
 abstract class Dimension(val name: String) {
   type D = this.type
   def units: Set[UnitOfMeasure[D]]
@@ -68,12 +75,6 @@ trait UnitOfMeasure[D <: Dimension] {
   def conversionFactor: Double  // maybe BigDecimal instead
   def apply[A: Numeric](a: A): Quantity[A, D]
   /* ... */
-}
-
-// Used to Convert conversion factors to type A
-// Converters for standard types are provided
-abstract class Converter[A] {
-  def apply(factor: Double): A
 }
 
 abstract class Quantity[A: Numeric, D <: Dimension] {
@@ -94,6 +95,8 @@ However, each quantity type must be refactored to use `Numeric`, and provide num
 (*A refactoring that is possible in the current 1.x model, as well*)
 
 ```scala
+import squants2._
+
 final case class Length[A: Numeric] private (value: A, unit: LengthUnit) extends Quantity[A, Length.type] {
  
   override type Q[B] = Length[B]
