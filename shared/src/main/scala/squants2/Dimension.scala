@@ -44,8 +44,8 @@ abstract class Dimension(val name: String) {
    * @param value the source string (ie, "10 kW") or tuple (ie, (10, "kW"))
    * @return a Try containing the `Quantity` of a `QuantityParseException`
    */
-  protected def parse(value: Any): Try[Q[_]] = value match {
-    case s: String              => parseString(s)
+  protected def parse[A: Numeric](value: Any): Try[Q[_]] = value match {
+    case s: String              => parseString[A](s)
     case (v: Byte, u: String)   => parseTuple((v.toInt, u))
     case (v: Short, u: String)  => parseTuple((v.toInt, u))
     case (v: Int, u: String)    => parseTuple((v, u))
@@ -55,23 +55,16 @@ abstract class Dimension(val name: String) {
     case _                      => Failure(QuantityParseException(s"Unable to parse $name", value.toString))
   }
 
-  def parseString(s: String): Try[Quantity[BigDecimal, D]] = {
+  def parseString[A](s: String)(implicit num: Numeric[A]): Try[Quantity[A, D]] = {
     s match {
-      case QuantityString(value, symbol) => Success(symbolToUnit(symbol).get(BigDecimal(value)))
-      case _                             => Failure(QuantityParseException(s"Unable to parse $name", s))
-    }
-  }
-
-  def parseStringAndUnit(s: String): Try[(String, UnitOfMeasure[D])] = {
-    s match {
-      case QuantityString(value, symbol) => Success((value, symbolToUnit(symbol).get))
-      case _                             => Failure(QuantityParseException(s"Unable to parse $name", s))
+      case QuantityString(valStr, symbol) => Success(symbolToUnit(symbol).get(num.parseString(valStr).get))
+      case _                              => Failure(QuantityParseException(s"Unable to parse $name", s))
     }
   }
 
   private lazy val QuantityString = ("^([-+]?[0-9]*\\.?[0-9]+(?:[eE][-+]?[0-9]+)?) *(" + units.map { (u: UnitOfMeasure[D]) => u.symbol }.reduceLeft(_ + "|" + _) + ")$").r
 
-  def parseTuple[A](t: (A, String))(implicit num: Numeric[A]): Try[Quantity[_, D]] = {
+  def parseTuple[A](t: (A, String))(implicit num: Numeric[A]): Try[Quantity[A, D]] = {
     val value = t._1
     val symbol = t._2
     symbolToUnit(symbol) match {
