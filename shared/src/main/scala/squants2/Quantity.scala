@@ -41,24 +41,24 @@ abstract class Quantity[A, D <: Dimension](implicit num: Numeric[A])
    * @param that Quantity
    * @return Quantity
    */
-  def plus[B](that: Quantity[B, D])(implicit f: B => A): this.type = unit(value + f(that.to(unit))).asInstanceOf[this.type]
-  def +[B](that: Quantity[B, D])(implicit f: B => A): this.type = plus(that)
+  def plus[B](that: Quantity[B, D])(implicit f: B => A): Q[A] = unit(value + f(that.to(unit))).asInstanceOf[Q[A]]
+  def +[B](that: Quantity[B, D])(implicit f: B => A): Q[A] = plus(that)
 
   /**
    * Subtract two like quantities
    * @param that Quantity
    * @return Quantity
    */
-  def minus[B](that: Quantity[B, D])(implicit f: B => A): this.type = unit(value - f(that.to(unit))).asInstanceOf[this.type]
-  def -[B](that: Quantity[B, D])(implicit f: B => A): this.type = minus(that)
+  def minus[B](that: Quantity[B, D])(implicit f: B => A): Q[A] = unit(value - f(that.to(unit))).asInstanceOf[Q[A]]
+  def -[B](that: Quantity[B, D])(implicit f: B => A): Q[A] = minus(that)
 
   /**
    * Multiply this quantity by some number
    * @param that Double
    * @return Quantity
    */
-  def times[B](that: B)(implicit f: B => A): this.type = unit(value * f(that)).asInstanceOf[this.type]
-  def *[B](that: B)(implicit f: B => A): this.type = times(that)
+  def times[B](that: B)(implicit f: B => A): Q[A] = unit(value * f(that)).asInstanceOf[Q[A]]
+  def *[B](that: B)(implicit f: B => A): Q[A] = times(that)
 
   // TODO - def * (that: Price[Quantity[_, D])
 
@@ -67,8 +67,8 @@ abstract class Quantity[A, D <: Dimension](implicit num: Numeric[A])
    * @param that Double
    * @return Quantity
    */
-  def divide[B](that: B)(implicit f: B => A): this.type = unit(value / f(that)).asInstanceOf[this.type]
-  def /[B](that: B)(implicit f: B => A): this.type = divide(that)
+  def divide[B](that: B)(implicit f: B => A): Q[A] = unit(value / f(that)).asInstanceOf[Q[A]]
+  def /[B](that: B)(implicit f: B => A): Q[A] = divide(that)
 
   /**
    * Divide this quantity by a like quantity
@@ -83,8 +83,8 @@ abstract class Quantity[A, D <: Dimension](implicit num: Numeric[A])
    * @param that Quantity
    * @return Quantity
    */
-  def remainder[B](that: B)(implicit f: B => A): this.type = (value % f(that)).asInstanceOf[this.type]
-  def %[B](that: B)(implicit f: B => A): this.type = remainder(that)
+  def remainder[B](that: B)(implicit f: B => A): Q[A] = (value % f(that)).asInstanceOf[Q[A]]
+  def %[B](that: B)(implicit f: B => A): Q[A] = remainder(that)
 
   /**
    * Returns the remainder of a division by a like quantity
@@ -99,35 +99,35 @@ abstract class Quantity[A, D <: Dimension](implicit num: Numeric[A])
    * @param that Double
    * @return (Quantity, Quantity)
    */
-  def divideAndRemainder[B](that: B)(implicit f: B => A): (this.type, this.type) = {
+  def divideAndRemainder[B](that: B)(implicit f: B => A): (Q[A], Q[A]) = {
     val (q, r) = value /% f(that)
-    (unit(q).asInstanceOf[this.type], unit(r).asInstanceOf[this.type])
+    (unit(q).asInstanceOf[Q[A]], unit(r).asInstanceOf[Q[A]])
   }
-  def /%[B](that: B)(implicit f: B => A): (this.type, this.type) = divideAndRemainder(that)
+  def /%[B](that: B)(implicit f: B => A): (Q[A], Q[A]) = divideAndRemainder(that)
 
   /**
    * Returns a Pair that includes the result of divideToInteger and remainder
    * @param that Quantity
    * @return (Double, Quantity)
    */
-  def divideAndRemainder[B](that: Quantity[B, D])(implicit f: B => A): (A, this.type) = {
+  def divideAndRemainder[B](that: Quantity[B, D])(implicit f: B => A): (A, Q[A]) = {
     val (q, r) = value /% that.asNum[A].to(unit)
-    (q, unit(r).asInstanceOf[this.type])
+    (q, unit(r).asInstanceOf[Q[A]])
   }
-  def /%[B](that: Quantity[B, D])(implicit f: B => A): (A, this.type) = divideAndRemainder(that)
+  def /%[B](that: Quantity[B, D])(implicit f: B => A): (A, Q[A]) = divideAndRemainder(that)
 
   /**
    * Returns the negative value of this Quantity
    * @return Quantity
    */
-  def negate: this.type = map(num.negate).asInstanceOf[this.type]
-  def unary_- : this.type = negate
+  def negate: Q[A] = map(num.negate)
+  def unary_- : Q[A] = negate
 
   /**
    * Returns the absolute value of this Quantity
    * @return Quantity
    */
-  def abs: this.type = map(num.abs).asInstanceOf[this.type]
+  def abs: Q[A] = map(num.abs)
 
   /**
    * Returns the smallest (closest to negative infinity) Quantity value that is greater than or equal to the argument and is equal to a mathematical integer.
@@ -135,7 +135,7 @@ abstract class Quantity[A, D <: Dimension](implicit num: Numeric[A])
    * @see java.lang.Math#ceil(double)
    * @return Quantity
    */
-  def ceil: this.type = rounded(0, RoundingMode.CEILING)
+  def ceil: Q[A] = rounded(0, RoundingMode.CEILING)
 
   /**
    * Returns the largest (closest to positive infinity) Quantity value that is less than or equal to the argument and is equal to a mathematical integer
@@ -143,7 +143,7 @@ abstract class Quantity[A, D <: Dimension](implicit num: Numeric[A])
    * @see java.lang.Math#floor(double)
    * @return Quantity
    */
-  def floor: this.type = rounded(0, RoundingMode.FLOOR)
+  def floor: Q[A] = rounded(0, RoundingMode.FLOOR)
 
   /**
    * Returns the Quantity value that is closest in value to the argument and is equal to a mathematical integer.
@@ -151,7 +151,7 @@ abstract class Quantity[A, D <: Dimension](implicit num: Numeric[A])
    * @see java.lang.Math#rint(double)
    * @return Quantity
    */
-  def rint: this.type = rounded(0, RoundingMode.HALF_EVEN)
+  def rint: Q[A] = rounded(0, RoundingMode.HALF_EVEN)
 
   /**
    * Returns the Quantity with its coefficient value rounded using scale and mode.  The unit is maintained.
@@ -160,8 +160,8 @@ abstract class Quantity[A, D <: Dimension](implicit num: Numeric[A])
    * @param mode RoundingMode - defaults to HALF_EVEN
    * @return Quantity
    */
-  def rounded(scale: Int, mode: RoundingMode = RoundingMode.HALF_EVEN): this.type =
-    unit(value.rounded(scale, mode)).asInstanceOf[this.type]
+  def rounded(scale: Int, mode: RoundingMode = RoundingMode.HALF_EVEN): Q[A] =
+    unit(value.rounded(scale, mode)).asInstanceOf[Q[A]]
 
   /**
    * Override of equals method

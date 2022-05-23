@@ -382,7 +382,7 @@ case class QuantityRange[A, D <: Dimension](lower: Quantity[A, D], upper: Quanti
    * Returns a quantity that is equal to the difference between the `from` and `to`
    * @return
    */
-  lazy val toQuantity: upper.type = upper - lower
+  lazy val toQuantity: Quantity[A, D] = upper - lower
 
   /**
    * Returns this Range's boundary values as a Seq[A] of the two
