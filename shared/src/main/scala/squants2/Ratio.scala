@@ -7,7 +7,7 @@ abstract class Ratio[A, B, D <: Dimension, E <: Dimension] {
   def convertToCounter(q: Quantity[A, D])(implicit f: A => B): Quantity[B, E] = counter * (q / base)
 }
 
-abstract class LikeRatio[A: Numeric : Converter, B, D <: Dimension] extends Ratio[A, B, D, D] {
+abstract class LikeRatio[A: Numeric, B, D <: Dimension] extends Ratio[A, B, D, D] {
   def ratio(implicit f: B => A): A = base / counter
   def inverseRatio(implicit f: B => A): A = counter.asNum[A] / base
 }

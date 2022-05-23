@@ -2,7 +2,7 @@ package squants2
 
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class Dimensionless[A: Numeric : Converter] private[squants2] (value: A, unit: DimensionlessUnit)
+final case class Dimensionless[A: Numeric] private[squants2] (value: A, unit: DimensionlessUnit)
   extends Quantity[A, Dimensionless.type] {
   override type Q[B] = Dimensionless[B]
 
@@ -25,7 +25,7 @@ object Dimensionless extends Dimension("Dimensionless") {
   override lazy val units: Set[UnitOfMeasure[this.type]] = Set(Each, Percent, Dozen, Score, Gross)
 
   // Constructors from Numeric values
-  implicit class DimensionlessCons[A](a: A)(implicit num: Numeric[A], c: Converter[A]) {
+  implicit class DimensionlessCons[A](a: A)(implicit num: Numeric[A]) {
     def percent: Dimensionless[A] = Percent(a)
     def each: Dimensionless[A] = Each(a)
     def dozen: Dimensionless[A] = Dozen(a)
@@ -50,7 +50,7 @@ object Dimensionless extends Dimension("Dimensionless") {
 
 abstract class DimensionlessUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Dimensionless.type] {
   override lazy val dimension: Dimensionless.type = Dimensionless
-  override def apply[A: Numeric : Converter](value: A): Dimensionless[A] = Dimensionless(value, this)
+  override def apply[A: Numeric](value: A): Dimensionless[A] = Dimensionless(value, this)
 }
 
 case object Each extends DimensionlessUnit("ea", 1) with PrimaryUnit with SiUnit

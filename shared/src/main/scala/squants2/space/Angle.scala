@@ -3,7 +3,7 @@ package squants2.space
 import squants2._
 import squants2.time.Minutes
 
-final case class Angle[A] private[squants2] (value: A, unit: AngleUnit)(implicit num: Numeric[A], c: Converter[A]) extends Quantity[A, Angle.type] {
+final case class Angle[A] private[squants2] (value: A, unit: AngleUnit)(implicit num: Numeric[A]) extends Quantity[A, Angle.type] {
   override type Q[B] = Angle[B]
 
   def toRadians: A = to(Radians)
@@ -31,7 +31,7 @@ object Angle extends Dimension("Angle") {
   override lazy val units: Set[UnitOfMeasure[this.type]] = Set(Radians, Degrees, Gradians, Turns, Arcminutes, Arcseconds)
 
   // Constructors from Numeric values
-  implicit class AngleCons[A: Numeric : Converter](a: A) {
+  implicit class AngleCons[A: Numeric](a: A) {
     def radians: Angle[A] = Radians(a)
     def degrees: Angle[A] = Degrees(a)
     def gradians: Angle[A] = Gradians(a)
@@ -52,7 +52,7 @@ object Angle extends Dimension("Angle") {
 
 abstract class AngleUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Angle.type] {
   override lazy val dimension: Angle.type = Angle
-  override def apply[A: Numeric : Converter](value: A): Angle[A] = Angle(value, this)
+  override def apply[A: Numeric](value: A): Angle[A] = Angle(value, this)
 }
 
 case object Radians extends AngleUnit("rad", 1) with PrimaryUnit with SiUnit

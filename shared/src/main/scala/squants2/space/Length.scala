@@ -4,7 +4,7 @@ import squants2._
 
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class Length[A: Numeric : Converter] private [space]  (value: A, unit: LengthUnit) extends Quantity[A, Length.type] {
+final case class Length[A: Numeric] private [space]  (value: A, unit: LengthUnit) extends Quantity[A, Length.type] {
   override type Q[B] = Length[B]
 
   def *[B](that: Length[B])(implicit f: B => A): Area[A] = SquareMeters(to(Meters) * that.asNum[A].to(Meters))
@@ -23,7 +23,7 @@ object Length extends BaseDimension("Length", "L") {
     GigaElectronVoltLength, TeraElectronVoltLength, PetaElectronVoltLength, ExaElectronVoltLength)
 
   // Constructors from Numeric values
-  implicit class LengthCons[A: Numeric : Converter](a: A) {
+  implicit class LengthCons[A: Numeric](a: A) {
     def meters: Length[A] = Meters(a)
     def feet: Length[A] = Feet(a)
   }
@@ -35,7 +35,7 @@ object Length extends BaseDimension("Length", "L") {
 
 abstract class LengthUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Length.type] {
   override def dimension: Length.type = Length
-  override def apply[A: Numeric : Converter](value: A): Length[A] = Length(value, this)
+  override def apply[A: Numeric](value: A): Length[A] = Length(value, this)
 }
 
 case object Meters extends LengthUnit("m", 1) with PrimaryUnit with SiBaseUnit

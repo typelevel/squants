@@ -13,7 +13,7 @@ import scala.math.Ordering.Implicits.infixOrderingOps
  * @param upper Quantity representing the upper bound of the range
  * @tparam A the Quantity Type
  */
-case class QuantityRange[A, D <: Dimension](lower: Quantity[A, D], upper: Quantity[A, D])(implicit num: Numeric[A], c: Converter[A]) {
+case class QuantityRange[A, D <: Dimension](lower: Quantity[A, D], upper: Quantity[A, D])(implicit num: Numeric[A]) {
   if (lower >= upper) {
     throw new IllegalArgumentException("QuantityRange upper bound must be strictly greater than to the lower bound")
   }
@@ -376,7 +376,7 @@ case class QuantityRange[A, D <: Dimension](lower: Quantity[A, D], upper: Quanti
    * @tparam B The Numeric type for new QuantityRange
    * @return
    */
-  def asNum[B: Numeric : Converter](implicit f: A => B): QuantityRange[B, D] = QuantityRange(lower.asNum[B], upper.asNum[B])
+  def asNum[B: Numeric](implicit f: A => B): QuantityRange[B, D] = QuantityRange(lower.asNum[B], upper.asNum[B])
 
   /**
    * Returns a quantity that is equal to the difference between the `from` and `to`

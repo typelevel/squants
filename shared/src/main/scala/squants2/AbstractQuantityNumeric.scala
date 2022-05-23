@@ -11,7 +11,7 @@ package squants2
  *
  * @tparam A Quantity type
  */
-abstract class AbstractQuantityNumeric[A, D <: Dimension](val unit: UnitOfMeasure[D] with PrimaryUnit)(implicit num: Numeric[A], c: Converter[A]) extends Numeric[Quantity[A, D]] {
+abstract class AbstractQuantityNumeric[A, D <: Dimension](val unit: UnitOfMeasure[D] with PrimaryUnit)(implicit num: Numeric[A]) extends Numeric[Quantity[A, D]] {
   override def plus(x: Quantity[A, D], y: Quantity[A, D]): Quantity[A, D] = x + y
   override def minus(x: Quantity[A, D], y: Quantity[A, D]): Quantity[A, D] = x - y
 
@@ -33,5 +33,8 @@ abstract class AbstractQuantityNumeric[A, D <: Dimension](val unit: UnitOfMeasur
   override def toFloat(x: Quantity[A, D]): Float = num.toFloat(x.to(unit))
   override def toDouble(x: Quantity[A, D]): Double = num.toDouble(x.to(unit))
   override def compare(x: Quantity[A, D], y: Quantity[A, D]): Int = x.compare(y)
-  override def parseString(str: String): Option[Quantity[A, D]] = ??? // TODO: num.parseString(str).map(a => unit(a))
+  override def parseString(str: String): Option[Quantity[A, D]] =
+    unit.dimension.parseStringAndUnit(str).toOption flatMap { case (s, u) =>
+      num.parseString(s).map(n => u(n).asInstanceOf[Quantity[A, D]])
+    }
 }

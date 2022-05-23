@@ -141,7 +141,7 @@ object SVector {
  * @tparam A The numeric type for the Vector's coordinate values
  * @tparam D The Dimension of the Vector's coordinate values
  */
-case class SVectorImpl[A, D <: Dimension](coordinates: Seq[Quantity[A, D]])(implicit num: Numeric[A], c: Converter[A]) extends SVector[A, D] {
+case class SVectorImpl[A, D <: Dimension](coordinates: Seq[Quantity[A, D]])(implicit num: Numeric[A]) extends SVector[A, D] {
   override type SVectorType = this.type
 
   private val valueUnit = coordinates.head.unit
@@ -187,7 +187,7 @@ case class SVectorImpl[A, D <: Dimension](coordinates: Seq[Quantity[A, D]])(impl
    * @tparam E - the Dimension of the new SVector
    * @return
    */
-  def map[B: Numeric : Converter, E <: Dimension](f: Quantity[A, D] => Quantity[B, E]): SVector[B, E] = SVectorImpl(coordinates.map(q => f(q)))
+  def map[B: Numeric, E <: Dimension](f: Quantity[A, D] => Quantity[B, E]): SVector[B, E] = SVectorImpl(coordinates.map(q => f(q)))
 
   /**
    * Add two Vectors

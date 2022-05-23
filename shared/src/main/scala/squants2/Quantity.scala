@@ -14,7 +14,7 @@ import scala.math.Ordered.orderingToOrdered
  * @since   0.1
  *
  */
-abstract class Quantity[A, D <: Dimension](implicit num: Numeric[A], c: Converter[A])
+abstract class Quantity[A, D <: Dimension](implicit num: Numeric[A])
   extends Serializable with Ordered[Quantity[A, D]] {
   type Q[B] <: Quantity[B, D]
 
@@ -274,7 +274,7 @@ abstract class Quantity[A, D <: Dimension](implicit num: Numeric[A], c: Converte
    * @tparam B the target Numeric type
    * @return
    */
-  def asNum[B: Numeric : Converter](implicit f: A => B): Q[B] = unit(f(value)).asInstanceOf[Q[B]]
+  def asNum[B: Numeric](implicit f: A => B): Q[B] = unit(f(value)).asInstanceOf[Q[B]]
 
   /**
    * Returns a string representing the quantity's value in unit
@@ -316,7 +316,7 @@ abstract class Quantity[A, D <: Dimension](implicit num: Numeric[A], c: Converte
    * @param f Double => Double function
    * @return
    */
-  def map[B: Numeric : Converter](f: A => B): Q[B] = unit(f(value)).asInstanceOf[Q[B]]
+  def map[B: Numeric](f: A => B): Q[B] = unit(f(value)).asInstanceOf[Q[B]]
 
   /**
    * EXPERIMENTAL - Transform a Quantity to new Quantity of any Dimension, Unit and Numeric type

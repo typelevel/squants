@@ -81,7 +81,7 @@ abstract class Converter[A] {
   def apply(factor: Double): A
 }
 
-abstract class Quantity[A: Numeric : Converter, D <: Dimension] {
+abstract class Quantity[A: Numeric, D <: Dimension] {
   type Q[B] <: Quantity[B, D]
   def value: A
   def unit: UnitOfMeasure[D]
@@ -99,7 +99,7 @@ However, each quantity type must be refactored to use `Numeric`, and provide num
 (*A refactoring that is possible in the current 1.x model, as well*)
 
 ```scala
-final case class Length[A: Numeric : Converter] private (value: A, unit: LengthUnit) extends Quantity[A, Length.type] {
+final case class Length[A: Numeric] private (value: A, unit: LengthUnit) extends Quantity[A, Length.type] {
  
   override type Q[B] = Length[B]
 
@@ -114,7 +114,7 @@ object Length extends BaseDimension("Length", "L") {
   override lazy val units: Set[UnitOfMeasure[this.type]] = Set(Meters, Feet)
 
   // Constructors from Numeric values
-  implicit class LengthCons[A: Numeric : Converter](a: A) {
+  implicit class LengthCons[A: Numeric](a: A) {
     def meters: Length[A] = Meters(a)
     def feet: Length[A] = Feet(a)
   }
@@ -126,7 +126,7 @@ object Length extends BaseDimension("Length", "L") {
 
 abstract class LengthUnit(val symbol: String, val conversionFactor: Double) extends UnitOfMeasure[Length.type] {
   override def dimension: Length.type = Length
-  override def apply[A: Numeric : Converter](value: A): Length[A] = Length(value, this)
+  override def apply[A: Numeric](value: A): Length[A] = Length(value, this)
 }
 
 case object Meters extends LengthUnit("m", 1) with PrimaryUnit with SiBaseUnit
