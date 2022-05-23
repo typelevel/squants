@@ -1,6 +1,6 @@
 # Squants - Supported Dimensions and Units
 #### Dimension Count: 7
-#### Unit Count: 80
+#### Unit Count: 83
 
 ## Electric Current - [ I ]
 #### Primary Unit: Amperes (1 A)
@@ -27,6 +27,7 @@
 |PetaElectronVoltMass| 1 PeV/c² = 1.7826620E-21 g|
 |ExaElectronVoltMass| 1 EeV/c² = 1.7826620E-18 g|
 |Nanograms| 1 ng = 1.0E-9 g|
+|PlankMass| 1 mp = 2.176434E-8 g|
 |Micrograms| 1 mcg = 0.0000010 g|
 |Milligrams| 1 mg = 0.001 g|
 |TroyGrains| 1 gr = 0.06479891 g|
@@ -61,6 +62,7 @@
 #### SI Base Unit: Meters (1 m)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
+|PlankLength| 1 ℓp = 1.616255E-35 m|
 |Angstroms| 1 Å = 1.0E-10 m|
 |MilliElectronVoltLength| 1 mħc/eV = 1.97327E-10 m|
 |Nanometers| 1 nm = 1.0E-9 m|
@@ -83,8 +85,8 @@
 |NauticalMiles| 1 nmi = 1852.0 m|
 |TeraElectronVoltLength| 1 Tħc/eV = 197327.0 m|
 |PetaElectronVoltLength| 1 Pħc/eV = 1.973270E+8 m|
-|SolarRadii| 1 R☉ = 6.957E+8 m|
 |NominalSolarRadii| 1 RN☉ = 6.957E+8 m|
+|SolarRadii| 1 R☉ = 6.957E+8 m|
 |AstronomicalUnits| 1 au = 1.495978707E+11 m|
 |ExaElectronVoltLength| 1 Eħc/eV = 1.973270E+11 m|
 |LightYears| 1 ly = 9.4607304725808E+15 m|
@@ -113,6 +115,7 @@
 #### SI Base Unit: Seconds (1 s)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
+|PlankTime| 1 tp = 5.39E-44 s|
 |Picoseconds| 1 ps = 1.0E-12 s|
 |Nanoseconds| 1 ns = 1.0E-9 s|
 |Microseconds| 1 µs = 0.0000010 s|

@@ -15,7 +15,7 @@ object Length extends BaseDimension("Length", "L") {
 
   override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = Meters
   override def siUnit: UnitOfMeasure[this.type] with SiBaseUnit = Meters
-  override lazy val units: Set[UnitOfMeasure[this.type]] = Set(Angstroms, Nanometers, Microns,
+  override lazy val units: Set[UnitOfMeasure[this.type]] = Set(PlankLength, Angstroms, Nanometers, Microns,
     Millimeters, Centimeters, Decimeters, Meters, Decameters, Hectometers, Kilometers,
     Inches, Feet, Yards, UsMiles, InternationalMiles, NauticalMiles,
     AstronomicalUnits, LightYears, Parsecs, KiloParsecs, MegaParsecs, GigaParsecs, SolarRadii, NominalSolarRadii,
@@ -48,6 +48,7 @@ case object Millimeters extends LengthUnit("mm", MetricSystem.Milli)
 case object Microns extends LengthUnit("µm", MetricSystem.Micro)
 case object Nanometers extends LengthUnit("nm", MetricSystem.Nano)
 case object Angstroms extends LengthUnit("Å", 1.0e-10)
+case object PlankLength extends LengthUnit("ℓp", 1.616255E-35)
 
 case object Inches extends LengthUnit("in", Feet.conversionFactor / 12d)
 case object Feet extends LengthUnit("ft", .3048006096)

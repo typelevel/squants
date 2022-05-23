@@ -11,7 +11,7 @@ object Time extends BaseDimension("Time", "T") {
   override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = Seconds
   override def siUnit: UnitOfMeasure[this.type] with SiBaseUnit = Seconds
   override lazy val units: Set[UnitOfMeasure[this.type]] =
-    Set(Seconds, Minutes, Hours, Days, Weeks, Milliseconds, Microseconds, Nanoseconds, Picoseconds)
+    Set(Seconds, Minutes, Hours, Days, Weeks, Milliseconds, Microseconds, Nanoseconds, Picoseconds, PlankTime)
 
   // Constructors from Numeric values
   implicit class TimeCons[A: Numeric](a: A) {
@@ -43,3 +43,4 @@ case object Milliseconds extends TimeUnit("ms", MetricSystem.Milli)
 case object Microseconds extends TimeUnit("µs", MetricSystem.Micro)
 case object Nanoseconds extends TimeUnit("ns", MetricSystem.Nano)
 case object Picoseconds extends TimeUnit("ps", MetricSystem.Pico)
+case object PlankTime extends TimeUnit("tp", 5.39E-44)

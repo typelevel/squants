@@ -12,7 +12,7 @@ object Mass extends BaseDimension("Mass", "M") {
   override def siUnit: UnitOfMeasure[this.type] with SiBaseUnit = Kilograms
   override lazy val units: Set[UnitOfMeasure[this.type]] = Set(Nanograms, Micrograms, Milligrams,
     Grams, Kilograms, Tonnes, Ounces, Pounds, Kilopounds, Megapounds, Stone,
-    TroyGrains, Pennyweights, TroyOunces, TroyPounds, Tolas, Carats, SolarMasses, Dalton,
+    TroyGrains, Pennyweights, TroyOunces, TroyPounds, Tolas, Carats, SolarMasses, Dalton, PlankMass,
     ElectronVoltMass, MilliElectronVoltMass, KiloElectronVoltMass, MegaElectronVoltMass,
     GigaElectronVoltMass, TeraElectronVoltMass, PetaElectronVoltMass, ExaElectronVoltMass)
 
@@ -60,6 +60,8 @@ case object GigaElectronVoltMass extends MassUnit("GeV/c²", MetricSystem.Giga *
 case object TeraElectronVoltMass extends MassUnit("TeV/c²", MetricSystem.Tera * ElectronVoltMass.conversionFactor)
 case object PetaElectronVoltMass extends MassUnit("PeV/c²", MetricSystem.Peta * ElectronVoltMass.conversionFactor)
 case object ExaElectronVoltMass extends MassUnit("EeV/c²", MetricSystem.Exa * ElectronVoltMass.conversionFactor)
+
+case object PlankMass extends MassUnit("mp", 2.176434E-8)
 
 case object SolarMasses extends MassUnit("M☉", 1.98855e33)
 
