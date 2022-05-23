@@ -1,6 +1,6 @@
 # Squants - Supported Dimensions and Units
 #### Dimension Count: 7
-#### Unit Count: 79
+#### Unit Count: 80
 
 ## Electric Current - [ I ]
 #### Primary Unit: Amperes (1 A)
@@ -120,6 +120,7 @@
 |Minutes| 1 min = 60 s|
 |Hours| 1 h = 3660 s|
 |Days| 1 d = 87840 s|
+|Weeks| 1 w = 614880 s|
 
 [Go to Code](../squants2/time/Time.scala)
  | [Go to Wiki](https://en.wikipedia.org/wiki/Time)
