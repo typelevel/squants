@@ -28,7 +28,8 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        scala: [2.12.15, 2.13.6, 3.1.1]
+#        scala: [2.12.15, 2.13.6, 3.1.1]
+        scala: [2.13.6, 3.1.1]
         java: [temurin@8]
         project: [rootJS, rootJVM, rootNative]
         exclude:
@@ -150,35 +151,35 @@ jobs:
             ~/Library/Caches/Coursier/v1
           key: ${{ runner.os }}-sbt-cache-v2-${{ hashFiles('**/*.sbt') }}-${{ hashFiles('project/build.properties') }}
 
-      - name: Download target directories (2.12.15, rootJS)
-        uses: actions/download-artifact@v2
-        with:
-          name: target-${{ matrix.os }}-${{ matrix.java }}-2.12.15-rootJS
-
-      - name: Inflate target directories (2.12.15, rootJS)
-        run: |
-          tar xf targets.tar
-          rm targets.tar
-
-      - name: Download target directories (2.12.15, rootJVM)
-        uses: actions/download-artifact@v2
-        with:
-          name: target-${{ matrix.os }}-${{ matrix.java }}-2.12.15-rootJVM
-
-      - name: Inflate target directories (2.12.15, rootJVM)
-        run: |
-          tar xf targets.tar
-          rm targets.tar
-
-      - name: Download target directories (2.12.15, rootNative)
-        uses: actions/download-artifact@v2
-        with:
-          name: target-${{ matrix.os }}-${{ matrix.java }}-2.12.15-rootNative
-
-      - name: Inflate target directories (2.12.15, rootNative)
-        run: |
-          tar xf targets.tar
-          rm targets.tar
+#      - name: Download target directories (2.12.15, rootJS)
+#        uses: actions/download-artifact@v2
+#        with:
+#          name: target-${{ matrix.os }}-${{ matrix.java }}-2.12.15-rootJS
+#
+#      - name: Inflate target directories (2.12.15, rootJS)
+#        run: |
+#          tar xf targets.tar
+#          rm targets.tar
+#
+#      - name: Download target directories (2.12.15, rootJVM)
+#        uses: actions/download-artifact@v2
+#        with:
+#          name: target-${{ matrix.os }}-${{ matrix.java }}-2.12.15-rootJVM
+#
+#      - name: Inflate target directories (2.12.15, rootJVM)
+#        run: |
+#          tar xf targets.tar
+#          rm targets.tar
+#
+#      - name: Download target directories (2.12.15, rootNative)
+#        uses: actions/download-artifact@v2
+#        with:
+#          name: target-${{ matrix.os }}-${{ matrix.java }}-2.12.15-rootNative
+#
+#      - name: Inflate target directories (2.12.15, rootNative)
+#        run: |
+#          tar xf targets.tar
+#          rm targets.tar
 
       - name: Download target directories (2.13.6, rootJS)
         uses: actions/download-artifact@v2

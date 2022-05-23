@@ -45,11 +45,6 @@ Unit conversion factors are still defined using `Double`.
 However, they are converted to the `Numeric` type used in the `Quantity` before conversions are applied.
 This should help preserve precision, however, we may want to consider using `BigDecimal` to hold conversion factors.
 
-NOTE - Numeric does not provide a way of constructing new values from Doubles (only Ints).
-To do this, there is a new `Converter` type class which as an added type constraint to the value.
-Converters are provided for all the standard Numeric types.
-This does mean the quantities of type Int will not convert to other units properly.
-This needs additional work.
 
 ## Refactor Model to Support Generics
 
