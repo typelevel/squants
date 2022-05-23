@@ -1,17 +1,32 @@
 package squants2
 
 /**
- * TODO - the new model now requires this by implemented for each QNumeric type for every Dimension
- * TODO - this needs to be simplified in order to provide these for Dimensions
- * TODO - the alternative is to leave this to users that actually need a Numeric for a specific Dimension and QNumeric
+ * Class for creating objects to manage quantities as Numeric.
  *
- * Base class for creating objects to manage quantities as Numeric.
+ * A constructor is supplied in the base Dimension class
  *
- * One limitation is the `times` operation which is not supported by every quantity type
+ * object Dimension {
+ *    /* ... */
+ *    def numeric[A: Numeric]: QuantityNumeric[A, this.type] = QuantityNumeric(this)
+ *    /* ... */
+ * }
  *
+ * User code can create these as needed:
+ *
+ * val ds = Seq(12.28.each, Each(12.28), Each(-10.22), 1.1.each)
+ * val sum = ds.sum(Dimensionless.numeric[Double])
+ *
+ * One limitation is the `times` operation (A * A => A), which is not a valid operation for Quantities
+ *
+ * @param dimension Dimension
+ * @param num Numeric type of underlying Quantity value
  * @tparam A Quantity type
+ * @tparam D Dimension type
  */
-class AbstractQuantityNumeric[A, D <: Dimension](val unit: UnitOfMeasure[D] with PrimaryUnit)(implicit num: Numeric[A]) extends Numeric[Quantity[A, D]] {
+
+class QuantityNumeric[A, D <: Dimension](dimension: D)(implicit num: Numeric[A]) extends Numeric[Quantity[A, D]] {
+  private val unit: UnitOfMeasure[D]  = dimension.primaryUnit.asInstanceOf[UnitOfMeasure[D]]
+
   override def plus(x: Quantity[A, D], y: Quantity[A, D]): Quantity[A, D] = x + y
   override def minus(x: Quantity[A, D], y: Quantity[A, D]): Quantity[A, D] = x - y
 
@@ -27,21 +42,18 @@ class AbstractQuantityNumeric[A, D <: Dimension](val unit: UnitOfMeasure[D] with
    */
   override def times(x: Quantity[A, D], y: Quantity[A, D]): Quantity[A, D] = throw new UnsupportedOperationException(s"Numeric.times not supported for ${unit.dimension.name}")
   override def negate(x: Quantity[A, D]): Quantity[A, D] = -x
+
+  override def compare(x: Quantity[A, D], y: Quantity[A, D]): Int = x.compare(y)
+
+  // All Numeric constructors and extractors and are based on the dimension's primary Unit
   override def fromInt(x: Int): Quantity[A, D] = unit(num.fromInt(x))
   override def toInt(x: Quantity[A, D]): Int = num.toInt(x.to(unit))
   override def toLong(x: Quantity[A, D]): Long = num.toLong(x.to(unit))
   override def toFloat(x: Quantity[A, D]): Float = num.toFloat(x.to(unit))
   override def toDouble(x: Quantity[A, D]): Double = num.toDouble(x.to(unit))
-  override def compare(x: Quantity[A, D], y: Quantity[A, D]): Int = x.compare(y)
+
   override def parseString(str: String): Option[Quantity[A, D]] =
     unit.dimension.parseStringAndUnit(str).toOption flatMap { case (s, u) =>
       num.parseString(s).map(n => u(n).asInstanceOf[Quantity[A, D]])
     }
-}
-
-object AbstractQuantityNumeric {
-
-  def apply[A: Numeric, D <: Dimension](unit: UnitOfMeasure[D] with PrimaryUnit) =
-    new AbstractQuantityNumeric[A, D](unit)
-
 }

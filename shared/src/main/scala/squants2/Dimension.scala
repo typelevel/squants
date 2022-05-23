@@ -82,6 +82,16 @@ abstract class Dimension(val name: String) {
 
   implicit val dimensionImplicit: Dimension = this
 
+  /**
+   * Creates a QuantityNumeric for Quantities of this Dimension that can be used in operations that require Numerics.
+   *
+   * See `QuantityNumeric` for more details
+   *
+   * @tparam A - The Numeric used for the underlying Quantity value
+   * @return
+   */
+  def numeric[A: Numeric]: QuantityNumeric[A, D] = new QuantityNumeric[A, D](this)
+
   override def equals(that: Any): Boolean = that match {
     case dimension: Dimension => dimension.getClass.getName == this.getClass.getName
     case _                    => false

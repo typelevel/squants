@@ -46,6 +46,20 @@ object Dimensionless extends Dimension("Dimensionless") {
   lazy val thousand: Dimensionless[Int] = Each(1000)
   lazy val million: Dimensionless[Int] = Each(1000000)
 
+  /**
+   * Override to support `times` operation for Dimensionless
+   *
+   * See `QuantityNumeric` for more details
+   *
+   * @tparam A - The Numeric used for the underlying Quantity value
+   * @return
+   */
+  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = DimensionlessNumeric[A]()
+  private case class DimensionlessNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
+    override def times(x: Quantity[A, Dimensionless.type], y: Quantity[A, Dimensionless.type]): Quantity[A, Dimensionless.this.type] =
+      Each(x.to(Each) * y.to(Each))
+  }
+
 }
 
 abstract class DimensionlessUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Dimensionless.type] {

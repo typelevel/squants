@@ -14,8 +14,7 @@ import scala.math.Ordered.orderingToOrdered
  * @since   0.1
  *
  */
-abstract class Quantity[A, D <: Dimension](implicit num: Numeric[A])
-  extends Serializable with Ordered[Quantity[A, D]] {
+abstract class Quantity[A, D <: Dimension](implicit num: Numeric[A]) extends Serializable with Ordered[Quantity[A, D]] {
   type Q[B] <: Quantity[B, D]
 
   /**
