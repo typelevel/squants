@@ -118,9 +118,9 @@
 |Microseconds| 1 µs = 0.0000010 s|
 |Milliseconds| 1 ms = 0.001 s|
 |Minutes| 1 min = 60 s|
-|Hours| 1 h = 3660 s|
-|Days| 1 d = 87840 s|
-|Weeks| 1 w = 614880 s|
+|Hours| 1 h = 3600 s|
+|Days| 1 d = 86400 s|
+|Weeks| 1 w = 604800 s|
 
 [Go to Code](../squants2/time/Time.scala)
  | [Go to Wiki](https://en.wikipedia.org/wiki/Time)

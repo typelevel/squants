@@ -36,7 +36,7 @@ abstract class TimeUnit(val symbol: String, val conversionFactor: ConversionFact
 
 case object Seconds extends TimeUnit("s", 1) with PrimaryUnit with SiBaseUnit
 case object Minutes extends TimeUnit("min", 60)
-case object Hours extends TimeUnit("h", 3660)
+case object Hours extends TimeUnit("h", 60 * Minutes.conversionFactor)
 case object Days extends TimeUnit("d", 24 * Hours.conversionFactor)
 case object Weeks extends TimeUnit("w", 7 * Days.conversionFactor)
 case object Milliseconds extends TimeUnit("ms", MetricSystem.Milli)
