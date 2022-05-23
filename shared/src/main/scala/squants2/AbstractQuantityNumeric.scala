@@ -33,5 +33,5 @@ abstract class AbstractQuantityNumeric[A, D <: Dimension](val unit: UnitOfMeasur
   override def toFloat(x: Quantity[A, D]): Float = num.toFloat(x.to(unit))
   override def toDouble(x: Quantity[A, D]): Double = num.toDouble(x.to(unit))
   override def compare(x: Quantity[A, D], y: Quantity[A, D]): Int = x.compare(y)
-  override def parseString(str: String): Option[Quantity[A, D]] = num.parseString(str).map(a => unit(a))
+  override def parseString(str: String): Option[Quantity[A, D]] = ??? // TODO: num.parseString(str).map(a => unit(a))
 }

@@ -68,8 +68,8 @@ abstract class TemperatureUnit(val symbol: String, val conversionFactor: Convers
     case fnum: Fractional[A] => fnum.div(fnum.fromInt(9), fnum.fromInt(5))
     case _ => throw new UnsupportedOperationException("Unknown Numeric Type")
   }
-  private def celsOffset[A](implicit num: Numeric[A]): A = num.parseString(Celsius.zeroOffset.toString).get
-  private def fahrOffset[A](implicit num: Numeric[A]): A = num.parseString(Fahrenheit.zeroOffset.toString).get
+  private def celsOffset[A](implicit num: Numeric[A], c: Converter[A]): A = c(Celsius.zeroOffset)
+  private def fahrOffset[A](implicit num: Numeric[A], c: Converter[A]): A = c(Fahrenheit.zeroOffset)
 
 }
 
