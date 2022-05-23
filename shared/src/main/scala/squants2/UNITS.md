@@ -1,4 +1,6 @@
 # Squants - Supported Dimensions and Units
+#### Dimension Count: 7
+#### Unit Count: 79
 
 ## Electric Current - [ I ]
 #### Primary Unit: Amperes (1 A)
@@ -8,6 +10,7 @@
 |Milliamperes| 1 mA = 0.001 A|
 
 [Go to Code](../squants2/electro/ElectricCurrent.scala)
+ | [Go to Wiki](https://en.wikipedia.org/wiki/Electric_Current)
 
 ## Mass - [ M ]
 #### Primary Unit: Grams (1 g)
@@ -42,6 +45,7 @@
 |SolarMasses| 1 M☉ = 1.98855E+33 g|
 
 [Go to Code](../squants2/mass/Mass.scala)
+ | [Go to Wiki](https://en.wikipedia.org/wiki/Mass)
 
 ## Luminous Intensity - [ J ]
 #### Primary Unit: Candelas (1 cd)
@@ -50,6 +54,7 @@
 |----------------------------|-----------------------------------------------------------|
 
 [Go to Code](../squants2/photo/LuminousIntensity.scala)
+ | [Go to Wiki](https://en.wikipedia.org/wiki/Luminous_Intensity)
 
 ## Length - [ L ]
 #### Primary Unit: Meters (1 m)
@@ -89,6 +94,7 @@
 |GigaParsecs| 1 Gpc = 3.085677581491370E+25 m|
 
 [Go to Code](../squants2/space/Length.scala)
+ | [Go to Wiki](https://en.wikipedia.org/wiki/Length)
 
 ## Temperature - [ Θ ]
 #### Primary Unit: Kelvin (1 K)
@@ -100,6 +106,7 @@
 |Celsius| 1 °C = 1 K|
 
 [Go to Code](../squants2/thermal/Temperature.scala)
+ | [Go to Wiki](https://en.wikipedia.org/wiki/Temperature)
 
 ## Time - [ T ]
 #### Primary Unit: Seconds (1 s)
@@ -115,6 +122,7 @@
 |Days| 1 d = 87840 s|
 
 [Go to Code](../squants2/time/Time.scala)
+ | [Go to Wiki](https://en.wikipedia.org/wiki/Time)
 
 ## Dimensionless
 #### Primary Unit: Each (1 ea)
@@ -127,3 +135,4 @@
 |Gross| 1 gr = 144 ea|
 
 [Go to Code](../squants2/Dimensionless.scala)
+ | [Go to Wiki](https://en.wikipedia.org/wiki/Dimensionless)

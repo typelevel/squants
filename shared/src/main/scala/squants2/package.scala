@@ -96,6 +96,10 @@ package object squants2 {
   def printAllDimensions(printer: PrintWriter): Unit = {
 
     printer.println("# Squants - Supported Dimensions and Units")
+
+    printer.println(s"#### Dimension Count: ${allDimensions.size}")
+    printer.println(s"#### Unit Count: ${allDimensions.map(_.units.size).sum}")
+
     allDimensions.sortBy(! _.isSiBase).foreach { d =>
       printer.println("")
       d match {
@@ -117,6 +121,7 @@ package object squants2 {
       }
       printer.println("")
       printer.println(s"[Go to Code](../${d.getClass.getPackage.getName.replace(".", "/")}/${d.getClass.getSimpleName.replace("$", "")}.scala)")
+      printer.println(s" | [Go to Wiki](https://en.wikipedia.org/wiki/${d.name.replace(" ", "_")})")
     }
   }
 }
