@@ -6,7 +6,7 @@ final case class LuminousIntensity[A: Numeric] private [photo] (value: A, unit: 
   override type Q[B] = LuminousIntensity[B]
 }
 
-object LuminousIntensity extends BaseDimension("LuminousIntensity", "J") {
+object LuminousIntensity extends BaseDimension("Luminous Intensity", "J") {
 
   override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = Candelas
   override def siUnit: UnitOfMeasure[this.type] with SiBaseUnit = Candelas

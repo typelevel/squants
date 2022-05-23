@@ -1,6 +1,6 @@
 # Squants - Supported Dimensions and Units
 
-## Electric Current
+## Electric Current - [ I ]
 #### Primary Unit: Amperes (1 A)
 #### SI Base Unit: Amperes (1 A)
 |Unit|Conversion Factor|
@@ -9,7 +9,7 @@
 
 [Go to Code](../squants2/electro/ElectricCurrent.scala)
 
-## Mass
+## Mass - [ M ]
 #### Primary Unit: Grams (1 g)
 #### SI Base Unit: Kilograms (1 kg)
 |Unit|Conversion Factor|
@@ -43,7 +43,7 @@
 
 [Go to Code](../squants2/mass/Mass.scala)
 
-## LuminousIntensity
+## Luminous Intensity - [ J ]
 #### Primary Unit: Candelas (1 cd)
 #### SI Base Unit: Candelas (1 cd)
 |Unit|Conversion Factor|
@@ -51,7 +51,7 @@
 
 [Go to Code](../squants2/photo/LuminousIntensity.scala)
 
-## Length
+## Length - [ L ]
 #### Primary Unit: Meters (1 m)
 #### SI Base Unit: Meters (1 m)
 |Unit|Conversion Factor|
@@ -90,7 +90,7 @@
 
 [Go to Code](../squants2/space/Length.scala)
 
-## Temperature
+## Temperature - [ Θ ]
 #### Primary Unit: Kelvin (1 K)
 #### SI Base Unit: Kelvin (1 K)
 |Unit|Conversion Factor|
@@ -101,7 +101,7 @@
 
 [Go to Code](../squants2/thermal/Temperature.scala)
 
-## Time
+## Time - [ T ]
 #### Primary Unit: Seconds (1 s)
 #### SI Base Unit: Seconds (1 s)
 |Unit|Conversion Factor|

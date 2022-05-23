@@ -5,6 +5,7 @@ import squants2.space.Length
 import squants2.thermal.Temperature
 import squants2.time.Time
 
+import java.io.PrintWriter
 import scala.annotation.tailrec
 import scala.math.BigDecimal.RoundingMode
 import scala.math.BigDecimal.RoundingMode.RoundingMode
@@ -71,7 +72,7 @@ package object squants2 {
 
       case iNum: Integral[A] => (iNum.quot(a, that), iNum.rem(a, that))
       case _ => throw new UnsupportedOperationException("Unknown Numeric type")
-     }
+    }
 
     def rounded(scale: Int, mode: RoundingMode = RoundingMode.HALF_EVEN): A = num match {
       case _: BigDecimalIsConflicted => a.asInstanceOf[BigDecimal].setScale(scale, mode).asInstanceOf[A]
@@ -92,29 +93,31 @@ package object squants2 {
     Time
   )
 
-  def printAllDimensions(): Unit = {
+  def printAllDimensions(printer: PrintWriter): Unit = {
 
-    println("# Squants - Supported Dimensions and Units")
+    printer.println("# Squants - Supported Dimensions and Units")
     allDimensions.sortBy(! _.isSiBase).foreach { d =>
-      println("")
-      println(s"## ${d.name}")
-      println(s"#### Primary Unit: ${d.primaryUnit.getClass.getSimpleName.replace("$", "")} (1 ${d.primaryUnit.symbol})")
-      if(d.isSiBase)
-        println(s"#### SI Base Unit: ${d.siUnit.getClass.getSimpleName.replace("$", "")} (1 ${d.siUnit.symbol})")
-      else
-        println(s"#### SI Unit: ${d.siUnit.getClass.getSimpleName.replace("$", "")} (1 ${d.siUnit.symbol})")
-      println("|Unit|Conversion Factor|")
-      println("|----------------------------|-----------------------------------------------------------|")
+      printer.println("")
+      d match {
+        case bd: BaseDimension =>
+          printer.println(s"## ${d.name} - [ ${bd.dimensionSymbol} ]")
+          printer.println(s"#### Primary Unit: ${d.primaryUnit.getClass.getSimpleName.replace("$", "")} (1 ${d.primaryUnit.symbol})")
+          printer.println(s"#### SI Base Unit: ${d.siUnit.getClass.getSimpleName.replace("$", "")} (1 ${d.siUnit.symbol})")
+
+        case _ =>
+          printer.println(s"## ${d.name}")
+          printer.println(s"#### Primary Unit: ${d.primaryUnit.getClass.getSimpleName.replace("$", "")} (1 ${d.primaryUnit.symbol})")
+          printer.println(s"#### SI Unit: ${d.siUnit.getClass.getSimpleName.replace("$", "")} (1 ${d.siUnit.symbol})")
+      }
+      printer.println("|Unit|Conversion Factor|")
+      printer.println("|----------------------------|-----------------------------------------------------------|")
       d.units.filterNot(_ eq d.primaryUnit).toList.sortBy(u => u.conversionFactor).foreach { u =>
         val cf = s"1 ${u.symbol} = ${u.conversionFactor} ${d.primaryUnit.symbol}"
-        println(s"|${u.getClass.getSimpleName.replace("$", "")}| $cf|")
+        printer.println(s"|${u.getClass.getSimpleName.replace("$", "")}| $cf|")
       }
-      println("")
-      println(s"[Go to Code](../${d.getClass.getPackage.getName.replace(".", "/")}/${d.getClass.getSimpleName.replace("$", "")}.scala)")
-
+      printer.println("")
+      printer.println(s"[Go to Code](../${d.getClass.getPackage.getName.replace(".", "/")}/${d.getClass.getSimpleName.replace("$", "")}.scala)")
     }
-
   }
-
 }
 

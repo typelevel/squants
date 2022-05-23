@@ -3,6 +3,8 @@ package squants2
 import squants2.mass._
 import squants2.Dimensionless._
 
+import java.io.{ File, PrintWriter }
+
 object SquantsDemo extends App {
 
   val massN = Kilograms(1) // Mass[Int]
@@ -43,6 +45,8 @@ object SquantsDemo extends App {
   println(ms.sum(Dimensionless.numeric[BigDecimal]))
 
 
-  printAllDimensions()
+  val filePrinter = new PrintWriter(new File("shared/src/main/scala/squants2/UNITS.md"))
+  printAllDimensions(filePrinter)
+  filePrinter.close()
 
 }
