@@ -56,10 +56,10 @@ trait UnitOfMeasure[D <: Dimension] extends Serializable {
    */
   def convertTo[A](quantity: Quantity[A, D], uom: UnitOfMeasure[D])(implicit num: Numeric[A]): Quantity[A, D] = {
 
-    val thisFactor = num.parseString(conversionFactor.toString).get
-    val thatFactor = num.parseString(uom.conversionFactor.toString).get
-
     if (uom eq this) quantity else {
+      val thisFactor = num.parseString(conversionFactor.toString).get
+      val thatFactor = num.parseString(uom.conversionFactor.toString).get
+
       val newValue = num match {
         case fnum: Fractional[A] =>
           fnum.times(quantity.value, fnum.div(thisFactor, thatFactor))

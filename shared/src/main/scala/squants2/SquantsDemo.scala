@@ -1,6 +1,9 @@
 package squants2
 
 import squants2.mass._
+import squants2.Dimensionless._
+
+import scala.math.Numeric.DoubleIsFractional
 
 object SquantsDemo extends App {
 
@@ -32,4 +35,11 @@ object SquantsDemo extends App {
   val massSumN = massN + massD.map(_.toInt)  // Mass[Int]
   val massSumD = massN.asNum[Double] + massD // Mass[Double]
 
+  val ms = Seq(12.28.each, 2.5.each, 10.22.each)
+  println(ms)
+  println(ms.sorted)
+  println(ms.sorted.reverse)
+  println(ms.sum(AbstractQuantityNumeric(Each)))
+
+//  10.each to Gross
 }
