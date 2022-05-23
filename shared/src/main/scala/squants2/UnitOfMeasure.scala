@@ -41,7 +41,7 @@ trait UnitOfMeasure[D <: Dimension] extends Serializable {
    *
    * @return
    */
-  protected def conversionFactor: ConversionFactor
+  protected [squants2] def conversionFactor: ConversionFactor
 
   /**
    * Converts a Quantity to this UnitOfMeasure

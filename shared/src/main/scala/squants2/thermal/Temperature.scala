@@ -74,6 +74,6 @@ abstract class TemperatureUnit(val symbol: String, val conversionFactor: Convers
 }
 
 case object Kelvin extends TemperatureUnit("K", 1, 0) with PrimaryUnit with SiBaseUnit
-case object Rankine extends TemperatureUnit("°R", 5 / 9, 0)
+case object Rankine extends TemperatureUnit("°R", BigDecimal(5) / BigDecimal(9), 0)
 case object Celsius extends TemperatureUnit("°C", 1, 273.15)
-case object Fahrenheit extends TemperatureUnit("°F", 5 / 9, 459.67)
+case object Fahrenheit extends TemperatureUnit("°F", BigDecimal(5) / BigDecimal(9), 459.67)

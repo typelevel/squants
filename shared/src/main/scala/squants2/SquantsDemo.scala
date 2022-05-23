@@ -42,4 +42,7 @@ object SquantsDemo extends App {
   println(ms.sorted.reverse)
   println(ms.sum(Dimensionless.numeric[BigDecimal]))
 
+
+  printAllDimensions()
+
 }

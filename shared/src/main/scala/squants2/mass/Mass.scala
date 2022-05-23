@@ -8,7 +8,7 @@ final case class Mass[A: Numeric] private [mass] (value: A, unit: MassUnit) exte
 
 object Mass extends BaseDimension("Mass", "M") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = Kilograms
+  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = Grams
   override def siUnit: UnitOfMeasure[this.type] with SiBaseUnit = Kilograms
   override lazy val units: Set[UnitOfMeasure[this.type]] = Set(Nanograms, Micrograms, Milligrams,
     Grams, Kilograms, Tonnes, Ounces, Pounds, Kilopounds, Megapounds, Stone,
@@ -33,8 +33,8 @@ abstract class MassUnit(val symbol: String, val conversionFactor: ConversionFact
   override def apply[A: Numeric](value: A): Mass[A] = Mass(value, this)
 }
 
-case object Kilograms extends MassUnit("kg", MetricSystem.Kilo) with PrimaryUnit with SiBaseUnit
-case object Grams extends MassUnit("g", 1)
+case object Kilograms extends MassUnit("kg", MetricSystem.Kilo) with SiBaseUnit
+case object Grams extends MassUnit("g", 1) with PrimaryUnit
 case object Micrograms extends MassUnit("mcg", MetricSystem.Micro)
 case object Milligrams extends MassUnit("mg", MetricSystem.Milli)
 case object Nanograms extends MassUnit("ng", MetricSystem.Nano)

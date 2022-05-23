@@ -39,6 +39,8 @@ abstract class Dimension(val name: String) {
    */
   def symbolToUnit(symbol: String): Option[UnitOfMeasure[D]] = units.find(u => u.symbol == symbol)
 
+  private [squants2] def isSiBase: Boolean = false
+
   /**
    * Tries to map a string or tuple value to Quantity of this Dimension
    * @param value the source string (ie, "10 kW") or tuple (ie, (10, "kW"))
@@ -100,5 +102,5 @@ abstract class Dimension(val name: String) {
  */
 abstract class BaseDimension(name: String, val dimensionSymbol: String) extends Dimension(name) {
   override def siUnit: UnitOfMeasure[D] with SiBaseUnit
+  override private[squants2] def isSiBase = true
 }
-
