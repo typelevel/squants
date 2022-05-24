@@ -153,7 +153,7 @@ object Squants2Converter extends App {
       .map { (u: UnitOfMeasure[_]) => s"${u.getClass.getSimpleName.replace("$", "")}"}
       .mkString(", ")
     writer.println(s"  override lazy val units: Set[UnitOfMeasure[this.type]] = ")
-    writer.println(s"    Set(${unitList})")
+    writer.println(s"    Set($unitList)")
     writer.println()
     writer.println(s"  implicit class ${d.name}Cons[A](a: A)(implicit num: Numeric[A]) {")
     d.units.toList
