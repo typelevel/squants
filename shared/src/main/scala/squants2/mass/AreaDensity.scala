@@ -58,4 +58,4 @@ abstract class AreaDensityUnit(val symbol: String, val conversionFactor: Convers
 case object KilogramsPerHectare extends AreaDensityUnit("kg/hectare", 1.0E-4)
 case object PoundsPerAcre extends AreaDensityUnit("lb/acre", 1.1208511561944561E-4)
 case object KilogramsPerSquareMeter extends AreaDensityUnit("kg/m²", 1) with PrimaryUnit with SiUnit
-case object GramsPerSquareCentimeter extends AreaDensityUnit("g/cm²", 10.0) with SiUnit
+case object GramsPerSquareCentimeter extends AreaDensityUnit("g/cm²", 10) with SiUnit

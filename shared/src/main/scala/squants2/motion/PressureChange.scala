@@ -57,5 +57,5 @@ abstract class PressureChangeUnit(val symbol: String, val conversionFactor: Conv
 
 case object PascalsPerSecond extends PressureChangeUnit("Pa/s", 1) with PrimaryUnit with SiUnit
 case object PoundsPerSquareInchPerSecond extends PressureChangeUnit("psi/s", 6894.757293168361)
-case object BarsPerSecond extends PressureChangeUnit("bar/s", 100000.0)
-case object StandardAtmospheresPerSecond extends PressureChangeUnit("atm/s", 101325.0)
+case object BarsPerSecond extends PressureChangeUnit("bar/s", 100000)
+case object StandardAtmospheresPerSecond extends PressureChangeUnit("atm/s", 101325)

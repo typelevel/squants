@@ -155,17 +155,17 @@ case object MegaElectronVoltLength extends LengthUnit("Mħc/eV", 0.197327)
 case object Feet extends LengthUnit("ft", 0.3048006096)
 case object Yards extends LengthUnit("yd", 0.9144018288)
 case object Meters extends LengthUnit("m", 1) with PrimaryUnit with SiBaseUnit
-case object Decameters extends LengthUnit("dam", 10.0) with SiUnit
-case object Hectometers extends LengthUnit("hm", 100.0) with SiUnit
+case object Decameters extends LengthUnit("dam", 10) with SiUnit
+case object Hectometers extends LengthUnit("hm", 100) with SiUnit
 case object GigaElectronVoltLength extends LengthUnit("Għc/eV", 197.327)
-case object Kilometers extends LengthUnit("km", 1000.0) with SiUnit
+case object Kilometers extends LengthUnit("km", 1000) with SiUnit
 case object InternationalMiles extends LengthUnit("mile", 1609.344)
 case object UsMiles extends LengthUnit("mi", 1609.3472186879999)
-case object NauticalMiles extends LengthUnit("nmi", 1852.0)
-case object TeraElectronVoltLength extends LengthUnit("Tħc/eV", 197327.0)
-case object PetaElectronVoltLength extends LengthUnit("Pħc/eV", 1.97327E8)
-case object NominalSolarRadii extends LengthUnit("RN☉", 6.957E8)
-case object SolarRadii extends LengthUnit("R☉", 6.957E8)
+case object NauticalMiles extends LengthUnit("nmi", 1852)
+case object TeraElectronVoltLength extends LengthUnit("Tħc/eV", 197327)
+case object PetaElectronVoltLength extends LengthUnit("Pħc/eV", 197327000)
+case object NominalSolarRadii extends LengthUnit("RN☉", 695700000)
+case object SolarRadii extends LengthUnit("R☉", 695700000)
 case object AstronomicalUnits extends LengthUnit("au", 1.495978707E11)
 case object ExaElectronVoltLength extends LengthUnit("Eħc/eV", 1.97327E11)
 case object LightYears extends LengthUnit("ly", 9.4607304725808E15)

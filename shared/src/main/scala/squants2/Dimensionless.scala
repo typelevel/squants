@@ -69,6 +69,6 @@ abstract class DimensionlessUnit(val symbol: String, val conversionFactor: Conve
 
 case object Percent extends DimensionlessUnit("%", 0.01)
 case object Each extends DimensionlessUnit("ea", 1) with PrimaryUnit with SiUnit
-case object Dozen extends DimensionlessUnit("dz", 12.0)
-case object Score extends DimensionlessUnit("score", 20.0)
-case object Gross extends DimensionlessUnit("gr", 144.0)
+case object Dozen extends DimensionlessUnit("dz", 12)
+case object Score extends DimensionlessUnit("score", 20)
+case object Gross extends DimensionlessUnit("gr", 144)

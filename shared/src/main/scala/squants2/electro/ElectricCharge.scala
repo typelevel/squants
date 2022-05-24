@@ -77,5 +77,5 @@ case object MilliampereSeconds extends ElectricChargeUnit("mAs", 0.001)
 case object Millicoulombs extends ElectricChargeUnit("mC", 0.001) with SiUnit
 case object Coulombs extends ElectricChargeUnit("C", 1) with PrimaryUnit with SiUnit
 case object MilliampereHours extends ElectricChargeUnit("mAh", 3.6)
-case object Abcoulombs extends ElectricChargeUnit("aC", 10.0)
-case object AmpereHours extends ElectricChargeUnit("Ah", 3600.0)
+case object Abcoulombs extends ElectricChargeUnit("aC", 10)
+case object AmpereHours extends ElectricChargeUnit("Ah", 3600)

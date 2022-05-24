@@ -67,7 +67,7 @@ abstract class TimeUnit(val symbol: String, val conversionFactor: ConversionFact
 case object Nanoseconds extends TimeUnit("ns", 1.0E-6) with SiUnit
 case object Microseconds extends TimeUnit("µs", 0.001) with SiUnit
 case object Milliseconds extends TimeUnit("ms", 1) with PrimaryUnit with SiUnit
-case object Seconds extends TimeUnit("s", 1000.0) with SiBaseUnit
-case object Minutes extends TimeUnit("min", 60000.0)
-case object Hours extends TimeUnit("h", 3600000.0)
-case object Days extends TimeUnit("d", 8.64E7)
+case object Seconds extends TimeUnit("s", 1000) with SiBaseUnit
+case object Minutes extends TimeUnit("min", 60000)
+case object Hours extends TimeUnit("h", 3600000)
+case object Days extends TimeUnit("d", 86400000)

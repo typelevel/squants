@@ -66,4 +66,4 @@ case object Nanofarads extends CapacitanceUnit("nF", 1.0E-9) with SiUnit
 case object Microfarads extends CapacitanceUnit("μF", 1.0E-6) with SiUnit
 case object Millifarads extends CapacitanceUnit("mF", 0.001) with SiUnit
 case object Farads extends CapacitanceUnit("F", 1) with PrimaryUnit with SiUnit
-case object Kilofarads extends CapacitanceUnit("kF", 1000.0) with SiUnit
+case object Kilofarads extends CapacitanceUnit("kF", 1000) with SiUnit

@@ -68,6 +68,6 @@ case object Nanohms extends ElectricalResistanceUnit("nΩ", 1.0E-9) with SiUnit
 case object Microohms extends ElectricalResistanceUnit("µΩ", 1.0E-6) with SiUnit
 case object Milliohms extends ElectricalResistanceUnit("mΩ", 0.001) with SiUnit
 case object Ohms extends ElectricalResistanceUnit("Ω", 1) with PrimaryUnit with SiUnit
-case object Kilohms extends ElectricalResistanceUnit("kΩ", 1000.0) with SiUnit
-case object Megohms extends ElectricalResistanceUnit("MΩ", 1000000.0) with SiUnit
-case object Gigohms extends ElectricalResistanceUnit("GΩ", 1.0E9) with SiUnit
+case object Kilohms extends ElectricalResistanceUnit("kΩ", 1000) with SiUnit
+case object Megohms extends ElectricalResistanceUnit("MΩ", 1000000) with SiUnit
+case object Gigohms extends ElectricalResistanceUnit("GΩ", 1000000000) with SiUnit

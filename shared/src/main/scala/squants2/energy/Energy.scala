@@ -141,9 +141,9 @@ case object BritishThermalUnits extends EnergyUnit("Btu", 0.2930710701722222)
 case object WattHours extends EnergyUnit("Wh", 1) with PrimaryUnit
 case object Megajoules extends EnergyUnit("MJ", 277.77777777777777) with SiUnit
 case object MBtus extends EnergyUnit("MBtu", 293.0710701722222)
-case object KilowattHours extends EnergyUnit("kWh", 1000.0)
+case object KilowattHours extends EnergyUnit("kWh", 1000)
 case object Gigajoules extends EnergyUnit("GJ", 277777.77777777775) with SiUnit
 case object MMBtus extends EnergyUnit("MMBtu", 293071.0701722222)
-case object MegawattHours extends EnergyUnit("MWh", 1000000.0)
+case object MegawattHours extends EnergyUnit("MWh", 1000000)
 case object Terajoules extends EnergyUnit("TJ", 2.777777777777778E8) with SiUnit
-case object GigawattHours extends EnergyUnit("GWh", 1.0E9)
+case object GigawattHours extends EnergyUnit("GWh", 1000000000)

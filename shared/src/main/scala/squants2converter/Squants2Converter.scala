@@ -1,6 +1,7 @@
 package squants2converter
 
 import squants._
+import squants.thermal.Temperature
 
 import java.io.{ File, PrintWriter }
 import java.nio.file.{ Files, Path }
@@ -10,7 +11,8 @@ import scala.language.existentials
 object Squants2Converter extends App {
 
 //  writeDimensionFile(Frequency)
-  Squants1UnitDocGenerator.allDimensions.foreach(writeDimensionFile)
+  val dontProcess = Set(Temperature)
+  Squants1UnitDocGenerator.allDimensions.--(dontProcess).foreach(writeDimensionFile)
 
   def writeDimensionFile(d: Dimension[_]): Unit = {
 
@@ -102,6 +104,9 @@ object Squants2Converter extends App {
     writer.println(s"}")
     writer.println()
     units.foreach { (u: UnitOfMeasure[_]) =>
+        val convFactor = u.convertFrom(1d)
+        val convExp = if(convFactor.toInt == convFactor) convFactor.toInt.toString else convFactor.toString
+
         u match {
           case _: PrimaryUnit with SiBaseUnit =>
             writer.print(s"case object ${u.getClass.getSimpleName.replace("$", "")} extends ${d.name}Unit(\"${u.symbol}\", 1) with PrimaryUnit with SiBaseUnit")
@@ -110,11 +115,11 @@ object Squants2Converter extends App {
           case _: PrimaryUnit =>
             writer.print(s"case object ${u.getClass.getSimpleName.replace("$", "")} extends ${d.name}Unit(\"${u.symbol}\", 1) with PrimaryUnit")
           case _: SiBaseUnit =>
-            writer.print(s"case object ${u.getClass.getSimpleName.replace("$", "")} extends ${d.name}Unit(\"${u.symbol}\", ${u.convertFrom(1d)}) with SiBaseUnit")
+            writer.print(s"case object ${u.getClass.getSimpleName.replace("$", "")} extends ${d.name}Unit(\"${u.symbol}\", $convExp) with SiBaseUnit")
           case _: SiUnit =>
-            writer.print(s"case object ${u.getClass.getSimpleName.replace("$", "")} extends ${d.name}Unit(\"${u.symbol}\", ${u.convertFrom(1d)}) with SiUnit")
+            writer.print(s"case object ${u.getClass.getSimpleName.replace("$", "")} extends ${d.name}Unit(\"${u.symbol}\", $convExp) with SiUnit")
           case _ =>
-            writer.print(s"case object ${u.getClass.getSimpleName.replace("$", "")} extends ${d.name}Unit(\"${u.symbol}\", ${u.convertFrom(1d)})")
+            writer.print(s"case object ${u.getClass.getSimpleName.replace("$", "")} extends ${d.name}Unit(\"${u.symbol}\", $convExp)")
         }
         writer.println()
     }

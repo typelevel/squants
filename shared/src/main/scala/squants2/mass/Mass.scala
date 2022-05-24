@@ -145,9 +145,9 @@ case object Ounces extends MassUnit("oz", 28.349523125)
 case object TroyOunces extends MassUnit("oz t", 31.1034768)
 case object TroyPounds extends MassUnit("lb t", 373.2417216)
 case object Pounds extends MassUnit("lb", 453.59237)
-case object Kilograms extends MassUnit("kg", 1000.0) with SiBaseUnit
+case object Kilograms extends MassUnit("kg", 1000) with SiBaseUnit
 case object Stone extends MassUnit("st", 6350.293180000001)
 case object Megapounds extends MassUnit("Mlb", 453592.37)
 case object Kilopounds extends MassUnit("klb", 453592.37)
-case object Tonnes extends MassUnit("t", 1000000.0)
+case object Tonnes extends MassUnit("t", 1000000)
 case object SolarMasses extends MassUnit("M☉", 1.98855E33)
