@@ -45,7 +45,7 @@ object Dose extends Dimension("Dose") {
 }
 
 abstract class DoseUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Dose.type] {
-  override lazy val dimension: Dose.type = Dose
+  override def dimension: Dose.type = Dose
   override def apply[A: Numeric](value: A): Dose[A] = Dose(value, this)
 }
 

@@ -51,7 +51,7 @@ object PressureChange extends Dimension("Pressure Change") {
 }
 
 abstract class PressureChangeUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[PressureChange.type] {
-  override lazy val dimension: PressureChange.type = PressureChange
+  override def dimension: PressureChange.type = PressureChange
   override def apply[A: Numeric](value: A): PressureChange[A] = PressureChange(value, this)
 }
 

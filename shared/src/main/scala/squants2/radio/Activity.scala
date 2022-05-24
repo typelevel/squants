@@ -48,7 +48,7 @@ object Activity extends Dimension("Activity") {
 }
 
 abstract class ActivityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Activity.type] {
-  override lazy val dimension: Activity.type = Activity
+  override def dimension: Activity.type = Activity
   override def apply[A: Numeric](value: A): Activity[A] = Activity(value, this)
 }
 

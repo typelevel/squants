@@ -42,7 +42,7 @@ object Conductivity extends Dimension("Conductivity") {
 }
 
 abstract class ConductivityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Conductivity.type] {
-  override lazy val dimension: Conductivity.type = Conductivity
+  override def dimension: Conductivity.type = Conductivity
   override def apply[A: Numeric](value: A): Conductivity[A] = Conductivity(value, this)
 }
 

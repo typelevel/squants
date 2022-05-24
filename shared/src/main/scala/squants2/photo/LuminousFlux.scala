@@ -42,7 +42,7 @@ object LuminousFlux extends Dimension("Luminous Flux") {
 }
 
 abstract class LuminousFluxUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[LuminousFlux.type] {
-  override lazy val dimension: LuminousFlux.type = LuminousFlux
+  override def dimension: LuminousFlux.type = LuminousFlux
   override def apply[A: Numeric](value: A): LuminousFlux[A] = LuminousFlux(value, this)
 }
 

@@ -42,7 +42,7 @@ object Illuminance extends Dimension("Illuminance") {
 }
 
 abstract class IlluminanceUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Illuminance.type] {
-  override lazy val dimension: Illuminance.type = Illuminance
+  override def dimension: Illuminance.type = Illuminance
   override def apply[A: Numeric](value: A): Illuminance[A] = Illuminance(value, this)
 }
 

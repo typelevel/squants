@@ -117,7 +117,7 @@ object Energy extends Dimension("Energy") {
 }
 
 abstract class EnergyUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Energy.type] {
-  override lazy val dimension: Energy.type = Energy
+  override def dimension: Energy.type = Energy
   override def apply[A: Numeric](value: A): Energy[A] = Energy(value, this)
 }
 

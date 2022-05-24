@@ -54,7 +54,7 @@ object MassFlow extends Dimension("Mass Flow") {
 }
 
 abstract class MassFlowUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[MassFlow.type] {
-  override lazy val dimension: MassFlow.type = MassFlow
+  override def dimension: MassFlow.type = MassFlow
   override def apply[A: Numeric](value: A): MassFlow[A] = MassFlow(value, this)
 }
 

@@ -45,7 +45,7 @@ object Torque extends Dimension("Torque") {
 }
 
 abstract class TorqueUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Torque.type] {
-  override lazy val dimension: Torque.type = Torque
+  override def dimension: Torque.type = Torque
   override def apply[A: Numeric](value: A): Torque[A] = Torque(value, this)
 }
 

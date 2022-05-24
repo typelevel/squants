@@ -42,7 +42,7 @@ object MagneticFlux extends Dimension("Magnetic Flux") {
 }
 
 abstract class MagneticFluxUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[MagneticFlux.type] {
-  override lazy val dimension: MagneticFlux.type = MagneticFlux
+  override def dimension: MagneticFlux.type = MagneticFlux
   override def apply[A: Numeric](value: A): MagneticFlux[A] = MagneticFlux(value, this)
 }
 

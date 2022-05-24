@@ -51,7 +51,7 @@ object AngularVelocity extends Dimension("Angular Velocity") {
 }
 
 abstract class AngularVelocityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[AngularVelocity.type] {
-  override lazy val dimension: AngularVelocity.type = AngularVelocity
+  override def dimension: AngularVelocity.type = AngularVelocity
   override def apply[A: Numeric](value: A): AngularVelocity[A] = AngularVelocity(value, this)
 }
 

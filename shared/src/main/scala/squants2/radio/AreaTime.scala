@@ -45,7 +45,7 @@ object AreaTime extends Dimension("Area Time") {
 }
 
 abstract class AreaTimeUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[AreaTime.type] {
-  override lazy val dimension: AreaTime.type = AreaTime
+  override def dimension: AreaTime.type = AreaTime
   override def apply[A: Numeric](value: A): AreaTime[A] = AreaTime(value, this)
 }
 

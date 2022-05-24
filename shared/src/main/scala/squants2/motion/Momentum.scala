@@ -42,7 +42,7 @@ object Momentum extends Dimension("Momentum") {
 }
 
 abstract class MomentumUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Momentum.type] {
-  override lazy val dimension: Momentum.type = Momentum
+  override def dimension: Momentum.type = Momentum
   override def apply[A: Numeric](value: A): Momentum[A] = Momentum(value, this)
 }
 

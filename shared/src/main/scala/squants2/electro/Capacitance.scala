@@ -57,7 +57,7 @@ object Capacitance extends Dimension("Capacitance") {
 }
 
 abstract class CapacitanceUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Capacitance.type] {
-  override lazy val dimension: Capacitance.type = Capacitance
+  override def dimension: Capacitance.type = Capacitance
   override def apply[A: Numeric](value: A): Capacitance[A] = Capacitance(value, this)
 }
 

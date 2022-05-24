@@ -42,7 +42,7 @@ object EnergyDensity extends Dimension("Energy Density") {
 }
 
 abstract class EnergyDensityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[EnergyDensity.type] {
-  override lazy val dimension: EnergyDensity.type = EnergyDensity
+  override def dimension: EnergyDensity.type = EnergyDensity
   override def apply[A: Numeric](value: A): EnergyDensity[A] = EnergyDensity(value, this)
 }
 

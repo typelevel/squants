@@ -54,7 +54,6 @@ object Temperature extends BaseDimension("Temperature", "Θ") {
 
 abstract class TemperatureUnit(val symbol: String, val conversionFactor: ConversionFactor, val zeroOffset: Double) extends UnitOfMeasure[Temperature.type] {
   override def dimension: Temperature.type = Temperature
-
   override def apply[A: Numeric](value: A): Temperature[A] = Temperature(value, this)
 
   override def convertTo[A](quantity: Quantity[A, Temperature.type], uom: UnitOfMeasure[Temperature.type])(implicit num: Numeric[A]): Quantity[A, Temperature.type] = {

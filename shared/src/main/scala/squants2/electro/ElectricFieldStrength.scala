@@ -42,7 +42,7 @@ object ElectricFieldStrength extends Dimension("Electric Field Strength") {
 }
 
 abstract class ElectricFieldStrengthUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[ElectricFieldStrength.type] {
-  override lazy val dimension: ElectricFieldStrength.type = ElectricFieldStrength
+  override def dimension: ElectricFieldStrength.type = ElectricFieldStrength
   override def apply[A: Numeric](value: A): ElectricFieldStrength[A] = ElectricFieldStrength(value, this)
 }
 

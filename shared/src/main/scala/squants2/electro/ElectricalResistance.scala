@@ -60,7 +60,7 @@ object ElectricalResistance extends Dimension("Electrical Resistance") {
 }
 
 abstract class ElectricalResistanceUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[ElectricalResistance.type] {
-  override lazy val dimension: ElectricalResistance.type = ElectricalResistance
+  override def dimension: ElectricalResistance.type = ElectricalResistance
   override def apply[A: Numeric](value: A): ElectricalResistance[A] = ElectricalResistance(value, this)
 }
 

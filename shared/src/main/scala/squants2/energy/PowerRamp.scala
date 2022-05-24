@@ -57,7 +57,7 @@ object PowerRamp extends Dimension("Power Ramp") {
 }
 
 abstract class PowerRampUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[PowerRamp.type] {
-  override lazy val dimension: PowerRamp.type = PowerRamp
+  override def dimension: PowerRamp.type = PowerRamp
   override def apply[A: Numeric](value: A): PowerRamp[A] = PowerRamp(value, this)
 }
 

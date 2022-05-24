@@ -54,7 +54,7 @@ object ElectricPotential extends Dimension("Electric Potential") {
 }
 
 abstract class ElectricPotentialUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[ElectricPotential.type] {
-  override lazy val dimension: ElectricPotential.type = ElectricPotential
+  override def dimension: ElectricPotential.type = ElectricPotential
   override def apply[A: Numeric](value: A): ElectricPotential[A] = ElectricPotential(value, this)
 }
 

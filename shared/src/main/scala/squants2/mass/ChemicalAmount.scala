@@ -45,7 +45,7 @@ object ChemicalAmount extends BaseDimension("Chemical Amount", "N") {
 }
 
 abstract class ChemicalAmountUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[ChemicalAmount.type] {
-  override lazy val dimension: ChemicalAmount.type = ChemicalAmount
+  override def dimension: ChemicalAmount.type = ChemicalAmount
   override def apply[A: Numeric](value: A): ChemicalAmount[A] = ChemicalAmount(value, this)
 }
 

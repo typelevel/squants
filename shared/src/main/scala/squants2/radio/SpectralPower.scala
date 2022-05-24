@@ -42,7 +42,7 @@ object SpectralPower extends Dimension("Spectral Power") {
 }
 
 abstract class SpectralPowerUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[SpectralPower.type] {
-  override lazy val dimension: SpectralPower.type = SpectralPower
+  override def dimension: SpectralPower.type = SpectralPower
   override def apply[A: Numeric](value: A): SpectralPower[A] = SpectralPower(value, this)
 }
 

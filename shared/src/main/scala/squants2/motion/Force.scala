@@ -54,7 +54,7 @@ object Force extends Dimension("Force") {
 }
 
 abstract class ForceUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Force.type] {
-  override lazy val dimension: Force.type = Force
+  override def dimension: Force.type = Force
   override def apply[A: Numeric](value: A): Force[A] = Force(value, this)
 }
 

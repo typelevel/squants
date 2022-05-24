@@ -45,7 +45,7 @@ object Permeability extends Dimension("Permeability") {
 }
 
 abstract class PermeabilityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Permeability.type] {
-  override lazy val dimension: Permeability.type = Permeability
+  override def dimension: Permeability.type = Permeability
   override def apply[A: Numeric](value: A): Permeability[A] = Permeability(value, this)
 }
 

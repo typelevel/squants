@@ -45,7 +45,7 @@ object ParticleFlux extends Dimension("Particle Flux") {
 }
 
 abstract class ParticleFluxUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[ParticleFlux.type] {
-  override lazy val dimension: ParticleFlux.type = ParticleFlux
+  override def dimension: ParticleFlux.type = ParticleFlux
   override def apply[A: Numeric](value: A): ParticleFlux[A] = ParticleFlux(value, this)
 }
 

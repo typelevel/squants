@@ -60,7 +60,7 @@ object Time extends BaseDimension("Time", "T") {
 }
 
 abstract class TimeUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Time.type] {
-  override lazy val dimension: Time.type = Time
+  override def dimension: Time.type = Time
   override def apply[A: Numeric](value: A): Time[A] = Time(value, this)
 }
 

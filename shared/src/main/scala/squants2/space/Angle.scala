@@ -66,7 +66,7 @@ object Angle extends Dimension("Angle") {
 }
 
 abstract class AngleUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Angle.type] {
-  override lazy val dimension: Angle.type = Angle
+  override def dimension: Angle.type = Angle
   override def apply[A: Numeric](value: A): Angle[A] = Angle(value, this)
 }
 

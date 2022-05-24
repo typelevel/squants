@@ -42,7 +42,7 @@ object PowerDensity extends Dimension("Power Density") {
 }
 
 abstract class PowerDensityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[PowerDensity.type] {
-  override lazy val dimension: PowerDensity.type = PowerDensity
+  override def dimension: PowerDensity.type = PowerDensity
   override def apply[A: Numeric](value: A): PowerDensity[A] = PowerDensity(value, this)
 }
 

@@ -97,7 +97,7 @@ object Squants2Converter extends App {
     writer.println(s"}")
     writer.println()
     writer.println(s"abstract class ${d.name}Unit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[${d.name}.type] {")
-    writer.println(s"  override lazy val dimension: ${d.name}.type = ${d.name}")
+    writer.println(s"  override def dimension: ${d.name}.type = ${d.name}")
     writer.println(s"  override def apply[A: Numeric](value: A): ${d.name}[A] = ${d.name}(value, this)")
     writer.println(s"}")
     writer.println()

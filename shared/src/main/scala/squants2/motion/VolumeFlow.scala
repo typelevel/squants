@@ -105,7 +105,7 @@ object VolumeFlow extends Dimension("Volume Flow") {
 }
 
 abstract class VolumeFlowUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[VolumeFlow.type] {
-  override lazy val dimension: VolumeFlow.type = VolumeFlow
+  override def dimension: VolumeFlow.type = VolumeFlow
   override def apply[A: Numeric](value: A): VolumeFlow[A] = VolumeFlow(value, this)
 }
 

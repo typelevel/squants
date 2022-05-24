@@ -51,7 +51,7 @@ object SpectralIrradiance extends Dimension("Spectral Irradiance") {
 }
 
 abstract class SpectralIrradianceUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[SpectralIrradiance.type] {
-  override lazy val dimension: SpectralIrradiance.type = SpectralIrradiance
+  override def dimension: SpectralIrradiance.type = SpectralIrradiance
   override def apply[A: Numeric](value: A): SpectralIrradiance[A] = SpectralIrradiance(value, this)
 }
 

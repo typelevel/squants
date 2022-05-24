@@ -141,7 +141,7 @@ object Information extends BaseDimension("Information", "B") {
 }
 
 abstract class InformationUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Information.type] {
-  override lazy val dimension: Information.type = Information
+  override def dimension: Information.type = Information
   override def apply[A: Numeric](value: A): Information[A] = Information(value, this)
 }
 

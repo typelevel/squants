@@ -120,7 +120,7 @@ object Mass extends BaseDimension("Mass", "M") {
 }
 
 abstract class MassUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Mass.type] {
-  override lazy val dimension: Mass.type = Mass
+  override def dimension: Mass.type = Mass
   override def apply[A: Numeric](value: A): Mass[A] = Mass(value, this)
 }
 

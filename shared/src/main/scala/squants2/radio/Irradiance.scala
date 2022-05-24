@@ -45,7 +45,7 @@ object Irradiance extends Dimension("Irradiance") {
 }
 
 abstract class IrradianceUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Irradiance.type] {
-  override lazy val dimension: Irradiance.type = Irradiance
+  override def dimension: Irradiance.type = Irradiance
   override def apply[A: Numeric](value: A): Irradiance[A] = Irradiance(value, this)
 }
 

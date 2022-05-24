@@ -137,7 +137,7 @@ object Length extends BaseDimension("Length", "L") {
 }
 
 abstract class LengthUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Length.type] {
-  override lazy val dimension: Length.type = Length
+  override def dimension: Length.type = Length
   override def apply[A: Numeric](value: A): Length[A] = Length(value, this)
 }
 

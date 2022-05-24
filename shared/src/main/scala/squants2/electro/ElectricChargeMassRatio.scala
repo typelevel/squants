@@ -42,7 +42,7 @@ object ElectricChargeMassRatio extends Dimension("Electric Charge Mass Ratio") {
 }
 
 abstract class ElectricChargeMassRatioUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[ElectricChargeMassRatio.type] {
-  override lazy val dimension: ElectricChargeMassRatio.type = ElectricChargeMassRatio
+  override def dimension: ElectricChargeMassRatio.type = ElectricChargeMassRatio
   override def apply[A: Numeric](value: A): ElectricChargeMassRatio[A] = ElectricChargeMassRatio(value, this)
 }
 

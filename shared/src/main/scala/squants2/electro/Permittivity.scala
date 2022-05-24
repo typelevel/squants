@@ -42,7 +42,7 @@ object Permittivity extends Dimension("Permittivity") {
 }
 
 abstract class PermittivityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Permittivity.type] {
-  override lazy val dimension: Permittivity.type = Permittivity
+  override def dimension: Permittivity.type = Permittivity
   override def apply[A: Numeric](value: A): Permittivity[A] = Permittivity(value, this)
 }
 

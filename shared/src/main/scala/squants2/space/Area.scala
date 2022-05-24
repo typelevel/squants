@@ -69,7 +69,7 @@ object Area extends Dimension("Area") {
 }
 
 abstract class AreaUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Area.type] {
-  override lazy val dimension: Area.type = Area
+  override def dimension: Area.type = Area
   override def apply[A: Numeric](value: A): Area[A] = Area(value, this)
 }
 

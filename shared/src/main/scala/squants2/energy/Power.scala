@@ -63,7 +63,7 @@ object Power extends Dimension("Power") {
 }
 
 abstract class PowerUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Power.type] {
-  override lazy val dimension: Power.type = Power
+  override def dimension: Power.type = Power
   override def apply[A: Numeric](value: A): Power[A] = Power(value, this)
 }
 

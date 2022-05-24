@@ -42,7 +42,7 @@ object AreaElectricChargeDensity extends Dimension("Area Electric Charge Density
 }
 
 abstract class AreaElectricChargeDensityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[AreaElectricChargeDensity.type] {
-  override lazy val dimension: AreaElectricChargeDensity.type = AreaElectricChargeDensity
+  override def dimension: AreaElectricChargeDensity.type = AreaElectricChargeDensity
   override def apply[A: Numeric](value: A): AreaElectricChargeDensity[A] = AreaElectricChargeDensity(value, this)
 }
 

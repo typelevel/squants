@@ -57,7 +57,7 @@ object Frequency extends Dimension("Frequency") {
 }
 
 abstract class FrequencyUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Frequency.type] {
-  override lazy val dimension: Frequency.type = Frequency
+  override def dimension: Frequency.type = Frequency
   override def apply[A: Numeric](value: A): Frequency[A] = Frequency(value, this)
 }
 

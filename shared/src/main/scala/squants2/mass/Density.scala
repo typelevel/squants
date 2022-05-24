@@ -102,7 +102,7 @@ object Density extends Dimension("Density") {
 }
 
 abstract class DensityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Density.type] {
-  override lazy val dimension: Density.type = Density
+  override def dimension: Density.type = Density
   override def apply[A: Numeric](value: A): Density[A] = Density(value, this)
 }
 

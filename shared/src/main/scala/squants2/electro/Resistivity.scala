@@ -42,7 +42,7 @@ object Resistivity extends Dimension("Resistivity") {
 }
 
 abstract class ResistivityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Resistivity.type] {
-  override lazy val dimension: Resistivity.type = Resistivity
+  override def dimension: Resistivity.type = Resistivity
   override def apply[A: Numeric](value: A): Resistivity[A] = Resistivity(value, this)
 }
 

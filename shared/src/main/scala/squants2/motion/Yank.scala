@@ -42,7 +42,7 @@ object Yank extends Dimension("Yank") {
 }
 
 abstract class YankUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Yank.type] {
-  override lazy val dimension: Yank.type = Yank
+  override def dimension: Yank.type = Yank
   override def apply[A: Numeric](value: A): Yank[A] = Yank(value, this)
 }
 

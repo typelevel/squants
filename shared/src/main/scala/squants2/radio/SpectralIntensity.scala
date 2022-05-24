@@ -42,7 +42,7 @@ object SpectralIntensity extends Dimension("Spectral Intensity") {
 }
 
 abstract class SpectralIntensityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[SpectralIntensity.type] {
-  override lazy val dimension: SpectralIntensity.type = SpectralIntensity
+  override def dimension: SpectralIntensity.type = SpectralIntensity
   override def apply[A: Numeric](value: A): SpectralIntensity[A] = SpectralIntensity(value, this)
 }
 

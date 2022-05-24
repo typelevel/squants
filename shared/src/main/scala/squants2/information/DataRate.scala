@@ -141,7 +141,7 @@ object DataRate extends Dimension("Data Rate") {
 }
 
 abstract class DataRateUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[DataRate.type] {
-  override lazy val dimension: DataRate.type = DataRate
+  override def dimension: DataRate.type = DataRate
   override def apply[A: Numeric](value: A): DataRate[A] = DataRate(value, this)
 }
 

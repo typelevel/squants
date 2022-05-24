@@ -63,7 +63,7 @@ object Dimensionless extends Dimension("Dimensionless") {
 }
 
 abstract class DimensionlessUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Dimensionless.type] {
-  override lazy val dimension: Dimensionless.type = Dimensionless
+  override def dimension: Dimensionless.type = Dimensionless
   override def apply[A: Numeric](value: A): Dimensionless[A] = Dimensionless(value, this)
 }
 

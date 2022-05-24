@@ -48,7 +48,7 @@ object SpecificEnergy extends Dimension("Specific Energy") {
 }
 
 abstract class SpecificEnergyUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[SpecificEnergy.type] {
-  override lazy val dimension: SpecificEnergy.type = SpecificEnergy
+  override def dimension: SpecificEnergy.type = SpecificEnergy
   override def apply[A: Numeric](value: A): SpecificEnergy[A] = SpecificEnergy(value, this)
 }
 

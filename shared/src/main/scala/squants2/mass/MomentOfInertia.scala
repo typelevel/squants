@@ -45,7 +45,7 @@ object MomentOfInertia extends Dimension("Moment Of Inertia") {
 }
 
 abstract class MomentOfInertiaUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[MomentOfInertia.type] {
-  override lazy val dimension: MomentOfInertia.type = MomentOfInertia
+  override def dimension: MomentOfInertia.type = MomentOfInertia
   override def apply[A: Numeric](value: A): MomentOfInertia[A] = MomentOfInertia(value, this)
 }
 

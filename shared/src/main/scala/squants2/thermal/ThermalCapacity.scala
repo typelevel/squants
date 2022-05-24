@@ -42,7 +42,7 @@ object ThermalCapacity extends Dimension("Thermal Capacity") {
 }
 
 abstract class ThermalCapacityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[ThermalCapacity.type] {
-  override lazy val dimension: ThermalCapacity.type = ThermalCapacity
+  override def dimension: ThermalCapacity.type = ThermalCapacity
   override def apply[A: Numeric](value: A): ThermalCapacity[A] = ThermalCapacity(value, this)
 }
 

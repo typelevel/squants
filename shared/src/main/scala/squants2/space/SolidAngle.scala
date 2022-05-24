@@ -42,7 +42,7 @@ object SolidAngle extends Dimension("Solid Angle") {
 }
 
 abstract class SolidAngleUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[SolidAngle.type] {
-  override lazy val dimension: SolidAngle.type = SolidAngle
+  override def dimension: SolidAngle.type = SolidAngle
   override def apply[A: Numeric](value: A): SolidAngle[A] = SolidAngle(value, this)
 }
 

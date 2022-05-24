@@ -45,7 +45,7 @@ object Jerk extends Dimension("Jerk") {
 }
 
 abstract class JerkUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Jerk.type] {
-  override lazy val dimension: Jerk.type = Jerk
+  override def dimension: Jerk.type = Jerk
   override def apply[A: Numeric](value: A): Jerk[A] = Jerk(value, this)
 }
 

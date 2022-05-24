@@ -45,7 +45,7 @@ object ElectricCurrent extends BaseDimension("Electric Current", "I") {
 }
 
 abstract class ElectricCurrentUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[ElectricCurrent.type] {
-  override lazy val dimension: ElectricCurrent.type = ElectricCurrent
+  override def dimension: ElectricCurrent.type = ElectricCurrent
   override def apply[A: Numeric](value: A): ElectricCurrent[A] = ElectricCurrent(value, this)
 }
 

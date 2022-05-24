@@ -54,7 +54,7 @@ object Inductance extends Dimension("Inductance") {
 }
 
 abstract class InductanceUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Inductance.type] {
-  override lazy val dimension: Inductance.type = Inductance
+  override def dimension: Inductance.type = Inductance
   override def apply[A: Numeric](value: A): Inductance[A] = Inductance(value, this)
 }
 

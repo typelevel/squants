@@ -42,7 +42,7 @@ object MolarEnergy extends Dimension("Molar Energy") {
 }
 
 abstract class MolarEnergyUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[MolarEnergy.type] {
-  override lazy val dimension: MolarEnergy.type = MolarEnergy
+  override def dimension: MolarEnergy.type = MolarEnergy
   override def apply[A: Numeric](value: A): MolarEnergy[A] = MolarEnergy(value, this)
 }
 
