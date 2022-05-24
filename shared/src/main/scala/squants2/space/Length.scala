@@ -173,6 +173,3 @@ case object Parsecs extends LengthUnit("pc", 3.08567758149137E16)
 case object KiloParsecs extends LengthUnit("kpc", 3.08567758149137E19)
 case object MegaParsecs extends LengthUnit("Mpc", 3.08567758149137E22)
 case object GigaParsecs extends LengthUnit("Gpc", 3.08567758149137E25)
-
-
-case object PlankLength extends LengthUnit("ℓp", 1.616255E-35)

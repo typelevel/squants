@@ -71,7 +71,3 @@ case object Seconds extends TimeUnit("s", 1000.0) with SiBaseUnit
 case object Minutes extends TimeUnit("min", 60000.0)
 case object Hours extends TimeUnit("h", 3600000.0)
 case object Days extends TimeUnit("d", 8.64E7)
-
-case object PlankTime extends TimeUnit("tp", 5.39E-44)
-case object Picoseconds extends TimeUnit("ps", MetricSystem.Pico)
-case object Weeks extends TimeUnit("w", 7 * Days.conversionFactor)

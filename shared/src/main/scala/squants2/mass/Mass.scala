@@ -151,5 +151,3 @@ case object Megapounds extends MassUnit("Mlb", 453592.37)
 case object Kilopounds extends MassUnit("klb", 453592.37)
 case object Tonnes extends MassUnit("t", 1000000.0)
 case object SolarMasses extends MassUnit("M☉", 1.98855E33)
-
-case object PlankMass extends MassUnit("mp", 2.176434E-8)
