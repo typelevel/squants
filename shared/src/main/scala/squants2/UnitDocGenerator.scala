@@ -63,7 +63,7 @@ object UnitDocGenerator extends App {
       .toList.sortBy(_._1)
       .foreach { case (p, ds) =>
         val dims = ds.toList.sortBy(_.name)
-        printer.println(s"|$p|${dims.map(d => s"[${d.name}](#${d.name.toLowerCase})").mkString(", ")}|")
+        printer.println(s"|$p|${dims.map(d => s"[${d.name}](#${d.name.toLowerCase.replace(" ", "")})").mkString(", ")}|")
       }
 
     printer.println(s"#### Dimension Count: ${allDimensions.size}")
@@ -73,7 +73,7 @@ object UnitDocGenerator extends App {
       printer.println("")
       d match {
         case bd: BaseDimension =>
-          printer.println(s"## ${d.name} - [ ${bd.dimensionSymbol} ]")
+          printer.println(s"## ${d.name.replace(" ", "")} - [ ${bd.dimensionSymbol} ]")
           printer.println(s"#### Primary Unit: ${d.primaryUnit.getClass.getSimpleName.replace("$", "")} (1 ${d.primaryUnit.symbol})")
           printer.println(s"#### SI Base Unit: ${d.siUnit.getClass.getSimpleName.replace("$", "")} (1 ${d.siUnit.symbol})")
 

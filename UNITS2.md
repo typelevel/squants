@@ -4,12 +4,12 @@
 |Package|Dimensions|
 |----------------------------|-----------------------------------------------------------|
 |squants2|[Dimensionless](#dimensionless)|
-|squants2.electro|[AreaElectricChargeDensity](#areaelectricchargedensity), [Capacitance](#capacitance), [Conductivity](#conductivity), [Electric Current](#electric current), [ElectricCharge](#electriccharge), [ElectricChargeDensity](#electricchargedensity), [ElectricChargeMassRatio](#electricchargemassratio), [ElectricCurrentDensity](#electriccurrentdensity), [ElectricFieldStrength](#electricfieldstrength), [ElectricPotential](#electricpotential), [ElectricalConductance](#electricalconductance), [ElectricalResistance](#electricalresistance), [Inductance](#inductance), [LinearElectricChargeDensity](#linearelectricchargedensity), [MagneticFlux](#magneticflux), [MagneticFluxDensity](#magneticfluxdensity), [Permeability](#permeability), [Permittivity](#permittivity), [Resistivity](#resistivity)|
+|squants2.electro|[AreaElectricChargeDensity](#areaelectricchargedensity), [Capacitance](#capacitance), [Conductivity](#conductivity), [Electric Current](#electriccurrent), [ElectricCharge](#electriccharge), [ElectricChargeDensity](#electricchargedensity), [ElectricChargeMassRatio](#electricchargemassratio), [ElectricCurrentDensity](#electriccurrentdensity), [ElectricFieldStrength](#electricfieldstrength), [ElectricPotential](#electricpotential), [ElectricalConductance](#electricalconductance), [ElectricalResistance](#electricalresistance), [Inductance](#inductance), [LinearElectricChargeDensity](#linearelectricchargedensity), [MagneticFlux](#magneticflux), [MagneticFluxDensity](#magneticfluxdensity), [Permeability](#permeability), [Permittivity](#permittivity), [Resistivity](#resistivity)|
 |squants2.energy|[Energy](#energy), [EnergyDensity](#energydensity), [MolarEnergy](#molarenergy), [Power](#power), [PowerDensity](#powerdensity), [PowerRamp](#powerramp), [SpecificEnergy](#specificenergy)|
 |squants2.information|[DataRate](#datarate), [Information](#information)|
-|squants2.mass|[AreaDensity](#areadensity), [Chemical Amount](#chemical amount), [Density](#density), [Mass](#mass), [MomentOfInertia](#momentofinertia)|
+|squants2.mass|[AreaDensity](#areadensity), [Chemical Amount](#chemicalamount), [Density](#density), [Mass](#mass), [MomentOfInertia](#momentofinertia)|
 |squants2.motion|[Acceleration](#acceleration), [AngularAcceleration](#angularacceleration), [AngularVelocity](#angularvelocity), [Force](#force), [Jerk](#jerk), [MassFlow](#massflow), [Momentum](#momentum), [Pressure](#pressure), [PressureChange](#pressurechange), [Torque](#torque), [VolumeFlow](#volumeflow), [Yank](#yank)|
-|squants2.photo|[Illuminance](#illuminance), [Luminance](#luminance), [Luminous Intensity](#luminous intensity), [LuminousEnergy](#luminousenergy), [LuminousExposure](#luminousexposure), [LuminousFlux](#luminousflux)|
+|squants2.photo|[Illuminance](#illuminance), [Luminance](#luminance), [Luminous Intensity](#luminousintensity), [LuminousEnergy](#luminousenergy), [LuminousExposure](#luminousexposure), [LuminousFlux](#luminousflux)|
 |squants2.radio|[Activity](#activity), [AreaTime](#areatime), [Dose](#dose), [Irradiance](#irradiance), [ParticleFlux](#particleflux), [Radiance](#radiance), [RadiantIntensity](#radiantintensity), [SpectralIntensity](#spectralintensity), [SpectralIrradiance](#spectralirradiance), [SpectralPower](#spectralpower)|
 |squants2.space|[Angle](#angle), [Area](#area), [Length](#length), [SolidAngle](#solidangle), [Volume](#volume)|
 |squants2.thermal|[Temperature](#temperature), [ThermalCapacity](#thermalcapacity)|
@@ -29,7 +29,7 @@
 [Go to Code](shared/src/main/scala/squants2/thermal/Temperature.scala)
  | [Go to Wiki](https://en.wikipedia.org/wiki/Temperature)
 
-## Electric Current - [ I ]
+## ElectricCurrent - [ I ]
 #### Primary Unit: Amperes (1 A)
 #### SI Base Unit: Amperes (1 A)
 |Unit|Conversion Factor|
@@ -75,7 +75,7 @@
 [Go to Code](shared/src/main/scala/squants2/mass/Mass.scala)
  | [Go to Wiki](https://en.wikipedia.org/wiki/Mass)
 
-## Luminous Intensity - [ J ]
+## LuminousIntensity - [ J ]
 #### Primary Unit: Candelas (1 cd)
 #### SI Base Unit: Candelas (1 cd)
 |Unit|Conversion Factor|
@@ -84,7 +84,7 @@
 [Go to Code](shared/src/main/scala/squants2/photo/LuminousIntensity.scala)
  | [Go to Wiki](https://en.wikipedia.org/wiki/Luminous_Intensity)
 
-## Chemical Amount - [ N ]
+## ChemicalAmount - [ N ]
 #### Primary Unit: Moles (1 mol)
 #### SI Base Unit: Moles (1 mol)
 |Unit|Conversion Factor|
