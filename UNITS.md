@@ -1,5 +1,5 @@
 # Squants - Supported Dimensions and Units
-#### Dimension Count: 69
+#### Dimension Count: 70
 #### Unit Count: 237
 
 ## ChemicalAmount - [ N ]
@@ -342,10 +342,10 @@
 |MicrogramsPerLitre| 1 µg/L = 9.999999999999997E-7 kg/m³|
 |NanogramsPerMillilitre| 1 ng/ml = 1.0E-6 kg/m³|
 |MicrogramsPerMillilitre| 1 µg/ml = 9.999999999999998E-4 kg/m³|
-|NanogramsPerMicrolitre| 1 ng/µl = 0.001 kg/m³|
 |MilligramsPerLitre| 1 mg/L = 0.001 kg/m³|
-|MicrogramsPerMicrolitre| 1 µg/µl = 0.9999999999999998 kg/m³|
+|NanogramsPerMicrolitre| 1 ng/µl = 0.001 kg/m³|
 |NanogramsPerNanolitre| 1 ng/nl = 0.9999999999999998 kg/m³|
+|MicrogramsPerMicrolitre| 1 µg/µl = 0.9999999999999998 kg/m³|
 |MilligramsPerMillilitre| 1 mg/ml = 1.0 kg/m³|
 |GramsPerLitre| 1 g/L = 1.0 kg/m³|
 |MicrogramsPerNanolitre| 1 µg/nl = 999.9999999999997 kg/m³|
@@ -353,10 +353,10 @@
 |KilogramsPerLitre| 1 kg/L = 1000.0 kg/m³|
 |GramsPerMillilitre| 1 g/ml = 1000.0000000000001 kg/m³|
 |MilligramsPerNanolitre| 1 mg/nl = 999999.9999999998 kg/m³|
-|GramsPerMicrolitre| 1 g/µl = 1000000.0 kg/m³|
 |KilogramsPerMillilitre| 1 kg/ml = 1000000.0 kg/m³|
-|GramsPerNanolitre| 1 g/nl = 9.999999999999999E8 kg/m³|
+|GramsPerMicrolitre| 1 g/µl = 1000000.0 kg/m³|
 |KilogramsPerMicrolitre| 1 kg/µl = 9.999999999999999E8 kg/m³|
+|GramsPerNanolitre| 1 g/nl = 9.999999999999999E8 kg/m³|
 |KilogramsPerNanolitre| 1 kg/nl = 9.999999999999999E11 kg/m³|
 
 [Go to Code](shared/src/main/scala/squants/mass/Density.scala)
@@ -378,8 +378,8 @@
 |Picocoulombs| 1 pC = 1.0E-12 C|
 |Nanocoulombs| 1 nC = 1.0E-9 C|
 |Microcoulombs| 1 µC = 1.0E-6 C|
-|MilliampereSeconds| 1 mAs = 0.001 C|
 |Millicoulombs| 1 mC = 0.001 C|
+|MilliampereSeconds| 1 mAs = 0.001 C|
 |MilliampereHours| 1 mAh = 3.6 C|
 |Abcoulombs| 1 aC = 10.0 C|
 |AmpereHours| 1 Ah = 3600.0 C|
@@ -504,6 +504,19 @@
 |KilogramForce| 1 kgf = 9.80665 N|
 
 [Go to Code](shared/src/main/scala/squants/motion/Force.scala)
+
+## Frequency
+#### Primary Unit: Hertz (1 Hz)
+#### SI Unit: Hertz (1 Hz)
+|Unit|Conversion Factor|
+|----------------------------|-----------------------------------------------------------|
+|RevolutionsPerMinute| 1 rpm = 0.016666666666666666 Hz|
+|Kilohertz| 1 kHz = 1000.0 Hz|
+|Megahertz| 1 MHz = 1000000.0 Hz|
+|Gigahertz| 1 GHz = 1.0E9 Hz|
+|Terahertz| 1 THz = 1.0E12 Hz|
+
+[Go to Code](shared/src/main/scala/squants/time/Frequency.scala)
 
 ## Illuminance
 #### Primary Unit: Lux (1 lx)

@@ -41,7 +41,9 @@ object Squants2Converter extends App {
 
     Angle, Area, SolidAngle, Volume,
 
-    ThermalCapacity
+    ThermalCapacity,
+
+    Frequency
   )
 
   val file = new FileWriter("UNITS.md")
