@@ -14,10 +14,13 @@
 |squants.space|[Angle](#angle), [Area](#area), [Length](#length), [SolidAngle](#solidangle), [Volume](#volume)|
 |squants.thermal|[Temperature](#temperature), [ThermalCapacity](#thermalcapacity)|
 |squants.time|[Frequency](#frequency), [Time](#time)|
-#### Dimension Count: 71
+|squants.market|[Money](#money)|
+#### Dimension Count: 72
 #### Unit Count: 237
+#### Currency Count: 30
 
-## ChemicalAmount - [ N ]
+## ChemicalAmount
+##### Dimensional Symbol:  N
 #### Primary Unit: Moles (1 mol)
 #### SI Base Unit: Moles (1 mol)
 |Unit|Conversion Factor|
@@ -26,7 +29,8 @@
 
 [Go to Code](shared/src/main/scala/squants/mass/ChemicalAmount.scala)
 
-## ElectricCurrent - [ I ]
+## ElectricCurrent
+##### Dimensional Symbol:  I
 #### Primary Unit: Amperes (1 A)
 #### SI Base Unit: Amperes (1 A)
 |Unit|Conversion Factor|
@@ -35,7 +39,8 @@
 
 [Go to Code](shared/src/main/scala/squants/electro/ElectricCurrent.scala)
 
-## Information - [ B ]
+## Information
+##### Dimensional Symbol:  B
 #### Primary Unit: Bytes (1 B)
 #### SI Base Unit: Bytes (1 B)
 |Unit|Conversion Factor|
@@ -76,7 +81,8 @@
 
 [Go to Code](shared/src/main/scala/squants/information/Information.scala)
 
-## Length - [ L ]
+## Length
+##### Dimensional Symbol:  L
 #### Primary Unit: Meters (1 m)
 #### SI Base Unit: Meters (1 m)
 |Unit|Conversion Factor|
@@ -115,7 +121,8 @@
 
 [Go to Code](shared/src/main/scala/squants/space/Length.scala)
 
-## LuminousIntensity - [ J ]
+## LuminousIntensity
+##### Dimensional Symbol:  J
 #### Primary Unit: Candelas (1 cd)
 #### SI Base Unit: Candelas (1 cd)
 |Unit|Conversion Factor|
@@ -123,7 +130,8 @@
 
 [Go to Code](shared/src/main/scala/squants/photo/LuminousIntensity.scala)
 
-## Mass - [ M ]
+## Mass
+##### Dimensional Symbol:  M
 #### Primary Unit: Grams (1 g)
 #### SI Base Unit: Kilograms (1 kg)
 |Unit|Conversion Factor|
@@ -150,14 +158,15 @@
 |Pounds| 1 lb = 453.59237 g|
 |Kilograms| 1 kg = 1000.0 g|
 |Stone| 1 st = 6350.293180000001 g|
-|Megapounds| 1 Mlb = 453592.37 g|
 |Kilopounds| 1 klb = 453592.37 g|
+|Megapounds| 1 Mlb = 453592.37 g|
 |Tonnes| 1 t = 1000000.0 g|
 |SolarMasses| 1 M☉ = 1.98855E33 g|
 
 [Go to Code](shared/src/main/scala/squants/mass/Mass.scala)
 
-## Temperature - [ Θ ]
+## Temperature
+##### Dimensional Symbol:  Θ
 #### Primary Unit: Kelvin (1 K)
 #### SI Base Unit: Kelvin (1 K)
 |Unit|Conversion Factor|
@@ -168,7 +177,8 @@
 
 [Go to Code](shared/src/main/scala/squants/thermal/Temperature.scala)
 
-## Time - [ T ]
+## Time
+##### Dimensional Symbol:  T
 #### Primary Unit: Milliseconds (1 ms)
 #### SI Base Unit: Seconds (1 s)
 |Unit|Conversion Factor|
@@ -359,10 +369,10 @@
 |MicrogramsPerMillilitre| 1 µg/ml = 9.999999999999998E-4 kg/m³|
 |NanogramsPerMicrolitre| 1 ng/µl = 0.001 kg/m³|
 |MilligramsPerLitre| 1 mg/L = 0.001 kg/m³|
-|MicrogramsPerMicrolitre| 1 µg/µl = 0.9999999999999998 kg/m³|
 |NanogramsPerNanolitre| 1 ng/nl = 0.9999999999999998 kg/m³|
-|MilligramsPerMillilitre| 1 mg/ml = 1.0 kg/m³|
+|MicrogramsPerMicrolitre| 1 µg/µl = 0.9999999999999998 kg/m³|
 |GramsPerLitre| 1 g/L = 1.0 kg/m³|
+|MilligramsPerMillilitre| 1 mg/ml = 1.0 kg/m³|
 |MicrogramsPerNanolitre| 1 µg/nl = 999.9999999999997 kg/m³|
 |MilligramsPerMicrolitre| 1 mg/µl = 999.9999999999999 kg/m³|
 |KilogramsPerLitre| 1 kg/L = 1000.0 kg/m³|
@@ -370,8 +380,8 @@
 |MilligramsPerNanolitre| 1 mg/nl = 999999.9999999998 kg/m³|
 |KilogramsPerMillilitre| 1 kg/ml = 1000000.0 kg/m³|
 |GramsPerMicrolitre| 1 g/µl = 1000000.0 kg/m³|
-|GramsPerNanolitre| 1 g/nl = 9.999999999999999E8 kg/m³|
 |KilogramsPerMicrolitre| 1 kg/µl = 9.999999999999999E8 kg/m³|
+|GramsPerNanolitre| 1 g/nl = 9.999999999999999E8 kg/m³|
 |KilogramsPerNanolitre| 1 kg/nl = 9.999999999999999E11 kg/m³|
 
 [Go to Code](shared/src/main/scala/squants/mass/Density.scala)
@@ -913,3 +923,39 @@
 |----------------------------|-----------------------------------------------------------|
 
 [Go to Code](shared/src/main/scala/squants/motion/Yank.scala)
+
+## Money
+|Currency|ISO Code|Symbol|Precision|Default Format|
+|---------------------|-------|-----------------------|--------------------|----------------|
+|Argentinean Peso| ARS| $|2|$1.00|
+|Australian Dollar| AUD| $|2|$1.00|
+|Bitcoin| BTC| ₿|15|₿1.000000000000000|
+|Brazilian Real| BRL| R$|2|R$1.00|
+|British Pound| GBP| £|2|£1.00|
+|Canadian Dollar| CAD| $|2|$1.00|
+|Chilean Peso| CLP| $|2|$1.00|
+|Chinese Yuan Renminbi| CNY| ¥|2|¥1.00|
+|Czech Republic Koruny| CZK| Kč|2|Kč1.00|
+|Danish Kroner| DKK| kr|2|kr1.00|
+|Ether| ETH| Ξ|15|Ξ1.000000000000000|
+|Euro| EUR| €|2|€1.00|
+|Gold| XAU| oz|4|oz1.0000|
+|Hong Kong Dollar| HKD| $|2|$1.00|
+|Indian Rupee| INR| ₹|2|₹1.00|
+|Japanese Yen| JPY| ¥|0|¥1|
+|Litecoin| LTC| Ł|15|Ł1.000000000000000|
+|Malaysian Ringgit| MYR| RM|2|RM1.00|
+|Mexican Peso| MXN| $|2|$1.00|
+|Namibian Dollar| NAD| N$|2|N$1.00|
+|New Zealand Dollar| NZD| $|2|$1.00|
+|Norwegian Krone| NOK| kr|2|kr1.00|
+|Russian Ruble| RUB| ₽|2|₽1.00|
+|Silver| XAG| oz|4|oz1.0000|
+|South African Rand| ZAR| R|2|R1.00|
+|South Korean Won| KRW| ₩|0|₩1|
+|Swedish Kroner| SEK| kr|2|kr1.00|
+|Swiss Franc| CHF| CHF|2|CHF1.00|
+|Turkish lira| TRY| ₺|2|₺1.00|
+|US Dollar| USD| $|2|$1.00|
+
+[Go to Code](shared/src/main/scala/squants/market/Money.scala)
