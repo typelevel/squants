@@ -1,28 +1,48 @@
+/*                                                                      *\
+** Squants                                                              **
+**                                                                      **
+** Scala Quantities and Units of Measure Library and DSL                **
+** (c) 2013-2022, Gary Keorkunian, et al                                **
+**                                                                      **
+\*                                                                      */
+
 package squants2.thermal
 
 import squants2._
-
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class Temperature[A: Numeric] private [thermal]  (value: A, unit: TemperatureUnit) extends Quantity[A, Temperature.type] {
+final case class Temperature[A: Numeric] private [squants2]  (value: A, unit: TemperatureUnit)
+  extends Quantity[A, Temperature.type] {
   override type Q[B] = Temperature[B]
+
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
+  def toRankine: A = to(Rankine)
+  def toKelvin: A = to(Kelvin)
+  def toFahrenheit: A = to(Fahrenheit)
+  def toCelsius: A = to(Celsius)
 }
 
 object Temperature extends BaseDimension("Temperature", "Θ") {
 
   override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = Kelvin
   override def siUnit: UnitOfMeasure[this.type] with SiBaseUnit = Kelvin
-  override lazy val units: Set[UnitOfMeasure[this.type]] = Set(Kelvin, Rankine, Celsius, Fahrenheit)
+  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+    Set(Rankine, Kelvin, Fahrenheit, Celsius)
 
-  // Constructors from Numeric values
-  implicit class TemperatureCons[A: Numeric](a: A) {
-    def kelvin: Temperature[A] = Kelvin(a)
+  implicit class TemperatureCons[A](a: A)(implicit num: Numeric[A]) {
     def rankine: Temperature[A] = Rankine(a)
-    def celsius: Temperature[A] = Celsius(a)
+    def kelvin: Temperature[A] = Kelvin(a)
     def fahrenheit: Temperature[A] = Fahrenheit(a)
+    def celsius: Temperature[A] = Celsius(a)
   }
 
-  // Constants
+  lazy val rankine: Temperature[Int] = Rankine(1)
+  lazy val kelvin: Temperature[Int] = Kelvin(1)
+  lazy val fahrenheit: Temperature[Int] = Fahrenheit(1)
+  lazy val celsius: Temperature[Int] = Celsius(1)
+
   lazy val absoluteZero: Temperature[Int] = Kelvin(0)
 
 }

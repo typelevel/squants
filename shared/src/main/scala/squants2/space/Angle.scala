@@ -1,18 +1,22 @@
+/*                                                                      *\
+** Squants                                                              **
+**                                                                      **
+** Scala Quantities and Units of Measure Library and DSL                **
+** (c) 2013-2022, Gary Keorkunian, et al                                **
+**                                                                      **
+\*                                                                      */
+
 package squants2.space
 
 import squants2._
-import squants2.time.Minutes
+import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class Angle[A] private[squants2] (value: A, unit: AngleUnit)(implicit num: Numeric[A]) extends Quantity[A, Angle.type] {
+final case class Angle[A: Numeric] private [squants2]  (value: A, unit: AngleUnit)
+  extends Quantity[A, Angle.type] {
   override type Q[B] = Angle[B]
 
-  def toRadians: A = to(Radians)
-  def toDegrees: A = to(Degrees)
-  def toGradians: A = to(Gradians)
-  def toTurns: A = to(Turns)
-  def toArcminutes: A = to(Arcminutes)
-  def toArcseconds: A = to(Arcseconds)
-
+  // BEGIN CUSTOM OPS
+  private val num = implicitly[Numeric[A]]
   def cos: Double = math.cos(num.toDouble(toRadians))
   def tan: Double = math.tan(num.toDouble(toRadians))
   def sin: Double = math.sin(num.toDouble(toRadians))
@@ -22,32 +26,44 @@ final case class Angle[A] private[squants2] (value: A, unit: AngleUnit)(implicit
 
   def onRadius[B](radius: Length[B])(implicit f: B => A): Length[A] = radius.asNum[A] * to(Radians)
 
+  def toArcseconds: A = to(Arcseconds)
+  def toArcminutes: A = to(Arcminutes)
+  def toGradians: A = to(Gradians)
+  def toDegrees: A = to(Degrees)
+  def toRadians: A = to(Radians)
+  def toTurns: A = to(Turns)
+  // END CUSTOM OPS
+
 }
 
 object Angle extends Dimension("Angle") {
 
   override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = Radians
   override def siUnit: UnitOfMeasure[this.type] with SiUnit = Radians
-  override lazy val units: Set[UnitOfMeasure[this.type]] = Set(Radians, Degrees, Gradians, Turns, Arcminutes, Arcseconds)
+  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+    Set(Arcseconds, Arcminutes, Gradians, Degrees, Radians, Turns)
 
-  // Constructors from Numeric values
-  implicit class AngleCons[A: Numeric](a: A) {
-    def radians: Angle[A] = Radians(a)
-    def degrees: Angle[A] = Degrees(a)
-    def gradians: Angle[A] = Gradians(a)
-    def turns: Angle[A] = Turns(a)
-    def arcminutes: Angle[A] = Arcminutes(a)
+  implicit class AngleCons[A](a: A)(implicit num: Numeric[A]) {
     def arcseconds: Angle[A] = Arcseconds(a)
+    def arcminutes: Angle[A] = Arcminutes(a)
+    def gradians: Angle[A] = Gradians(a)
+    def degrees: Angle[A] = Degrees(a)
+    def radians: Angle[A] = Radians(a)
+    def turns: Angle[A] = Turns(a)
   }
 
-  // Constants
-  lazy val radian: Angle[Int] = Radians(1)
-  lazy val degree: Angle[Int] = Degrees(1)
-  lazy val gradian: Angle[Int] = Gradians(1)
-  lazy val turn: Angle[Int] = Turns(1)
-  lazy val arcminute: Angle[Int] = Arcminutes(1)
-  lazy val arcsecond: Angle[Int] = Arcseconds(1)
+  lazy val arcseconds: Angle[Int] = Arcseconds(1)
+  lazy val arcminutes: Angle[Int] = Arcminutes(1)
+  lazy val gradians: Angle[Int] = Gradians(1)
+  lazy val degrees: Angle[Int] = Degrees(1)
+  lazy val radians: Angle[Int] = Radians(1)
+  lazy val turns: Angle[Int] = Turns(1)
 
+  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = AngleNumeric[A]()
+  private case class AngleNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
+    override def times(x: Quantity[A, Angle.type], y: Quantity[A, Angle.type]): Quantity[A, Angle.this.type] =
+      Radians(x.to(Radians) * y.to(Radians))
+  }
 }
 
 abstract class AngleUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Angle.type] {
@@ -55,9 +71,9 @@ abstract class AngleUnit(val symbol: String, val conversionFactor: ConversionFac
   override def apply[A: Numeric](value: A): Angle[A] = Angle(value, this)
 }
 
+case object Arcseconds extends AngleUnit("asec", 4.84813681109536E-6)
+case object Arcminutes extends AngleUnit("amin", 2.908882086657216E-4)
+case object Gradians extends AngleUnit("grad", 0.015707963267948967)
+case object Degrees extends AngleUnit("°", 0.017453292519943295)
 case object Radians extends AngleUnit("rad", 1) with PrimaryUnit with SiUnit
-case object Degrees extends AngleUnit("°", math.Pi / 180d)
-case object Gradians extends AngleUnit("grad", Turns.conversionFactor / 400d)
-case object Turns extends AngleUnit("°", 2d * math.Pi)
-case object Arcminutes extends AngleUnit("°", math.Pi / 10800d)
-case object Arcseconds extends AngleUnit("°", 1d / Minutes.conversionFactor * Arcminutes.conversionFactor)
+case object Turns extends AngleUnit("turns", 6.283185307179586)

@@ -16,7 +16,7 @@ object Squants2Converter extends App {
     val path = s"shared/src/main/scala/squants2/$packageName/"
     if(!Files.exists(Path.of(path))) Files.createDirectory(Path.of(path))
 
-    if(Files.exists(Path.of(s"$path${d.name}.scala"))) return
+//    if(Files.exists(Path.of(s"$path${d.name}.scala"))) return
 
     val file = new File(s"$path${d.name}.scala")
     val writer = new PrintWriter(file)
@@ -39,6 +39,8 @@ object Squants2Converter extends App {
     writer.println(s"  extends Quantity[A, ${d.name}.type] {")
     writer.println(s"  override type Q[B] = ${d.name}[B]")
     writer.println()
+    writer.println("  // BEGIN CUSTOM OPS")
+    writer.println("  // END CUSTOM OPS")
     d.units.toList
       .sortBy{(u: UnitOfMeasure[_]) => u.convertFrom(1d)}
       .foreach { (u: UnitOfMeasure[_]) =>

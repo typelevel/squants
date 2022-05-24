@@ -17,7 +17,7 @@ import java.io.{ FileWriter, PrintWriter }
 
 object Squants1UnitDocGenerator extends App {
 
-  val allDimensions = Set[Dimension[_]](
+  lazy val allDimensions = Set[Dimension[_]](
     ElectricCurrent, Mass, ChemicalAmount, LuminousIntensity, Length, Temperature, Time,
 
     AreaElectricChargeDensity, Capacitance, Conductivity, ElectricalConductance, ElectricalResistance,
