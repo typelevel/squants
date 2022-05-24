@@ -16,6 +16,7 @@ final case class Activity[A: Numeric] private [squants2]  (value: A, unit: Activ
   override type Q[B] = Activity[B]
 
   // BEGIN CUSTOM OPS
+  //  def /[B](that: AreaTime[B])(implicit f: B => A): ParticleFlux[A] = ???
   // END CUSTOM OPS
 
   def toBecquerels: A = to(Becquerels)

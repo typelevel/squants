@@ -16,6 +16,7 @@ final case class ElectricChargeMassRatio[A: Numeric] private [squants2]  (value:
   override type Q[B] = ElectricChargeMassRatio[B]
 
   // BEGIN CUSTOM OPS
+  //  def *[B](that: Mass[B])(implicit f: B => A): ElectricCharge[A] = ???
   // END CUSTOM OPS
 
   def toCoulombsPerKilogram: A = to(CoulombsPerKilogram)

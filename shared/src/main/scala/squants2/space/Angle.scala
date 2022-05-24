@@ -16,6 +16,10 @@ final case class Angle[A: Numeric] private [squants2]  (value: A, unit: AngleUni
   override type Q[B] = Angle[B]
 
   // BEGIN CUSTOM OPS
+  //  def /[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
+  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
+  //  def *[B](that: Frequency[B])(implicit f: B => A): Quantity[A] = ???
+
   private val num = implicitly[Numeric[A]]
   def cos: Double = math.cos(num.toDouble(toRadians))
   def tan: Double = math.tan(num.toDouble(toRadians))
@@ -25,6 +29,7 @@ final case class Angle[A: Numeric] private [squants2]  (value: A, unit: AngleUni
   def atan: Double = math.atan(num.toDouble(toRadians))
 
   def onRadius[B](radius: Length[B])(implicit f: B => A): Length[A] = radius.asNum[A] * to(Radians)
+
   // END CUSTOM OPS
 
   def toArcseconds: A = to(Arcseconds)

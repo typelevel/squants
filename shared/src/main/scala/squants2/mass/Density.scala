@@ -16,6 +16,7 @@ final case class Density[A: Numeric] private [squants2]  (value: A, unit: Densit
   override type Q[B] = Density[B]
 
   // BEGIN CUSTOM OPS
+  //  def *[B](that: Volume[B])(implicit f: B => A): Mass[A] = ???
   // END CUSTOM OPS
 
   def toNanogramsPerLitre: A = to(NanogramsPerLitre)

@@ -16,6 +16,8 @@ final case class LinearElectricChargeDensity[A: Numeric] private [squants2]  (va
   override type Q[B] = LinearElectricChargeDensity[B]
 
   // BEGIN CUSTOM OPS
+  //  def *[B](that: Length[B])(implicit f: B => A): ElectricCharge[A] = ???
+  //  def /[B](that: Length[B])(implicit f: B => A): AreaElectricChargeDensity[A] = ???
   // END CUSTOM OPS
 
   def toCoulombsPerMeter: A = to(CoulombsPerMeter)

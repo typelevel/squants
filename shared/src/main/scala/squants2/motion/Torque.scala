@@ -16,6 +16,7 @@ final case class Torque[A: Numeric] private [squants2]  (value: A, unit: TorqueU
   override type Q[B] = Torque[B]
 
   // BEGIN CUSTOM OPS
+  //  def /[B](that: MomentOfInertia[B])(implicit f: B => A): AngularAcceleration[A] = ???
   // END CUSTOM OPS
 
   def toNewtonMeters: A = to(NewtonMeters)

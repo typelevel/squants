@@ -16,6 +16,26 @@ final case class Energy[A: Numeric] private [squants2]  (value: A, unit: EnergyU
   override type Q[B] = Energy[B]
 
   // BEGIN CUSTOM OPS
+  //  def /[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
+  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
+  //  def *[B](that: Frequency[B])(implicit f: B => A): Quantity[A] = ???
+  //  def *[B](that: ParticleFlux[B])(implicit f: B => A): Irradiance[A] = ???
+  //  def /[B](that: Length[B])(implicit f: B => A): Force[A] = ???
+  //  def /[B](that: Force[B])(implicit f: B => A): Length[A] = ???
+  //  def /[B](that: Mass[B])(implicit f: B => A): SpecificEnergy[A] = ???
+  //  def /[B](that: SpecificEnergy[B])(implicit f: B => A): Mass[A] = ???
+  //  def /[B](that: Volume[B])(implicit f: B => A): EnergyDensity[A] = ???
+  //  def /[B](that: EnergyDensity[B])(implicit f: B => A): Volume[A] = ???
+  //  def /[B](that: ElectricCharge[B])(implicit f: B => A): ElectricPotential[A] = ???
+  //  def /[B](that: ElectricPotential[B])(implicit f: B => A): ElectricCharge[A] = ???
+  //  def /[B](that: Temperature[B])(implicit f: B => A): ThermalCapacity[A] = ???
+  //  def /[B](that: ThermalCapacity[B])(implicit f: B => A): Temperature[A] = ???
+  //  def /[B](that: ChemicalAmount[B])(implicit f: B => A): MolarEnergy[A] = ???
+  //  def /[B](that: Angle[B])(implicit f: B => A): Torque[A] = ???
+  //  def /[B](that: Area[B])(implicit f: B => A): Nothing$[A] = ???
+  //  def /[B](that: TimeSquared[B])(implicit f: B => A): PowerRamp[A] = ???
+  //  def /[B](that: SecondTimeDerivative[B])(implicit f: B => A): TimeSquared[A] = ???
+  //  def /[B](that: TimeSquared[B])(implicit f: B => A): SecondTimeDerivative[A] = ???
   // END CUSTOM OPS
 
   def toMilliElectronVolt: A = to(MilliElectronVolt)

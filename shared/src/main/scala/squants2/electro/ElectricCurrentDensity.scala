@@ -16,6 +16,8 @@ final case class ElectricCurrentDensity[A: Numeric] private [squants2]  (value: 
   override type Q[B] = ElectricCurrentDensity[B]
 
   // BEGIN CUSTOM OPS
+  //  def *[B](that: Area[B])(implicit f: B => A): ElectricCurrent[A] = ???
+  //  def *[B](that: Length[B])(implicit f: B => A): MagneticFieldStrength[A] = ???
   // END CUSTOM OPS
 
   def toAmperesPerSquareMeter: A = to(AmperesPerSquareMeter)

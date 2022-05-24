@@ -16,6 +16,8 @@ final case class PressureChange[A: Numeric] private [squants2]  (value: A, unit:
   override type Q[B] = PressureChange[B]
 
   // BEGIN CUSTOM OPS
+  //  def *[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
+  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
   // END CUSTOM OPS
 
   def toPascalsPerSecond: A = to(PascalsPerSecond)

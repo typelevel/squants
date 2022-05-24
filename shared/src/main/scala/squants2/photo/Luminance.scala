@@ -16,6 +16,7 @@ final case class Luminance[A: Numeric] private [squants2]  (value: A, unit: Lumi
   override type Q[B] = Luminance[B]
 
   // BEGIN CUSTOM OPS
+  //  def *[B](that: Area[B])(implicit f: B => A): LuminousIntensity[A] = ???
   // END CUSTOM OPS
 
   def toCandelasPerSquareMeter: A = to(CandelasPerSquareMeter)

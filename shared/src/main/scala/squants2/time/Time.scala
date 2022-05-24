@@ -16,6 +16,9 @@ final case class Time[A: Numeric] private [squants2]  (value: A, unit: TimeUnit)
   override type Q[B] = Time[B]
 
   // BEGIN CUSTOM OPS
+  //  def *[B](that: TimeDerivative[B])(implicit f: B => A): Quantity[A] = ???
+  //  def *[B](that: Time[B])(implicit f: B => A): TimeSquared[A] = ???
+  //  def *[B](that: Area[B])(implicit f: B => A): AreaTime[A] = ???
   // END CUSTOM OPS
 
   def toNanoseconds: A = to(Nanoseconds)

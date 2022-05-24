@@ -16,6 +16,7 @@ final case class PowerDensity[A: Numeric] private [squants2]  (value: A, unit: P
   override type Q[B] = PowerDensity[B]
 
   // BEGIN CUSTOM OPS
+  //  def *[B](that: Volume[B])(implicit f: B => A): Power[A] = ???
   // END CUSTOM OPS
 
   def toWattsPerCubicMeter: A = to(WattsPerCubicMeter)

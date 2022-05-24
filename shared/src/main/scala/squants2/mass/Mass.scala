@@ -16,6 +16,16 @@ final case class Mass[A: Numeric] private [squants2]  (value: A, unit: MassUnit)
   override type Q[B] = Mass[B]
 
   // BEGIN CUSTOM OPS
+  //  def /[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
+  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
+  //  def *[B](that: Frequency[B])(implicit f: B => A): Quantity[A] = ???
+  //  def *[B](that: SpecificEnergy[B])(implicit f: B => A): Energy[A] = ???
+  //  def *[B](that: Velocity[B])(implicit f: B => A): Momentum[A] = ???
+  //  def *[B](that: Acceleration[B])(implicit f: B => A): Force[A] = ???
+  //  def /[B](that: Density[B])(implicit f: B => A): Volume[A] = ???
+  //  def /[B](that: Volume[B])(implicit f: B => A): Density[A] = ???
+  //  def /[B](that: AreaDensity[B])(implicit f: B => A): Area[A] = ???
+  //  def /[B](that: Area[B])(implicit f: B => A): AreaDensity[A] = ???
   // END CUSTOM OPS
 
   def toMilliElectronVoltMass: A = to(MilliElectronVoltMass)

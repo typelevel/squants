@@ -16,6 +16,9 @@ final case class Information[A: Numeric] private [squants2]  (value: A, unit: In
   override type Q[B] = Information[B]
 
   // BEGIN CUSTOM OPS
+  //  def /[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
+  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
+  //  def *[B](that: Frequency[B])(implicit f: B => A): Quantity[A] = ???
   // END CUSTOM OPS
 
   def toBits: A = to(Bits)

@@ -16,6 +16,8 @@ final case class SpecificEnergy[A: Numeric] private [squants2]  (value: A, unit:
   override type Q[B] = SpecificEnergy[B]
 
   // BEGIN CUSTOM OPS
+  //  def *[B](that: Mass[B])(implicit f: B => A): Energy[A] = ???
+  //  def /[B](that: Time[B])(implicit f: B => A): Nothing$[A] = ???
   // END CUSTOM OPS
 
   def toErgsPerGram: A = to(ErgsPerGram)

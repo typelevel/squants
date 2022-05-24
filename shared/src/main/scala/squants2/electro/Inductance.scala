@@ -16,6 +16,8 @@ final case class Inductance[A: Numeric] private [squants2]  (value: A, unit: Ind
   override type Q[B] = Inductance[B]
 
   // BEGIN CUSTOM OPS
+  //  def *[B](that: ElectricCurrent[B])(implicit f: B => A): MagneticFlux[A] = ???
+  //  def /[B](that: Length[B])(implicit f: B => A): Permeability[A] = ???
   // END CUSTOM OPS
 
   def toPicohenry: A = to(Picohenry)

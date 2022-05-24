@@ -16,6 +16,8 @@ final case class ElectricalResistance[A: Numeric] private [squants2]  (value: A,
   override type Q[B] = ElectricalResistance[B]
 
   // BEGIN CUSTOM OPS
+  //  def *[B](that: ElectricCurrent[B])(implicit f: B => A): ElectricPotential[A] = ???
+  //  def *[B](that: Length[B])(implicit f: B => A): Resistivity[A] = ???
   // END CUSTOM OPS
 
   def toNanohms: A = to(Nanohms)

@@ -16,6 +16,8 @@ final case class SpectralIntensity[A: Numeric] private [squants2]  (value: A, un
   override type Q[B] = SpectralIntensity[B]
 
   // BEGIN CUSTOM OPS
+  //  def *[B](that: Length[B])(implicit f: B => A): RadiantIntensity[A] = ???
+  //  def /[B](that: RadiantIntensity[B])(implicit f: B => A): Length[A] = ???
   // END CUSTOM OPS
 
   def toWattsPerSteradianPerMeter: A = to(WattsPerSteradianPerMeter)

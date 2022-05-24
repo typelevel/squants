@@ -16,6 +16,9 @@ final case class Illuminance[A: Numeric] private [squants2]  (value: A, unit: Il
   override type Q[B] = Illuminance[B]
 
   // BEGIN CUSTOM OPS
+  //  def *[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
+  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
+  //  def *[B](that: Area[B])(implicit f: B => A): LuminousFlux[A] = ???
   // END CUSTOM OPS
 
   def toLux: A = to(Lux)

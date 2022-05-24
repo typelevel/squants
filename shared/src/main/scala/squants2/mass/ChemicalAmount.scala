@@ -16,6 +16,7 @@ final case class ChemicalAmount[A: Numeric] private [squants2]  (value: A, unit:
   override type Q[B] = ChemicalAmount[B]
 
   // BEGIN CUSTOM OPS
+  //  def /[B](that: Volume[B])(implicit f: B => A): Nothing$[A] = ???
   // END CUSTOM OPS
 
   def toMoles: A = to(Moles)

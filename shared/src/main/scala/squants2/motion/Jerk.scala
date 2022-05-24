@@ -16,6 +16,10 @@ final case class Jerk[A: Numeric] private [squants2]  (value: A, unit: JerkUnit)
   override type Q[B] = Jerk[B]
 
   // BEGIN CUSTOM OPS
+  //  def *[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
+  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
+  //  def *[B](that: TimeSquared[B])(implicit f: B => A): Velocity[A] = ???
+  //  def *[B](that: TimeSquared[B])(implicit f: B => A): SecondTimeIntegral[A] = ???
   // END CUSTOM OPS
 
   def toFeetPerSecondCubed: A = to(FeetPerSecondCubed)

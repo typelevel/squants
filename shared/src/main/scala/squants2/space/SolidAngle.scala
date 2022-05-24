@@ -16,6 +16,8 @@ final case class SolidAngle[A: Numeric] private [squants2]  (value: A, unit: Sol
   override type Q[B] = SolidAngle[B]
 
   // BEGIN CUSTOM OPS
+  //  def *[B](that: LuminousIntensity[B])(implicit f: B => A): LuminousFlux[A] = ???
+  //  def *[B](that: RadiantIntensity[B])(implicit f: B => A): Power[A] = ???
   // END CUSTOM OPS
 
   def toSquaredRadians: A = to(SquaredRadians)

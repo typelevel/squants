@@ -16,8 +16,19 @@ final case class Length[A: Numeric] private [squants2]  (value: A, unit: LengthU
   override type Q[B] = Length[B]
 
   // BEGIN CUSTOM OPS
-  def *[B](that: Length[B])(implicit f: B => A): Area[A] = SquareMeters(to(Meters) * that.asNum[A].to(Meters))
-  def *[B](that: Area[B])(implicit f: B => A): Volume[A] = CubicMeters(to(Meters) * that.asNum[A].to(SquareMeters))
+  //  def /[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
+  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
+  //  def *[B](that: Frequency[B])(implicit f: B => A): Quantity[A] = ???
+  //  def *[B](that: Length[B])(implicit f: B => A): Area[A] = ???
+  //  def *[B](that: Area[B])(implicit f: B => A): Volume[A] = ???
+  //  def *[B](that: Force[B])(implicit f: B => A): Energy[A] = ???
+  //  def *[B](that: SpectralIntensity[B])(implicit f: B => A): RadiantIntensity[A] = ???
+  //  def *[B](that: SpectralPower[B])(implicit f: B => A): Power[A] = ???
+  //  def *[B](that: Conductivity[B])(implicit f: B => A): ElectricalConductance[A] = ???
+  //  def *[B](that: ElectricalResistance[B])(implicit f: B => A): Resistivity[A] = ???
+  //  def /[B](that: TimeSquared[B])(implicit f: B => A): Acceleration[A] = ???
+  //  def /[B](that: SecondTimeDerivative[B])(implicit f: B => A): TimeSquared[A] = ???
+  //  def /[B](that: TimeSquared[B])(implicit f: B => A): SecondTimeDerivative[A] = ???
   // END CUSTOM OPS
 
   def toAngstroms: A = to(Angstroms)

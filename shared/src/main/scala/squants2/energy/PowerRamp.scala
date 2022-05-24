@@ -16,6 +16,10 @@ final case class PowerRamp[A: Numeric] private [squants2]  (value: A, unit: Powe
   override type Q[B] = PowerRamp[B]
 
   // BEGIN CUSTOM OPS
+  //  def *[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
+  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
+  //  def *[B](that: TimeSquared[B])(implicit f: B => A): Energy[A] = ???
+  //  def *[B](that: TimeSquared[B])(implicit f: B => A): SecondTimeIntegral[A] = ???
   // END CUSTOM OPS
 
   def toWattsPerMinute: A = to(WattsPerMinute)

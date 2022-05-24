@@ -15,10 +15,12 @@ final case class Dimensionless[A: Numeric] private [squants2]  (value: A, unit: 
   override type Q[B] = Dimensionless[B]
 
   // BEGIN CUSTOM OPS
-  def *[B](that: Dimensionless[B])(implicit f: B => A): Dimensionless[A] = Each(to(Each) * f(that.to(Each)))
-  def *[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = that.asNum[A] * to(Each)
-
-  def +[B](that: B)(implicit f: B => A): Dimensionless[A] = Each(to(Each) + f(that))
+  //  def /[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
+  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
+  //  def *[B](that: Frequency[B])(implicit f: B => A): Quantity[A] = ???
+  //  def *[B](that: Dimensionless[B])(implicit f: B => A): Dimensionless[A] = ???
+  //  def *[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
+  //  def +[B](that: B)(implicit f: B => A): Dimensionless[A] = ???
   // END CUSTOM OPS
 
   def toPercent: A = to(Percent)

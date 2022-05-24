@@ -16,6 +16,7 @@ final case class MagneticFluxDensity[A: Numeric] private [squants2]  (value: A, 
   override type Q[B] = MagneticFluxDensity[B]
 
   // BEGIN CUSTOM OPS
+  //  def *[B](that: Area[B])(implicit f: B => A): MagneticFlux[A] = ???
   // END CUSTOM OPS
 
   def toGauss: A = to(Gauss)

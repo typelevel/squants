@@ -16,6 +16,7 @@ final case class Permittivity[A: Numeric] private [squants2]  (value: A, unit: P
   override type Q[B] = Permittivity[B]
 
   // BEGIN CUSTOM OPS
+  //  def *[B](that: Length[B])(implicit f: B => A): Capacitance[A] = ???
   // END CUSTOM OPS
 
   def toFaradsPerMeter: A = to(FaradsPerMeter)

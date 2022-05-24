@@ -16,6 +16,17 @@ final case class Force[A: Numeric] private [squants2]  (value: A, unit: ForceUni
   override type Q[B] = Force[B]
 
   // BEGIN CUSTOM OPS
+  //  def /[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
+  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
+  //  def *[B](that: Frequency[B])(implicit f: B => A): Quantity[A] = ???
+  //  def *[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
+  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
+  //  def *[B](that: Length[B])(implicit f: B => A): Energy[A] = ???
+  //  def /[B](that: Length[B])(implicit f: B => A): Nothing$[A] = ???
+  //  def /[B](that: Mass[B])(implicit f: B => A): Acceleration[A] = ???
+  //  def /[B](that: Acceleration[B])(implicit f: B => A): Mass[A] = ???
+  //  def /[B](that: Area[B])(implicit f: B => A): Pressure[A] = ???
+  //  def /[B](that: Pressure[B])(implicit f: B => A): Area[A] = ???
   // END CUSTOM OPS
 
   def toMegaElectronVoltsPerCentimeter: A = to(MegaElectronVoltsPerCentimeter)

@@ -16,6 +16,14 @@ final case class Acceleration[A: Numeric] private [squants2]  (value: A, unit: A
   override type Q[B] = Acceleration[B]
 
   // BEGIN CUSTOM OPS
+  //  def /[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
+  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
+  //  def *[B](that: Frequency[B])(implicit f: B => A): Quantity[A] = ???
+  //  def *[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
+  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
+  //  def *[B](that: Mass[B])(implicit f: B => A): Force[A] = ???
+  //  def *[B](that: TimeSquared[B])(implicit f: B => A): Length[A] = ???
+  //  def *[B](that: TimeSquared[B])(implicit f: B => A): SecondTimeIntegral[A] = ???
   // END CUSTOM OPS
 
   def toUsMilesPerHourSquared: A = to(UsMilesPerHourSquared)

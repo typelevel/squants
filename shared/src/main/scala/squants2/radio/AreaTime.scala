@@ -16,6 +16,8 @@ final case class AreaTime[A: Numeric] private [squants2]  (value: A, unit: AreaT
   override type Q[B] = AreaTime[B]
 
   // BEGIN CUSTOM OPS
+  //  def /[B](that: Area[B])(implicit f: B => A): Time[A] = ???
+  //  def /[B](that: Time[B])(implicit f: B => A): Area[A] = ???
   // END CUSTOM OPS
 
   def toSquareCentimeterSeconds: A = to(SquareCentimeterSeconds)

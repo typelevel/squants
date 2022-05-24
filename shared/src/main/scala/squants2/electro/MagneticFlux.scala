@@ -16,6 +16,13 @@ final case class MagneticFlux[A: Numeric] private [squants2]  (value: A, unit: M
   override type Q[B] = MagneticFlux[B]
 
   // BEGIN CUSTOM OPS
+  //  def /[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
+  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
+  //  def *[B](that: Frequency[B])(implicit f: B => A): Quantity[A] = ???
+  //  def /[B](that: Area[B])(implicit f: B => A): MagneticFluxDensity[A] = ???
+  //  def /[B](that: MagneticFluxDensity[B])(implicit f: B => A): Area[A] = ???
+  //  def /[B](that: ElectricCurrent[B])(implicit f: B => A): Inductance[A] = ???
+  //  def /[B](that: Inductance[B])(implicit f: B => A): ElectricCurrent[A] = ???
   // END CUSTOM OPS
 
   def toWebers: A = to(Webers)

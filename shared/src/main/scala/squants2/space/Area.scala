@@ -16,6 +16,16 @@ final case class Area[A: Numeric] private [squants2]  (value: A, unit: AreaUnit)
   override type Q[B] = Area[B]
 
   // BEGIN CUSTOM OPS
+  //  def *[B](that: Length[B])(implicit f: B => A): Volume[A] = ???
+  //  def *[B](that: AreaDensity[B])(implicit f: B => A): Mass[A] = ???
+  //  def *[B](that: Pressure[B])(implicit f: B => A): Force[A] = ???
+  //  def *[B](that: Illuminance[B])(implicit f: B => A): LuminousFlux[A] = ???
+  //  def *[B](that: Luminance[B])(implicit f: B => A): LuminousIntensity[A] = ???
+  //  def *[B](that: MagneticFluxDensity[B])(implicit f: B => A): MagneticFlux[A] = ???
+  //  def *[B](that: Irradiance[B])(implicit f: B => A): Power[A] = ???
+  //  def *[B](that: Radiance[B])(implicit f: B => A): RadiantIntensity[A] = ???
+  //  def *[B](that: Time[B])(implicit f: B => A): AreaTime[A] = ???
+  //  def /[B](that: Length[B])(implicit f: B => A): Length[A] = ???
   // END CUSTOM OPS
 
   def toBarnes: A = to(Barnes)

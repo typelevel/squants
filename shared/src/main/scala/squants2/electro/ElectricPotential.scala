@@ -16,6 +16,14 @@ final case class ElectricPotential[A: Numeric] private [squants2]  (value: A, un
   override type Q[B] = ElectricPotential[B]
 
   // BEGIN CUSTOM OPS
+  //  def *[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
+  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
+  //  def *[B](that: ElectricCurrent[B])(implicit f: B => A): Power[A] = ???
+  //  def *[B](that: Capacitance[B])(implicit f: B => A): ElectricCharge[A] = ???
+  //  def *[B](that: ElectricCharge[B])(implicit f: B => A): Energy[A] = ???
+  //  def /[B](that: ElectricCurrent[B])(implicit f: B => A): ElectricalResistance[A] = ???
+  //  def /[B](that: ElectricalResistance[B])(implicit f: B => A): ElectricCurrent[A] = ???
+  //  def /[B](that: Length[B])(implicit f: B => A): ElectricFieldStrength[A] = ???
   // END CUSTOM OPS
 
   def toMicrovolts: A = to(Microvolts)

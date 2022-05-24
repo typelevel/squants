@@ -16,6 +16,16 @@ final case class ElectricCharge[A: Numeric] private [squants2]  (value: A, unit:
   override type Q[B] = ElectricCharge[B]
 
   // BEGIN CUSTOM OPS
+  //  def /[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
+  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
+  //  def *[B](that: Frequency[B])(implicit f: B => A): Quantity[A] = ???
+  //  def *[B](that: ElectricPotential[B])(implicit f: B => A): Energy[A] = ???
+  //  def /[B](that: ElectricPotential[B])(implicit f: B => A): Capacitance[A] = ???
+  //  def /[B](that: Capacitance[B])(implicit f: B => A): ElectricPotential[A] = ???
+  //  def /[B](that: Length[B])(implicit f: B => A): LinearElectricChargeDensity[A] = ???
+  //  def /[B](that: Area[B])(implicit f: B => A): AreaElectricChargeDensity[A] = ???
+  //  def /[B](that: Volume[B])(implicit f: B => A): ElectricChargeDensity[A] = ???
+  //  def /[B](that: Mass[B])(implicit f: B => A): ElectricChargeMassRatio[A] = ???
   // END CUSTOM OPS
 
   def toPicocoulombs: A = to(Picocoulombs)

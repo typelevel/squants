@@ -16,6 +16,11 @@ final case class AngularVelocity[A: Numeric] private [squants2]  (value: A, unit
   override type Q[B] = AngularVelocity[B]
 
   // BEGIN CUSTOM OPS
+  //  def /[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
+  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
+  //  def *[B](that: Frequency[B])(implicit f: B => A): Quantity[A] = ???
+  //  def *[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
+  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
   // END CUSTOM OPS
 
   def toGradiansPerSecond: A = to(GradiansPerSecond)

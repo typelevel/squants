@@ -16,6 +16,8 @@ final case class MassFlow[A: Numeric] private [squants2]  (value: A, unit: MassF
   override type Q[B] = MassFlow[B]
 
   // BEGIN CUSTOM OPS
+  //  def *[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
+  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
   // END CUSTOM OPS
 
   def toPoundsPerHour: A = to(PoundsPerHour)

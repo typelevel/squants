@@ -16,6 +16,8 @@ final case class Capacitance[A: Numeric] private [squants2]  (value: A, unit: Ca
   override type Q[B] = Capacitance[B]
 
   // BEGIN CUSTOM OPS
+  //  def *[B](that: ElectricPotential[B])(implicit f: B => A): ElectricCharge[A] = ???
+  //  def /[B](that: Length[B])(implicit f: B => A): Permittivity[A] = ???
   // END CUSTOM OPS
 
   def toPicofarads: A = to(Picofarads)

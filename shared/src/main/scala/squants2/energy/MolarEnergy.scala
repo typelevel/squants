@@ -16,6 +16,7 @@ final case class MolarEnergy[A: Numeric] private [squants2]  (value: A, unit: Mo
   override type Q[B] = MolarEnergy[B]
 
   // BEGIN CUSTOM OPS
+  //  def *[B](that: ChemicalAmount[B])(implicit f: B => A): Energy[A] = ???
   // END CUSTOM OPS
 
   def toJoulesPerMole: A = to(JoulesPerMole)

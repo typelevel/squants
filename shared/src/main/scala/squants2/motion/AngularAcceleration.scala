@@ -16,6 +16,9 @@ final case class AngularAcceleration[A: Numeric] private [squants2]  (value: A, 
   override type Q[B] = AngularAcceleration[B]
 
   // BEGIN CUSTOM OPS
+  //  def *[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
+  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
+  //  def *[B](that: MomentOfInertia[B])(implicit f: B => A): Torque[A] = ???
   // END CUSTOM OPS
 
   def toArcsecondsPerSecondSquared: A = to(ArcsecondsPerSecondSquared)

@@ -16,6 +16,10 @@ final case class Irradiance[A: Numeric] private [squants2]  (value: A, unit: Irr
   override type Q[B] = Irradiance[B]
 
   // BEGIN CUSTOM OPS
+  //  def *[B](that: Area[B])(implicit f: B => A): Power[A] = ???
+  //  def *[B](that: AreaTime[B])(implicit f: B => A): Energy[A] = ???
+  //  def /[B](that: Energy[B])(implicit f: B => A): ParticleFlux[A] = ???
+  //  def /[B](that: ParticleFlux[B])(implicit f: B => A): Energy[A] = ???
   // END CUSTOM OPS
 
   def toErgsPerSecondPerSquareCentimeter: A = to(ErgsPerSecondPerSquareCentimeter)

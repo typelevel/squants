@@ -16,6 +16,20 @@ final case class Power[A: Numeric] private [squants2]  (value: A, unit: PowerUni
   override type Q[B] = Power[B]
 
   // BEGIN CUSTOM OPS
+  //  def /[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
+  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
+  //  def *[B](that: Frequency[B])(implicit f: B => A): Quantity[A] = ???
+  //  def *[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
+  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
+  //  def /[B](that: Length[B])(implicit f: B => A): SpectralPower[A] = ???
+  //  def /[B](that: SpectralPower[B])(implicit f: B => A): Length[A] = ???
+  //  def /[B](that: Area[B])(implicit f: B => A): Irradiance[A] = ???
+  //  def /[B](that: Irradiance[B])(implicit f: B => A): Area[A] = ???
+  //  def /[B](that: RadiantIntensity[B])(implicit f: B => A): SolidAngle[A] = ???
+  //  def /[B](that: SolidAngle[B])(implicit f: B => A): RadiantIntensity[A] = ???
+  //  def /[B](that: ElectricPotential[B])(implicit f: B => A): ElectricCurrent[A] = ???
+  //  def /[B](that: ElectricCurrent[B])(implicit f: B => A): ElectricPotential[A] = ???
+  //  def /[B](that: Volume[B])(implicit f: B => A): PowerDensity[A] = ???
   // END CUSTOM OPS
 
   def toErgsPerSecond: A = to(ErgsPerSecond)

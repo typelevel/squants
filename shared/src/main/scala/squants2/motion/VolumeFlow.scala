@@ -16,6 +16,8 @@ final case class VolumeFlow[A: Numeric] private [squants2]  (value: A, unit: Vol
   override type Q[B] = VolumeFlow[B]
 
   // BEGIN CUSTOM OPS
+  //  def *[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
+  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
   // END CUSTOM OPS
 
   def toNanolitresPerDay: A = to(NanolitresPerDay)

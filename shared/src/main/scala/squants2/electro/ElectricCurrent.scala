@@ -16,6 +16,14 @@ final case class ElectricCurrent[A: Numeric] private [squants2]  (value: A, unit
   override type Q[B] = ElectricCurrent[B]
 
   // BEGIN CUSTOM OPS
+  //  def *[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
+  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
+  //  def *[B](that: ElectricalResistance[B])(implicit f: B => A): ElectricPotential[A] = ???
+  //  def *[B](that: ElectricPotential[B])(implicit f: B => A): Power[A] = ???
+  //  def *[B](that: Inductance[B])(implicit f: B => A): MagneticFlux[A] = ???
+  //  def /[B](that: ElectricPotential[B])(implicit f: B => A): ElectricalConductance[A] = ???
+  //  def /[B](that: Length[B])(implicit f: B => A): MagneticFieldStrength[A] = ???
+  //  def /[B](that: Area[B])(implicit f: B => A): ElectricCurrentDensity[A] = ???
   // END CUSTOM OPS
 
   def toMilliamperes: A = to(Milliamperes)
