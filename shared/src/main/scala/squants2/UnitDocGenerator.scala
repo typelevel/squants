@@ -57,13 +57,13 @@ object UnitDocGenerator extends App {
 
     printer.println("## Index")
     printer.println("")
-    printer.println("|Package|Dimensions|")
+    printer.println("|Package|Dimensions (# of Units)|")
     printer.println("|----------------------------|-----------------------------------------------------------|")
     allDimensions.groupBy(d => d.getClass.getPackage.getName)
       .toList.sortBy(_._1)
       .foreach { case (p, ds) =>
         val dims = ds.toList.sortBy(_.name)
-        printer.println(s"|$p|${dims.map(d => s"[${d.name}](#${d.name.toLowerCase.replace(" ", "")})").mkString(", ")}|")
+        printer.println(s"|$p|${dims.map(d => s"[${d.name}](#${d.name.toLowerCase.replace(" ", "")}) (${d.units.size})").mkString(", ")}|")
       }
 
     printer.println(s"#### Dimension Count: ${allDimensions.size}")

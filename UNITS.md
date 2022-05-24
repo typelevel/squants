@@ -1,23 +1,22 @@
 # Squants - Supported Dimensions and Units
 ## Index
 
-|Package|Dimensions|
+|Package|Dimensions (# of Units)|
 |----------------------------|-----------------------------------------------------------|
-|squants|[Dimensionless](#dimensionless)|
-|squants.electro|[AreaElectricChargeDensity](#areaelectricchargedensity), [Capacitance](#capacitance), [Conductivity](#conductivity), [ElectricCharge](#electriccharge), [ElectricChargeDensity](#electricchargedensity), [ElectricChargeMassRatio](#electricchargemassratio), [ElectricCurrent](#electriccurrent), [ElectricCurrentDensity](#electriccurrentdensity), [ElectricFieldStrength](#electricfieldstrength), [ElectricPotential](#electricpotential), [ElectricalConductance](#electricalconductance), [ElectricalResistance](#electricalresistance), [Inductance](#inductance), [LinearElectricChargeDensity](#linearelectricchargedensity), [MagneticFlux](#magneticflux), [MagneticFluxDensity](#magneticfluxdensity), [Permeability](#permeability), [Permittivity](#permittivity), [Resistivity](#resistivity)|
-|squants.energy|[Energy](#energy), [EnergyDensity](#energydensity), [MolarEnergy](#molarenergy), [Power](#power), [PowerDensity](#powerdensity), [PowerRamp](#powerramp), [SpecificEnergy](#specificenergy)|
-|squants.information|[DataRate](#datarate), [Information](#information)|
-|squants.mass|[AreaDensity](#areadensity), [ChemicalAmount](#chemicalamount), [Density](#density), [Mass](#mass), [MomentOfInertia](#momentofinertia)|
-|squants.motion|[Acceleration](#acceleration), [AngularAcceleration](#angularacceleration), [AngularVelocity](#angularvelocity), [Force](#force), [Jerk](#jerk), [MassFlow](#massflow), [Momentum](#momentum), [Pressure](#pressure), [PressureChange](#pressurechange), [Torque](#torque), [VolumeFlow](#volumeflow), [Yank](#yank)|
-|squants.photo|[Illuminance](#illuminance), [Luminance](#luminance), [LuminousEnergy](#luminousenergy), [LuminousExposure](#luminousexposure), [LuminousFlux](#luminousflux), [LuminousIntensity](#luminousintensity)|
-|squants.radio|[Activity](#activity), [AreaTime](#areatime), [Dose](#dose), [Irradiance](#irradiance), [ParticleFlux](#particleflux), [Radiance](#radiance), [RadiantIntensity](#radiantintensity), [SpectralIntensity](#spectralintensity), [SpectralIrradiance](#spectralirradiance), [SpectralPower](#spectralpower)|
-|squants.space|[Angle](#angle), [Area](#area), [Length](#length), [SolidAngle](#solidangle), [Volume](#volume)|
-|squants.thermal|[Temperature](#temperature), [ThermalCapacity](#thermalcapacity)|
-|squants.time|[Frequency](#frequency), [Time](#time)|
-|squants.market|[Money](#money)|
+|squants|[Dimensionless](#dimensionless) (5)|
+|squants.electro|[AreaElectricChargeDensity](#areaelectricchargedensity) (1), [Capacitance](#capacitance) (6), [Conductivity](#conductivity) (1), [ElectricCharge](#electriccharge) (9), [ElectricChargeDensity](#electricchargedensity) (1), [ElectricChargeMassRatio](#electricchargemassratio) (1), [ElectricCurrent](#electriccurrent) (2), [ElectricCurrentDensity](#electriccurrentdensity) (1), [ElectricFieldStrength](#electricfieldstrength) (1), [ElectricPotential](#electricpotential) (5), [ElectricalConductance](#electricalconductance) (1), [ElectricalResistance](#electricalresistance) (7), [Inductance](#inductance) (5), [LinearElectricChargeDensity](#linearelectricchargedensity) (1), [MagneticFlux](#magneticflux) (1), [MagneticFluxDensity](#magneticfluxdensity) (2), [Permeability](#permeability) (2), [Permittivity](#permittivity) (1), [Resistivity](#resistivity) (1)|
+|squants.energy|[Energy](#energy) (26), [EnergyDensity](#energydensity) (1), [MolarEnergy](#molarenergy) (1), [Power](#power) (8), [PowerDensity](#powerdensity) (1), [PowerRamp](#powerramp) (6), [SpecificEnergy](#specificenergy) (3)|
+|squants.information|[DataRate](#datarate) (34), [Information](#information) (34)|
+|squants.mass|[AreaDensity](#areadensity) (4), [ChemicalAmount](#chemicalamount) (2), [Density](#density) (21), [Mass](#mass) (27), [MomentOfInertia](#momentofinertia) (2)|
+|squants.motion|[Acceleration](#acceleration) (5), [AngularAcceleration](#angularacceleration) (6), [AngularVelocity](#angularvelocity) (4), [Force](#force) (5), [Jerk](#jerk) (2), [MassFlow](#massflow) (5), [Momentum](#momentum) (1), [Pressure](#pressure) (7), [PressureChange](#pressurechange) (4), [Torque](#torque) (2), [VolumeFlow](#volumeflow) (22), [Yank](#yank) (1)|
+|squants.photo|[Illuminance](#illuminance) (1), [Luminance](#luminance) (1), [LuminousEnergy](#luminousenergy) (1), [LuminousExposure](#luminousexposure) (1), [LuminousFlux](#luminousflux) (1), [LuminousIntensity](#luminousintensity) (1)|
+|squants.radio|[Activity](#activity) (3), [AreaTime](#areatime) (2), [Dose](#dose) (2), [Irradiance](#irradiance) (2), [ParticleFlux](#particleflux) (2), [Radiance](#radiance) (1), [RadiantIntensity](#radiantintensity) (1), [SpectralIntensity](#spectralintensity) (1), [SpectralIrradiance](#spectralirradiance) (4), [SpectralPower](#spectralpower) (1)|
+|squants.space|[Angle](#angle) (6), [Area](#area) (10), [Length](#length) (32), [SolidAngle](#solidangle) (1), [Volume](#volume) (20)|
+|squants.thermal|[Temperature](#temperature) (4), [ThermalCapacity](#thermalcapacity) (1)|
+|squants.time|[Frequency](#frequency) (6), [Time](#time) (7)|
+|squants.market|[Money](#money) (30)|
 #### Dimension Count: 72
 #### Unit Count: 237
-#### Currency Count: 30
 
 ## ChemicalAmount
 ##### Dimensional Symbol:  N
@@ -109,8 +108,8 @@
 |NauticalMiles| 1 nmi = 1852.0 m|
 |TeraElectronVoltLength| 1 Tħc/eV = 197327.0 m|
 |PetaElectronVoltLength| 1 Pħc/eV = 1.97327E8 m|
-|SolarRadii| 1 R☉ = 6.957E8 m|
 |NominalSolarRadii| 1 RN☉ = 6.957E8 m|
+|SolarRadii| 1 R☉ = 6.957E8 m|
 |AstronomicalUnits| 1 au = 1.495978707E11 m|
 |ExaElectronVoltLength| 1 Eħc/eV = 1.97327E11 m|
 |LightYears| 1 ly = 9.4607304725808E15 m|
@@ -158,8 +157,8 @@
 |Pounds| 1 lb = 453.59237 g|
 |Kilograms| 1 kg = 1000.0 g|
 |Stone| 1 st = 6350.293180000001 g|
-|Kilopounds| 1 klb = 453592.37 g|
 |Megapounds| 1 Mlb = 453592.37 g|
+|Kilopounds| 1 klb = 453592.37 g|
 |Tonnes| 1 t = 1000000.0 g|
 |SolarMasses| 1 M☉ = 1.98855E33 g|
 
@@ -367,8 +366,8 @@
 |MicrogramsPerLitre| 1 µg/L = 9.999999999999997E-7 kg/m³|
 |NanogramsPerMillilitre| 1 ng/ml = 1.0E-6 kg/m³|
 |MicrogramsPerMillilitre| 1 µg/ml = 9.999999999999998E-4 kg/m³|
-|NanogramsPerMicrolitre| 1 ng/µl = 0.001 kg/m³|
 |MilligramsPerLitre| 1 mg/L = 0.001 kg/m³|
+|NanogramsPerMicrolitre| 1 ng/µl = 0.001 kg/m³|
 |NanogramsPerNanolitre| 1 ng/nl = 0.9999999999999998 kg/m³|
 |MicrogramsPerMicrolitre| 1 µg/µl = 0.9999999999999998 kg/m³|
 |GramsPerLitre| 1 g/L = 1.0 kg/m³|
@@ -378,8 +377,8 @@
 |KilogramsPerLitre| 1 kg/L = 1000.0 kg/m³|
 |GramsPerMillilitre| 1 g/ml = 1000.0000000000001 kg/m³|
 |MilligramsPerNanolitre| 1 mg/nl = 999999.9999999998 kg/m³|
-|KilogramsPerMillilitre| 1 kg/ml = 1000000.0 kg/m³|
 |GramsPerMicrolitre| 1 g/µl = 1000000.0 kg/m³|
+|KilogramsPerMillilitre| 1 kg/ml = 1000000.0 kg/m³|
 |KilogramsPerMicrolitre| 1 kg/µl = 9.999999999999999E8 kg/m³|
 |GramsPerNanolitre| 1 g/nl = 9.999999999999999E8 kg/m³|
 |KilogramsPerNanolitre| 1 kg/nl = 9.999999999999999E11 kg/m³|

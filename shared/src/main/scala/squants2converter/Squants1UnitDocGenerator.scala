@@ -60,20 +60,19 @@ object Squants1UnitDocGenerator extends App {
 
     printer.println("## Index")
     printer.println("")
-    printer.println("|Package|Dimensions|")
+    printer.println("|Package|Dimensions (# of Units)|")
     printer.println("|----------------------------|-----------------------------------------------------------|")
     allDimensions.groupBy(d => d.getClass.getPackage.getName)
       .toList.sortBy(_._1)
       .foreach {
         case (p, ds) =>
           val dims = ds.toList.sortBy(_.name)
-          printer.println(s"|$p|${dims.map(d => s"[${d.name}](#${d.name.toLowerCase})").mkString(", ")}|")
+          printer.println(s"|$p|${dims.map(d => s"[${d.name}](#${d.name.toLowerCase}) (${d.units.size})").mkString(", ")}|")
       }
-    printer.println("|squants.market|[Money](#money)|")
+    printer.println(s"|squants.market|[Money](#money) (${defaultCurrencySet.size})|")
 
     printer.println(s"#### Dimension Count: ${allDimensions.size + 1}")  // Add one for Money
     printer.println(s"#### Unit Count: ${allDimensions.map(_.units.size).sum}")
-    printer.println(s"#### Currency Count: ${defaultCurrencySet.size}")
 
     allDimensions.toList
       .sortBy { d => d.name }

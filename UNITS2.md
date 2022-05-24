@@ -1,19 +1,19 @@
 # Squants - Supported Dimensions and Units
 ## Index
 
-|Package|Dimensions|
+|Package|Dimensions (# of Units)|
 |----------------------------|-----------------------------------------------------------|
-|squants2|[Dimensionless](#dimensionless)|
-|squants2.electro|[AreaElectricChargeDensity](#areaelectricchargedensity), [Capacitance](#capacitance), [Conductivity](#conductivity), [Electric Current](#electriccurrent), [ElectricCharge](#electriccharge), [ElectricChargeDensity](#electricchargedensity), [ElectricChargeMassRatio](#electricchargemassratio), [ElectricCurrentDensity](#electriccurrentdensity), [ElectricFieldStrength](#electricfieldstrength), [ElectricPotential](#electricpotential), [ElectricalConductance](#electricalconductance), [ElectricalResistance](#electricalresistance), [Inductance](#inductance), [LinearElectricChargeDensity](#linearelectricchargedensity), [MagneticFlux](#magneticflux), [MagneticFluxDensity](#magneticfluxdensity), [Permeability](#permeability), [Permittivity](#permittivity), [Resistivity](#resistivity)|
-|squants2.energy|[Energy](#energy), [EnergyDensity](#energydensity), [MolarEnergy](#molarenergy), [Power](#power), [PowerDensity](#powerdensity), [PowerRamp](#powerramp), [SpecificEnergy](#specificenergy)|
-|squants2.information|[DataRate](#datarate), [Information](#information)|
-|squants2.mass|[AreaDensity](#areadensity), [Chemical Amount](#chemicalamount), [Density](#density), [Mass](#mass), [MomentOfInertia](#momentofinertia)|
-|squants2.motion|[Acceleration](#acceleration), [AngularAcceleration](#angularacceleration), [AngularVelocity](#angularvelocity), [Force](#force), [Jerk](#jerk), [MassFlow](#massflow), [Momentum](#momentum), [Pressure](#pressure), [PressureChange](#pressurechange), [Torque](#torque), [VolumeFlow](#volumeflow), [Yank](#yank)|
-|squants2.photo|[Illuminance](#illuminance), [Luminance](#luminance), [Luminous Intensity](#luminousintensity), [LuminousEnergy](#luminousenergy), [LuminousExposure](#luminousexposure), [LuminousFlux](#luminousflux)|
-|squants2.radio|[Activity](#activity), [AreaTime](#areatime), [Dose](#dose), [Irradiance](#irradiance), [ParticleFlux](#particleflux), [Radiance](#radiance), [RadiantIntensity](#radiantintensity), [SpectralIntensity](#spectralintensity), [SpectralIrradiance](#spectralirradiance), [SpectralPower](#spectralpower)|
-|squants2.space|[Angle](#angle), [Area](#area), [Length](#length), [SolidAngle](#solidangle), [Volume](#volume)|
-|squants2.thermal|[Temperature](#temperature), [ThermalCapacity](#thermalcapacity)|
-|squants2.time|[Frequency](#frequency), [Time](#time)|
+|squants2|[Dimensionless](#dimensionless) (5)|
+|squants2.electro|[AreaElectricChargeDensity](#areaelectricchargedensity) (1), [Capacitance](#capacitance) (6), [Conductivity](#conductivity) (1), [Electric Current](#electriccurrent) (2), [ElectricCharge](#electriccharge) (9), [ElectricChargeDensity](#electricchargedensity) (1), [ElectricChargeMassRatio](#electricchargemassratio) (1), [ElectricCurrentDensity](#electriccurrentdensity) (1), [ElectricFieldStrength](#electricfieldstrength) (1), [ElectricPotential](#electricpotential) (5), [ElectricalConductance](#electricalconductance) (1), [ElectricalResistance](#electricalresistance) (7), [Inductance](#inductance) (5), [LinearElectricChargeDensity](#linearelectricchargedensity) (1), [MagneticFlux](#magneticflux) (1), [MagneticFluxDensity](#magneticfluxdensity) (2), [Permeability](#permeability) (2), [Permittivity](#permittivity) (1), [Resistivity](#resistivity) (1)|
+|squants2.energy|[Energy](#energy) (26), [EnergyDensity](#energydensity) (1), [MolarEnergy](#molarenergy) (1), [Power](#power) (8), [PowerDensity](#powerdensity) (1), [PowerRamp](#powerramp) (6), [SpecificEnergy](#specificenergy) (3)|
+|squants2.information|[DataRate](#datarate) (34), [Information](#information) (34)|
+|squants2.mass|[AreaDensity](#areadensity) (4), [Chemical Amount](#chemicalamount) (2), [Density](#density) (21), [Mass](#mass) (28), [MomentOfInertia](#momentofinertia) (2)|
+|squants2.motion|[Acceleration](#acceleration) (5), [AngularAcceleration](#angularacceleration) (6), [AngularVelocity](#angularvelocity) (4), [Force](#force) (5), [Jerk](#jerk) (2), [MassFlow](#massflow) (5), [Momentum](#momentum) (1), [Pressure](#pressure) (7), [PressureChange](#pressurechange) (4), [Torque](#torque) (2), [VolumeFlow](#volumeflow) (22), [Yank](#yank) (1)|
+|squants2.photo|[Illuminance](#illuminance) (1), [Luminance](#luminance) (1), [Luminous Intensity](#luminousintensity) (1), [LuminousEnergy](#luminousenergy) (1), [LuminousExposure](#luminousexposure) (1), [LuminousFlux](#luminousflux) (1)|
+|squants2.radio|[Activity](#activity) (3), [AreaTime](#areatime) (2), [Dose](#dose) (2), [Irradiance](#irradiance) (2), [ParticleFlux](#particleflux) (2), [Radiance](#radiance) (1), [RadiantIntensity](#radiantintensity) (1), [SpectralIntensity](#spectralintensity) (1), [SpectralIrradiance](#spectralirradiance) (4), [SpectralPower](#spectralpower) (1)|
+|squants2.space|[Angle](#angle) (6), [Area](#area) (2), [Length](#length) (33), [SolidAngle](#solidangle) (1), [Volume](#volume) (2)|
+|squants2.thermal|[Temperature](#temperature) (4), [ThermalCapacity](#thermalcapacity) (1)|
+|squants2.time|[Frequency](#frequency) (6), [Time](#time) (10)|
 #### Dimension Count: 71
 #### Unit Count: 219
 
