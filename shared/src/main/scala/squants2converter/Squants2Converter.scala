@@ -49,6 +49,20 @@ object Squants2Converter extends App {
     writer.println("  // BEGIN CUSTOM OPS")
     writer.println("  // END CUSTOM OPS")
     writer.println()
+    d.primaryUnit(1d).getClass.getDeclaredMethods.withFilter(_.getName.startsWith("$")).foreach{ m =>
+      val op = if(m.getName == "$div") "/" else if(m.getName == "$times") "*" else if(m.getName == "$plus") "+" else if(m.getName == "$minus") "-" else "?"
+      val param = m.getParameters.head
+      val paramName = param.getName
+      val paramType = if(param.getType.getSimpleName == "double") "B" else s"${param.getType.getSimpleName}[B]"
+      val returnType = m.getReturnType.getSimpleName
+      if(paramType.contains("Time") || returnType.contains("Time")) {}
+      else if (paramType.contains("Quantity")) {
+        writer.println(s"//  def $op[B, E <: Dimension]($paramName: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???")
+      } else {
+        writer.println(s"//  def $op[B]($paramName: $paramType)(implicit f: B => A): $returnType[A] = ???")
+      }
+    }
+    writer.println()
     units.foreach { (u: UnitOfMeasure[_]) =>
       val unitName = u.getClass.getSimpleName.replace("$", "")
       writer.println(s"  def to$unitName: A = to($unitName)")
