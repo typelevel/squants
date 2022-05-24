@@ -105,29 +105,39 @@ object Squants2Converter extends App {
     writer.println()
     units.foreach { (u: UnitOfMeasure[_]) =>
       val convFactor = u.convertFrom(1d)
-      val convExp = convFactor match {
-          case x if (x == MetricSystem.Yocto) => "MetricSystem.Yocto"
-          case x if (x == MetricSystem.Zepto) => "MetricSystem.Zepto"
-          case x if (x == MetricSystem.Atto)  => "MetricSystem.Atto"
-          case x if (x == MetricSystem.Femto) => "MetricSystem.Femto"
-          case x if (x == MetricSystem.Pico)  => "MetricSystem.Pico"
-          case x if (x == MetricSystem.Nano)  => "MetricSystem.Nano"
-          case x if (x == MetricSystem.Micro) => "MetricSystem.Micro"
-          case x if (x == MetricSystem.Milli) => "MetricSystem.Milli"
-          case x if (x == MetricSystem.Centi) => "MetricSystem.Centi"
-          case x if (x == MetricSystem.Deci)  => "MetricSystem.Deci"
+      val convExp = BigDecimal(convFactor) match {
+          case x if x == BigDecimal(MetricSystem.Yocto) => "MetricSystem.Yocto"
+          case x if x == MetricSystem.Zepto => "MetricSystem.Zepto"
+          case x if x == MetricSystem.Atto  => "MetricSystem.Atto"
+          case x if x == MetricSystem.Femto => "MetricSystem.Femto"
+          case x if x == MetricSystem.Pico  => "MetricSystem.Pico"
+          case x if x == MetricSystem.Nano  => "MetricSystem.Nano"
+          case x if x == MetricSystem.Micro => "MetricSystem.Micro"
+          case x if x == MetricSystem.Milli => "MetricSystem.Milli"
+          case x if x == MetricSystem.Centi => "MetricSystem.Centi"
+          case x if x == MetricSystem.Deci  => "MetricSystem.Deci"
 
-          case x if (x == MetricSystem.Deca)  => "MetricSystem.Deca"
-          case x if (x == MetricSystem.Hecto) => "MetricSystem.Hecto"
-          case x if (x == MetricSystem.Kilo)  => "MetricSystem.Kilo"
-          case x if (x == MetricSystem.Mega)  => "MetricSystem.Mega"
-          case x if (x == MetricSystem.Giga)  => "MetricSystem.Giga"
-          case x if (x == MetricSystem.Tera)  => "MetricSystem.Tera"
-          case x if (x == MetricSystem.Peta)  => "MetricSystem.Peta"
-          case x if (x == MetricSystem.Exa)   => "MetricSystem.Exa"
-          case x if (x == MetricSystem.Zetta) => "MetricSystem.Zetta"
-          case x if (x == MetricSystem.Yotta) => "MetricSystem.Yotta"
-          case x if (x.toInt == x) => convFactor.toInt.toString
+          case x if x == MetricSystem.Deca  => "MetricSystem.Deca"
+          case x if x == MetricSystem.Hecto => "MetricSystem.Hecto"
+          case x if x == MetricSystem.Kilo  => "MetricSystem.Kilo"
+          case x if x == MetricSystem.Mega  => "MetricSystem.Mega"
+          case x if x == MetricSystem.Giga  => "MetricSystem.Giga"
+          case x if x == MetricSystem.Tera  => "MetricSystem.Tera"
+          case x if x == MetricSystem.Peta  => "MetricSystem.Peta"
+          case x if x == MetricSystem.Exa   => "MetricSystem.Exa"
+          case x if x == MetricSystem.Zetta => "MetricSystem.Zetta"
+          case x if x == MetricSystem.Yotta => "MetricSystem.Yotta"
+
+          case x if x == BinarySystem.Kilo  => "BinarySystem.Kilo"
+          case x if x == BinarySystem.Mega  => "BinarySystem.Mega"
+          case x if x == BinarySystem.Giga  => "BinarySystem.Giga"
+          case x if x == BinarySystem.Tera  => "BinarySystem.Tera"
+          case x if x == BinarySystem.Peta  => "BinarySystem.Peta"
+          case x if x == BinarySystem.Exa   => "BinarySystem.Exa"
+          case x if x == BinarySystem.Zetta => "BinarySystem.Zetta"
+          case x if x == BinarySystem.Yotta => "BinarySystem.Yotta"
+          
+          case x if x.toInt == x => convFactor.toInt.toString
           case _ => convFactor.toString
         }
 
