@@ -17,9 +17,10 @@
 #### Dimension Count: 71
 #### Unit Count: 219
 
-## Temperature - [ Θ ]
-#### Primary Unit: Kelvin (1 K)
-#### SI Base Unit: Kelvin (1 K)
+## Temperature
+##### Dimensional Symbol:  Θ
+##### SI Base Unit: Kelvin (symbol: K)
+##### Primary Unit: Kelvin (symbol: K)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 |Rankine| 1 °R = 0.5555555555555555555555555555555556 K|
@@ -27,21 +28,21 @@
 |Celsius| 1 °C = 1 K|
 
 [Go to Code](shared/src/main/scala/squants2/thermal/Temperature.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/Temperature)
 
-## ElectricCurrent - [ I ]
-#### Primary Unit: Amperes (1 A)
-#### SI Base Unit: Amperes (1 A)
+## ElectricCurrent
+##### Dimensional Symbol:  I
+##### SI Base Unit: Amperes (symbol: A)
+##### Primary Unit: Amperes (symbol: A)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 |Milliamperes| 1 mA = 0.001 A|
 
 [Go to Code](shared/src/main/scala/squants2/electro/ElectricCurrent.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/Electric_Current)
 
-## Mass - [ M ]
-#### Primary Unit: Grams (1 g)
-#### SI Base Unit: Kilograms (1 kg)
+## Mass
+##### Dimensional Symbol:  M
+##### SI Base Unit: Kilograms (symbol: kg)
+##### Primary Unit: Grams (symbol: g)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 |MilliElectronVoltMass| 1 meV/c² = 1.782662E-39 g|
@@ -73,30 +74,30 @@
 |SolarMasses| 1 M☉ = 1.98855E+33 g|
 
 [Go to Code](shared/src/main/scala/squants2/mass/Mass.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/Mass)
 
-## LuminousIntensity - [ J ]
-#### Primary Unit: Candelas (1 cd)
-#### SI Base Unit: Candelas (1 cd)
+## LuminousIntensity
+##### Dimensional Symbol:  J
+##### SI Base Unit: Candelas (symbol: cd)
+##### Primary Unit: Candelas (symbol: cd)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 
 [Go to Code](shared/src/main/scala/squants2/photo/LuminousIntensity.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/Luminous_Intensity)
 
-## ChemicalAmount - [ N ]
-#### Primary Unit: Moles (1 mol)
-#### SI Base Unit: Moles (1 mol)
+## ChemicalAmount
+##### Dimensional Symbol:  N
+##### SI Base Unit: Moles (symbol: mol)
+##### Primary Unit: Moles (symbol: mol)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 |PoundMoles| 1 lb-mol = 453.59237 mol|
 
 [Go to Code](shared/src/main/scala/squants2/mass/ChemicalAmount.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/Chemical_Amount)
 
-## Time - [ T ]
-#### Primary Unit: Seconds (1 s)
-#### SI Base Unit: Seconds (1 s)
+## Time
+##### Dimensional Symbol:  T
+##### SI Base Unit: Seconds (symbol: s)
+##### Primary Unit: Seconds (symbol: s)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 |PlankTime| 1 tp = 5.39E-44 s|
@@ -110,11 +111,11 @@
 |Weeks| 1 w = 604800 s|
 
 [Go to Code](shared/src/main/scala/squants2/time/Time.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/Time)
 
-## Length - [ L ]
-#### Primary Unit: Meters (1 m)
-#### SI Base Unit: Meters (1 m)
+## Length
+##### Dimensional Symbol:  L
+##### SI Base Unit: Meters (symbol: m)
+##### Primary Unit: Meters (symbol: m)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 |PlankLength| 1 ℓp = 1.616255E-35 m|
@@ -151,30 +152,27 @@
 |GigaParsecs| 1 Gpc = 3.085677581491370E+25 m|
 
 [Go to Code](shared/src/main/scala/squants2/space/Length.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/Length)
 
 ## AreaTime
-#### Primary Unit: SquareMeterSeconds (1 m²‧s)
-#### SI Unit: SquareMeterSeconds (1 m²‧s)
+#### SI Unit: SquareMeterSeconds (symbol: m²‧s)
+#### Primary Unit: SquareMeterSeconds (symbol: m²‧s)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 |SquareCentimeterSeconds| 1 cm²‧s = 0.00010 m²‧s|
 
 [Go to Code](shared/src/main/scala/squants2/radio/AreaTime.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/AreaTime)
 
 ## Momentum
-#### Primary Unit: NewtonSeconds (1 Ns)
-#### SI Unit: NewtonSeconds (1 Ns)
+#### SI Unit: NewtonSeconds (symbol: Ns)
+#### Primary Unit: NewtonSeconds (symbol: Ns)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 
 [Go to Code](shared/src/main/scala/squants2/motion/Momentum.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/Momentum)
 
 ## AngularVelocity
-#### Primary Unit: RadiansPerSecond (1 rad/s)
-#### SI Unit: RadiansPerSecond (1 rad/s)
+#### SI Unit: RadiansPerSecond (symbol: rad/s)
+#### Primary Unit: RadiansPerSecond (symbol: rad/s)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 |GradiansPerSecond| 1 grad/s = 0.015707963267948967 rad/s|
@@ -182,76 +180,68 @@
 |TurnsPerSecond| 1 turns/s = 6.283185307179586 rad/s|
 
 [Go to Code](shared/src/main/scala/squants2/motion/AngularVelocity.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/AngularVelocity)
 
 ## LuminousEnergy
-#### Primary Unit: LumenSeconds (1 lm⋅s)
-#### SI Unit: LumenSeconds (1 lm⋅s)
+#### SI Unit: LumenSeconds (symbol: lm⋅s)
+#### Primary Unit: LumenSeconds (symbol: lm⋅s)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 
 [Go to Code](shared/src/main/scala/squants2/photo/LuminousEnergy.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/LuminousEnergy)
 
 ## MagneticFluxDensity
-#### Primary Unit: Teslas (1 T)
-#### SI Unit: Teslas (1 T)
+#### SI Unit: Teslas (symbol: T)
+#### Primary Unit: Teslas (symbol: T)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 |Gauss| 1 Gs = 0.00009999999999999999 T|
 
 [Go to Code](shared/src/main/scala/squants2/electro/MagneticFluxDensity.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/MagneticFluxDensity)
 
 ## Area
-#### Primary Unit: SquareMeters (1 m²)
-#### SI Unit: SquareMeters (1 m²)
+#### SI Unit: SquareMeters (symbol: m²)
+#### Primary Unit: SquareMeters (symbol: m²)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 |SquareFeet| 1 ft² = 0.09290304 m²|
 
 [Go to Code](shared/src/main/scala/squants2/space/Area.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/Area)
 
 ## Resistivity
-#### Primary Unit: OhmMeters (1 Ω⋅m)
-#### SI Unit: OhmMeters (1 Ω⋅m)
+#### SI Unit: OhmMeters (symbol: Ω⋅m)
+#### Primary Unit: OhmMeters (symbol: Ω⋅m)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 
 [Go to Code](shared/src/main/scala/squants2/electro/Resistivity.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/Resistivity)
 
 ## Conductivity
-#### Primary Unit: SiemensPerMeter (1 S/m)
-#### SI Unit: SiemensPerMeter (1 S/m)
+#### SI Unit: SiemensPerMeter (symbol: S/m)
+#### Primary Unit: SiemensPerMeter (symbol: S/m)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 
 [Go to Code](shared/src/main/scala/squants2/electro/Conductivity.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/Conductivity)
 
 ## EnergyDensity
-#### Primary Unit: JoulesPerCubicMeter (1 J/m³)
-#### SI Unit: JoulesPerCubicMeter (1 J/m³)
+#### SI Unit: JoulesPerCubicMeter (symbol: J/m³)
+#### Primary Unit: JoulesPerCubicMeter (symbol: J/m³)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 
 [Go to Code](shared/src/main/scala/squants2/energy/EnergyDensity.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/EnergyDensity)
 
 ## Yank
-#### Primary Unit: NewtonsPerSecond (1 N/s)
-#### SI Unit: NewtonsPerSecond (1 N/s)
+#### SI Unit: NewtonsPerSecond (symbol: N/s)
+#### Primary Unit: NewtonsPerSecond (symbol: N/s)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 
 [Go to Code](shared/src/main/scala/squants2/motion/Yank.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/Yank)
 
 ## Acceleration
-#### Primary Unit: MetersPerSecondSquared (1 m/s²)
-#### SI Unit: MetersPerSecondSquared (1 m/s²)
+#### SI Unit: MetersPerSecondSquared (symbol: m/s²)
+#### Primary Unit: MetersPerSecondSquared (symbol: m/s²)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 |UsMilesPerHourSquared| 1 mph² = 0.00012417802613333333 m/s²|
@@ -260,29 +250,26 @@
 |EarthGravities| 1 g = 9.80665 m/s²|
 
 [Go to Code](shared/src/main/scala/squants2/motion/Acceleration.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/Acceleration)
 
 ## ElectricalConductance
-#### Primary Unit: Siemens (1 S)
-#### SI Unit: Siemens (1 S)
+#### SI Unit: Siemens (symbol: S)
+#### Primary Unit: Siemens (symbol: S)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 
 [Go to Code](shared/src/main/scala/squants2/electro/ElectricalConductance.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/ElectricalConductance)
 
 ## SpectralIntensity
-#### Primary Unit: WattsPerSteradianPerMeter (1 W/sr/m)
-#### SI Unit: WattsPerSteradianPerMeter (1 W/sr/m)
+#### SI Unit: WattsPerSteradianPerMeter (symbol: W/sr/m)
+#### Primary Unit: WattsPerSteradianPerMeter (symbol: W/sr/m)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 
 [Go to Code](shared/src/main/scala/squants2/radio/SpectralIntensity.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/SpectralIntensity)
 
 ## Inductance
-#### Primary Unit: Henry (1 H)
-#### SI Unit: Henry (1 H)
+#### SI Unit: Henry (symbol: H)
+#### Primary Unit: Henry (symbol: H)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 |Picohenry| 1 pH = 1.0E-12 H|
@@ -291,11 +278,10 @@
 |Millihenry| 1 mH = 0.001 H|
 
 [Go to Code](shared/src/main/scala/squants2/electro/Inductance.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/Inductance)
 
 ## Energy
-#### Primary Unit: WattHours (1 Wh)
-#### SI Unit: Joules (1 J)
+#### SI Unit: Joules (symbol: J)
+#### Primary Unit: WattHours (symbol: Wh)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 |MilliElectronVolt| 1 meV = 4.4504904583333334E-26 Wh|
@@ -325,11 +311,10 @@
 |GigawattHours| 1 GWh = 1.0E+9 Wh|
 
 [Go to Code](shared/src/main/scala/squants2/energy/Energy.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/Energy)
 
 ## Power
-#### Primary Unit: Watts (1 W)
-#### SI Unit: Watts (1 W)
+#### SI Unit: Watts (symbol: W)
+#### Primary Unit: Watts (symbol: W)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 |ErgsPerSecond| 1 erg/s = 1.0E-7 W|
@@ -341,22 +326,20 @@
 |SolarLuminosities| 1 L☉ = 3.828E+26 W|
 
 [Go to Code](shared/src/main/scala/squants2/energy/Power.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/Power)
 
 ## Activity
-#### Primary Unit: Becquerels (1 Bq)
-#### SI Unit: Becquerels (1 Bq)
+#### SI Unit: Becquerels (symbol: Bq)
+#### Primary Unit: Becquerels (symbol: Bq)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 |Rutherfords| 1 Rd = 1000000.0 Bq|
 |Curies| 1 Ci = 3.7E+10 Bq|
 
 [Go to Code](shared/src/main/scala/squants2/radio/Activity.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/Activity)
 
 ## Dimensionless
-#### Primary Unit: Each (1 ea)
-#### SI Unit: Each (1 ea)
+#### SI Unit: Each (symbol: ea)
+#### Primary Unit: Each (symbol: ea)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 |Percent| 1 % = 0.01 ea|
@@ -365,11 +348,10 @@
 |Gross| 1 gr = 144 ea|
 
 [Go to Code](shared/src/main/scala/squants2/Dimensionless.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/Dimensionless)
 
 ## AreaDensity
-#### Primary Unit: KilogramsPerSquareMeter (1 kg/m²)
-#### SI Unit: KilogramsPerSquareMeter (1 kg/m²)
+#### SI Unit: KilogramsPerSquareMeter (symbol: kg/m²)
+#### Primary Unit: KilogramsPerSquareMeter (symbol: kg/m²)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 |KilogramsPerHectare| 1 kg/hectare = 0.00010 kg/m²|
@@ -377,20 +359,18 @@
 |GramsPerSquareCentimeter| 1 g/cm² = 10.0 kg/m²|
 
 [Go to Code](shared/src/main/scala/squants2/mass/AreaDensity.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/AreaDensity)
 
 ## MagneticFlux
-#### Primary Unit: Webers (1 Wb)
-#### SI Unit: Webers (1 Wb)
+#### SI Unit: Webers (symbol: Wb)
+#### Primary Unit: Webers (symbol: Wb)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 
 [Go to Code](shared/src/main/scala/squants2/electro/MagneticFlux.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/MagneticFlux)
 
 ## PressureChange
-#### Primary Unit: PascalsPerSecond (1 Pa/s)
-#### SI Unit: PascalsPerSecond (1 Pa/s)
+#### SI Unit: PascalsPerSecond (symbol: Pa/s)
+#### Primary Unit: PascalsPerSecond (symbol: Pa/s)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 |PoundsPerSquareInchPerSecond| 1 psi/s = 6894.757293168361 Pa/s|
@@ -398,20 +378,18 @@
 |StandardAtmospheresPerSecond| 1 atm/s = 101325.0 Pa/s|
 
 [Go to Code](shared/src/main/scala/squants2/motion/PressureChange.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/PressureChange)
 
 ## ElectricChargeMassRatio
-#### Primary Unit: CoulombsPerKilogram (1 C/kg)
-#### SI Unit: CoulombsPerKilogram (1 C/kg)
+#### SI Unit: CoulombsPerKilogram (symbol: C/kg)
+#### Primary Unit: CoulombsPerKilogram (symbol: C/kg)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 
 [Go to Code](shared/src/main/scala/squants2/electro/ElectricChargeMassRatio.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/ElectricChargeMassRatio)
 
 ## Pressure
-#### Primary Unit: Pascals (1 Pa)
-#### SI Unit: Pascals (1 Pa)
+#### SI Unit: Pascals (symbol: Pa)
+#### Primary Unit: Pascals (symbol: Pa)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 |Torrs| 1 Torr = 133.32236842105263 Pa|
@@ -422,11 +400,10 @@
 |StandardAtmospheres| 1 atm = 101325.0 Pa|
 
 [Go to Code](shared/src/main/scala/squants2/motion/Pressure.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/Pressure)
 
 ## Angle
-#### Primary Unit: Radians (1 rad)
-#### SI Unit: Radians (1 rad)
+#### SI Unit: Radians (symbol: rad)
+#### Primary Unit: Radians (symbol: rad)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 |Arcseconds| 1 ° = 0.000004848136811095360000000000000000001 rad|
@@ -436,39 +413,35 @@
 |Turns| 1 ° = 6.283185307179586 rad|
 
 [Go to Code](shared/src/main/scala/squants2/space/Angle.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/Angle)
 
 ## SolidAngle
-#### Primary Unit: SquaredRadians (1 sr)
-#### SI Unit: SquaredRadians (1 sr)
+#### SI Unit: SquaredRadians (symbol: sr)
+#### Primary Unit: SquaredRadians (symbol: sr)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 
 [Go to Code](shared/src/main/scala/squants2/space/SolidAngle.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/SolidAngle)
 
 ## ThermalCapacity
-#### Primary Unit: JoulesPerKelvin (1 J/K)
-#### SI Unit: JoulesPerKelvin (1 J/K)
+#### SI Unit: JoulesPerKelvin (symbol: J/K)
+#### Primary Unit: JoulesPerKelvin (symbol: J/K)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 
 [Go to Code](shared/src/main/scala/squants2/thermal/ThermalCapacity.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/ThermalCapacity)
 
 ## Torque
-#### Primary Unit: NewtonMeters (1 N‧m)
-#### SI Unit: NewtonMeters (1 N‧m)
+#### SI Unit: NewtonMeters (symbol: N‧m)
+#### Primary Unit: NewtonMeters (symbol: N‧m)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 |PoundFeet| 1 lb‧ft = 1.3558206599672968 N‧m|
 
 [Go to Code](shared/src/main/scala/squants2/motion/Torque.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/Torque)
 
 ## Information
-#### Primary Unit: Bytes (1 B)
-#### SI Unit: Bytes (1 B)
+#### SI Unit: Bytes (symbol: B)
+#### Primary Unit: Bytes (symbol: B)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 |Bits| 1 bit = 0.125 B|
@@ -506,20 +479,18 @@
 |Yobibytes| 1 YiB = 1.2089258196146292E+24 B|
 
 [Go to Code](shared/src/main/scala/squants2/information/Information.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/Information)
 
 ## ElectricChargeDensity
-#### Primary Unit: CoulombsPerCubicMeter (1 C/m³)
-#### SI Unit: CoulombsPerCubicMeter (1 C/m³)
+#### SI Unit: CoulombsPerCubicMeter (symbol: C/m³)
+#### Primary Unit: CoulombsPerCubicMeter (symbol: C/m³)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 
 [Go to Code](shared/src/main/scala/squants2/electro/ElectricChargeDensity.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/ElectricChargeDensity)
 
 ## DataRate
-#### Primary Unit: BytesPerSecond (1 B/s)
-#### SI Unit: BytesPerSecond (1 B/s)
+#### SI Unit: BytesPerSecond (symbol: B/s)
+#### Primary Unit: BytesPerSecond (symbol: B/s)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 |BitsPerSecond| 1 bps = 0.125 B/s|
@@ -557,47 +528,42 @@
 |YobibytesPerSecond| 1 YiB/s = 1.2089258196146292E+24 B/s|
 
 [Go to Code](shared/src/main/scala/squants2/information/DataRate.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/DataRate)
 
 ## ElectricCurrentDensity
-#### Primary Unit: AmperesPerSquareMeter (1 A/m²)
-#### SI Unit: AmperesPerSquareMeter (1 A/m²)
+#### SI Unit: AmperesPerSquareMeter (symbol: A/m²)
+#### Primary Unit: AmperesPerSquareMeter (symbol: A/m²)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 
 [Go to Code](shared/src/main/scala/squants2/electro/ElectricCurrentDensity.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/ElectricCurrentDensity)
 
 ## PowerDensity
-#### Primary Unit: WattsPerCubicMeter (1 W/m³)
-#### SI Unit: WattsPerCubicMeter (1 W/m³)
+#### SI Unit: WattsPerCubicMeter (symbol: W/m³)
+#### Primary Unit: WattsPerCubicMeter (symbol: W/m³)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 
 [Go to Code](shared/src/main/scala/squants2/energy/PowerDensity.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/PowerDensity)
 
 ## Luminance
-#### Primary Unit: CandelasPerSquareMeter (1 cd/m²)
-#### SI Unit: CandelasPerSquareMeter (1 cd/m²)
+#### SI Unit: CandelasPerSquareMeter (symbol: cd/m²)
+#### Primary Unit: CandelasPerSquareMeter (symbol: cd/m²)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 
 [Go to Code](shared/src/main/scala/squants2/photo/Luminance.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/Luminance)
 
 ## LuminousFlux
-#### Primary Unit: Lumens (1 lm)
-#### SI Unit: Lumens (1 lm)
+#### SI Unit: Lumens (symbol: lm)
+#### Primary Unit: Lumens (symbol: lm)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 
 [Go to Code](shared/src/main/scala/squants2/photo/LuminousFlux.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/LuminousFlux)
 
 ## ElectricCharge
-#### Primary Unit: Coulombs (1 C)
-#### SI Unit: Coulombs (1 C)
+#### SI Unit: Coulombs (symbol: C)
+#### Primary Unit: Coulombs (symbol: C)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 |Picocoulombs| 1 pC = 1.0E-12 C|
@@ -610,11 +576,10 @@
 |AmpereHours| 1 Ah = 3600.0 C|
 
 [Go to Code](shared/src/main/scala/squants2/electro/ElectricCharge.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/ElectricCharge)
 
 ## Force
-#### Primary Unit: Newtons (1 N)
-#### SI Unit: Newtons (1 N)
+#### SI Unit: Newtons (symbol: N)
+#### Primary Unit: Newtons (symbol: N)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 |MegaElectronVoltsPerCentimeter| 1 MeV/cm = 1.602176565E-11 N|
@@ -623,11 +588,10 @@
 |KilogramForce| 1 kgf = 9.80665 N|
 
 [Go to Code](shared/src/main/scala/squants2/motion/Force.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/Force)
 
 ## PowerRamp
-#### Primary Unit: WattsPerHour (1 W/h)
-#### SI Unit: WattsPerHour (1 W/h)
+#### SI Unit: WattsPerHour (symbol: W/h)
+#### Primary Unit: WattsPerHour (symbol: W/h)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 |WattsPerMinute| 1 W/m = 0.016666666666666666 W/h|
@@ -637,20 +601,18 @@
 |GigawattsPerHour| 1 GW/h = 1.0E+9 W/h|
 
 [Go to Code](shared/src/main/scala/squants2/energy/PowerRamp.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/PowerRamp)
 
 ## LuminousExposure
-#### Primary Unit: LuxSeconds (1 lx⋅s)
-#### SI Unit: LuxSeconds (1 lx⋅s)
+#### SI Unit: LuxSeconds (symbol: lx⋅s)
+#### Primary Unit: LuxSeconds (symbol: lx⋅s)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 
 [Go to Code](shared/src/main/scala/squants2/photo/LuminousExposure.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/LuminousExposure)
 
 ## Capacitance
-#### Primary Unit: Farads (1 F)
-#### SI Unit: Farads (1 F)
+#### SI Unit: Farads (symbol: F)
+#### Primary Unit: Farads (symbol: F)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 |Picofarads| 1 pF = 1.0E-12 F|
@@ -660,11 +622,10 @@
 |Kilofarads| 1 kF = 1000.0 F|
 
 [Go to Code](shared/src/main/scala/squants2/electro/Capacitance.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/Capacitance)
 
 ## ElectricalResistance
-#### Primary Unit: Ohms (1 Ω)
-#### SI Unit: Ohms (1 Ω)
+#### SI Unit: Ohms (symbol: Ω)
+#### Primary Unit: Ohms (symbol: Ω)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 |Nanohms| 1 nΩ = 1.0E-9 Ω|
@@ -675,49 +636,44 @@
 |Gigohms| 1 GΩ = 1.0E+9 Ω|
 
 [Go to Code](shared/src/main/scala/squants2/electro/ElectricalResistance.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/ElectricalResistance)
 
 ## Jerk
-#### Primary Unit: MetersPerSecondCubed (1 m/s³)
-#### SI Unit: MetersPerSecondCubed (1 m/s³)
+#### SI Unit: MetersPerSecondCubed (symbol: m/s³)
+#### Primary Unit: MetersPerSecondCubed (symbol: m/s³)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 |FeetPerSecondCubed| 1 ft/s³ = 0.3048006096 m/s³|
 
 [Go to Code](shared/src/main/scala/squants2/motion/Jerk.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/Jerk)
 
 ## LinearElectricChargeDensity
-#### Primary Unit: CoulombsPerMeter (1 C/m)
-#### SI Unit: CoulombsPerMeter (1 C/m)
+#### SI Unit: CoulombsPerMeter (symbol: C/m)
+#### Primary Unit: CoulombsPerMeter (symbol: C/m)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 
 [Go to Code](shared/src/main/scala/squants2/electro/LinearElectricChargeDensity.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/LinearElectricChargeDensity)
 
 ## ParticleFlux
-#### Primary Unit: BecquerelsPerSquareMeterSecond (1 Bq/m²‧s)
-#### SI Unit: BecquerelsPerSquareMeterSecond (1 Bq/m²‧s)
+#### SI Unit: BecquerelsPerSquareMeterSecond (symbol: Bq/m²‧s)
+#### Primary Unit: BecquerelsPerSquareMeterSecond (symbol: Bq/m²‧s)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 |BecquerelsPerSquareCentimeterSecond| 1 Bq/cm²‧s = 10000.0 Bq/m²‧s|
 
 [Go to Code](shared/src/main/scala/squants2/radio/ParticleFlux.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/ParticleFlux)
 
 ## AreaElectricChargeDensity
-#### Primary Unit: CoulombsPerSquareMeter (1 C/m²)
-#### SI Unit: CoulombsPerSquareMeter (1 C/m²)
+#### SI Unit: CoulombsPerSquareMeter (symbol: C/m²)
+#### Primary Unit: CoulombsPerSquareMeter (symbol: C/m²)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 
 [Go to Code](shared/src/main/scala/squants2/electro/AreaElectricChargeDensity.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/AreaElectricChargeDensity)
 
 ## VolumeFlow
-#### Primary Unit: CubicMetersPerSecond (1 m³/s)
-#### SI Unit: CubicMetersPerSecond (1 m³/s)
+#### SI Unit: CubicMetersPerSecond (symbol: m³/s)
+#### Primary Unit: CubicMetersPerSecond (symbol: m³/s)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 |NanolitresPerDay| 1 nl/d = 1.1574074074074075E-17 m³/s|
@@ -743,11 +699,10 @@
 |GallonsPerSecond| 1 GPS = 0.0037854117839999997 m³/s|
 
 [Go to Code](shared/src/main/scala/squants2/motion/VolumeFlow.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/VolumeFlow)
 
 ## SpectralIrradiance
-#### Primary Unit: WattsPerCubicMeter (1 W/m³)
-#### SI Unit: WattsPerCubicMeter (1 W/m³)
+#### SI Unit: WattsPerCubicMeter (symbol: W/m³)
+#### Primary Unit: WattsPerCubicMeter (symbol: W/m³)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 |WattsPerSquareMeterPerMicron| 1 W/m²/µm = 1000000.0 W/m³|
@@ -755,48 +710,43 @@
 |WattsPerSquareMeterPerNanometer| 1 W/m²/nm = 999999999.9999999 W/m³|
 
 [Go to Code](shared/src/main/scala/squants2/radio/SpectralIrradiance.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/SpectralIrradiance)
 
 ## Permittivity
-#### Primary Unit: FaradsPerMeter (1 F/m)
-#### SI Unit: FaradsPerMeter (1 F/m)
+#### SI Unit: FaradsPerMeter (symbol: F/m)
+#### Primary Unit: FaradsPerMeter (symbol: F/m)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 
 [Go to Code](shared/src/main/scala/squants2/electro/Permittivity.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/Permittivity)
 
 ## Illuminance
-#### Primary Unit: Lux (1 lx)
-#### SI Unit: Lux (1 lx)
+#### SI Unit: Lux (symbol: lx)
+#### Primary Unit: Lux (symbol: lx)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 
 [Go to Code](shared/src/main/scala/squants2/photo/Illuminance.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/Illuminance)
 
 ## ElectricFieldStrength
-#### Primary Unit: VoltsPerMeter (1 V/m)
-#### SI Unit: VoltsPerMeter (1 V/m)
+#### SI Unit: VoltsPerMeter (symbol: V/m)
+#### Primary Unit: VoltsPerMeter (symbol: V/m)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 
 [Go to Code](shared/src/main/scala/squants2/electro/ElectricFieldStrength.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/ElectricFieldStrength)
 
 ## Volume
-#### Primary Unit: CubicMeters (1 m³)
-#### SI Unit: CubicMeters (1 m³)
+#### SI Unit: CubicMeters (symbol: m³)
+#### Primary Unit: CubicMeters (symbol: m³)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 |CubicFeet| 1 ft³ = 0.09290304 m³|
 
 [Go to Code](shared/src/main/scala/squants2/space/Volume.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/Volume)
 
 ## Frequency
-#### Primary Unit: Hertz (1 Hz)
-#### SI Unit: Hertz (1 Hz)
+#### SI Unit: Hertz (symbol: Hz)
+#### Primary Unit: Hertz (symbol: Hz)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 |RevolutionsPerMinute| 1 rpm = 0.016666666666666666 Hz|
@@ -806,21 +756,19 @@
 |Terahertz| 1 THz = 1.0E+12 Hz|
 
 [Go to Code](shared/src/main/scala/squants2/time/Frequency.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/Frequency)
 
 ## MomentOfInertia
-#### Primary Unit: KilogramsMetersSquared (1 kg‧m²)
-#### SI Unit: KilogramsMetersSquared (1 kg‧m²)
+#### SI Unit: KilogramsMetersSquared (symbol: kg‧m²)
+#### Primary Unit: KilogramsMetersSquared (symbol: kg‧m²)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 |PoundsSquareFeet| 1 lb‧ft² = 42.14027865441374 kg‧m²|
 
 [Go to Code](shared/src/main/scala/squants2/mass/MomentOfInertia.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/MomentOfInertia)
 
 ## MassFlow
-#### Primary Unit: KilogramsPerSecond (1 kg/s)
-#### SI Unit: KilogramsPerSecond (1 kg/s)
+#### SI Unit: KilogramsPerSecond (symbol: kg/s)
+#### Primary Unit: KilogramsPerSecond (symbol: kg/s)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 |PoundsPerHour| 1 lb/hr = 0.00012599788055555556 kg/s|
@@ -829,69 +777,62 @@
 |MegapoundsPerHour| 1 Mlb/hr = 125.99788055555557 kg/s|
 
 [Go to Code](shared/src/main/scala/squants2/motion/MassFlow.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/MassFlow)
 
 ## RadiantIntensity
-#### Primary Unit: WattsPerSteradian (1 W/sr)
-#### SI Unit: WattsPerSteradian (1 W/sr)
+#### SI Unit: WattsPerSteradian (symbol: W/sr)
+#### Primary Unit: WattsPerSteradian (symbol: W/sr)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 
 [Go to Code](shared/src/main/scala/squants2/radio/RadiantIntensity.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/RadiantIntensity)
 
 ## Radiance
-#### Primary Unit: WattsPerSteradianPerSquareMeter (1 W/sr/m²)
-#### SI Unit: WattsPerSteradianPerSquareMeter (1 W/sr/m²)
+#### SI Unit: WattsPerSteradianPerSquareMeter (symbol: W/sr/m²)
+#### Primary Unit: WattsPerSteradianPerSquareMeter (symbol: W/sr/m²)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 
 [Go to Code](shared/src/main/scala/squants2/radio/Radiance.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/Radiance)
 
 ## SpecificEnergy
-#### Primary Unit: Grays (1 Gy)
-#### SI Unit: Grays (1 Gy)
+#### SI Unit: Grays (symbol: Gy)
+#### Primary Unit: Grays (symbol: Gy)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 |ErgsPerGram| 1 erg/g = 0.00010 Gy|
 |Rads| 1 rad = 0.01 Gy|
 
 [Go to Code](shared/src/main/scala/squants2/energy/SpecificEnergy.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/SpecificEnergy)
 
 ## Permeability
-#### Primary Unit: HenriesPerMeter (1 H/m)
-#### SI Unit: HenriesPerMeter (1 H/m)
+#### SI Unit: HenriesPerMeter (symbol: H/m)
+#### Primary Unit: HenriesPerMeter (symbol: H/m)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 |NewtonsPerAmperesSquared| 1 N/A² = 1.0 H/m|
 
 [Go to Code](shared/src/main/scala/squants2/electro/Permeability.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/Permeability)
 
 ## SpectralPower
-#### Primary Unit: WattsPerMeter (1 W/m)
-#### SI Unit: WattsPerMeter (1 W/m)
+#### SI Unit: WattsPerMeter (symbol: W/m)
+#### Primary Unit: WattsPerMeter (symbol: W/m)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 
 [Go to Code](shared/src/main/scala/squants2/radio/SpectralPower.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/SpectralPower)
 
 ## Dose
-#### Primary Unit: Sieverts (1 Sv)
-#### SI Unit: Sieverts (1 Sv)
+#### SI Unit: Sieverts (symbol: Sv)
+#### Primary Unit: Sieverts (symbol: Sv)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 |Rems| 1 rem = 0.01 Sv|
 
 [Go to Code](shared/src/main/scala/squants2/radio/Dose.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/Dose)
 
 ## Density
-#### Primary Unit: KilogramsPerCubicMeter (1 kg/m³)
-#### SI Unit: KilogramsPerCubicMeter (1 kg/m³)
+#### SI Unit: KilogramsPerCubicMeter (symbol: kg/m³)
+#### Primary Unit: KilogramsPerCubicMeter (symbol: kg/m³)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 |NanogramsPerLitre| 1 ng/L = 1.0E-9 kg/m³|
@@ -916,20 +857,18 @@
 |KilogramsPerNanolitre| 1 kg/nl = 999999999999.9999 kg/m³|
 
 [Go to Code](shared/src/main/scala/squants2/mass/Density.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/Density)
 
 ## MolarEnergy
-#### Primary Unit: JoulesPerMole (1 J/mol)
-#### SI Unit: JoulesPerMole (1 J/mol)
+#### SI Unit: JoulesPerMole (symbol: J/mol)
+#### Primary Unit: JoulesPerMole (symbol: J/mol)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 
 [Go to Code](shared/src/main/scala/squants2/energy/MolarEnergy.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/MolarEnergy)
 
 ## AngularAcceleration
-#### Primary Unit: RadiansPerSecondSquared (1 rad/s²)
-#### SI Unit: RadiansPerSecondSquared (1 rad/s²)
+#### SI Unit: RadiansPerSecondSquared (symbol: rad/s²)
+#### Primary Unit: RadiansPerSecondSquared (symbol: rad/s²)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 |ArcsecondsPerSecondSquared| 1 asec/s² = 0.00000484813681109536 rad/s²|
@@ -939,21 +878,19 @@
 |TurnsPerSecondSquared| 1 turns/s² = 6.283185307179586 rad/s²|
 
 [Go to Code](shared/src/main/scala/squants2/motion/AngularAcceleration.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/AngularAcceleration)
 
 ## Irradiance
-#### Primary Unit: WattsPerSquareMeter (1 W/m²)
-#### SI Unit: WattsPerSquareMeter (1 W/m²)
+#### SI Unit: WattsPerSquareMeter (symbol: W/m²)
+#### Primary Unit: WattsPerSquareMeter (symbol: W/m²)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 |ErgsPerSecondPerSquareCentimeter| 1 erg/s/cm² = 0.0009999999999999998 W/m²|
 
 [Go to Code](shared/src/main/scala/squants2/radio/Irradiance.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/Irradiance)
 
 ## ElectricPotential
-#### Primary Unit: Volts (1 V)
-#### SI Unit: Volts (1 V)
+#### SI Unit: Volts (symbol: V)
+#### Primary Unit: Volts (symbol: V)
 |Unit|Conversion Factor|
 |----------------------------|-----------------------------------------------------------|
 |Microvolts| 1 μV = 0.0000010 V|
@@ -962,4 +899,3 @@
 |Megavolts| 1 MV = 1000000.0 V|
 
 [Go to Code](shared/src/main/scala/squants2/electro/ElectricPotential.scala)
- | [Go to Wiki](https://en.wikipedia.org/wiki/ElectricPotential)

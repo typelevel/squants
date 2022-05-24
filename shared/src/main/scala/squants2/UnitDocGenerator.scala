@@ -73,14 +73,15 @@ object UnitDocGenerator extends App {
       printer.println("")
       d match {
         case bd: BaseDimension =>
-          printer.println(s"## ${d.name.replace(" ", "")} - [ ${bd.dimensionSymbol} ]")
-          printer.println(s"#### Primary Unit: ${d.primaryUnit.getClass.getSimpleName.replace("$", "")} (1 ${d.primaryUnit.symbol})")
-          printer.println(s"#### SI Base Unit: ${d.siUnit.getClass.getSimpleName.replace("$", "")} (1 ${d.siUnit.symbol})")
+          printer.println(s"## ${d.name.replace(" ", "")}")
+          printer.println(s"##### Dimensional Symbol:  ${bd.dimensionSymbol}")
+          printer.println(s"##### SI Base Unit: ${d.siUnit.getClass.getSimpleName.replace("$", "")} (symbol: ${d.siUnit.symbol})")
+          printer.println(s"##### Primary Unit: ${d.primaryUnit.getClass.getSimpleName.replace("$", "")} (symbol: ${d.primaryUnit.symbol})")
 
         case _ =>
           printer.println(s"## ${d.name}")
-          printer.println(s"#### Primary Unit: ${d.primaryUnit.getClass.getSimpleName.replace("$", "")} (1 ${d.primaryUnit.symbol})")
-          printer.println(s"#### SI Unit: ${d.siUnit.getClass.getSimpleName.replace("$", "")} (1 ${d.siUnit.symbol})")
+          printer.println(s"#### SI Unit: ${d.siUnit.getClass.getSimpleName.replace("$", "")} (symbol: ${d.siUnit.symbol})")
+          printer.println(s"#### Primary Unit: ${d.primaryUnit.getClass.getSimpleName.replace("$", "")} (symbol: ${d.primaryUnit.symbol})")
       }
       printer.println("|Unit|Conversion Factor|")
       printer.println("|----------------------------|-----------------------------------------------------------|")
@@ -90,7 +91,6 @@ object UnitDocGenerator extends App {
       }
       printer.println("")
       printer.println(s"[Go to Code](shared/src/main/scala/${d.getClass.getPackage.getName.replace(".", "/")}/${d.getClass.getSimpleName.replace("$", "")}.scala)")
-      printer.println(s" | [Go to Wiki](https://en.wikipedia.org/wiki/${d.name.replace(" ", "_")})")
     }
   }
 }
