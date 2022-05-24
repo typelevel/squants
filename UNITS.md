@@ -1,4 +1,18 @@
 # Squants - Supported Dimensions and Units
+## Index
+
+|Package|Dimensions|
+|----------------------------|-----------------------------------------------------------|
+|time|[Time](#time), [Frequency](#frequency)|
+|energy|[PowerDensity](#powerdensity), [Energy](#energy), [Power](#power), [PowerRamp](#powerramp), [MolarEnergy](#molarenergy), [EnergyDensity](#energydensity), [SpecificEnergy](#specificenergy)|
+|photo|[LuminousExposure](#luminousexposure), [Luminance](#luminance), [LuminousIntensity](#luminousintensity), [LuminousEnergy](#luminousenergy), [LuminousFlux](#luminousflux), [Illuminance](#illuminance)|
+|mass|[AreaDensity](#areadensity), [MomentOfInertia](#momentofinertia), [Mass](#mass), [Density](#density), [ChemicalAmount](#chemicalamount)|
+|information|[DataRate](#datarate), [Information](#information)|
+|thermal|[ThermalCapacity](#thermalcapacity), [Temperature](#temperature)|
+|motion|[Acceleration](#acceleration), [AngularAcceleration](#angularacceleration), [MassFlow](#massflow), [Momentum](#momentum), [PressureChange](#pressurechange), [Jerk](#jerk), [VolumeFlow](#volumeflow), [Torque](#torque), [Force](#force), [Yank](#yank), [Pressure](#pressure), [AngularVelocity](#angularvelocity)|
+|electro|[Conductivity](#conductivity), [MagneticFluxDensity](#magneticfluxdensity), [ElectricalConductance](#electricalconductance), [ElectricCurrentDensity](#electriccurrentdensity), [LinearElectricChargeDensity](#linearelectricchargedensity), [Permittivity](#permittivity), [ElectricCurrent](#electriccurrent), [ElectricCharge](#electriccharge), [Inductance](#inductance), [AreaElectricChargeDensity](#areaelectricchargedensity), [ElectricFieldStrength](#electricfieldstrength), [MagneticFlux](#magneticflux), [Capacitance](#capacitance), [Resistivity](#resistivity), [Permeability](#permeability), [ElectricPotential](#electricpotential), [ElectricalResistance](#electricalresistance), [ElectricChargeMassRatio](#electricchargemassratio), [ElectricChargeDensity](#electricchargedensity)|
+|radio|[RadiantIntensity](#radiantintensity), [Radiance](#radiance), [ParticleFlux](#particleflux), [AreaTime](#areatime), [Dose](#dose), [Activity](#activity), [SpectralIrradiance](#spectralirradiance), [Irradiance](#irradiance), [SpectralIntensity](#spectralintensity), [SpectralPower](#spectralpower)|
+|space|[SolidAngle](#solidangle), [Volume](#volume), [Area](#area), [Angle](#angle), [Length](#length)|
 #### Dimension Count: 70
 #### Unit Count: 237
 
@@ -353,10 +367,10 @@
 |KilogramsPerLitre| 1 kg/L = 1000.0 kg/m³|
 |GramsPerMillilitre| 1 g/ml = 1000.0000000000001 kg/m³|
 |MilligramsPerNanolitre| 1 mg/nl = 999999.9999999998 kg/m³|
-|KilogramsPerMillilitre| 1 kg/ml = 1000000.0 kg/m³|
 |GramsPerMicrolitre| 1 g/µl = 1000000.0 kg/m³|
-|KilogramsPerMicrolitre| 1 kg/µl = 9.999999999999999E8 kg/m³|
+|KilogramsPerMillilitre| 1 kg/ml = 1000000.0 kg/m³|
 |GramsPerNanolitre| 1 g/nl = 9.999999999999999E8 kg/m³|
+|KilogramsPerMicrolitre| 1 kg/µl = 9.999999999999999E8 kg/m³|
 |KilogramsPerNanolitre| 1 kg/nl = 9.999999999999999E11 kg/m³|
 
 [Go to Code](shared/src/main/scala/squants/mass/Density.scala)
@@ -378,8 +392,8 @@
 |Picocoulombs| 1 pC = 1.0E-12 C|
 |Nanocoulombs| 1 nC = 1.0E-9 C|
 |Microcoulombs| 1 µC = 1.0E-6 C|
-|Millicoulombs| 1 mC = 0.001 C|
 |MilliampereSeconds| 1 mAs = 0.001 C|
+|Millicoulombs| 1 mC = 0.001 C|
 |MilliampereHours| 1 mAh = 3.6 C|
 |Abcoulombs| 1 aC = 10.0 C|
 |AmpereHours| 1 Ah = 3600.0 C|

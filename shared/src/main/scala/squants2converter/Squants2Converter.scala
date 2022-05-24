@@ -54,6 +54,14 @@ object Squants2Converter extends App {
 
     printer.println("# Squants - Supported Dimensions and Units")
 
+    printer.println("## Index")
+    printer.println("")
+    printer.println("|Package|Dimensions|")
+    printer.println("|----------------------------|-----------------------------------------------------------|")
+    allDimensions.groupBy(d => d.getClass.getPackage.getName).foreach { case (p, ds) =>
+      printer.println(s"|${p.replace("squants.", "")}|${ds.map(d => s"[${d.name}](#${d.name.toLowerCase})").mkString(", ")}|")
+    }
+
     printer.println(s"#### Dimension Count: ${allDimensions.size}")
     printer.println(s"#### Unit Count: ${allDimensions.map(_.units.size).sum}")
 
