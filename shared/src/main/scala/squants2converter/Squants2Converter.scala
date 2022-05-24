@@ -48,7 +48,8 @@ object Squants2Converter extends App {
     Dimensionless
   )
 
-  writeDimensionFile(Frequency)
+//  writeDimensionFile(Frequency)
+  allDimensions.foreach(writeDimensionFile)
 
   def writeUnitsDoc(): Unit = {
     val file = new FileWriter("UNITS.md")
@@ -108,19 +109,38 @@ object Squants2Converter extends App {
   def writeDimensionFile(d: Dimension[_]): Unit = {
 
     val packageName = d.getClass.getPackage.getName.replace("squants.", "")
-    val path = s"shared/src/main/scala/squants2converter/$packageName/"
+    val path = s"shared/src/main/scala/squants2/$packageName/"
     if(!Files.exists(Path.of(path))) Files.createDirectory(Path.of(path))
+
+    if(Files.exists(Path.of(s"$path${d.name}.scala"))) return
+
     val file = new File(s"$path${d.name}.scala")
     val writer = new PrintWriter(file)
 
+    writer.println("/*                                                                      *\\")
+    writer.println("** Squants                                                              **")
+    writer.println("**                                                                      **")
+    writer.println("** Scala Quantities and Units of Measure Library and DSL                **")
+    writer.println("** (c) 2013-2022, Gary Keorkunian, et al                                **")
+    writer.println("**                                                                      **")
+    writer.println("\\*                                                                      */")
+    writer.println()
     writer.println(s"package ${d.getClass.getPackage.getName.replace("squants", "squants2")}")
     writer.println()
     writer.println("import squants2._")
+    writer.println("import scala.math.Numeric.Implicits.infixNumericOps")
     writer.println()
 
     writer.println(s"final case class ${d.name}[A: Numeric] private [squants2]  (value: A, unit: ${d.name}Unit)")
     writer.println(s"  extends Quantity[A, ${d.name}.type] {")
     writer.println(s"  override type Q[B] = ${d.name}[B]")
+    writer.println()
+    d.units.toList
+      .sortBy{(u: UnitOfMeasure[_]) => u.convertFrom(1d)}
+      .foreach { (u: UnitOfMeasure[_]) =>
+        val unitName = u.getClass.getSimpleName.replace("$", "")
+        writer.println(s"  def to$unitName: A = to($unitName)")
+      }
     writer.println(s"}")
     writer.println()
 
@@ -140,9 +160,26 @@ object Squants2Converter extends App {
       .sortBy{(u: UnitOfMeasure[_]) => u.convertFrom(1d)}
       .foreach { (u: UnitOfMeasure[_]) =>
         val unitName = u.getClass.getSimpleName.replace("$", "")
-        writer.println(s"    def ${unitName.head.toLower + unitName.tail}: ${d.name}[A] = $unitName(a)")
+        writer.println(s"    def ${unitName.head.toLower}${unitName.tail}: ${d.name}[A] = $unitName(a)")
       }
     writer.println(s"  }")
+    writer.println()
+
+    d.units.toList
+      .sortBy{(u: UnitOfMeasure[_]) => u.convertFrom(1d)}
+      .foreach { (u: UnitOfMeasure[_]) =>
+        val unitName = u.getClass.getSimpleName.replace("$", "")
+        writer.println(s"  lazy val ${unitName.head.toLower}${unitName.tail}: ${d.name}[Int] = $unitName(1)")
+      }
+
+    val primaryUnitName = d.primaryUnit.getClass.getSimpleName.replace("$", "")
+    writer.println()
+    writer.println(s"  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = ${d.name}Numeric[A]()")
+    writer.println(s"  private case class ${d.name}Numeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {")
+    writer.println(s"    override def times(x: Quantity[A, ${d.name}.type], y: Quantity[A, ${d.name}.type]): Quantity[A, ${d.name}.this.type] =")
+    writer.println(s"      $primaryUnitName(x.to($primaryUnitName) * y.to($primaryUnitName))")
+    writer.println(s"  }")
+
 
     writer.println(s"}")
     writer.println()
