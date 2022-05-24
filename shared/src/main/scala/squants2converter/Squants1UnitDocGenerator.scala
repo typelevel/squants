@@ -72,7 +72,7 @@ object Squants1UnitDocGenerator extends App {
     printer.println(s"|squants.market|[Money](#money) (${defaultCurrencySet.size})|")
 
     printer.println(s"#### Dimension Count: ${allDimensions.size + 1}")  // Add one for Money
-    printer.println(s"#### Unit Count: ${allDimensions.map(_.units.size).sum}")
+    printer.println(s"#### Unit Count: ${allDimensions.map(_.units.size).sum + defaultCurrencySet.size}")
 
     allDimensions.toList
       .sortBy { d => d.name }
