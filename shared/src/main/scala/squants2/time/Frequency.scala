@@ -63,7 +63,7 @@ abstract class FrequencyUnit(val symbol: String, val conversionFactor: Conversio
 
 case object RevolutionsPerMinute extends FrequencyUnit("rpm", 0.016666666666666666)
 case object Hertz extends FrequencyUnit("Hz", 1) with PrimaryUnit with SiUnit
-case object Kilohertz extends FrequencyUnit("kHz", 1000) with SiUnit
-case object Megahertz extends FrequencyUnit("MHz", 1000000) with SiUnit
-case object Gigahertz extends FrequencyUnit("GHz", 1000000000) with SiUnit
-case object Terahertz extends FrequencyUnit("THz", 1.0E12) with SiUnit
+case object Kilohertz extends FrequencyUnit("kHz", MetricSystem.Kilo) with SiUnit
+case object Megahertz extends FrequencyUnit("MHz", MetricSystem.Mega) with SiUnit
+case object Gigahertz extends FrequencyUnit("GHz", MetricSystem.Giga) with SiUnit
+case object Terahertz extends FrequencyUnit("THz", MetricSystem.Tera) with SiUnit

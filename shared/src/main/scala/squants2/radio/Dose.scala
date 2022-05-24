@@ -49,5 +49,5 @@ abstract class DoseUnit(val symbol: String, val conversionFactor: ConversionFact
   override def apply[A: Numeric](value: A): Dose[A] = Dose(value, this)
 }
 
-case object Rems extends DoseUnit("rem", 0.01)
+case object Rems extends DoseUnit("rem", MetricSystem.Centi)
 case object Sieverts extends DoseUnit("Sv", 1) with PrimaryUnit with SiUnit

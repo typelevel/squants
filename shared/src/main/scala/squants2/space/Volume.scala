@@ -106,8 +106,8 @@ abstract class VolumeUnit(val symbol: String, val conversionFactor: ConversionFa
 }
 
 case object Nanolitres extends VolumeUnit("nl", 1.0000000000000002E-12)
-case object Microlitres extends VolumeUnit("µl", 1.0E-9)
-case object Millilitres extends VolumeUnit("ml", 1.0E-6)
+case object Microlitres extends VolumeUnit("µl", MetricSystem.Nano)
+case object Millilitres extends VolumeUnit("ml", MetricSystem.Micro)
 case object Teaspoons extends VolumeUnit("tsp", 4.92892159375E-6)
 case object Centilitres extends VolumeUnit("cl", 1.0E-5)
 case object Tablespoons extends VolumeUnit("tbsp", 1.4786764781249999E-5)
@@ -117,10 +117,10 @@ case object Decilitres extends VolumeUnit("dl", 1.0E-4)
 case object UsCups extends VolumeUnit("c", 2.3658823649999998E-4)
 case object UsPints extends VolumeUnit("pt", 4.7317647299999996E-4)
 case object UsQuarts extends VolumeUnit("qt", 9.463529459999999E-4)
-case object Litres extends VolumeUnit("L", 0.001)
+case object Litres extends VolumeUnit("L", MetricSystem.Milli)
 case object UsGallons extends VolumeUnit("gal", 0.0037854117839999997)
 case object CubicFeet extends VolumeUnit("ft³", 0.028317016493419354)
-case object Hectolitres extends VolumeUnit("hl", 0.1)
+case object Hectolitres extends VolumeUnit("hl", MetricSystem.Deci)
 case object CubicYards extends VolumeUnit("yd³", 0.7645594453223226)
 case object CubicMeters extends VolumeUnit("m³", 1) with PrimaryUnit with SiUnit
 case object AcreFeet extends VolumeUnit("acft", 1233.489238453347)

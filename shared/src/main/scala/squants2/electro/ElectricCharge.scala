@@ -70,12 +70,12 @@ abstract class ElectricChargeUnit(val symbol: String, val conversionFactor: Conv
   override def apply[A: Numeric](value: A): ElectricCharge[A] = ElectricCharge(value, this)
 }
 
-case object Picocoulombs extends ElectricChargeUnit("pC", 1.0E-12) with SiUnit
-case object Nanocoulombs extends ElectricChargeUnit("nC", 1.0E-9) with SiUnit
-case object Microcoulombs extends ElectricChargeUnit("µC", 1.0E-6) with SiUnit
-case object MilliampereSeconds extends ElectricChargeUnit("mAs", 0.001)
-case object Millicoulombs extends ElectricChargeUnit("mC", 0.001) with SiUnit
+case object Picocoulombs extends ElectricChargeUnit("pC", MetricSystem.Pico) with SiUnit
+case object Nanocoulombs extends ElectricChargeUnit("nC", MetricSystem.Nano) with SiUnit
+case object Microcoulombs extends ElectricChargeUnit("µC", MetricSystem.Micro) with SiUnit
+case object MilliampereSeconds extends ElectricChargeUnit("mAs", MetricSystem.Milli)
+case object Millicoulombs extends ElectricChargeUnit("mC", MetricSystem.Milli) with SiUnit
 case object Coulombs extends ElectricChargeUnit("C", 1) with PrimaryUnit with SiUnit
 case object MilliampereHours extends ElectricChargeUnit("mAh", 3.6)
-case object Abcoulombs extends ElectricChargeUnit("aC", 10)
+case object Abcoulombs extends ElectricChargeUnit("aC", MetricSystem.Deca)
 case object AmpereHours extends ElectricChargeUnit("Ah", 3600)

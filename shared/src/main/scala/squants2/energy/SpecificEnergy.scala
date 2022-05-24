@@ -53,5 +53,5 @@ abstract class SpecificEnergyUnit(val symbol: String, val conversionFactor: Conv
 }
 
 case object ErgsPerGram extends SpecificEnergyUnit("erg/g", 1.0E-4)
-case object Rads extends SpecificEnergyUnit("rad", 0.01)
+case object Rads extends SpecificEnergyUnit("rad", MetricSystem.Centi)
 case object Grays extends SpecificEnergyUnit("Gy", 1) with PrimaryUnit with SiUnit

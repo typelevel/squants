@@ -118,16 +118,16 @@ case object NanolitresPerSecond extends VolumeFlowUnit("nl/s", 1.000000000000000
 case object MillilitresPerDay extends VolumeFlowUnit("ml/d", 1.1574074074074074E-11) with SiUnit
 case object MicrolitresPerMinute extends VolumeFlowUnit("µl/min", 1.6666666666666667E-11) with SiUnit
 case object MillilitresPerHour extends VolumeFlowUnit("ml/h", 2.7777777777777777E-10) with SiUnit
-case object MicrolitresPerSecond extends VolumeFlowUnit("µl/s", 1.0E-9) with SiUnit
+case object MicrolitresPerSecond extends VolumeFlowUnit("µl/s", MetricSystem.Nano) with SiUnit
 case object LitresPerDay extends VolumeFlowUnit("L/d", 1.1574074074074074E-8) with SiUnit
 case object MillilitresPerMinute extends VolumeFlowUnit("ml/min", 1.6666666666666667E-8) with SiUnit
 case object GallonsPerDay extends VolumeFlowUnit("GPD", 4.3812636388888886E-8)
 case object LitresPerHour extends VolumeFlowUnit("L/h", 2.7777777777777776E-7) with SiUnit
-case object MillilitresPerSecond extends VolumeFlowUnit("ml/s", 1.0E-6) with SiUnit
+case object MillilitresPerSecond extends VolumeFlowUnit("ml/s", MetricSystem.Micro) with SiUnit
 case object GallonsPerHour extends VolumeFlowUnit("GPH", 1.0515032733333332E-6)
 case object CubicFeetPerHour extends VolumeFlowUnit("ft³/hr", 7.86583791483871E-6)
 case object LitresPerMinute extends VolumeFlowUnit("L/min", 1.6666666666666667E-5) with SiUnit
 case object GallonsPerMinute extends VolumeFlowUnit("GPM", 6.309019639999999E-5)
-case object LitresPerSecond extends VolumeFlowUnit("L/s", 0.001) with SiUnit
+case object LitresPerSecond extends VolumeFlowUnit("L/s", MetricSystem.Milli) with SiUnit
 case object GallonsPerSecond extends VolumeFlowUnit("GPS", 0.0037854117839999997)
 case object CubicMetersPerSecond extends VolumeFlowUnit("m³/s", 1) with PrimaryUnit with SiUnit

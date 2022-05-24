@@ -58,8 +58,8 @@ abstract class InductanceUnit(val symbol: String, val conversionFactor: Conversi
   override def apply[A: Numeric](value: A): Inductance[A] = Inductance(value, this)
 }
 
-case object Picohenry extends InductanceUnit("pH", 1.0E-12) with SiUnit
-case object Nanohenry extends InductanceUnit("nH", 1.0E-9) with SiUnit
-case object Microhenry extends InductanceUnit("μH", 1.0E-6) with SiUnit
-case object Millihenry extends InductanceUnit("mH", 0.001) with SiUnit
+case object Picohenry extends InductanceUnit("pH", MetricSystem.Pico) with SiUnit
+case object Nanohenry extends InductanceUnit("nH", MetricSystem.Nano) with SiUnit
+case object Microhenry extends InductanceUnit("μH", MetricSystem.Micro) with SiUnit
+case object Millihenry extends InductanceUnit("mH", MetricSystem.Milli) with SiUnit
 case object Henry extends InductanceUnit("H", 1) with PrimaryUnit with SiUnit

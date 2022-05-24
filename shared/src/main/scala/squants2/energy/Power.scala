@@ -68,10 +68,10 @@ abstract class PowerUnit(val symbol: String, val conversionFactor: ConversionFac
 }
 
 case object ErgsPerSecond extends PowerUnit("erg/s", 1.0E-7)
-case object Milliwatts extends PowerUnit("mW", 0.001) with SiUnit
+case object Milliwatts extends PowerUnit("mW", MetricSystem.Milli) with SiUnit
 case object BtusPerHour extends PowerUnit("Btu/hr", 0.2930710701722222)
 case object Watts extends PowerUnit("W", 1) with PrimaryUnit with SiUnit
-case object Kilowatts extends PowerUnit("kW", 1000) with SiUnit
-case object Megawatts extends PowerUnit("MW", 1000000) with SiUnit
-case object Gigawatts extends PowerUnit("GW", 1000000000) with SiUnit
+case object Kilowatts extends PowerUnit("kW", MetricSystem.Kilo) with SiUnit
+case object Megawatts extends PowerUnit("MW", MetricSystem.Mega) with SiUnit
+case object Gigawatts extends PowerUnit("GW", MetricSystem.Giga) with SiUnit
 case object SolarLuminosities extends PowerUnit("L☉", 3.828E26)

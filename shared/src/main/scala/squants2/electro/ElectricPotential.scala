@@ -58,8 +58,8 @@ abstract class ElectricPotentialUnit(val symbol: String, val conversionFactor: C
   override def apply[A: Numeric](value: A): ElectricPotential[A] = ElectricPotential(value, this)
 }
 
-case object Microvolts extends ElectricPotentialUnit("μV", 1.0E-6) with SiUnit
-case object Millivolts extends ElectricPotentialUnit("mV", 0.001) with SiUnit
+case object Microvolts extends ElectricPotentialUnit("μV", MetricSystem.Micro) with SiUnit
+case object Millivolts extends ElectricPotentialUnit("mV", MetricSystem.Milli) with SiUnit
 case object Volts extends ElectricPotentialUnit("V", 1) with PrimaryUnit with SiUnit
-case object Kilovolts extends ElectricPotentialUnit("kV", 1000) with SiUnit
-case object Megavolts extends ElectricPotentialUnit("MV", 1000000) with SiUnit
+case object Kilovolts extends ElectricPotentialUnit("kV", MetricSystem.Kilo) with SiUnit
+case object Megavolts extends ElectricPotentialUnit("MV", MetricSystem.Mega) with SiUnit

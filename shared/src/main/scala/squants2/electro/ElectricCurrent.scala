@@ -49,5 +49,5 @@ abstract class ElectricCurrentUnit(val symbol: String, val conversionFactor: Con
   override def apply[A: Numeric](value: A): ElectricCurrent[A] = ElectricCurrent(value, this)
 }
 
-case object Milliamperes extends ElectricCurrentUnit("mA", 0.001) with SiUnit
+case object Milliamperes extends ElectricCurrentUnit("mA", MetricSystem.Milli) with SiUnit
 case object Amperes extends ElectricCurrentUnit("A", 1) with PrimaryUnit with SiBaseUnit

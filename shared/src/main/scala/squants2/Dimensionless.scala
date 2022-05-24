@@ -67,7 +67,7 @@ abstract class DimensionlessUnit(val symbol: String, val conversionFactor: Conve
   override def apply[A: Numeric](value: A): Dimensionless[A] = Dimensionless(value, this)
 }
 
-case object Percent extends DimensionlessUnit("%", 0.01)
+case object Percent extends DimensionlessUnit("%", MetricSystem.Centi)
 case object Each extends DimensionlessUnit("ea", 1) with PrimaryUnit with SiUnit
 case object Dozen extends DimensionlessUnit("dz", 12)
 case object Score extends DimensionlessUnit("score", 20)

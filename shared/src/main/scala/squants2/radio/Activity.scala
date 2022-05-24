@@ -53,5 +53,5 @@ abstract class ActivityUnit(val symbol: String, val conversionFactor: Conversion
 }
 
 case object Becquerels extends ActivityUnit("Bq", 1) with PrimaryUnit with SiUnit
-case object Rutherfords extends ActivityUnit("Rd", 1000000)
+case object Rutherfords extends ActivityUnit("Rd", MetricSystem.Mega)
 case object Curies extends ActivityUnit("Ci", 3.7E10)

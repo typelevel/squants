@@ -135,15 +135,15 @@ case object PetaElectronVolt extends EnergyUnit("PeV", 4.4504904583333336E-8)
 case object Millijoules extends EnergyUnit("mJ", 2.7777777777777776E-7) with SiUnit
 case object ExaElectronVolt extends EnergyUnit("EeV", 4.4504904583333335E-5)
 case object Joules extends EnergyUnit("J", 2.777777777777778E-4) with SiUnit
-case object MilliwattHours extends EnergyUnit("mWh", 0.001)
+case object MilliwattHours extends EnergyUnit("mWh", MetricSystem.Milli)
 case object Kilojoules extends EnergyUnit("kJ", 0.2777777777777778) with SiUnit
 case object BritishThermalUnits extends EnergyUnit("Btu", 0.2930710701722222)
 case object WattHours extends EnergyUnit("Wh", 1) with PrimaryUnit
 case object Megajoules extends EnergyUnit("MJ", 277.77777777777777) with SiUnit
 case object MBtus extends EnergyUnit("MBtu", 293.0710701722222)
-case object KilowattHours extends EnergyUnit("kWh", 1000)
+case object KilowattHours extends EnergyUnit("kWh", MetricSystem.Kilo)
 case object Gigajoules extends EnergyUnit("GJ", 277777.77777777775) with SiUnit
 case object MMBtus extends EnergyUnit("MMBtu", 293071.0701722222)
-case object MegawattHours extends EnergyUnit("MWh", 1000000)
+case object MegawattHours extends EnergyUnit("MWh", MetricSystem.Mega)
 case object Terajoules extends EnergyUnit("TJ", 2.777777777777778E8) with SiUnit
-case object GigawattHours extends EnergyUnit("GWh", 1000000000)
+case object GigawattHours extends EnergyUnit("GWh", MetricSystem.Giga)

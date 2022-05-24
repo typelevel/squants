@@ -10,7 +10,7 @@ import scala.language.existentials
 
 object Squants2Converter extends App {
 
-//  writeDimensionFile(Frequency)
+  //  writeDimensionFile(Frequency)
   val dontProcess = Set(Temperature)
   Squants1UnitDocGenerator.allDimensions.--(dontProcess).foreach(writeDimensionFile)
 
@@ -21,7 +21,7 @@ object Squants2Converter extends App {
     if(!Files.exists(Path.of(path))) Files.createDirectory(Path.of(path))
     println(packageName)
 
-//    if(Files.exists(Path.of(s"$path${d.name}.scala"))) return
+    //    if(Files.exists(Path.of(s"$path${d.name}.scala"))) return
 
     val file = new File(s"$path${d.name}.scala")
     val writer = new PrintWriter(file)
@@ -50,9 +50,9 @@ object Squants2Converter extends App {
     writer.println("  // END CUSTOM OPS")
     writer.println()
     units.foreach { (u: UnitOfMeasure[_]) =>
-        val unitName = u.getClass.getSimpleName.replace("$", "")
-        writer.println(s"  def to$unitName: A = to($unitName)")
-      }
+      val unitName = u.getClass.getSimpleName.replace("$", "")
+      writer.println(s"  def to$unitName: A = to($unitName)")
+    }
     writer.println(s"}")
     writer.println()
 
@@ -76,16 +76,16 @@ object Squants2Converter extends App {
     writer.println()
     writer.println(s"  implicit class ${d.name}Cons[A](a: A)(implicit num: Numeric[A]) {")
     units.foreach { (u: UnitOfMeasure[_]) =>
-        val unitName = u.getClass.getSimpleName.replace("$", "")
-        writer.println(s"    def ${unitName.head.toLower}${unitName.tail}: ${d.name}[A] = $unitName(a)")
-      }
+      val unitName = u.getClass.getSimpleName.replace("$", "")
+      writer.println(s"    def ${unitName.head.toLower}${unitName.tail}: ${d.name}[A] = $unitName(a)")
+    }
     writer.println(s"  }")
     writer.println()
 
     units.foreach { (u: UnitOfMeasure[_]) =>
-        val unitName = u.getClass.getSimpleName.replace("$", "")
-        writer.println(s"  lazy val ${unitName.head.toLower}${unitName.tail}: ${d.name}[Int] = $unitName(1)")
-      }
+      val unitName = u.getClass.getSimpleName.replace("$", "")
+      writer.println(s"  lazy val ${unitName.head.toLower}${unitName.tail}: ${d.name}[Int] = $unitName(1)")
+    }
 
     val primaryUnitName = d.primaryUnit.getClass.getSimpleName.replace("$", "")
     writer.println()
@@ -104,24 +104,49 @@ object Squants2Converter extends App {
     writer.println(s"}")
     writer.println()
     units.foreach { (u: UnitOfMeasure[_]) =>
-        val convFactor = u.convertFrom(1d)
-        val convExp = if(convFactor.toInt == convFactor) convFactor.toInt.toString else convFactor.toString
+      val convFactor = u.convertFrom(1d)
+      val convExp = convFactor match {
+          case x if (x == MetricSystem.Yocto) => "MetricSystem.Yocto"
+          case x if (x == MetricSystem.Zepto) => "MetricSystem.Zepto"
+          case x if (x == MetricSystem.Atto)  => "MetricSystem.Atto"
+          case x if (x == MetricSystem.Femto) => "MetricSystem.Femto"
+          case x if (x == MetricSystem.Pico)  => "MetricSystem.Pico"
+          case x if (x == MetricSystem.Nano)  => "MetricSystem.Nano"
+          case x if (x == MetricSystem.Micro) => "MetricSystem.Micro"
+          case x if (x == MetricSystem.Milli) => "MetricSystem.Milli"
+          case x if (x == MetricSystem.Centi) => "MetricSystem.Centi"
+          case x if (x == MetricSystem.Deci)  => "MetricSystem.Deci"
 
-        u match {
-          case _: PrimaryUnit with SiBaseUnit =>
-            writer.print(s"case object ${u.getClass.getSimpleName.replace("$", "")} extends ${d.name}Unit(\"${u.symbol}\", 1) with PrimaryUnit with SiBaseUnit")
-          case _: PrimaryUnit with SiUnit =>
-            writer.print(s"case object ${u.getClass.getSimpleName.replace("$", "")} extends ${d.name}Unit(\"${u.symbol}\", 1) with PrimaryUnit with SiUnit")
-          case _: PrimaryUnit =>
-            writer.print(s"case object ${u.getClass.getSimpleName.replace("$", "")} extends ${d.name}Unit(\"${u.symbol}\", 1) with PrimaryUnit")
-          case _: SiBaseUnit =>
-            writer.print(s"case object ${u.getClass.getSimpleName.replace("$", "")} extends ${d.name}Unit(\"${u.symbol}\", $convExp) with SiBaseUnit")
-          case _: SiUnit =>
-            writer.print(s"case object ${u.getClass.getSimpleName.replace("$", "")} extends ${d.name}Unit(\"${u.symbol}\", $convExp) with SiUnit")
-          case _ =>
-            writer.print(s"case object ${u.getClass.getSimpleName.replace("$", "")} extends ${d.name}Unit(\"${u.symbol}\", $convExp)")
+          case x if (x == MetricSystem.Deca)  => "MetricSystem.Deca"
+          case x if (x == MetricSystem.Hecto) => "MetricSystem.Hecto"
+          case x if (x == MetricSystem.Kilo)  => "MetricSystem.Kilo"
+          case x if (x == MetricSystem.Mega)  => "MetricSystem.Mega"
+          case x if (x == MetricSystem.Giga)  => "MetricSystem.Giga"
+          case x if (x == MetricSystem.Tera)  => "MetricSystem.Tera"
+          case x if (x == MetricSystem.Peta)  => "MetricSystem.Peta"
+          case x if (x == MetricSystem.Exa)   => "MetricSystem.Exa"
+          case x if (x == MetricSystem.Zetta) => "MetricSystem.Zetta"
+          case x if (x == MetricSystem.Yotta) => "MetricSystem.Yotta"
+          case x if (x.toInt == x) => convFactor.toInt.toString
+          case _ => convFactor.toString
         }
-        writer.println()
+
+
+      u match {
+        case _: PrimaryUnit with SiBaseUnit =>
+          writer.print(s"case object ${u.getClass.getSimpleName.replace("$", "")} extends ${d.name}Unit(\"${u.symbol}\", 1) with PrimaryUnit with SiBaseUnit")
+        case _: PrimaryUnit with SiUnit =>
+          writer.print(s"case object ${u.getClass.getSimpleName.replace("$", "")} extends ${d.name}Unit(\"${u.symbol}\", 1) with PrimaryUnit with SiUnit")
+        case _: PrimaryUnit =>
+          writer.print(s"case object ${u.getClass.getSimpleName.replace("$", "")} extends ${d.name}Unit(\"${u.symbol}\", 1) with PrimaryUnit")
+        case _: SiBaseUnit =>
+          writer.print(s"case object ${u.getClass.getSimpleName.replace("$", "")} extends ${d.name}Unit(\"${u.symbol}\", $convExp) with SiBaseUnit")
+        case _: SiUnit =>
+          writer.print(s"case object ${u.getClass.getSimpleName.replace("$", "")} extends ${d.name}Unit(\"${u.symbol}\", $convExp) with SiUnit")
+        case _ =>
+          writer.print(s"case object ${u.getClass.getSimpleName.replace("$", "")} extends ${d.name}Unit(\"${u.symbol}\", $convExp)")
+      }
+      writer.println()
     }
 
     writer.flush()

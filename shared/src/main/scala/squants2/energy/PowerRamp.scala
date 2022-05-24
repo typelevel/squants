@@ -64,6 +64,6 @@ abstract class PowerRampUnit(val symbol: String, val conversionFactor: Conversio
 case object WattsPerMinute extends PowerRampUnit("W/m", 0.016666666666666666) with SiUnit
 case object WattsPerHour extends PowerRampUnit("W/h", 1) with PrimaryUnit with SiUnit
 case object KilowattsPerMinute extends PowerRampUnit("kW/m", 16.666666666666668) with SiUnit
-case object KilowattsPerHour extends PowerRampUnit("kW/h", 1000) with SiUnit
-case object MegawattsPerHour extends PowerRampUnit("MW/h", 1000000) with SiUnit
-case object GigawattsPerHour extends PowerRampUnit("GW/h", 1000000000) with SiUnit
+case object KilowattsPerHour extends PowerRampUnit("kW/h", MetricSystem.Kilo) with SiUnit
+case object MegawattsPerHour extends PowerRampUnit("MW/h", MetricSystem.Mega) with SiUnit
+case object GigawattsPerHour extends PowerRampUnit("GW/h", MetricSystem.Giga) with SiUnit

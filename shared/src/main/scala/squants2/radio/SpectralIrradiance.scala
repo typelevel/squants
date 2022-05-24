@@ -56,6 +56,6 @@ abstract class SpectralIrradianceUnit(val symbol: String, val conversionFactor: 
 }
 
 case object WattsPerCubicMeter extends SpectralIrradianceUnit("W/m³", 1) with PrimaryUnit with SiUnit
-case object WattsPerSquareMeterPerMicron extends SpectralIrradianceUnit("W/m²/µm", 1000000) with SiUnit
+case object WattsPerSquareMeterPerMicron extends SpectralIrradianceUnit("W/m²/µm", MetricSystem.Mega) with SiUnit
 case object ErgsPerSecondPerSquareCentimeterPerAngstrom extends SpectralIrradianceUnit("erg/s/cm²/Å", 9999999.999999998)
 case object WattsPerSquareMeterPerNanometer extends SpectralIrradianceUnit("W/m²/nm", 9.999999999999999E8) with SiUnit

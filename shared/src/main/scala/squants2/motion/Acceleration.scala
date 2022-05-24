@@ -59,7 +59,7 @@ abstract class AccelerationUnit(val symbol: String, val conversionFactor: Conver
 }
 
 case object UsMilesPerHourSquared extends AccelerationUnit("mph²", 1.2417802613333333E-4)
-case object MillimetersPerSecondSquared extends AccelerationUnit("mm/s²", 0.001) with SiUnit
+case object MillimetersPerSecondSquared extends AccelerationUnit("mm/s²", MetricSystem.Milli) with SiUnit
 case object FeetPerSecondSquared extends AccelerationUnit("ft/s²", 0.3048006096)
 case object MetersPerSecondSquared extends AccelerationUnit("m/s²", 1) with PrimaryUnit with SiUnit
 case object EarthGravities extends AccelerationUnit("g", 9.80665)

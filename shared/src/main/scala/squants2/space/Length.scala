@@ -143,22 +143,22 @@ abstract class LengthUnit(val symbol: String, val conversionFactor: ConversionFa
 
 case object Angstroms extends LengthUnit("Å", 1.0E-10)
 case object MilliElectronVoltLength extends LengthUnit("mħc/eV", 1.97327E-10)
-case object Nanometers extends LengthUnit("nm", 1.0E-9) with SiUnit
+case object Nanometers extends LengthUnit("nm", MetricSystem.Nano) with SiUnit
 case object ElectronVoltLength extends LengthUnit("ħc/eV", 1.97327E-7)
-case object Microns extends LengthUnit("µm", 1.0E-6) with SiUnit
+case object Microns extends LengthUnit("µm", MetricSystem.Micro) with SiUnit
 case object KiloElectronVoltLength extends LengthUnit("kħc/eV", 1.9732700000000002E-4)
-case object Millimeters extends LengthUnit("mm", 0.001) with SiUnit
-case object Centimeters extends LengthUnit("cm", 0.01) with SiUnit
+case object Millimeters extends LengthUnit("mm", MetricSystem.Milli) with SiUnit
+case object Centimeters extends LengthUnit("cm", MetricSystem.Centi) with SiUnit
 case object Inches extends LengthUnit("in", 0.0254000508)
-case object Decimeters extends LengthUnit("dm", 0.1) with SiUnit
+case object Decimeters extends LengthUnit("dm", MetricSystem.Deci) with SiUnit
 case object MegaElectronVoltLength extends LengthUnit("Mħc/eV", 0.197327)
 case object Feet extends LengthUnit("ft", 0.3048006096)
 case object Yards extends LengthUnit("yd", 0.9144018288)
 case object Meters extends LengthUnit("m", 1) with PrimaryUnit with SiBaseUnit
-case object Decameters extends LengthUnit("dam", 10) with SiUnit
-case object Hectometers extends LengthUnit("hm", 100) with SiUnit
+case object Decameters extends LengthUnit("dam", MetricSystem.Deca) with SiUnit
+case object Hectometers extends LengthUnit("hm", MetricSystem.Hecto) with SiUnit
 case object GigaElectronVoltLength extends LengthUnit("Għc/eV", 197.327)
-case object Kilometers extends LengthUnit("km", 1000) with SiUnit
+case object Kilometers extends LengthUnit("km", MetricSystem.Kilo) with SiUnit
 case object InternationalMiles extends LengthUnit("mile", 1609.344)
 case object UsMiles extends LengthUnit("mi", 1609.3472186879999)
 case object NauticalMiles extends LengthUnit("nmi", 1852)

@@ -133,9 +133,9 @@ case object Dalton extends MassUnit("Da", 1.6605390666E-24)
 case object TeraElectronVoltMass extends MassUnit("TeV/c²", 1.782662E-24)
 case object PetaElectronVoltMass extends MassUnit("PeV/c²", 1.782662E-21)
 case object ExaElectronVoltMass extends MassUnit("EeV/c²", 1.782662E-18)
-case object Nanograms extends MassUnit("ng", 1.0E-9) with SiUnit
-case object Micrograms extends MassUnit("mcg", 1.0E-6) with SiUnit
-case object Milligrams extends MassUnit("mg", 0.001) with SiUnit
+case object Nanograms extends MassUnit("ng", MetricSystem.Nano) with SiUnit
+case object Micrograms extends MassUnit("mcg", MetricSystem.Micro) with SiUnit
+case object Milligrams extends MassUnit("mg", MetricSystem.Milli) with SiUnit
 case object TroyGrains extends MassUnit("gr", 0.06479891)
 case object Carats extends MassUnit("ct", 0.2)
 case object Grams extends MassUnit("g", 1) with PrimaryUnit with SiUnit
@@ -145,9 +145,9 @@ case object Ounces extends MassUnit("oz", 28.349523125)
 case object TroyOunces extends MassUnit("oz t", 31.1034768)
 case object TroyPounds extends MassUnit("lb t", 373.2417216)
 case object Pounds extends MassUnit("lb", 453.59237)
-case object Kilograms extends MassUnit("kg", 1000) with SiBaseUnit
+case object Kilograms extends MassUnit("kg", MetricSystem.Kilo) with SiBaseUnit
 case object Stone extends MassUnit("st", 6350.293180000001)
 case object Megapounds extends MassUnit("Mlb", 453592.37)
 case object Kilopounds extends MassUnit("klb", 453592.37)
-case object Tonnes extends MassUnit("t", 1000000)
+case object Tonnes extends MassUnit("t", MetricSystem.Mega)
 case object SolarMasses extends MassUnit("M☉", 1.98855E33)
