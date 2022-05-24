@@ -64,7 +64,6 @@ abstract class TimeUnit(val symbol: String, val conversionFactor: ConversionFact
   override def apply[A: Numeric](value: A): Time[A] = Time(value, this)
 }
 
-case object Picoseconds extends TimeUnit("ps", MetricSystem.Pico)
 case object Nanoseconds extends TimeUnit("ns", 1.0E-6) with SiUnit
 case object Microseconds extends TimeUnit("µs", 0.001) with SiUnit
 case object Milliseconds extends TimeUnit("ms", 1) with SiUnit
@@ -74,4 +73,5 @@ case object Hours extends TimeUnit("h", 3600000.0)
 case object Days extends TimeUnit("d", 8.64E7)
 
 case object PlankTime extends TimeUnit("tp", 5.39E-44)
+case object Picoseconds extends TimeUnit("ps", MetricSystem.Pico)
 case object Weeks extends TimeUnit("w", 7 * Days.conversionFactor)

@@ -15,6 +15,9 @@ final case class Permeability[A: Numeric] private [squants2]  (value: A, unit: P
   extends Quantity[A, Permeability.type] {
   override type Q[B] = Permeability[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toHenriesPerMeter: A = to(HenriesPerMeter)
   def toNewtonsPerAmperesSquared: A = to(NewtonsPerAmperesSquared)
 }

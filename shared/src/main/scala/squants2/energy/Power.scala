@@ -15,6 +15,9 @@ final case class Power[A: Numeric] private [squants2]  (value: A, unit: PowerUni
   extends Quantity[A, Power.type] {
   override type Q[B] = Power[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toErgsPerSecond: A = to(ErgsPerSecond)
   def toMilliwatts: A = to(Milliwatts)
   def toBtusPerHour: A = to(BtusPerHour)

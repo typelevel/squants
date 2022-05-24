@@ -15,6 +15,9 @@ final case class Frequency[A: Numeric] private [squants2]  (value: A, unit: Freq
   extends Quantity[A, Frequency.type] {
   override type Q[B] = Frequency[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toRevolutionsPerMinute: A = to(RevolutionsPerMinute)
   def toHertz: A = to(Hertz)
   def toKilohertz: A = to(Kilohertz)

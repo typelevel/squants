@@ -15,6 +15,9 @@ final case class DataRate[A: Numeric] private [squants2]  (value: A, unit: DataR
   extends Quantity[A, DataRate.type] {
   override type Q[B] = DataRate[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toBitsPerSecond: A = to(BitsPerSecond)
   def toBytesPerSecond: A = to(BytesPerSecond)
   def toKilobitsPerSecond: A = to(KilobitsPerSecond)

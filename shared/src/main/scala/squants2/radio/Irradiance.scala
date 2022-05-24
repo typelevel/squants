@@ -15,6 +15,9 @@ final case class Irradiance[A: Numeric] private [squants2]  (value: A, unit: Irr
   extends Quantity[A, Irradiance.type] {
   override type Q[B] = Irradiance[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toErgsPerSecondPerSquareCentimeter: A = to(ErgsPerSecondPerSquareCentimeter)
   def toWattsPerSquareMeter: A = to(WattsPerSquareMeter)
 }

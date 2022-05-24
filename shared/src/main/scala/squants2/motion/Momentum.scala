@@ -15,6 +15,9 @@ final case class Momentum[A: Numeric] private [squants2]  (value: A, unit: Momen
   extends Quantity[A, Momentum.type] {
   override type Q[B] = Momentum[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toNewtonSeconds: A = to(NewtonSeconds)
 }
 

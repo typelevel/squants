@@ -15,6 +15,9 @@ final case class SolidAngle[A: Numeric] private [squants2]  (value: A, unit: Sol
   extends Quantity[A, SolidAngle.type] {
   override type Q[B] = SolidAngle[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toSquaredRadians: A = to(SquaredRadians)
 }
 

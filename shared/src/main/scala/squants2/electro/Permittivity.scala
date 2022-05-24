@@ -15,6 +15,9 @@ final case class Permittivity[A: Numeric] private [squants2]  (value: A, unit: P
   extends Quantity[A, Permittivity.type] {
   override type Q[B] = Permittivity[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toFaradsPerMeter: A = to(FaradsPerMeter)
 }
 

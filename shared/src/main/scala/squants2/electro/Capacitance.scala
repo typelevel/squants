@@ -15,6 +15,9 @@ final case class Capacitance[A: Numeric] private [squants2]  (value: A, unit: Ca
   extends Quantity[A, Capacitance.type] {
   override type Q[B] = Capacitance[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toPicofarads: A = to(Picofarads)
   def toNanofarads: A = to(Nanofarads)
   def toMicrofarads: A = to(Microfarads)

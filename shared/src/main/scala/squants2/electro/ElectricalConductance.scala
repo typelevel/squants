@@ -15,6 +15,9 @@ final case class ElectricalConductance[A: Numeric] private [squants2]  (value: A
   extends Quantity[A, ElectricalConductance.type] {
   override type Q[B] = ElectricalConductance[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toSiemens: A = to(Siemens)
 }
 

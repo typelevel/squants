@@ -15,6 +15,9 @@ final case class SpecificEnergy[A: Numeric] private [squants2]  (value: A, unit:
   extends Quantity[A, SpecificEnergy.type] {
   override type Q[B] = SpecificEnergy[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toErgsPerGram: A = to(ErgsPerGram)
   def toRads: A = to(Rads)
   def toGrays: A = to(Grays)

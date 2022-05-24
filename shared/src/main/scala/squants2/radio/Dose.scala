@@ -15,6 +15,9 @@ final case class Dose[A: Numeric] private [squants2]  (value: A, unit: DoseUnit)
   extends Quantity[A, Dose.type] {
   override type Q[B] = Dose[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toRems: A = to(Rems)
   def toSieverts: A = to(Sieverts)
 }

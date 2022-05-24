@@ -45,6 +45,11 @@ object Temperature extends BaseDimension("Temperature", "Θ") {
 
   lazy val absoluteZero: Temperature[Int] = Kelvin(0)
 
+  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = TemperatureNumeric[A]()
+  private case class TemperatureNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
+    override def times(x: Quantity[A, Temperature.type], y: Quantity[A, Temperature.type]): Quantity[A, Temperature.this.type] =
+      Kelvin(x.to(Kelvin) * y.to(Kelvin))
+  }
 }
 
 abstract class TemperatureUnit(val symbol: String, val conversionFactor: ConversionFactor, val zeroOffset: Double) extends UnitOfMeasure[Temperature.type] {

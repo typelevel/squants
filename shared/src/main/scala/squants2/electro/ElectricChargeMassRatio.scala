@@ -15,6 +15,9 @@ final case class ElectricChargeMassRatio[A: Numeric] private [squants2]  (value:
   extends Quantity[A, ElectricChargeMassRatio.type] {
   override type Q[B] = ElectricChargeMassRatio[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toCoulombsPerKilogram: A = to(CoulombsPerKilogram)
 }
 

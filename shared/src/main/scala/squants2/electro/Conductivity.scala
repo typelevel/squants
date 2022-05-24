@@ -15,6 +15,9 @@ final case class Conductivity[A: Numeric] private [squants2]  (value: A, unit: C
   extends Quantity[A, Conductivity.type] {
   override type Q[B] = Conductivity[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toSiemensPerMeter: A = to(SiemensPerMeter)
 }
 

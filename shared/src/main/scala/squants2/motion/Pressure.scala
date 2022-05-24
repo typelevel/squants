@@ -15,6 +15,9 @@ final case class Pressure[A: Numeric] private [squants2]  (value: A, unit: Press
   extends Quantity[A, Pressure.type] {
   override type Q[B] = Pressure[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toPascals: A = to(Pascals)
   def toTorrs: A = to(Torrs)
   def toMillimetersOfMercury: A = to(MillimetersOfMercury)

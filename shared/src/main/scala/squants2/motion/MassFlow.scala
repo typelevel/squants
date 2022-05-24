@@ -15,6 +15,9 @@ final case class MassFlow[A: Numeric] private [squants2]  (value: A, unit: MassF
   extends Quantity[A, MassFlow.type] {
   override type Q[B] = MassFlow[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toPoundsPerHour: A = to(PoundsPerHour)
   def toKilopoundsPerHour: A = to(KilopoundsPerHour)
   def toPoundsPerSecond: A = to(PoundsPerSecond)

@@ -15,6 +15,9 @@ final case class Activity[A: Numeric] private [squants2]  (value: A, unit: Activ
   extends Quantity[A, Activity.type] {
   override type Q[B] = Activity[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toBecquerels: A = to(Becquerels)
   def toRutherfords: A = to(Rutherfords)
   def toCuries: A = to(Curies)

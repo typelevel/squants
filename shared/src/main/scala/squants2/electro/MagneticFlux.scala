@@ -15,6 +15,9 @@ final case class MagneticFlux[A: Numeric] private [squants2]  (value: A, unit: M
   extends Quantity[A, MagneticFlux.type] {
   override type Q[B] = MagneticFlux[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toWebers: A = to(Webers)
 }
 

@@ -15,6 +15,9 @@ final case class Illuminance[A: Numeric] private [squants2]  (value: A, unit: Il
   extends Quantity[A, Illuminance.type] {
   override type Q[B] = Illuminance[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toLux: A = to(Lux)
 }
 

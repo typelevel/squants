@@ -15,6 +15,9 @@ final case class Yank[A: Numeric] private [squants2]  (value: A, unit: YankUnit)
   extends Quantity[A, Yank.type] {
   override type Q[B] = Yank[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toNewtonsPerSecond: A = to(NewtonsPerSecond)
 }
 

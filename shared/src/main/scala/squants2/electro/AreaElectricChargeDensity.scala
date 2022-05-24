@@ -15,6 +15,9 @@ final case class AreaElectricChargeDensity[A: Numeric] private [squants2]  (valu
   extends Quantity[A, AreaElectricChargeDensity.type] {
   override type Q[B] = AreaElectricChargeDensity[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toCoulombsPerSquareMeter: A = to(CoulombsPerSquareMeter)
 }
 

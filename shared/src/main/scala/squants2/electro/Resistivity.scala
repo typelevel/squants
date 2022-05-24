@@ -15,6 +15,9 @@ final case class Resistivity[A: Numeric] private [squants2]  (value: A, unit: Re
   extends Quantity[A, Resistivity.type] {
   override type Q[B] = Resistivity[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toOhmMeters: A = to(OhmMeters)
 }
 

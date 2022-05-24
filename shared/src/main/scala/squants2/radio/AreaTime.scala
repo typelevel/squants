@@ -15,6 +15,9 @@ final case class AreaTime[A: Numeric] private [squants2]  (value: A, unit: AreaT
   extends Quantity[A, AreaTime.type] {
   override type Q[B] = AreaTime[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toSquareCentimeterSeconds: A = to(SquareCentimeterSeconds)
   def toSquareMeterSeconds: A = to(SquareMeterSeconds)
 }

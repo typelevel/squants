@@ -15,6 +15,9 @@ final case class ElectricCharge[A: Numeric] private [squants2]  (value: A, unit:
   extends Quantity[A, ElectricCharge.type] {
   override type Q[B] = ElectricCharge[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toPicocoulombs: A = to(Picocoulombs)
   def toNanocoulombs: A = to(Nanocoulombs)
   def toMicrocoulombs: A = to(Microcoulombs)

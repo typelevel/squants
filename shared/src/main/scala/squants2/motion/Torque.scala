@@ -15,6 +15,9 @@ final case class Torque[A: Numeric] private [squants2]  (value: A, unit: TorqueU
   extends Quantity[A, Torque.type] {
   override type Q[B] = Torque[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toNewtonMeters: A = to(NewtonMeters)
   def toPoundFeet: A = to(PoundFeet)
 }

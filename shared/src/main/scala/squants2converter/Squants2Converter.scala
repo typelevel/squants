@@ -12,8 +12,8 @@ object Squants2Converter extends App {
 
   def writeDimensionFile(d: Dimension[_]): Unit = {
 
-    val packageName = d.getClass.getPackage.getName.replace("squants.", "")
-    val path = s"shared/src/main/scala/squants2/$packageName/"
+    val packageName = d.getClass.getPackage.getName.replace("squants.", "squants2/")
+    val path = s"shared/src/main/scala/$packageName/"
     if(!Files.exists(Path.of(path))) Files.createDirectory(Path.of(path))
 
 //    if(Files.exists(Path.of(s"$path${d.name}.scala"))) return

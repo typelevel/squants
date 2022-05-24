@@ -15,6 +15,9 @@ final case class MagneticFluxDensity[A: Numeric] private [squants2]  (value: A, 
   extends Quantity[A, MagneticFluxDensity.type] {
   override type Q[B] = MagneticFluxDensity[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toGauss: A = to(Gauss)
   def toTeslas: A = to(Teslas)
 }

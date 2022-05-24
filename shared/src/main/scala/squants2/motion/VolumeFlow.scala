@@ -15,6 +15,9 @@ final case class VolumeFlow[A: Numeric] private [squants2]  (value: A, unit: Vol
   extends Quantity[A, VolumeFlow.type] {
   override type Q[B] = VolumeFlow[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toNanolitresPerDay: A = to(NanolitresPerDay)
   def toNanolitresPerHour: A = to(NanolitresPerHour)
   def toMicrolitresPerDay: A = to(MicrolitresPerDay)

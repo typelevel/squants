@@ -15,8 +15,10 @@ final case class Volume[A: Numeric] private [squants2]  (value: A, unit: VolumeU
   extends Quantity[A, Volume.type] {
   override type Q[B] = Volume[B]
 
+  // BEGIN CUSTOM OPS
   def /[B](that: Length[B])(implicit f: B => A): Area[A] = SquareMeters(to(CubicMeters) / that.asNum[A].to(Meters))
   def /[B](that: Area[B])(implicit f: B => A): Length[A] = Meters(to(CubicMeters) / that.asNum[A].to(SquareMeters))
+  // END CUSTOM OPS
 
   def toNanolitres: A = to(Nanolitres)
   def toMicrolitres: A = to(Microlitres)

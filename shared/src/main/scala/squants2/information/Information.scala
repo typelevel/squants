@@ -15,6 +15,9 @@ final case class Information[A: Numeric] private [squants2]  (value: A, unit: In
   extends Quantity[A, Information.type] {
   override type Q[B] = Information[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toBits: A = to(Bits)
   def toBytes: A = to(Bytes)
   def toKilobits: A = to(Kilobits)

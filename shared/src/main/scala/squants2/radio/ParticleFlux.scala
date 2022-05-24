@@ -15,6 +15,9 @@ final case class ParticleFlux[A: Numeric] private [squants2]  (value: A, unit: P
   extends Quantity[A, ParticleFlux.type] {
   override type Q[B] = ParticleFlux[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toBecquerelsPerSquareMeterSecond: A = to(BecquerelsPerSquareMeterSecond)
   def toBecquerelsPerSquareCentimeterSecond: A = to(BecquerelsPerSquareCentimeterSecond)
 }

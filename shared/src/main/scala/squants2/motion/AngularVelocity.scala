@@ -15,6 +15,9 @@ final case class AngularVelocity[A: Numeric] private [squants2]  (value: A, unit
   extends Quantity[A, AngularVelocity.type] {
   override type Q[B] = AngularVelocity[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toGradiansPerSecond: A = to(GradiansPerSecond)
   def toDegreesPerSecond: A = to(DegreesPerSecond)
   def toRadiansPerSecond: A = to(RadiansPerSecond)

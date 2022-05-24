@@ -15,6 +15,9 @@ final case class PowerRamp[A: Numeric] private [squants2]  (value: A, unit: Powe
   extends Quantity[A, PowerRamp.type] {
   override type Q[B] = PowerRamp[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toWattsPerMinute: A = to(WattsPerMinute)
   def toWattsPerHour: A = to(WattsPerHour)
   def toKilowattsPerMinute: A = to(KilowattsPerMinute)

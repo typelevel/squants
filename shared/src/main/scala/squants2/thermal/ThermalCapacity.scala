@@ -15,6 +15,9 @@ final case class ThermalCapacity[A: Numeric] private [squants2]  (value: A, unit
   extends Quantity[A, ThermalCapacity.type] {
   override type Q[B] = ThermalCapacity[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toJoulesPerKelvin: A = to(JoulesPerKelvin)
 }
 

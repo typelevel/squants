@@ -15,6 +15,9 @@ final case class MomentOfInertia[A: Numeric] private [squants2]  (value: A, unit
   extends Quantity[A, MomentOfInertia.type] {
   override type Q[B] = MomentOfInertia[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toKilogramsMetersSquared: A = to(KilogramsMetersSquared)
   def toPoundsSquareFeet: A = to(PoundsSquareFeet)
 }

@@ -15,6 +15,9 @@ final case class Acceleration[A: Numeric] private [squants2]  (value: A, unit: A
   extends Quantity[A, Acceleration.type] {
   override type Q[B] = Acceleration[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toUsMilesPerHourSquared: A = to(UsMilesPerHourSquared)
   def toMillimetersPerSecondSquared: A = to(MillimetersPerSecondSquared)
   def toFeetPerSecondSquared: A = to(FeetPerSecondSquared)

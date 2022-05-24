@@ -15,6 +15,9 @@ final case class ElectricCurrentDensity[A: Numeric] private [squants2]  (value: 
   extends Quantity[A, ElectricCurrentDensity.type] {
   override type Q[B] = ElectricCurrentDensity[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toAmperesPerSquareMeter: A = to(AmperesPerSquareMeter)
 }
 

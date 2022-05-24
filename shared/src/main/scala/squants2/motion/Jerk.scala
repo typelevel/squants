@@ -15,6 +15,9 @@ final case class Jerk[A: Numeric] private [squants2]  (value: A, unit: JerkUnit)
   extends Quantity[A, Jerk.type] {
   override type Q[B] = Jerk[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toFeetPerSecondCubed: A = to(FeetPerSecondCubed)
   def toMetersPerSecondCubed: A = to(MetersPerSecondCubed)
 }

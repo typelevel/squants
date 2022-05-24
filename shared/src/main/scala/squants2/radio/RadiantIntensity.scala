@@ -15,6 +15,9 @@ final case class RadiantIntensity[A: Numeric] private [squants2]  (value: A, uni
   extends Quantity[A, RadiantIntensity.type] {
   override type Q[B] = RadiantIntensity[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toWattsPerSteradian: A = to(WattsPerSteradian)
 }
 

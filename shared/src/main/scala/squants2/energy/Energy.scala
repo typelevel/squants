@@ -15,6 +15,9 @@ final case class Energy[A: Numeric] private [squants2]  (value: A, unit: EnergyU
   extends Quantity[A, Energy.type] {
   override type Q[B] = Energy[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toMilliElectronVolt: A = to(MilliElectronVolt)
   def toElectronVolt: A = to(ElectronVolt)
   def toKiloElectronVolt: A = to(KiloElectronVolt)

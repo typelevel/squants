@@ -15,6 +15,9 @@ final case class ElectricalResistance[A: Numeric] private [squants2]  (value: A,
   extends Quantity[A, ElectricalResistance.type] {
   override type Q[B] = ElectricalResistance[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toNanohms: A = to(Nanohms)
   def toMicroohms: A = to(Microohms)
   def toMilliohms: A = to(Milliohms)

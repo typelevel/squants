@@ -15,6 +15,9 @@ final case class ElectricFieldStrength[A: Numeric] private [squants2]  (value: A
   extends Quantity[A, ElectricFieldStrength.type] {
   override type Q[B] = ElectricFieldStrength[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toVoltsPerMeter: A = to(VoltsPerMeter)
 }
 

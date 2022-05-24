@@ -15,6 +15,9 @@ final case class ElectricPotential[A: Numeric] private [squants2]  (value: A, un
   extends Quantity[A, ElectricPotential.type] {
   override type Q[B] = ElectricPotential[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toMicrovolts: A = to(Microvolts)
   def toMillivolts: A = to(Millivolts)
   def toVolts: A = to(Volts)

@@ -15,6 +15,9 @@ final case class LuminousExposure[A: Numeric] private [squants2]  (value: A, uni
   extends Quantity[A, LuminousExposure.type] {
   override type Q[B] = LuminousExposure[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toLuxSeconds: A = to(LuxSeconds)
 }
 

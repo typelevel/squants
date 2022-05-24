@@ -15,6 +15,9 @@ final case class Inductance[A: Numeric] private [squants2]  (value: A, unit: Ind
   extends Quantity[A, Inductance.type] {
   override type Q[B] = Inductance[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toPicohenry: A = to(Picohenry)
   def toNanohenry: A = to(Nanohenry)
   def toMicrohenry: A = to(Microhenry)

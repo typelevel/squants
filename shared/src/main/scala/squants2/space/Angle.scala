@@ -25,6 +25,7 @@ final case class Angle[A: Numeric] private [squants2]  (value: A, unit: AngleUni
   def atan: Double = math.atan(num.toDouble(toRadians))
 
   def onRadius[B](radius: Length[B])(implicit f: B => A): Length[A] = radius.asNum[A] * to(Radians)
+  // END CUSTOM OPS
 
   def toArcseconds: A = to(Arcseconds)
   def toArcminutes: A = to(Arcminutes)
@@ -32,8 +33,6 @@ final case class Angle[A: Numeric] private [squants2]  (value: A, unit: AngleUni
   def toDegrees: A = to(Degrees)
   def toRadians: A = to(Radians)
   def toTurns: A = to(Turns)
-  // END CUSTOM OPS
-
 }
 
 object Angle extends Dimension("Angle") {

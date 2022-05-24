@@ -15,6 +15,9 @@ final case class SpectralIntensity[A: Numeric] private [squants2]  (value: A, un
   extends Quantity[A, SpectralIntensity.type] {
   override type Q[B] = SpectralIntensity[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toWattsPerSteradianPerMeter: A = to(WattsPerSteradianPerMeter)
 }
 

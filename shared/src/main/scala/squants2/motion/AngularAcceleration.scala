@@ -15,6 +15,9 @@ final case class AngularAcceleration[A: Numeric] private [squants2]  (value: A, 
   extends Quantity[A, AngularAcceleration.type] {
   override type Q[B] = AngularAcceleration[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toArcsecondsPerSecondSquared: A = to(ArcsecondsPerSecondSquared)
   def toArcminutesPerSecondSquared: A = to(ArcminutesPerSecondSquared)
   def toGradiansPerSecondSquared: A = to(GradiansPerSecondSquared)

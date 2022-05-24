@@ -15,6 +15,9 @@ final case class EnergyDensity[A: Numeric] private [squants2]  (value: A, unit: 
   extends Quantity[A, EnergyDensity.type] {
   override type Q[B] = EnergyDensity[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toJoulesPerCubicMeter: A = to(JoulesPerCubicMeter)
 }
 

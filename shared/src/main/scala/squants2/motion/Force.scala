@@ -15,6 +15,9 @@ final case class Force[A: Numeric] private [squants2]  (value: A, unit: ForceUni
   extends Quantity[A, Force.type] {
   override type Q[B] = Force[B]
 
+  // BEGIN CUSTOM OPS
+  // END CUSTOM OPS
+
   def toMegaElectronVoltsPerCentimeter: A = to(MegaElectronVoltsPerCentimeter)
   def toKiloElectronVoltsPerMicrometer: A = to(KiloElectronVoltsPerMicrometer)
   def toNewtons: A = to(Newtons)
