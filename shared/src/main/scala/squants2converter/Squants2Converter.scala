@@ -41,6 +41,7 @@ object Squants2Converter extends App {
     writer.println()
     writer.println("  // BEGIN CUSTOM OPS")
     writer.println("  // END CUSTOM OPS")
+    writer.println()
     d.units.toList
       .sortBy{(u: UnitOfMeasure[_]) => u.convertFrom(1d)}
       .foreach { (u: UnitOfMeasure[_]) =>
