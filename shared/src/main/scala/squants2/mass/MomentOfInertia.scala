@@ -49,5 +49,5 @@ abstract class MomentOfInertiaUnit(val symbol: String, val conversionFactor: Con
   override def apply[A: Numeric](value: A): MomentOfInertia[A] = MomentOfInertia(value, this)
 }
 
-case object KilogramsMetersSquared extends MomentOfInertiaUnit("kg‧m²", 1.0) with PrimaryUnit with SiUnit
+case object KilogramsMetersSquared extends MomentOfInertiaUnit("kg‧m²", 1) with PrimaryUnit with SiBaseUnit
 case object PoundsSquareFeet extends MomentOfInertiaUnit("lb‧ft²", 42.14027865441374)

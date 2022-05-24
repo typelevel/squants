@@ -46,4 +46,4 @@ abstract class LinearElectricChargeDensityUnit(val symbol: String, val conversio
   override def apply[A: Numeric](value: A): LinearElectricChargeDensity[A] = LinearElectricChargeDensity(value, this)
 }
 
-case object CoulombsPerMeter extends LinearElectricChargeDensityUnit("C/m", 1.0) with PrimaryUnit with SiUnit
+case object CoulombsPerMeter extends LinearElectricChargeDensityUnit("C/m", 1) with PrimaryUnit with SiUnit

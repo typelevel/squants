@@ -50,4 +50,4 @@ abstract class AreaTimeUnit(val symbol: String, val conversionFactor: Conversion
 }
 
 case object SquareCentimeterSeconds extends AreaTimeUnit("cm²‧s", 1.0E-4)
-case object SquareMeterSeconds extends AreaTimeUnit("m²‧s", 1.0) with PrimaryUnit with SiUnit
+case object SquareMeterSeconds extends AreaTimeUnit("m²‧s", 1) with PrimaryUnit with SiUnit

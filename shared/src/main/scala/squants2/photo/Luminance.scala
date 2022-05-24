@@ -46,4 +46,4 @@ abstract class LuminanceUnit(val symbol: String, val conversionFactor: Conversio
   override def apply[A: Numeric](value: A): Luminance[A] = Luminance(value, this)
 }
 
-case object CandelasPerSquareMeter extends LuminanceUnit("cd/m²", 1.0) with PrimaryUnit with SiUnit
+case object CandelasPerSquareMeter extends LuminanceUnit("cd/m²", 1) with PrimaryUnit with SiUnit

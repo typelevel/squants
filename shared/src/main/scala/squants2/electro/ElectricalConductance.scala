@@ -46,4 +46,4 @@ abstract class ElectricalConductanceUnit(val symbol: String, val conversionFacto
   override def apply[A: Numeric](value: A): ElectricalConductance[A] = ElectricalConductance(value, this)
 }
 
-case object Siemens extends ElectricalConductanceUnit("S", 1.0) with PrimaryUnit with SiUnit
+case object Siemens extends ElectricalConductanceUnit("S", 1) with PrimaryUnit with SiUnit

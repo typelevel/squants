@@ -4,6 +4,8 @@ import squants._
 
 import java.io.{ File, PrintWriter }
 import java.nio.file.{ Files, Path }
+import scala.language.existentials
+
 
 object Squants2Converter extends App {
 
@@ -12,7 +14,7 @@ object Squants2Converter extends App {
 
   def writeDimensionFile(d: Dimension[_]): Unit = {
 
-    val packageName = d.getClass.getPackage.getName.replace("squants.", "squants2/")
+    val packageName = d.getClass.getPackage.getName.replace("squants", "squants2").replace(".", "/")
     val path = s"shared/src/main/scala/$packageName/"
     if(!Files.exists(Path.of(path))) Files.createDirectory(Path.of(path))
 
@@ -20,6 +22,8 @@ object Squants2Converter extends App {
 
     val file = new File(s"$path${d.name}.scala")
     val writer = new PrintWriter(file)
+
+    val units = d.units.toList.sortBy{ (u: UnitOfMeasure[_]) => u.convertFrom(1d) }
 
     writer.println("/*                                                                      *\\")
     writer.println("** Squants                                                              **")
@@ -42,9 +46,7 @@ object Squants2Converter extends App {
     writer.println("  // BEGIN CUSTOM OPS")
     writer.println("  // END CUSTOM OPS")
     writer.println()
-    d.units.toList
-      .sortBy{(u: UnitOfMeasure[_]) => u.convertFrom(1d)}
-      .foreach { (u: UnitOfMeasure[_]) =>
+    units.foreach { (u: UnitOfMeasure[_]) =>
         val unitName = u.getClass.getSimpleName.replace("$", "")
         writer.println(s"  def to$unitName: A = to($unitName)")
       }
@@ -55,26 +57,19 @@ object Squants2Converter extends App {
     writer.println()
     writer.println(s"  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = ${d.primaryUnit.getClass.getSimpleName.replace("$", "")}")
     writer.println(s"  override def siUnit: UnitOfMeasure[this.type] with SiUnit = ${d.siUnit.getClass.getSimpleName.replace("$", "")}")
-    val unitList = d.units.toList
-      .sortBy{(u: UnitOfMeasure[_]) => u.convertFrom(1d)}
-      .map { (u: UnitOfMeasure[_]) => s"${u.getClass.getSimpleName.replace("$", "")}"}
-      .mkString(", ")
+    val unitList = units.map { (u: UnitOfMeasure[_]) => s"${u.getClass.getSimpleName.replace("$", "")}"}.mkString(", ")
     writer.println(s"  override lazy val units: Set[UnitOfMeasure[this.type]] = ")
     writer.println(s"    Set($unitList)")
     writer.println()
     writer.println(s"  implicit class ${d.name}Cons[A](a: A)(implicit num: Numeric[A]) {")
-    d.units.toList
-      .sortBy{(u: UnitOfMeasure[_]) => u.convertFrom(1d)}
-      .foreach { (u: UnitOfMeasure[_]) =>
+    units.foreach { (u: UnitOfMeasure[_]) =>
         val unitName = u.getClass.getSimpleName.replace("$", "")
         writer.println(s"    def ${unitName.head.toLower}${unitName.tail}: ${d.name}[A] = $unitName(a)")
       }
     writer.println(s"  }")
     writer.println()
 
-    d.units.toList
-      .sortBy{(u: UnitOfMeasure[_]) => u.convertFrom(1d)}
-      .foreach { (u: UnitOfMeasure[_]) =>
+    units.foreach { (u: UnitOfMeasure[_]) =>
         val unitName = u.getClass.getSimpleName.replace("$", "")
         writer.println(s"  lazy val ${unitName.head.toLower}${unitName.tail}: ${d.name}[Int] = $unitName(1)")
       }
@@ -95,12 +90,21 @@ object Squants2Converter extends App {
     writer.println(s"  override def apply[A: Numeric](value: A): ${d.name}[A] = ${d.name}(value, this)")
     writer.println(s"}")
     writer.println()
-    d.units.toList
-      .sortBy{(u: UnitOfMeasure[_]) => u.convertFrom(1d)}
-      .foreach { (u: UnitOfMeasure[_]) =>
-        writer.print(s"case object ${u.getClass.getSimpleName.replace("$", "")} extends ${d.name}Unit(\"${u.symbol}\", ${u.convertFrom(1d)})")
-        if(u.isInstanceOf[PrimaryUnit]) writer.print(" with PrimaryUnit")
-        if(u.isInstanceOf[SiUnit]) writer.print(" with SiUnit")
+    units.foreach { (u: UnitOfMeasure[_]) =>
+        u match {
+          case _: PrimaryUnit with SiBaseUnit =>
+            writer.print(s"case object ${u.getClass.getSimpleName.replace("$", "")} extends ${d.name}Unit(\"${u.symbol}\", 1) with PrimaryUnit with SiBaseUnit")
+          case _: PrimaryUnit with SiUnit =>
+            writer.print(s"case object ${u.getClass.getSimpleName.replace("$", "")} extends ${d.name}Unit(\"${u.symbol}\", 1) with PrimaryUnit with SiUnit")
+          case _: PrimaryUnit =>
+            writer.print(s"case object ${u.getClass.getSimpleName.replace("$", "")} extends ${d.name}Unit(\"${u.symbol}\", 1) with PrimaryUnit")
+          case _: SiBaseUnit =>
+            writer.print(s"case object ${u.getClass.getSimpleName.replace("$", "")} extends ${d.name}Unit(\"${u.symbol}\", ${u.convertFrom(1d)}) with SiBaseUnit")
+          case _: SiUnit =>
+            writer.print(s"case object ${u.getClass.getSimpleName.replace("$", "")} extends ${d.name}Unit(\"${u.symbol}\", ${u.convertFrom(1d)}) with SiUnit")
+          case _ =>
+            writer.print(s"case object ${u.getClass.getSimpleName.replace("$", "")} extends ${d.name}Unit(\"${u.symbol}\", ${u.convertFrom(1d)})")
+        }
         writer.println()
     }
 

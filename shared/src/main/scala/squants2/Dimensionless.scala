@@ -32,7 +32,7 @@ object Dimensionless extends Dimension("Dimensionless") {
 
   override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = Each
   override def siUnit: UnitOfMeasure[this.type] with SiUnit = Each
-  override lazy val units: Set[UnitOfMeasure[this.type]] =
+  override lazy val units: Set[UnitOfMeasure[this.type]] = 
     Set(Percent, Each, Dozen, Score, Gross)
 
   implicit class DimensionlessCons[A](a: A)(implicit num: Numeric[A]) {
@@ -69,6 +69,6 @@ abstract class DimensionlessUnit(val symbol: String, val conversionFactor: Conve
 
 case object Percent extends DimensionlessUnit("%", 0.01)
 case object Each extends DimensionlessUnit("ea", 1) with PrimaryUnit with SiUnit
-case object Dozen extends DimensionlessUnit("dz", 12)
-case object Score extends DimensionlessUnit("score", 20)
-case object Gross extends DimensionlessUnit("gr", 144)
+case object Dozen extends DimensionlessUnit("dz", 12.0)
+case object Score extends DimensionlessUnit("score", 20.0)
+case object Gross extends DimensionlessUnit("gr", 144.0)

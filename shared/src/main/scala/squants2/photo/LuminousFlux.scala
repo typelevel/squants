@@ -46,4 +46,4 @@ abstract class LuminousFluxUnit(val symbol: String, val conversionFactor: Conver
   override def apply[A: Numeric](value: A): LuminousFlux[A] = LuminousFlux(value, this)
 }
 
-case object Lumens extends LuminousFluxUnit("lm", 1.0) with PrimaryUnit with SiUnit
+case object Lumens extends LuminousFluxUnit("lm", 1) with PrimaryUnit with SiUnit

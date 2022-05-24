@@ -46,4 +46,4 @@ abstract class LuminousEnergyUnit(val symbol: String, val conversionFactor: Conv
   override def apply[A: Numeric](value: A): LuminousEnergy[A] = LuminousEnergy(value, this)
 }
 
-case object LumenSeconds extends LuminousEnergyUnit("lm⋅s", 1.0) with PrimaryUnit with SiUnit
+case object LumenSeconds extends LuminousEnergyUnit("lm⋅s", 1) with PrimaryUnit with SiUnit

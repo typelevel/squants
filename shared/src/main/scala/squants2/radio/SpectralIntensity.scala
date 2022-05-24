@@ -46,4 +46,4 @@ abstract class SpectralIntensityUnit(val symbol: String, val conversionFactor: C
   override def apply[A: Numeric](value: A): SpectralIntensity[A] = SpectralIntensity(value, this)
 }
 
-case object WattsPerSteradianPerMeter extends SpectralIntensityUnit("W/sr/m", 1.0) with PrimaryUnit with SiUnit
+case object WattsPerSteradianPerMeter extends SpectralIntensityUnit("W/sr/m", 1) with PrimaryUnit with SiUnit

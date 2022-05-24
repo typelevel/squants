@@ -50,4 +50,4 @@ abstract class MagneticFluxDensityUnit(val symbol: String, val conversionFactor:
 }
 
 case object Gauss extends MagneticFluxDensityUnit("Gs", 9.999999999999999E-5)
-case object Teslas extends MagneticFluxDensityUnit("T", 1.0) with PrimaryUnit with SiUnit
+case object Teslas extends MagneticFluxDensityUnit("T", 1) with PrimaryUnit with SiUnit

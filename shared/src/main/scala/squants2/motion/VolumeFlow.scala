@@ -130,4 +130,4 @@ case object LitresPerMinute extends VolumeFlowUnit("L/min", 1.6666666666666667E-
 case object GallonsPerMinute extends VolumeFlowUnit("GPM", 6.309019639999999E-5)
 case object LitresPerSecond extends VolumeFlowUnit("L/s", 0.001) with SiUnit
 case object GallonsPerSecond extends VolumeFlowUnit("GPS", 0.0037854117839999997)
-case object CubicMetersPerSecond extends VolumeFlowUnit("m³/s", 1.0) with PrimaryUnit with SiUnit
+case object CubicMetersPerSecond extends VolumeFlowUnit("m³/s", 1) with PrimaryUnit with SiUnit

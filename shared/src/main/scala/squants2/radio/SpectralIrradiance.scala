@@ -55,7 +55,7 @@ abstract class SpectralIrradianceUnit(val symbol: String, val conversionFactor: 
   override def apply[A: Numeric](value: A): SpectralIrradiance[A] = SpectralIrradiance(value, this)
 }
 
-case object WattsPerCubicMeter extends SpectralIrradianceUnit("W/m³", 1.0) with PrimaryUnit with SiUnit
+case object WattsPerCubicMeter extends SpectralIrradianceUnit("W/m³", 1) with PrimaryUnit with SiUnit
 case object WattsPerSquareMeterPerMicron extends SpectralIrradianceUnit("W/m²/µm", 1000000.0) with SiUnit
 case object ErgsPerSecondPerSquareCentimeterPerAngstrom extends SpectralIrradianceUnit("erg/s/cm²/Å", 9999999.999999998)
 case object WattsPerSquareMeterPerNanometer extends SpectralIrradianceUnit("W/m²/nm", 9.999999999999999E8) with SiUnit

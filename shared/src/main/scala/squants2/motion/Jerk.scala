@@ -50,4 +50,4 @@ abstract class JerkUnit(val symbol: String, val conversionFactor: ConversionFact
 }
 
 case object FeetPerSecondCubed extends JerkUnit("ft/s³", 0.3048006096)
-case object MetersPerSecondCubed extends JerkUnit("m/s³", 1.0) with PrimaryUnit with SiUnit
+case object MetersPerSecondCubed extends JerkUnit("m/s³", 1) with PrimaryUnit with SiUnit

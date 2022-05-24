@@ -46,4 +46,4 @@ abstract class YankUnit(val symbol: String, val conversionFactor: ConversionFact
   override def apply[A: Numeric](value: A): Yank[A] = Yank(value, this)
 }
 
-case object NewtonsPerSecond extends YankUnit("N/s", 1.0) with PrimaryUnit with SiUnit
+case object NewtonsPerSecond extends YankUnit("N/s", 1) with PrimaryUnit with SiUnit

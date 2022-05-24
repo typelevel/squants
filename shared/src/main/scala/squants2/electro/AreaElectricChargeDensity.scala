@@ -46,4 +46,4 @@ abstract class AreaElectricChargeDensityUnit(val symbol: String, val conversionF
   override def apply[A: Numeric](value: A): AreaElectricChargeDensity[A] = AreaElectricChargeDensity(value, this)
 }
 
-case object CoulombsPerSquareMeter extends AreaElectricChargeDensityUnit("C/m²", 1.0) with PrimaryUnit with SiUnit
+case object CoulombsPerSquareMeter extends AreaElectricChargeDensityUnit("C/m²", 1) with PrimaryUnit with SiUnit

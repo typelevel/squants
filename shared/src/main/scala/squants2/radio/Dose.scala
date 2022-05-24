@@ -50,4 +50,4 @@ abstract class DoseUnit(val symbol: String, val conversionFactor: ConversionFact
 }
 
 case object Rems extends DoseUnit("rem", 0.01)
-case object Sieverts extends DoseUnit("Sv", 1.0) with PrimaryUnit with SiUnit
+case object Sieverts extends DoseUnit("Sv", 1) with PrimaryUnit with SiUnit

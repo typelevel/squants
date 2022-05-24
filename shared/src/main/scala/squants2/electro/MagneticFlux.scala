@@ -46,4 +46,4 @@ abstract class MagneticFluxUnit(val symbol: String, val conversionFactor: Conver
   override def apply[A: Numeric](value: A): MagneticFlux[A] = MagneticFlux(value, this)
 }
 
-case object Webers extends MagneticFluxUnit("Wb", 1.0) with PrimaryUnit with SiUnit
+case object Webers extends MagneticFluxUnit("Wb", 1) with PrimaryUnit with SiUnit

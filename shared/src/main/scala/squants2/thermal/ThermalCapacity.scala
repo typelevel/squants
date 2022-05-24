@@ -46,4 +46,4 @@ abstract class ThermalCapacityUnit(val symbol: String, val conversionFactor: Con
   override def apply[A: Numeric](value: A): ThermalCapacity[A] = ThermalCapacity(value, this)
 }
 
-case object JoulesPerKelvin extends ThermalCapacityUnit("J/K", 1.0) with PrimaryUnit with SiUnit
+case object JoulesPerKelvin extends ThermalCapacityUnit("J/K", 1) with PrimaryUnit with SiUnit

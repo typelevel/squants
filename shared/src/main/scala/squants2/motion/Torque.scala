@@ -49,5 +49,5 @@ abstract class TorqueUnit(val symbol: String, val conversionFactor: ConversionFa
   override def apply[A: Numeric](value: A): Torque[A] = Torque(value, this)
 }
 
-case object NewtonMeters extends TorqueUnit("N‧m", 1.0) with PrimaryUnit with SiUnit
+case object NewtonMeters extends TorqueUnit("N‧m", 1) with PrimaryUnit with SiBaseUnit
 case object PoundFeet extends TorqueUnit("lb‧ft", 1.3558206599672968)

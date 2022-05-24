@@ -46,4 +46,4 @@ abstract class PowerDensityUnit(val symbol: String, val conversionFactor: Conver
   override def apply[A: Numeric](value: A): PowerDensity[A] = PowerDensity(value, this)
 }
 
-case object WattsPerCubicMeter extends PowerDensityUnit("W/m³", 1.0) with PrimaryUnit with SiUnit
+case object WattsPerCubicMeter extends PowerDensityUnit("W/m³", 1) with PrimaryUnit with SiUnit

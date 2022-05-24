@@ -46,4 +46,4 @@ abstract class PermittivityUnit(val symbol: String, val conversionFactor: Conver
   override def apply[A: Numeric](value: A): Permittivity[A] = Permittivity(value, this)
 }
 
-case object FaradsPerMeter extends PermittivityUnit("F/m", 1.0) with PrimaryUnit with SiUnit
+case object FaradsPerMeter extends PermittivityUnit("F/m", 1) with PrimaryUnit with SiUnit

@@ -46,4 +46,4 @@ abstract class LuminousExposureUnit(val symbol: String, val conversionFactor: Co
   override def apply[A: Numeric](value: A): LuminousExposure[A] = LuminousExposure(value, this)
 }
 
-case object LuxSeconds extends LuminousExposureUnit("lx⋅s", 1.0) with PrimaryUnit with SiUnit
+case object LuxSeconds extends LuminousExposureUnit("lx⋅s", 1) with PrimaryUnit with SiUnit

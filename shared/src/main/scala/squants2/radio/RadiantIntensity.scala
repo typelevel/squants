@@ -46,4 +46,4 @@ abstract class RadiantIntensityUnit(val symbol: String, val conversionFactor: Co
   override def apply[A: Numeric](value: A): RadiantIntensity[A] = RadiantIntensity(value, this)
 }
 
-case object WattsPerSteradian extends RadiantIntensityUnit("W/sr", 1.0) with PrimaryUnit with SiUnit
+case object WattsPerSteradian extends RadiantIntensityUnit("W/sr", 1) with PrimaryUnit with SiUnit

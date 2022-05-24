@@ -80,7 +80,7 @@ case object SquareCentimeters extends AreaUnit("cm²", 1.0E-4) with SiUnit
 case object SquareInches extends AreaUnit("in²", 6.4516E-4)
 case object SquareFeet extends AreaUnit("ft²", 0.09290304)
 case object SquareYards extends AreaUnit("yd²", 0.83612736)
-case object SquareMeters extends AreaUnit("m²", 1.0) with PrimaryUnit with SiUnit
+case object SquareMeters extends AreaUnit("m²", 1) with PrimaryUnit with SiUnit
 case object Acres extends AreaUnit("acre", 4046.8564224)
 case object Hectares extends AreaUnit("ha", 10000.0)
 case object SquareKilometers extends AreaUnit("km²", 1000000.0) with SiUnit

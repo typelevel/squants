@@ -46,4 +46,4 @@ abstract class MomentumUnit(val symbol: String, val conversionFactor: Conversion
   override def apply[A: Numeric](value: A): Momentum[A] = Momentum(value, this)
 }
 
-case object NewtonSeconds extends MomentumUnit("Ns", 1.0) with PrimaryUnit with SiUnit
+case object NewtonSeconds extends MomentumUnit("Ns", 1) with PrimaryUnit with SiUnit

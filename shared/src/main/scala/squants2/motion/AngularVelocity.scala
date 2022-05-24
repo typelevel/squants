@@ -57,5 +57,5 @@ abstract class AngularVelocityUnit(val symbol: String, val conversionFactor: Con
 
 case object GradiansPerSecond extends AngularVelocityUnit("grad/s", 0.015707963267948967)
 case object DegreesPerSecond extends AngularVelocityUnit("°/s", 0.017453292519943295)
-case object RadiansPerSecond extends AngularVelocityUnit("rad/s", 1.0) with PrimaryUnit with SiUnit
+case object RadiansPerSecond extends AngularVelocityUnit("rad/s", 1) with PrimaryUnit with SiUnit
 case object TurnsPerSecond extends AngularVelocityUnit("turns/s", 6.283185307179586)

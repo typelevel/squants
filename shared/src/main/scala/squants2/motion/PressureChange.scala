@@ -55,7 +55,7 @@ abstract class PressureChangeUnit(val symbol: String, val conversionFactor: Conv
   override def apply[A: Numeric](value: A): PressureChange[A] = PressureChange(value, this)
 }
 
-case object PascalsPerSecond extends PressureChangeUnit("Pa/s", 1.0) with PrimaryUnit with SiUnit
+case object PascalsPerSecond extends PressureChangeUnit("Pa/s", 1) with PrimaryUnit with SiUnit
 case object PoundsPerSquareInchPerSecond extends PressureChangeUnit("psi/s", 6894.757293168361)
 case object BarsPerSecond extends PressureChangeUnit("bar/s", 100000.0)
 case object StandardAtmospheresPerSecond extends PressureChangeUnit("atm/s", 101325.0)

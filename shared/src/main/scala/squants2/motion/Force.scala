@@ -60,6 +60,6 @@ abstract class ForceUnit(val symbol: String, val conversionFactor: ConversionFac
 
 case object MegaElectronVoltsPerCentimeter extends ForceUnit("MeV/cm", 1.602176565E-11)
 case object KiloElectronVoltsPerMicrometer extends ForceUnit("keV/μm", 1.602176565E-10)
-case object Newtons extends ForceUnit("N", 1.0) with PrimaryUnit with SiUnit
+case object Newtons extends ForceUnit("N", 1) with PrimaryUnit with SiUnit
 case object PoundForce extends ForceUnit("lbf", 4.4482216152605)
 case object KilogramForce extends ForceUnit("kgf", 9.80665)

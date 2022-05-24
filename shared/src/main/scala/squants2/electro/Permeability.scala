@@ -49,5 +49,5 @@ abstract class PermeabilityUnit(val symbol: String, val conversionFactor: Conver
   override def apply[A: Numeric](value: A): Permeability[A] = Permeability(value, this)
 }
 
-case object HenriesPerMeter extends PermeabilityUnit("H/m", 1.0) with PrimaryUnit with SiUnit
-case object NewtonsPerAmperesSquared extends PermeabilityUnit("N/A²", 1.0) with PrimaryUnit with SiUnit
+case object HenriesPerMeter extends PermeabilityUnit("H/m", 1) with PrimaryUnit with SiUnit
+case object NewtonsPerAmperesSquared extends PermeabilityUnit("N/A²", 1) with PrimaryUnit with SiUnit

@@ -26,8 +26,8 @@ final case class Density[A: Numeric] private [squants2]  (value: A, unit: Densit
   def toMilligramsPerLitre: A = to(MilligramsPerLitre)
   def toNanogramsPerNanolitre: A = to(NanogramsPerNanolitre)
   def toMicrogramsPerMicrolitre: A = to(MicrogramsPerMicrolitre)
-  def toGramsPerLitre: A = to(GramsPerLitre)
   def toKilogramsPerCubicMeter: A = to(KilogramsPerCubicMeter)
+  def toGramsPerLitre: A = to(GramsPerLitre)
   def toMilligramsPerMillilitre: A = to(MilligramsPerMillilitre)
   def toMicrogramsPerNanolitre: A = to(MicrogramsPerNanolitre)
   def toMilligramsPerMicrolitre: A = to(MilligramsPerMicrolitre)
@@ -46,7 +46,7 @@ object Density extends Dimension("Density") {
   override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = KilogramsPerCubicMeter
   override def siUnit: UnitOfMeasure[this.type] with SiUnit = KilogramsPerCubicMeter
   override lazy val units: Set[UnitOfMeasure[this.type]] = 
-    Set(NanogramsPerLitre, MicrogramsPerLitre, NanogramsPerMillilitre, MicrogramsPerMillilitre, NanogramsPerMicrolitre, MilligramsPerLitre, NanogramsPerNanolitre, MicrogramsPerMicrolitre, GramsPerLitre, KilogramsPerCubicMeter, MilligramsPerMillilitre, MicrogramsPerNanolitre, MilligramsPerMicrolitre, KilogramsPerLitre, GramsPerMillilitre, MilligramsPerNanolitre, KilogramsPerMillilitre, GramsPerMicrolitre, GramsPerNanolitre, KilogramsPerMicrolitre, KilogramsPerNanolitre)
+    Set(NanogramsPerLitre, MicrogramsPerLitre, NanogramsPerMillilitre, MicrogramsPerMillilitre, NanogramsPerMicrolitre, MilligramsPerLitre, NanogramsPerNanolitre, MicrogramsPerMicrolitre, KilogramsPerCubicMeter, GramsPerLitre, MilligramsPerMillilitre, MicrogramsPerNanolitre, MilligramsPerMicrolitre, KilogramsPerLitre, GramsPerMillilitre, MilligramsPerNanolitre, KilogramsPerMillilitre, GramsPerMicrolitre, GramsPerNanolitre, KilogramsPerMicrolitre, KilogramsPerNanolitre)
 
   implicit class DensityCons[A](a: A)(implicit num: Numeric[A]) {
     def nanogramsPerLitre: Density[A] = NanogramsPerLitre(a)
@@ -57,8 +57,8 @@ object Density extends Dimension("Density") {
     def milligramsPerLitre: Density[A] = MilligramsPerLitre(a)
     def nanogramsPerNanolitre: Density[A] = NanogramsPerNanolitre(a)
     def microgramsPerMicrolitre: Density[A] = MicrogramsPerMicrolitre(a)
-    def gramsPerLitre: Density[A] = GramsPerLitre(a)
     def kilogramsPerCubicMeter: Density[A] = KilogramsPerCubicMeter(a)
+    def gramsPerLitre: Density[A] = GramsPerLitre(a)
     def milligramsPerMillilitre: Density[A] = MilligramsPerMillilitre(a)
     def microgramsPerNanolitre: Density[A] = MicrogramsPerNanolitre(a)
     def milligramsPerMicrolitre: Density[A] = MilligramsPerMicrolitre(a)
@@ -80,8 +80,8 @@ object Density extends Dimension("Density") {
   lazy val milligramsPerLitre: Density[Int] = MilligramsPerLitre(1)
   lazy val nanogramsPerNanolitre: Density[Int] = NanogramsPerNanolitre(1)
   lazy val microgramsPerMicrolitre: Density[Int] = MicrogramsPerMicrolitre(1)
-  lazy val gramsPerLitre: Density[Int] = GramsPerLitre(1)
   lazy val kilogramsPerCubicMeter: Density[Int] = KilogramsPerCubicMeter(1)
+  lazy val gramsPerLitre: Density[Int] = GramsPerLitre(1)
   lazy val milligramsPerMillilitre: Density[Int] = MilligramsPerMillilitre(1)
   lazy val microgramsPerNanolitre: Density[Int] = MicrogramsPerNanolitre(1)
   lazy val milligramsPerMicrolitre: Density[Int] = MilligramsPerMicrolitre(1)
@@ -114,8 +114,8 @@ case object NanogramsPerMicrolitre extends DensityUnit("ng/µl", 0.001)
 case object MilligramsPerLitre extends DensityUnit("mg/L", 0.001)
 case object NanogramsPerNanolitre extends DensityUnit("ng/nl", 0.9999999999999998)
 case object MicrogramsPerMicrolitre extends DensityUnit("µg/µl", 0.9999999999999998)
+case object KilogramsPerCubicMeter extends DensityUnit("kg/m³", 1) with PrimaryUnit with SiUnit
 case object GramsPerLitre extends DensityUnit("g/L", 1.0)
-case object KilogramsPerCubicMeter extends DensityUnit("kg/m³", 1.0) with PrimaryUnit with SiUnit
 case object MilligramsPerMillilitre extends DensityUnit("mg/ml", 1.0)
 case object MicrogramsPerNanolitre extends DensityUnit("µg/nl", 999.9999999999997)
 case object MilligramsPerMicrolitre extends DensityUnit("mg/µl", 999.9999999999999)

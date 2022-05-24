@@ -46,4 +46,4 @@ abstract class EnergyDensityUnit(val symbol: String, val conversionFactor: Conve
   override def apply[A: Numeric](value: A): EnergyDensity[A] = EnergyDensity(value, this)
 }
 
-case object JoulesPerCubicMeter extends EnergyDensityUnit("J/m³", 1.0) with PrimaryUnit with SiUnit
+case object JoulesPerCubicMeter extends EnergyDensityUnit("J/m³", 1) with PrimaryUnit with SiUnit

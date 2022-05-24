@@ -46,4 +46,4 @@ abstract class MolarEnergyUnit(val symbol: String, val conversionFactor: Convers
   override def apply[A: Numeric](value: A): MolarEnergy[A] = MolarEnergy(value, this)
 }
 
-case object JoulesPerMole extends MolarEnergyUnit("J/mol", 1.0) with PrimaryUnit with SiUnit
+case object JoulesPerMole extends MolarEnergyUnit("J/mol", 1) with PrimaryUnit with SiUnit

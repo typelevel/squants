@@ -46,4 +46,4 @@ abstract class ConductivityUnit(val symbol: String, val conversionFactor: Conver
   override def apply[A: Numeric](value: A): Conductivity[A] = Conductivity(value, this)
 }
 
-case object SiemensPerMeter extends ConductivityUnit("S/m", 1.0) with PrimaryUnit with SiUnit
+case object SiemensPerMeter extends ConductivityUnit("S/m", 1) with PrimaryUnit with SiUnit

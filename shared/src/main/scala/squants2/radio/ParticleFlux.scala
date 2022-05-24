@@ -49,5 +49,5 @@ abstract class ParticleFluxUnit(val symbol: String, val conversionFactor: Conver
   override def apply[A: Numeric](value: A): ParticleFlux[A] = ParticleFlux(value, this)
 }
 
-case object BecquerelsPerSquareMeterSecond extends ParticleFluxUnit("Bq/m²‧s", 1.0) with PrimaryUnit with SiUnit
+case object BecquerelsPerSquareMeterSecond extends ParticleFluxUnit("Bq/m²‧s", 1) with PrimaryUnit with SiUnit
 case object BecquerelsPerSquareCentimeterSecond extends ParticleFluxUnit("Bq/cm²‧s", 10000.0)

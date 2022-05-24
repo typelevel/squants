@@ -46,4 +46,4 @@ abstract class ResistivityUnit(val symbol: String, val conversionFactor: Convers
   override def apply[A: Numeric](value: A): Resistivity[A] = Resistivity(value, this)
 }
 
-case object OhmMeters extends ResistivityUnit("Ω⋅m", 1.0) with PrimaryUnit with SiUnit
+case object OhmMeters extends ResistivityUnit("Ω⋅m", 1) with PrimaryUnit with SiUnit

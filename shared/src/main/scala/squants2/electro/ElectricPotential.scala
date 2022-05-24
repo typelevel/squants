@@ -60,6 +60,6 @@ abstract class ElectricPotentialUnit(val symbol: String, val conversionFactor: C
 
 case object Microvolts extends ElectricPotentialUnit("μV", 1.0E-6) with SiUnit
 case object Millivolts extends ElectricPotentialUnit("mV", 0.001) with SiUnit
-case object Volts extends ElectricPotentialUnit("V", 1.0) with PrimaryUnit with SiUnit
+case object Volts extends ElectricPotentialUnit("V", 1) with PrimaryUnit with SiUnit
 case object Kilovolts extends ElectricPotentialUnit("kV", 1000.0) with SiUnit
 case object Megavolts extends ElectricPotentialUnit("MV", 1000000.0) with SiUnit

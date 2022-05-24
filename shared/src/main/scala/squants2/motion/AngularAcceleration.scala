@@ -65,5 +65,5 @@ case object ArcsecondsPerSecondSquared extends AngularAccelerationUnit("asec/s²
 case object ArcminutesPerSecondSquared extends AngularAccelerationUnit("amin/s²", 2.908882086657216E-4)
 case object GradiansPerSecondSquared extends AngularAccelerationUnit("grad/s²", 0.015707963267948967)
 case object DegreesPerSecondSquared extends AngularAccelerationUnit("°/s²", 0.017453292519943295)
-case object RadiansPerSecondSquared extends AngularAccelerationUnit("rad/s²", 1.0) with PrimaryUnit with SiUnit
+case object RadiansPerSecondSquared extends AngularAccelerationUnit("rad/s²", 1) with PrimaryUnit with SiUnit
 case object TurnsPerSecondSquared extends AngularAccelerationUnit("turns/s²", 6.283185307179586)

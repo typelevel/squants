@@ -133,12 +133,12 @@ case object Dalton extends MassUnit("Da", 1.6605390666E-24)
 case object TeraElectronVoltMass extends MassUnit("TeV/c²", 1.782662E-24)
 case object PetaElectronVoltMass extends MassUnit("PeV/c²", 1.782662E-21)
 case object ExaElectronVoltMass extends MassUnit("EeV/c²", 1.782662E-18)
-case object Nanograms extends MassUnit("ng", 1.0E-9)
-case object Micrograms extends MassUnit("mcg", 1.0E-6)
-case object Milligrams extends MassUnit("mg", 0.001)
+case object Nanograms extends MassUnit("ng", 1.0E-9) with SiUnit
+case object Micrograms extends MassUnit("mcg", 1.0E-6) with SiUnit
+case object Milligrams extends MassUnit("mg", 0.001) with SiUnit
 case object TroyGrains extends MassUnit("gr", 0.06479891)
 case object Carats extends MassUnit("ct", 0.2)
-case object Grams extends MassUnit("g", 1.0) with PrimaryUnit
+case object Grams extends MassUnit("g", 1) with PrimaryUnit with SiUnit
 case object Pennyweights extends MassUnit("dwt", 1.5551738400000001)
 case object Tolas extends MassUnit("tola", 11.6638038)
 case object Ounces extends MassUnit("oz", 28.349523125)
@@ -153,4 +153,3 @@ case object Tonnes extends MassUnit("t", 1000000.0)
 case object SolarMasses extends MassUnit("M☉", 1.98855E33)
 
 case object PlankMass extends MassUnit("mp", 2.176434E-8)
-

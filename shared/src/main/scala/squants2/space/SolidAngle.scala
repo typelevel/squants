@@ -46,4 +46,4 @@ abstract class SolidAngleUnit(val symbol: String, val conversionFactor: Conversi
   override def apply[A: Numeric](value: A): SolidAngle[A] = SolidAngle(value, this)
 }
 
-case object SquaredRadians extends SolidAngleUnit("sr", 1.0) with PrimaryUnit with SiUnit
+case object SquaredRadians extends SolidAngleUnit("sr", 1) with PrimaryUnit with SiUnit

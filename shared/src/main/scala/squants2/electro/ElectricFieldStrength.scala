@@ -46,4 +46,4 @@ abstract class ElectricFieldStrengthUnit(val symbol: String, val conversionFacto
   override def apply[A: Numeric](value: A): ElectricFieldStrength[A] = ElectricFieldStrength(value, this)
 }
 
-case object VoltsPerMeter extends ElectricFieldStrengthUnit("V/m", 1.0) with PrimaryUnit with SiUnit
+case object VoltsPerMeter extends ElectricFieldStrengthUnit("V/m", 1) with PrimaryUnit with SiUnit

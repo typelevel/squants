@@ -46,4 +46,4 @@ abstract class SpectralPowerUnit(val symbol: String, val conversionFactor: Conve
   override def apply[A: Numeric](value: A): SpectralPower[A] = SpectralPower(value, this)
 }
 
-case object WattsPerMeter extends SpectralPowerUnit("W/m", 1.0) with PrimaryUnit with SiUnit
+case object WattsPerMeter extends SpectralPowerUnit("W/m", 1) with PrimaryUnit with SiUnit

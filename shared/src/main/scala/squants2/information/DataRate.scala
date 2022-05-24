@@ -146,7 +146,7 @@ abstract class DataRateUnit(val symbol: String, val conversionFactor: Conversion
 }
 
 case object BitsPerSecond extends DataRateUnit("bps", 0.125)
-case object BytesPerSecond extends DataRateUnit("B/s", 1.0) with PrimaryUnit with SiUnit
+case object BytesPerSecond extends DataRateUnit("B/s", 1) with PrimaryUnit with SiUnit
 case object KilobitsPerSecond extends DataRateUnit("Kbps", 125.0)
 case object KibibitsPerSecond extends DataRateUnit("Kibps", 128.0)
 case object KilobytesPerSecond extends DataRateUnit("KB/s", 1000.0)

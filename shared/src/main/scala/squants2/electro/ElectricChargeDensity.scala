@@ -46,4 +46,4 @@ abstract class ElectricChargeDensityUnit(val symbol: String, val conversionFacto
   override def apply[A: Numeric](value: A): ElectricChargeDensity[A] = ElectricChargeDensity(value, this)
 }
 
-case object CoulombsPerCubicMeter extends ElectricChargeDensityUnit("C/m³", 1.0) with PrimaryUnit with SiUnit
+case object CoulombsPerCubicMeter extends ElectricChargeDensityUnit("C/m³", 1) with PrimaryUnit with SiUnit

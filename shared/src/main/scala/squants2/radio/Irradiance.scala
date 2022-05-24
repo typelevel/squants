@@ -50,4 +50,4 @@ abstract class IrradianceUnit(val symbol: String, val conversionFactor: Conversi
 }
 
 case object ErgsPerSecondPerSquareCentimeter extends IrradianceUnit("erg/s/cm²", 9.999999999999998E-4)
-case object WattsPerSquareMeter extends IrradianceUnit("W/m²", 1.0) with PrimaryUnit with SiUnit
+case object WattsPerSquareMeter extends IrradianceUnit("W/m²", 1) with PrimaryUnit with SiUnit

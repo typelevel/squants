@@ -61,5 +61,5 @@ abstract class MassFlowUnit(val symbol: String, val conversionFactor: Conversion
 case object PoundsPerHour extends MassFlowUnit("lb/hr", 1.2599788055555556E-4)
 case object KilopoundsPerHour extends MassFlowUnit("klb/hr", 0.12599788055555555)
 case object PoundsPerSecond extends MassFlowUnit("lb/s", 0.45359237)
-case object KilogramsPerSecond extends MassFlowUnit("kg/s", 1.0) with PrimaryUnit with SiUnit
+case object KilogramsPerSecond extends MassFlowUnit("kg/s", 1) with PrimaryUnit with SiUnit
 case object MegapoundsPerHour extends MassFlowUnit("Mlb/hr", 125.99788055555557)

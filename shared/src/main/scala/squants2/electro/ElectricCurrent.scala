@@ -50,4 +50,4 @@ abstract class ElectricCurrentUnit(val symbol: String, val conversionFactor: Con
 }
 
 case object Milliamperes extends ElectricCurrentUnit("mA", 0.001) with SiUnit
-case object Amperes extends ElectricCurrentUnit("A", 1) with PrimaryUnit with SiUnit
+case object Amperes extends ElectricCurrentUnit("A", 1) with PrimaryUnit with SiBaseUnit

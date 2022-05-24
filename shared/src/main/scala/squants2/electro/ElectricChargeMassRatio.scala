@@ -46,4 +46,4 @@ abstract class ElectricChargeMassRatioUnit(val symbol: String, val conversionFac
   override def apply[A: Numeric](value: A): ElectricChargeMassRatio[A] = ElectricChargeMassRatio(value, this)
 }
 
-case object CoulombsPerKilogram extends ElectricChargeMassRatioUnit("C/kg", 1.0) with PrimaryUnit with SiUnit
+case object CoulombsPerKilogram extends ElectricChargeMassRatioUnit("C/kg", 1) with PrimaryUnit with SiUnit

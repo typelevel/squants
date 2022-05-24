@@ -146,7 +146,7 @@ abstract class InformationUnit(val symbol: String, val conversionFactor: Convers
 }
 
 case object Bits extends InformationUnit("bit", 0.125)
-case object Bytes extends InformationUnit("B", 1.0) with PrimaryUnit with SiUnit
+case object Bytes extends InformationUnit("B", 1) with PrimaryUnit with SiBaseUnit
 case object Kilobits extends InformationUnit("Kbit", 125.0)
 case object Kibibits extends InformationUnit("Kibit", 128.0)
 case object Kilobytes extends InformationUnit("KB", 1000.0)

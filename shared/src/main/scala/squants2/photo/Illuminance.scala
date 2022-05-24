@@ -46,4 +46,4 @@ abstract class IlluminanceUnit(val symbol: String, val conversionFactor: Convers
   override def apply[A: Numeric](value: A): Illuminance[A] = Illuminance(value, this)
 }
 
-case object Lux extends IlluminanceUnit("lx", 1.0) with PrimaryUnit with SiUnit
+case object Lux extends IlluminanceUnit("lx", 1) with PrimaryUnit with SiUnit

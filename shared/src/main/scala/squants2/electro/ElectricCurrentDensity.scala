@@ -46,4 +46,4 @@ abstract class ElectricCurrentDensityUnit(val symbol: String, val conversionFact
   override def apply[A: Numeric](value: A): ElectricCurrentDensity[A] = ElectricCurrentDensity(value, this)
 }
 
-case object AmperesPerSquareMeter extends ElectricCurrentDensityUnit("A/m²", 1.0) with PrimaryUnit with SiUnit
+case object AmperesPerSquareMeter extends ElectricCurrentDensityUnit("A/m²", 1) with PrimaryUnit with SiUnit

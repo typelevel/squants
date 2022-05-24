@@ -64,7 +64,7 @@ abstract class PressureUnit(val symbol: String, val conversionFactor: Conversion
   override def apply[A: Numeric](value: A): Pressure[A] = Pressure(value, this)
 }
 
-case object Pascals extends PressureUnit("Pa", 1.0) with PrimaryUnit with SiUnit
+case object Pascals extends PressureUnit("Pa", 1) with PrimaryUnit with SiUnit
 case object Torrs extends PressureUnit("Torr", 133.32236842105263)
 case object MillimetersOfMercury extends PressureUnit("mmHg", 133.322387415)
 case object InchesOfMercury extends PressureUnit("inHg", 3386.389)

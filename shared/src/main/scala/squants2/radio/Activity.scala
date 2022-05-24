@@ -52,6 +52,6 @@ abstract class ActivityUnit(val symbol: String, val conversionFactor: Conversion
   override def apply[A: Numeric](value: A): Activity[A] = Activity(value, this)
 }
 
-case object Becquerels extends ActivityUnit("Bq", 1.0) with PrimaryUnit with SiUnit
+case object Becquerels extends ActivityUnit("Bq", 1) with PrimaryUnit with SiUnit
 case object Rutherfords extends ActivityUnit("Rd", 1000000.0)
 case object Curies extends ActivityUnit("Ci", 3.7E10)
