@@ -43,7 +43,9 @@ object Squants2Converter extends App {
 
     ThermalCapacity,
 
-    Frequency
+    Frequency,
+
+    Dimensionless
   )
 
   val file = new FileWriter("UNITS.md")
@@ -58,9 +60,12 @@ object Squants2Converter extends App {
     printer.println("")
     printer.println("|Package|Dimensions|")
     printer.println("|----------------------------|-----------------------------------------------------------|")
-    allDimensions.groupBy(d => d.getClass.getPackage.getName).foreach { case (p, ds) =>
-      printer.println(s"|${p.replace("squants.", "")}|${ds.map(d => s"[${d.name}](#${d.name.toLowerCase})").mkString(", ")}|")
-    }
+    allDimensions.groupBy(d => d.getClass.getPackage.getName)
+      .toList.sortBy(_._1)
+      .foreach { case (p, ds) =>
+        val dims = ds.toList.sortBy(_.name)
+        printer.println(s"|$p|${dims.map(d => s"[${d.name}](#${d.name.toLowerCase})").mkString(", ")}|")
+      }
 
     printer.println(s"#### Dimension Count: ${allDimensions.size}")
     printer.println(s"#### Unit Count: ${allDimensions.map(_.units.size).sum}")
