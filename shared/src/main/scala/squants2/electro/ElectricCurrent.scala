@@ -22,10 +22,10 @@ final case class ElectricCurrent[A: Numeric] private [squants2]  (value: A, unit
   def toAmperes: A = to(Amperes)
 }
 
-object ElectricCurrent extends Dimension("ElectricCurrent") {
+object ElectricCurrent extends BaseDimension("Electric Current", "I") {
 
   override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = Amperes
-  override def siUnit: UnitOfMeasure[this.type] with SiUnit = Amperes
+  override def siUnit: UnitOfMeasure[this.type] with SiBaseUnit = Amperes
   override lazy val units: Set[UnitOfMeasure[this.type]] = 
     Set(Milliamperes, Amperes)
 

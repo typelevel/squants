@@ -25,7 +25,7 @@ final case class ElectricPotential[A: Numeric] private [squants2]  (value: A, un
   def toMegavolts: A = to(Megavolts)
 }
 
-object ElectricPotential extends Dimension("ElectricPotential") {
+object ElectricPotential extends Dimension("Electric Potential") {
 
   override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = Volts
   override def siUnit: UnitOfMeasure[this.type] with SiUnit = Volts

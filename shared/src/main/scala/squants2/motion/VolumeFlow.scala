@@ -42,7 +42,7 @@ final case class VolumeFlow[A: Numeric] private [squants2]  (value: A, unit: Vol
   def toCubicMetersPerSecond: A = to(CubicMetersPerSecond)
 }
 
-object VolumeFlow extends Dimension("VolumeFlow") {
+object VolumeFlow extends Dimension("Volume Flow") {
 
   override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = CubicMetersPerSecond
   override def siUnit: UnitOfMeasure[this.type] with SiUnit = CubicMetersPerSecond

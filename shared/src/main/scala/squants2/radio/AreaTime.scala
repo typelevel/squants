@@ -22,7 +22,7 @@ final case class AreaTime[A: Numeric] private [squants2]  (value: A, unit: AreaT
   def toSquareMeterSeconds: A = to(SquareMeterSeconds)
 }
 
-object AreaTime extends Dimension("AreaTime") {
+object AreaTime extends Dimension("Area Time") {
 
   override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = SquareMeterSeconds
   override def siUnit: UnitOfMeasure[this.type] with SiUnit = SquareMeterSeconds

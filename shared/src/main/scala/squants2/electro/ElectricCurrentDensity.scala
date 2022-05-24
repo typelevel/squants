@@ -21,7 +21,7 @@ final case class ElectricCurrentDensity[A: Numeric] private [squants2]  (value: 
   def toAmperesPerSquareMeter: A = to(AmperesPerSquareMeter)
 }
 
-object ElectricCurrentDensity extends Dimension("ElectricCurrentDensity") {
+object ElectricCurrentDensity extends Dimension("Electric Current Density") {
 
   override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = AmperesPerSquareMeter
   override def siUnit: UnitOfMeasure[this.type] with SiUnit = AmperesPerSquareMeter

@@ -21,7 +21,7 @@ final case class AreaElectricChargeDensity[A: Numeric] private [squants2]  (valu
   def toCoulombsPerSquareMeter: A = to(CoulombsPerSquareMeter)
 }
 
-object AreaElectricChargeDensity extends Dimension("AreaElectricChargeDensity") {
+object AreaElectricChargeDensity extends Dimension("Area Electric Charge Density") {
 
   override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = CoulombsPerSquareMeter
   override def siUnit: UnitOfMeasure[this.type] with SiUnit = CoulombsPerSquareMeter

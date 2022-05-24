@@ -21,7 +21,7 @@ final case class ElectricalConductance[A: Numeric] private [squants2]  (value: A
   def toSiemens: A = to(Siemens)
 }
 
-object ElectricalConductance extends Dimension("ElectricalConductance") {
+object ElectricalConductance extends Dimension("Electrical Conductance") {
 
   override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = Siemens
   override def siUnit: UnitOfMeasure[this.type] with SiUnit = Siemens

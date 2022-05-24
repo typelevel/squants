@@ -22,7 +22,7 @@ final case class ParticleFlux[A: Numeric] private [squants2]  (value: A, unit: P
   def toBecquerelsPerSquareCentimeterSecond: A = to(BecquerelsPerSquareCentimeterSecond)
 }
 
-object ParticleFlux extends Dimension("ParticleFlux") {
+object ParticleFlux extends Dimension("Particle Flux") {
 
   override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = BecquerelsPerSquareMeterSecond
   override def siUnit: UnitOfMeasure[this.type] with SiUnit = BecquerelsPerSquareMeterSecond

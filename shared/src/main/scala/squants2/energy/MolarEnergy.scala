@@ -21,7 +21,7 @@ final case class MolarEnergy[A: Numeric] private [squants2]  (value: A, unit: Mo
   def toJoulesPerMole: A = to(JoulesPerMole)
 }
 
-object MolarEnergy extends Dimension("MolarEnergy") {
+object MolarEnergy extends Dimension("Molar Energy") {
 
   override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = JoulesPerMole
   override def siUnit: UnitOfMeasure[this.type] with SiUnit = JoulesPerMole

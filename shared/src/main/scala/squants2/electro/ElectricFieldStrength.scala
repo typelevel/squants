@@ -21,7 +21,7 @@ final case class ElectricFieldStrength[A: Numeric] private [squants2]  (value: A
   def toVoltsPerMeter: A = to(VoltsPerMeter)
 }
 
-object ElectricFieldStrength extends Dimension("ElectricFieldStrength") {
+object ElectricFieldStrength extends Dimension("Electric Field Strength") {
 
   override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = VoltsPerMeter
   override def siUnit: UnitOfMeasure[this.type] with SiUnit = VoltsPerMeter

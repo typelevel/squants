@@ -22,7 +22,7 @@ final case class MagneticFluxDensity[A: Numeric] private [squants2]  (value: A, 
   def toTeslas: A = to(Teslas)
 }
 
-object MagneticFluxDensity extends Dimension("MagneticFluxDensity") {
+object MagneticFluxDensity extends Dimension("Magnetic Flux Density") {
 
   override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = Teslas
   override def siUnit: UnitOfMeasure[this.type] with SiUnit = Teslas

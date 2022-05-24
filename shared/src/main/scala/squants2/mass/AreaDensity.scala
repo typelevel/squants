@@ -24,7 +24,7 @@ final case class AreaDensity[A: Numeric] private [squants2]  (value: A, unit: Ar
   def toGramsPerSquareCentimeter: A = to(GramsPerSquareCentimeter)
 }
 
-object AreaDensity extends Dimension("AreaDensity") {
+object AreaDensity extends Dimension("Area Density") {
 
   override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = KilogramsPerSquareMeter
   override def siUnit: UnitOfMeasure[this.type] with SiUnit = KilogramsPerSquareMeter

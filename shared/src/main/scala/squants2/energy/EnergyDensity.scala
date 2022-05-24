@@ -21,7 +21,7 @@ final case class EnergyDensity[A: Numeric] private [squants2]  (value: A, unit: 
   def toJoulesPerCubicMeter: A = to(JoulesPerCubicMeter)
 }
 
-object EnergyDensity extends Dimension("EnergyDensity") {
+object EnergyDensity extends Dimension("Energy Density") {
 
   override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = JoulesPerCubicMeter
   override def siUnit: UnitOfMeasure[this.type] with SiUnit = JoulesPerCubicMeter

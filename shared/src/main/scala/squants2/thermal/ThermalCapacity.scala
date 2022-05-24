@@ -21,7 +21,7 @@ final case class ThermalCapacity[A: Numeric] private [squants2]  (value: A, unit
   def toJoulesPerKelvin: A = to(JoulesPerKelvin)
 }
 
-object ThermalCapacity extends Dimension("ThermalCapacity") {
+object ThermalCapacity extends Dimension("Thermal Capacity") {
 
   override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = JoulesPerKelvin
   override def siUnit: UnitOfMeasure[this.type] with SiUnit = JoulesPerKelvin

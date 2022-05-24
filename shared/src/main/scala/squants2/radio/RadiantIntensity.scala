@@ -21,7 +21,7 @@ final case class RadiantIntensity[A: Numeric] private [squants2]  (value: A, uni
   def toWattsPerSteradian: A = to(WattsPerSteradian)
 }
 
-object RadiantIntensity extends Dimension("RadiantIntensity") {
+object RadiantIntensity extends Dimension("Radiant Intensity") {
 
   override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = WattsPerSteradian
   override def siUnit: UnitOfMeasure[this.type] with SiUnit = WattsPerSteradian

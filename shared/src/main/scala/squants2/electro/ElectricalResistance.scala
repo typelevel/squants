@@ -27,7 +27,7 @@ final case class ElectricalResistance[A: Numeric] private [squants2]  (value: A,
   def toGigohms: A = to(Gigohms)
 }
 
-object ElectricalResistance extends Dimension("ElectricalResistance") {
+object ElectricalResistance extends Dimension("Electrical Resistance") {
 
   override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = Ohms
   override def siUnit: UnitOfMeasure[this.type] with SiUnit = Ohms

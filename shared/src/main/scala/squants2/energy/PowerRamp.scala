@@ -26,7 +26,7 @@ final case class PowerRamp[A: Numeric] private [squants2]  (value: A, unit: Powe
   def toGigawattsPerHour: A = to(GigawattsPerHour)
 }
 
-object PowerRamp extends Dimension("PowerRamp") {
+object PowerRamp extends Dimension("Power Ramp") {
 
   override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = WattsPerHour
   override def siUnit: UnitOfMeasure[this.type] with SiUnit = WattsPerHour

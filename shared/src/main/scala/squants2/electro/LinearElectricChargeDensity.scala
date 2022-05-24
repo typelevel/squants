@@ -21,7 +21,7 @@ final case class LinearElectricChargeDensity[A: Numeric] private [squants2]  (va
   def toCoulombsPerMeter: A = to(CoulombsPerMeter)
 }
 
-object LinearElectricChargeDensity extends Dimension("LinearElectricChargeDensity") {
+object LinearElectricChargeDensity extends Dimension("Linear Electric Charge Density") {
 
   override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = CoulombsPerMeter
   override def siUnit: UnitOfMeasure[this.type] with SiUnit = CoulombsPerMeter

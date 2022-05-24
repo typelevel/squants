@@ -23,7 +23,7 @@ final case class SpecificEnergy[A: Numeric] private [squants2]  (value: A, unit:
   def toGrays: A = to(Grays)
 }
 
-object SpecificEnergy extends Dimension("SpecificEnergy") {
+object SpecificEnergy extends Dimension("Specific Energy") {
 
   override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = Grays
   override def siUnit: UnitOfMeasure[this.type] with SiUnit = Grays

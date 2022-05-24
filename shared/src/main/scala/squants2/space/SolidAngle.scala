@@ -21,7 +21,7 @@ final case class SolidAngle[A: Numeric] private [squants2]  (value: A, unit: Sol
   def toSquaredRadians: A = to(SquaredRadians)
 }
 
-object SolidAngle extends Dimension("SolidAngle") {
+object SolidAngle extends Dimension("Solid Angle") {
 
   override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = SquaredRadians
   override def siUnit: UnitOfMeasure[this.type] with SiUnit = SquaredRadians

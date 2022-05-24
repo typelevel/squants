@@ -17,13 +17,14 @@ object Squants2Converter extends App {
     val packageName = d.getClass.getPackage.getName.replace("squants", "squants2").replace(".", "/")
     val path = s"shared/src/main/scala/$packageName/"
     if(!Files.exists(Path.of(path))) Files.createDirectory(Path.of(path))
+    println(packageName)
 
 //    if(Files.exists(Path.of(s"$path${d.name}.scala"))) return
 
     val file = new File(s"$path${d.name}.scala")
     val writer = new PrintWriter(file)
 
-    val units = d.units.toList.sortBy{ (u: UnitOfMeasure[_]) => u.convertFrom(1d) }
+    val units = d.units.toList.sortBy{ (u: UnitOfMeasure[_]) => u.symbol }.sortBy{ (u: UnitOfMeasure[_]) => u.convertFrom(1d) }
 
     writer.println("/*                                                                      *\\")
     writer.println("** Squants                                                              **")
@@ -35,7 +36,7 @@ object Squants2Converter extends App {
     writer.println()
     writer.println(s"package ${d.getClass.getPackage.getName.replace("squants", "squants2")}")
     writer.println()
-    writer.println("import squants2._")
+    if (!packageName.equals("squants2")) writer.println("import squants2._")
     writer.println("import scala.math.Numeric.Implicits.infixNumericOps")
     writer.println()
 
@@ -53,10 +54,20 @@ object Squants2Converter extends App {
     writer.println(s"}")
     writer.println()
 
-    writer.println(s"object ${d.name} extends Dimension(\"${d.name}\") {")
+    d match {
+      case baseDimension: BaseDimension =>
+        writer.println(s"object ${d.name} extends BaseDimension(\"${d.name.withSpaces}\", \"${baseDimension.dimensionSymbol}\") {")
+      case _ =>
+        writer.println(s"object ${d.name} extends Dimension(\"${d.name.withSpaces}\") {")
+    }
     writer.println()
     writer.println(s"  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = ${d.primaryUnit.getClass.getSimpleName.replace("$", "")}")
-    writer.println(s"  override def siUnit: UnitOfMeasure[this.type] with SiUnit = ${d.siUnit.getClass.getSimpleName.replace("$", "")}")
+    d match {
+      case _: BaseDimension =>
+        writer.println(s"  override def siUnit: UnitOfMeasure[this.type] with SiBaseUnit = ${d.siUnit.getClass.getSimpleName.replace("$", "")}")
+      case _ =>
+        writer.println(s"  override def siUnit: UnitOfMeasure[this.type] with SiUnit = ${d.siUnit.getClass.getSimpleName.replace("$", "")}")
+    }
     val unitList = units.map { (u: UnitOfMeasure[_]) => s"${u.getClass.getSimpleName.replace("$", "")}"}.mkString(", ")
     writer.println(s"  override lazy val units: Set[UnitOfMeasure[this.type]] = ")
     writer.println(s"    Set($unitList)")
@@ -112,5 +123,11 @@ object Squants2Converter extends App {
     writer.close()
   }
 
+  private implicit class CamelToSpaces(s: String) {
+    def withSpaces: String = s"${s.head}" + s.tail.map { c =>
+      if(c.isUpper) s" $c"
+      else s"$c"
+    }.mkString
+  }
 
 }

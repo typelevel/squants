@@ -24,7 +24,7 @@ final case class PressureChange[A: Numeric] private [squants2]  (value: A, unit:
   def toStandardAtmospheresPerSecond: A = to(StandardAtmospheresPerSecond)
 }
 
-object PressureChange extends Dimension("PressureChange") {
+object PressureChange extends Dimension("Pressure Change") {
 
   override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = PascalsPerSecond
   override def siUnit: UnitOfMeasure[this.type] with SiUnit = PascalsPerSecond

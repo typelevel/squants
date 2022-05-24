@@ -21,7 +21,7 @@ final case class PowerDensity[A: Numeric] private [squants2]  (value: A, unit: P
   def toWattsPerCubicMeter: A = to(WattsPerCubicMeter)
 }
 
-object PowerDensity extends Dimension("PowerDensity") {
+object PowerDensity extends Dimension("Power Density") {
 
   override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = WattsPerCubicMeter
   override def siUnit: UnitOfMeasure[this.type] with SiUnit = WattsPerCubicMeter

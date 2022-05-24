@@ -21,7 +21,7 @@ final case class LuminousExposure[A: Numeric] private [squants2]  (value: A, uni
   def toLuxSeconds: A = to(LuxSeconds)
 }
 
-object LuminousExposure extends Dimension("LuminousExposure") {
+object LuminousExposure extends Dimension("Luminous Exposure") {
 
   override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = LuxSeconds
   override def siUnit: UnitOfMeasure[this.type] with SiUnit = LuxSeconds

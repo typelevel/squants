@@ -16,8 +16,6 @@ final case class Area[A: Numeric] private [squants2]  (value: A, unit: AreaUnit)
   override type Q[B] = Area[B]
 
   // BEGIN CUSTOM OPS
-  def /[B](that: Length[B])(implicit f: B => A): Length[A] = Meters(to(SquareMeters) / that.asNum[A].to(Meters))
-  def *[B](that: Length[B])(implicit f: B => A): Volume[A] = CubicMeters(to(SquareMeters) * that.asNum[A].to(Meters))
   // END CUSTOM OPS
 
   def toBarnes: A = to(Barnes)

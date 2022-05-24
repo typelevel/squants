@@ -21,7 +21,7 @@ final case class MagneticFlux[A: Numeric] private [squants2]  (value: A, unit: M
   def toWebers: A = to(Webers)
 }
 
-object MagneticFlux extends Dimension("MagneticFlux") {
+object MagneticFlux extends Dimension("Magnetic Flux") {
 
   override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = Webers
   override def siUnit: UnitOfMeasure[this.type] with SiUnit = Webers

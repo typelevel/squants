@@ -54,10 +54,10 @@ final case class Information[A: Numeric] private [squants2]  (value: A, unit: In
   def toYobibytes: A = to(Yobibytes)
 }
 
-object Information extends Dimension("Information") {
+object Information extends BaseDimension("Information", "B") {
 
   override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = Bytes
-  override def siUnit: UnitOfMeasure[this.type] with SiUnit = Bytes
+  override def siUnit: UnitOfMeasure[this.type] with SiBaseUnit = Bytes
   override lazy val units: Set[UnitOfMeasure[this.type]] = 
     Set(Bits, Bytes, Kilobits, Kibibits, Kilobytes, Kibibytes, Megabits, Mebibits, Megabytes, Mebibytes, Gigabits, Gibibits, Gigabytes, Gibibytes, Terabits, Tebibits, Terabytes, Tebibytes, Petabits, Pebibits, Petabytes, Pebibytes, Exabits, Exbibits, Exabytes, Exbibytes, Zettabits, Zebibits, Zettabytes, Zebibytes, Yottabits, Yobibits, Yottabytes, Yobibytes)
 

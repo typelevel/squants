@@ -54,7 +54,7 @@ final case class DataRate[A: Numeric] private [squants2]  (value: A, unit: DataR
   def toYobibytesPerSecond: A = to(YobibytesPerSecond)
 }
 
-object DataRate extends Dimension("DataRate") {
+object DataRate extends Dimension("Data Rate") {
 
   override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = BytesPerSecond
   override def siUnit: UnitOfMeasure[this.type] with SiUnit = BytesPerSecond

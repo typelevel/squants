@@ -26,7 +26,7 @@ final case class AngularAcceleration[A: Numeric] private [squants2]  (value: A, 
   def toTurnsPerSecondSquared: A = to(TurnsPerSecondSquared)
 }
 
-object AngularAcceleration extends Dimension("AngularAcceleration") {
+object AngularAcceleration extends Dimension("Angular Acceleration") {
 
   override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = RadiansPerSecondSquared
   override def siUnit: UnitOfMeasure[this.type] with SiUnit = RadiansPerSecondSquared

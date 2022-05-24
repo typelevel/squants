@@ -21,7 +21,7 @@ final case class SpectralPower[A: Numeric] private [squants2]  (value: A, unit: 
   def toWattsPerMeter: A = to(WattsPerMeter)
 }
 
-object SpectralPower extends Dimension("SpectralPower") {
+object SpectralPower extends Dimension("Spectral Power") {
 
   override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = WattsPerMeter
   override def siUnit: UnitOfMeasure[this.type] with SiUnit = WattsPerMeter

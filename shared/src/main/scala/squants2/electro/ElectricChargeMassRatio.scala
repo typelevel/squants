@@ -21,7 +21,7 @@ final case class ElectricChargeMassRatio[A: Numeric] private [squants2]  (value:
   def toCoulombsPerKilogram: A = to(CoulombsPerKilogram)
 }
 
-object ElectricChargeMassRatio extends Dimension("ElectricChargeMassRatio") {
+object ElectricChargeMassRatio extends Dimension("Electric Charge Mass Ratio") {
 
   override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = CoulombsPerKilogram
   override def siUnit: UnitOfMeasure[this.type] with SiUnit = CoulombsPerKilogram

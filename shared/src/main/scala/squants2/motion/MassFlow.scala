@@ -25,7 +25,7 @@ final case class MassFlow[A: Numeric] private [squants2]  (value: A, unit: MassF
   def toMegapoundsPerHour: A = to(MegapoundsPerHour)
 }
 
-object MassFlow extends Dimension("MassFlow") {
+object MassFlow extends Dimension("Mass Flow") {
 
   override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = KilogramsPerSecond
   override def siUnit: UnitOfMeasure[this.type] with SiUnit = KilogramsPerSecond

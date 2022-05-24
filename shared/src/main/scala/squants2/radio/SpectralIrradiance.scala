@@ -24,7 +24,7 @@ final case class SpectralIrradiance[A: Numeric] private [squants2]  (value: A, u
   def toWattsPerSquareMeterPerNanometer: A = to(WattsPerSquareMeterPerNanometer)
 }
 
-object SpectralIrradiance extends Dimension("SpectralIrradiance") {
+object SpectralIrradiance extends Dimension("Spectral Irradiance") {
 
   override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = WattsPerCubicMeter
   override def siUnit: UnitOfMeasure[this.type] with SiUnit = WattsPerCubicMeter

@@ -22,7 +22,7 @@ final case class MomentOfInertia[A: Numeric] private [squants2]  (value: A, unit
   def toPoundsSquareFeet: A = to(PoundsSquareFeet)
 }
 
-object MomentOfInertia extends Dimension("MomentOfInertia") {
+object MomentOfInertia extends Dimension("Moment Of Inertia") {
 
   override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = KilogramsMetersSquared
   override def siUnit: UnitOfMeasure[this.type] with SiUnit = KilogramsMetersSquared
