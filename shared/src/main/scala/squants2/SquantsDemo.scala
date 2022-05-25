@@ -42,4 +42,6 @@ object SquantsDemo extends App {
   println(ms.sorted.reverse)
   println(ms.sum(Dimensionless.numeric[BigDecimal]))
 
+  val dim = Each(10)
+  val bdd: BigDecimal = dim.toGross
 }

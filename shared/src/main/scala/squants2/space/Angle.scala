@@ -20,7 +20,6 @@ final case class Angle[A: Numeric] private [squants2]  (value: A, unit: AngleUni
   //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
   //  def *[B](that: Frequency[B])(implicit f: B => A): Quantity[A] = ???
 
-  private val num = implicitly[Numeric[A]]
   def cos: Double = math.cos(num.toDouble(toRadians))
   def tan: Double = math.tan(num.toDouble(toRadians))
   def sin: Double = math.sin(num.toDouble(toRadians))

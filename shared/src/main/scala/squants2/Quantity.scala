@@ -14,8 +14,8 @@ import scala.math.Ordered.orderingToOrdered
  * @since   0.1
  *
  */
-abstract class Quantity[A, D <: Dimension](implicit num: Numeric[A]) extends Serializable with Ordered[Quantity[A, D]] {
-  type Q[B] <: Quantity[B, D]
+abstract class Quantity[A, D <: Dimension](implicit protected val num: Numeric[A]) extends Serializable with Ordered[Quantity[A, D]] {
+  type Q[N] <: Quantity[N, D]
 
   /**
    * The value of the quantity given the unit
@@ -40,7 +40,7 @@ abstract class Quantity[A, D <: Dimension](implicit num: Numeric[A]) extends Ser
    * @param that Quantity
    * @return Quantity
    */
-  def plus[B](that: Quantity[B, D])(implicit f: B => A): Q[A] = unit(value + f(that.to(unit))).asInstanceOf[Q[A]]
+  def plus[B](that: Quantity[B, D])(implicit f: B => A): Q[A] = unit(value + that.to(unit)).asInstanceOf[Q[A]]
   def +[B](that: Quantity[B, D])(implicit f: B => A): Q[A] = plus(that)
 
   /**
@@ -48,7 +48,7 @@ abstract class Quantity[A, D <: Dimension](implicit num: Numeric[A]) extends Ser
    * @param that Quantity
    * @return Quantity
    */
-  def minus[B](that: Quantity[B, D])(implicit f: B => A): Q[A] = unit(value - f(that.to(unit))).asInstanceOf[Q[A]]
+  def minus[B](that: Quantity[B, D])(implicit f: B => A): Q[A] = unit(value - that.to(unit)).asInstanceOf[Q[A]]
   def -[B](that: Quantity[B, D])(implicit f: B => A): Q[A] = minus(that)
 
   /**
@@ -169,7 +169,7 @@ abstract class Quantity[A, D <: Dimension](implicit num: Numeric[A]) extends Ser
    * @return
    */
   override def equals(that: Any): Boolean = that match {
-    case q: Quantity[_, _] if q.dimension == dimension => value == q.asInstanceOf[Quantity[_, D]].to(unit)
+    case q: Quantity[_, _] if dimension==q.dimension && num==q.num => q.asInstanceOf[Quantity[A, D]].to(unit) == value
     case _ => false
   }
 
@@ -196,14 +196,14 @@ abstract class Quantity[A, D <: Dimension](implicit num: Numeric[A]) extends Ser
    * @param that Quantity
    * @return Quantity
    */
-  def max[B](that: Quantity[B, D])(implicit f: B => A): Quantity[A, D] = if (this.value <= f(that.to(unit))) this else that.asNum[A]
+  def max[B](that: Quantity[B, D])(implicit f: B => A): Quantity[A, D] = if (this.value <= that.to(unit)) this else that.asNum[A]
 
   /**
    * Returns the min of this and that Quantity
    * @param that Quantity
    * @return Quantity
    */
-  def min[B](that: Quantity[B, D])(implicit f: B => A): Quantity[A, D] = if (this.value >= f(that.to(unit))) this else that.asNum[A]
+  def min[B](that: Quantity[B, D])(implicit f: B => A): Quantity[A, D] = if (this.value >= that.to(unit)) this else that.asNum[A]
 
   /**
    * Returns boolean result of approximate equality comparison
@@ -250,7 +250,7 @@ abstract class Quantity[A, D <: Dimension](implicit num: Numeric[A]) extends Ser
   def notWithin[B](range: QuantityRange[B, D])(implicit f: B => A): Boolean = !range.asNum[A].contains(this)
 
   /**
-   * Returns a Double representing the quantity in terms of the supplied unit
+   * Returns a Numeric representing the quantity in terms of the supplied unit
    * {{{
    *   val d = Feet(3)
    *   (d to Inches) should be(36)
@@ -258,7 +258,16 @@ abstract class Quantity[A, D <: Dimension](implicit num: Numeric[A]) extends Ser
    * @param uom UnitOfMeasure[A]
    * @return Double
    */
-  def to(uom: UnitOfMeasure[D]): A = unit.convertTo(this, uom).value
+//  def to(uom: UnitOfMeasure[D]): A = unit.convertTo(this, uom).value
+
+  /**
+   * Returns a Numeric of the supplied type representing in the quantity in terms of the supplied unit
+   * @param uom
+   * @param f
+   * @tparam B
+   * @return
+   */
+  def to[B: Numeric](uom: UnitOfMeasure[D])(implicit f: A => B): B = unit.convertTo(this.asNum[B], uom).value
 
   /**
    * Returns an equivalent Quantity boxed with the supplied Unit

@@ -53,6 +53,7 @@ object Squants2Converter extends App {
       .withFilter(m => !Set("Quantity", "Time").contains(m.getReturnType.getSimpleName))
       //      .withFilter(m => !m.getParameters.map(_.getType.getSimpleName).contains("Quantity"))
       .withFilter(m => !Set("value", "unit", "dimension", "time", "timeDerived", "timeIntegrated").contains(m.getName))
+      .withFilter(m => !m.getName.startsWith("to"))
       .foreach { m =>
         println(s"${m.toString} ${m.getParameters.map(_.getType.getSimpleName).mkString(", ")}")
         val op = if (m.getName == "$div") "/" else if (m.getName == "$times") "*" else if (m.getName == "$plus") "+" else if (m.getName == "$minus") "-" else m.getName
@@ -62,6 +63,7 @@ object Squants2Converter extends App {
         }.mkString(", ")
         val returnType = {
           if(m.getReturnType.getSimpleName == "double") "A"
+          else if(m.getReturnType.getSimpleName == "long") "Long"
           else if(m.getReturnType.getPackage.getName.contains("squants")) s"${m.getReturnType.getSimpleName}[A]"
           else m.getReturnType.getSimpleName
         }
@@ -72,7 +74,7 @@ object Squants2Converter extends App {
     writer.println()
     units.foreach { (u: UnitOfMeasure[_]) =>
       val unitName = u.getClass.getSimpleName.replace("$", "")
-      writer.println(s"  def to$unitName: A = to($unitName)")
+      writer.println(s"  def to$unitName[B: Numeric](implicit f: A => B): B = to[B]($unitName)")
     }
     writer.println(s"}")
     writer.println()
