@@ -1,11 +1,3 @@
-import squants2.electro.ElectricCurrent
-import squants2.mass.Mass
-import squants2.photo.LuminousIntensity
-import squants2.space.Length
-import squants2.thermal.Temperature
-import squants2.time.Time
-
-import java.io.PrintWriter
 import scala.annotation.tailrec
 import scala.math.BigDecimal.RoundingMode
 import scala.math.BigDecimal.RoundingMode.RoundingMode
@@ -83,46 +75,4 @@ package object squants2 {
 
   }
 
-  val allDimensions: Seq[Dimension] = Seq(
-    Dimensionless,
-    ElectricCurrent,
-    Mass,
-    LuminousIntensity,
-    Length,
-    Temperature,
-    Time
-  )
-
-  def printAllDimensions(printer: PrintWriter): Unit = {
-
-    printer.println("# Squants - Supported Dimensions and Units")
-
-    printer.println(s"#### Dimension Count: ${allDimensions.size}")
-    printer.println(s"#### Unit Count: ${allDimensions.map(_.units.size).sum}")
-
-    allDimensions.sortBy(! _.isSiBase).foreach { d =>
-      printer.println("")
-      d match {
-        case bd: BaseDimension =>
-          printer.println(s"## ${d.name} - [ ${bd.dimensionSymbol} ]")
-          printer.println(s"#### Primary Unit: ${d.primaryUnit.getClass.getSimpleName.replace("$", "")} (1 ${d.primaryUnit.symbol})")
-          printer.println(s"#### SI Base Unit: ${d.siUnit.getClass.getSimpleName.replace("$", "")} (1 ${d.siUnit.symbol})")
-
-        case _ =>
-          printer.println(s"## ${d.name}")
-          printer.println(s"#### Primary Unit: ${d.primaryUnit.getClass.getSimpleName.replace("$", "")} (1 ${d.primaryUnit.symbol})")
-          printer.println(s"#### SI Unit: ${d.siUnit.getClass.getSimpleName.replace("$", "")} (1 ${d.siUnit.symbol})")
-      }
-      printer.println("|Unit|Conversion Factor|")
-      printer.println("|----------------------------|-----------------------------------------------------------|")
-      d.units.filterNot(_ eq d.primaryUnit).toList.sortBy(u => u.conversionFactor).foreach { u =>
-        val cf = s"1 ${u.symbol} = ${u.conversionFactor} ${d.primaryUnit.symbol}"
-        printer.println(s"|${u.getClass.getSimpleName.replace("$", "")}| $cf|")
-      }
-      printer.println("")
-      printer.println(s"[Go to Code](../${d.getClass.getPackage.getName.replace(".", "/")}/${d.getClass.getSimpleName.replace("$", "")}.scala)")
-      printer.println(s" | [Go to Wiki](https://en.wikipedia.org/wiki/${d.name.replace(" ", "_")})")
-    }
-  }
 }
-
