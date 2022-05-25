@@ -40,7 +40,7 @@ abstract class Quantity[A, D <: Dimension](implicit protected val num: Numeric[A
    * @param that Quantity
    * @return Quantity
    */
-  def plus[B](that: Quantity[B, D])(implicit f: B => A): Q[A] = unit(value + that.to(unit)).asInstanceOf[Q[A]]
+  def plus[B](that: Quantity[B, D])(implicit f: B => A): Q[A] = unit(value + that.toNum(unit)).asInstanceOf[Q[A]]
   def +[B](that: Quantity[B, D])(implicit f: B => A): Q[A] = plus(that)
 
   /**
@@ -48,7 +48,7 @@ abstract class Quantity[A, D <: Dimension](implicit protected val num: Numeric[A
    * @param that Quantity
    * @return Quantity
    */
-  def minus[B](that: Quantity[B, D])(implicit f: B => A): Q[A] = unit(value - that.to(unit)).asInstanceOf[Q[A]]
+  def minus[B](that: Quantity[B, D])(implicit f: B => A): Q[A] = unit(value - that.toNum(unit)).asInstanceOf[Q[A]]
   def -[B](that: Quantity[B, D])(implicit f: B => A): Q[A] = minus(that)
 
   /**
@@ -196,14 +196,14 @@ abstract class Quantity[A, D <: Dimension](implicit protected val num: Numeric[A
    * @param that Quantity
    * @return Quantity
    */
-  def max[B](that: Quantity[B, D])(implicit f: B => A): Quantity[A, D] = if (this.value <= that.to(unit)) this else that.asNum[A]
+  def max[B](that: Quantity[B, D])(implicit f: B => A): Quantity[A, D] = if (this.value <= that.toNum(unit)) this else that.asNum[A]
 
   /**
    * Returns the min of this and that Quantity
    * @param that Quantity
    * @return Quantity
    */
-  def min[B](that: Quantity[B, D])(implicit f: B => A): Quantity[A, D] = if (this.value >= that.to(unit)) this else that.asNum[A]
+  def min[B](that: Quantity[B, D])(implicit f: B => A): Quantity[A, D] = if (this.value >= that.toNum(unit)) this else that.asNum[A]
 
   /**
    * Returns boolean result of approximate equality comparison
@@ -258,7 +258,7 @@ abstract class Quantity[A, D <: Dimension](implicit protected val num: Numeric[A
    * @param uom UnitOfMeasure[A]
    * @return Double
    */
-//  def to(uom: UnitOfMeasure[D]): A = unit.convertTo(this, uom).value
+  def to(uom: UnitOfMeasure[D]): A = unit.convertTo(this, uom).value
 
   /**
    * Returns a Numeric of the supplied type representing in the quantity in terms of the supplied unit
@@ -267,7 +267,7 @@ abstract class Quantity[A, D <: Dimension](implicit protected val num: Numeric[A
    * @tparam B
    * @return
    */
-  def to[B: Numeric](uom: UnitOfMeasure[D])(implicit f: A => B): B = unit.convertTo(this.asNum[B], uom).value
+  def toNum[B: Numeric](uom: UnitOfMeasure[D])(implicit f: A => B): B = unit.convertTo(this.asNum[B], uom).value
 
   /**
    * Returns an equivalent Quantity boxed with the supplied Unit
