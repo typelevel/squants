@@ -16,12 +16,13 @@ final case class LuminousIntensity[A: Numeric] private [squants2]  (value: A, un
   override type Q[B] = LuminousIntensity[B]
 
   // BEGIN CUSTOM OPS
+
   //  def *[B](that: SolidAngle[B])(implicit f: B => A): LuminousFlux[A] = ???
   //  def /[B](that: Area[B])(implicit f: B => A): Luminance[A] = ???
   //  def /[B](that: Luminance[B])(implicit f: B => A): Area[A] = ???
   // END CUSTOM OPS
 
-  def toCandelas: A = to(Candelas)
+  def toCandelas[B: Numeric](implicit f: A => B): B = toNum[B](Candelas)
 }
 
 object LuminousIntensity extends BaseDimension("Luminous Intensity", "J") {

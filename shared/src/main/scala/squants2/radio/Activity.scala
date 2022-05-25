@@ -16,12 +16,13 @@ final case class Activity[A: Numeric] private [squants2]  (value: A, unit: Activ
   override type Q[B] = Activity[B]
 
   // BEGIN CUSTOM OPS
+
   //  def /[B](that: AreaTime[B])(implicit f: B => A): ParticleFlux[A] = ???
   // END CUSTOM OPS
 
-  def toBecquerels: A = to(Becquerels)
-  def toRutherfords: A = to(Rutherfords)
-  def toCuries: A = to(Curies)
+  def toBecquerels[B: Numeric](implicit f: A => B): B = toNum[B](Becquerels)
+  def toRutherfords[B: Numeric](implicit f: A => B): B = toNum[B](Rutherfords)
+  def toCuries[B: Numeric](implicit f: A => B): B = toNum[B](Curies)
 }
 
 object Activity extends Dimension("Activity") {

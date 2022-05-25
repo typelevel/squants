@@ -16,9 +16,8 @@ final case class Energy[A: Numeric] private [squants2]  (value: A, unit: EnergyU
   override type Q[B] = Energy[B]
 
   // BEGIN CUSTOM OPS
-  //  def /[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
-  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
-  //  def *[B](that: Frequency[B])(implicit f: B => A): Quantity[A] = ???
+
+  //  def per[B](that: TimeSquared[B])(implicit f: B => A): SecondTimeDerivative[A] = ???
   //  def *[B](that: ParticleFlux[B])(implicit f: B => A): Irradiance[A] = ???
   //  def /[B](that: Length[B])(implicit f: B => A): Force[A] = ???
   //  def /[B](that: Force[B])(implicit f: B => A): Length[A] = ???
@@ -32,38 +31,38 @@ final case class Energy[A: Numeric] private [squants2]  (value: A, unit: EnergyU
   //  def /[B](that: ThermalCapacity[B])(implicit f: B => A): Temperature[A] = ???
   //  def /[B](that: ChemicalAmount[B])(implicit f: B => A): MolarEnergy[A] = ???
   //  def /[B](that: Angle[B])(implicit f: B => A): Torque[A] = ???
-  //  def /[B](that: Area[B])(implicit f: B => A): Nothing$[A] = ???
+  //  def /[B](that: Area[B])(implicit f: B => A): Nothing$ = ???
   //  def /[B](that: TimeSquared[B])(implicit f: B => A): PowerRamp[A] = ???
-  //  def /[B](that: SecondTimeDerivative[B])(implicit f: B => A): TimeSquared[A] = ???
+  //  def asTorque[B]()(implicit f: B => A): Torque[A] = ???
   //  def /[B](that: TimeSquared[B])(implicit f: B => A): SecondTimeDerivative[A] = ???
   // END CUSTOM OPS
 
-  def toMilliElectronVolt: A = to(MilliElectronVolt)
-  def toElectronVolt: A = to(ElectronVolt)
-  def toKiloElectronVolt: A = to(KiloElectronVolt)
-  def toMegaElectronVolt: A = to(MegaElectronVolt)
-  def toPicojoules: A = to(Picojoules)
-  def toGigaElectronVolt: A = to(GigaElectronVolt)
-  def toNanojoules: A = to(Nanojoules)
-  def toErgs: A = to(Ergs)
-  def toTeraElectronVolt: A = to(TeraElectronVolt)
-  def toMicrojoules: A = to(Microjoules)
-  def toPetaElectronVolt: A = to(PetaElectronVolt)
-  def toMillijoules: A = to(Millijoules)
-  def toExaElectronVolt: A = to(ExaElectronVolt)
-  def toJoules: A = to(Joules)
-  def toMilliwattHours: A = to(MilliwattHours)
-  def toKilojoules: A = to(Kilojoules)
-  def toBritishThermalUnits: A = to(BritishThermalUnits)
-  def toWattHours: A = to(WattHours)
-  def toMegajoules: A = to(Megajoules)
-  def toMBtus: A = to(MBtus)
-  def toKilowattHours: A = to(KilowattHours)
-  def toGigajoules: A = to(Gigajoules)
-  def toMMBtus: A = to(MMBtus)
-  def toMegawattHours: A = to(MegawattHours)
-  def toTerajoules: A = to(Terajoules)
-  def toGigawattHours: A = to(GigawattHours)
+  def toMilliElectronVolt[B: Numeric](implicit f: A => B): B = toNum[B](MilliElectronVolt)
+  def toElectronVolt[B: Numeric](implicit f: A => B): B = toNum[B](ElectronVolt)
+  def toKiloElectronVolt[B: Numeric](implicit f: A => B): B = toNum[B](KiloElectronVolt)
+  def toMegaElectronVolt[B: Numeric](implicit f: A => B): B = toNum[B](MegaElectronVolt)
+  def toPicojoules[B: Numeric](implicit f: A => B): B = toNum[B](Picojoules)
+  def toGigaElectronVolt[B: Numeric](implicit f: A => B): B = toNum[B](GigaElectronVolt)
+  def toNanojoules[B: Numeric](implicit f: A => B): B = toNum[B](Nanojoules)
+  def toErgs[B: Numeric](implicit f: A => B): B = toNum[B](Ergs)
+  def toTeraElectronVolt[B: Numeric](implicit f: A => B): B = toNum[B](TeraElectronVolt)
+  def toMicrojoules[B: Numeric](implicit f: A => B): B = toNum[B](Microjoules)
+  def toPetaElectronVolt[B: Numeric](implicit f: A => B): B = toNum[B](PetaElectronVolt)
+  def toMillijoules[B: Numeric](implicit f: A => B): B = toNum[B](Millijoules)
+  def toExaElectronVolt[B: Numeric](implicit f: A => B): B = toNum[B](ExaElectronVolt)
+  def toJoules[B: Numeric](implicit f: A => B): B = toNum[B](Joules)
+  def toMilliwattHours[B: Numeric](implicit f: A => B): B = toNum[B](MilliwattHours)
+  def toKilojoules[B: Numeric](implicit f: A => B): B = toNum[B](Kilojoules)
+  def toBritishThermalUnits[B: Numeric](implicit f: A => B): B = toNum[B](BritishThermalUnits)
+  def toWattHours[B: Numeric](implicit f: A => B): B = toNum[B](WattHours)
+  def toMegajoules[B: Numeric](implicit f: A => B): B = toNum[B](Megajoules)
+  def toMBtus[B: Numeric](implicit f: A => B): B = toNum[B](MBtus)
+  def toKilowattHours[B: Numeric](implicit f: A => B): B = toNum[B](KilowattHours)
+  def toGigajoules[B: Numeric](implicit f: A => B): B = toNum[B](Gigajoules)
+  def toMMBtus[B: Numeric](implicit f: A => B): B = toNum[B](MMBtus)
+  def toMegawattHours[B: Numeric](implicit f: A => B): B = toNum[B](MegawattHours)
+  def toTerajoules[B: Numeric](implicit f: A => B): B = toNum[B](Terajoules)
+  def toGigawattHours[B: Numeric](implicit f: A => B): B = toNum[B](GigawattHours)
 }
 
 object Energy extends Dimension("Energy") {

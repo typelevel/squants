@@ -16,16 +16,17 @@ final case class Capacitance[A: Numeric] private [squants2]  (value: A, unit: Ca
   override type Q[B] = Capacitance[B]
 
   // BEGIN CUSTOM OPS
+
   //  def *[B](that: ElectricPotential[B])(implicit f: B => A): ElectricCharge[A] = ???
   //  def /[B](that: Length[B])(implicit f: B => A): Permittivity[A] = ???
   // END CUSTOM OPS
 
-  def toPicofarads: A = to(Picofarads)
-  def toNanofarads: A = to(Nanofarads)
-  def toMicrofarads: A = to(Microfarads)
-  def toMillifarads: A = to(Millifarads)
-  def toFarads: A = to(Farads)
-  def toKilofarads: A = to(Kilofarads)
+  def toPicofarads[B: Numeric](implicit f: A => B): B = toNum[B](Picofarads)
+  def toNanofarads[B: Numeric](implicit f: A => B): B = toNum[B](Nanofarads)
+  def toMicrofarads[B: Numeric](implicit f: A => B): B = toNum[B](Microfarads)
+  def toMillifarads[B: Numeric](implicit f: A => B): B = toNum[B](Millifarads)
+  def toFarads[B: Numeric](implicit f: A => B): B = toNum[B](Farads)
+  def toKilofarads[B: Numeric](implicit f: A => B): B = toNum[B](Kilofarads)
 }
 
 object Capacitance extends Dimension("Capacitance") {

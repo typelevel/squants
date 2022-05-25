@@ -16,10 +16,11 @@ final case class ElectricFieldStrength[A: Numeric] private [squants2]  (value: A
   override type Q[B] = ElectricFieldStrength[B]
 
   // BEGIN CUSTOM OPS
+
   //  def *[B](that: Length[B])(implicit f: B => A): ElectricPotential[A] = ???
   // END CUSTOM OPS
 
-  def toVoltsPerMeter: A = to(VoltsPerMeter)
+  def toVoltsPerMeter[B: Numeric](implicit f: A => B): B = toNum[B](VoltsPerMeter)
 }
 
 object ElectricFieldStrength extends Dimension("Electric Field Strength") {

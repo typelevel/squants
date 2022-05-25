@@ -16,15 +16,15 @@ final case class MassFlow[A: Numeric] private [squants2]  (value: A, unit: MassF
   override type Q[B] = MassFlow[B]
 
   // BEGIN CUSTOM OPS
-  //  def *[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
-  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
+
+  //  def /[B](that: Quantity[B])(implicit f: B => A): Frequency[A] = ???
   // END CUSTOM OPS
 
-  def toPoundsPerHour: A = to(PoundsPerHour)
-  def toKilopoundsPerHour: A = to(KilopoundsPerHour)
-  def toPoundsPerSecond: A = to(PoundsPerSecond)
-  def toKilogramsPerSecond: A = to(KilogramsPerSecond)
-  def toMegapoundsPerHour: A = to(MegapoundsPerHour)
+  def toPoundsPerHour[B: Numeric](implicit f: A => B): B = toNum[B](PoundsPerHour)
+  def toKilopoundsPerHour[B: Numeric](implicit f: A => B): B = toNum[B](KilopoundsPerHour)
+  def toPoundsPerSecond[B: Numeric](implicit f: A => B): B = toNum[B](PoundsPerSecond)
+  def toKilogramsPerSecond[B: Numeric](implicit f: A => B): B = toNum[B](KilogramsPerSecond)
+  def toMegapoundsPerHour[B: Numeric](implicit f: A => B): B = toNum[B](MegapoundsPerHour)
 }
 
 object MassFlow extends Dimension("Mass Flow") {

@@ -50,7 +50,7 @@ object Squants2Converter extends App {
     writer.println()
     d.primaryUnit(1d).getClass.getDeclaredMethods
       .withFilter(m => !Modifier.isStatic(m.getModifiers))
-      .withFilter(m => !Set("Quantity", "Time").contains(m.getReturnType.getSimpleName))
+      .withFilter(m => !Set("Quantity", "Time", "TimeSquared").contains(m.getReturnType.getSimpleName))
       //      .withFilter(m => !m.getParameters.map(_.getType.getSimpleName).contains("Quantity"))
       .withFilter(m => !Set("value", "unit", "dimension", "time", "timeDerived", "timeIntegrated").contains(m.getName))
       .withFilter(m => !m.getName.startsWith("to"))
@@ -74,7 +74,7 @@ object Squants2Converter extends App {
     writer.println()
     units.foreach { (u: UnitOfMeasure[_]) =>
       val unitName = u.getClass.getSimpleName.replace("$", "")
-      writer.println(s"  def to$unitName[B: Numeric](implicit f: A => B): B = to[B]($unitName)")
+      writer.println(s"  def to$unitName[B: Numeric](implicit f: A => B): B = toNum[B]($unitName)")
     }
     writer.println(s"}")
     writer.println()

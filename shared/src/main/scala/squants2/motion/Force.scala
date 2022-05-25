@@ -16,24 +16,21 @@ final case class Force[A: Numeric] private [squants2]  (value: A, unit: ForceUni
   override type Q[B] = Force[B]
 
   // BEGIN CUSTOM OPS
-  //  def /[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
-  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
-  //  def *[B](that: Frequency[B])(implicit f: B => A): Quantity[A] = ???
-  //  def *[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
-  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
+
+  //  def /[B](that: Quantity[B])(implicit f: B => A): Frequency[A] = ???
   //  def *[B](that: Length[B])(implicit f: B => A): Energy[A] = ???
-  //  def /[B](that: Length[B])(implicit f: B => A): Nothing$[A] = ???
+  //  def /[B](that: Length[B])(implicit f: B => A): Nothing$ = ???
   //  def /[B](that: Mass[B])(implicit f: B => A): Acceleration[A] = ???
   //  def /[B](that: Acceleration[B])(implicit f: B => A): Mass[A] = ???
   //  def /[B](that: Area[B])(implicit f: B => A): Pressure[A] = ???
   //  def /[B](that: Pressure[B])(implicit f: B => A): Area[A] = ???
   // END CUSTOM OPS
 
-  def toMegaElectronVoltsPerCentimeter: A = to(MegaElectronVoltsPerCentimeter)
-  def toKiloElectronVoltsPerMicrometer: A = to(KiloElectronVoltsPerMicrometer)
-  def toNewtons: A = to(Newtons)
-  def toPoundForce: A = to(PoundForce)
-  def toKilogramForce: A = to(KilogramForce)
+  def toMegaElectronVoltsPerCentimeter[B: Numeric](implicit f: A => B): B = toNum[B](MegaElectronVoltsPerCentimeter)
+  def toKiloElectronVoltsPerMicrometer[B: Numeric](implicit f: A => B): B = toNum[B](KiloElectronVoltsPerMicrometer)
+  def toNewtons[B: Numeric](implicit f: A => B): B = toNum[B](Newtons)
+  def toPoundForce[B: Numeric](implicit f: A => B): B = toNum[B](PoundForce)
+  def toKilogramForce[B: Numeric](implicit f: A => B): B = toNum[B](KilogramForce)
 }
 
 object Force extends Dimension("Force") {

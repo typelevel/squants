@@ -16,8 +16,8 @@ final case class ElectricPotential[A: Numeric] private [squants2]  (value: A, un
   override type Q[B] = ElectricPotential[B]
 
   // BEGIN CUSTOM OPS
-  //  def *[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
-  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
+
+  //  def /[B](that: Quantity[B])(implicit f: B => A): Frequency[A] = ???
   //  def *[B](that: ElectricCurrent[B])(implicit f: B => A): Power[A] = ???
   //  def *[B](that: Capacitance[B])(implicit f: B => A): ElectricCharge[A] = ???
   //  def *[B](that: ElectricCharge[B])(implicit f: B => A): Energy[A] = ???
@@ -26,11 +26,11 @@ final case class ElectricPotential[A: Numeric] private [squants2]  (value: A, un
   //  def /[B](that: Length[B])(implicit f: B => A): ElectricFieldStrength[A] = ???
   // END CUSTOM OPS
 
-  def toMicrovolts: A = to(Microvolts)
-  def toMillivolts: A = to(Millivolts)
-  def toVolts: A = to(Volts)
-  def toKilovolts: A = to(Kilovolts)
-  def toMegavolts: A = to(Megavolts)
+  def toMicrovolts[B: Numeric](implicit f: A => B): B = toNum[B](Microvolts)
+  def toMillivolts[B: Numeric](implicit f: A => B): B = toNum[B](Millivolts)
+  def toVolts[B: Numeric](implicit f: A => B): B = toNum[B](Volts)
+  def toKilovolts[B: Numeric](implicit f: A => B): B = toNum[B](Kilovolts)
+  def toMegavolts[B: Numeric](implicit f: A => B): B = toNum[B](Megavolts)
 }
 
 object ElectricPotential extends Dimension("Electric Potential") {

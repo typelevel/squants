@@ -16,13 +16,14 @@ final case class SpecificEnergy[A: Numeric] private [squants2]  (value: A, unit:
   override type Q[B] = SpecificEnergy[B]
 
   // BEGIN CUSTOM OPS
+
   //  def *[B](that: Mass[B])(implicit f: B => A): Energy[A] = ???
-  //  def /[B](that: Time[B])(implicit f: B => A): Nothing$[A] = ???
+  //  def /[B](that: Time[B])(implicit f: B => A): Nothing$ = ???
   // END CUSTOM OPS
 
-  def toErgsPerGram: A = to(ErgsPerGram)
-  def toRads: A = to(Rads)
-  def toGrays: A = to(Grays)
+  def toErgsPerGram[B: Numeric](implicit f: A => B): B = toNum[B](ErgsPerGram)
+  def toRads[B: Numeric](implicit f: A => B): B = toNum[B](Rads)
+  def toGrays[B: Numeric](implicit f: A => B): B = toNum[B](Grays)
 }
 
 object SpecificEnergy extends Dimension("Specific Energy") {

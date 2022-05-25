@@ -16,11 +16,8 @@ final case class Power[A: Numeric] private [squants2]  (value: A, unit: PowerUni
   override type Q[B] = Power[B]
 
   // BEGIN CUSTOM OPS
-  //  def /[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
-  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
-  //  def *[B](that: Frequency[B])(implicit f: B => A): Quantity[A] = ???
-  //  def *[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
-  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
+
+  //  def /[B](that: Quantity[B])(implicit f: B => A): Frequency[A] = ???
   //  def /[B](that: Length[B])(implicit f: B => A): SpectralPower[A] = ???
   //  def /[B](that: SpectralPower[B])(implicit f: B => A): Length[A] = ???
   //  def /[B](that: Area[B])(implicit f: B => A): Irradiance[A] = ???
@@ -32,14 +29,14 @@ final case class Power[A: Numeric] private [squants2]  (value: A, unit: PowerUni
   //  def /[B](that: Volume[B])(implicit f: B => A): PowerDensity[A] = ???
   // END CUSTOM OPS
 
-  def toErgsPerSecond: A = to(ErgsPerSecond)
-  def toMilliwatts: A = to(Milliwatts)
-  def toBtusPerHour: A = to(BtusPerHour)
-  def toWatts: A = to(Watts)
-  def toKilowatts: A = to(Kilowatts)
-  def toMegawatts: A = to(Megawatts)
-  def toGigawatts: A = to(Gigawatts)
-  def toSolarLuminosities: A = to(SolarLuminosities)
+  def toErgsPerSecond[B: Numeric](implicit f: A => B): B = toNum[B](ErgsPerSecond)
+  def toMilliwatts[B: Numeric](implicit f: A => B): B = toNum[B](Milliwatts)
+  def toBtusPerHour[B: Numeric](implicit f: A => B): B = toNum[B](BtusPerHour)
+  def toWatts[B: Numeric](implicit f: A => B): B = toNum[B](Watts)
+  def toKilowatts[B: Numeric](implicit f: A => B): B = toNum[B](Kilowatts)
+  def toMegawatts[B: Numeric](implicit f: A => B): B = toNum[B](Megawatts)
+  def toGigawatts[B: Numeric](implicit f: A => B): B = toNum[B](Gigawatts)
+  def toSolarLuminosities[B: Numeric](implicit f: A => B): B = toNum[B](SolarLuminosities)
 }
 
 object Power extends Dimension("Power") {

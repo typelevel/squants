@@ -16,20 +16,18 @@ final case class Pressure[A: Numeric] private [squants2]  (value: A, unit: Press
   override type Q[B] = Pressure[B]
 
   // BEGIN CUSTOM OPS
-  //  def /[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
-  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
-  //  def *[B](that: Frequency[B])(implicit f: B => A): Quantity[A] = ???
+
   //  def *[B](that: Area[B])(implicit f: B => A): Force[A] = ???
-  //  def *[B](that: Time[B])(implicit f: B => A): Nothing$[A] = ???
+  //  def *[B](that: Time[B])(implicit f: B => A): Nothing$ = ???
   // END CUSTOM OPS
 
-  def toPascals: A = to(Pascals)
-  def toTorrs: A = to(Torrs)
-  def toMillimetersOfMercury: A = to(MillimetersOfMercury)
-  def toInchesOfMercury: A = to(InchesOfMercury)
-  def toPoundsPerSquareInch: A = to(PoundsPerSquareInch)
-  def toBars: A = to(Bars)
-  def toStandardAtmospheres: A = to(StandardAtmospheres)
+  def toPascals[B: Numeric](implicit f: A => B): B = toNum[B](Pascals)
+  def toTorrs[B: Numeric](implicit f: A => B): B = toNum[B](Torrs)
+  def toMillimetersOfMercury[B: Numeric](implicit f: A => B): B = toNum[B](MillimetersOfMercury)
+  def toInchesOfMercury[B: Numeric](implicit f: A => B): B = toNum[B](InchesOfMercury)
+  def toPoundsPerSquareInch[B: Numeric](implicit f: A => B): B = toNum[B](PoundsPerSquareInch)
+  def toBars[B: Numeric](implicit f: A => B): B = toNum[B](Bars)
+  def toStandardAtmospheres[B: Numeric](implicit f: A => B): B = toNum[B](StandardAtmospheres)
 }
 
 object Pressure extends Dimension("Pressure") {

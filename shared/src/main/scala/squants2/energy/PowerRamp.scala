@@ -16,18 +16,18 @@ final case class PowerRamp[A: Numeric] private [squants2]  (value: A, unit: Powe
   override type Q[B] = PowerRamp[B]
 
   // BEGIN CUSTOM OPS
-  //  def *[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
-  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
+
+  //  def /[B](that: Quantity[B])(implicit f: B => A): Frequency[A] = ???
   //  def *[B](that: TimeSquared[B])(implicit f: B => A): Energy[A] = ???
   //  def *[B](that: TimeSquared[B])(implicit f: B => A): SecondTimeIntegral[A] = ???
   // END CUSTOM OPS
 
-  def toWattsPerMinute: A = to(WattsPerMinute)
-  def toWattsPerHour: A = to(WattsPerHour)
-  def toKilowattsPerMinute: A = to(KilowattsPerMinute)
-  def toKilowattsPerHour: A = to(KilowattsPerHour)
-  def toMegawattsPerHour: A = to(MegawattsPerHour)
-  def toGigawattsPerHour: A = to(GigawattsPerHour)
+  def toWattsPerMinute[B: Numeric](implicit f: A => B): B = toNum[B](WattsPerMinute)
+  def toWattsPerHour[B: Numeric](implicit f: A => B): B = toNum[B](WattsPerHour)
+  def toKilowattsPerMinute[B: Numeric](implicit f: A => B): B = toNum[B](KilowattsPerMinute)
+  def toKilowattsPerHour[B: Numeric](implicit f: A => B): B = toNum[B](KilowattsPerHour)
+  def toMegawattsPerHour[B: Numeric](implicit f: A => B): B = toNum[B](MegawattsPerHour)
+  def toGigawattsPerHour[B: Numeric](implicit f: A => B): B = toNum[B](GigawattsPerHour)
 }
 
 object PowerRamp extends Dimension("Power Ramp") {

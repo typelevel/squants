@@ -16,12 +16,13 @@ final case class ParticleFlux[A: Numeric] private [squants2]  (value: A, unit: P
   override type Q[B] = ParticleFlux[B]
 
   // BEGIN CUSTOM OPS
+
   //  def *[B](that: AreaTime[B])(implicit f: B => A): Activity[A] = ???
   //  def *[B](that: Energy[B])(implicit f: B => A): Irradiance[A] = ???
   // END CUSTOM OPS
 
-  def toBecquerelsPerSquareMeterSecond: A = to(BecquerelsPerSquareMeterSecond)
-  def toBecquerelsPerSquareCentimeterSecond: A = to(BecquerelsPerSquareCentimeterSecond)
+  def toBecquerelsPerSquareMeterSecond[B: Numeric](implicit f: A => B): B = toNum[B](BecquerelsPerSquareMeterSecond)
+  def toBecquerelsPerSquareCentimeterSecond[B: Numeric](implicit f: A => B): B = toNum[B](BecquerelsPerSquareCentimeterSecond)
 }
 
 object ParticleFlux extends Dimension("Particle Flux") {

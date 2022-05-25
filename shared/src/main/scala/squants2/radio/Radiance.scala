@@ -16,11 +16,12 @@ final case class Radiance[A: Numeric] private [squants2]  (value: A, unit: Radia
   override type Q[B] = Radiance[B]
 
   // BEGIN CUSTOM OPS
+
   //  def *[B](that: Area[B])(implicit f: B => A): RadiantIntensity[A] = ???
   //  def /[B](that: RadiantIntensity[B])(implicit f: B => A): Area[A] = ???
   // END CUSTOM OPS
 
-  def toWattsPerSteradianPerSquareMeter: A = to(WattsPerSteradianPerSquareMeter)
+  def toWattsPerSteradianPerSquareMeter[B: Numeric](implicit f: A => B): B = toNum[B](WattsPerSteradianPerSquareMeter)
 }
 
 object Radiance extends Dimension("Radiance") {

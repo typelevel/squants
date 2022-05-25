@@ -16,30 +16,31 @@ final case class Density[A: Numeric] private [squants2]  (value: A, unit: Densit
   override type Q[B] = Density[B]
 
   // BEGIN CUSTOM OPS
+
   //  def *[B](that: Volume[B])(implicit f: B => A): Mass[A] = ???
   // END CUSTOM OPS
 
-  def toNanogramsPerLitre: A = to(NanogramsPerLitre)
-  def toMicrogramsPerLitre: A = to(MicrogramsPerLitre)
-  def toNanogramsPerMillilitre: A = to(NanogramsPerMillilitre)
-  def toMicrogramsPerMillilitre: A = to(MicrogramsPerMillilitre)
-  def toMilligramsPerLitre: A = to(MilligramsPerLitre)
-  def toNanogramsPerMicrolitre: A = to(NanogramsPerMicrolitre)
-  def toNanogramsPerNanolitre: A = to(NanogramsPerNanolitre)
-  def toMicrogramsPerMicrolitre: A = to(MicrogramsPerMicrolitre)
-  def toGramsPerLitre: A = to(GramsPerLitre)
-  def toKilogramsPerCubicMeter: A = to(KilogramsPerCubicMeter)
-  def toMilligramsPerMillilitre: A = to(MilligramsPerMillilitre)
-  def toMicrogramsPerNanolitre: A = to(MicrogramsPerNanolitre)
-  def toMilligramsPerMicrolitre: A = to(MilligramsPerMicrolitre)
-  def toKilogramsPerLitre: A = to(KilogramsPerLitre)
-  def toGramsPerMillilitre: A = to(GramsPerMillilitre)
-  def toMilligramsPerNanolitre: A = to(MilligramsPerNanolitre)
-  def toGramsPerMicrolitre: A = to(GramsPerMicrolitre)
-  def toKilogramsPerMillilitre: A = to(KilogramsPerMillilitre)
-  def toGramsPerNanolitre: A = to(GramsPerNanolitre)
-  def toKilogramsPerMicrolitre: A = to(KilogramsPerMicrolitre)
-  def toKilogramsPerNanolitre: A = to(KilogramsPerNanolitre)
+  def toNanogramsPerLitre[B: Numeric](implicit f: A => B): B = toNum[B](NanogramsPerLitre)
+  def toMicrogramsPerLitre[B: Numeric](implicit f: A => B): B = toNum[B](MicrogramsPerLitre)
+  def toNanogramsPerMillilitre[B: Numeric](implicit f: A => B): B = toNum[B](NanogramsPerMillilitre)
+  def toMicrogramsPerMillilitre[B: Numeric](implicit f: A => B): B = toNum[B](MicrogramsPerMillilitre)
+  def toMilligramsPerLitre[B: Numeric](implicit f: A => B): B = toNum[B](MilligramsPerLitre)
+  def toNanogramsPerMicrolitre[B: Numeric](implicit f: A => B): B = toNum[B](NanogramsPerMicrolitre)
+  def toNanogramsPerNanolitre[B: Numeric](implicit f: A => B): B = toNum[B](NanogramsPerNanolitre)
+  def toMicrogramsPerMicrolitre[B: Numeric](implicit f: A => B): B = toNum[B](MicrogramsPerMicrolitre)
+  def toGramsPerLitre[B: Numeric](implicit f: A => B): B = toNum[B](GramsPerLitre)
+  def toKilogramsPerCubicMeter[B: Numeric](implicit f: A => B): B = toNum[B](KilogramsPerCubicMeter)
+  def toMilligramsPerMillilitre[B: Numeric](implicit f: A => B): B = toNum[B](MilligramsPerMillilitre)
+  def toMicrogramsPerNanolitre[B: Numeric](implicit f: A => B): B = toNum[B](MicrogramsPerNanolitre)
+  def toMilligramsPerMicrolitre[B: Numeric](implicit f: A => B): B = toNum[B](MilligramsPerMicrolitre)
+  def toKilogramsPerLitre[B: Numeric](implicit f: A => B): B = toNum[B](KilogramsPerLitre)
+  def toGramsPerMillilitre[B: Numeric](implicit f: A => B): B = toNum[B](GramsPerMillilitre)
+  def toMilligramsPerNanolitre[B: Numeric](implicit f: A => B): B = toNum[B](MilligramsPerNanolitre)
+  def toGramsPerMicrolitre[B: Numeric](implicit f: A => B): B = toNum[B](GramsPerMicrolitre)
+  def toKilogramsPerMillilitre[B: Numeric](implicit f: A => B): B = toNum[B](KilogramsPerMillilitre)
+  def toGramsPerNanolitre[B: Numeric](implicit f: A => B): B = toNum[B](GramsPerNanolitre)
+  def toKilogramsPerMicrolitre[B: Numeric](implicit f: A => B): B = toNum[B](KilogramsPerMicrolitre)
+  def toKilogramsPerNanolitre[B: Numeric](implicit f: A => B): B = toNum[B](KilogramsPerNanolitre)
 }
 
 object Density extends Dimension("Density") {

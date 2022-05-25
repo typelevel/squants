@@ -16,11 +16,12 @@ final case class Permeability[A: Numeric] private [squants2]  (value: A, unit: P
   override type Q[B] = Permeability[B]
 
   // BEGIN CUSTOM OPS
+
   //  def *[B](that: Length[B])(implicit f: B => A): Inductance[A] = ???
   // END CUSTOM OPS
 
-  def toHenriesPerMeter: A = to(HenriesPerMeter)
-  def toNewtonsPerAmperesSquared: A = to(NewtonsPerAmperesSquared)
+  def toHenriesPerMeter[B: Numeric](implicit f: A => B): B = toNum[B](HenriesPerMeter)
+  def toNewtonsPerAmperesSquared[B: Numeric](implicit f: A => B): B = toNum[B](NewtonsPerAmperesSquared)
 }
 
 object Permeability extends Dimension("Permeability") {

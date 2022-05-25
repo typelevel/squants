@@ -16,37 +16,36 @@ final case class Volume[A: Numeric] private [squants2]  (value: A, unit: VolumeU
   override type Q[B] = Volume[B]
 
   // BEGIN CUSTOM OPS
-  //  def /[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
-  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
-  //  def *[B](that: Frequency[B])(implicit f: B => A): Quantity[A] = ???
+
   //  def *[B](that: Density[B])(implicit f: B => A): Mass[A] = ???
   //  def *[B](that: EnergyDensity[B])(implicit f: B => A): Energy[A] = ???
   //  def /[B](that: Area[B])(implicit f: B => A): Length[A] = ???
   //  def /[B](that: Length[B])(implicit f: B => A): Area[A] = ???
-  //  def /[B](that: Mass[B])(implicit f: B => A): Nothing$[A] = ???
-  //  def /[B](that: ChemicalAmount[B])(implicit f: B => A): Nothing$[A] = ???
+  //  def /[B](that: Mass[B])(implicit f: B => A): Nothing$ = ???
+  //  def /[B](that: ChemicalAmount[B])(implicit f: B => A): Nothing$ = ???
+  //  def cubeRoot[B]()(implicit f: B => A): Length[A] = ???
   // END CUSTOM OPS
 
-  def toNanolitres: A = to(Nanolitres)
-  def toMicrolitres: A = to(Microlitres)
-  def toMillilitres: A = to(Millilitres)
-  def toTeaspoons: A = to(Teaspoons)
-  def toCentilitres: A = to(Centilitres)
-  def toTablespoons: A = to(Tablespoons)
-  def toCubicInches: A = to(CubicInches)
-  def toFluidOunces: A = to(FluidOunces)
-  def toDecilitres: A = to(Decilitres)
-  def toUsCups: A = to(UsCups)
-  def toUsPints: A = to(UsPints)
-  def toUsQuarts: A = to(UsQuarts)
-  def toLitres: A = to(Litres)
-  def toUsGallons: A = to(UsGallons)
-  def toCubicFeet: A = to(CubicFeet)
-  def toHectolitres: A = to(Hectolitres)
-  def toCubicYards: A = to(CubicYards)
-  def toCubicMeters: A = to(CubicMeters)
-  def toAcreFeet: A = to(AcreFeet)
-  def toCubicUsMiles: A = to(CubicUsMiles)
+  def toNanolitres[B: Numeric](implicit f: A => B): B = toNum[B](Nanolitres)
+  def toMicrolitres[B: Numeric](implicit f: A => B): B = toNum[B](Microlitres)
+  def toMillilitres[B: Numeric](implicit f: A => B): B = toNum[B](Millilitres)
+  def toTeaspoons[B: Numeric](implicit f: A => B): B = toNum[B](Teaspoons)
+  def toCentilitres[B: Numeric](implicit f: A => B): B = toNum[B](Centilitres)
+  def toTablespoons[B: Numeric](implicit f: A => B): B = toNum[B](Tablespoons)
+  def toCubicInches[B: Numeric](implicit f: A => B): B = toNum[B](CubicInches)
+  def toFluidOunces[B: Numeric](implicit f: A => B): B = toNum[B](FluidOunces)
+  def toDecilitres[B: Numeric](implicit f: A => B): B = toNum[B](Decilitres)
+  def toUsCups[B: Numeric](implicit f: A => B): B = toNum[B](UsCups)
+  def toUsPints[B: Numeric](implicit f: A => B): B = toNum[B](UsPints)
+  def toUsQuarts[B: Numeric](implicit f: A => B): B = toNum[B](UsQuarts)
+  def toLitres[B: Numeric](implicit f: A => B): B = toNum[B](Litres)
+  def toUsGallons[B: Numeric](implicit f: A => B): B = toNum[B](UsGallons)
+  def toCubicFeet[B: Numeric](implicit f: A => B): B = toNum[B](CubicFeet)
+  def toHectolitres[B: Numeric](implicit f: A => B): B = toNum[B](Hectolitres)
+  def toCubicYards[B: Numeric](implicit f: A => B): B = toNum[B](CubicYards)
+  def toCubicMeters[B: Numeric](implicit f: A => B): B = toNum[B](CubicMeters)
+  def toAcreFeet[B: Numeric](implicit f: A => B): B = toNum[B](AcreFeet)
+  def toCubicUsMiles[B: Numeric](implicit f: A => B): B = toNum[B](CubicUsMiles)
 }
 
 object Volume extends Dimension("Volume") {

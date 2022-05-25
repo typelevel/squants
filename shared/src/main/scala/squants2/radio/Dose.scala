@@ -16,12 +16,13 @@ final case class Dose[A: Numeric] private [squants2]  (value: A, unit: DoseUnit)
   override type Q[B] = Dose[B]
 
   // BEGIN CUSTOM OPS
+
   //  def *[B](that: Mass[B])(implicit f: B => A): Energy[A] = ???
-  //  def /[B](that: Time[B])(implicit f: B => A): Nothing$[A] = ???
+  //  def /[B](that: Time[B])(implicit f: B => A): Nothing$ = ???
   // END CUSTOM OPS
 
-  def toRems: A = to(Rems)
-  def toSieverts: A = to(Sieverts)
+  def toRems[B: Numeric](implicit f: A => B): B = toNum[B](Rems)
+  def toSieverts[B: Numeric](implicit f: A => B): B = toNum[B](Sieverts)
 }
 
 object Dose extends Dimension("Dose") {

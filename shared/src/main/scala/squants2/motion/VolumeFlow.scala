@@ -16,32 +16,32 @@ final case class VolumeFlow[A: Numeric] private [squants2]  (value: A, unit: Vol
   override type Q[B] = VolumeFlow[B]
 
   // BEGIN CUSTOM OPS
-  //  def *[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
-  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
+
+  //  def /[B](that: Quantity[B])(implicit f: B => A): Frequency[A] = ???
   // END CUSTOM OPS
 
-  def toNanolitresPerDay: A = to(NanolitresPerDay)
-  def toNanolitresPerHour: A = to(NanolitresPerHour)
-  def toMicrolitresPerDay: A = to(MicrolitresPerDay)
-  def toNanolitresPerMinute: A = to(NanolitresPerMinute)
-  def toMicrolitresPerHour: A = to(MicrolitresPerHour)
-  def toNanolitresPerSecond: A = to(NanolitresPerSecond)
-  def toMillilitresPerDay: A = to(MillilitresPerDay)
-  def toMicrolitresPerMinute: A = to(MicrolitresPerMinute)
-  def toMillilitresPerHour: A = to(MillilitresPerHour)
-  def toMicrolitresPerSecond: A = to(MicrolitresPerSecond)
-  def toLitresPerDay: A = to(LitresPerDay)
-  def toMillilitresPerMinute: A = to(MillilitresPerMinute)
-  def toGallonsPerDay: A = to(GallonsPerDay)
-  def toLitresPerHour: A = to(LitresPerHour)
-  def toMillilitresPerSecond: A = to(MillilitresPerSecond)
-  def toGallonsPerHour: A = to(GallonsPerHour)
-  def toCubicFeetPerHour: A = to(CubicFeetPerHour)
-  def toLitresPerMinute: A = to(LitresPerMinute)
-  def toGallonsPerMinute: A = to(GallonsPerMinute)
-  def toLitresPerSecond: A = to(LitresPerSecond)
-  def toGallonsPerSecond: A = to(GallonsPerSecond)
-  def toCubicMetersPerSecond: A = to(CubicMetersPerSecond)
+  def toNanolitresPerDay[B: Numeric](implicit f: A => B): B = toNum[B](NanolitresPerDay)
+  def toNanolitresPerHour[B: Numeric](implicit f: A => B): B = toNum[B](NanolitresPerHour)
+  def toMicrolitresPerDay[B: Numeric](implicit f: A => B): B = toNum[B](MicrolitresPerDay)
+  def toNanolitresPerMinute[B: Numeric](implicit f: A => B): B = toNum[B](NanolitresPerMinute)
+  def toMicrolitresPerHour[B: Numeric](implicit f: A => B): B = toNum[B](MicrolitresPerHour)
+  def toNanolitresPerSecond[B: Numeric](implicit f: A => B): B = toNum[B](NanolitresPerSecond)
+  def toMillilitresPerDay[B: Numeric](implicit f: A => B): B = toNum[B](MillilitresPerDay)
+  def toMicrolitresPerMinute[B: Numeric](implicit f: A => B): B = toNum[B](MicrolitresPerMinute)
+  def toMillilitresPerHour[B: Numeric](implicit f: A => B): B = toNum[B](MillilitresPerHour)
+  def toMicrolitresPerSecond[B: Numeric](implicit f: A => B): B = toNum[B](MicrolitresPerSecond)
+  def toLitresPerDay[B: Numeric](implicit f: A => B): B = toNum[B](LitresPerDay)
+  def toMillilitresPerMinute[B: Numeric](implicit f: A => B): B = toNum[B](MillilitresPerMinute)
+  def toGallonsPerDay[B: Numeric](implicit f: A => B): B = toNum[B](GallonsPerDay)
+  def toLitresPerHour[B: Numeric](implicit f: A => B): B = toNum[B](LitresPerHour)
+  def toMillilitresPerSecond[B: Numeric](implicit f: A => B): B = toNum[B](MillilitresPerSecond)
+  def toGallonsPerHour[B: Numeric](implicit f: A => B): B = toNum[B](GallonsPerHour)
+  def toCubicFeetPerHour[B: Numeric](implicit f: A => B): B = toNum[B](CubicFeetPerHour)
+  def toLitresPerMinute[B: Numeric](implicit f: A => B): B = toNum[B](LitresPerMinute)
+  def toGallonsPerMinute[B: Numeric](implicit f: A => B): B = toNum[B](GallonsPerMinute)
+  def toLitresPerSecond[B: Numeric](implicit f: A => B): B = toNum[B](LitresPerSecond)
+  def toGallonsPerSecond[B: Numeric](implicit f: A => B): B = toNum[B](GallonsPerSecond)
+  def toCubicMetersPerSecond[B: Numeric](implicit f: A => B): B = toNum[B](CubicMetersPerSecond)
 }
 
 object VolumeFlow extends Dimension("Volume Flow") {

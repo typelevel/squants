@@ -16,9 +16,14 @@ final case class Angle[A: Numeric] private [squants2]  (value: A, unit: AngleUni
   override type Q[B] = Angle[B]
 
   // BEGIN CUSTOM OPS
-  //  def /[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
-  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
-  //  def *[B](that: Frequency[B])(implicit f: B => A): Quantity[A] = ???
+
+  //  def sin[B]()(implicit f: B => A): A = ???
+  //  def cos[B]()(implicit f: B => A): A = ???
+  //  def tan[B]()(implicit f: B => A): A = ???
+  //  def asin[B]()(implicit f: B => A): A = ???
+  //  def acos[B]()(implicit f: B => A): A = ???
+  //  def onRadius[B](radius: Length[B])(implicit f: B => A): Length[A] = ???
+
 
   def cos: Double = math.cos(num.toDouble(toRadians))
   def tan: Double = math.tan(num.toDouble(toRadians))
@@ -28,15 +33,14 @@ final case class Angle[A: Numeric] private [squants2]  (value: A, unit: AngleUni
   def atan: Double = math.atan(num.toDouble(toRadians))
 
   def onRadius[B](radius: Length[B])(implicit f: B => A): Length[A] = radius.asNum[A] * to(Radians)
-
   // END CUSTOM OPS
 
-  def toArcseconds: A = to(Arcseconds)
-  def toArcminutes: A = to(Arcminutes)
-  def toGradians: A = to(Gradians)
-  def toDegrees: A = to(Degrees)
-  def toRadians: A = to(Radians)
-  def toTurns: A = to(Turns)
+  def toArcseconds[B: Numeric](implicit f: A => B): B = toNum[B](Arcseconds)
+  def toArcminutes[B: Numeric](implicit f: A => B): B = toNum[B](Arcminutes)
+  def toGradians[B: Numeric](implicit f: A => B): B = toNum[B](Gradians)
+  def toDegrees[B: Numeric](implicit f: A => B): B = toNum[B](Degrees)
+  def toRadians[B: Numeric](implicit f: A => B): B = toNum[B](Radians)
+  def toTurns[B: Numeric](implicit f: A => B): B = toNum[B](Turns)
 }
 
 object Angle extends Dimension("Angle") {

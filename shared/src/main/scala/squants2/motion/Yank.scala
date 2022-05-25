@@ -16,13 +16,13 @@ final case class Yank[A: Numeric] private [squants2]  (value: A, unit: YankUnit)
   override type Q[B] = Yank[B]
 
   // BEGIN CUSTOM OPS
-  //  def *[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
-  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
+
+  //  def /[B](that: Quantity[B])(implicit f: B => A): Frequency[A] = ???
   //  def *[B](that: TimeSquared[B])(implicit f: B => A): Momentum[A] = ???
   //  def *[B](that: TimeSquared[B])(implicit f: B => A): SecondTimeIntegral[A] = ???
   // END CUSTOM OPS
 
-  def toNewtonsPerSecond: A = to(NewtonsPerSecond)
+  def toNewtonsPerSecond[B: Numeric](implicit f: A => B): B = toNum[B](NewtonsPerSecond)
 }
 
 object Yank extends Dimension("Yank") {

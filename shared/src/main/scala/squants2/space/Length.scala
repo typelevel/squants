@@ -16,9 +16,8 @@ final case class Length[A: Numeric] private [squants2]  (value: A, unit: LengthU
   override type Q[B] = Length[B]
 
   // BEGIN CUSTOM OPS
-  //  def /[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
-  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
-  //  def *[B](that: Frequency[B])(implicit f: B => A): Quantity[A] = ???
+
+  //  def per[B](that: TimeSquared[B])(implicit f: B => A): SecondTimeDerivative[A] = ???
   //  def *[B](that: Length[B])(implicit f: B => A): Area[A] = ???
   //  def *[B](that: Area[B])(implicit f: B => A): Volume[A] = ???
   //  def *[B](that: Force[B])(implicit f: B => A): Energy[A] = ???
@@ -27,42 +26,43 @@ final case class Length[A: Numeric] private [squants2]  (value: A, unit: LengthU
   //  def *[B](that: Conductivity[B])(implicit f: B => A): ElectricalConductance[A] = ???
   //  def *[B](that: ElectricalResistance[B])(implicit f: B => A): Resistivity[A] = ???
   //  def /[B](that: TimeSquared[B])(implicit f: B => A): Acceleration[A] = ???
-  //  def /[B](that: SecondTimeDerivative[B])(implicit f: B => A): TimeSquared[A] = ???
+  //  def squared[B]()(implicit f: B => A): Area[A] = ???
+  //  def cubed[B]()(implicit f: B => A): Volume[A] = ???
   //  def /[B](that: TimeSquared[B])(implicit f: B => A): SecondTimeDerivative[A] = ???
   // END CUSTOM OPS
 
-  def toAngstroms: A = to(Angstroms)
-  def toMilliElectronVoltLength: A = to(MilliElectronVoltLength)
-  def toNanometers: A = to(Nanometers)
-  def toElectronVoltLength: A = to(ElectronVoltLength)
-  def toMicrons: A = to(Microns)
-  def toKiloElectronVoltLength: A = to(KiloElectronVoltLength)
-  def toMillimeters: A = to(Millimeters)
-  def toCentimeters: A = to(Centimeters)
-  def toInches: A = to(Inches)
-  def toDecimeters: A = to(Decimeters)
-  def toMegaElectronVoltLength: A = to(MegaElectronVoltLength)
-  def toFeet: A = to(Feet)
-  def toYards: A = to(Yards)
-  def toMeters: A = to(Meters)
-  def toDecameters: A = to(Decameters)
-  def toHectometers: A = to(Hectometers)
-  def toGigaElectronVoltLength: A = to(GigaElectronVoltLength)
-  def toKilometers: A = to(Kilometers)
-  def toInternationalMiles: A = to(InternationalMiles)
-  def toUsMiles: A = to(UsMiles)
-  def toNauticalMiles: A = to(NauticalMiles)
-  def toTeraElectronVoltLength: A = to(TeraElectronVoltLength)
-  def toPetaElectronVoltLength: A = to(PetaElectronVoltLength)
-  def toNominalSolarRadii: A = to(NominalSolarRadii)
-  def toSolarRadii: A = to(SolarRadii)
-  def toAstronomicalUnits: A = to(AstronomicalUnits)
-  def toExaElectronVoltLength: A = to(ExaElectronVoltLength)
-  def toLightYears: A = to(LightYears)
-  def toParsecs: A = to(Parsecs)
-  def toKiloParsecs: A = to(KiloParsecs)
-  def toMegaParsecs: A = to(MegaParsecs)
-  def toGigaParsecs: A = to(GigaParsecs)
+  def toAngstroms[B: Numeric](implicit f: A => B): B = toNum[B](Angstroms)
+  def toMilliElectronVoltLength[B: Numeric](implicit f: A => B): B = toNum[B](MilliElectronVoltLength)
+  def toNanometers[B: Numeric](implicit f: A => B): B = toNum[B](Nanometers)
+  def toElectronVoltLength[B: Numeric](implicit f: A => B): B = toNum[B](ElectronVoltLength)
+  def toMicrons[B: Numeric](implicit f: A => B): B = toNum[B](Microns)
+  def toKiloElectronVoltLength[B: Numeric](implicit f: A => B): B = toNum[B](KiloElectronVoltLength)
+  def toMillimeters[B: Numeric](implicit f: A => B): B = toNum[B](Millimeters)
+  def toCentimeters[B: Numeric](implicit f: A => B): B = toNum[B](Centimeters)
+  def toInches[B: Numeric](implicit f: A => B): B = toNum[B](Inches)
+  def toDecimeters[B: Numeric](implicit f: A => B): B = toNum[B](Decimeters)
+  def toMegaElectronVoltLength[B: Numeric](implicit f: A => B): B = toNum[B](MegaElectronVoltLength)
+  def toFeet[B: Numeric](implicit f: A => B): B = toNum[B](Feet)
+  def toYards[B: Numeric](implicit f: A => B): B = toNum[B](Yards)
+  def toMeters[B: Numeric](implicit f: A => B): B = toNum[B](Meters)
+  def toDecameters[B: Numeric](implicit f: A => B): B = toNum[B](Decameters)
+  def toHectometers[B: Numeric](implicit f: A => B): B = toNum[B](Hectometers)
+  def toGigaElectronVoltLength[B: Numeric](implicit f: A => B): B = toNum[B](GigaElectronVoltLength)
+  def toKilometers[B: Numeric](implicit f: A => B): B = toNum[B](Kilometers)
+  def toInternationalMiles[B: Numeric](implicit f: A => B): B = toNum[B](InternationalMiles)
+  def toUsMiles[B: Numeric](implicit f: A => B): B = toNum[B](UsMiles)
+  def toNauticalMiles[B: Numeric](implicit f: A => B): B = toNum[B](NauticalMiles)
+  def toTeraElectronVoltLength[B: Numeric](implicit f: A => B): B = toNum[B](TeraElectronVoltLength)
+  def toPetaElectronVoltLength[B: Numeric](implicit f: A => B): B = toNum[B](PetaElectronVoltLength)
+  def toNominalSolarRadii[B: Numeric](implicit f: A => B): B = toNum[B](NominalSolarRadii)
+  def toSolarRadii[B: Numeric](implicit f: A => B): B = toNum[B](SolarRadii)
+  def toAstronomicalUnits[B: Numeric](implicit f: A => B): B = toNum[B](AstronomicalUnits)
+  def toExaElectronVoltLength[B: Numeric](implicit f: A => B): B = toNum[B](ExaElectronVoltLength)
+  def toLightYears[B: Numeric](implicit f: A => B): B = toNum[B](LightYears)
+  def toParsecs[B: Numeric](implicit f: A => B): B = toNum[B](Parsecs)
+  def toKiloParsecs[B: Numeric](implicit f: A => B): B = toNum[B](KiloParsecs)
+  def toMegaParsecs[B: Numeric](implicit f: A => B): B = toNum[B](MegaParsecs)
+  def toGigaParsecs[B: Numeric](implicit f: A => B): B = toNum[B](GigaParsecs)
 }
 
 object Length extends BaseDimension("Length", "L") {

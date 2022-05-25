@@ -16,11 +16,13 @@ final case class Resistivity[A: Numeric] private [squants2]  (value: A, unit: Re
   override type Q[B] = Resistivity[B]
 
   // BEGIN CUSTOM OPS
+
   //  def /[B](that: Length[B])(implicit f: B => A): ElectricalResistance[A] = ???
   //  def /[B](that: ElectricalResistance[B])(implicit f: B => A): Length[A] = ???
+  //  def inSiemensPerMeter[B]()(implicit f: B => A): Conductivity[A] = ???
   // END CUSTOM OPS
 
-  def toOhmMeters: A = to(OhmMeters)
+  def toOhmMeters[B: Numeric](implicit f: A => B): B = toNum[B](OhmMeters)
 }
 
 object Resistivity extends Dimension("Resistivity") {

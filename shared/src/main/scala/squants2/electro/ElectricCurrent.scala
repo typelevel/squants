@@ -16,8 +16,8 @@ final case class ElectricCurrent[A: Numeric] private [squants2]  (value: A, unit
   override type Q[B] = ElectricCurrent[B]
 
   // BEGIN CUSTOM OPS
-  //  def *[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
-  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
+
+  //  def /[B](that: Quantity[B])(implicit f: B => A): Frequency[A] = ???
   //  def *[B](that: ElectricalResistance[B])(implicit f: B => A): ElectricPotential[A] = ???
   //  def *[B](that: ElectricPotential[B])(implicit f: B => A): Power[A] = ???
   //  def *[B](that: Inductance[B])(implicit f: B => A): MagneticFlux[A] = ???
@@ -26,8 +26,8 @@ final case class ElectricCurrent[A: Numeric] private [squants2]  (value: A, unit
   //  def /[B](that: Area[B])(implicit f: B => A): ElectricCurrentDensity[A] = ???
   // END CUSTOM OPS
 
-  def toMilliamperes: A = to(Milliamperes)
-  def toAmperes: A = to(Amperes)
+  def toMilliamperes[B: Numeric](implicit f: A => B): B = toNum[B](Milliamperes)
+  def toAmperes[B: Numeric](implicit f: A => B): B = toNum[B](Amperes)
 }
 
 object ElectricCurrent extends BaseDimension("Electric Current", "I") {

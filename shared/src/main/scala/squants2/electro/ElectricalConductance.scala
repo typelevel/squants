@@ -16,11 +16,13 @@ final case class ElectricalConductance[A: Numeric] private [squants2]  (value: A
   override type Q[B] = ElectricalConductance[B]
 
   // BEGIN CUSTOM OPS
+
   //  def /[B](that: Length[B])(implicit f: B => A): Conductivity[A] = ???
   //  def /[B](that: Conductivity[B])(implicit f: B => A): Length[A] = ???
+  //  def inOhms[B]()(implicit f: B => A): ElectricalResistance[A] = ???
   // END CUSTOM OPS
 
-  def toSiemens: A = to(Siemens)
+  def toSiemens[B: Numeric](implicit f: A => B): B = toNum[B](Siemens)
 }
 
 object ElectricalConductance extends Dimension("Electrical Conductance") {

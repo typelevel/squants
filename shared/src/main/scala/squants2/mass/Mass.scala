@@ -16,9 +16,7 @@ final case class Mass[A: Numeric] private [squants2]  (value: A, unit: MassUnit)
   override type Q[B] = Mass[B]
 
   // BEGIN CUSTOM OPS
-  //  def /[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
-  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
-  //  def *[B](that: Frequency[B])(implicit f: B => A): Quantity[A] = ???
+
   //  def *[B](that: SpecificEnergy[B])(implicit f: B => A): Energy[A] = ???
   //  def *[B](that: Velocity[B])(implicit f: B => A): Momentum[A] = ???
   //  def *[B](that: Acceleration[B])(implicit f: B => A): Force[A] = ???
@@ -26,35 +24,36 @@ final case class Mass[A: Numeric] private [squants2]  (value: A, unit: MassUnit)
   //  def /[B](that: Volume[B])(implicit f: B => A): Density[A] = ???
   //  def /[B](that: AreaDensity[B])(implicit f: B => A): Area[A] = ???
   //  def /[B](that: Area[B])(implicit f: B => A): AreaDensity[A] = ???
+  //  def onRadius[B](radius: Length[B])(implicit f: B => A): MomentOfInertia[A] = ???
   // END CUSTOM OPS
 
-  def toMilliElectronVoltMass: A = to(MilliElectronVoltMass)
-  def toElectronVoltMass: A = to(ElectronVoltMass)
-  def toKiloElectronVoltMass: A = to(KiloElectronVoltMass)
-  def toMegaElectronVoltMass: A = to(MegaElectronVoltMass)
-  def toGigaElectronVoltMass: A = to(GigaElectronVoltMass)
-  def toDalton: A = to(Dalton)
-  def toTeraElectronVoltMass: A = to(TeraElectronVoltMass)
-  def toPetaElectronVoltMass: A = to(PetaElectronVoltMass)
-  def toExaElectronVoltMass: A = to(ExaElectronVoltMass)
-  def toNanograms: A = to(Nanograms)
-  def toMicrograms: A = to(Micrograms)
-  def toMilligrams: A = to(Milligrams)
-  def toTroyGrains: A = to(TroyGrains)
-  def toCarats: A = to(Carats)
-  def toGrams: A = to(Grams)
-  def toPennyweights: A = to(Pennyweights)
-  def toTolas: A = to(Tolas)
-  def toOunces: A = to(Ounces)
-  def toTroyOunces: A = to(TroyOunces)
-  def toTroyPounds: A = to(TroyPounds)
-  def toPounds: A = to(Pounds)
-  def toKilograms: A = to(Kilograms)
-  def toStone: A = to(Stone)
-  def toMegapounds: A = to(Megapounds)
-  def toKilopounds: A = to(Kilopounds)
-  def toTonnes: A = to(Tonnes)
-  def toSolarMasses: A = to(SolarMasses)
+  def toMilliElectronVoltMass[B: Numeric](implicit f: A => B): B = toNum[B](MilliElectronVoltMass)
+  def toElectronVoltMass[B: Numeric](implicit f: A => B): B = toNum[B](ElectronVoltMass)
+  def toKiloElectronVoltMass[B: Numeric](implicit f: A => B): B = toNum[B](KiloElectronVoltMass)
+  def toMegaElectronVoltMass[B: Numeric](implicit f: A => B): B = toNum[B](MegaElectronVoltMass)
+  def toGigaElectronVoltMass[B: Numeric](implicit f: A => B): B = toNum[B](GigaElectronVoltMass)
+  def toDalton[B: Numeric](implicit f: A => B): B = toNum[B](Dalton)
+  def toTeraElectronVoltMass[B: Numeric](implicit f: A => B): B = toNum[B](TeraElectronVoltMass)
+  def toPetaElectronVoltMass[B: Numeric](implicit f: A => B): B = toNum[B](PetaElectronVoltMass)
+  def toExaElectronVoltMass[B: Numeric](implicit f: A => B): B = toNum[B](ExaElectronVoltMass)
+  def toNanograms[B: Numeric](implicit f: A => B): B = toNum[B](Nanograms)
+  def toMicrograms[B: Numeric](implicit f: A => B): B = toNum[B](Micrograms)
+  def toMilligrams[B: Numeric](implicit f: A => B): B = toNum[B](Milligrams)
+  def toTroyGrains[B: Numeric](implicit f: A => B): B = toNum[B](TroyGrains)
+  def toCarats[B: Numeric](implicit f: A => B): B = toNum[B](Carats)
+  def toGrams[B: Numeric](implicit f: A => B): B = toNum[B](Grams)
+  def toPennyweights[B: Numeric](implicit f: A => B): B = toNum[B](Pennyweights)
+  def toTolas[B: Numeric](implicit f: A => B): B = toNum[B](Tolas)
+  def toOunces[B: Numeric](implicit f: A => B): B = toNum[B](Ounces)
+  def toTroyOunces[B: Numeric](implicit f: A => B): B = toNum[B](TroyOunces)
+  def toTroyPounds[B: Numeric](implicit f: A => B): B = toNum[B](TroyPounds)
+  def toPounds[B: Numeric](implicit f: A => B): B = toNum[B](Pounds)
+  def toKilograms[B: Numeric](implicit f: A => B): B = toNum[B](Kilograms)
+  def toStone[B: Numeric](implicit f: A => B): B = toNum[B](Stone)
+  def toMegapounds[B: Numeric](implicit f: A => B): B = toNum[B](Megapounds)
+  def toKilopounds[B: Numeric](implicit f: A => B): B = toNum[B](Kilopounds)
+  def toTonnes[B: Numeric](implicit f: A => B): B = toNum[B](Tonnes)
+  def toSolarMasses[B: Numeric](implicit f: A => B): B = toNum[B](SolarMasses)
 }
 
 object Mass extends BaseDimension("Mass", "M") {

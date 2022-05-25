@@ -16,17 +16,18 @@ final case class AngularAcceleration[A: Numeric] private [squants2]  (value: A, 
   override type Q[B] = AngularAcceleration[B]
 
   // BEGIN CUSTOM OPS
-  //  def *[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
-  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
+
+  //  def /[B](that: Quantity[B])(implicit f: B => A): Frequency[A] = ???
+  //  def onRadius[B](radius: Length[B])(implicit f: B => A): Acceleration[A] = ???
   //  def *[B](that: MomentOfInertia[B])(implicit f: B => A): Torque[A] = ???
   // END CUSTOM OPS
 
-  def toArcsecondsPerSecondSquared: A = to(ArcsecondsPerSecondSquared)
-  def toArcminutesPerSecondSquared: A = to(ArcminutesPerSecondSquared)
-  def toGradiansPerSecondSquared: A = to(GradiansPerSecondSquared)
-  def toDegreesPerSecondSquared: A = to(DegreesPerSecondSquared)
-  def toRadiansPerSecondSquared: A = to(RadiansPerSecondSquared)
-  def toTurnsPerSecondSquared: A = to(TurnsPerSecondSquared)
+  def toArcsecondsPerSecondSquared[B: Numeric](implicit f: A => B): B = toNum[B](ArcsecondsPerSecondSquared)
+  def toArcminutesPerSecondSquared[B: Numeric](implicit f: A => B): B = toNum[B](ArcminutesPerSecondSquared)
+  def toGradiansPerSecondSquared[B: Numeric](implicit f: A => B): B = toNum[B](GradiansPerSecondSquared)
+  def toDegreesPerSecondSquared[B: Numeric](implicit f: A => B): B = toNum[B](DegreesPerSecondSquared)
+  def toRadiansPerSecondSquared[B: Numeric](implicit f: A => B): B = toNum[B](RadiansPerSecondSquared)
+  def toTurnsPerSecondSquared[B: Numeric](implicit f: A => B): B = toNum[B](TurnsPerSecondSquared)
 }
 
 object AngularAcceleration extends Dimension("Angular Acceleration") {

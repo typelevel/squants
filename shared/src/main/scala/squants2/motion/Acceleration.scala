@@ -16,21 +16,21 @@ final case class Acceleration[A: Numeric] private [squants2]  (value: A, unit: A
   override type Q[B] = Acceleration[B]
 
   // BEGIN CUSTOM OPS
-  //  def /[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
-  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
-  //  def *[B](that: Frequency[B])(implicit f: B => A): Quantity[A] = ???
-  //  def *[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
-  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
+
+  //  def /[B](that: Quantity[B])(implicit f: B => A): Frequency[A] = ???
   //  def *[B](that: Mass[B])(implicit f: B => A): Force[A] = ???
   //  def *[B](that: TimeSquared[B])(implicit f: B => A): Length[A] = ???
+  //  def analyze[B](distance: Length[B])(implicit f: B => A): Tuple2 = ???
+  //  def analyze[B](accelerationTime: Time[B])(implicit f: B => A): Tuple2 = ???
+  //  def analyze[B](velocity: Velocity[B])(implicit f: B => A): Tuple2 = ???
   //  def *[B](that: TimeSquared[B])(implicit f: B => A): SecondTimeIntegral[A] = ???
   // END CUSTOM OPS
 
-  def toUsMilesPerHourSquared: A = to(UsMilesPerHourSquared)
-  def toMillimetersPerSecondSquared: A = to(MillimetersPerSecondSquared)
-  def toFeetPerSecondSquared: A = to(FeetPerSecondSquared)
-  def toMetersPerSecondSquared: A = to(MetersPerSecondSquared)
-  def toEarthGravities: A = to(EarthGravities)
+  def toUsMilesPerHourSquared[B: Numeric](implicit f: A => B): B = toNum[B](UsMilesPerHourSquared)
+  def toMillimetersPerSecondSquared[B: Numeric](implicit f: A => B): B = toNum[B](MillimetersPerSecondSquared)
+  def toFeetPerSecondSquared[B: Numeric](implicit f: A => B): B = toNum[B](FeetPerSecondSquared)
+  def toMetersPerSecondSquared[B: Numeric](implicit f: A => B): B = toNum[B](MetersPerSecondSquared)
+  def toEarthGravities[B: Numeric](implicit f: A => B): B = toNum[B](EarthGravities)
 }
 
 object Acceleration extends Dimension("Acceleration") {

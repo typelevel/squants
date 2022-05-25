@@ -16,15 +16,16 @@ final case class Inductance[A: Numeric] private [squants2]  (value: A, unit: Ind
   override type Q[B] = Inductance[B]
 
   // BEGIN CUSTOM OPS
+
   //  def *[B](that: ElectricCurrent[B])(implicit f: B => A): MagneticFlux[A] = ???
   //  def /[B](that: Length[B])(implicit f: B => A): Permeability[A] = ???
   // END CUSTOM OPS
 
-  def toPicohenry: A = to(Picohenry)
-  def toNanohenry: A = to(Nanohenry)
-  def toMicrohenry: A = to(Microhenry)
-  def toMillihenry: A = to(Millihenry)
-  def toHenry: A = to(Henry)
+  def toPicohenry[B: Numeric](implicit f: A => B): B = toNum[B](Picohenry)
+  def toNanohenry[B: Numeric](implicit f: A => B): B = toNum[B](Nanohenry)
+  def toMicrohenry[B: Numeric](implicit f: A => B): B = toNum[B](Microhenry)
+  def toMillihenry[B: Numeric](implicit f: A => B): B = toNum[B](Millihenry)
+  def toHenry[B: Numeric](implicit f: A => B): B = toNum[B](Henry)
 }
 
 object Inductance extends Dimension("Inductance") {

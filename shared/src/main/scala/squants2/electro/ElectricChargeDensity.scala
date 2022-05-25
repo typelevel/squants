@@ -16,12 +16,13 @@ final case class ElectricChargeDensity[A: Numeric] private [squants2]  (value: A
   override type Q[B] = ElectricChargeDensity[B]
 
   // BEGIN CUSTOM OPS
+
   //  def *[B](that: Volume[B])(implicit f: B => A): ElectricCharge[A] = ???
   //  def *[B](that: Area[B])(implicit f: B => A): LinearElectricChargeDensity[A] = ???
   //  def *[B](that: Length[B])(implicit f: B => A): AreaElectricChargeDensity[A] = ???
   // END CUSTOM OPS
 
-  def toCoulombsPerCubicMeter: A = to(CoulombsPerCubicMeter)
+  def toCoulombsPerCubicMeter[B: Numeric](implicit f: A => B): B = toNum[B](CoulombsPerCubicMeter)
 }
 
 object ElectricChargeDensity extends Dimension("Electric Charge Density") {

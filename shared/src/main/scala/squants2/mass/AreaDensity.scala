@@ -16,13 +16,14 @@ final case class AreaDensity[A: Numeric] private [squants2]  (value: A, unit: Ar
   override type Q[B] = AreaDensity[B]
 
   // BEGIN CUSTOM OPS
+
   //  def *[B](that: Area[B])(implicit f: B => A): Mass[A] = ???
   // END CUSTOM OPS
 
-  def toKilogramsPerHectare: A = to(KilogramsPerHectare)
-  def toPoundsPerAcre: A = to(PoundsPerAcre)
-  def toKilogramsPerSquareMeter: A = to(KilogramsPerSquareMeter)
-  def toGramsPerSquareCentimeter: A = to(GramsPerSquareCentimeter)
+  def toKilogramsPerHectare[B: Numeric](implicit f: A => B): B = toNum[B](KilogramsPerHectare)
+  def toPoundsPerAcre[B: Numeric](implicit f: A => B): B = toNum[B](PoundsPerAcre)
+  def toKilogramsPerSquareMeter[B: Numeric](implicit f: A => B): B = toNum[B](KilogramsPerSquareMeter)
+  def toGramsPerSquareCentimeter[B: Numeric](implicit f: A => B): B = toNum[B](GramsPerSquareCentimeter)
 }
 
 object AreaDensity extends Dimension("Area Density") {

@@ -16,8 +16,8 @@ final case class Frequency[A: Numeric] private [squants2]  (value: A, unit: Freq
   override type Q[B] = Frequency[B]
 
   // BEGIN CUSTOM OPS
-  //  def *[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
-  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
+
+  //  def /[B](that: Quantity[B])(implicit f: B => A): Frequency[A] = ???
   //  def *[B](that: Acceleration[B])(implicit f: B => A): Jerk[A] = ???
   //  def *[B](that: Angle[B])(implicit f: B => A): AngularVelocity[A] = ???
   //  def *[B](that: Dimensionless[B])(implicit f: B => A): Frequency[A] = ???
@@ -37,12 +37,12 @@ final case class Frequency[A: Numeric] private [squants2]  (value: A, unit: Freq
   //  def *[B](that: Volume[B])(implicit f: B => A): VolumeFlow[A] = ???
   // END CUSTOM OPS
 
-  def toRevolutionsPerMinute: A = to(RevolutionsPerMinute)
-  def toHertz: A = to(Hertz)
-  def toKilohertz: A = to(Kilohertz)
-  def toMegahertz: A = to(Megahertz)
-  def toGigahertz: A = to(Gigahertz)
-  def toTerahertz: A = to(Terahertz)
+  def toRevolutionsPerMinute[B: Numeric](implicit f: A => B): B = toNum[B](RevolutionsPerMinute)
+  def toHertz[B: Numeric](implicit f: A => B): B = toNum[B](Hertz)
+  def toKilohertz[B: Numeric](implicit f: A => B): B = toNum[B](Kilohertz)
+  def toMegahertz[B: Numeric](implicit f: A => B): B = toNum[B](Megahertz)
+  def toGigahertz[B: Numeric](implicit f: A => B): B = toNum[B](Gigahertz)
+  def toTerahertz[B: Numeric](implicit f: A => B): B = toNum[B](Terahertz)
 }
 
 object Frequency extends Dimension("Frequency") {

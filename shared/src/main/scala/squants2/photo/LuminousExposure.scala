@@ -16,12 +16,10 @@ final case class LuminousExposure[A: Numeric] private [squants2]  (value: A, uni
   override type Q[B] = LuminousExposure[B]
 
   // BEGIN CUSTOM OPS
-  //  def /[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
-  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
-  //  def *[B](that: Frequency[B])(implicit f: B => A): Quantity[A] = ???
+
   // END CUSTOM OPS
 
-  def toLuxSeconds: A = to(LuxSeconds)
+  def toLuxSeconds[B: Numeric](implicit f: A => B): B = toNum[B](LuxSeconds)
 }
 
 object LuminousExposure extends Dimension("Luminous Exposure") {

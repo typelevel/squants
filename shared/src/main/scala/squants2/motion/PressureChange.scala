@@ -16,14 +16,14 @@ final case class PressureChange[A: Numeric] private [squants2]  (value: A, unit:
   override type Q[B] = PressureChange[B]
 
   // BEGIN CUSTOM OPS
-  //  def *[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
-  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
+
+  //  def /[B](that: Quantity[B])(implicit f: B => A): Frequency[A] = ???
   // END CUSTOM OPS
 
-  def toPascalsPerSecond: A = to(PascalsPerSecond)
-  def toPoundsPerSquareInchPerSecond: A = to(PoundsPerSquareInchPerSecond)
-  def toBarsPerSecond: A = to(BarsPerSecond)
-  def toStandardAtmospheresPerSecond: A = to(StandardAtmospheresPerSecond)
+  def toPascalsPerSecond[B: Numeric](implicit f: A => B): B = toNum[B](PascalsPerSecond)
+  def toPoundsPerSquareInchPerSecond[B: Numeric](implicit f: A => B): B = toNum[B](PoundsPerSquareInchPerSecond)
+  def toBarsPerSecond[B: Numeric](implicit f: A => B): B = toNum[B](BarsPerSecond)
+  def toStandardAtmospheresPerSecond[B: Numeric](implicit f: A => B): B = toNum[B](StandardAtmospheresPerSecond)
 }
 
 object PressureChange extends Dimension("Pressure Change") {

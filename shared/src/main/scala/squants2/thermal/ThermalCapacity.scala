@@ -16,10 +16,11 @@ final case class ThermalCapacity[A: Numeric] private [squants2]  (value: A, unit
   override type Q[B] = ThermalCapacity[B]
 
   // BEGIN CUSTOM OPS
+
   //  def *[B](that: Temperature[B])(implicit f: B => A): Energy[A] = ???
   // END CUSTOM OPS
 
-  def toJoulesPerKelvin: A = to(JoulesPerKelvin)
+  def toJoulesPerKelvin[B: Numeric](implicit f: A => B): B = toNum[B](JoulesPerKelvin)
 }
 
 object ThermalCapacity extends Dimension("Thermal Capacity") {

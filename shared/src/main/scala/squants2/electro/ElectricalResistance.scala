@@ -16,17 +16,19 @@ final case class ElectricalResistance[A: Numeric] private [squants2]  (value: A,
   override type Q[B] = ElectricalResistance[B]
 
   // BEGIN CUSTOM OPS
+
   //  def *[B](that: ElectricCurrent[B])(implicit f: B => A): ElectricPotential[A] = ???
   //  def *[B](that: Length[B])(implicit f: B => A): Resistivity[A] = ???
+  //  def inSiemens[B]()(implicit f: B => A): ElectricalConductance[A] = ???
   // END CUSTOM OPS
 
-  def toNanohms: A = to(Nanohms)
-  def toMicroohms: A = to(Microohms)
-  def toMilliohms: A = to(Milliohms)
-  def toOhms: A = to(Ohms)
-  def toKilohms: A = to(Kilohms)
-  def toMegohms: A = to(Megohms)
-  def toGigohms: A = to(Gigohms)
+  def toNanohms[B: Numeric](implicit f: A => B): B = toNum[B](Nanohms)
+  def toMicroohms[B: Numeric](implicit f: A => B): B = toNum[B](Microohms)
+  def toMilliohms[B: Numeric](implicit f: A => B): B = toNum[B](Milliohms)
+  def toOhms[B: Numeric](implicit f: A => B): B = toNum[B](Ohms)
+  def toKilohms[B: Numeric](implicit f: A => B): B = toNum[B](Kilohms)
+  def toMegohms[B: Numeric](implicit f: A => B): B = toNum[B](Megohms)
+  def toGigohms[B: Numeric](implicit f: A => B): B = toNum[B](Gigohms)
 }
 
 object ElectricalResistance extends Dimension("Electrical Resistance") {

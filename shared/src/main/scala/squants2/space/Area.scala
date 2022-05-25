@@ -16,6 +16,7 @@ final case class Area[A: Numeric] private [squants2]  (value: A, unit: AreaUnit)
   override type Q[B] = Area[B]
 
   // BEGIN CUSTOM OPS
+
   //  def *[B](that: Length[B])(implicit f: B => A): Volume[A] = ???
   //  def *[B](that: AreaDensity[B])(implicit f: B => A): Mass[A] = ???
   //  def *[B](that: Pressure[B])(implicit f: B => A): Force[A] = ???
@@ -26,18 +27,19 @@ final case class Area[A: Numeric] private [squants2]  (value: A, unit: AreaUnit)
   //  def *[B](that: Radiance[B])(implicit f: B => A): RadiantIntensity[A] = ???
   //  def *[B](that: Time[B])(implicit f: B => A): AreaTime[A] = ???
   //  def /[B](that: Length[B])(implicit f: B => A): Length[A] = ???
+  //  def squareRoot[B]()(implicit f: B => A): Length[A] = ???
   // END CUSTOM OPS
 
-  def toBarnes: A = to(Barnes)
-  def toSquareCentimeters: A = to(SquareCentimeters)
-  def toSquareInches: A = to(SquareInches)
-  def toSquareFeet: A = to(SquareFeet)
-  def toSquareYards: A = to(SquareYards)
-  def toSquareMeters: A = to(SquareMeters)
-  def toAcres: A = to(Acres)
-  def toHectares: A = to(Hectares)
-  def toSquareKilometers: A = to(SquareKilometers)
-  def toSquareUsMiles: A = to(SquareUsMiles)
+  def toBarnes[B: Numeric](implicit f: A => B): B = toNum[B](Barnes)
+  def toSquareCentimeters[B: Numeric](implicit f: A => B): B = toNum[B](SquareCentimeters)
+  def toSquareInches[B: Numeric](implicit f: A => B): B = toNum[B](SquareInches)
+  def toSquareFeet[B: Numeric](implicit f: A => B): B = toNum[B](SquareFeet)
+  def toSquareYards[B: Numeric](implicit f: A => B): B = toNum[B](SquareYards)
+  def toSquareMeters[B: Numeric](implicit f: A => B): B = toNum[B](SquareMeters)
+  def toAcres[B: Numeric](implicit f: A => B): B = toNum[B](Acres)
+  def toHectares[B: Numeric](implicit f: A => B): B = toNum[B](Hectares)
+  def toSquareKilometers[B: Numeric](implicit f: A => B): B = toNum[B](SquareKilometers)
+  def toSquareUsMiles[B: Numeric](implicit f: A => B): B = toNum[B](SquareUsMiles)
 }
 
 object Area extends Dimension("Area") {

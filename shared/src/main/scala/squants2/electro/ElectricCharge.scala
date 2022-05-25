@@ -16,9 +16,7 @@ final case class ElectricCharge[A: Numeric] private [squants2]  (value: A, unit:
   override type Q[B] = ElectricCharge[B]
 
   // BEGIN CUSTOM OPS
-  //  def /[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
-  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
-  //  def *[B](that: Frequency[B])(implicit f: B => A): Quantity[A] = ???
+
   //  def *[B](that: ElectricPotential[B])(implicit f: B => A): Energy[A] = ???
   //  def /[B](that: ElectricPotential[B])(implicit f: B => A): Capacitance[A] = ???
   //  def /[B](that: Capacitance[B])(implicit f: B => A): ElectricPotential[A] = ???
@@ -28,15 +26,15 @@ final case class ElectricCharge[A: Numeric] private [squants2]  (value: A, unit:
   //  def /[B](that: Mass[B])(implicit f: B => A): ElectricChargeMassRatio[A] = ???
   // END CUSTOM OPS
 
-  def toPicocoulombs: A = to(Picocoulombs)
-  def toNanocoulombs: A = to(Nanocoulombs)
-  def toMicrocoulombs: A = to(Microcoulombs)
-  def toMilliampereSeconds: A = to(MilliampereSeconds)
-  def toMillicoulombs: A = to(Millicoulombs)
-  def toCoulombs: A = to(Coulombs)
-  def toMilliampereHours: A = to(MilliampereHours)
-  def toAbcoulombs: A = to(Abcoulombs)
-  def toAmpereHours: A = to(AmpereHours)
+  def toPicocoulombs[B: Numeric](implicit f: A => B): B = toNum[B](Picocoulombs)
+  def toNanocoulombs[B: Numeric](implicit f: A => B): B = toNum[B](Nanocoulombs)
+  def toMicrocoulombs[B: Numeric](implicit f: A => B): B = toNum[B](Microcoulombs)
+  def toMilliampereSeconds[B: Numeric](implicit f: A => B): B = toNum[B](MilliampereSeconds)
+  def toMillicoulombs[B: Numeric](implicit f: A => B): B = toNum[B](Millicoulombs)
+  def toCoulombs[B: Numeric](implicit f: A => B): B = toNum[B](Coulombs)
+  def toMilliampereHours[B: Numeric](implicit f: A => B): B = toNum[B](MilliampereHours)
+  def toAbcoulombs[B: Numeric](implicit f: A => B): B = toNum[B](Abcoulombs)
+  def toAmpereHours[B: Numeric](implicit f: A => B): B = toNum[B](AmpereHours)
 }
 
 object ElectricCharge extends Dimension("Electric Charge") {

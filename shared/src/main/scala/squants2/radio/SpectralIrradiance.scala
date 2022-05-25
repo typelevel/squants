@@ -16,12 +16,13 @@ final case class SpectralIrradiance[A: Numeric] private [squants2]  (value: A, u
   override type Q[B] = SpectralIrradiance[B]
 
   // BEGIN CUSTOM OPS
+
   // END CUSTOM OPS
 
-  def toWattsPerCubicMeter: A = to(WattsPerCubicMeter)
-  def toWattsPerSquareMeterPerMicron: A = to(WattsPerSquareMeterPerMicron)
-  def toErgsPerSecondPerSquareCentimeterPerAngstrom: A = to(ErgsPerSecondPerSquareCentimeterPerAngstrom)
-  def toWattsPerSquareMeterPerNanometer: A = to(WattsPerSquareMeterPerNanometer)
+  def toWattsPerCubicMeter[B: Numeric](implicit f: A => B): B = toNum[B](WattsPerCubicMeter)
+  def toWattsPerSquareMeterPerMicron[B: Numeric](implicit f: A => B): B = toNum[B](WattsPerSquareMeterPerMicron)
+  def toErgsPerSecondPerSquareCentimeterPerAngstrom[B: Numeric](implicit f: A => B): B = toNum[B](ErgsPerSecondPerSquareCentimeterPerAngstrom)
+  def toWattsPerSquareMeterPerNanometer[B: Numeric](implicit f: A => B): B = toNum[B](WattsPerSquareMeterPerNanometer)
 }
 
 object SpectralIrradiance extends Dimension("Spectral Irradiance") {

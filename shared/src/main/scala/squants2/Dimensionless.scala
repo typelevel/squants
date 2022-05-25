@@ -15,19 +15,17 @@ final case class Dimensionless[A: Numeric] private [squants2]  (value: A, unit: 
   override type Q[B] = Dimensionless[B]
 
   // BEGIN CUSTOM OPS
-  //  def /[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
-  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
-  //  def *[B](that: Frequency[B])(implicit f: B => A): Quantity[A] = ???
+
   //  def *[B](that: Dimensionless[B])(implicit f: B => A): Dimensionless[A] = ???
-  //  def *[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
+  //  def *[B](that: Quantity[B])(implicit f: B => A): Object = ???
   //  def +[B](that: B)(implicit f: B => A): Dimensionless[A] = ???
   // END CUSTOM OPS
 
-  def toPercent: A = to(Percent)
-  def toEach: A = to(Each)
-  def toDozen: A = to(Dozen)
-  def toScore: A = to(Score)
-  def toGross: A = to(Gross)
+  def toPercent[B: Numeric](implicit f: A => B): B = toNum[B](Percent)
+  def toEach[B: Numeric](implicit f: A => B): B = toNum[B](Each)
+  def toDozen[B: Numeric](implicit f: A => B): B = toNum[B](Dozen)
+  def toScore[B: Numeric](implicit f: A => B): B = toNum[B](Score)
+  def toGross[B: Numeric](implicit f: A => B): B = toNum[B](Gross)
 }
 
 object Dimensionless extends Dimension("Dimensionless") {

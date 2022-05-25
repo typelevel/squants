@@ -16,11 +16,12 @@ final case class ChemicalAmount[A: Numeric] private [squants2]  (value: A, unit:
   override type Q[B] = ChemicalAmount[B]
 
   // BEGIN CUSTOM OPS
-  //  def /[B](that: Volume[B])(implicit f: B => A): Nothing$[A] = ???
+
+  //  def /[B](that: Volume[B])(implicit f: B => A): Nothing$ = ???
   // END CUSTOM OPS
 
-  def toMoles: A = to(Moles)
-  def toPoundMoles: A = to(PoundMoles)
+  def toMoles[B: Numeric](implicit f: A => B): B = toNum[B](Moles)
+  def toPoundMoles[B: Numeric](implicit f: A => B): B = toNum[B](PoundMoles)
 }
 
 object ChemicalAmount extends BaseDimension("Chemical Amount", "N") {

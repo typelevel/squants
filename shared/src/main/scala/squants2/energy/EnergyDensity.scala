@@ -16,10 +16,11 @@ final case class EnergyDensity[A: Numeric] private [squants2]  (value: A, unit: 
   override type Q[B] = EnergyDensity[B]
 
   // BEGIN CUSTOM OPS
+
   //  def *[B](that: Volume[B])(implicit f: B => A): Energy[A] = ???
   // END CUSTOM OPS
 
-  def toJoulesPerCubicMeter: A = to(JoulesPerCubicMeter)
+  def toJoulesPerCubicMeter[B: Numeric](implicit f: A => B): B = toNum[B](JoulesPerCubicMeter)
 }
 
 object EnergyDensity extends Dimension("Energy Density") {

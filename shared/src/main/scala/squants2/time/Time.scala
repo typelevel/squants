@@ -16,18 +16,18 @@ final case class Time[A: Numeric] private [squants2]  (value: A, unit: TimeUnit)
   override type Q[B] = Time[B]
 
   // BEGIN CUSTOM OPS
-  //  def *[B](that: TimeDerivative[B])(implicit f: B => A): Quantity[A] = ???
-  //  def *[B](that: Time[B])(implicit f: B => A): TimeSquared[A] = ???
+
+  //  def millis[B]()(implicit f: B => A): Long = ???
   //  def *[B](that: Area[B])(implicit f: B => A): AreaTime[A] = ???
   // END CUSTOM OPS
 
-  def toNanoseconds: A = to(Nanoseconds)
-  def toMicroseconds: A = to(Microseconds)
-  def toMilliseconds: A = to(Milliseconds)
-  def toSeconds: A = to(Seconds)
-  def toMinutes: A = to(Minutes)
-  def toHours: A = to(Hours)
-  def toDays: A = to(Days)
+  def toNanoseconds[B: Numeric](implicit f: A => B): B = toNum[B](Nanoseconds)
+  def toMicroseconds[B: Numeric](implicit f: A => B): B = toNum[B](Microseconds)
+  def toMilliseconds[B: Numeric](implicit f: A => B): B = toNum[B](Milliseconds)
+  def toSeconds[B: Numeric](implicit f: A => B): B = toNum[B](Seconds)
+  def toMinutes[B: Numeric](implicit f: A => B): B = toNum[B](Minutes)
+  def toHours[B: Numeric](implicit f: A => B): B = toNum[B](Hours)
+  def toDays[B: Numeric](implicit f: A => B): B = toNum[B](Days)
 }
 
 object Time extends BaseDimension("Time", "T") {

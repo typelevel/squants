@@ -16,17 +16,15 @@ final case class Momentum[A: Numeric] private [squants2]  (value: A, unit: Momen
   override type Q[B] = Momentum[B]
 
   // BEGIN CUSTOM OPS
-  //  def /[B](that: Time[B])(implicit f: B => A): Quantity[A] = ???
-  //  def /[B, E <: Dimension](that: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???
-  //  def *[B](that: Frequency[B])(implicit f: B => A): Quantity[A] = ???
+
+  //  def per[B](that: TimeSquared[B])(implicit f: B => A): SecondTimeDerivative[A] = ???
   //  def /[B](that: Velocity[B])(implicit f: B => A): Mass[A] = ???
   //  def /[B](that: Mass[B])(implicit f: B => A): Velocity[A] = ???
   //  def /[B](that: TimeSquared[B])(implicit f: B => A): Yank[A] = ???
-  //  def /[B](that: SecondTimeDerivative[B])(implicit f: B => A): TimeSquared[A] = ???
   //  def /[B](that: TimeSquared[B])(implicit f: B => A): SecondTimeDerivative[A] = ???
   // END CUSTOM OPS
 
-  def toNewtonSeconds: A = to(NewtonSeconds)
+  def toNewtonSeconds[B: Numeric](implicit f: A => B): B = toNum[B](NewtonSeconds)
 }
 
 object Momentum extends Dimension("Momentum") {

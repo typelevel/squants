@@ -16,12 +16,12 @@ final case class AreaTime[A: Numeric] private [squants2]  (value: A, unit: AreaT
   override type Q[B] = AreaTime[B]
 
   // BEGIN CUSTOM OPS
-  //  def /[B](that: Area[B])(implicit f: B => A): Time[A] = ???
+
   //  def /[B](that: Time[B])(implicit f: B => A): Area[A] = ???
   // END CUSTOM OPS
 
-  def toSquareCentimeterSeconds: A = to(SquareCentimeterSeconds)
-  def toSquareMeterSeconds: A = to(SquareMeterSeconds)
+  def toSquareCentimeterSeconds[B: Numeric](implicit f: A => B): B = toNum[B](SquareCentimeterSeconds)
+  def toSquareMeterSeconds[B: Numeric](implicit f: A => B): B = toNum[B](SquareMeterSeconds)
 }
 
 object AreaTime extends Dimension("Area Time") {
