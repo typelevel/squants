@@ -3,10 +3,10 @@ package squants2converter
 import squants._
 import squants.thermal.Temperature
 
-import java.io.{ File, PrintWriter }
-import java.nio.file.{ Files, Path }
+import java.io.{File, PrintWriter}
+import java.lang.reflect.Modifier
+import java.nio.file.{Files, Path}
 import scala.language.existentials
-
 
 object Squants2Converter extends App {
 
@@ -18,7 +18,7 @@ object Squants2Converter extends App {
 
     val packageName = d.getClass.getPackage.getName.replace("squants", "squants2").replace(".", "/")
     val path = s"shared/src/main/scala/$packageName/"
-    if(!Files.exists(Path.of(path))) Files.createDirectory(Path.of(path))
+    if (!Files.exists(Path.of(path))) Files.createDirectory(Path.of(path))
     println(packageName)
 
     //    if(Files.exists(Path.of(s"$path${d.name}.scala"))) return
@@ -26,7 +26,7 @@ object Squants2Converter extends App {
     val file = new File(s"$path${d.name}.scala")
     val writer = new PrintWriter(file)
 
-    val units = d.units.toList.sortBy{ (u: UnitOfMeasure[_]) => u.symbol }.sortBy{ (u: UnitOfMeasure[_]) => u.convertFrom(1d) }
+    val units = d.units.toList.sortBy { (u: UnitOfMeasure[_]) => u.symbol }.sortBy { (u: UnitOfMeasure[_]) => u.convertFrom(1d) }
 
     writer.println("/*                                                                      *\\")
     writer.println("** Squants                                                              **")
@@ -47,21 +47,27 @@ object Squants2Converter extends App {
     writer.println(s"  override type Q[B] = ${d.name}[B]")
     writer.println()
     writer.println("  // BEGIN CUSTOM OPS")
-    d.primaryUnit(1d).getClass.getDeclaredMethods.withFilter(_.getName.startsWith("$")).foreach{ m =>
-      val op = if(m.getName == "$div") "/" else if(m.getName == "$times") "*" else if(m.getName == "$plus") "+" else if(m.getName == "$minus") "-" else "?"
-      val param = m.getParameters.head
-      val paramName = param.getName
-      val paramType = if(param.getType.getSimpleName == "double") "B" else s"${param.getType.getSimpleName}[B]"
-      val returnType = m.getReturnType.getSimpleName
-      if((paramType.contains("Time")
-        || returnType.contains("Time")) &&
-        param.getType.getInterfaces.map(_.getName).exists(_.contains("Time"))) {}
-      else if (paramType.contains("Quantity")) {
-        writer.println(s"  //  def $op[B, E <: Dimension]($paramName: Quantity[B, E])(implicit f: B => A): Quantity[A, E] = ???")
-      } else {
-        writer.println(s"  //  def $op[B]($paramName: $paramType)(implicit f: B => A): $returnType[A] = ???")
+    writer.println()
+    d.primaryUnit(1d).getClass.getDeclaredMethods
+      .withFilter(m => !Modifier.isStatic(m.getModifiers))
+      .withFilter(m => !Set("Quantity", "Time").contains(m.getReturnType.getSimpleName))
+      //      .withFilter(m => !m.getParameters.map(_.getType.getSimpleName).contains("Quantity"))
+      .withFilter(m => !Set("value", "unit", "dimension", "time", "timeDerived", "timeIntegrated").contains(m.getName))
+      .foreach { m =>
+        println(s"${m.toString} ${m.getParameters.map(_.getType.getSimpleName).mkString(", ")}")
+        val op = if (m.getName == "$div") "/" else if (m.getName == "$times") "*" else if (m.getName == "$plus") "+" else if (m.getName == "$minus") "-" else m.getName
+        val params = m.getParameters.map { p =>
+          val paramType = if (p.getType.getSimpleName == "double") "B" else s"${p.getType.getSimpleName}[B]"
+          s"${p.getName}: $paramType"
+        }.mkString(", ")
+        val returnType = {
+          if(m.getReturnType.getSimpleName == "double") "A"
+          else if(m.getReturnType.getPackage.getName.contains("squants")) s"${m.getReturnType.getSimpleName}[A]"
+          else m.getReturnType.getSimpleName
+        }
+
+        writer.println(s"  //  def $op[B]($params)(implicit f: B => A): $returnType = ???")
       }
-    }
     writer.println("  // END CUSTOM OPS")
     writer.println()
     units.foreach { (u: UnitOfMeasure[_]) =>
@@ -85,7 +91,7 @@ object Squants2Converter extends App {
       case _ =>
         writer.println(s"  override def siUnit: UnitOfMeasure[this.type] with SiUnit = ${d.siUnit.getClass.getSimpleName.replace("$", "")}")
     }
-    val unitList = units.map { (u: UnitOfMeasure[_]) => s"${u.getClass.getSimpleName.replace("$", "")}"}.mkString(", ")
+    val unitList = units.map { (u: UnitOfMeasure[_]) => s"${u.getClass.getSimpleName.replace("$", "")}" }.mkString(", ")
     writer.println(s"  override lazy val units: Set[UnitOfMeasure[this.type]] = ")
     writer.println(s"    Set($unitList)")
     writer.println()
@@ -110,7 +116,6 @@ object Squants2Converter extends App {
     writer.println(s"      $primaryUnitName(x.to($primaryUnitName) * y.to($primaryUnitName))")
     writer.println(s"  }")
 
-
     writer.println(s"}")
     writer.println()
     writer.println(s"abstract class ${d.name}Unit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[${d.name}.type] {")
@@ -121,41 +126,40 @@ object Squants2Converter extends App {
     units.foreach { (u: UnitOfMeasure[_]) =>
       val convFactor = u.convertFrom(1d)
       val convExp = BigDecimal(convFactor) match {
-          case x if x == BigDecimal(MetricSystem.Yocto) => "MetricSystem.Yocto"
-          case x if x == MetricSystem.Zepto => "MetricSystem.Zepto"
-          case x if x == MetricSystem.Atto  => "MetricSystem.Atto"
-          case x if x == MetricSystem.Femto => "MetricSystem.Femto"
-          case x if x == MetricSystem.Pico  => "MetricSystem.Pico"
-          case x if x == MetricSystem.Nano  => "MetricSystem.Nano"
-          case x if x == MetricSystem.Micro => "MetricSystem.Micro"
-          case x if x == MetricSystem.Milli => "MetricSystem.Milli"
-          case x if x == MetricSystem.Centi => "MetricSystem.Centi"
-          case x if x == MetricSystem.Deci  => "MetricSystem.Deci"
+        case x if x == BigDecimal(MetricSystem.Yocto) => "MetricSystem.Yocto"
+        case x if x == MetricSystem.Zepto => "MetricSystem.Zepto"
+        case x if x == MetricSystem.Atto => "MetricSystem.Atto"
+        case x if x == MetricSystem.Femto => "MetricSystem.Femto"
+        case x if x == MetricSystem.Pico => "MetricSystem.Pico"
+        case x if x == MetricSystem.Nano => "MetricSystem.Nano"
+        case x if x == MetricSystem.Micro => "MetricSystem.Micro"
+        case x if x == MetricSystem.Milli => "MetricSystem.Milli"
+        case x if x == MetricSystem.Centi => "MetricSystem.Centi"
+        case x if x == MetricSystem.Deci => "MetricSystem.Deci"
 
-          case x if x == MetricSystem.Deca  => "MetricSystem.Deca"
-          case x if x == MetricSystem.Hecto => "MetricSystem.Hecto"
-          case x if x == MetricSystem.Kilo  => "MetricSystem.Kilo"
-          case x if x == MetricSystem.Mega  => "MetricSystem.Mega"
-          case x if x == MetricSystem.Giga  => "MetricSystem.Giga"
-          case x if x == MetricSystem.Tera  => "MetricSystem.Tera"
-          case x if x == MetricSystem.Peta  => "MetricSystem.Peta"
-          case x if x == MetricSystem.Exa   => "MetricSystem.Exa"
-          case x if x == MetricSystem.Zetta => "MetricSystem.Zetta"
-          case x if x == MetricSystem.Yotta => "MetricSystem.Yotta"
+        case x if x == MetricSystem.Deca => "MetricSystem.Deca"
+        case x if x == MetricSystem.Hecto => "MetricSystem.Hecto"
+        case x if x == MetricSystem.Kilo => "MetricSystem.Kilo"
+        case x if x == MetricSystem.Mega => "MetricSystem.Mega"
+        case x if x == MetricSystem.Giga => "MetricSystem.Giga"
+        case x if x == MetricSystem.Tera => "MetricSystem.Tera"
+        case x if x == MetricSystem.Peta => "MetricSystem.Peta"
+        case x if x == MetricSystem.Exa => "MetricSystem.Exa"
+        case x if x == MetricSystem.Zetta => "MetricSystem.Zetta"
+        case x if x == MetricSystem.Yotta => "MetricSystem.Yotta"
 
-          case x if x == BinarySystem.Kilo  => "BinarySystem.Kilo"
-          case x if x == BinarySystem.Mega  => "BinarySystem.Mega"
-          case x if x == BinarySystem.Giga  => "BinarySystem.Giga"
-          case x if x == BinarySystem.Tera  => "BinarySystem.Tera"
-          case x if x == BinarySystem.Peta  => "BinarySystem.Peta"
-          case x if x == BinarySystem.Exa   => "BinarySystem.Exa"
-          case x if x == BinarySystem.Zetta => "BinarySystem.Zetta"
-          case x if x == BinarySystem.Yotta => "BinarySystem.Yotta"
-          
-          case x if x.toInt == x => convFactor.toInt.toString
-          case _ => convFactor.toString
-        }
+        case x if x == BinarySystem.Kilo => "BinarySystem.Kilo"
+        case x if x == BinarySystem.Mega => "BinarySystem.Mega"
+        case x if x == BinarySystem.Giga => "BinarySystem.Giga"
+        case x if x == BinarySystem.Tera => "BinarySystem.Tera"
+        case x if x == BinarySystem.Peta => "BinarySystem.Peta"
+        case x if x == BinarySystem.Exa => "BinarySystem.Exa"
+        case x if x == BinarySystem.Zetta => "BinarySystem.Zetta"
+        case x if x == BinarySystem.Yotta => "BinarySystem.Yotta"
 
+        case x if x.toInt == x => convFactor.toInt.toString
+        case _ => convFactor.toString
+      }
 
       u match {
         case _: PrimaryUnit with SiBaseUnit =>
