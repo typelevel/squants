@@ -6,6 +6,7 @@ import scala.math.BigDecimal.RoundingMode
 import scala.math.BigDecimal.RoundingMode.RoundingMode
 import scala.math.Numeric.Implicits.infixNumericOps
 import scala.math.Ordered.orderingToOrdered
+import scala.util.Try
 
 /**
  * A base class for measurable quantities, instances of which contain a value and a unit
@@ -14,7 +15,7 @@ import scala.math.Ordered.orderingToOrdered
  * @since   0.1
  *
  */
-abstract class Quantity[A, Q[N] <: Quantity[N, Q]](implicit protected val num: Numeric[A]) extends Serializable with Ordered[Quantity[A, Q]] {
+abstract class Quantity[A, Q[N] <: Quantity[N, Q]](implicit protected val num: Numeric[A]) extends Serializable with Ordered[Q[A]] {
   self: Q[A] => 
   /**
    * The value of the quantity given the unit
@@ -166,10 +167,7 @@ abstract class Quantity[A, Q[N] <: Quantity[N, Q]](implicit protected val num: N
    * @param that must be of matching value and unit
    * @return
    */
-  override def equals(that: Any): Boolean = that match {
-    // TODO:      case q: Quantity[_, _] if dimension==q.dimension && num==q.num => q.asInstanceOf[Q[A]].to(unit) == value
-    case _ => false
-  }
+  override def equals(that: Any): Boolean = Try(0 == compare(that.asInstanceOf[Q[A]])).getOrElse(false)
 
   /**
    * Override of hashCode
@@ -183,11 +181,7 @@ abstract class Quantity[A, Q[N] <: Quantity[N, Q]](implicit protected val num: N
    * @param that Quantity
    * @return Int
    */
-  override def compare(that: Quantity[A, Q]): Int = {
-    if (this.value > that.to(unit)) 1
-    else if (this.value < that.to(unit)) -1
-    else 0
-  }
+  override def compare(that: Q[A]): Int = if (this.value > that.to(unit)) 1 else if (this.value < that.to(unit)) -1 else 0
 
   /**
    * Returns the max of this and that Quantity
