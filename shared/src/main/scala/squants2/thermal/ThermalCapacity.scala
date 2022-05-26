@@ -9,7 +9,6 @@
 package squants2.thermal
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class ThermalCapacity[A: Numeric] private[squants2] (value: A, unit: ThermalCapacityUnit)
   extends Quantity[A, ThermalCapacity] {
@@ -35,11 +34,6 @@ object ThermalCapacity extends Dimension[ThermalCapacity]("Thermal Capacity") {
 
   lazy val joulesPerKelvin: ThermalCapacity[Int] = JoulesPerKelvin(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, ThermalCapacity] = ThermalCapacityNumeric[A]()
-  private case class ThermalCapacityNumeric[A: Numeric]() extends QuantityNumeric[A, ThermalCapacity](this) {
-    override def times(x: Quantity[A, ThermalCapacity], y: Quantity[A, ThermalCapacity]): Quantity[A, ThermalCapacity] =
-      JoulesPerKelvin(x.to(JoulesPerKelvin) * y.to(JoulesPerKelvin))
-  }
 }
 
 abstract class ThermalCapacityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[ThermalCapacity] {

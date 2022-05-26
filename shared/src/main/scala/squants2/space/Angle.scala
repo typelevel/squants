@@ -9,7 +9,6 @@
 package squants2.space
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class Angle[A: Numeric] private[squants2] (value: A, unit: AngleUnit)
   extends Quantity[A, Angle] {
@@ -55,11 +54,6 @@ object Angle extends Dimension[Angle]("Angle") {
   lazy val radians: Angle[Int] = Radians(1)
   lazy val turns: Angle[Int] = Turns(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, Angle] = AngleNumeric[A]()
-  private case class AngleNumeric[A: Numeric]() extends QuantityNumeric[A, Angle](this) {
-    override def times(x: Quantity[A, Angle], y: Quantity[A, Angle]): Quantity[A, Angle] =
-      Radians(x.to(Radians) * y.to(Radians))
-  }
 }
 
 abstract class AngleUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Angle] {
