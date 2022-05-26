@@ -72,10 +72,6 @@ trait UnitOfMeasure[Q[_] <: Quantity[_, Q]] extends Serializable {
   }
 }
 
-//trait PrimaryUnit { self: UnitOfMeasure[_] => }
-//trait SiUnit { self: UnitOfMeasure[_] => }
-//trait SiBaseUnit extends SiUnit { self: UnitOfMeasure[_] => }
-//
 trait PrimaryUnit[Q[_] <: Quantity[_, Q]] { self: UnitOfMeasure[Q] => }
 trait SiUnit[Q[_] <: Quantity[_, Q]] { self: UnitOfMeasure[Q] => }
 trait SiBaseUnit[Q[_] <: Quantity[_, Q]] extends SiUnit[Q] { self: UnitOfMeasure[Q] => }

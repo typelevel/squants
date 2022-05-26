@@ -55,34 +55,33 @@ Alternatives ideas to this are welcome.
 
 The core model has been significantly refactored.
 
-`Dimension` is now the "top-level" concept and `UnitOfMeasure` and `Quantity` are based on that.
-
 An abbreviated view ...
 ```scala
 import squants2._
 
-abstract class Dimension(val name: String) {
-  type D = this.type
-  def units: Set[UnitOfMeasure[D]]
-  def primaryUnit: UnitOfMeasure[D] with PrimaryUnit
-  def siUnit: UnitOfMeasure[D] with SiUnit
+abstract class Quantity[A: Numeric, Q[_] <: Quantity[_, Q]] {
+  def value: A
+  def unit: UnitOfMeasure[Q]
   /* ... */
 }
 
-trait UnitOfMeasure[D <: Dimension] {
-  def dimension: D
+abstract class Dimension[Q[_] <: Quantity[_, Q]](val name: String) {
+  type D = this.type
+  def units: Set[UnitOfMeasure[Q]]
+  def primaryUnit: UnitOfMeasure[Q] with PrimaryUnit[Q]
+  def siUnit: UnitOfMeasure[Q] with SiUnit[Q]
+  def apply[A: Numeric](a: A, uom: UnitOfMeasure[Q]): Quantity[A, Q]
+  /* ... */
+}
+
+trait UnitOfMeasure[Q[_] <: Quantity[_, Q]] {
+  def dimension: Q
   def symbol: String
   def conversionFactor: Double  // maybe BigDecimal instead
-  def apply[A: Numeric](a: A): Quantity[A, D]
+  def apply[A: Numeric](a: A): Quantity[A, Q]
   /* ... */
 }
 
-abstract class Quantity[A: Numeric, D <: Dimension] {
-  type Q[B] <: Quantity[B, D]
-  def value: A
-  def unit: UnitOfMeasure[D]
-  /* ... */
-}
 
 
 ```
@@ -97,38 +96,65 @@ However, each quantity type must be refactored to use `Numeric`, and provide num
 ```scala
 import squants2._
 
-final case class Length[A: Numeric] private (value: A, unit: LengthUnit) extends Quantity[A, Length.type] {
- 
-  override type Q[B] = Length[B]
+final case class Dimensionless[A: Numeric] private[squants2] (value: A, unit: DimensionlessUnit)
+  extends Quantity[A, Dimensionless] {
 
-  def *[B](that: Length[B])(implicit f: B => A): Area[A] = SquareMeters(to(Meters) * that.asNum[A].to(Meters))
-  def *[B](that: Area[B])(implicit f: B => A): Volume[A] = CubicMeters(to(Meters) * that.asNum[A].to(SquareMeters))
+  def *[B](that: Dimensionless[B])(implicit f: B => A): Dimensionless[A] = Each(to(Each) * that.asNum[A].to(Each))
+  def *[B, Q[_] <: Quantity[B, Q]](that: Q[B])(implicit f: B => A): Quantity[A, Q] = that.asNum[A] * to(Each)
+  def +[B](that: B)(implicit f: B => A): Dimensionless[A] = Each(to(Each) + that)
+
+  def toPercent[B: Numeric](implicit f: A => B): B = toNum[B](Percent)
+  def toEach[B: Numeric](implicit f: A => B): B = toNum[B](Each)
+  def toDozen[B: Numeric](implicit f: A => B): B = toNum[B](Dozen)
+  def toScore[B: Numeric](implicit f: A => B): B = toNum[B](Score)
+  def toGross[B: Numeric](implicit f: A => B): B = toNum[B](Gross)
 }
 
-object Length extends BaseDimension("Length", "L") {
+object Dimensionless extends Dimension[Dimensionless]("Dimensionless") {
 
-  override lazy val primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = Meters
-  override lazy val siUnit: UnitOfMeasure[this.type] with SiBaseUnit = Meters
-  override lazy val units: Set[UnitOfMeasure[this.type]] = Set(Meters, Feet)
+  override def primaryUnit: UnitOfMeasure[Dimensionless] with PrimaryUnit[Dimensionless] = Each
+  override def siUnit: UnitOfMeasure[Dimensionless] with SiUnit[Dimensionless] = Each
+  override lazy val units: Set[UnitOfMeasure[Dimensionless]] =
+    Set(Percent, Each, Dozen, Score, Gross)
 
-  // Constructors from Numeric values
-  implicit class LengthCons[A: Numeric](a: A) {
-    def meters: Length[A] = Meters(a)
-    def feet: Length[A] = Feet(a)
+  implicit class DimensionlessCons[A](a: A)(implicit num: Numeric[A]) {
+    def percent: Dimensionless[A] = Percent(a)
+    def each: Dimensionless[A] = Each(a)
+    def dozen: Dimensionless[A] = Dozen(a)
+    def score: Dimensionless[A] = Score(a)
+    def gross: Dimensionless[A] = Gross(a)
+    def hundred: Dimensionless[A] = Each(a * num.fromInt(100))
+    def thousand: Dimensionless[A] = Each(a * num.fromInt(1000))
+    def million: Dimensionless[A] = Each(a * num.fromInt(1000000))
   }
 
-  // Constants
-  lazy val meter: Length[Int] = Meters(1)
+  lazy val percent: Dimensionless[Int] = Percent(1)
+  lazy val each: Dimensionless[Int] = Each(1)
+  lazy val dozen: Dimensionless[Int] = Dozen(1)
+  lazy val score: Dimensionless[Int] = Score(1)
+  lazy val gross: Dimensionless[Int] = Gross(1)
+  lazy val hundred: Dimensionless[Int] = Each(100)
+  lazy val thousand: Dimensionless[Int] = Each(1000)
+  lazy val million: Dimensionless[Int] = Each(1000000)
 
+  override def numeric[A: Numeric]: QuantityNumeric[A, Dimensionless] = DimensionlessNumeric[A]()
+  private case class DimensionlessNumeric[A: Numeric]() extends QuantityNumeric[A, Dimensionless](this) {
+    override def times(x: Quantity[A, Dimensionless], y: Quantity[A, Dimensionless]): Quantity[A, Dimensionless] =
+      Each(x.to(Each) * y.to(Each))
+  }
 }
 
-abstract class LengthUnit(val symbol: String, val conversionFactor: Double) extends UnitOfMeasure[Length.type] {
-  override def dimension: Length.type = Length
-  override def apply[A: Numeric](value: A): Length[A] = Length(value, this)
+abstract class DimensionlessUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Dimensionless] {
+  override def dimension: Dimension[Dimensionless] = Dimensionless
+  override def apply[A: Numeric](value: A): Dimensionless[A] = Dimensionless(value, this)
 }
 
-case object Meters extends LengthUnit("m", 1) with PrimaryUnit with SiBaseUnit
-case object Feet extends LengthUnit("ft", .3048006096)
+case object Percent extends DimensionlessUnit("%", MetricSystem.Centi)
+case object Each extends DimensionlessUnit("ea", 1) with PrimaryUnit[Dimensionless] with SiUnit[Dimensionless]
+case object Dozen extends DimensionlessUnit("dz", 12)
+case object Score extends DimensionlessUnit("score", 20)
+case object Gross extends DimensionlessUnit("gr", 144)
+
 ```
 
 ## Status and Approach

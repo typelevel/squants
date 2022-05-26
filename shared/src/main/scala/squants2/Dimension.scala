@@ -10,8 +10,6 @@ import scala.util.{ Failure, Success, Try }
  * @param name The name of the Dimension
  */
 abstract class Dimension[Q[_] <: Quantity[_, Q]](val name: String) {
-//  type D = this.type
-//  type Q[A] = Quantity[A, D]
 
   /**
    * Set of available units
@@ -39,7 +37,14 @@ abstract class Dimension[Q[_] <: Quantity[_, Q]](val name: String) {
    */
   def symbolToUnit(symbol: String): Option[UnitOfMeasure[Q]] = units.find(u => u.symbol == symbol)
 
-  private [squants2] def isSiBase: Boolean = false
+  /**
+   * General factory for creating Quantities of this dimension
+   * @param a the quantity's value
+   * @param uom the quantity's unit of measure
+   * @tparam A the value type
+   * @return
+   */
+  def apply[A: Numeric](a: A, uom: UnitOfMeasure[Q]): Quantity[A, Q] = uom(a)
 
   /**
    * Tries to map a string or tuple value to Quantity of this Dimension
@@ -105,5 +110,4 @@ abstract class Dimension[Q[_] <: Quantity[_, Q]](val name: String) {
  */
 abstract class BaseDimension[Q[_] <: Quantity[_, Q]](name: String, val dimensionSymbol: String) extends Dimension[Q](name) {
   override def siUnit: UnitOfMeasure[Q] with SiBaseUnit[Q]
-  override private[squants2] def isSiBase = true
 }

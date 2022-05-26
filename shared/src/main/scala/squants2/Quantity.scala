@@ -15,9 +15,7 @@ import scala.math.Ordered.orderingToOrdered
  *
  */
 abstract class Quantity[A, Q[_] <: Quantity[_, Q]](implicit protected val num: Numeric[A]) extends Serializable with Ordered[Quantity[A, Q]] {
-//  type Q[N] <: Quantity[N, Q]
 
-  
   /**
    * The value of the quantity given the unit
    * @return Double
