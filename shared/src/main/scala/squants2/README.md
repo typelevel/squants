@@ -62,23 +62,28 @@ import squants2._
 abstract class Quantity[A: Numeric, Q[_] <: Quantity[_, Q]] {
   def value: A
   def unit: UnitOfMeasure[Q]
+  
+  // new generic number methods
+  def asNum[B: Numeric](implicit f: A => B): Quantity[B, Q]
+  def toNum[B: Numeric](uom: UnitOfMeasure[Q])(implicit f: A => B): B
   /* ... */
 }
 
 abstract class Dimension[Q[_] <: Quantity[_, Q]](val name: String) {
-  type D = this.type
-  def units: Set[UnitOfMeasure[Q]]
   def primaryUnit: UnitOfMeasure[Q] with PrimaryUnit[Q]
   def siUnit: UnitOfMeasure[Q] with SiUnit[Q]
+  def units: Set[UnitOfMeasure[Q]]
   def apply[A: Numeric](a: A, uom: UnitOfMeasure[Q]): Quantity[A, Q]
   /* ... */
 }
 
 trait UnitOfMeasure[Q[_] <: Quantity[_, Q]] {
-  def dimension: Q
+  def dimension: Dimension[Q]
   def symbol: String
-  def conversionFactor: Double  // maybe BigDecimal instead
+  def conversionFactor: BigDecimal  
   def apply[A: Numeric](a: A): Quantity[A, Q]
+  // Default uses conversionFactor, but may be overridden for specific Dimensions of Units
+  def convertTo[A](quantity: Quantity[A, Q], uom: UnitOfMeasure[Q])(implicit num: Numeric[A]): Quantity[A, Q]
   /* ... */
 }
 
@@ -168,32 +173,15 @@ All components of the core model has been refactored to use `Numeric` types for 
 This refactored code has been added to this new `squants2` package within the `shared [squants-sources]` project,
 where it can live during refactoring.
 
-### SI Base Dimensions
+### Converting existing Dimensions
 
-The 7 SI base dimensions and `Dimensionless` have been refactored.
-
-* ChemicalAmount
-* Length
-* LuminousIntensity
-* Mass
-* Temperature
-* Time
-
-*Only a few dimensional operations have been implemented*
-
-### Derived Dimensions
-
-The following derived dimensions are functioning:
-
-* Angle
-* Area (only 2 units)
-* Volume (only 2 units)
+* All Dimensions and Units from Squants 1 have been ported using a conversion utility.
+* Custom operations have been stubbed as commented code within each Dimension
 
 ### Approach to Complete Refactoring
 
 1. Refactor `TimeDerivative` and `TimeIntegral` traits
 2. Refactor `market` package
-3. Migrate remaining derived dimensions
 4. Refactor and Migrate Tests
 5. Update Docs
 
@@ -215,7 +203,7 @@ package squants
 
 package object double {
   
-  type Length = squants.space.Length[Double]
+  type Length = squants2.space.Length[Double]
   /* ... */
 }
 ```
