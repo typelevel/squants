@@ -11,9 +11,8 @@ package squants2.photo
 import squants2._
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class Luminance[A: Numeric] private [squants2]  (value: A, unit: LuminanceUnit)
-  extends Quantity[A, Luminance.type] {
-  override type Q[B] = Luminance[B]
+final case class Luminance[A: Numeric] private[squants2] (value: A, unit: LuminanceUnit)
+  extends Quantity[A, Luminance] {
 
   // BEGIN CUSTOM OPS
 
@@ -23,11 +22,11 @@ final case class Luminance[A: Numeric] private [squants2]  (value: A, unit: Lumi
   def toCandelasPerSquareMeter[B: Numeric](implicit f: A => B): B = toNum[B](CandelasPerSquareMeter)
 }
 
-object Luminance extends Dimension("Luminance") {
+object Luminance extends Dimension[Luminance]("Luminance") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = CandelasPerSquareMeter
-  override def siUnit: UnitOfMeasure[this.type] with SiUnit = CandelasPerSquareMeter
-  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+  override def primaryUnit: UnitOfMeasure[Luminance] with PrimaryUnit[Luminance] = CandelasPerSquareMeter
+  override def siUnit: UnitOfMeasure[Luminance] with SiUnit[Luminance] = CandelasPerSquareMeter
+  override lazy val units: Set[UnitOfMeasure[Luminance]] = 
     Set(CandelasPerSquareMeter)
 
   implicit class LuminanceCons[A](a: A)(implicit num: Numeric[A]) {
@@ -36,16 +35,16 @@ object Luminance extends Dimension("Luminance") {
 
   lazy val candelasPerSquareMeter: Luminance[Int] = CandelasPerSquareMeter(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = LuminanceNumeric[A]()
-  private case class LuminanceNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
-    override def times(x: Quantity[A, Luminance.type], y: Quantity[A, Luminance.type]): Quantity[A, Luminance.this.type] =
+  override def numeric[A: Numeric]: QuantityNumeric[A, Luminance] = LuminanceNumeric[A]()
+  private case class LuminanceNumeric[A: Numeric]() extends QuantityNumeric[A, Luminance](this) {
+    override def times(x: Quantity[A, Luminance], y: Quantity[A, Luminance]): Quantity[A, Luminance] =
       CandelasPerSquareMeter(x.to(CandelasPerSquareMeter) * y.to(CandelasPerSquareMeter))
   }
 }
 
-abstract class LuminanceUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Luminance.type] {
-  override def dimension: Luminance.type = Luminance
+abstract class LuminanceUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Luminance] {
+  override def dimension: Dimension[Luminance] = Luminance
   override def apply[A: Numeric](value: A): Luminance[A] = Luminance(value, this)
 }
 
-case object CandelasPerSquareMeter extends LuminanceUnit("cd/m²", 1) with PrimaryUnit with SiUnit
+case object CandelasPerSquareMeter extends LuminanceUnit("cd/m²", 1) with PrimaryUnit[Luminance] with SiUnit[Luminance]

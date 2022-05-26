@@ -8,11 +8,11 @@ package squants2
  *
  * @author  garyKeorkunian
  * @since   0.1
- * @tparam D The Dimension being measured
+ * @tparam Q The Dimension being measured
  */
-trait UnitOfMeasure[D <: Dimension] extends Serializable {
+trait UnitOfMeasure[Q[_] <: Quantity[_, Q]] extends Serializable {
 
-  def dimension: D
+  def dimension: Dimension[Q]
 
   /**
    * Factory method for creating instances of a Quantity in this UnitOfMeasure
@@ -20,7 +20,7 @@ trait UnitOfMeasure[D <: Dimension] extends Serializable {
    * @tparam A the QNumeric type for `a`
    * @return
    */
-  def apply[A: Numeric](a: A): Quantity[A, D]
+  def apply[A: Numeric](a: A): Quantity[A, Q]
 
   /**
    * Extractor method for getting the QNumeric value of a Quantity in this UnitOfMeasure
@@ -28,7 +28,7 @@ trait UnitOfMeasure[D <: Dimension] extends Serializable {
    * @tparam A the QNumeric type
    * @return
    */
-  def unapply[A: Numeric](q: Quantity[A, D]): Option[A] = Some(q.toNum(this))
+  def unapply[A: Numeric](q: Quantity[A, Q]): Option[A] = Some(q.toNum(this))
 
   /**
    * Symbol used when representing Quantities in this UnitOfMeasure
@@ -54,7 +54,7 @@ trait UnitOfMeasure[D <: Dimension] extends Serializable {
    * @tparam A QNumeric type
    * @return
    */
-  def convertTo[A](quantity: Quantity[A, D], uom: UnitOfMeasure[D])(implicit num: Numeric[A]): Quantity[A, D] = {
+  def convertTo[A](quantity: Quantity[A, Q], uom: UnitOfMeasure[Q])(implicit num: Numeric[A]): Quantity[A, Q] = {
 
     if (uom eq this) quantity else {
       val thisFactor = num.parseString(conversionFactor.toString).get
@@ -72,6 +72,10 @@ trait UnitOfMeasure[D <: Dimension] extends Serializable {
   }
 }
 
-trait PrimaryUnit { self: UnitOfMeasure[_] => }
-trait SiUnit { self: UnitOfMeasure[_] => }
-trait SiBaseUnit extends SiUnit { self: UnitOfMeasure[_] => }
+//trait PrimaryUnit { self: UnitOfMeasure[_] => }
+//trait SiUnit { self: UnitOfMeasure[_] => }
+//trait SiBaseUnit extends SiUnit { self: UnitOfMeasure[_] => }
+//
+trait PrimaryUnit[Q[_] <: Quantity[_, Q]] { self: UnitOfMeasure[Q] => }
+trait SiUnit[Q[_] <: Quantity[_, Q]] { self: UnitOfMeasure[Q] => }
+trait SiBaseUnit[Q[_] <: Quantity[_, Q]] extends SiUnit[Q] { self: UnitOfMeasure[Q] => }

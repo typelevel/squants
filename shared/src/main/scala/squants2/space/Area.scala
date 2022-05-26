@@ -11,9 +11,8 @@ package squants2.space
 import squants2._
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class Area[A: Numeric] private [squants2]  (value: A, unit: AreaUnit)
-  extends Quantity[A, Area.type] {
-  override type Q[B] = Area[B]
+final case class Area[A: Numeric] private[squants2] (value: A, unit: AreaUnit)
+  extends Quantity[A, Area] {
 
   // BEGIN CUSTOM OPS
 
@@ -42,11 +41,11 @@ final case class Area[A: Numeric] private [squants2]  (value: A, unit: AreaUnit)
   def toSquareUsMiles[B: Numeric](implicit f: A => B): B = toNum[B](SquareUsMiles)
 }
 
-object Area extends Dimension("Area") {
+object Area extends Dimension[Area]("Area") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = SquareMeters
-  override def siUnit: UnitOfMeasure[this.type] with SiUnit = SquareMeters
-  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+  override def primaryUnit: UnitOfMeasure[Area] with PrimaryUnit[Area] = SquareMeters
+  override def siUnit: UnitOfMeasure[Area] with SiUnit[Area] = SquareMeters
+  override lazy val units: Set[UnitOfMeasure[Area]] = 
     Set(Barnes, SquareCentimeters, SquareInches, SquareFeet, SquareYards, SquareMeters, Acres, Hectares, SquareKilometers, SquareUsMiles)
 
   implicit class AreaCons[A](a: A)(implicit num: Numeric[A]) {
@@ -73,25 +72,25 @@ object Area extends Dimension("Area") {
   lazy val squareKilometers: Area[Int] = SquareKilometers(1)
   lazy val squareUsMiles: Area[Int] = SquareUsMiles(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = AreaNumeric[A]()
-  private case class AreaNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
-    override def times(x: Quantity[A, Area.type], y: Quantity[A, Area.type]): Quantity[A, Area.this.type] =
+  override def numeric[A: Numeric]: QuantityNumeric[A, Area] = AreaNumeric[A]()
+  private case class AreaNumeric[A: Numeric]() extends QuantityNumeric[A, Area](this) {
+    override def times(x: Quantity[A, Area], y: Quantity[A, Area]): Quantity[A, Area] =
       SquareMeters(x.to(SquareMeters) * y.to(SquareMeters))
   }
 }
 
-abstract class AreaUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Area.type] {
-  override def dimension: Area.type = Area
+abstract class AreaUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Area] {
+  override def dimension: Dimension[Area] = Area
   override def apply[A: Numeric](value: A): Area[A] = Area(value, this)
 }
 
 case object Barnes extends AreaUnit("b", 1.0E-28)
-case object SquareCentimeters extends AreaUnit("cm²", 1.0E-4) with SiUnit
+case object SquareCentimeters extends AreaUnit("cm²", 1.0E-4) with SiUnit[Area]
 case object SquareInches extends AreaUnit("in²", 6.4516E-4)
 case object SquareFeet extends AreaUnit("ft²", 0.09290304)
 case object SquareYards extends AreaUnit("yd²", 0.83612736)
-case object SquareMeters extends AreaUnit("m²", 1) with PrimaryUnit with SiUnit
+case object SquareMeters extends AreaUnit("m²", 1) with PrimaryUnit[Area] with SiUnit[Area]
 case object Acres extends AreaUnit("acre", 4046.8564224)
 case object Hectares extends AreaUnit("ha", 10000)
-case object SquareKilometers extends AreaUnit("km²", MetricSystem.Mega) with SiUnit
+case object SquareKilometers extends AreaUnit("km²", MetricSystem.Mega) with SiUnit[Area]
 case object SquareUsMiles extends AreaUnit("mi²", 2589988.1103359996)

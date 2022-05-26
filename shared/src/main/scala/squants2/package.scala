@@ -9,25 +9,25 @@ package object squants2 {
 
   case class QuantityParseException(message: String, expression: String) extends Exception(s"$message:$expression")
 
-  type QuantitySeries[A, D <: Dimension] = IndexedSeq[QuantityRange[A, D]]
+  type QuantitySeries[A, Q[_] <: Quantity[_, Q]] = IndexedSeq[QuantityRange[A, Q]]
 
   type ConversionFactor = BigDecimal // Could be replaced with something more robust and precise
 
   /* SI Base Quantities and their Base Units */
-  type Length[A] = space.Length[A]
-  val Meters = space.Meters
-  type Mass[A] = mass.Mass[A]
-  val Kilograms = mass.Kilograms
-  type Time[A] = time.Time[A]
-  val Seconds = time.Seconds
-  type ElectricCurrent[A] = electro.ElectricCurrent[A]
-  val Amperes = electro.Amperes
-  type Temperature[A] = thermal.Temperature[A]
-  val Kelvin = thermal.Kelvin
-  type ChemicalAmount[A] = mass.ChemicalAmount[A]
-  val Moles = mass.Moles
-  type LuminousIntensity[A] = photo.LuminousIntensity[A]
-  val Candelas = photo.Candelas
+//  type Length[A] = space.Length[A]
+//  val Meters = space.Meters
+//  type Mass[A] = mass.Mass[A]
+//  val Kilograms = mass.Kilograms
+//  type Time[A] = time.Time[A]
+//  val Seconds = time.Seconds
+//  type ElectricCurrent[A] = electro.ElectricCurrent[A]
+//  val Amperes = electro.Amperes
+//  type Temperature[A] = thermal.Temperature[A]
+//  val Kelvin = thermal.Kelvin
+//  type ChemicalAmount[A] = mass.ChemicalAmount[A]
+//  val Moles = mass.Moles
+//  type LuminousIntensity[A] = photo.LuminousIntensity[A]
+//  val Candelas = photo.Candelas
 
   /**
    * Adds extensions to Numeric used by Quantity operations.

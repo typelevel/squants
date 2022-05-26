@@ -11,9 +11,8 @@ package squants2.electro
 import squants2._
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class ElectricCurrentDensity[A: Numeric] private [squants2]  (value: A, unit: ElectricCurrentDensityUnit)
-  extends Quantity[A, ElectricCurrentDensity.type] {
-  override type Q[B] = ElectricCurrentDensity[B]
+final case class ElectricCurrentDensity[A: Numeric] private[squants2] (value: A, unit: ElectricCurrentDensityUnit)
+  extends Quantity[A, ElectricCurrentDensity] {
 
   // BEGIN CUSTOM OPS
 
@@ -24,11 +23,11 @@ final case class ElectricCurrentDensity[A: Numeric] private [squants2]  (value: 
   def toAmperesPerSquareMeter[B: Numeric](implicit f: A => B): B = toNum[B](AmperesPerSquareMeter)
 }
 
-object ElectricCurrentDensity extends Dimension("Electric Current Density") {
+object ElectricCurrentDensity extends Dimension[ElectricCurrentDensity]("Electric Current Density") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = AmperesPerSquareMeter
-  override def siUnit: UnitOfMeasure[this.type] with SiUnit = AmperesPerSquareMeter
-  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+  override def primaryUnit: UnitOfMeasure[ElectricCurrentDensity] with PrimaryUnit[ElectricCurrentDensity] = AmperesPerSquareMeter
+  override def siUnit: UnitOfMeasure[ElectricCurrentDensity] with SiUnit[ElectricCurrentDensity] = AmperesPerSquareMeter
+  override lazy val units: Set[UnitOfMeasure[ElectricCurrentDensity]] = 
     Set(AmperesPerSquareMeter)
 
   implicit class ElectricCurrentDensityCons[A](a: A)(implicit num: Numeric[A]) {
@@ -37,16 +36,16 @@ object ElectricCurrentDensity extends Dimension("Electric Current Density") {
 
   lazy val amperesPerSquareMeter: ElectricCurrentDensity[Int] = AmperesPerSquareMeter(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = ElectricCurrentDensityNumeric[A]()
-  private case class ElectricCurrentDensityNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
-    override def times(x: Quantity[A, ElectricCurrentDensity.type], y: Quantity[A, ElectricCurrentDensity.type]): Quantity[A, ElectricCurrentDensity.this.type] =
+  override def numeric[A: Numeric]: QuantityNumeric[A, ElectricCurrentDensity] = ElectricCurrentDensityNumeric[A]()
+  private case class ElectricCurrentDensityNumeric[A: Numeric]() extends QuantityNumeric[A, ElectricCurrentDensity](this) {
+    override def times(x: Quantity[A, ElectricCurrentDensity], y: Quantity[A, ElectricCurrentDensity]): Quantity[A, ElectricCurrentDensity] =
       AmperesPerSquareMeter(x.to(AmperesPerSquareMeter) * y.to(AmperesPerSquareMeter))
   }
 }
 
-abstract class ElectricCurrentDensityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[ElectricCurrentDensity.type] {
-  override def dimension: ElectricCurrentDensity.type = ElectricCurrentDensity
+abstract class ElectricCurrentDensityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[ElectricCurrentDensity] {
+  override def dimension: Dimension[ElectricCurrentDensity] = ElectricCurrentDensity
   override def apply[A: Numeric](value: A): ElectricCurrentDensity[A] = ElectricCurrentDensity(value, this)
 }
 
-case object AmperesPerSquareMeter extends ElectricCurrentDensityUnit("A/m²", 1) with PrimaryUnit with SiUnit
+case object AmperesPerSquareMeter extends ElectricCurrentDensityUnit("A/m²", 1) with PrimaryUnit[ElectricCurrentDensity] with SiUnit[ElectricCurrentDensity]

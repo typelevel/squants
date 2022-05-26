@@ -11,9 +11,8 @@ package squants2.information
 import squants2._
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class DataRate[A: Numeric] private [squants2]  (value: A, unit: DataRateUnit)
-  extends Quantity[A, DataRate.type] {
-  override type Q[B] = DataRate[B]
+final case class DataRate[A: Numeric] private[squants2] (value: A, unit: DataRateUnit)
+  extends Quantity[A, DataRate] {
 
   // BEGIN CUSTOM OPS
 
@@ -56,11 +55,11 @@ final case class DataRate[A: Numeric] private [squants2]  (value: A, unit: DataR
   def toYobibytesPerSecond[B: Numeric](implicit f: A => B): B = toNum[B](YobibytesPerSecond)
 }
 
-object DataRate extends Dimension("Data Rate") {
+object DataRate extends Dimension[DataRate]("Data Rate") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = BytesPerSecond
-  override def siUnit: UnitOfMeasure[this.type] with SiUnit = BytesPerSecond
-  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+  override def primaryUnit: UnitOfMeasure[DataRate] with PrimaryUnit[DataRate] = BytesPerSecond
+  override def siUnit: UnitOfMeasure[DataRate] with SiUnit[DataRate] = BytesPerSecond
+  override lazy val units: Set[UnitOfMeasure[DataRate]] = 
     Set(BitsPerSecond, BytesPerSecond, KilobitsPerSecond, KibibitsPerSecond, KilobytesPerSecond, KibibytesPerSecond, MegabitsPerSecond, MebibitsPerSecond, MegabytesPerSecond, MebibytesPerSecond, GigabitsPerSecond, GibibitsPerSecond, GigabytesPerSecond, GibibytesPerSecond, TerabitsPerSecond, TebibitsPerSecond, TerabytesPerSecond, TebibytesPerSecond, PetabitsPerSecond, PebibitsPerSecond, PetabytesPerSecond, PebibytesPerSecond, ExabitsPerSecond, ExbibitsPerSecond, ExabytesPerSecond, ExbibytesPerSecond, ZettabitsPerSecond, ZebibitsPerSecond, ZettabytesPerSecond, ZebibytesPerSecond, YottabitsPerSecond, YobibitsPerSecond, YottabytesPerSecond, YobibytesPerSecond)
 
   implicit class DataRateCons[A](a: A)(implicit num: Numeric[A]) {
@@ -135,20 +134,20 @@ object DataRate extends Dimension("Data Rate") {
   lazy val yottabytesPerSecond: DataRate[Int] = YottabytesPerSecond(1)
   lazy val yobibytesPerSecond: DataRate[Int] = YobibytesPerSecond(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = DataRateNumeric[A]()
-  private case class DataRateNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
-    override def times(x: Quantity[A, DataRate.type], y: Quantity[A, DataRate.type]): Quantity[A, DataRate.this.type] =
+  override def numeric[A: Numeric]: QuantityNumeric[A, DataRate] = DataRateNumeric[A]()
+  private case class DataRateNumeric[A: Numeric]() extends QuantityNumeric[A, DataRate](this) {
+    override def times(x: Quantity[A, DataRate], y: Quantity[A, DataRate]): Quantity[A, DataRate] =
       BytesPerSecond(x.to(BytesPerSecond) * y.to(BytesPerSecond))
   }
 }
 
-abstract class DataRateUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[DataRate.type] {
-  override def dimension: DataRate.type = DataRate
+abstract class DataRateUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[DataRate] {
+  override def dimension: Dimension[DataRate] = DataRate
   override def apply[A: Numeric](value: A): DataRate[A] = DataRate(value, this)
 }
 
 case object BitsPerSecond extends DataRateUnit("bps", 0.125)
-case object BytesPerSecond extends DataRateUnit("B/s", 1) with PrimaryUnit with SiUnit
+case object BytesPerSecond extends DataRateUnit("B/s", 1) with PrimaryUnit[DataRate] with SiUnit[DataRate]
 case object KilobitsPerSecond extends DataRateUnit("Kbps", 125)
 case object KibibitsPerSecond extends DataRateUnit("Kibps", 128)
 case object KilobytesPerSecond extends DataRateUnit("KB/s", MetricSystem.Kilo)

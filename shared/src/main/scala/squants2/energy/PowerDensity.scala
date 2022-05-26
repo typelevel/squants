@@ -11,9 +11,8 @@ package squants2.energy
 import squants2._
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class PowerDensity[A: Numeric] private [squants2]  (value: A, unit: PowerDensityUnit)
-  extends Quantity[A, PowerDensity.type] {
-  override type Q[B] = PowerDensity[B]
+final case class PowerDensity[A: Numeric] private[squants2] (value: A, unit: PowerDensityUnit)
+  extends Quantity[A, PowerDensity] {
 
   // BEGIN CUSTOM OPS
 
@@ -23,11 +22,11 @@ final case class PowerDensity[A: Numeric] private [squants2]  (value: A, unit: P
   def toWattsPerCubicMeter[B: Numeric](implicit f: A => B): B = toNum[B](WattsPerCubicMeter)
 }
 
-object PowerDensity extends Dimension("Power Density") {
+object PowerDensity extends Dimension[PowerDensity]("Power Density") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = WattsPerCubicMeter
-  override def siUnit: UnitOfMeasure[this.type] with SiUnit = WattsPerCubicMeter
-  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+  override def primaryUnit: UnitOfMeasure[PowerDensity] with PrimaryUnit[PowerDensity] = WattsPerCubicMeter
+  override def siUnit: UnitOfMeasure[PowerDensity] with SiUnit[PowerDensity] = WattsPerCubicMeter
+  override lazy val units: Set[UnitOfMeasure[PowerDensity]] = 
     Set(WattsPerCubicMeter)
 
   implicit class PowerDensityCons[A](a: A)(implicit num: Numeric[A]) {
@@ -36,16 +35,16 @@ object PowerDensity extends Dimension("Power Density") {
 
   lazy val wattsPerCubicMeter: PowerDensity[Int] = WattsPerCubicMeter(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = PowerDensityNumeric[A]()
-  private case class PowerDensityNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
-    override def times(x: Quantity[A, PowerDensity.type], y: Quantity[A, PowerDensity.type]): Quantity[A, PowerDensity.this.type] =
+  override def numeric[A: Numeric]: QuantityNumeric[A, PowerDensity] = PowerDensityNumeric[A]()
+  private case class PowerDensityNumeric[A: Numeric]() extends QuantityNumeric[A, PowerDensity](this) {
+    override def times(x: Quantity[A, PowerDensity], y: Quantity[A, PowerDensity]): Quantity[A, PowerDensity] =
       WattsPerCubicMeter(x.to(WattsPerCubicMeter) * y.to(WattsPerCubicMeter))
   }
 }
 
-abstract class PowerDensityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[PowerDensity.type] {
-  override def dimension: PowerDensity.type = PowerDensity
+abstract class PowerDensityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[PowerDensity] {
+  override def dimension: Dimension[PowerDensity] = PowerDensity
   override def apply[A: Numeric](value: A): PowerDensity[A] = PowerDensity(value, this)
 }
 
-case object WattsPerCubicMeter extends PowerDensityUnit("W/m³", 1) with PrimaryUnit with SiUnit
+case object WattsPerCubicMeter extends PowerDensityUnit("W/m³", 1) with PrimaryUnit[PowerDensity] with SiUnit[PowerDensity]

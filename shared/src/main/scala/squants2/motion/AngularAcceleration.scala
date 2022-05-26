@@ -11,9 +11,8 @@ package squants2.motion
 import squants2._
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class AngularAcceleration[A: Numeric] private [squants2]  (value: A, unit: AngularAccelerationUnit)
-  extends Quantity[A, AngularAcceleration.type] {
-  override type Q[B] = AngularAcceleration[B]
+final case class AngularAcceleration[A: Numeric] private[squants2] (value: A, unit: AngularAccelerationUnit)
+  extends Quantity[A, AngularAcceleration] {
 
   // BEGIN CUSTOM OPS
 
@@ -30,11 +29,11 @@ final case class AngularAcceleration[A: Numeric] private [squants2]  (value: A, 
   def toTurnsPerSecondSquared[B: Numeric](implicit f: A => B): B = toNum[B](TurnsPerSecondSquared)
 }
 
-object AngularAcceleration extends Dimension("Angular Acceleration") {
+object AngularAcceleration extends Dimension[AngularAcceleration]("Angular Acceleration") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = RadiansPerSecondSquared
-  override def siUnit: UnitOfMeasure[this.type] with SiUnit = RadiansPerSecondSquared
-  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+  override def primaryUnit: UnitOfMeasure[AngularAcceleration] with PrimaryUnit[AngularAcceleration] = RadiansPerSecondSquared
+  override def siUnit: UnitOfMeasure[AngularAcceleration] with SiUnit[AngularAcceleration] = RadiansPerSecondSquared
+  override lazy val units: Set[UnitOfMeasure[AngularAcceleration]] = 
     Set(ArcsecondsPerSecondSquared, ArcminutesPerSecondSquared, GradiansPerSecondSquared, DegreesPerSecondSquared, RadiansPerSecondSquared, TurnsPerSecondSquared)
 
   implicit class AngularAccelerationCons[A](a: A)(implicit num: Numeric[A]) {
@@ -53,15 +52,15 @@ object AngularAcceleration extends Dimension("Angular Acceleration") {
   lazy val radiansPerSecondSquared: AngularAcceleration[Int] = RadiansPerSecondSquared(1)
   lazy val turnsPerSecondSquared: AngularAcceleration[Int] = TurnsPerSecondSquared(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = AngularAccelerationNumeric[A]()
-  private case class AngularAccelerationNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
-    override def times(x: Quantity[A, AngularAcceleration.type], y: Quantity[A, AngularAcceleration.type]): Quantity[A, AngularAcceleration.this.type] =
+  override def numeric[A: Numeric]: QuantityNumeric[A, AngularAcceleration] = AngularAccelerationNumeric[A]()
+  private case class AngularAccelerationNumeric[A: Numeric]() extends QuantityNumeric[A, AngularAcceleration](this) {
+    override def times(x: Quantity[A, AngularAcceleration], y: Quantity[A, AngularAcceleration]): Quantity[A, AngularAcceleration] =
       RadiansPerSecondSquared(x.to(RadiansPerSecondSquared) * y.to(RadiansPerSecondSquared))
   }
 }
 
-abstract class AngularAccelerationUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[AngularAcceleration.type] {
-  override def dimension: AngularAcceleration.type = AngularAcceleration
+abstract class AngularAccelerationUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[AngularAcceleration] {
+  override def dimension: Dimension[AngularAcceleration] = AngularAcceleration
   override def apply[A: Numeric](value: A): AngularAcceleration[A] = AngularAcceleration(value, this)
 }
 
@@ -69,5 +68,5 @@ case object ArcsecondsPerSecondSquared extends AngularAccelerationUnit("asec/s²
 case object ArcminutesPerSecondSquared extends AngularAccelerationUnit("amin/s²", 2.908882086657216E-4)
 case object GradiansPerSecondSquared extends AngularAccelerationUnit("grad/s²", 0.015707963267948967)
 case object DegreesPerSecondSquared extends AngularAccelerationUnit("°/s²", 0.017453292519943295)
-case object RadiansPerSecondSquared extends AngularAccelerationUnit("rad/s²", 1) with PrimaryUnit with SiUnit
+case object RadiansPerSecondSquared extends AngularAccelerationUnit("rad/s²", 1) with PrimaryUnit[AngularAcceleration] with SiUnit[AngularAcceleration]
 case object TurnsPerSecondSquared extends AngularAccelerationUnit("turns/s²", 6.283185307179586)

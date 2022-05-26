@@ -11,9 +11,8 @@ package squants2.electro
 import squants2._
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class Inductance[A: Numeric] private [squants2]  (value: A, unit: InductanceUnit)
-  extends Quantity[A, Inductance.type] {
-  override type Q[B] = Inductance[B]
+final case class Inductance[A: Numeric] private[squants2] (value: A, unit: InductanceUnit)
+  extends Quantity[A, Inductance] {
 
   // BEGIN CUSTOM OPS
 
@@ -28,11 +27,11 @@ final case class Inductance[A: Numeric] private [squants2]  (value: A, unit: Ind
   def toHenry[B: Numeric](implicit f: A => B): B = toNum[B](Henry)
 }
 
-object Inductance extends Dimension("Inductance") {
+object Inductance extends Dimension[Inductance]("Inductance") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = Henry
-  override def siUnit: UnitOfMeasure[this.type] with SiUnit = Henry
-  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+  override def primaryUnit: UnitOfMeasure[Inductance] with PrimaryUnit[Inductance] = Henry
+  override def siUnit: UnitOfMeasure[Inductance] with SiUnit[Inductance] = Henry
+  override lazy val units: Set[UnitOfMeasure[Inductance]] = 
     Set(Picohenry, Nanohenry, Microhenry, Millihenry, Henry)
 
   implicit class InductanceCons[A](a: A)(implicit num: Numeric[A]) {
@@ -49,20 +48,20 @@ object Inductance extends Dimension("Inductance") {
   lazy val millihenry: Inductance[Int] = Millihenry(1)
   lazy val henry: Inductance[Int] = Henry(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = InductanceNumeric[A]()
-  private case class InductanceNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
-    override def times(x: Quantity[A, Inductance.type], y: Quantity[A, Inductance.type]): Quantity[A, Inductance.this.type] =
+  override def numeric[A: Numeric]: QuantityNumeric[A, Inductance] = InductanceNumeric[A]()
+  private case class InductanceNumeric[A: Numeric]() extends QuantityNumeric[A, Inductance](this) {
+    override def times(x: Quantity[A, Inductance], y: Quantity[A, Inductance]): Quantity[A, Inductance] =
       Henry(x.to(Henry) * y.to(Henry))
   }
 }
 
-abstract class InductanceUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Inductance.type] {
-  override def dimension: Inductance.type = Inductance
+abstract class InductanceUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Inductance] {
+  override def dimension: Dimension[Inductance] = Inductance
   override def apply[A: Numeric](value: A): Inductance[A] = Inductance(value, this)
 }
 
-case object Picohenry extends InductanceUnit("pH", MetricSystem.Pico) with SiUnit
-case object Nanohenry extends InductanceUnit("nH", MetricSystem.Nano) with SiUnit
-case object Microhenry extends InductanceUnit("μH", MetricSystem.Micro) with SiUnit
-case object Millihenry extends InductanceUnit("mH", MetricSystem.Milli) with SiUnit
-case object Henry extends InductanceUnit("H", 1) with PrimaryUnit with SiUnit
+case object Picohenry extends InductanceUnit("pH", MetricSystem.Pico) with SiUnit[Inductance]
+case object Nanohenry extends InductanceUnit("nH", MetricSystem.Nano) with SiUnit[Inductance]
+case object Microhenry extends InductanceUnit("μH", MetricSystem.Micro) with SiUnit[Inductance]
+case object Millihenry extends InductanceUnit("mH", MetricSystem.Milli) with SiUnit[Inductance]
+case object Henry extends InductanceUnit("H", 1) with PrimaryUnit[Inductance] with SiUnit[Inductance]

@@ -11,9 +11,8 @@ package squants2.radio
 import squants2._
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class ParticleFlux[A: Numeric] private [squants2]  (value: A, unit: ParticleFluxUnit)
-  extends Quantity[A, ParticleFlux.type] {
-  override type Q[B] = ParticleFlux[B]
+final case class ParticleFlux[A: Numeric] private[squants2] (value: A, unit: ParticleFluxUnit)
+  extends Quantity[A, ParticleFlux] {
 
   // BEGIN CUSTOM OPS
 
@@ -25,11 +24,11 @@ final case class ParticleFlux[A: Numeric] private [squants2]  (value: A, unit: P
   def toBecquerelsPerSquareCentimeterSecond[B: Numeric](implicit f: A => B): B = toNum[B](BecquerelsPerSquareCentimeterSecond)
 }
 
-object ParticleFlux extends Dimension("Particle Flux") {
+object ParticleFlux extends Dimension[ParticleFlux]("Particle Flux") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = BecquerelsPerSquareMeterSecond
-  override def siUnit: UnitOfMeasure[this.type] with SiUnit = BecquerelsPerSquareMeterSecond
-  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+  override def primaryUnit: UnitOfMeasure[ParticleFlux] with PrimaryUnit[ParticleFlux] = BecquerelsPerSquareMeterSecond
+  override def siUnit: UnitOfMeasure[ParticleFlux] with SiUnit[ParticleFlux] = BecquerelsPerSquareMeterSecond
+  override lazy val units: Set[UnitOfMeasure[ParticleFlux]] = 
     Set(BecquerelsPerSquareMeterSecond, BecquerelsPerSquareCentimeterSecond)
 
   implicit class ParticleFluxCons[A](a: A)(implicit num: Numeric[A]) {
@@ -40,17 +39,17 @@ object ParticleFlux extends Dimension("Particle Flux") {
   lazy val becquerelsPerSquareMeterSecond: ParticleFlux[Int] = BecquerelsPerSquareMeterSecond(1)
   lazy val becquerelsPerSquareCentimeterSecond: ParticleFlux[Int] = BecquerelsPerSquareCentimeterSecond(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = ParticleFluxNumeric[A]()
-  private case class ParticleFluxNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
-    override def times(x: Quantity[A, ParticleFlux.type], y: Quantity[A, ParticleFlux.type]): Quantity[A, ParticleFlux.this.type] =
+  override def numeric[A: Numeric]: QuantityNumeric[A, ParticleFlux] = ParticleFluxNumeric[A]()
+  private case class ParticleFluxNumeric[A: Numeric]() extends QuantityNumeric[A, ParticleFlux](this) {
+    override def times(x: Quantity[A, ParticleFlux], y: Quantity[A, ParticleFlux]): Quantity[A, ParticleFlux] =
       BecquerelsPerSquareMeterSecond(x.to(BecquerelsPerSquareMeterSecond) * y.to(BecquerelsPerSquareMeterSecond))
   }
 }
 
-abstract class ParticleFluxUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[ParticleFlux.type] {
-  override def dimension: ParticleFlux.type = ParticleFlux
+abstract class ParticleFluxUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[ParticleFlux] {
+  override def dimension: Dimension[ParticleFlux] = ParticleFlux
   override def apply[A: Numeric](value: A): ParticleFlux[A] = ParticleFlux(value, this)
 }
 
-case object BecquerelsPerSquareMeterSecond extends ParticleFluxUnit("Bq/m²‧s", 1) with PrimaryUnit with SiUnit
+case object BecquerelsPerSquareMeterSecond extends ParticleFluxUnit("Bq/m²‧s", 1) with PrimaryUnit[ParticleFlux] with SiUnit[ParticleFlux]
 case object BecquerelsPerSquareCentimeterSecond extends ParticleFluxUnit("Bq/cm²‧s", 10000)

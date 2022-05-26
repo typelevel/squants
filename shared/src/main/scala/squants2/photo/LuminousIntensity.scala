@@ -11,9 +11,8 @@ package squants2.photo
 import squants2._
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class LuminousIntensity[A: Numeric] private [squants2]  (value: A, unit: LuminousIntensityUnit)
-  extends Quantity[A, LuminousIntensity.type] {
-  override type Q[B] = LuminousIntensity[B]
+final case class LuminousIntensity[A: Numeric] private[squants2] (value: A, unit: LuminousIntensityUnit)
+  extends Quantity[A, LuminousIntensity] {
 
   // BEGIN CUSTOM OPS
 
@@ -25,11 +24,11 @@ final case class LuminousIntensity[A: Numeric] private [squants2]  (value: A, un
   def toCandelas[B: Numeric](implicit f: A => B): B = toNum[B](Candelas)
 }
 
-object LuminousIntensity extends BaseDimension("Luminous Intensity", "J") {
+object LuminousIntensity extends BaseDimension[LuminousIntensity]("Luminous Intensity", "J") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = Candelas
-  override def siUnit: UnitOfMeasure[this.type] with SiBaseUnit = Candelas
-  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+  override def primaryUnit: UnitOfMeasure[LuminousIntensity] with PrimaryUnit[LuminousIntensity] = Candelas
+  override def siUnit: UnitOfMeasure[LuminousIntensity] with SiBaseUnit[LuminousIntensity] = Candelas
+  override lazy val units: Set[UnitOfMeasure[LuminousIntensity]] = 
     Set(Candelas)
 
   implicit class LuminousIntensityCons[A](a: A)(implicit num: Numeric[A]) {
@@ -38,16 +37,16 @@ object LuminousIntensity extends BaseDimension("Luminous Intensity", "J") {
 
   lazy val candelas: LuminousIntensity[Int] = Candelas(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = LuminousIntensityNumeric[A]()
-  private case class LuminousIntensityNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
-    override def times(x: Quantity[A, LuminousIntensity.type], y: Quantity[A, LuminousIntensity.type]): Quantity[A, LuminousIntensity.this.type] =
+  override def numeric[A: Numeric]: QuantityNumeric[A, LuminousIntensity] = LuminousIntensityNumeric[A]()
+  private case class LuminousIntensityNumeric[A: Numeric]() extends QuantityNumeric[A, LuminousIntensity](this) {
+    override def times(x: Quantity[A, LuminousIntensity], y: Quantity[A, LuminousIntensity]): Quantity[A, LuminousIntensity] =
       Candelas(x.to(Candelas) * y.to(Candelas))
   }
 }
 
-abstract class LuminousIntensityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[LuminousIntensity.type] {
-  override def dimension: LuminousIntensity.type = LuminousIntensity
+abstract class LuminousIntensityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[LuminousIntensity] {
+  override def dimension: Dimension[LuminousIntensity] = LuminousIntensity
   override def apply[A: Numeric](value: A): LuminousIntensity[A] = LuminousIntensity(value, this)
 }
 
-case object Candelas extends LuminousIntensityUnit("cd", 1) with PrimaryUnit with SiBaseUnit
+case object Candelas extends LuminousIntensityUnit("cd", 1) with PrimaryUnit[LuminousIntensity] with SiBaseUnit[LuminousIntensity]

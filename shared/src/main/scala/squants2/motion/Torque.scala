@@ -11,9 +11,8 @@ package squants2.motion
 import squants2._
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class Torque[A: Numeric] private [squants2]  (value: A, unit: TorqueUnit)
-  extends Quantity[A, Torque.type] {
-  override type Q[B] = Torque[B]
+final case class Torque[A: Numeric] private[squants2] (value: A, unit: TorqueUnit)
+  extends Quantity[A, Torque] {
 
   // BEGIN CUSTOM OPS
 
@@ -24,11 +23,11 @@ final case class Torque[A: Numeric] private [squants2]  (value: A, unit: TorqueU
   def toPoundFeet[B: Numeric](implicit f: A => B): B = toNum[B](PoundFeet)
 }
 
-object Torque extends Dimension("Torque") {
+object Torque extends Dimension[Torque]("Torque") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = NewtonMeters
-  override def siUnit: UnitOfMeasure[this.type] with SiUnit = NewtonMeters
-  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+  override def primaryUnit: UnitOfMeasure[Torque] with PrimaryUnit[Torque] = NewtonMeters
+  override def siUnit: UnitOfMeasure[Torque] with SiUnit[Torque] = NewtonMeters
+  override lazy val units: Set[UnitOfMeasure[Torque]] = 
     Set(NewtonMeters, PoundFeet)
 
   implicit class TorqueCons[A](a: A)(implicit num: Numeric[A]) {
@@ -39,17 +38,17 @@ object Torque extends Dimension("Torque") {
   lazy val newtonMeters: Torque[Int] = NewtonMeters(1)
   lazy val poundFeet: Torque[Int] = PoundFeet(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = TorqueNumeric[A]()
-  private case class TorqueNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
-    override def times(x: Quantity[A, Torque.type], y: Quantity[A, Torque.type]): Quantity[A, Torque.this.type] =
+  override def numeric[A: Numeric]: QuantityNumeric[A, Torque] = TorqueNumeric[A]()
+  private case class TorqueNumeric[A: Numeric]() extends QuantityNumeric[A, Torque](this) {
+    override def times(x: Quantity[A, Torque], y: Quantity[A, Torque]): Quantity[A, Torque] =
       NewtonMeters(x.to(NewtonMeters) * y.to(NewtonMeters))
   }
 }
 
-abstract class TorqueUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Torque.type] {
-  override def dimension: Torque.type = Torque
+abstract class TorqueUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Torque] {
+  override def dimension: Dimension[Torque] = Torque
   override def apply[A: Numeric](value: A): Torque[A] = Torque(value, this)
 }
 
-case object NewtonMeters extends TorqueUnit("N‧m", 1) with PrimaryUnit with SiBaseUnit
+case object NewtonMeters extends TorqueUnit("N‧m", 1) with PrimaryUnit[Torque] with SiBaseUnit[Torque]
 case object PoundFeet extends TorqueUnit("lb‧ft", 1.3558206599672968)

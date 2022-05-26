@@ -10,9 +10,8 @@ package squants2
 
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class Dimensionless[A: Numeric] private [squants2]  (value: A, unit: DimensionlessUnit)
-  extends Quantity[A, Dimensionless.type] {
-  override type Q[B] = Dimensionless[B]
+final case class Dimensionless[A: Numeric] private[squants2] (value: A, unit: DimensionlessUnit)
+  extends Quantity[A, Dimensionless] {
 
   // BEGIN CUSTOM OPS
 
@@ -28,11 +27,11 @@ final case class Dimensionless[A: Numeric] private [squants2]  (value: A, unit: 
   def toGross[B: Numeric](implicit f: A => B): B = toNum[B](Gross)
 }
 
-object Dimensionless extends Dimension("Dimensionless") {
+object Dimensionless extends Dimension[Dimensionless]("Dimensionless") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = Each
-  override def siUnit: UnitOfMeasure[this.type] with SiUnit = Each
-  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+  override def primaryUnit: UnitOfMeasure[Dimensionless] with PrimaryUnit[Dimensionless] = Each
+  override def siUnit: UnitOfMeasure[Dimensionless] with SiUnit[Dimensionless] = Each
+  override lazy val units: Set[UnitOfMeasure[Dimensionless]] = 
     Set(Percent, Each, Dozen, Score, Gross)
 
   implicit class DimensionlessCons[A](a: A)(implicit num: Numeric[A]) {
@@ -55,20 +54,20 @@ object Dimensionless extends Dimension("Dimensionless") {
   lazy val thousand: Dimensionless[Int] = Each(1000)
   lazy val million: Dimensionless[Int] = Each(1000000)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = DimensionlessNumeric[A]()
-  private case class DimensionlessNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
-    override def times(x: Quantity[A, Dimensionless.type], y: Quantity[A, Dimensionless.type]): Quantity[A, Dimensionless.this.type] =
+  override def numeric[A: Numeric]: QuantityNumeric[A, Dimensionless] = DimensionlessNumeric[A]()
+  private case class DimensionlessNumeric[A: Numeric]() extends QuantityNumeric[A, Dimensionless](this) {
+    override def times(x: Quantity[A, Dimensionless], y: Quantity[A, Dimensionless]): Quantity[A, Dimensionless] =
       Each(x.to(Each) * y.to(Each))
   }
 }
 
-abstract class DimensionlessUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Dimensionless.type] {
-  override def dimension: Dimensionless.type = Dimensionless
+abstract class DimensionlessUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Dimensionless] {
+  override def dimension: Dimension[Dimensionless] = Dimensionless
   override def apply[A: Numeric](value: A): Dimensionless[A] = Dimensionless(value, this)
 }
 
 case object Percent extends DimensionlessUnit("%", MetricSystem.Centi)
-case object Each extends DimensionlessUnit("ea", 1) with PrimaryUnit with SiUnit
+case object Each extends DimensionlessUnit("ea", 1) with PrimaryUnit[Dimensionless] with SiUnit[Dimensionless]
 case object Dozen extends DimensionlessUnit("dz", 12)
 case object Score extends DimensionlessUnit("score", 20)
 case object Gross extends DimensionlessUnit("gr", 144)

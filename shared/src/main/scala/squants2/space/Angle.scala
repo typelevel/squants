@@ -11,9 +11,8 @@ package squants2.space
 import squants2._
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class Angle[A: Numeric] private [squants2]  (value: A, unit: AngleUnit)
-  extends Quantity[A, Angle.type] {
-  override type Q[B] = Angle[B]
+final case class Angle[A: Numeric] private[squants2] (value: A, unit: AngleUnit)
+  extends Quantity[A, Angle] {
 
   // BEGIN CUSTOM OPS
 
@@ -23,16 +22,6 @@ final case class Angle[A: Numeric] private [squants2]  (value: A, unit: AngleUni
   //  def asin[B]()(implicit f: B => A): A = ???
   //  def acos[B]()(implicit f: B => A): A = ???
   //  def onRadius[B](radius: Length[B])(implicit f: B => A): Length[A] = ???
-
-
-  def cos: Double = math.cos(num.toDouble(toRadians))
-  def tan: Double = math.tan(num.toDouble(toRadians))
-  def sin: Double = math.sin(num.toDouble(toRadians))
-  def asin: Double = math.asin(num.toDouble(toRadians))
-  def acos: Double = math.acos(num.toDouble(toRadians))
-  def atan: Double = math.atan(num.toDouble(toRadians))
-
-  def onRadius[B](radius: Length[B])(implicit f: B => A): Length[A] = radius.asNum[A] * to(Radians)
   // END CUSTOM OPS
 
   def toArcseconds[B: Numeric](implicit f: A => B): B = toNum[B](Arcseconds)
@@ -43,11 +32,11 @@ final case class Angle[A: Numeric] private [squants2]  (value: A, unit: AngleUni
   def toTurns[B: Numeric](implicit f: A => B): B = toNum[B](Turns)
 }
 
-object Angle extends Dimension("Angle") {
+object Angle extends Dimension[Angle]("Angle") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = Radians
-  override def siUnit: UnitOfMeasure[this.type] with SiUnit = Radians
-  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+  override def primaryUnit: UnitOfMeasure[Angle] with PrimaryUnit[Angle] = Radians
+  override def siUnit: UnitOfMeasure[Angle] with SiUnit[Angle] = Radians
+  override lazy val units: Set[UnitOfMeasure[Angle]] = 
     Set(Arcseconds, Arcminutes, Gradians, Degrees, Radians, Turns)
 
   implicit class AngleCons[A](a: A)(implicit num: Numeric[A]) {
@@ -66,15 +55,15 @@ object Angle extends Dimension("Angle") {
   lazy val radians: Angle[Int] = Radians(1)
   lazy val turns: Angle[Int] = Turns(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = AngleNumeric[A]()
-  private case class AngleNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
-    override def times(x: Quantity[A, Angle.type], y: Quantity[A, Angle.type]): Quantity[A, Angle.this.type] =
+  override def numeric[A: Numeric]: QuantityNumeric[A, Angle] = AngleNumeric[A]()
+  private case class AngleNumeric[A: Numeric]() extends QuantityNumeric[A, Angle](this) {
+    override def times(x: Quantity[A, Angle], y: Quantity[A, Angle]): Quantity[A, Angle] =
       Radians(x.to(Radians) * y.to(Radians))
   }
 }
 
-abstract class AngleUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Angle.type] {
-  override def dimension: Angle.type = Angle
+abstract class AngleUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Angle] {
+  override def dimension: Dimension[Angle] = Angle
   override def apply[A: Numeric](value: A): Angle[A] = Angle(value, this)
 }
 
@@ -82,5 +71,5 @@ case object Arcseconds extends AngleUnit("asec", 4.84813681109536E-6)
 case object Arcminutes extends AngleUnit("amin", 2.908882086657216E-4)
 case object Gradians extends AngleUnit("grad", 0.015707963267948967)
 case object Degrees extends AngleUnit("°", 0.017453292519943295)
-case object Radians extends AngleUnit("rad", 1) with PrimaryUnit with SiUnit
+case object Radians extends AngleUnit("rad", 1) with PrimaryUnit[Angle] with SiUnit[Angle]
 case object Turns extends AngleUnit("turns", 6.283185307179586)

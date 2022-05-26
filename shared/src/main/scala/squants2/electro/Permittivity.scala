@@ -11,9 +11,8 @@ package squants2.electro
 import squants2._
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class Permittivity[A: Numeric] private [squants2]  (value: A, unit: PermittivityUnit)
-  extends Quantity[A, Permittivity.type] {
-  override type Q[B] = Permittivity[B]
+final case class Permittivity[A: Numeric] private[squants2] (value: A, unit: PermittivityUnit)
+  extends Quantity[A, Permittivity] {
 
   // BEGIN CUSTOM OPS
 
@@ -23,11 +22,11 @@ final case class Permittivity[A: Numeric] private [squants2]  (value: A, unit: P
   def toFaradsPerMeter[B: Numeric](implicit f: A => B): B = toNum[B](FaradsPerMeter)
 }
 
-object Permittivity extends Dimension("Permittivity") {
+object Permittivity extends Dimension[Permittivity]("Permittivity") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = FaradsPerMeter
-  override def siUnit: UnitOfMeasure[this.type] with SiUnit = FaradsPerMeter
-  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+  override def primaryUnit: UnitOfMeasure[Permittivity] with PrimaryUnit[Permittivity] = FaradsPerMeter
+  override def siUnit: UnitOfMeasure[Permittivity] with SiUnit[Permittivity] = FaradsPerMeter
+  override lazy val units: Set[UnitOfMeasure[Permittivity]] = 
     Set(FaradsPerMeter)
 
   implicit class PermittivityCons[A](a: A)(implicit num: Numeric[A]) {
@@ -36,16 +35,16 @@ object Permittivity extends Dimension("Permittivity") {
 
   lazy val faradsPerMeter: Permittivity[Int] = FaradsPerMeter(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = PermittivityNumeric[A]()
-  private case class PermittivityNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
-    override def times(x: Quantity[A, Permittivity.type], y: Quantity[A, Permittivity.type]): Quantity[A, Permittivity.this.type] =
+  override def numeric[A: Numeric]: QuantityNumeric[A, Permittivity] = PermittivityNumeric[A]()
+  private case class PermittivityNumeric[A: Numeric]() extends QuantityNumeric[A, Permittivity](this) {
+    override def times(x: Quantity[A, Permittivity], y: Quantity[A, Permittivity]): Quantity[A, Permittivity] =
       FaradsPerMeter(x.to(FaradsPerMeter) * y.to(FaradsPerMeter))
   }
 }
 
-abstract class PermittivityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Permittivity.type] {
-  override def dimension: Permittivity.type = Permittivity
+abstract class PermittivityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Permittivity] {
+  override def dimension: Dimension[Permittivity] = Permittivity
   override def apply[A: Numeric](value: A): Permittivity[A] = Permittivity(value, this)
 }
 
-case object FaradsPerMeter extends PermittivityUnit("F/m", 1) with PrimaryUnit with SiUnit
+case object FaradsPerMeter extends PermittivityUnit("F/m", 1) with PrimaryUnit[Permittivity] with SiUnit[Permittivity]

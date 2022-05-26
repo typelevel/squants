@@ -11,9 +11,8 @@ package squants2.radio
 import squants2._
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class SpectralIntensity[A: Numeric] private [squants2]  (value: A, unit: SpectralIntensityUnit)
-  extends Quantity[A, SpectralIntensity.type] {
-  override type Q[B] = SpectralIntensity[B]
+final case class SpectralIntensity[A: Numeric] private[squants2] (value: A, unit: SpectralIntensityUnit)
+  extends Quantity[A, SpectralIntensity] {
 
   // BEGIN CUSTOM OPS
 
@@ -24,11 +23,11 @@ final case class SpectralIntensity[A: Numeric] private [squants2]  (value: A, un
   def toWattsPerSteradianPerMeter[B: Numeric](implicit f: A => B): B = toNum[B](WattsPerSteradianPerMeter)
 }
 
-object SpectralIntensity extends Dimension("Spectral Intensity") {
+object SpectralIntensity extends Dimension[SpectralIntensity]("Spectral Intensity") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = WattsPerSteradianPerMeter
-  override def siUnit: UnitOfMeasure[this.type] with SiUnit = WattsPerSteradianPerMeter
-  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+  override def primaryUnit: UnitOfMeasure[SpectralIntensity] with PrimaryUnit[SpectralIntensity] = WattsPerSteradianPerMeter
+  override def siUnit: UnitOfMeasure[SpectralIntensity] with SiUnit[SpectralIntensity] = WattsPerSteradianPerMeter
+  override lazy val units: Set[UnitOfMeasure[SpectralIntensity]] = 
     Set(WattsPerSteradianPerMeter)
 
   implicit class SpectralIntensityCons[A](a: A)(implicit num: Numeric[A]) {
@@ -37,16 +36,16 @@ object SpectralIntensity extends Dimension("Spectral Intensity") {
 
   lazy val wattsPerSteradianPerMeter: SpectralIntensity[Int] = WattsPerSteradianPerMeter(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = SpectralIntensityNumeric[A]()
-  private case class SpectralIntensityNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
-    override def times(x: Quantity[A, SpectralIntensity.type], y: Quantity[A, SpectralIntensity.type]): Quantity[A, SpectralIntensity.this.type] =
+  override def numeric[A: Numeric]: QuantityNumeric[A, SpectralIntensity] = SpectralIntensityNumeric[A]()
+  private case class SpectralIntensityNumeric[A: Numeric]() extends QuantityNumeric[A, SpectralIntensity](this) {
+    override def times(x: Quantity[A, SpectralIntensity], y: Quantity[A, SpectralIntensity]): Quantity[A, SpectralIntensity] =
       WattsPerSteradianPerMeter(x.to(WattsPerSteradianPerMeter) * y.to(WattsPerSteradianPerMeter))
   }
 }
 
-abstract class SpectralIntensityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[SpectralIntensity.type] {
-  override def dimension: SpectralIntensity.type = SpectralIntensity
+abstract class SpectralIntensityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[SpectralIntensity] {
+  override def dimension: Dimension[SpectralIntensity] = SpectralIntensity
   override def apply[A: Numeric](value: A): SpectralIntensity[A] = SpectralIntensity(value, this)
 }
 
-case object WattsPerSteradianPerMeter extends SpectralIntensityUnit("W/sr/m", 1) with PrimaryUnit with SiUnit
+case object WattsPerSteradianPerMeter extends SpectralIntensityUnit("W/sr/m", 1) with PrimaryUnit[SpectralIntensity] with SiUnit[SpectralIntensity]

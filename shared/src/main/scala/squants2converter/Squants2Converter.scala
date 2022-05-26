@@ -42,9 +42,9 @@ object Squants2Converter extends App {
     writer.println("import scala.math.Numeric.Implicits.infixNumericOps")
     writer.println()
 
-    writer.println(s"final case class ${d.name}[A: Numeric] private [squants2]  (value: A, unit: ${d.name}Unit)")
-    writer.println(s"  extends Quantity[A, ${d.name}.type] {")
-    writer.println(s"  override type Q[B] = ${d.name}[B]")
+    writer.println(s"final case class ${d.name}[A: Numeric] private[squants2] (value: A, unit: ${d.name}Unit)")
+    writer.println(s"  extends Quantity[A, ${d.name}] {")
+//    writer.println(s"  override type Q[B] = ${d.name}[B]")
     writer.println()
     writer.println("  // BEGIN CUSTOM OPS")
     writer.println()
@@ -81,20 +81,20 @@ object Squants2Converter extends App {
 
     d match {
       case baseDimension: BaseDimension =>
-        writer.println(s"object ${d.name} extends BaseDimension(\"${d.name.withSpaces}\", \"${baseDimension.dimensionSymbol}\") {")
+        writer.println(s"object ${d.name} extends BaseDimension[${d.name}](\"${d.name.withSpaces}\", \"${baseDimension.dimensionSymbol}\") {")
       case _ =>
-        writer.println(s"object ${d.name} extends Dimension(\"${d.name.withSpaces}\") {")
+        writer.println(s"object ${d.name} extends Dimension[${d.name}](\"${d.name.withSpaces}\") {")
     }
     writer.println()
-    writer.println(s"  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = ${d.primaryUnit.getClass.getSimpleName.replace("$", "")}")
+    writer.println(s"  override def primaryUnit: UnitOfMeasure[${d.name}] with PrimaryUnit[${d.name}] = ${d.primaryUnit.getClass.getSimpleName.replace("$", "")}")
     d match {
       case _: BaseDimension =>
-        writer.println(s"  override def siUnit: UnitOfMeasure[this.type] with SiBaseUnit = ${d.siUnit.getClass.getSimpleName.replace("$", "")}")
+        writer.println(s"  override def siUnit: UnitOfMeasure[${d.name}] with SiBaseUnit[${d.name}] = ${d.siUnit.getClass.getSimpleName.replace("$", "")}")
       case _ =>
-        writer.println(s"  override def siUnit: UnitOfMeasure[this.type] with SiUnit = ${d.siUnit.getClass.getSimpleName.replace("$", "")}")
+        writer.println(s"  override def siUnit: UnitOfMeasure[${d.name}] with SiUnit[${d.name}] = ${d.siUnit.getClass.getSimpleName.replace("$", "")}")
     }
     val unitList = units.map { (u: UnitOfMeasure[_]) => s"${u.getClass.getSimpleName.replace("$", "")}" }.mkString(", ")
-    writer.println(s"  override lazy val units: Set[UnitOfMeasure[this.type]] = ")
+    writer.println(s"  override lazy val units: Set[UnitOfMeasure[${d.name}]] = ")
     writer.println(s"    Set($unitList)")
     writer.println()
     writer.println(s"  implicit class ${d.name}Cons[A](a: A)(implicit num: Numeric[A]) {")
@@ -112,16 +112,16 @@ object Squants2Converter extends App {
 
     val primaryUnitName = d.primaryUnit.getClass.getSimpleName.replace("$", "")
     writer.println()
-    writer.println(s"  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = ${d.name}Numeric[A]()")
-    writer.println(s"  private case class ${d.name}Numeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {")
-    writer.println(s"    override def times(x: Quantity[A, ${d.name}.type], y: Quantity[A, ${d.name}.type]): Quantity[A, ${d.name}.this.type] =")
+    writer.println(s"  override def numeric[A: Numeric]: QuantityNumeric[A, ${d.name}] = ${d.name}Numeric[A]()")
+    writer.println(s"  private case class ${d.name}Numeric[A: Numeric]() extends QuantityNumeric[A, ${d.name}](this) {")
+    writer.println(s"    override def times(x: Quantity[A, ${d.name}], y: Quantity[A, ${d.name}]): Quantity[A, ${d.name}] =")
     writer.println(s"      $primaryUnitName(x.to($primaryUnitName) * y.to($primaryUnitName))")
     writer.println(s"  }")
 
     writer.println(s"}")
     writer.println()
-    writer.println(s"abstract class ${d.name}Unit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[${d.name}.type] {")
-    writer.println(s"  override def dimension: ${d.name}.type = ${d.name}")
+    writer.println(s"abstract class ${d.name}Unit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[${d.name}] {")
+    writer.println(s"  override def dimension: Dimension[${d.name}] = ${d.name}")
     writer.println(s"  override def apply[A: Numeric](value: A): ${d.name}[A] = ${d.name}(value, this)")
     writer.println(s"}")
     writer.println()
@@ -165,15 +165,15 @@ object Squants2Converter extends App {
 
       u match {
         case _: PrimaryUnit with SiBaseUnit =>
-          writer.print(s"case object ${u.getClass.getSimpleName.replace("$", "")} extends ${d.name}Unit(\"${u.symbol}\", 1) with PrimaryUnit with SiBaseUnit")
+          writer.print(s"case object ${u.getClass.getSimpleName.replace("$", "")} extends ${d.name}Unit(\"${u.symbol}\", 1) with PrimaryUnit[${d.name}] with SiBaseUnit[${d.name}]")
         case _: PrimaryUnit with SiUnit =>
-          writer.print(s"case object ${u.getClass.getSimpleName.replace("$", "")} extends ${d.name}Unit(\"${u.symbol}\", 1) with PrimaryUnit with SiUnit")
+          writer.print(s"case object ${u.getClass.getSimpleName.replace("$", "")} extends ${d.name}Unit(\"${u.symbol}\", 1) with PrimaryUnit[${d.name}] with SiUnit[${d.name}]")
         case _: PrimaryUnit =>
-          writer.print(s"case object ${u.getClass.getSimpleName.replace("$", "")} extends ${d.name}Unit(\"${u.symbol}\", 1) with PrimaryUnit")
+          writer.print(s"case object ${u.getClass.getSimpleName.replace("$", "")} extends ${d.name}Unit(\"${u.symbol}\", 1) with PrimaryUnit[${d.name}]")
         case _: SiBaseUnit =>
-          writer.print(s"case object ${u.getClass.getSimpleName.replace("$", "")} extends ${d.name}Unit(\"${u.symbol}\", $convExp) with SiBaseUnit")
+          writer.print(s"case object ${u.getClass.getSimpleName.replace("$", "")} extends ${d.name}Unit(\"${u.symbol}\", $convExp) with SiBaseUnit[${d.name}]")
         case _: SiUnit =>
-          writer.print(s"case object ${u.getClass.getSimpleName.replace("$", "")} extends ${d.name}Unit(\"${u.symbol}\", $convExp) with SiUnit")
+          writer.print(s"case object ${u.getClass.getSimpleName.replace("$", "")} extends ${d.name}Unit(\"${u.symbol}\", $convExp) with SiUnit[${d.name}]")
         case _ =>
           writer.print(s"case object ${u.getClass.getSimpleName.replace("$", "")} extends ${d.name}Unit(\"${u.symbol}\", $convExp)")
       }

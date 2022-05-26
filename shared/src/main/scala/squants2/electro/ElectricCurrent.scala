@@ -11,9 +11,8 @@ package squants2.electro
 import squants2._
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class ElectricCurrent[A: Numeric] private [squants2]  (value: A, unit: ElectricCurrentUnit)
-  extends Quantity[A, ElectricCurrent.type] {
-  override type Q[B] = ElectricCurrent[B]
+final case class ElectricCurrent[A: Numeric] private[squants2] (value: A, unit: ElectricCurrentUnit)
+  extends Quantity[A, ElectricCurrent] {
 
   // BEGIN CUSTOM OPS
 
@@ -30,11 +29,11 @@ final case class ElectricCurrent[A: Numeric] private [squants2]  (value: A, unit
   def toAmperes[B: Numeric](implicit f: A => B): B = toNum[B](Amperes)
 }
 
-object ElectricCurrent extends BaseDimension("Electric Current", "I") {
+object ElectricCurrent extends BaseDimension[ElectricCurrent]("Electric Current", "I") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = Amperes
-  override def siUnit: UnitOfMeasure[this.type] with SiBaseUnit = Amperes
-  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+  override def primaryUnit: UnitOfMeasure[ElectricCurrent] with PrimaryUnit[ElectricCurrent] = Amperes
+  override def siUnit: UnitOfMeasure[ElectricCurrent] with SiBaseUnit[ElectricCurrent] = Amperes
+  override lazy val units: Set[UnitOfMeasure[ElectricCurrent]] = 
     Set(Milliamperes, Amperes)
 
   implicit class ElectricCurrentCons[A](a: A)(implicit num: Numeric[A]) {
@@ -45,17 +44,17 @@ object ElectricCurrent extends BaseDimension("Electric Current", "I") {
   lazy val milliamperes: ElectricCurrent[Int] = Milliamperes(1)
   lazy val amperes: ElectricCurrent[Int] = Amperes(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = ElectricCurrentNumeric[A]()
-  private case class ElectricCurrentNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
-    override def times(x: Quantity[A, ElectricCurrent.type], y: Quantity[A, ElectricCurrent.type]): Quantity[A, ElectricCurrent.this.type] =
+  override def numeric[A: Numeric]: QuantityNumeric[A, ElectricCurrent] = ElectricCurrentNumeric[A]()
+  private case class ElectricCurrentNumeric[A: Numeric]() extends QuantityNumeric[A, ElectricCurrent](this) {
+    override def times(x: Quantity[A, ElectricCurrent], y: Quantity[A, ElectricCurrent]): Quantity[A, ElectricCurrent] =
       Amperes(x.to(Amperes) * y.to(Amperes))
   }
 }
 
-abstract class ElectricCurrentUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[ElectricCurrent.type] {
-  override def dimension: ElectricCurrent.type = ElectricCurrent
+abstract class ElectricCurrentUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[ElectricCurrent] {
+  override def dimension: Dimension[ElectricCurrent] = ElectricCurrent
   override def apply[A: Numeric](value: A): ElectricCurrent[A] = ElectricCurrent(value, this)
 }
 
-case object Milliamperes extends ElectricCurrentUnit("mA", MetricSystem.Milli) with SiUnit
-case object Amperes extends ElectricCurrentUnit("A", 1) with PrimaryUnit with SiBaseUnit
+case object Milliamperes extends ElectricCurrentUnit("mA", MetricSystem.Milli) with SiUnit[ElectricCurrent]
+case object Amperes extends ElectricCurrentUnit("A", 1) with PrimaryUnit[ElectricCurrent] with SiBaseUnit[ElectricCurrent]

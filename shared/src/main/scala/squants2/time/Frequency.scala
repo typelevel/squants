@@ -11,9 +11,8 @@ package squants2.time
 import squants2._
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class Frequency[A: Numeric] private [squants2]  (value: A, unit: FrequencyUnit)
-  extends Quantity[A, Frequency.type] {
-  override type Q[B] = Frequency[B]
+final case class Frequency[A: Numeric] private[squants2] (value: A, unit: FrequencyUnit)
+  extends Quantity[A, Frequency] {
 
   // BEGIN CUSTOM OPS
 
@@ -45,11 +44,11 @@ final case class Frequency[A: Numeric] private [squants2]  (value: A, unit: Freq
   def toTerahertz[B: Numeric](implicit f: A => B): B = toNum[B](Terahertz)
 }
 
-object Frequency extends Dimension("Frequency") {
+object Frequency extends Dimension[Frequency]("Frequency") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = Hertz
-  override def siUnit: UnitOfMeasure[this.type] with SiUnit = Hertz
-  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+  override def primaryUnit: UnitOfMeasure[Frequency] with PrimaryUnit[Frequency] = Hertz
+  override def siUnit: UnitOfMeasure[Frequency] with SiUnit[Frequency] = Hertz
+  override lazy val units: Set[UnitOfMeasure[Frequency]] = 
     Set(RevolutionsPerMinute, Hertz, Kilohertz, Megahertz, Gigahertz, Terahertz)
 
   implicit class FrequencyCons[A](a: A)(implicit num: Numeric[A]) {
@@ -68,21 +67,21 @@ object Frequency extends Dimension("Frequency") {
   lazy val gigahertz: Frequency[Int] = Gigahertz(1)
   lazy val terahertz: Frequency[Int] = Terahertz(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = FrequencyNumeric[A]()
-  private case class FrequencyNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
-    override def times(x: Quantity[A, Frequency.type], y: Quantity[A, Frequency.type]): Quantity[A, Frequency.this.type] =
+  override def numeric[A: Numeric]: QuantityNumeric[A, Frequency] = FrequencyNumeric[A]()
+  private case class FrequencyNumeric[A: Numeric]() extends QuantityNumeric[A, Frequency](this) {
+    override def times(x: Quantity[A, Frequency], y: Quantity[A, Frequency]): Quantity[A, Frequency] =
       Hertz(x.to(Hertz) * y.to(Hertz))
   }
 }
 
-abstract class FrequencyUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Frequency.type] {
-  override def dimension: Frequency.type = Frequency
+abstract class FrequencyUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Frequency] {
+  override def dimension: Dimension[Frequency] = Frequency
   override def apply[A: Numeric](value: A): Frequency[A] = Frequency(value, this)
 }
 
 case object RevolutionsPerMinute extends FrequencyUnit("rpm", 0.016666666666666666)
-case object Hertz extends FrequencyUnit("Hz", 1) with PrimaryUnit with SiUnit
-case object Kilohertz extends FrequencyUnit("kHz", MetricSystem.Kilo) with SiUnit
-case object Megahertz extends FrequencyUnit("MHz", MetricSystem.Mega) with SiUnit
-case object Gigahertz extends FrequencyUnit("GHz", MetricSystem.Giga) with SiUnit
-case object Terahertz extends FrequencyUnit("THz", MetricSystem.Tera) with SiUnit
+case object Hertz extends FrequencyUnit("Hz", 1) with PrimaryUnit[Frequency] with SiUnit[Frequency]
+case object Kilohertz extends FrequencyUnit("kHz", MetricSystem.Kilo) with SiUnit[Frequency]
+case object Megahertz extends FrequencyUnit("MHz", MetricSystem.Mega) with SiUnit[Frequency]
+case object Gigahertz extends FrequencyUnit("GHz", MetricSystem.Giga) with SiUnit[Frequency]
+case object Terahertz extends FrequencyUnit("THz", MetricSystem.Tera) with SiUnit[Frequency]

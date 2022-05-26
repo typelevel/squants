@@ -11,9 +11,8 @@ package squants2.radio
 import squants2._
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class Dose[A: Numeric] private [squants2]  (value: A, unit: DoseUnit)
-  extends Quantity[A, Dose.type] {
-  override type Q[B] = Dose[B]
+final case class Dose[A: Numeric] private[squants2] (value: A, unit: DoseUnit)
+  extends Quantity[A, Dose] {
 
   // BEGIN CUSTOM OPS
 
@@ -25,11 +24,11 @@ final case class Dose[A: Numeric] private [squants2]  (value: A, unit: DoseUnit)
   def toSieverts[B: Numeric](implicit f: A => B): B = toNum[B](Sieverts)
 }
 
-object Dose extends Dimension("Dose") {
+object Dose extends Dimension[Dose]("Dose") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = Sieverts
-  override def siUnit: UnitOfMeasure[this.type] with SiUnit = Sieverts
-  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+  override def primaryUnit: UnitOfMeasure[Dose] with PrimaryUnit[Dose] = Sieverts
+  override def siUnit: UnitOfMeasure[Dose] with SiUnit[Dose] = Sieverts
+  override lazy val units: Set[UnitOfMeasure[Dose]] = 
     Set(Rems, Sieverts)
 
   implicit class DoseCons[A](a: A)(implicit num: Numeric[A]) {
@@ -40,17 +39,17 @@ object Dose extends Dimension("Dose") {
   lazy val rems: Dose[Int] = Rems(1)
   lazy val sieverts: Dose[Int] = Sieverts(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = DoseNumeric[A]()
-  private case class DoseNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
-    override def times(x: Quantity[A, Dose.type], y: Quantity[A, Dose.type]): Quantity[A, Dose.this.type] =
+  override def numeric[A: Numeric]: QuantityNumeric[A, Dose] = DoseNumeric[A]()
+  private case class DoseNumeric[A: Numeric]() extends QuantityNumeric[A, Dose](this) {
+    override def times(x: Quantity[A, Dose], y: Quantity[A, Dose]): Quantity[A, Dose] =
       Sieverts(x.to(Sieverts) * y.to(Sieverts))
   }
 }
 
-abstract class DoseUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Dose.type] {
-  override def dimension: Dose.type = Dose
+abstract class DoseUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Dose] {
+  override def dimension: Dimension[Dose] = Dose
   override def apply[A: Numeric](value: A): Dose[A] = Dose(value, this)
 }
 
 case object Rems extends DoseUnit("rem", MetricSystem.Centi)
-case object Sieverts extends DoseUnit("Sv", 1) with PrimaryUnit with SiUnit
+case object Sieverts extends DoseUnit("Sv", 1) with PrimaryUnit[Dose] with SiUnit[Dose]

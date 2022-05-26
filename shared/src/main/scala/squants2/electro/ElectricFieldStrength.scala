@@ -11,9 +11,8 @@ package squants2.electro
 import squants2._
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class ElectricFieldStrength[A: Numeric] private [squants2]  (value: A, unit: ElectricFieldStrengthUnit)
-  extends Quantity[A, ElectricFieldStrength.type] {
-  override type Q[B] = ElectricFieldStrength[B]
+final case class ElectricFieldStrength[A: Numeric] private[squants2] (value: A, unit: ElectricFieldStrengthUnit)
+  extends Quantity[A, ElectricFieldStrength] {
 
   // BEGIN CUSTOM OPS
 
@@ -23,11 +22,11 @@ final case class ElectricFieldStrength[A: Numeric] private [squants2]  (value: A
   def toVoltsPerMeter[B: Numeric](implicit f: A => B): B = toNum[B](VoltsPerMeter)
 }
 
-object ElectricFieldStrength extends Dimension("Electric Field Strength") {
+object ElectricFieldStrength extends Dimension[ElectricFieldStrength]("Electric Field Strength") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = VoltsPerMeter
-  override def siUnit: UnitOfMeasure[this.type] with SiUnit = VoltsPerMeter
-  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+  override def primaryUnit: UnitOfMeasure[ElectricFieldStrength] with PrimaryUnit[ElectricFieldStrength] = VoltsPerMeter
+  override def siUnit: UnitOfMeasure[ElectricFieldStrength] with SiUnit[ElectricFieldStrength] = VoltsPerMeter
+  override lazy val units: Set[UnitOfMeasure[ElectricFieldStrength]] = 
     Set(VoltsPerMeter)
 
   implicit class ElectricFieldStrengthCons[A](a: A)(implicit num: Numeric[A]) {
@@ -36,16 +35,16 @@ object ElectricFieldStrength extends Dimension("Electric Field Strength") {
 
   lazy val voltsPerMeter: ElectricFieldStrength[Int] = VoltsPerMeter(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = ElectricFieldStrengthNumeric[A]()
-  private case class ElectricFieldStrengthNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
-    override def times(x: Quantity[A, ElectricFieldStrength.type], y: Quantity[A, ElectricFieldStrength.type]): Quantity[A, ElectricFieldStrength.this.type] =
+  override def numeric[A: Numeric]: QuantityNumeric[A, ElectricFieldStrength] = ElectricFieldStrengthNumeric[A]()
+  private case class ElectricFieldStrengthNumeric[A: Numeric]() extends QuantityNumeric[A, ElectricFieldStrength](this) {
+    override def times(x: Quantity[A, ElectricFieldStrength], y: Quantity[A, ElectricFieldStrength]): Quantity[A, ElectricFieldStrength] =
       VoltsPerMeter(x.to(VoltsPerMeter) * y.to(VoltsPerMeter))
   }
 }
 
-abstract class ElectricFieldStrengthUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[ElectricFieldStrength.type] {
-  override def dimension: ElectricFieldStrength.type = ElectricFieldStrength
+abstract class ElectricFieldStrengthUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[ElectricFieldStrength] {
+  override def dimension: Dimension[ElectricFieldStrength] = ElectricFieldStrength
   override def apply[A: Numeric](value: A): ElectricFieldStrength[A] = ElectricFieldStrength(value, this)
 }
 
-case object VoltsPerMeter extends ElectricFieldStrengthUnit("V/m", 1) with PrimaryUnit with SiUnit
+case object VoltsPerMeter extends ElectricFieldStrengthUnit("V/m", 1) with PrimaryUnit[ElectricFieldStrength] with SiUnit[ElectricFieldStrength]

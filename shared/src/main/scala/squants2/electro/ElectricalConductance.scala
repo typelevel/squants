@@ -11,9 +11,8 @@ package squants2.electro
 import squants2._
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class ElectricalConductance[A: Numeric] private [squants2]  (value: A, unit: ElectricalConductanceUnit)
-  extends Quantity[A, ElectricalConductance.type] {
-  override type Q[B] = ElectricalConductance[B]
+final case class ElectricalConductance[A: Numeric] private[squants2] (value: A, unit: ElectricalConductanceUnit)
+  extends Quantity[A, ElectricalConductance] {
 
   // BEGIN CUSTOM OPS
 
@@ -25,11 +24,11 @@ final case class ElectricalConductance[A: Numeric] private [squants2]  (value: A
   def toSiemens[B: Numeric](implicit f: A => B): B = toNum[B](Siemens)
 }
 
-object ElectricalConductance extends Dimension("Electrical Conductance") {
+object ElectricalConductance extends Dimension[ElectricalConductance]("Electrical Conductance") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = Siemens
-  override def siUnit: UnitOfMeasure[this.type] with SiUnit = Siemens
-  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+  override def primaryUnit: UnitOfMeasure[ElectricalConductance] with PrimaryUnit[ElectricalConductance] = Siemens
+  override def siUnit: UnitOfMeasure[ElectricalConductance] with SiUnit[ElectricalConductance] = Siemens
+  override lazy val units: Set[UnitOfMeasure[ElectricalConductance]] = 
     Set(Siemens)
 
   implicit class ElectricalConductanceCons[A](a: A)(implicit num: Numeric[A]) {
@@ -38,16 +37,16 @@ object ElectricalConductance extends Dimension("Electrical Conductance") {
 
   lazy val siemens: ElectricalConductance[Int] = Siemens(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = ElectricalConductanceNumeric[A]()
-  private case class ElectricalConductanceNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
-    override def times(x: Quantity[A, ElectricalConductance.type], y: Quantity[A, ElectricalConductance.type]): Quantity[A, ElectricalConductance.this.type] =
+  override def numeric[A: Numeric]: QuantityNumeric[A, ElectricalConductance] = ElectricalConductanceNumeric[A]()
+  private case class ElectricalConductanceNumeric[A: Numeric]() extends QuantityNumeric[A, ElectricalConductance](this) {
+    override def times(x: Quantity[A, ElectricalConductance], y: Quantity[A, ElectricalConductance]): Quantity[A, ElectricalConductance] =
       Siemens(x.to(Siemens) * y.to(Siemens))
   }
 }
 
-abstract class ElectricalConductanceUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[ElectricalConductance.type] {
-  override def dimension: ElectricalConductance.type = ElectricalConductance
+abstract class ElectricalConductanceUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[ElectricalConductance] {
+  override def dimension: Dimension[ElectricalConductance] = ElectricalConductance
   override def apply[A: Numeric](value: A): ElectricalConductance[A] = ElectricalConductance(value, this)
 }
 
-case object Siemens extends ElectricalConductanceUnit("S", 1) with PrimaryUnit with SiUnit
+case object Siemens extends ElectricalConductanceUnit("S", 1) with PrimaryUnit[ElectricalConductance] with SiUnit[ElectricalConductance]

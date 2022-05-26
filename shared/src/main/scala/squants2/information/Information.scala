@@ -11,9 +11,8 @@ package squants2.information
 import squants2._
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class Information[A: Numeric] private [squants2]  (value: A, unit: InformationUnit)
-  extends Quantity[A, Information.type] {
-  override type Q[B] = Information[B]
+final case class Information[A: Numeric] private[squants2] (value: A, unit: InformationUnit)
+  extends Quantity[A, Information] {
 
   // BEGIN CUSTOM OPS
 
@@ -55,11 +54,11 @@ final case class Information[A: Numeric] private [squants2]  (value: A, unit: In
   def toYobibytes[B: Numeric](implicit f: A => B): B = toNum[B](Yobibytes)
 }
 
-object Information extends BaseDimension("Information", "B") {
+object Information extends BaseDimension[Information]("Information", "B") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = Bytes
-  override def siUnit: UnitOfMeasure[this.type] with SiBaseUnit = Bytes
-  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+  override def primaryUnit: UnitOfMeasure[Information] with PrimaryUnit[Information] = Bytes
+  override def siUnit: UnitOfMeasure[Information] with SiBaseUnit[Information] = Bytes
+  override lazy val units: Set[UnitOfMeasure[Information]] = 
     Set(Bits, Bytes, Kilobits, Kibibits, Kilobytes, Kibibytes, Megabits, Mebibits, Megabytes, Mebibytes, Gigabits, Gibibits, Gigabytes, Gibibytes, Terabits, Tebibits, Terabytes, Tebibytes, Petabits, Pebibits, Petabytes, Pebibytes, Exabits, Exbibits, Exabytes, Exbibytes, Zettabits, Zebibits, Zettabytes, Zebibytes, Yottabits, Yobibits, Yottabytes, Yobibytes)
 
   implicit class InformationCons[A](a: A)(implicit num: Numeric[A]) {
@@ -134,20 +133,20 @@ object Information extends BaseDimension("Information", "B") {
   lazy val yottabytes: Information[Int] = Yottabytes(1)
   lazy val yobibytes: Information[Int] = Yobibytes(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = InformationNumeric[A]()
-  private case class InformationNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
-    override def times(x: Quantity[A, Information.type], y: Quantity[A, Information.type]): Quantity[A, Information.this.type] =
+  override def numeric[A: Numeric]: QuantityNumeric[A, Information] = InformationNumeric[A]()
+  private case class InformationNumeric[A: Numeric]() extends QuantityNumeric[A, Information](this) {
+    override def times(x: Quantity[A, Information], y: Quantity[A, Information]): Quantity[A, Information] =
       Bytes(x.to(Bytes) * y.to(Bytes))
   }
 }
 
-abstract class InformationUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Information.type] {
-  override def dimension: Information.type = Information
+abstract class InformationUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Information] {
+  override def dimension: Dimension[Information] = Information
   override def apply[A: Numeric](value: A): Information[A] = Information(value, this)
 }
 
 case object Bits extends InformationUnit("bit", 0.125)
-case object Bytes extends InformationUnit("B", 1) with PrimaryUnit with SiBaseUnit
+case object Bytes extends InformationUnit("B", 1) with PrimaryUnit[Information] with SiBaseUnit[Information]
 case object Kilobits extends InformationUnit("Kbit", 125)
 case object Kibibits extends InformationUnit("Kibit", 128)
 case object Kilobytes extends InformationUnit("KB", MetricSystem.Kilo)

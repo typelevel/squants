@@ -11,9 +11,8 @@ package squants2.energy
 import squants2._
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class Energy[A: Numeric] private [squants2]  (value: A, unit: EnergyUnit)
-  extends Quantity[A, Energy.type] {
-  override type Q[B] = Energy[B]
+final case class Energy[A: Numeric] private[squants2] (value: A, unit: EnergyUnit)
+  extends Quantity[A, Energy] {
 
   // BEGIN CUSTOM OPS
 
@@ -65,11 +64,11 @@ final case class Energy[A: Numeric] private [squants2]  (value: A, unit: EnergyU
   def toGigawattHours[B: Numeric](implicit f: A => B): B = toNum[B](GigawattHours)
 }
 
-object Energy extends Dimension("Energy") {
+object Energy extends Dimension[Energy]("Energy") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = WattHours
-  override def siUnit: UnitOfMeasure[this.type] with SiUnit = Joules
-  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+  override def primaryUnit: UnitOfMeasure[Energy] with PrimaryUnit[Energy] = WattHours
+  override def siUnit: UnitOfMeasure[Energy] with SiUnit[Energy] = Joules
+  override lazy val units: Set[UnitOfMeasure[Energy]] = 
     Set(MilliElectronVolt, ElectronVolt, KiloElectronVolt, MegaElectronVolt, Picojoules, GigaElectronVolt, Nanojoules, Ergs, TeraElectronVolt, Microjoules, PetaElectronVolt, Millijoules, ExaElectronVolt, Joules, MilliwattHours, Kilojoules, BritishThermalUnits, WattHours, Megajoules, MBtus, KilowattHours, Gigajoules, MMBtus, MegawattHours, Terajoules, GigawattHours)
 
   implicit class EnergyCons[A](a: A)(implicit num: Numeric[A]) {
@@ -128,15 +127,15 @@ object Energy extends Dimension("Energy") {
   lazy val terajoules: Energy[Int] = Terajoules(1)
   lazy val gigawattHours: Energy[Int] = GigawattHours(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = EnergyNumeric[A]()
-  private case class EnergyNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
-    override def times(x: Quantity[A, Energy.type], y: Quantity[A, Energy.type]): Quantity[A, Energy.this.type] =
+  override def numeric[A: Numeric]: QuantityNumeric[A, Energy] = EnergyNumeric[A]()
+  private case class EnergyNumeric[A: Numeric]() extends QuantityNumeric[A, Energy](this) {
+    override def times(x: Quantity[A, Energy], y: Quantity[A, Energy]): Quantity[A, Energy] =
       WattHours(x.to(WattHours) * y.to(WattHours))
   }
 }
 
-abstract class EnergyUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Energy.type] {
-  override def dimension: Energy.type = Energy
+abstract class EnergyUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Energy] {
+  override def dimension: Dimension[Energy] = Energy
   override def apply[A: Numeric](value: A): Energy[A] = Energy(value, this)
 }
 
@@ -144,25 +143,25 @@ case object MilliElectronVolt extends EnergyUnit("meV", 4.4504904583333334E-26)
 case object ElectronVolt extends EnergyUnit("eV", 4.4504904583333335E-23)
 case object KiloElectronVolt extends EnergyUnit("keV", 4.450490458333334E-20)
 case object MegaElectronVolt extends EnergyUnit("MeV", 4.4504904583333334E-17)
-case object Picojoules extends EnergyUnit("pJ", 2.7777777777777775E-16) with SiUnit
+case object Picojoules extends EnergyUnit("pJ", 2.7777777777777775E-16) with SiUnit[Energy]
 case object GigaElectronVolt extends EnergyUnit("GeV", 4.450490458333334E-14)
-case object Nanojoules extends EnergyUnit("nJ", 2.777777777777778E-13) with SiUnit
+case object Nanojoules extends EnergyUnit("nJ", 2.777777777777778E-13) with SiUnit[Energy]
 case object Ergs extends EnergyUnit("erg", 2.777777777777778E-11)
 case object TeraElectronVolt extends EnergyUnit("TeV", 4.4504904583333334E-11)
-case object Microjoules extends EnergyUnit("µJ", 2.7777777777777777E-10) with SiUnit
+case object Microjoules extends EnergyUnit("µJ", 2.7777777777777777E-10) with SiUnit[Energy]
 case object PetaElectronVolt extends EnergyUnit("PeV", 4.4504904583333336E-8)
-case object Millijoules extends EnergyUnit("mJ", 2.7777777777777776E-7) with SiUnit
+case object Millijoules extends EnergyUnit("mJ", 2.7777777777777776E-7) with SiUnit[Energy]
 case object ExaElectronVolt extends EnergyUnit("EeV", 4.4504904583333335E-5)
-case object Joules extends EnergyUnit("J", 2.777777777777778E-4) with SiUnit
+case object Joules extends EnergyUnit("J", 2.777777777777778E-4) with SiUnit[Energy]
 case object MilliwattHours extends EnergyUnit("mWh", MetricSystem.Milli)
-case object Kilojoules extends EnergyUnit("kJ", 0.2777777777777778) with SiUnit
+case object Kilojoules extends EnergyUnit("kJ", 0.2777777777777778) with SiUnit[Energy]
 case object BritishThermalUnits extends EnergyUnit("Btu", 0.2930710701722222)
-case object WattHours extends EnergyUnit("Wh", 1) with PrimaryUnit
-case object Megajoules extends EnergyUnit("MJ", 277.77777777777777) with SiUnit
+case object WattHours extends EnergyUnit("Wh", 1) with PrimaryUnit[Energy]
+case object Megajoules extends EnergyUnit("MJ", 277.77777777777777) with SiUnit[Energy]
 case object MBtus extends EnergyUnit("MBtu", 293.0710701722222)
 case object KilowattHours extends EnergyUnit("kWh", MetricSystem.Kilo)
-case object Gigajoules extends EnergyUnit("GJ", 277777.77777777775) with SiUnit
+case object Gigajoules extends EnergyUnit("GJ", 277777.77777777775) with SiUnit[Energy]
 case object MMBtus extends EnergyUnit("MMBtu", 293071.0701722222)
 case object MegawattHours extends EnergyUnit("MWh", MetricSystem.Mega)
-case object Terajoules extends EnergyUnit("TJ", 2.777777777777778E8) with SiUnit
+case object Terajoules extends EnergyUnit("TJ", 2.777777777777778E8) with SiUnit[Energy]
 case object GigawattHours extends EnergyUnit("GWh", MetricSystem.Giga)

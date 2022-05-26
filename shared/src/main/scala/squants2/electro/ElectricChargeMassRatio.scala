@@ -11,9 +11,8 @@ package squants2.electro
 import squants2._
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class ElectricChargeMassRatio[A: Numeric] private [squants2]  (value: A, unit: ElectricChargeMassRatioUnit)
-  extends Quantity[A, ElectricChargeMassRatio.type] {
-  override type Q[B] = ElectricChargeMassRatio[B]
+final case class ElectricChargeMassRatio[A: Numeric] private[squants2] (value: A, unit: ElectricChargeMassRatioUnit)
+  extends Quantity[A, ElectricChargeMassRatio] {
 
   // BEGIN CUSTOM OPS
 
@@ -23,11 +22,11 @@ final case class ElectricChargeMassRatio[A: Numeric] private [squants2]  (value:
   def toCoulombsPerKilogram[B: Numeric](implicit f: A => B): B = toNum[B](CoulombsPerKilogram)
 }
 
-object ElectricChargeMassRatio extends Dimension("Electric Charge Mass Ratio") {
+object ElectricChargeMassRatio extends Dimension[ElectricChargeMassRatio]("Electric Charge Mass Ratio") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = CoulombsPerKilogram
-  override def siUnit: UnitOfMeasure[this.type] with SiUnit = CoulombsPerKilogram
-  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+  override def primaryUnit: UnitOfMeasure[ElectricChargeMassRatio] with PrimaryUnit[ElectricChargeMassRatio] = CoulombsPerKilogram
+  override def siUnit: UnitOfMeasure[ElectricChargeMassRatio] with SiUnit[ElectricChargeMassRatio] = CoulombsPerKilogram
+  override lazy val units: Set[UnitOfMeasure[ElectricChargeMassRatio]] = 
     Set(CoulombsPerKilogram)
 
   implicit class ElectricChargeMassRatioCons[A](a: A)(implicit num: Numeric[A]) {
@@ -36,16 +35,16 @@ object ElectricChargeMassRatio extends Dimension("Electric Charge Mass Ratio") {
 
   lazy val coulombsPerKilogram: ElectricChargeMassRatio[Int] = CoulombsPerKilogram(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = ElectricChargeMassRatioNumeric[A]()
-  private case class ElectricChargeMassRatioNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
-    override def times(x: Quantity[A, ElectricChargeMassRatio.type], y: Quantity[A, ElectricChargeMassRatio.type]): Quantity[A, ElectricChargeMassRatio.this.type] =
+  override def numeric[A: Numeric]: QuantityNumeric[A, ElectricChargeMassRatio] = ElectricChargeMassRatioNumeric[A]()
+  private case class ElectricChargeMassRatioNumeric[A: Numeric]() extends QuantityNumeric[A, ElectricChargeMassRatio](this) {
+    override def times(x: Quantity[A, ElectricChargeMassRatio], y: Quantity[A, ElectricChargeMassRatio]): Quantity[A, ElectricChargeMassRatio] =
       CoulombsPerKilogram(x.to(CoulombsPerKilogram) * y.to(CoulombsPerKilogram))
   }
 }
 
-abstract class ElectricChargeMassRatioUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[ElectricChargeMassRatio.type] {
-  override def dimension: ElectricChargeMassRatio.type = ElectricChargeMassRatio
+abstract class ElectricChargeMassRatioUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[ElectricChargeMassRatio] {
+  override def dimension: Dimension[ElectricChargeMassRatio] = ElectricChargeMassRatio
   override def apply[A: Numeric](value: A): ElectricChargeMassRatio[A] = ElectricChargeMassRatio(value, this)
 }
 
-case object CoulombsPerKilogram extends ElectricChargeMassRatioUnit("C/kg", 1) with PrimaryUnit with SiUnit
+case object CoulombsPerKilogram extends ElectricChargeMassRatioUnit("C/kg", 1) with PrimaryUnit[ElectricChargeMassRatio] with SiUnit[ElectricChargeMassRatio]

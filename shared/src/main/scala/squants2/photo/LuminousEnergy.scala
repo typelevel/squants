@@ -11,9 +11,8 @@ package squants2.photo
 import squants2._
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class LuminousEnergy[A: Numeric] private [squants2]  (value: A, unit: LuminousEnergyUnit)
-  extends Quantity[A, LuminousEnergy.type] {
-  override type Q[B] = LuminousEnergy[B]
+final case class LuminousEnergy[A: Numeric] private[squants2] (value: A, unit: LuminousEnergyUnit)
+  extends Quantity[A, LuminousEnergy] {
 
   // BEGIN CUSTOM OPS
 
@@ -22,11 +21,11 @@ final case class LuminousEnergy[A: Numeric] private [squants2]  (value: A, unit:
   def toLumenSeconds[B: Numeric](implicit f: A => B): B = toNum[B](LumenSeconds)
 }
 
-object LuminousEnergy extends Dimension("Luminous Energy") {
+object LuminousEnergy extends Dimension[LuminousEnergy]("Luminous Energy") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = LumenSeconds
-  override def siUnit: UnitOfMeasure[this.type] with SiUnit = LumenSeconds
-  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+  override def primaryUnit: UnitOfMeasure[LuminousEnergy] with PrimaryUnit[LuminousEnergy] = LumenSeconds
+  override def siUnit: UnitOfMeasure[LuminousEnergy] with SiUnit[LuminousEnergy] = LumenSeconds
+  override lazy val units: Set[UnitOfMeasure[LuminousEnergy]] = 
     Set(LumenSeconds)
 
   implicit class LuminousEnergyCons[A](a: A)(implicit num: Numeric[A]) {
@@ -35,16 +34,16 @@ object LuminousEnergy extends Dimension("Luminous Energy") {
 
   lazy val lumenSeconds: LuminousEnergy[Int] = LumenSeconds(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = LuminousEnergyNumeric[A]()
-  private case class LuminousEnergyNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
-    override def times(x: Quantity[A, LuminousEnergy.type], y: Quantity[A, LuminousEnergy.type]): Quantity[A, LuminousEnergy.this.type] =
+  override def numeric[A: Numeric]: QuantityNumeric[A, LuminousEnergy] = LuminousEnergyNumeric[A]()
+  private case class LuminousEnergyNumeric[A: Numeric]() extends QuantityNumeric[A, LuminousEnergy](this) {
+    override def times(x: Quantity[A, LuminousEnergy], y: Quantity[A, LuminousEnergy]): Quantity[A, LuminousEnergy] =
       LumenSeconds(x.to(LumenSeconds) * y.to(LumenSeconds))
   }
 }
 
-abstract class LuminousEnergyUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[LuminousEnergy.type] {
-  override def dimension: LuminousEnergy.type = LuminousEnergy
+abstract class LuminousEnergyUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[LuminousEnergy] {
+  override def dimension: Dimension[LuminousEnergy] = LuminousEnergy
   override def apply[A: Numeric](value: A): LuminousEnergy[A] = LuminousEnergy(value, this)
 }
 
-case object LumenSeconds extends LuminousEnergyUnit("lm⋅s", 1) with PrimaryUnit with SiUnit
+case object LumenSeconds extends LuminousEnergyUnit("lm⋅s", 1) with PrimaryUnit[LuminousEnergy] with SiUnit[LuminousEnergy]

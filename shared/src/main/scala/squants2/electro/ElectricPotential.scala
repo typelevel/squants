@@ -11,9 +11,8 @@ package squants2.electro
 import squants2._
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class ElectricPotential[A: Numeric] private [squants2]  (value: A, unit: ElectricPotentialUnit)
-  extends Quantity[A, ElectricPotential.type] {
-  override type Q[B] = ElectricPotential[B]
+final case class ElectricPotential[A: Numeric] private[squants2] (value: A, unit: ElectricPotentialUnit)
+  extends Quantity[A, ElectricPotential] {
 
   // BEGIN CUSTOM OPS
 
@@ -33,11 +32,11 @@ final case class ElectricPotential[A: Numeric] private [squants2]  (value: A, un
   def toMegavolts[B: Numeric](implicit f: A => B): B = toNum[B](Megavolts)
 }
 
-object ElectricPotential extends Dimension("Electric Potential") {
+object ElectricPotential extends Dimension[ElectricPotential]("Electric Potential") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = Volts
-  override def siUnit: UnitOfMeasure[this.type] with SiUnit = Volts
-  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+  override def primaryUnit: UnitOfMeasure[ElectricPotential] with PrimaryUnit[ElectricPotential] = Volts
+  override def siUnit: UnitOfMeasure[ElectricPotential] with SiUnit[ElectricPotential] = Volts
+  override lazy val units: Set[UnitOfMeasure[ElectricPotential]] = 
     Set(Microvolts, Millivolts, Volts, Kilovolts, Megavolts)
 
   implicit class ElectricPotentialCons[A](a: A)(implicit num: Numeric[A]) {
@@ -54,20 +53,20 @@ object ElectricPotential extends Dimension("Electric Potential") {
   lazy val kilovolts: ElectricPotential[Int] = Kilovolts(1)
   lazy val megavolts: ElectricPotential[Int] = Megavolts(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = ElectricPotentialNumeric[A]()
-  private case class ElectricPotentialNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
-    override def times(x: Quantity[A, ElectricPotential.type], y: Quantity[A, ElectricPotential.type]): Quantity[A, ElectricPotential.this.type] =
+  override def numeric[A: Numeric]: QuantityNumeric[A, ElectricPotential] = ElectricPotentialNumeric[A]()
+  private case class ElectricPotentialNumeric[A: Numeric]() extends QuantityNumeric[A, ElectricPotential](this) {
+    override def times(x: Quantity[A, ElectricPotential], y: Quantity[A, ElectricPotential]): Quantity[A, ElectricPotential] =
       Volts(x.to(Volts) * y.to(Volts))
   }
 }
 
-abstract class ElectricPotentialUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[ElectricPotential.type] {
-  override def dimension: ElectricPotential.type = ElectricPotential
+abstract class ElectricPotentialUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[ElectricPotential] {
+  override def dimension: Dimension[ElectricPotential] = ElectricPotential
   override def apply[A: Numeric](value: A): ElectricPotential[A] = ElectricPotential(value, this)
 }
 
-case object Microvolts extends ElectricPotentialUnit("μV", MetricSystem.Micro) with SiUnit
-case object Millivolts extends ElectricPotentialUnit("mV", MetricSystem.Milli) with SiUnit
-case object Volts extends ElectricPotentialUnit("V", 1) with PrimaryUnit with SiUnit
-case object Kilovolts extends ElectricPotentialUnit("kV", MetricSystem.Kilo) with SiUnit
-case object Megavolts extends ElectricPotentialUnit("MV", MetricSystem.Mega) with SiUnit
+case object Microvolts extends ElectricPotentialUnit("μV", MetricSystem.Micro) with SiUnit[ElectricPotential]
+case object Millivolts extends ElectricPotentialUnit("mV", MetricSystem.Milli) with SiUnit[ElectricPotential]
+case object Volts extends ElectricPotentialUnit("V", 1) with PrimaryUnit[ElectricPotential] with SiUnit[ElectricPotential]
+case object Kilovolts extends ElectricPotentialUnit("kV", MetricSystem.Kilo) with SiUnit[ElectricPotential]
+case object Megavolts extends ElectricPotentialUnit("MV", MetricSystem.Mega) with SiUnit[ElectricPotential]

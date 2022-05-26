@@ -11,9 +11,8 @@ package squants2.electro
 import squants2._
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class Conductivity[A: Numeric] private [squants2]  (value: A, unit: ConductivityUnit)
-  extends Quantity[A, Conductivity.type] {
-  override type Q[B] = Conductivity[B]
+final case class Conductivity[A: Numeric] private[squants2] (value: A, unit: ConductivityUnit)
+  extends Quantity[A, Conductivity] {
 
   // BEGIN CUSTOM OPS
 
@@ -24,11 +23,11 @@ final case class Conductivity[A: Numeric] private [squants2]  (value: A, unit: C
   def toSiemensPerMeter[B: Numeric](implicit f: A => B): B = toNum[B](SiemensPerMeter)
 }
 
-object Conductivity extends Dimension("Conductivity") {
+object Conductivity extends Dimension[Conductivity]("Conductivity") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = SiemensPerMeter
-  override def siUnit: UnitOfMeasure[this.type] with SiUnit = SiemensPerMeter
-  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+  override def primaryUnit: UnitOfMeasure[Conductivity] with PrimaryUnit[Conductivity] = SiemensPerMeter
+  override def siUnit: UnitOfMeasure[Conductivity] with SiUnit[Conductivity] = SiemensPerMeter
+  override lazy val units: Set[UnitOfMeasure[Conductivity]] = 
     Set(SiemensPerMeter)
 
   implicit class ConductivityCons[A](a: A)(implicit num: Numeric[A]) {
@@ -37,16 +36,16 @@ object Conductivity extends Dimension("Conductivity") {
 
   lazy val siemensPerMeter: Conductivity[Int] = SiemensPerMeter(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = ConductivityNumeric[A]()
-  private case class ConductivityNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
-    override def times(x: Quantity[A, Conductivity.type], y: Quantity[A, Conductivity.type]): Quantity[A, Conductivity.this.type] =
+  override def numeric[A: Numeric]: QuantityNumeric[A, Conductivity] = ConductivityNumeric[A]()
+  private case class ConductivityNumeric[A: Numeric]() extends QuantityNumeric[A, Conductivity](this) {
+    override def times(x: Quantity[A, Conductivity], y: Quantity[A, Conductivity]): Quantity[A, Conductivity] =
       SiemensPerMeter(x.to(SiemensPerMeter) * y.to(SiemensPerMeter))
   }
 }
 
-abstract class ConductivityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Conductivity.type] {
-  override def dimension: Conductivity.type = Conductivity
+abstract class ConductivityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Conductivity] {
+  override def dimension: Dimension[Conductivity] = Conductivity
   override def apply[A: Numeric](value: A): Conductivity[A] = Conductivity(value, this)
 }
 
-case object SiemensPerMeter extends ConductivityUnit("S/m", 1) with PrimaryUnit with SiUnit
+case object SiemensPerMeter extends ConductivityUnit("S/m", 1) with PrimaryUnit[Conductivity] with SiUnit[Conductivity]

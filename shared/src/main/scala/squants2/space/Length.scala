@@ -11,9 +11,8 @@ package squants2.space
 import squants2._
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class Length[A: Numeric] private [squants2]  (value: A, unit: LengthUnit)
-  extends Quantity[A, Length.type] {
-  override type Q[B] = Length[B]
+final case class Length[A: Numeric] private[squants2] (value: A, unit: LengthUnit)
+  extends Quantity[A, Length] {
 
   // BEGIN CUSTOM OPS
 
@@ -65,11 +64,11 @@ final case class Length[A: Numeric] private [squants2]  (value: A, unit: LengthU
   def toGigaParsecs[B: Numeric](implicit f: A => B): B = toNum[B](GigaParsecs)
 }
 
-object Length extends BaseDimension("Length", "L") {
+object Length extends BaseDimension[Length]("Length", "L") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = Meters
-  override def siUnit: UnitOfMeasure[this.type] with SiBaseUnit = Meters
-  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+  override def primaryUnit: UnitOfMeasure[Length] with PrimaryUnit[Length] = Meters
+  override def siUnit: UnitOfMeasure[Length] with SiBaseUnit[Length] = Meters
+  override lazy val units: Set[UnitOfMeasure[Length]] = 
     Set(Angstroms, MilliElectronVoltLength, Nanometers, ElectronVoltLength, Microns, KiloElectronVoltLength, Millimeters, Centimeters, Inches, Decimeters, MegaElectronVoltLength, Feet, Yards, Meters, Decameters, Hectometers, GigaElectronVoltLength, Kilometers, InternationalMiles, UsMiles, NauticalMiles, TeraElectronVoltLength, PetaElectronVoltLength, NominalSolarRadii, SolarRadii, AstronomicalUnits, ExaElectronVoltLength, LightYears, Parsecs, KiloParsecs, MegaParsecs, GigaParsecs)
 
   implicit class LengthCons[A](a: A)(implicit num: Numeric[A]) {
@@ -140,36 +139,36 @@ object Length extends BaseDimension("Length", "L") {
   lazy val megaParsecs: Length[Int] = MegaParsecs(1)
   lazy val gigaParsecs: Length[Int] = GigaParsecs(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = LengthNumeric[A]()
-  private case class LengthNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
-    override def times(x: Quantity[A, Length.type], y: Quantity[A, Length.type]): Quantity[A, Length.this.type] =
+  override def numeric[A: Numeric]: QuantityNumeric[A, Length] = LengthNumeric[A]()
+  private case class LengthNumeric[A: Numeric]() extends QuantityNumeric[A, Length](this) {
+    override def times(x: Quantity[A, Length], y: Quantity[A, Length]): Quantity[A, Length] =
       Meters(x.to(Meters) * y.to(Meters))
   }
 }
 
-abstract class LengthUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Length.type] {
-  override def dimension: Length.type = Length
+abstract class LengthUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Length] {
+  override def dimension: Dimension[Length] = Length
   override def apply[A: Numeric](value: A): Length[A] = Length(value, this)
 }
 
 case object Angstroms extends LengthUnit("Å", 1.0E-10)
 case object MilliElectronVoltLength extends LengthUnit("mħc/eV", 1.97327E-10)
-case object Nanometers extends LengthUnit("nm", MetricSystem.Nano) with SiUnit
+case object Nanometers extends LengthUnit("nm", MetricSystem.Nano) with SiUnit[Length]
 case object ElectronVoltLength extends LengthUnit("ħc/eV", 1.97327E-7)
-case object Microns extends LengthUnit("µm", MetricSystem.Micro) with SiUnit
+case object Microns extends LengthUnit("µm", MetricSystem.Micro) with SiUnit[Length]
 case object KiloElectronVoltLength extends LengthUnit("kħc/eV", 1.9732700000000002E-4)
-case object Millimeters extends LengthUnit("mm", MetricSystem.Milli) with SiUnit
-case object Centimeters extends LengthUnit("cm", MetricSystem.Centi) with SiUnit
+case object Millimeters extends LengthUnit("mm", MetricSystem.Milli) with SiUnit[Length]
+case object Centimeters extends LengthUnit("cm", MetricSystem.Centi) with SiUnit[Length]
 case object Inches extends LengthUnit("in", 0.0254000508)
-case object Decimeters extends LengthUnit("dm", MetricSystem.Deci) with SiUnit
+case object Decimeters extends LengthUnit("dm", MetricSystem.Deci) with SiUnit[Length]
 case object MegaElectronVoltLength extends LengthUnit("Mħc/eV", 0.197327)
 case object Feet extends LengthUnit("ft", 0.3048006096)
 case object Yards extends LengthUnit("yd", 0.9144018288)
-case object Meters extends LengthUnit("m", 1) with PrimaryUnit with SiBaseUnit
-case object Decameters extends LengthUnit("dam", MetricSystem.Deca) with SiUnit
-case object Hectometers extends LengthUnit("hm", MetricSystem.Hecto) with SiUnit
+case object Meters extends LengthUnit("m", 1) with PrimaryUnit[Length] with SiBaseUnit[Length]
+case object Decameters extends LengthUnit("dam", MetricSystem.Deca) with SiUnit[Length]
+case object Hectometers extends LengthUnit("hm", MetricSystem.Hecto) with SiUnit[Length]
 case object GigaElectronVoltLength extends LengthUnit("Għc/eV", 197.327)
-case object Kilometers extends LengthUnit("km", MetricSystem.Kilo) with SiUnit
+case object Kilometers extends LengthUnit("km", MetricSystem.Kilo) with SiUnit[Length]
 case object InternationalMiles extends LengthUnit("mile", 1609.344)
 case object UsMiles extends LengthUnit("mi", 1609.3472186879999)
 case object NauticalMiles extends LengthUnit("nmi", 1852)

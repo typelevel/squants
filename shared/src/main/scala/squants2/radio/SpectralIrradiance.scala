@@ -11,9 +11,8 @@ package squants2.radio
 import squants2._
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class SpectralIrradiance[A: Numeric] private [squants2]  (value: A, unit: SpectralIrradianceUnit)
-  extends Quantity[A, SpectralIrradiance.type] {
-  override type Q[B] = SpectralIrradiance[B]
+final case class SpectralIrradiance[A: Numeric] private[squants2] (value: A, unit: SpectralIrradianceUnit)
+  extends Quantity[A, SpectralIrradiance] {
 
   // BEGIN CUSTOM OPS
 
@@ -25,11 +24,11 @@ final case class SpectralIrradiance[A: Numeric] private [squants2]  (value: A, u
   def toWattsPerSquareMeterPerNanometer[B: Numeric](implicit f: A => B): B = toNum[B](WattsPerSquareMeterPerNanometer)
 }
 
-object SpectralIrradiance extends Dimension("Spectral Irradiance") {
+object SpectralIrradiance extends Dimension[SpectralIrradiance]("Spectral Irradiance") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = WattsPerCubicMeter
-  override def siUnit: UnitOfMeasure[this.type] with SiUnit = WattsPerCubicMeter
-  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+  override def primaryUnit: UnitOfMeasure[SpectralIrradiance] with PrimaryUnit[SpectralIrradiance] = WattsPerCubicMeter
+  override def siUnit: UnitOfMeasure[SpectralIrradiance] with SiUnit[SpectralIrradiance] = WattsPerCubicMeter
+  override lazy val units: Set[UnitOfMeasure[SpectralIrradiance]] = 
     Set(WattsPerCubicMeter, WattsPerSquareMeterPerMicron, ErgsPerSecondPerSquareCentimeterPerAngstrom, WattsPerSquareMeterPerNanometer)
 
   implicit class SpectralIrradianceCons[A](a: A)(implicit num: Numeric[A]) {
@@ -44,19 +43,19 @@ object SpectralIrradiance extends Dimension("Spectral Irradiance") {
   lazy val ergsPerSecondPerSquareCentimeterPerAngstrom: SpectralIrradiance[Int] = ErgsPerSecondPerSquareCentimeterPerAngstrom(1)
   lazy val wattsPerSquareMeterPerNanometer: SpectralIrradiance[Int] = WattsPerSquareMeterPerNanometer(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = SpectralIrradianceNumeric[A]()
-  private case class SpectralIrradianceNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
-    override def times(x: Quantity[A, SpectralIrradiance.type], y: Quantity[A, SpectralIrradiance.type]): Quantity[A, SpectralIrradiance.this.type] =
+  override def numeric[A: Numeric]: QuantityNumeric[A, SpectralIrradiance] = SpectralIrradianceNumeric[A]()
+  private case class SpectralIrradianceNumeric[A: Numeric]() extends QuantityNumeric[A, SpectralIrradiance](this) {
+    override def times(x: Quantity[A, SpectralIrradiance], y: Quantity[A, SpectralIrradiance]): Quantity[A, SpectralIrradiance] =
       WattsPerCubicMeter(x.to(WattsPerCubicMeter) * y.to(WattsPerCubicMeter))
   }
 }
 
-abstract class SpectralIrradianceUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[SpectralIrradiance.type] {
-  override def dimension: SpectralIrradiance.type = SpectralIrradiance
+abstract class SpectralIrradianceUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[SpectralIrradiance] {
+  override def dimension: Dimension[SpectralIrradiance] = SpectralIrradiance
   override def apply[A: Numeric](value: A): SpectralIrradiance[A] = SpectralIrradiance(value, this)
 }
 
-case object WattsPerCubicMeter extends SpectralIrradianceUnit("W/m³", 1) with PrimaryUnit with SiUnit
-case object WattsPerSquareMeterPerMicron extends SpectralIrradianceUnit("W/m²/µm", MetricSystem.Mega) with SiUnit
+case object WattsPerCubicMeter extends SpectralIrradianceUnit("W/m³", 1) with PrimaryUnit[SpectralIrradiance] with SiUnit[SpectralIrradiance]
+case object WattsPerSquareMeterPerMicron extends SpectralIrradianceUnit("W/m²/µm", MetricSystem.Mega) with SiUnit[SpectralIrradiance]
 case object ErgsPerSecondPerSquareCentimeterPerAngstrom extends SpectralIrradianceUnit("erg/s/cm²/Å", 9999999.999999998)
-case object WattsPerSquareMeterPerNanometer extends SpectralIrradianceUnit("W/m²/nm", 9.999999999999999E8) with SiUnit
+case object WattsPerSquareMeterPerNanometer extends SpectralIrradianceUnit("W/m²/nm", 9.999999999999999E8) with SiUnit[SpectralIrradiance]

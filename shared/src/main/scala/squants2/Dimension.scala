@@ -9,35 +9,35 @@ import scala.util.{ Failure, Success, Try }
  *
  * @param name The name of the Dimension
  */
-abstract class Dimension(val name: String) {
-  type D = this.type
-  type Q[A] = Quantity[A, D]
+abstract class Dimension[Q[_] <: Quantity[_, Q]](val name: String) {
+//  type D = this.type
+//  type Q[A] = Quantity[A, D]
 
   /**
    * Set of available units
    * @return
    */
-  def units: Set[UnitOfMeasure[D]]
+  def units: Set[UnitOfMeasure[Q]]
 
   /**
    * The unit with a conversions factor of 1.
    * The conversionFactor for other units should be set relative to this unit.
    * @return
    */
-  def primaryUnit: UnitOfMeasure[D] with PrimaryUnit
+  def primaryUnit: UnitOfMeasure[Q] with PrimaryUnit[Q]
 
   /**
    * The International System of Units (SI) Base Unit
    * @return
    */
-  def siUnit: UnitOfMeasure[D] with SiUnit
+  def siUnit: UnitOfMeasure[Q] with SiUnit[Q]
 
   /**
    * Maps a string representation of a unit symbol into the matching UnitOfMeasure object
    * @param symbol String
    * @return
    */
-  def symbolToUnit(symbol: String): Option[UnitOfMeasure[D]] = units.find(u => u.symbol == symbol)
+  def symbolToUnit(symbol: String): Option[UnitOfMeasure[Q]] = units.find(u => u.symbol == symbol)
 
   private [squants2] def isSiBase: Boolean = false
 
@@ -46,7 +46,7 @@ abstract class Dimension(val name: String) {
    * @param value the source string (ie, "10 kW") or tuple (ie, (10, "kW"))
    * @return a Try containing the `Quantity` of a `QuantityParseException`
    */
-  protected def parse[A: Numeric](value: Any): Try[Q[_]] = value match {
+  protected def parse[A: Numeric](value: Any): Try[Quantity[_, Q]] = value match {
     case s: String              => parseString[A](s)
     case (v: Byte, u: String)   => parseTuple((v.toInt, u))
     case (v: Short, u: String)  => parseTuple((v.toInt, u))
@@ -57,16 +57,16 @@ abstract class Dimension(val name: String) {
     case _                      => Failure(QuantityParseException(s"Unable to parse $name", value.toString))
   }
 
-  def parseString[A](s: String)(implicit num: Numeric[A]): Try[Quantity[A, D]] = {
+  def parseString[A](s: String)(implicit num: Numeric[A]): Try[Quantity[A, Q]] = {
     s match {
       case QuantityString(valStr, symbol) => Success(symbolToUnit(symbol).get(num.parseString(valStr).get))
       case _                              => Failure(QuantityParseException(s"Unable to parse $name", s))
     }
   }
 
-  private lazy val QuantityString = ("^([-+]?[0-9]*\\.?[0-9]+(?:[eE][-+]?[0-9]+)?) *(" + units.map { (u: UnitOfMeasure[D]) => u.symbol }.reduceLeft(_ + "|" + _) + ")$").r
+  private lazy val QuantityString = ("^([-+]?[0-9]*\\.?[0-9]+(?:[eE][-+]?[0-9]+)?) *(" + units.map { (u: UnitOfMeasure[Q]) => u.symbol }.reduceLeft(_ + "|" + _) + ")$").r
 
-  def parseTuple[A](t: (A, String))(implicit num: Numeric[A]): Try[Quantity[A, D]] = {
+  def parseTuple[A](t: (A, String))(implicit num: Numeric[A]): Try[Quantity[A, Q]] = {
     val value = t._1
     val symbol = t._2
     symbolToUnit(symbol) match {
@@ -75,7 +75,7 @@ abstract class Dimension(val name: String) {
     }
   }
 
-  implicit val dimensionImplicit: Dimension = this
+  implicit val dimensionImplicit: Dimension[Q] = this
 
   /**
    * Creates a QuantityNumeric for Quantities of this Dimension that can be used in operations that require Numerics.
@@ -85,12 +85,15 @@ abstract class Dimension(val name: String) {
    * @tparam A - The Numeric used for the underlying Quantity value
    * @return
    */
-  def numeric[A: Numeric]: QuantityNumeric[A, D] = new QuantityNumeric[A, D](this)
+  def numeric[A: Numeric]: QuantityNumeric[A, Q] = new QuantityNumeric[A, Q](this)
 
-  override def equals(that: Any): Boolean = that match {
-    case dimension: Dimension => dimension.getClass.getName == this.getClass.getName
-    case _                    => false
-  }
+//  override def equals(that: Any): Boolean = {
+//    that match {
+//      case dimension: Dimension[_] => if (dimension.name == this.name) true
+//      else false
+//      case _                    => false
+//    }
+//  }
 
   override def hashCode(): Int = getClass.getName.hashCode
 }
@@ -100,7 +103,7 @@ abstract class Dimension(val name: String) {
  * @param name The name of the Dimension
  * @param dimensionSymbol The SI dimension symbol
  */
-abstract class BaseDimension(name: String, val dimensionSymbol: String) extends Dimension(name) {
-  override def siUnit: UnitOfMeasure[D] with SiBaseUnit
+abstract class BaseDimension[Q[_] <: Quantity[_, Q]](name: String, val dimensionSymbol: String) extends Dimension[Q](name) {
+  override def siUnit: UnitOfMeasure[Q] with SiBaseUnit[Q]
   override private[squants2] def isSiBase = true
 }

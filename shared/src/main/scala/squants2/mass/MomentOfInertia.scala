@@ -11,9 +11,8 @@ package squants2.mass
 import squants2._
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class MomentOfInertia[A: Numeric] private [squants2]  (value: A, unit: MomentOfInertiaUnit)
-  extends Quantity[A, MomentOfInertia.type] {
-  override type Q[B] = MomentOfInertia[B]
+final case class MomentOfInertia[A: Numeric] private[squants2] (value: A, unit: MomentOfInertiaUnit)
+  extends Quantity[A, MomentOfInertia] {
 
   // BEGIN CUSTOM OPS
 
@@ -25,11 +24,11 @@ final case class MomentOfInertia[A: Numeric] private [squants2]  (value: A, unit
   def toPoundsSquareFeet[B: Numeric](implicit f: A => B): B = toNum[B](PoundsSquareFeet)
 }
 
-object MomentOfInertia extends Dimension("Moment Of Inertia") {
+object MomentOfInertia extends Dimension[MomentOfInertia]("Moment Of Inertia") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = KilogramsMetersSquared
-  override def siUnit: UnitOfMeasure[this.type] with SiUnit = KilogramsMetersSquared
-  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+  override def primaryUnit: UnitOfMeasure[MomentOfInertia] with PrimaryUnit[MomentOfInertia] = KilogramsMetersSquared
+  override def siUnit: UnitOfMeasure[MomentOfInertia] with SiUnit[MomentOfInertia] = KilogramsMetersSquared
+  override lazy val units: Set[UnitOfMeasure[MomentOfInertia]] = 
     Set(KilogramsMetersSquared, PoundsSquareFeet)
 
   implicit class MomentOfInertiaCons[A](a: A)(implicit num: Numeric[A]) {
@@ -40,17 +39,17 @@ object MomentOfInertia extends Dimension("Moment Of Inertia") {
   lazy val kilogramsMetersSquared: MomentOfInertia[Int] = KilogramsMetersSquared(1)
   lazy val poundsSquareFeet: MomentOfInertia[Int] = PoundsSquareFeet(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = MomentOfInertiaNumeric[A]()
-  private case class MomentOfInertiaNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
-    override def times(x: Quantity[A, MomentOfInertia.type], y: Quantity[A, MomentOfInertia.type]): Quantity[A, MomentOfInertia.this.type] =
+  override def numeric[A: Numeric]: QuantityNumeric[A, MomentOfInertia] = MomentOfInertiaNumeric[A]()
+  private case class MomentOfInertiaNumeric[A: Numeric]() extends QuantityNumeric[A, MomentOfInertia](this) {
+    override def times(x: Quantity[A, MomentOfInertia], y: Quantity[A, MomentOfInertia]): Quantity[A, MomentOfInertia] =
       KilogramsMetersSquared(x.to(KilogramsMetersSquared) * y.to(KilogramsMetersSquared))
   }
 }
 
-abstract class MomentOfInertiaUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[MomentOfInertia.type] {
-  override def dimension: MomentOfInertia.type = MomentOfInertia
+abstract class MomentOfInertiaUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[MomentOfInertia] {
+  override def dimension: Dimension[MomentOfInertia] = MomentOfInertia
   override def apply[A: Numeric](value: A): MomentOfInertia[A] = MomentOfInertia(value, this)
 }
 
-case object KilogramsMetersSquared extends MomentOfInertiaUnit("kg‧m²", 1) with PrimaryUnit with SiBaseUnit
+case object KilogramsMetersSquared extends MomentOfInertiaUnit("kg‧m²", 1) with PrimaryUnit[MomentOfInertia] with SiBaseUnit[MomentOfInertia]
 case object PoundsSquareFeet extends MomentOfInertiaUnit("lb‧ft²", 42.14027865441374)

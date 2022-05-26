@@ -11,9 +11,8 @@ package squants2.radio
 import squants2._
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class Activity[A: Numeric] private [squants2]  (value: A, unit: ActivityUnit)
-  extends Quantity[A, Activity.type] {
-  override type Q[B] = Activity[B]
+final case class Activity[A: Numeric] private[squants2] (value: A, unit: ActivityUnit)
+  extends Quantity[A, Activity] {
 
   // BEGIN CUSTOM OPS
 
@@ -25,11 +24,11 @@ final case class Activity[A: Numeric] private [squants2]  (value: A, unit: Activ
   def toCuries[B: Numeric](implicit f: A => B): B = toNum[B](Curies)
 }
 
-object Activity extends Dimension("Activity") {
+object Activity extends Dimension[Activity]("Activity") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = Becquerels
-  override def siUnit: UnitOfMeasure[this.type] with SiUnit = Becquerels
-  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+  override def primaryUnit: UnitOfMeasure[Activity] with PrimaryUnit[Activity] = Becquerels
+  override def siUnit: UnitOfMeasure[Activity] with SiUnit[Activity] = Becquerels
+  override lazy val units: Set[UnitOfMeasure[Activity]] = 
     Set(Becquerels, Rutherfords, Curies)
 
   implicit class ActivityCons[A](a: A)(implicit num: Numeric[A]) {
@@ -42,18 +41,18 @@ object Activity extends Dimension("Activity") {
   lazy val rutherfords: Activity[Int] = Rutherfords(1)
   lazy val curies: Activity[Int] = Curies(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = ActivityNumeric[A]()
-  private case class ActivityNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
-    override def times(x: Quantity[A, Activity.type], y: Quantity[A, Activity.type]): Quantity[A, Activity.this.type] =
+  override def numeric[A: Numeric]: QuantityNumeric[A, Activity] = ActivityNumeric[A]()
+  private case class ActivityNumeric[A: Numeric]() extends QuantityNumeric[A, Activity](this) {
+    override def times(x: Quantity[A, Activity], y: Quantity[A, Activity]): Quantity[A, Activity] =
       Becquerels(x.to(Becquerels) * y.to(Becquerels))
   }
 }
 
-abstract class ActivityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Activity.type] {
-  override def dimension: Activity.type = Activity
+abstract class ActivityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Activity] {
+  override def dimension: Dimension[Activity] = Activity
   override def apply[A: Numeric](value: A): Activity[A] = Activity(value, this)
 }
 
-case object Becquerels extends ActivityUnit("Bq", 1) with PrimaryUnit with SiUnit
+case object Becquerels extends ActivityUnit("Bq", 1) with PrimaryUnit[Activity] with SiUnit[Activity]
 case object Rutherfords extends ActivityUnit("Rd", MetricSystem.Mega)
 case object Curies extends ActivityUnit("Ci", 3.7E10)

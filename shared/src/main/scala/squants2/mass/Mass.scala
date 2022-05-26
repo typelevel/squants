@@ -11,9 +11,8 @@ package squants2.mass
 import squants2._
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class Mass[A: Numeric] private [squants2]  (value: A, unit: MassUnit)
-  extends Quantity[A, Mass.type] {
-  override type Q[B] = Mass[B]
+final case class Mass[A: Numeric] private[squants2] (value: A, unit: MassUnit)
+  extends Quantity[A, Mass] {
 
   // BEGIN CUSTOM OPS
 
@@ -56,11 +55,11 @@ final case class Mass[A: Numeric] private [squants2]  (value: A, unit: MassUnit)
   def toSolarMasses[B: Numeric](implicit f: A => B): B = toNum[B](SolarMasses)
 }
 
-object Mass extends BaseDimension("Mass", "M") {
+object Mass extends BaseDimension[Mass]("Mass", "M") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = Grams
-  override def siUnit: UnitOfMeasure[this.type] with SiBaseUnit = Kilograms
-  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+  override def primaryUnit: UnitOfMeasure[Mass] with PrimaryUnit[Mass] = Grams
+  override def siUnit: UnitOfMeasure[Mass] with SiBaseUnit[Mass] = Kilograms
+  override lazy val units: Set[UnitOfMeasure[Mass]] = 
     Set(MilliElectronVoltMass, ElectronVoltMass, KiloElectronVoltMass, MegaElectronVoltMass, GigaElectronVoltMass, Dalton, TeraElectronVoltMass, PetaElectronVoltMass, ExaElectronVoltMass, Nanograms, Micrograms, Milligrams, TroyGrains, Carats, Grams, Pennyweights, Tolas, Ounces, TroyOunces, TroyPounds, Pounds, Kilograms, Stone, Megapounds, Kilopounds, Tonnes, SolarMasses)
 
   implicit class MassCons[A](a: A)(implicit num: Numeric[A]) {
@@ -121,15 +120,15 @@ object Mass extends BaseDimension("Mass", "M") {
   lazy val tonnes: Mass[Int] = Tonnes(1)
   lazy val solarMasses: Mass[Int] = SolarMasses(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = MassNumeric[A]()
-  private case class MassNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
-    override def times(x: Quantity[A, Mass.type], y: Quantity[A, Mass.type]): Quantity[A, Mass.this.type] =
+  override def numeric[A: Numeric]: QuantityNumeric[A, Mass] = MassNumeric[A]()
+  private case class MassNumeric[A: Numeric]() extends QuantityNumeric[A, Mass](this) {
+    override def times(x: Quantity[A, Mass], y: Quantity[A, Mass]): Quantity[A, Mass] =
       Grams(x.to(Grams) * y.to(Grams))
   }
 }
 
-abstract class MassUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Mass.type] {
-  override def dimension: Mass.type = Mass
+abstract class MassUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Mass] {
+  override def dimension: Dimension[Mass] = Mass
   override def apply[A: Numeric](value: A): Mass[A] = Mass(value, this)
 }
 
@@ -142,19 +141,19 @@ case object Dalton extends MassUnit("Da", 1.6605390666E-24)
 case object TeraElectronVoltMass extends MassUnit("TeV/c²", 1.782662E-24)
 case object PetaElectronVoltMass extends MassUnit("PeV/c²", 1.782662E-21)
 case object ExaElectronVoltMass extends MassUnit("EeV/c²", 1.782662E-18)
-case object Nanograms extends MassUnit("ng", MetricSystem.Nano) with SiUnit
-case object Micrograms extends MassUnit("mcg", MetricSystem.Micro) with SiUnit
-case object Milligrams extends MassUnit("mg", MetricSystem.Milli) with SiUnit
+case object Nanograms extends MassUnit("ng", MetricSystem.Nano) with SiUnit[Mass]
+case object Micrograms extends MassUnit("mcg", MetricSystem.Micro) with SiUnit[Mass]
+case object Milligrams extends MassUnit("mg", MetricSystem.Milli) with SiUnit[Mass]
 case object TroyGrains extends MassUnit("gr", 0.06479891)
 case object Carats extends MassUnit("ct", 0.2)
-case object Grams extends MassUnit("g", 1) with PrimaryUnit with SiUnit
+case object Grams extends MassUnit("g", 1) with PrimaryUnit[Mass] with SiUnit[Mass]
 case object Pennyweights extends MassUnit("dwt", 1.5551738400000001)
 case object Tolas extends MassUnit("tola", 11.6638038)
 case object Ounces extends MassUnit("oz", 28.349523125)
 case object TroyOunces extends MassUnit("oz t", 31.1034768)
 case object TroyPounds extends MassUnit("lb t", 373.2417216)
 case object Pounds extends MassUnit("lb", 453.59237)
-case object Kilograms extends MassUnit("kg", MetricSystem.Kilo) with SiBaseUnit
+case object Kilograms extends MassUnit("kg", MetricSystem.Kilo) with SiBaseUnit[Mass]
 case object Stone extends MassUnit("st", 6350.293180000001)
 case object Megapounds extends MassUnit("Mlb", 453592.37)
 case object Kilopounds extends MassUnit("klb", 453592.37)

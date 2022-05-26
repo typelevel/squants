@@ -11,9 +11,8 @@ package squants2.motion
 import squants2._
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class Pressure[A: Numeric] private [squants2]  (value: A, unit: PressureUnit)
-  extends Quantity[A, Pressure.type] {
-  override type Q[B] = Pressure[B]
+final case class Pressure[A: Numeric] private[squants2] (value: A, unit: PressureUnit)
+  extends Quantity[A, Pressure] {
 
   // BEGIN CUSTOM OPS
 
@@ -30,11 +29,11 @@ final case class Pressure[A: Numeric] private [squants2]  (value: A, unit: Press
   def toStandardAtmospheres[B: Numeric](implicit f: A => B): B = toNum[B](StandardAtmospheres)
 }
 
-object Pressure extends Dimension("Pressure") {
+object Pressure extends Dimension[Pressure]("Pressure") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = Pascals
-  override def siUnit: UnitOfMeasure[this.type] with SiUnit = Pascals
-  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+  override def primaryUnit: UnitOfMeasure[Pressure] with PrimaryUnit[Pressure] = Pascals
+  override def siUnit: UnitOfMeasure[Pressure] with SiUnit[Pressure] = Pascals
+  override lazy val units: Set[UnitOfMeasure[Pressure]] = 
     Set(Pascals, Torrs, MillimetersOfMercury, InchesOfMercury, PoundsPerSquareInch, Bars, StandardAtmospheres)
 
   implicit class PressureCons[A](a: A)(implicit num: Numeric[A]) {
@@ -55,19 +54,19 @@ object Pressure extends Dimension("Pressure") {
   lazy val bars: Pressure[Int] = Bars(1)
   lazy val standardAtmospheres: Pressure[Int] = StandardAtmospheres(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = PressureNumeric[A]()
-  private case class PressureNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
-    override def times(x: Quantity[A, Pressure.type], y: Quantity[A, Pressure.type]): Quantity[A, Pressure.this.type] =
+  override def numeric[A: Numeric]: QuantityNumeric[A, Pressure] = PressureNumeric[A]()
+  private case class PressureNumeric[A: Numeric]() extends QuantityNumeric[A, Pressure](this) {
+    override def times(x: Quantity[A, Pressure], y: Quantity[A, Pressure]): Quantity[A, Pressure] =
       Pascals(x.to(Pascals) * y.to(Pascals))
   }
 }
 
-abstract class PressureUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Pressure.type] {
-  override def dimension: Pressure.type = Pressure
+abstract class PressureUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Pressure] {
+  override def dimension: Dimension[Pressure] = Pressure
   override def apply[A: Numeric](value: A): Pressure[A] = Pressure(value, this)
 }
 
-case object Pascals extends PressureUnit("Pa", 1) with PrimaryUnit with SiUnit
+case object Pascals extends PressureUnit("Pa", 1) with PrimaryUnit[Pressure] with SiUnit[Pressure]
 case object Torrs extends PressureUnit("Torr", 133.32236842105263)
 case object MillimetersOfMercury extends PressureUnit("mmHg", 133.322387415)
 case object InchesOfMercury extends PressureUnit("inHg", 3386.389)

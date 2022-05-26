@@ -11,9 +11,8 @@ package squants2.electro
 import squants2._
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class Permeability[A: Numeric] private [squants2]  (value: A, unit: PermeabilityUnit)
-  extends Quantity[A, Permeability.type] {
-  override type Q[B] = Permeability[B]
+final case class Permeability[A: Numeric] private[squants2] (value: A, unit: PermeabilityUnit)
+  extends Quantity[A, Permeability] {
 
   // BEGIN CUSTOM OPS
 
@@ -24,11 +23,11 @@ final case class Permeability[A: Numeric] private [squants2]  (value: A, unit: P
   def toNewtonsPerAmperesSquared[B: Numeric](implicit f: A => B): B = toNum[B](NewtonsPerAmperesSquared)
 }
 
-object Permeability extends Dimension("Permeability") {
+object Permeability extends Dimension[Permeability]("Permeability") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = HenriesPerMeter
-  override def siUnit: UnitOfMeasure[this.type] with SiUnit = HenriesPerMeter
-  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+  override def primaryUnit: UnitOfMeasure[Permeability] with PrimaryUnit[Permeability] = HenriesPerMeter
+  override def siUnit: UnitOfMeasure[Permeability] with SiUnit[Permeability] = HenriesPerMeter
+  override lazy val units: Set[UnitOfMeasure[Permeability]] = 
     Set(HenriesPerMeter, NewtonsPerAmperesSquared)
 
   implicit class PermeabilityCons[A](a: A)(implicit num: Numeric[A]) {
@@ -39,17 +38,17 @@ object Permeability extends Dimension("Permeability") {
   lazy val henriesPerMeter: Permeability[Int] = HenriesPerMeter(1)
   lazy val newtonsPerAmperesSquared: Permeability[Int] = NewtonsPerAmperesSquared(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = PermeabilityNumeric[A]()
-  private case class PermeabilityNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
-    override def times(x: Quantity[A, Permeability.type], y: Quantity[A, Permeability.type]): Quantity[A, Permeability.this.type] =
+  override def numeric[A: Numeric]: QuantityNumeric[A, Permeability] = PermeabilityNumeric[A]()
+  private case class PermeabilityNumeric[A: Numeric]() extends QuantityNumeric[A, Permeability](this) {
+    override def times(x: Quantity[A, Permeability], y: Quantity[A, Permeability]): Quantity[A, Permeability] =
       HenriesPerMeter(x.to(HenriesPerMeter) * y.to(HenriesPerMeter))
   }
 }
 
-abstract class PermeabilityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Permeability.type] {
-  override def dimension: Permeability.type = Permeability
+abstract class PermeabilityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Permeability] {
+  override def dimension: Dimension[Permeability] = Permeability
   override def apply[A: Numeric](value: A): Permeability[A] = Permeability(value, this)
 }
 
-case object HenriesPerMeter extends PermeabilityUnit("H/m", 1) with PrimaryUnit with SiUnit
-case object NewtonsPerAmperesSquared extends PermeabilityUnit("N/A²", 1) with PrimaryUnit with SiUnit
+case object HenriesPerMeter extends PermeabilityUnit("H/m", 1) with PrimaryUnit[Permeability] with SiUnit[Permeability]
+case object NewtonsPerAmperesSquared extends PermeabilityUnit("N/A²", 1) with PrimaryUnit[Permeability] with SiUnit[Permeability]

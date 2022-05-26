@@ -11,9 +11,8 @@ package squants2.electro
 import squants2._
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class MagneticFlux[A: Numeric] private [squants2]  (value: A, unit: MagneticFluxUnit)
-  extends Quantity[A, MagneticFlux.type] {
-  override type Q[B] = MagneticFlux[B]
+final case class MagneticFlux[A: Numeric] private[squants2] (value: A, unit: MagneticFluxUnit)
+  extends Quantity[A, MagneticFlux] {
 
   // BEGIN CUSTOM OPS
 
@@ -26,11 +25,11 @@ final case class MagneticFlux[A: Numeric] private [squants2]  (value: A, unit: M
   def toWebers[B: Numeric](implicit f: A => B): B = toNum[B](Webers)
 }
 
-object MagneticFlux extends Dimension("Magnetic Flux") {
+object MagneticFlux extends Dimension[MagneticFlux]("Magnetic Flux") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = Webers
-  override def siUnit: UnitOfMeasure[this.type] with SiUnit = Webers
-  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+  override def primaryUnit: UnitOfMeasure[MagneticFlux] with PrimaryUnit[MagneticFlux] = Webers
+  override def siUnit: UnitOfMeasure[MagneticFlux] with SiUnit[MagneticFlux] = Webers
+  override lazy val units: Set[UnitOfMeasure[MagneticFlux]] = 
     Set(Webers)
 
   implicit class MagneticFluxCons[A](a: A)(implicit num: Numeric[A]) {
@@ -39,16 +38,16 @@ object MagneticFlux extends Dimension("Magnetic Flux") {
 
   lazy val webers: MagneticFlux[Int] = Webers(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = MagneticFluxNumeric[A]()
-  private case class MagneticFluxNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
-    override def times(x: Quantity[A, MagneticFlux.type], y: Quantity[A, MagneticFlux.type]): Quantity[A, MagneticFlux.this.type] =
+  override def numeric[A: Numeric]: QuantityNumeric[A, MagneticFlux] = MagneticFluxNumeric[A]()
+  private case class MagneticFluxNumeric[A: Numeric]() extends QuantityNumeric[A, MagneticFlux](this) {
+    override def times(x: Quantity[A, MagneticFlux], y: Quantity[A, MagneticFlux]): Quantity[A, MagneticFlux] =
       Webers(x.to(Webers) * y.to(Webers))
   }
 }
 
-abstract class MagneticFluxUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[MagneticFlux.type] {
-  override def dimension: MagneticFlux.type = MagneticFlux
+abstract class MagneticFluxUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[MagneticFlux] {
+  override def dimension: Dimension[MagneticFlux] = MagneticFlux
   override def apply[A: Numeric](value: A): MagneticFlux[A] = MagneticFlux(value, this)
 }
 
-case object Webers extends MagneticFluxUnit("Wb", 1) with PrimaryUnit with SiUnit
+case object Webers extends MagneticFluxUnit("Wb", 1) with PrimaryUnit[MagneticFlux] with SiUnit[MagneticFlux]

@@ -11,9 +11,8 @@ package squants2.mass
 import squants2._
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class Density[A: Numeric] private [squants2]  (value: A, unit: DensityUnit)
-  extends Quantity[A, Density.type] {
-  override type Q[B] = Density[B]
+final case class Density[A: Numeric] private[squants2] (value: A, unit: DensityUnit)
+  extends Quantity[A, Density] {
 
   // BEGIN CUSTOM OPS
 
@@ -43,11 +42,11 @@ final case class Density[A: Numeric] private [squants2]  (value: A, unit: Densit
   def toKilogramsPerNanolitre[B: Numeric](implicit f: A => B): B = toNum[B](KilogramsPerNanolitre)
 }
 
-object Density extends Dimension("Density") {
+object Density extends Dimension[Density]("Density") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = KilogramsPerCubicMeter
-  override def siUnit: UnitOfMeasure[this.type] with SiUnit = KilogramsPerCubicMeter
-  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+  override def primaryUnit: UnitOfMeasure[Density] with PrimaryUnit[Density] = KilogramsPerCubicMeter
+  override def siUnit: UnitOfMeasure[Density] with SiUnit[Density] = KilogramsPerCubicMeter
+  override lazy val units: Set[UnitOfMeasure[Density]] = 
     Set(NanogramsPerLitre, MicrogramsPerLitre, NanogramsPerMillilitre, MicrogramsPerMillilitre, MilligramsPerLitre, NanogramsPerMicrolitre, NanogramsPerNanolitre, MicrogramsPerMicrolitre, GramsPerLitre, KilogramsPerCubicMeter, MilligramsPerMillilitre, MicrogramsPerNanolitre, MilligramsPerMicrolitre, KilogramsPerLitre, GramsPerMillilitre, MilligramsPerNanolitre, GramsPerMicrolitre, KilogramsPerMillilitre, GramsPerNanolitre, KilogramsPerMicrolitre, KilogramsPerNanolitre)
 
   implicit class DensityCons[A](a: A)(implicit num: Numeric[A]) {
@@ -96,15 +95,15 @@ object Density extends Dimension("Density") {
   lazy val kilogramsPerMicrolitre: Density[Int] = KilogramsPerMicrolitre(1)
   lazy val kilogramsPerNanolitre: Density[Int] = KilogramsPerNanolitre(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = DensityNumeric[A]()
-  private case class DensityNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
-    override def times(x: Quantity[A, Density.type], y: Quantity[A, Density.type]): Quantity[A, Density.this.type] =
+  override def numeric[A: Numeric]: QuantityNumeric[A, Density] = DensityNumeric[A]()
+  private case class DensityNumeric[A: Numeric]() extends QuantityNumeric[A, Density](this) {
+    override def times(x: Quantity[A, Density], y: Quantity[A, Density]): Quantity[A, Density] =
       KilogramsPerCubicMeter(x.to(KilogramsPerCubicMeter) * y.to(KilogramsPerCubicMeter))
   }
 }
 
-abstract class DensityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Density.type] {
-  override def dimension: Density.type = Density
+abstract class DensityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Density] {
+  override def dimension: Dimension[Density] = Density
   override def apply[A: Numeric](value: A): Density[A] = Density(value, this)
 }
 
@@ -117,7 +116,7 @@ case object NanogramsPerMicrolitre extends DensityUnit("ng/µl", MetricSystem.Mi
 case object NanogramsPerNanolitre extends DensityUnit("ng/nl", 0.9999999999999998)
 case object MicrogramsPerMicrolitre extends DensityUnit("µg/µl", 0.9999999999999998)
 case object GramsPerLitre extends DensityUnit("g/L", 1)
-case object KilogramsPerCubicMeter extends DensityUnit("kg/m³", 1) with PrimaryUnit with SiUnit
+case object KilogramsPerCubicMeter extends DensityUnit("kg/m³", 1) with PrimaryUnit[Density] with SiUnit[Density]
 case object MilligramsPerMillilitre extends DensityUnit("mg/ml", 1)
 case object MicrogramsPerNanolitre extends DensityUnit("µg/nl", 999.9999999999997)
 case object MilligramsPerMicrolitre extends DensityUnit("mg/µl", 999.9999999999999)

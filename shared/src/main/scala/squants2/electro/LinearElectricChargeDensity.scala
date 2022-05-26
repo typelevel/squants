@@ -11,9 +11,8 @@ package squants2.electro
 import squants2._
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class LinearElectricChargeDensity[A: Numeric] private [squants2]  (value: A, unit: LinearElectricChargeDensityUnit)
-  extends Quantity[A, LinearElectricChargeDensity.type] {
-  override type Q[B] = LinearElectricChargeDensity[B]
+final case class LinearElectricChargeDensity[A: Numeric] private[squants2] (value: A, unit: LinearElectricChargeDensityUnit)
+  extends Quantity[A, LinearElectricChargeDensity] {
 
   // BEGIN CUSTOM OPS
 
@@ -24,11 +23,11 @@ final case class LinearElectricChargeDensity[A: Numeric] private [squants2]  (va
   def toCoulombsPerMeter[B: Numeric](implicit f: A => B): B = toNum[B](CoulombsPerMeter)
 }
 
-object LinearElectricChargeDensity extends Dimension("Linear Electric Charge Density") {
+object LinearElectricChargeDensity extends Dimension[LinearElectricChargeDensity]("Linear Electric Charge Density") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = CoulombsPerMeter
-  override def siUnit: UnitOfMeasure[this.type] with SiUnit = CoulombsPerMeter
-  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+  override def primaryUnit: UnitOfMeasure[LinearElectricChargeDensity] with PrimaryUnit[LinearElectricChargeDensity] = CoulombsPerMeter
+  override def siUnit: UnitOfMeasure[LinearElectricChargeDensity] with SiUnit[LinearElectricChargeDensity] = CoulombsPerMeter
+  override lazy val units: Set[UnitOfMeasure[LinearElectricChargeDensity]] = 
     Set(CoulombsPerMeter)
 
   implicit class LinearElectricChargeDensityCons[A](a: A)(implicit num: Numeric[A]) {
@@ -37,16 +36,16 @@ object LinearElectricChargeDensity extends Dimension("Linear Electric Charge Den
 
   lazy val coulombsPerMeter: LinearElectricChargeDensity[Int] = CoulombsPerMeter(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = LinearElectricChargeDensityNumeric[A]()
-  private case class LinearElectricChargeDensityNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
-    override def times(x: Quantity[A, LinearElectricChargeDensity.type], y: Quantity[A, LinearElectricChargeDensity.type]): Quantity[A, LinearElectricChargeDensity.this.type] =
+  override def numeric[A: Numeric]: QuantityNumeric[A, LinearElectricChargeDensity] = LinearElectricChargeDensityNumeric[A]()
+  private case class LinearElectricChargeDensityNumeric[A: Numeric]() extends QuantityNumeric[A, LinearElectricChargeDensity](this) {
+    override def times(x: Quantity[A, LinearElectricChargeDensity], y: Quantity[A, LinearElectricChargeDensity]): Quantity[A, LinearElectricChargeDensity] =
       CoulombsPerMeter(x.to(CoulombsPerMeter) * y.to(CoulombsPerMeter))
   }
 }
 
-abstract class LinearElectricChargeDensityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[LinearElectricChargeDensity.type] {
-  override def dimension: LinearElectricChargeDensity.type = LinearElectricChargeDensity
+abstract class LinearElectricChargeDensityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[LinearElectricChargeDensity] {
+  override def dimension: Dimension[LinearElectricChargeDensity] = LinearElectricChargeDensity
   override def apply[A: Numeric](value: A): LinearElectricChargeDensity[A] = LinearElectricChargeDensity(value, this)
 }
 
-case object CoulombsPerMeter extends LinearElectricChargeDensityUnit("C/m", 1) with PrimaryUnit with SiUnit
+case object CoulombsPerMeter extends LinearElectricChargeDensityUnit("C/m", 1) with PrimaryUnit[LinearElectricChargeDensity] with SiUnit[LinearElectricChargeDensity]

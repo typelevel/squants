@@ -11,9 +11,8 @@ package squants2.thermal
 import squants2._
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class ThermalCapacity[A: Numeric] private [squants2]  (value: A, unit: ThermalCapacityUnit)
-  extends Quantity[A, ThermalCapacity.type] {
-  override type Q[B] = ThermalCapacity[B]
+final case class ThermalCapacity[A: Numeric] private[squants2] (value: A, unit: ThermalCapacityUnit)
+  extends Quantity[A, ThermalCapacity] {
 
   // BEGIN CUSTOM OPS
 
@@ -23,11 +22,11 @@ final case class ThermalCapacity[A: Numeric] private [squants2]  (value: A, unit
   def toJoulesPerKelvin[B: Numeric](implicit f: A => B): B = toNum[B](JoulesPerKelvin)
 }
 
-object ThermalCapacity extends Dimension("Thermal Capacity") {
+object ThermalCapacity extends Dimension[ThermalCapacity]("Thermal Capacity") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = JoulesPerKelvin
-  override def siUnit: UnitOfMeasure[this.type] with SiUnit = JoulesPerKelvin
-  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+  override def primaryUnit: UnitOfMeasure[ThermalCapacity] with PrimaryUnit[ThermalCapacity] = JoulesPerKelvin
+  override def siUnit: UnitOfMeasure[ThermalCapacity] with SiUnit[ThermalCapacity] = JoulesPerKelvin
+  override lazy val units: Set[UnitOfMeasure[ThermalCapacity]] = 
     Set(JoulesPerKelvin)
 
   implicit class ThermalCapacityCons[A](a: A)(implicit num: Numeric[A]) {
@@ -36,16 +35,16 @@ object ThermalCapacity extends Dimension("Thermal Capacity") {
 
   lazy val joulesPerKelvin: ThermalCapacity[Int] = JoulesPerKelvin(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = ThermalCapacityNumeric[A]()
-  private case class ThermalCapacityNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
-    override def times(x: Quantity[A, ThermalCapacity.type], y: Quantity[A, ThermalCapacity.type]): Quantity[A, ThermalCapacity.this.type] =
+  override def numeric[A: Numeric]: QuantityNumeric[A, ThermalCapacity] = ThermalCapacityNumeric[A]()
+  private case class ThermalCapacityNumeric[A: Numeric]() extends QuantityNumeric[A, ThermalCapacity](this) {
+    override def times(x: Quantity[A, ThermalCapacity], y: Quantity[A, ThermalCapacity]): Quantity[A, ThermalCapacity] =
       JoulesPerKelvin(x.to(JoulesPerKelvin) * y.to(JoulesPerKelvin))
   }
 }
 
-abstract class ThermalCapacityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[ThermalCapacity.type] {
-  override def dimension: ThermalCapacity.type = ThermalCapacity
+abstract class ThermalCapacityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[ThermalCapacity] {
+  override def dimension: Dimension[ThermalCapacity] = ThermalCapacity
   override def apply[A: Numeric](value: A): ThermalCapacity[A] = ThermalCapacity(value, this)
 }
 
-case object JoulesPerKelvin extends ThermalCapacityUnit("J/K", 1) with PrimaryUnit with SiUnit
+case object JoulesPerKelvin extends ThermalCapacityUnit("J/K", 1) with PrimaryUnit[ThermalCapacity] with SiUnit[ThermalCapacity]

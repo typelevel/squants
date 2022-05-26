@@ -11,9 +11,8 @@ package squants2.space
 import squants2._
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class Volume[A: Numeric] private [squants2]  (value: A, unit: VolumeUnit)
-  extends Quantity[A, Volume.type] {
-  override type Q[B] = Volume[B]
+final case class Volume[A: Numeric] private[squants2] (value: A, unit: VolumeUnit)
+  extends Quantity[A, Volume] {
 
   // BEGIN CUSTOM OPS
 
@@ -48,11 +47,11 @@ final case class Volume[A: Numeric] private [squants2]  (value: A, unit: VolumeU
   def toCubicUsMiles[B: Numeric](implicit f: A => B): B = toNum[B](CubicUsMiles)
 }
 
-object Volume extends Dimension("Volume") {
+object Volume extends Dimension[Volume]("Volume") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = CubicMeters
-  override def siUnit: UnitOfMeasure[this.type] with SiUnit = CubicMeters
-  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+  override def primaryUnit: UnitOfMeasure[Volume] with PrimaryUnit[Volume] = CubicMeters
+  override def siUnit: UnitOfMeasure[Volume] with SiUnit[Volume] = CubicMeters
+  override lazy val units: Set[UnitOfMeasure[Volume]] = 
     Set(Nanolitres, Microlitres, Millilitres, Teaspoons, Centilitres, Tablespoons, CubicInches, FluidOunces, Decilitres, UsCups, UsPints, UsQuarts, Litres, UsGallons, CubicFeet, Hectolitres, CubicYards, CubicMeters, AcreFeet, CubicUsMiles)
 
   implicit class VolumeCons[A](a: A)(implicit num: Numeric[A]) {
@@ -99,15 +98,15 @@ object Volume extends Dimension("Volume") {
   lazy val acreFeet: Volume[Int] = AcreFeet(1)
   lazy val cubicUsMiles: Volume[Int] = CubicUsMiles(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = VolumeNumeric[A]()
-  private case class VolumeNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
-    override def times(x: Quantity[A, Volume.type], y: Quantity[A, Volume.type]): Quantity[A, Volume.this.type] =
+  override def numeric[A: Numeric]: QuantityNumeric[A, Volume] = VolumeNumeric[A]()
+  private case class VolumeNumeric[A: Numeric]() extends QuantityNumeric[A, Volume](this) {
+    override def times(x: Quantity[A, Volume], y: Quantity[A, Volume]): Quantity[A, Volume] =
       CubicMeters(x.to(CubicMeters) * y.to(CubicMeters))
   }
 }
 
-abstract class VolumeUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Volume.type] {
-  override def dimension: Volume.type = Volume
+abstract class VolumeUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Volume] {
+  override def dimension: Dimension[Volume] = Volume
   override def apply[A: Numeric](value: A): Volume[A] = Volume(value, this)
 }
 
@@ -128,6 +127,6 @@ case object UsGallons extends VolumeUnit("gal", 0.0037854117839999997)
 case object CubicFeet extends VolumeUnit("ft³", 0.028317016493419354)
 case object Hectolitres extends VolumeUnit("hl", MetricSystem.Deci)
 case object CubicYards extends VolumeUnit("yd³", 0.7645594453223226)
-case object CubicMeters extends VolumeUnit("m³", 1) with PrimaryUnit with SiUnit
+case object CubicMeters extends VolumeUnit("m³", 1) with PrimaryUnit[Volume] with SiUnit[Volume]
 case object AcreFeet extends VolumeUnit("acft", 1233.489238453347)
 case object CubicUsMiles extends VolumeUnit("mi³", 4.1682068345815496E9)

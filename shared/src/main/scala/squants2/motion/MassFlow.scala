@@ -11,9 +11,8 @@ package squants2.motion
 import squants2._
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class MassFlow[A: Numeric] private [squants2]  (value: A, unit: MassFlowUnit)
-  extends Quantity[A, MassFlow.type] {
-  override type Q[B] = MassFlow[B]
+final case class MassFlow[A: Numeric] private[squants2] (value: A, unit: MassFlowUnit)
+  extends Quantity[A, MassFlow] {
 
   // BEGIN CUSTOM OPS
 
@@ -27,11 +26,11 @@ final case class MassFlow[A: Numeric] private [squants2]  (value: A, unit: MassF
   def toMegapoundsPerHour[B: Numeric](implicit f: A => B): B = toNum[B](MegapoundsPerHour)
 }
 
-object MassFlow extends Dimension("Mass Flow") {
+object MassFlow extends Dimension[MassFlow]("Mass Flow") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = KilogramsPerSecond
-  override def siUnit: UnitOfMeasure[this.type] with SiUnit = KilogramsPerSecond
-  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+  override def primaryUnit: UnitOfMeasure[MassFlow] with PrimaryUnit[MassFlow] = KilogramsPerSecond
+  override def siUnit: UnitOfMeasure[MassFlow] with SiUnit[MassFlow] = KilogramsPerSecond
+  override lazy val units: Set[UnitOfMeasure[MassFlow]] = 
     Set(PoundsPerHour, KilopoundsPerHour, PoundsPerSecond, KilogramsPerSecond, MegapoundsPerHour)
 
   implicit class MassFlowCons[A](a: A)(implicit num: Numeric[A]) {
@@ -48,20 +47,20 @@ object MassFlow extends Dimension("Mass Flow") {
   lazy val kilogramsPerSecond: MassFlow[Int] = KilogramsPerSecond(1)
   lazy val megapoundsPerHour: MassFlow[Int] = MegapoundsPerHour(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = MassFlowNumeric[A]()
-  private case class MassFlowNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
-    override def times(x: Quantity[A, MassFlow.type], y: Quantity[A, MassFlow.type]): Quantity[A, MassFlow.this.type] =
+  override def numeric[A: Numeric]: QuantityNumeric[A, MassFlow] = MassFlowNumeric[A]()
+  private case class MassFlowNumeric[A: Numeric]() extends QuantityNumeric[A, MassFlow](this) {
+    override def times(x: Quantity[A, MassFlow], y: Quantity[A, MassFlow]): Quantity[A, MassFlow] =
       KilogramsPerSecond(x.to(KilogramsPerSecond) * y.to(KilogramsPerSecond))
   }
 }
 
-abstract class MassFlowUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[MassFlow.type] {
-  override def dimension: MassFlow.type = MassFlow
+abstract class MassFlowUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[MassFlow] {
+  override def dimension: Dimension[MassFlow] = MassFlow
   override def apply[A: Numeric](value: A): MassFlow[A] = MassFlow(value, this)
 }
 
 case object PoundsPerHour extends MassFlowUnit("lb/hr", 1.2599788055555556E-4)
 case object KilopoundsPerHour extends MassFlowUnit("klb/hr", 0.12599788055555555)
 case object PoundsPerSecond extends MassFlowUnit("lb/s", 0.45359237)
-case object KilogramsPerSecond extends MassFlowUnit("kg/s", 1) with PrimaryUnit with SiUnit
+case object KilogramsPerSecond extends MassFlowUnit("kg/s", 1) with PrimaryUnit[MassFlow] with SiUnit[MassFlow]
 case object MegapoundsPerHour extends MassFlowUnit("Mlb/hr", 125.99788055555557)

@@ -11,9 +11,8 @@ package squants2.energy
 import squants2._
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class MolarEnergy[A: Numeric] private [squants2]  (value: A, unit: MolarEnergyUnit)
-  extends Quantity[A, MolarEnergy.type] {
-  override type Q[B] = MolarEnergy[B]
+final case class MolarEnergy[A: Numeric] private[squants2] (value: A, unit: MolarEnergyUnit)
+  extends Quantity[A, MolarEnergy] {
 
   // BEGIN CUSTOM OPS
 
@@ -23,11 +22,11 @@ final case class MolarEnergy[A: Numeric] private [squants2]  (value: A, unit: Mo
   def toJoulesPerMole[B: Numeric](implicit f: A => B): B = toNum[B](JoulesPerMole)
 }
 
-object MolarEnergy extends Dimension("Molar Energy") {
+object MolarEnergy extends Dimension[MolarEnergy]("Molar Energy") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = JoulesPerMole
-  override def siUnit: UnitOfMeasure[this.type] with SiUnit = JoulesPerMole
-  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+  override def primaryUnit: UnitOfMeasure[MolarEnergy] with PrimaryUnit[MolarEnergy] = JoulesPerMole
+  override def siUnit: UnitOfMeasure[MolarEnergy] with SiUnit[MolarEnergy] = JoulesPerMole
+  override lazy val units: Set[UnitOfMeasure[MolarEnergy]] = 
     Set(JoulesPerMole)
 
   implicit class MolarEnergyCons[A](a: A)(implicit num: Numeric[A]) {
@@ -36,16 +35,16 @@ object MolarEnergy extends Dimension("Molar Energy") {
 
   lazy val joulesPerMole: MolarEnergy[Int] = JoulesPerMole(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = MolarEnergyNumeric[A]()
-  private case class MolarEnergyNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
-    override def times(x: Quantity[A, MolarEnergy.type], y: Quantity[A, MolarEnergy.type]): Quantity[A, MolarEnergy.this.type] =
+  override def numeric[A: Numeric]: QuantityNumeric[A, MolarEnergy] = MolarEnergyNumeric[A]()
+  private case class MolarEnergyNumeric[A: Numeric]() extends QuantityNumeric[A, MolarEnergy](this) {
+    override def times(x: Quantity[A, MolarEnergy], y: Quantity[A, MolarEnergy]): Quantity[A, MolarEnergy] =
       JoulesPerMole(x.to(JoulesPerMole) * y.to(JoulesPerMole))
   }
 }
 
-abstract class MolarEnergyUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[MolarEnergy.type] {
-  override def dimension: MolarEnergy.type = MolarEnergy
+abstract class MolarEnergyUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[MolarEnergy] {
+  override def dimension: Dimension[MolarEnergy] = MolarEnergy
   override def apply[A: Numeric](value: A): MolarEnergy[A] = MolarEnergy(value, this)
 }
 
-case object JoulesPerMole extends MolarEnergyUnit("J/mol", 1) with PrimaryUnit with SiUnit
+case object JoulesPerMole extends MolarEnergyUnit("J/mol", 1) with PrimaryUnit[MolarEnergy] with SiUnit[MolarEnergy]

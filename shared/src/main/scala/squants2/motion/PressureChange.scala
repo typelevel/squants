@@ -11,9 +11,8 @@ package squants2.motion
 import squants2._
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class PressureChange[A: Numeric] private [squants2]  (value: A, unit: PressureChangeUnit)
-  extends Quantity[A, PressureChange.type] {
-  override type Q[B] = PressureChange[B]
+final case class PressureChange[A: Numeric] private[squants2] (value: A, unit: PressureChangeUnit)
+  extends Quantity[A, PressureChange] {
 
   // BEGIN CUSTOM OPS
 
@@ -26,11 +25,11 @@ final case class PressureChange[A: Numeric] private [squants2]  (value: A, unit:
   def toStandardAtmospheresPerSecond[B: Numeric](implicit f: A => B): B = toNum[B](StandardAtmospheresPerSecond)
 }
 
-object PressureChange extends Dimension("Pressure Change") {
+object PressureChange extends Dimension[PressureChange]("Pressure Change") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = PascalsPerSecond
-  override def siUnit: UnitOfMeasure[this.type] with SiUnit = PascalsPerSecond
-  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+  override def primaryUnit: UnitOfMeasure[PressureChange] with PrimaryUnit[PressureChange] = PascalsPerSecond
+  override def siUnit: UnitOfMeasure[PressureChange] with SiUnit[PressureChange] = PascalsPerSecond
+  override lazy val units: Set[UnitOfMeasure[PressureChange]] = 
     Set(PascalsPerSecond, PoundsPerSquareInchPerSecond, BarsPerSecond, StandardAtmospheresPerSecond)
 
   implicit class PressureChangeCons[A](a: A)(implicit num: Numeric[A]) {
@@ -45,19 +44,19 @@ object PressureChange extends Dimension("Pressure Change") {
   lazy val barsPerSecond: PressureChange[Int] = BarsPerSecond(1)
   lazy val standardAtmospheresPerSecond: PressureChange[Int] = StandardAtmospheresPerSecond(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = PressureChangeNumeric[A]()
-  private case class PressureChangeNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
-    override def times(x: Quantity[A, PressureChange.type], y: Quantity[A, PressureChange.type]): Quantity[A, PressureChange.this.type] =
+  override def numeric[A: Numeric]: QuantityNumeric[A, PressureChange] = PressureChangeNumeric[A]()
+  private case class PressureChangeNumeric[A: Numeric]() extends QuantityNumeric[A, PressureChange](this) {
+    override def times(x: Quantity[A, PressureChange], y: Quantity[A, PressureChange]): Quantity[A, PressureChange] =
       PascalsPerSecond(x.to(PascalsPerSecond) * y.to(PascalsPerSecond))
   }
 }
 
-abstract class PressureChangeUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[PressureChange.type] {
-  override def dimension: PressureChange.type = PressureChange
+abstract class PressureChangeUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[PressureChange] {
+  override def dimension: Dimension[PressureChange] = PressureChange
   override def apply[A: Numeric](value: A): PressureChange[A] = PressureChange(value, this)
 }
 
-case object PascalsPerSecond extends PressureChangeUnit("Pa/s", 1) with PrimaryUnit with SiUnit
+case object PascalsPerSecond extends PressureChangeUnit("Pa/s", 1) with PrimaryUnit[PressureChange] with SiUnit[PressureChange]
 case object PoundsPerSquareInchPerSecond extends PressureChangeUnit("psi/s", 6894.757293168361)
 case object BarsPerSecond extends PressureChangeUnit("bar/s", 100000)
 case object StandardAtmospheresPerSecond extends PressureChangeUnit("atm/s", 101325)

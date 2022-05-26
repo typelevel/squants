@@ -11,9 +11,8 @@ package squants2.energy
 import squants2._
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class Power[A: Numeric] private [squants2]  (value: A, unit: PowerUnit)
-  extends Quantity[A, Power.type] {
-  override type Q[B] = Power[B]
+final case class Power[A: Numeric] private[squants2] (value: A, unit: PowerUnit)
+  extends Quantity[A, Power] {
 
   // BEGIN CUSTOM OPS
 
@@ -39,11 +38,11 @@ final case class Power[A: Numeric] private [squants2]  (value: A, unit: PowerUni
   def toSolarLuminosities[B: Numeric](implicit f: A => B): B = toNum[B](SolarLuminosities)
 }
 
-object Power extends Dimension("Power") {
+object Power extends Dimension[Power]("Power") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = Watts
-  override def siUnit: UnitOfMeasure[this.type] with SiUnit = Watts
-  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+  override def primaryUnit: UnitOfMeasure[Power] with PrimaryUnit[Power] = Watts
+  override def siUnit: UnitOfMeasure[Power] with SiUnit[Power] = Watts
+  override lazy val units: Set[UnitOfMeasure[Power]] = 
     Set(ErgsPerSecond, Milliwatts, BtusPerHour, Watts, Kilowatts, Megawatts, Gigawatts, SolarLuminosities)
 
   implicit class PowerCons[A](a: A)(implicit num: Numeric[A]) {
@@ -66,23 +65,23 @@ object Power extends Dimension("Power") {
   lazy val gigawatts: Power[Int] = Gigawatts(1)
   lazy val solarLuminosities: Power[Int] = SolarLuminosities(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = PowerNumeric[A]()
-  private case class PowerNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
-    override def times(x: Quantity[A, Power.type], y: Quantity[A, Power.type]): Quantity[A, Power.this.type] =
+  override def numeric[A: Numeric]: QuantityNumeric[A, Power] = PowerNumeric[A]()
+  private case class PowerNumeric[A: Numeric]() extends QuantityNumeric[A, Power](this) {
+    override def times(x: Quantity[A, Power], y: Quantity[A, Power]): Quantity[A, Power] =
       Watts(x.to(Watts) * y.to(Watts))
   }
 }
 
-abstract class PowerUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Power.type] {
-  override def dimension: Power.type = Power
+abstract class PowerUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Power] {
+  override def dimension: Dimension[Power] = Power
   override def apply[A: Numeric](value: A): Power[A] = Power(value, this)
 }
 
 case object ErgsPerSecond extends PowerUnit("erg/s", 1.0E-7)
-case object Milliwatts extends PowerUnit("mW", MetricSystem.Milli) with SiUnit
+case object Milliwatts extends PowerUnit("mW", MetricSystem.Milli) with SiUnit[Power]
 case object BtusPerHour extends PowerUnit("Btu/hr", 0.2930710701722222)
-case object Watts extends PowerUnit("W", 1) with PrimaryUnit with SiUnit
-case object Kilowatts extends PowerUnit("kW", MetricSystem.Kilo) with SiUnit
-case object Megawatts extends PowerUnit("MW", MetricSystem.Mega) with SiUnit
-case object Gigawatts extends PowerUnit("GW", MetricSystem.Giga) with SiUnit
+case object Watts extends PowerUnit("W", 1) with PrimaryUnit[Power] with SiUnit[Power]
+case object Kilowatts extends PowerUnit("kW", MetricSystem.Kilo) with SiUnit[Power]
+case object Megawatts extends PowerUnit("MW", MetricSystem.Mega) with SiUnit[Power]
+case object Gigawatts extends PowerUnit("GW", MetricSystem.Giga) with SiUnit[Power]
 case object SolarLuminosities extends PowerUnit("L☉", 3.828E26)

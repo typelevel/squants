@@ -11,9 +11,8 @@ package squants2.motion
 import squants2._
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class Force[A: Numeric] private [squants2]  (value: A, unit: ForceUnit)
-  extends Quantity[A, Force.type] {
-  override type Q[B] = Force[B]
+final case class Force[A: Numeric] private[squants2] (value: A, unit: ForceUnit)
+  extends Quantity[A, Force] {
 
   // BEGIN CUSTOM OPS
 
@@ -33,11 +32,11 @@ final case class Force[A: Numeric] private [squants2]  (value: A, unit: ForceUni
   def toKilogramForce[B: Numeric](implicit f: A => B): B = toNum[B](KilogramForce)
 }
 
-object Force extends Dimension("Force") {
+object Force extends Dimension[Force]("Force") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = Newtons
-  override def siUnit: UnitOfMeasure[this.type] with SiUnit = Newtons
-  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+  override def primaryUnit: UnitOfMeasure[Force] with PrimaryUnit[Force] = Newtons
+  override def siUnit: UnitOfMeasure[Force] with SiUnit[Force] = Newtons
+  override lazy val units: Set[UnitOfMeasure[Force]] = 
     Set(MegaElectronVoltsPerCentimeter, KiloElectronVoltsPerMicrometer, Newtons, PoundForce, KilogramForce)
 
   implicit class ForceCons[A](a: A)(implicit num: Numeric[A]) {
@@ -54,20 +53,20 @@ object Force extends Dimension("Force") {
   lazy val poundForce: Force[Int] = PoundForce(1)
   lazy val kilogramForce: Force[Int] = KilogramForce(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = ForceNumeric[A]()
-  private case class ForceNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
-    override def times(x: Quantity[A, Force.type], y: Quantity[A, Force.type]): Quantity[A, Force.this.type] =
+  override def numeric[A: Numeric]: QuantityNumeric[A, Force] = ForceNumeric[A]()
+  private case class ForceNumeric[A: Numeric]() extends QuantityNumeric[A, Force](this) {
+    override def times(x: Quantity[A, Force], y: Quantity[A, Force]): Quantity[A, Force] =
       Newtons(x.to(Newtons) * y.to(Newtons))
   }
 }
 
-abstract class ForceUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Force.type] {
-  override def dimension: Force.type = Force
+abstract class ForceUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Force] {
+  override def dimension: Dimension[Force] = Force
   override def apply[A: Numeric](value: A): Force[A] = Force(value, this)
 }
 
 case object MegaElectronVoltsPerCentimeter extends ForceUnit("MeV/cm", 1.602176565E-11)
 case object KiloElectronVoltsPerMicrometer extends ForceUnit("keV/μm", 1.602176565E-10)
-case object Newtons extends ForceUnit("N", 1) with PrimaryUnit with SiUnit
+case object Newtons extends ForceUnit("N", 1) with PrimaryUnit[Force] with SiUnit[Force]
 case object PoundForce extends ForceUnit("lbf", 4.4482216152605)
 case object KilogramForce extends ForceUnit("kgf", 9.80665)

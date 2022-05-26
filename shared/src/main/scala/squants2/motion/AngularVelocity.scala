@@ -11,9 +11,8 @@ package squants2.motion
 import squants2._
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class AngularVelocity[A: Numeric] private [squants2]  (value: A, unit: AngularVelocityUnit)
-  extends Quantity[A, AngularVelocity.type] {
-  override type Q[B] = AngularVelocity[B]
+final case class AngularVelocity[A: Numeric] private[squants2] (value: A, unit: AngularVelocityUnit)
+  extends Quantity[A, AngularVelocity] {
 
   // BEGIN CUSTOM OPS
 
@@ -27,11 +26,11 @@ final case class AngularVelocity[A: Numeric] private [squants2]  (value: A, unit
   def toTurnsPerSecond[B: Numeric](implicit f: A => B): B = toNum[B](TurnsPerSecond)
 }
 
-object AngularVelocity extends Dimension("Angular Velocity") {
+object AngularVelocity extends Dimension[AngularVelocity]("Angular Velocity") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = RadiansPerSecond
-  override def siUnit: UnitOfMeasure[this.type] with SiUnit = RadiansPerSecond
-  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+  override def primaryUnit: UnitOfMeasure[AngularVelocity] with PrimaryUnit[AngularVelocity] = RadiansPerSecond
+  override def siUnit: UnitOfMeasure[AngularVelocity] with SiUnit[AngularVelocity] = RadiansPerSecond
+  override lazy val units: Set[UnitOfMeasure[AngularVelocity]] = 
     Set(GradiansPerSecond, DegreesPerSecond, RadiansPerSecond, TurnsPerSecond)
 
   implicit class AngularVelocityCons[A](a: A)(implicit num: Numeric[A]) {
@@ -46,19 +45,19 @@ object AngularVelocity extends Dimension("Angular Velocity") {
   lazy val radiansPerSecond: AngularVelocity[Int] = RadiansPerSecond(1)
   lazy val turnsPerSecond: AngularVelocity[Int] = TurnsPerSecond(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = AngularVelocityNumeric[A]()
-  private case class AngularVelocityNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
-    override def times(x: Quantity[A, AngularVelocity.type], y: Quantity[A, AngularVelocity.type]): Quantity[A, AngularVelocity.this.type] =
+  override def numeric[A: Numeric]: QuantityNumeric[A, AngularVelocity] = AngularVelocityNumeric[A]()
+  private case class AngularVelocityNumeric[A: Numeric]() extends QuantityNumeric[A, AngularVelocity](this) {
+    override def times(x: Quantity[A, AngularVelocity], y: Quantity[A, AngularVelocity]): Quantity[A, AngularVelocity] =
       RadiansPerSecond(x.to(RadiansPerSecond) * y.to(RadiansPerSecond))
   }
 }
 
-abstract class AngularVelocityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[AngularVelocity.type] {
-  override def dimension: AngularVelocity.type = AngularVelocity
+abstract class AngularVelocityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[AngularVelocity] {
+  override def dimension: Dimension[AngularVelocity] = AngularVelocity
   override def apply[A: Numeric](value: A): AngularVelocity[A] = AngularVelocity(value, this)
 }
 
 case object GradiansPerSecond extends AngularVelocityUnit("grad/s", 0.015707963267948967)
 case object DegreesPerSecond extends AngularVelocityUnit("°/s", 0.017453292519943295)
-case object RadiansPerSecond extends AngularVelocityUnit("rad/s", 1) with PrimaryUnit with SiUnit
+case object RadiansPerSecond extends AngularVelocityUnit("rad/s", 1) with PrimaryUnit[AngularVelocity] with SiUnit[AngularVelocity]
 case object TurnsPerSecond extends AngularVelocityUnit("turns/s", 6.283185307179586)

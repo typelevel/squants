@@ -11,9 +11,8 @@ package squants2.radio
 import squants2._
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class Radiance[A: Numeric] private [squants2]  (value: A, unit: RadianceUnit)
-  extends Quantity[A, Radiance.type] {
-  override type Q[B] = Radiance[B]
+final case class Radiance[A: Numeric] private[squants2] (value: A, unit: RadianceUnit)
+  extends Quantity[A, Radiance] {
 
   // BEGIN CUSTOM OPS
 
@@ -24,11 +23,11 @@ final case class Radiance[A: Numeric] private [squants2]  (value: A, unit: Radia
   def toWattsPerSteradianPerSquareMeter[B: Numeric](implicit f: A => B): B = toNum[B](WattsPerSteradianPerSquareMeter)
 }
 
-object Radiance extends Dimension("Radiance") {
+object Radiance extends Dimension[Radiance]("Radiance") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = WattsPerSteradianPerSquareMeter
-  override def siUnit: UnitOfMeasure[this.type] with SiUnit = WattsPerSteradianPerSquareMeter
-  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+  override def primaryUnit: UnitOfMeasure[Radiance] with PrimaryUnit[Radiance] = WattsPerSteradianPerSquareMeter
+  override def siUnit: UnitOfMeasure[Radiance] with SiUnit[Radiance] = WattsPerSteradianPerSquareMeter
+  override lazy val units: Set[UnitOfMeasure[Radiance]] = 
     Set(WattsPerSteradianPerSquareMeter)
 
   implicit class RadianceCons[A](a: A)(implicit num: Numeric[A]) {
@@ -37,16 +36,16 @@ object Radiance extends Dimension("Radiance") {
 
   lazy val wattsPerSteradianPerSquareMeter: Radiance[Int] = WattsPerSteradianPerSquareMeter(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = RadianceNumeric[A]()
-  private case class RadianceNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
-    override def times(x: Quantity[A, Radiance.type], y: Quantity[A, Radiance.type]): Quantity[A, Radiance.this.type] =
+  override def numeric[A: Numeric]: QuantityNumeric[A, Radiance] = RadianceNumeric[A]()
+  private case class RadianceNumeric[A: Numeric]() extends QuantityNumeric[A, Radiance](this) {
+    override def times(x: Quantity[A, Radiance], y: Quantity[A, Radiance]): Quantity[A, Radiance] =
       WattsPerSteradianPerSquareMeter(x.to(WattsPerSteradianPerSquareMeter) * y.to(WattsPerSteradianPerSquareMeter))
   }
 }
 
-abstract class RadianceUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Radiance.type] {
-  override def dimension: Radiance.type = Radiance
+abstract class RadianceUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Radiance] {
+  override def dimension: Dimension[Radiance] = Radiance
   override def apply[A: Numeric](value: A): Radiance[A] = Radiance(value, this)
 }
 
-case object WattsPerSteradianPerSquareMeter extends RadianceUnit("W/sr/m²", 1) with PrimaryUnit with SiUnit
+case object WattsPerSteradianPerSquareMeter extends RadianceUnit("W/sr/m²", 1) with PrimaryUnit[Radiance] with SiUnit[Radiance]

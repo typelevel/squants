@@ -11,9 +11,8 @@ package squants2.motion
 import squants2._
 import scala.math.Numeric.Implicits.infixNumericOps
 
-final case class Jerk[A: Numeric] private [squants2]  (value: A, unit: JerkUnit)
-  extends Quantity[A, Jerk.type] {
-  override type Q[B] = Jerk[B]
+final case class Jerk[A: Numeric] private[squants2] (value: A, unit: JerkUnit)
+  extends Quantity[A, Jerk] {
 
   // BEGIN CUSTOM OPS
 
@@ -26,11 +25,11 @@ final case class Jerk[A: Numeric] private [squants2]  (value: A, unit: JerkUnit)
   def toMetersPerSecondCubed[B: Numeric](implicit f: A => B): B = toNum[B](MetersPerSecondCubed)
 }
 
-object Jerk extends Dimension("Jerk") {
+object Jerk extends Dimension[Jerk]("Jerk") {
 
-  override def primaryUnit: UnitOfMeasure[this.type] with PrimaryUnit = MetersPerSecondCubed
-  override def siUnit: UnitOfMeasure[this.type] with SiUnit = MetersPerSecondCubed
-  override lazy val units: Set[UnitOfMeasure[this.type]] = 
+  override def primaryUnit: UnitOfMeasure[Jerk] with PrimaryUnit[Jerk] = MetersPerSecondCubed
+  override def siUnit: UnitOfMeasure[Jerk] with SiUnit[Jerk] = MetersPerSecondCubed
+  override lazy val units: Set[UnitOfMeasure[Jerk]] = 
     Set(FeetPerSecondCubed, MetersPerSecondCubed)
 
   implicit class JerkCons[A](a: A)(implicit num: Numeric[A]) {
@@ -41,17 +40,17 @@ object Jerk extends Dimension("Jerk") {
   lazy val feetPerSecondCubed: Jerk[Int] = FeetPerSecondCubed(1)
   lazy val metersPerSecondCubed: Jerk[Int] = MetersPerSecondCubed(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, this.type] = JerkNumeric[A]()
-  private case class JerkNumeric[A: Numeric]() extends QuantityNumeric[A, this.type](this) {
-    override def times(x: Quantity[A, Jerk.type], y: Quantity[A, Jerk.type]): Quantity[A, Jerk.this.type] =
+  override def numeric[A: Numeric]: QuantityNumeric[A, Jerk] = JerkNumeric[A]()
+  private case class JerkNumeric[A: Numeric]() extends QuantityNumeric[A, Jerk](this) {
+    override def times(x: Quantity[A, Jerk], y: Quantity[A, Jerk]): Quantity[A, Jerk] =
       MetersPerSecondCubed(x.to(MetersPerSecondCubed) * y.to(MetersPerSecondCubed))
   }
 }
 
-abstract class JerkUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Jerk.type] {
-  override def dimension: Jerk.type = Jerk
+abstract class JerkUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Jerk] {
+  override def dimension: Dimension[Jerk] = Jerk
   override def apply[A: Numeric](value: A): Jerk[A] = Jerk(value, this)
 }
 
 case object FeetPerSecondCubed extends JerkUnit("ft/s³", 0.3048006096)
-case object MetersPerSecondCubed extends JerkUnit("m/s³", 1) with PrimaryUnit with SiUnit
+case object MetersPerSecondCubed extends JerkUnit("m/s³", 1) with PrimaryUnit[Jerk] with SiUnit[Jerk]
