@@ -9,7 +9,6 @@
 package squants2.motion
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class Pressure[A: Numeric] private[squants2] (value: A, unit: PressureUnit)
   extends Quantity[A, Pressure] {
@@ -54,11 +53,6 @@ object Pressure extends Dimension[Pressure]("Pressure") {
   lazy val bars: Pressure[Int] = Bars(1)
   lazy val standardAtmospheres: Pressure[Int] = StandardAtmospheres(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, Pressure] = PressureNumeric[A]()
-  private case class PressureNumeric[A: Numeric]() extends QuantityNumeric[A, Pressure](this) {
-    override def times(x: Quantity[A, Pressure], y: Quantity[A, Pressure]): Quantity[A, Pressure] =
-      Pascals(x.to(Pascals) * y.to(Pascals))
-  }
 }
 
 abstract class PressureUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Pressure] {

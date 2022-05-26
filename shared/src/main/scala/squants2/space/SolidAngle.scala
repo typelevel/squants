@@ -9,7 +9,6 @@
 package squants2.space
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class SolidAngle[A: Numeric] private[squants2] (value: A, unit: SolidAngleUnit)
   extends Quantity[A, SolidAngle] {
@@ -36,11 +35,6 @@ object SolidAngle extends Dimension[SolidAngle]("Solid Angle") {
 
   lazy val squaredRadians: SolidAngle[Int] = SquaredRadians(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, SolidAngle] = SolidAngleNumeric[A]()
-  private case class SolidAngleNumeric[A: Numeric]() extends QuantityNumeric[A, SolidAngle](this) {
-    override def times(x: Quantity[A, SolidAngle], y: Quantity[A, SolidAngle]): Quantity[A, SolidAngle] =
-      SquaredRadians(x.to(SquaredRadians) * y.to(SquaredRadians))
-  }
 }
 
 abstract class SolidAngleUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[SolidAngle] {

@@ -9,7 +9,6 @@
 package squants2.photo
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class LuminousExposure[A: Numeric] private[squants2] (value: A, unit: LuminousExposureUnit)
   extends Quantity[A, LuminousExposure] {
@@ -34,11 +33,6 @@ object LuminousExposure extends Dimension[LuminousExposure]("Luminous Exposure")
 
   lazy val luxSeconds: LuminousExposure[Int] = LuxSeconds(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, LuminousExposure] = LuminousExposureNumeric[A]()
-  private case class LuminousExposureNumeric[A: Numeric]() extends QuantityNumeric[A, LuminousExposure](this) {
-    override def times(x: Quantity[A, LuminousExposure], y: Quantity[A, LuminousExposure]): Quantity[A, LuminousExposure] =
-      LuxSeconds(x.to(LuxSeconds) * y.to(LuxSeconds))
-  }
 }
 
 abstract class LuminousExposureUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[LuminousExposure] {

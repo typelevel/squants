@@ -9,7 +9,6 @@
 package squants2.motion
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class Yank[A: Numeric] private[squants2] (value: A, unit: YankUnit)
   extends Quantity[A, Yank] {
@@ -37,11 +36,6 @@ object Yank extends Dimension[Yank]("Yank") {
 
   lazy val newtonsPerSecond: Yank[Int] = NewtonsPerSecond(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, Yank] = YankNumeric[A]()
-  private case class YankNumeric[A: Numeric]() extends QuantityNumeric[A, Yank](this) {
-    override def times(x: Quantity[A, Yank], y: Quantity[A, Yank]): Quantity[A, Yank] =
-      NewtonsPerSecond(x.to(NewtonsPerSecond) * y.to(NewtonsPerSecond))
-  }
 }
 
 abstract class YankUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Yank] {

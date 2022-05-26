@@ -9,7 +9,6 @@
 package squants2.electro
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class Resistivity[A: Numeric] private[squants2] (value: A, unit: ResistivityUnit)
   extends Quantity[A, Resistivity] {
@@ -37,11 +36,6 @@ object Resistivity extends Dimension[Resistivity]("Resistivity") {
 
   lazy val ohmMeters: Resistivity[Int] = OhmMeters(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, Resistivity] = ResistivityNumeric[A]()
-  private case class ResistivityNumeric[A: Numeric]() extends QuantityNumeric[A, Resistivity](this) {
-    override def times(x: Quantity[A, Resistivity], y: Quantity[A, Resistivity]): Quantity[A, Resistivity] =
-      OhmMeters(x.to(OhmMeters) * y.to(OhmMeters))
-  }
 }
 
 abstract class ResistivityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Resistivity] {

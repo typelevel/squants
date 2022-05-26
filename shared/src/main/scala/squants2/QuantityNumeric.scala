@@ -24,11 +24,11 @@ package squants2
  * @tparam Q Dimension type
  */
 
-class QuantityNumeric[A, Q[N] <: Quantity[N, Q]](dimension: Dimension[Q])(implicit num: Numeric[A]) extends Numeric[Quantity[A, Q]] {
+class QuantityNumeric[A, Q[N] <: Quantity[N, Q]](dimension: Dimension[Q])(implicit num: Numeric[A]) extends Numeric[Q[A]] {
   private val unit: UnitOfMeasure[Q]  = dimension.primaryUnit.asInstanceOf[UnitOfMeasure[Q]]
 
-  override def plus(x: Quantity[A, Q], y: Quantity[A, Q]): Quantity[A, Q] = x + y
-  override def minus(x: Quantity[A, Q], y: Quantity[A, Q]): Quantity[A, Q] = x - y
+  override def plus(x: Q[A], y: Q[A]): Q[A] = x + y
+  override def minus(x: Q[A], y: Q[A]): Q[A] = x - y
 
   /**
    * `times` is not a supported Numeric operation for Quantities.
@@ -40,17 +40,17 @@ class QuantityNumeric[A, Q[N] <: Quantity[N, Q]](dimension: Dimension[Q])(implic
    * @return
    * @throws scala.UnsupportedOperationException for most types
    */
-  override def times(x: Quantity[A, Q], y: Quantity[A, Q]): Quantity[A, Q] = throw new UnsupportedOperationException(s"Numeric.times not supported for ${dimension.name}")
-  override def negate(x: Quantity[A, Q]): Quantity[A, Q] = -x
+  override def times(x: Q[A], y: Q[A]): Q[A] = throw new UnsupportedOperationException(s"Numeric.times not supported for ${dimension.name}")
+  override def negate(x: Q[A]): Q[A] = -x
 
-  override def compare(x: Quantity[A, Q], y: Quantity[A, Q]): Int = x.compare(y)
+  override def compare(x: Q[A], y: Q[A]): Int = x.compare(y)
 
   // All Numeric constructors and extractors are based on the dimension's primary Unit
-  override def fromInt(x: Int): Quantity[A, Q] = unit(num.fromInt(x))
-  override def toInt(x: Quantity[A, Q]): Int = num.toInt(x.to(unit))
-  override def toLong(x: Quantity[A, Q]): Long = num.toLong(x.to(unit))
-  override def toFloat(x: Quantity[A, Q]): Float = num.toFloat(x.to(unit))
-  override def toDouble(x: Quantity[A, Q]): Double = num.toDouble(x.to(unit))
+  override def fromInt(x: Int): Q[A] = unit(num.fromInt(x))
+  override def toInt(x: Q[A]): Int = num.toInt(x.to(unit))
+  override def toLong(x: Q[A]): Long = num.toLong(x.to(unit))
+  override def toFloat(x: Q[A]): Float = num.toFloat(x.to(unit))
+  override def toDouble(x: Q[A]): Double = num.toDouble(x.to(unit))
 
-  override def parseString(str: String): Option[Quantity[A, Q]] = unit.dimension.parseString[A](str).toOption
+  override def parseString(str: String): Option[Q[A]] = unit.dimension.parseString[A](str).toOption
 }

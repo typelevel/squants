@@ -9,7 +9,6 @@
 package squants2.space
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class Area[A: Numeric] private[squants2] (value: A, unit: AreaUnit)
   extends Quantity[A, Area] {
@@ -72,11 +71,6 @@ object Area extends Dimension[Area]("Area") {
   lazy val squareKilometers: Area[Int] = SquareKilometers(1)
   lazy val squareUsMiles: Area[Int] = SquareUsMiles(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, Area] = AreaNumeric[A]()
-  private case class AreaNumeric[A: Numeric]() extends QuantityNumeric[A, Area](this) {
-    override def times(x: Quantity[A, Area], y: Quantity[A, Area]): Quantity[A, Area] =
-      SquareMeters(x.to(SquareMeters) * y.to(SquareMeters))
-  }
 }
 
 abstract class AreaUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Area] {

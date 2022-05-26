@@ -9,7 +9,6 @@
 package squants2.motion
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class Jerk[A: Numeric] private[squants2] (value: A, unit: JerkUnit)
   extends Quantity[A, Jerk] {
@@ -40,11 +39,6 @@ object Jerk extends Dimension[Jerk]("Jerk") {
   lazy val feetPerSecondCubed: Jerk[Int] = FeetPerSecondCubed(1)
   lazy val metersPerSecondCubed: Jerk[Int] = MetersPerSecondCubed(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, Jerk] = JerkNumeric[A]()
-  private case class JerkNumeric[A: Numeric]() extends QuantityNumeric[A, Jerk](this) {
-    override def times(x: Quantity[A, Jerk], y: Quantity[A, Jerk]): Quantity[A, Jerk] =
-      MetersPerSecondCubed(x.to(MetersPerSecondCubed) * y.to(MetersPerSecondCubed))
-  }
 }
 
 abstract class JerkUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Jerk] {

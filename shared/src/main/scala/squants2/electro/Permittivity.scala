@@ -9,7 +9,6 @@
 package squants2.electro
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class Permittivity[A: Numeric] private[squants2] (value: A, unit: PermittivityUnit)
   extends Quantity[A, Permittivity] {
@@ -35,11 +34,6 @@ object Permittivity extends Dimension[Permittivity]("Permittivity") {
 
   lazy val faradsPerMeter: Permittivity[Int] = FaradsPerMeter(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, Permittivity] = PermittivityNumeric[A]()
-  private case class PermittivityNumeric[A: Numeric]() extends QuantityNumeric[A, Permittivity](this) {
-    override def times(x: Quantity[A, Permittivity], y: Quantity[A, Permittivity]): Quantity[A, Permittivity] =
-      FaradsPerMeter(x.to(FaradsPerMeter) * y.to(FaradsPerMeter))
-  }
 }
 
 abstract class PermittivityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Permittivity] {

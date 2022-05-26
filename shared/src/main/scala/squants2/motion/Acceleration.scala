@@ -9,7 +9,6 @@
 package squants2.motion
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class Acceleration[A: Numeric] private[squants2] (value: A, unit: AccelerationUnit)
   extends Quantity[A, Acceleration] {
@@ -53,11 +52,6 @@ object Acceleration extends Dimension[Acceleration]("Acceleration") {
   lazy val metersPerSecondSquared: Acceleration[Int] = MetersPerSecondSquared(1)
   lazy val earthGravities: Acceleration[Int] = EarthGravities(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, Acceleration] = AccelerationNumeric[A]()
-  private case class AccelerationNumeric[A: Numeric]() extends QuantityNumeric[A, Acceleration](this) {
-    override def times(x: Quantity[A, Acceleration], y: Quantity[A, Acceleration]): Quantity[A, Acceleration] =
-      MetersPerSecondSquared(x.to(MetersPerSecondSquared) * y.to(MetersPerSecondSquared))
-  }
 }
 
 abstract class AccelerationUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Acceleration] {

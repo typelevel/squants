@@ -9,7 +9,6 @@
 package squants2.electro
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class Capacitance[A: Numeric] private[squants2] (value: A, unit: CapacitanceUnit)
   extends Quantity[A, Capacitance] {
@@ -51,11 +50,6 @@ object Capacitance extends Dimension[Capacitance]("Capacitance") {
   lazy val farads: Capacitance[Int] = Farads(1)
   lazy val kilofarads: Capacitance[Int] = Kilofarads(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, Capacitance] = CapacitanceNumeric[A]()
-  private case class CapacitanceNumeric[A: Numeric]() extends QuantityNumeric[A, Capacitance](this) {
-    override def times(x: Quantity[A, Capacitance], y: Quantity[A, Capacitance]): Quantity[A, Capacitance] =
-      Farads(x.to(Farads) * y.to(Farads))
-  }
 }
 
 abstract class CapacitanceUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Capacitance] {

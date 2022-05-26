@@ -9,7 +9,6 @@
 package squants2.mass
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class ChemicalAmount[A: Numeric] private[squants2] (value: A, unit: ChemicalAmountUnit)
   extends Quantity[A, ChemicalAmount] {
@@ -38,11 +37,6 @@ object ChemicalAmount extends BaseDimension[ChemicalAmount]("Chemical Amount", "
   lazy val moles: ChemicalAmount[Int] = Moles(1)
   lazy val poundMoles: ChemicalAmount[Int] = PoundMoles(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, ChemicalAmount] = ChemicalAmountNumeric[A]()
-  private case class ChemicalAmountNumeric[A: Numeric]() extends QuantityNumeric[A, ChemicalAmount](this) {
-    override def times(x: Quantity[A, ChemicalAmount], y: Quantity[A, ChemicalAmount]): Quantity[A, ChemicalAmount] =
-      Moles(x.to(Moles) * y.to(Moles))
-  }
 }
 
 abstract class ChemicalAmountUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[ChemicalAmount] {

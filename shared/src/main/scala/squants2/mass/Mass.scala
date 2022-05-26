@@ -9,7 +9,6 @@
 package squants2.mass
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class Mass[A: Numeric] private[squants2] (value: A, unit: MassUnit)
   extends Quantity[A, Mass] {
@@ -120,11 +119,6 @@ object Mass extends BaseDimension[Mass]("Mass", "M") {
   lazy val tonnes: Mass[Int] = Tonnes(1)
   lazy val solarMasses: Mass[Int] = SolarMasses(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, Mass] = MassNumeric[A]()
-  private case class MassNumeric[A: Numeric]() extends QuantityNumeric[A, Mass](this) {
-    override def times(x: Quantity[A, Mass], y: Quantity[A, Mass]): Quantity[A, Mass] =
-      Grams(x.to(Grams) * y.to(Grams))
-  }
 }
 
 abstract class MassUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Mass] {

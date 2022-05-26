@@ -9,7 +9,6 @@
 package squants2.electro
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class MagneticFlux[A: Numeric] private[squants2] (value: A, unit: MagneticFluxUnit)
   extends Quantity[A, MagneticFlux] {
@@ -38,11 +37,6 @@ object MagneticFlux extends Dimension[MagneticFlux]("Magnetic Flux") {
 
   lazy val webers: MagneticFlux[Int] = Webers(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, MagneticFlux] = MagneticFluxNumeric[A]()
-  private case class MagneticFluxNumeric[A: Numeric]() extends QuantityNumeric[A, MagneticFlux](this) {
-    override def times(x: Quantity[A, MagneticFlux], y: Quantity[A, MagneticFlux]): Quantity[A, MagneticFlux] =
-      Webers(x.to(Webers) * y.to(Webers))
-  }
 }
 
 abstract class MagneticFluxUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[MagneticFlux] {

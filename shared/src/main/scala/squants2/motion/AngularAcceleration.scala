@@ -9,7 +9,6 @@
 package squants2.motion
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class AngularAcceleration[A: Numeric] private[squants2] (value: A, unit: AngularAccelerationUnit)
   extends Quantity[A, AngularAcceleration] {
@@ -52,11 +51,6 @@ object AngularAcceleration extends Dimension[AngularAcceleration]("Angular Accel
   lazy val radiansPerSecondSquared: AngularAcceleration[Int] = RadiansPerSecondSquared(1)
   lazy val turnsPerSecondSquared: AngularAcceleration[Int] = TurnsPerSecondSquared(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, AngularAcceleration] = AngularAccelerationNumeric[A]()
-  private case class AngularAccelerationNumeric[A: Numeric]() extends QuantityNumeric[A, AngularAcceleration](this) {
-    override def times(x: Quantity[A, AngularAcceleration], y: Quantity[A, AngularAcceleration]): Quantity[A, AngularAcceleration] =
-      RadiansPerSecondSquared(x.to(RadiansPerSecondSquared) * y.to(RadiansPerSecondSquared))
-  }
 }
 
 abstract class AngularAccelerationUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[AngularAcceleration] {

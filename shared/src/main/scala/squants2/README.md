@@ -109,9 +109,12 @@ import scala.math.Numeric.Implicits.infixNumericOps
 final case class Dimensionless[A: Numeric] private[squants2] (value: A, unit: DimensionlessUnit)
   extends Quantity[A, Dimensionless] {
 
+  // BEGIN CUSTOM OPS
+
   def *[B](that: Dimensionless[B])(implicit f: B => A): Dimensionless[A] = Each(to(Each) * that.toNum[A](Each))
   def *[B, Q[N] <: Quantity[N, Q]](that: Q[B])(implicit f: B => A): Q[A] = that.asNum[A] * to(Each)
   def +[B](that: B)(implicit f: B => A): Dimensionless[A] = Each(to(Each) + f(that))
+  // END CUSTOM OPS
 
   def toPercent[B: Numeric](implicit f: A => B): B = toNum[B](Percent)
   def toEach[B: Numeric](implicit f: A => B): B = toNum[B](Each)
@@ -147,10 +150,8 @@ object Dimensionless extends Dimension[Dimensionless]("Dimensionless") {
   lazy val thousand: Dimensionless[Int] = Each(1000)
   lazy val million: Dimensionless[Int] = Each(1000000)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, Dimensionless] = DimensionlessNumeric[A]()
-  private case class DimensionlessNumeric[A: Numeric]() extends QuantityNumeric[A, Dimensionless](this) {
-    override def times(x: Quantity[A, Dimensionless], y: Quantity[A, Dimensionless]): Quantity[A, Dimensionless] =
-      Each(x.to(Each) * y.to(Each))
+  override def numeric[A: Numeric]: QuantityNumeric[A, Dimensionless] = new QuantityNumeric[A, Dimensionless](this) {
+    override def times(x: Dimensionless[A], y: Dimensionless[A]): Dimensionless[A] = Each(x.to(Each) * y.to(Each))
   }
 }
 

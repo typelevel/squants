@@ -9,7 +9,6 @@
 package squants2.electro
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class Conductivity[A: Numeric] private[squants2] (value: A, unit: ConductivityUnit)
   extends Quantity[A, Conductivity] {
@@ -36,11 +35,6 @@ object Conductivity extends Dimension[Conductivity]("Conductivity") {
 
   lazy val siemensPerMeter: Conductivity[Int] = SiemensPerMeter(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, Conductivity] = ConductivityNumeric[A]()
-  private case class ConductivityNumeric[A: Numeric]() extends QuantityNumeric[A, Conductivity](this) {
-    override def times(x: Quantity[A, Conductivity], y: Quantity[A, Conductivity]): Quantity[A, Conductivity] =
-      SiemensPerMeter(x.to(SiemensPerMeter) * y.to(SiemensPerMeter))
-  }
 }
 
 abstract class ConductivityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Conductivity] {

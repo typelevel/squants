@@ -9,7 +9,6 @@
 package squants2.radio
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class AreaTime[A: Numeric] private[squants2] (value: A, unit: AreaTimeUnit)
   extends Quantity[A, AreaTime] {
@@ -38,11 +37,6 @@ object AreaTime extends Dimension[AreaTime]("Area Time") {
   lazy val squareCentimeterSeconds: AreaTime[Int] = SquareCentimeterSeconds(1)
   lazy val squareMeterSeconds: AreaTime[Int] = SquareMeterSeconds(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, AreaTime] = AreaTimeNumeric[A]()
-  private case class AreaTimeNumeric[A: Numeric]() extends QuantityNumeric[A, AreaTime](this) {
-    override def times(x: Quantity[A, AreaTime], y: Quantity[A, AreaTime]): Quantity[A, AreaTime] =
-      SquareMeterSeconds(x.to(SquareMeterSeconds) * y.to(SquareMeterSeconds))
-  }
 }
 
 abstract class AreaTimeUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[AreaTime] {

@@ -9,7 +9,6 @@
 package squants2.time
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class Frequency[A: Numeric] private[squants2] (value: A, unit: FrequencyUnit)
   extends Quantity[A, Frequency] {
@@ -67,11 +66,6 @@ object Frequency extends Dimension[Frequency]("Frequency") {
   lazy val gigahertz: Frequency[Int] = Gigahertz(1)
   lazy val terahertz: Frequency[Int] = Terahertz(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, Frequency] = FrequencyNumeric[A]()
-  private case class FrequencyNumeric[A: Numeric]() extends QuantityNumeric[A, Frequency](this) {
-    override def times(x: Quantity[A, Frequency], y: Quantity[A, Frequency]): Quantity[A, Frequency] =
-      Hertz(x.to(Hertz) * y.to(Hertz))
-  }
 }
 
 abstract class FrequencyUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Frequency] {

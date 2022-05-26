@@ -9,7 +9,6 @@
 package squants2.electro
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class ElectricCurrent[A: Numeric] private[squants2] (value: A, unit: ElectricCurrentUnit)
   extends Quantity[A, ElectricCurrent] {
@@ -44,11 +43,6 @@ object ElectricCurrent extends BaseDimension[ElectricCurrent]("Electric Current"
   lazy val milliamperes: ElectricCurrent[Int] = Milliamperes(1)
   lazy val amperes: ElectricCurrent[Int] = Amperes(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, ElectricCurrent] = ElectricCurrentNumeric[A]()
-  private case class ElectricCurrentNumeric[A: Numeric]() extends QuantityNumeric[A, ElectricCurrent](this) {
-    override def times(x: Quantity[A, ElectricCurrent], y: Quantity[A, ElectricCurrent]): Quantity[A, ElectricCurrent] =
-      Amperes(x.to(Amperes) * y.to(Amperes))
-  }
 }
 
 abstract class ElectricCurrentUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[ElectricCurrent] {

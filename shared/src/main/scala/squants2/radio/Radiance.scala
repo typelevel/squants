@@ -9,7 +9,6 @@
 package squants2.radio
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class Radiance[A: Numeric] private[squants2] (value: A, unit: RadianceUnit)
   extends Quantity[A, Radiance] {
@@ -36,11 +35,6 @@ object Radiance extends Dimension[Radiance]("Radiance") {
 
   lazy val wattsPerSteradianPerSquareMeter: Radiance[Int] = WattsPerSteradianPerSquareMeter(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, Radiance] = RadianceNumeric[A]()
-  private case class RadianceNumeric[A: Numeric]() extends QuantityNumeric[A, Radiance](this) {
-    override def times(x: Quantity[A, Radiance], y: Quantity[A, Radiance]): Quantity[A, Radiance] =
-      WattsPerSteradianPerSquareMeter(x.to(WattsPerSteradianPerSquareMeter) * y.to(WattsPerSteradianPerSquareMeter))
-  }
 }
 
 abstract class RadianceUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Radiance] {

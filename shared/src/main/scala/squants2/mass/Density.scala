@@ -9,7 +9,6 @@
 package squants2.mass
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class Density[A: Numeric] private[squants2] (value: A, unit: DensityUnit)
   extends Quantity[A, Density] {
@@ -95,11 +94,6 @@ object Density extends Dimension[Density]("Density") {
   lazy val kilogramsPerMicrolitre: Density[Int] = KilogramsPerMicrolitre(1)
   lazy val kilogramsPerNanolitre: Density[Int] = KilogramsPerNanolitre(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, Density] = DensityNumeric[A]()
-  private case class DensityNumeric[A: Numeric]() extends QuantityNumeric[A, Density](this) {
-    override def times(x: Quantity[A, Density], y: Quantity[A, Density]): Quantity[A, Density] =
-      KilogramsPerCubicMeter(x.to(KilogramsPerCubicMeter) * y.to(KilogramsPerCubicMeter))
-  }
 }
 
 abstract class DensityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Density] {

@@ -9,7 +9,6 @@
 package squants2.electro
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class ElectricPotential[A: Numeric] private[squants2] (value: A, unit: ElectricPotentialUnit)
   extends Quantity[A, ElectricPotential] {
@@ -53,11 +52,6 @@ object ElectricPotential extends Dimension[ElectricPotential]("Electric Potentia
   lazy val kilovolts: ElectricPotential[Int] = Kilovolts(1)
   lazy val megavolts: ElectricPotential[Int] = Megavolts(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, ElectricPotential] = ElectricPotentialNumeric[A]()
-  private case class ElectricPotentialNumeric[A: Numeric]() extends QuantityNumeric[A, ElectricPotential](this) {
-    override def times(x: Quantity[A, ElectricPotential], y: Quantity[A, ElectricPotential]): Quantity[A, ElectricPotential] =
-      Volts(x.to(Volts) * y.to(Volts))
-  }
 }
 
 abstract class ElectricPotentialUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[ElectricPotential] {

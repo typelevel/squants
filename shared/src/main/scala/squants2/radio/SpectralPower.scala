@@ -9,7 +9,6 @@
 package squants2.radio
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class SpectralPower[A: Numeric] private[squants2] (value: A, unit: SpectralPowerUnit)
   extends Quantity[A, SpectralPower] {
@@ -36,11 +35,6 @@ object SpectralPower extends Dimension[SpectralPower]("Spectral Power") {
 
   lazy val wattsPerMeter: SpectralPower[Int] = WattsPerMeter(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, SpectralPower] = SpectralPowerNumeric[A]()
-  private case class SpectralPowerNumeric[A: Numeric]() extends QuantityNumeric[A, SpectralPower](this) {
-    override def times(x: Quantity[A, SpectralPower], y: Quantity[A, SpectralPower]): Quantity[A, SpectralPower] =
-      WattsPerMeter(x.to(WattsPerMeter) * y.to(WattsPerMeter))
-  }
 }
 
 abstract class SpectralPowerUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[SpectralPower] {

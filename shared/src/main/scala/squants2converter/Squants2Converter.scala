@@ -39,7 +39,7 @@ object Squants2Converter extends App {
     writer.println(s"package ${d.getClass.getPackage.getName.replace("squants", "squants2")}")
     writer.println()
     if (!packageName.equals("squants2")) writer.println("import squants2._")
-    writer.println("import scala.math.Numeric.Implicits.infixNumericOps")
+//    writer.println("import scala.math.Numeric.Implicits.infixNumericOps")
     writer.println()
 
     writer.println(s"final case class ${d.name}[A: Numeric] private[squants2] (value: A, unit: ${d.name}Unit)")
@@ -109,16 +109,9 @@ object Squants2Converter extends App {
       val unitName = u.getClass.getSimpleName.replace("$", "")
       writer.println(s"  lazy val ${unitName.head.toLower}${unitName.tail}: ${d.name}[Int] = $unitName(1)")
     }
-
-    val primaryUnitName = d.primaryUnit.getClass.getSimpleName.replace("$", "")
     writer.println()
-    writer.println(s"  override def numeric[A: Numeric]: QuantityNumeric[A, ${d.name}] = ${d.name}Numeric[A]()")
-    writer.println(s"  private case class ${d.name}Numeric[A: Numeric]() extends QuantityNumeric[A, ${d.name}](this) {")
-    writer.println(s"    override def times(x: Quantity[A, ${d.name}], y: Quantity[A, ${d.name}]): Quantity[A, ${d.name}] =")
-    writer.println(s"      $primaryUnitName(x.to($primaryUnitName) * y.to($primaryUnitName))")
-    writer.println(s"  }")
-
     writer.println(s"}")
+
     writer.println()
     writer.println(s"abstract class ${d.name}Unit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[${d.name}] {")
     writer.println(s"  override def dimension: Dimension[${d.name}] = ${d.name}")

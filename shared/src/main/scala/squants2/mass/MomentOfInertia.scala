@@ -9,7 +9,6 @@
 package squants2.mass
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class MomentOfInertia[A: Numeric] private[squants2] (value: A, unit: MomentOfInertiaUnit)
   extends Quantity[A, MomentOfInertia] {
@@ -39,11 +38,6 @@ object MomentOfInertia extends Dimension[MomentOfInertia]("Moment Of Inertia") {
   lazy val kilogramsMetersSquared: MomentOfInertia[Int] = KilogramsMetersSquared(1)
   lazy val poundsSquareFeet: MomentOfInertia[Int] = PoundsSquareFeet(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, MomentOfInertia] = MomentOfInertiaNumeric[A]()
-  private case class MomentOfInertiaNumeric[A: Numeric]() extends QuantityNumeric[A, MomentOfInertia](this) {
-    override def times(x: Quantity[A, MomentOfInertia], y: Quantity[A, MomentOfInertia]): Quantity[A, MomentOfInertia] =
-      KilogramsMetersSquared(x.to(KilogramsMetersSquared) * y.to(KilogramsMetersSquared))
-  }
 }
 
 abstract class MomentOfInertiaUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[MomentOfInertia] {

@@ -9,7 +9,6 @@
 package squants2.information
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class DataRate[A: Numeric] private[squants2] (value: A, unit: DataRateUnit)
   extends Quantity[A, DataRate] {
@@ -134,11 +133,6 @@ object DataRate extends Dimension[DataRate]("Data Rate") {
   lazy val yottabytesPerSecond: DataRate[Int] = YottabytesPerSecond(1)
   lazy val yobibytesPerSecond: DataRate[Int] = YobibytesPerSecond(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, DataRate] = DataRateNumeric[A]()
-  private case class DataRateNumeric[A: Numeric]() extends QuantityNumeric[A, DataRate](this) {
-    override def times(x: Quantity[A, DataRate], y: Quantity[A, DataRate]): Quantity[A, DataRate] =
-      BytesPerSecond(x.to(BytesPerSecond) * y.to(BytesPerSecond))
-  }
 }
 
 abstract class DataRateUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[DataRate] {

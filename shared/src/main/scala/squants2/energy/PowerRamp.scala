@@ -9,7 +9,6 @@
 package squants2.energy
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class PowerRamp[A: Numeric] private[squants2] (value: A, unit: PowerRampUnit)
   extends Quantity[A, PowerRamp] {
@@ -52,11 +51,6 @@ object PowerRamp extends Dimension[PowerRamp]("Power Ramp") {
   lazy val megawattsPerHour: PowerRamp[Int] = MegawattsPerHour(1)
   lazy val gigawattsPerHour: PowerRamp[Int] = GigawattsPerHour(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, PowerRamp] = PowerRampNumeric[A]()
-  private case class PowerRampNumeric[A: Numeric]() extends QuantityNumeric[A, PowerRamp](this) {
-    override def times(x: Quantity[A, PowerRamp], y: Quantity[A, PowerRamp]): Quantity[A, PowerRamp] =
-      WattsPerHour(x.to(WattsPerHour) * y.to(WattsPerHour))
-  }
 }
 
 abstract class PowerRampUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[PowerRamp] {

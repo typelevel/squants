@@ -9,7 +9,6 @@
 package squants2.motion
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class VolumeFlow[A: Numeric] private[squants2] (value: A, unit: VolumeFlowUnit)
   extends Quantity[A, VolumeFlow] {
@@ -98,11 +97,6 @@ object VolumeFlow extends Dimension[VolumeFlow]("Volume Flow") {
   lazy val gallonsPerSecond: VolumeFlow[Int] = GallonsPerSecond(1)
   lazy val cubicMetersPerSecond: VolumeFlow[Int] = CubicMetersPerSecond(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, VolumeFlow] = VolumeFlowNumeric[A]()
-  private case class VolumeFlowNumeric[A: Numeric]() extends QuantityNumeric[A, VolumeFlow](this) {
-    override def times(x: Quantity[A, VolumeFlow], y: Quantity[A, VolumeFlow]): Quantity[A, VolumeFlow] =
-      CubicMetersPerSecond(x.to(CubicMetersPerSecond) * y.to(CubicMetersPerSecond))
-  }
 }
 
 abstract class VolumeFlowUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[VolumeFlow] {

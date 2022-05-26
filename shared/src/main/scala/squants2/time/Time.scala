@@ -9,7 +9,6 @@
 package squants2.time
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class Time[A: Numeric] private[squants2] (value: A, unit: TimeUnit)
   extends Quantity[A, Time] {
@@ -54,11 +53,6 @@ object Time extends BaseDimension[Time]("Time", "T") {
   lazy val hours: Time[Int] = Hours(1)
   lazy val days: Time[Int] = Days(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, Time] = TimeNumeric[A]()
-  private case class TimeNumeric[A: Numeric]() extends QuantityNumeric[A, Time](this) {
-    override def times(x: Quantity[A, Time], y: Quantity[A, Time]): Quantity[A, Time] =
-      Milliseconds(x.to(Milliseconds) * y.to(Milliseconds))
-  }
 }
 
 abstract class TimeUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Time] {

@@ -9,7 +9,6 @@
 package squants2.electro
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class ElectricCharge[A: Numeric] private[squants2] (value: A, unit: ElectricChargeUnit)
   extends Quantity[A, ElectricCharge] {
@@ -65,11 +64,6 @@ object ElectricCharge extends Dimension[ElectricCharge]("Electric Charge") {
   lazy val abcoulombs: ElectricCharge[Int] = Abcoulombs(1)
   lazy val ampereHours: ElectricCharge[Int] = AmpereHours(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, ElectricCharge] = ElectricChargeNumeric[A]()
-  private case class ElectricChargeNumeric[A: Numeric]() extends QuantityNumeric[A, ElectricCharge](this) {
-    override def times(x: Quantity[A, ElectricCharge], y: Quantity[A, ElectricCharge]): Quantity[A, ElectricCharge] =
-      Coulombs(x.to(Coulombs) * y.to(Coulombs))
-  }
 }
 
 abstract class ElectricChargeUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[ElectricCharge] {

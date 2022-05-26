@@ -9,7 +9,6 @@
 package squants2.energy
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class Energy[A: Numeric] private[squants2] (value: A, unit: EnergyUnit)
   extends Quantity[A, Energy] {
@@ -127,11 +126,6 @@ object Energy extends Dimension[Energy]("Energy") {
   lazy val terajoules: Energy[Int] = Terajoules(1)
   lazy val gigawattHours: Energy[Int] = GigawattHours(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, Energy] = EnergyNumeric[A]()
-  private case class EnergyNumeric[A: Numeric]() extends QuantityNumeric[A, Energy](this) {
-    override def times(x: Quantity[A, Energy], y: Quantity[A, Energy]): Quantity[A, Energy] =
-      WattHours(x.to(WattHours) * y.to(WattHours))
-  }
 }
 
 abstract class EnergyUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Energy] {

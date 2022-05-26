@@ -9,7 +9,6 @@
 package squants2.radio
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class Dose[A: Numeric] private[squants2] (value: A, unit: DoseUnit)
   extends Quantity[A, Dose] {
@@ -39,11 +38,6 @@ object Dose extends Dimension[Dose]("Dose") {
   lazy val rems: Dose[Int] = Rems(1)
   lazy val sieverts: Dose[Int] = Sieverts(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, Dose] = DoseNumeric[A]()
-  private case class DoseNumeric[A: Numeric]() extends QuantityNumeric[A, Dose](this) {
-    override def times(x: Quantity[A, Dose], y: Quantity[A, Dose]): Quantity[A, Dose] =
-      Sieverts(x.to(Sieverts) * y.to(Sieverts))
-  }
 }
 
 abstract class DoseUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Dose] {

@@ -9,7 +9,6 @@
 package squants2.motion
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class MassFlow[A: Numeric] private[squants2] (value: A, unit: MassFlowUnit)
   extends Quantity[A, MassFlow] {
@@ -47,11 +46,6 @@ object MassFlow extends Dimension[MassFlow]("Mass Flow") {
   lazy val kilogramsPerSecond: MassFlow[Int] = KilogramsPerSecond(1)
   lazy val megapoundsPerHour: MassFlow[Int] = MegapoundsPerHour(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, MassFlow] = MassFlowNumeric[A]()
-  private case class MassFlowNumeric[A: Numeric]() extends QuantityNumeric[A, MassFlow](this) {
-    override def times(x: Quantity[A, MassFlow], y: Quantity[A, MassFlow]): Quantity[A, MassFlow] =
-      KilogramsPerSecond(x.to(KilogramsPerSecond) * y.to(KilogramsPerSecond))
-  }
 }
 
 abstract class MassFlowUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[MassFlow] {

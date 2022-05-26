@@ -9,7 +9,6 @@
 package squants2.electro
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class Inductance[A: Numeric] private[squants2] (value: A, unit: InductanceUnit)
   extends Quantity[A, Inductance] {
@@ -48,11 +47,6 @@ object Inductance extends Dimension[Inductance]("Inductance") {
   lazy val millihenry: Inductance[Int] = Millihenry(1)
   lazy val henry: Inductance[Int] = Henry(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, Inductance] = InductanceNumeric[A]()
-  private case class InductanceNumeric[A: Numeric]() extends QuantityNumeric[A, Inductance](this) {
-    override def times(x: Quantity[A, Inductance], y: Quantity[A, Inductance]): Quantity[A, Inductance] =
-      Henry(x.to(Henry) * y.to(Henry))
-  }
 }
 
 abstract class InductanceUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Inductance] {

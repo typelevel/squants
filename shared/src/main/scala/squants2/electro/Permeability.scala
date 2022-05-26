@@ -9,7 +9,6 @@
 package squants2.electro
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class Permeability[A: Numeric] private[squants2] (value: A, unit: PermeabilityUnit)
   extends Quantity[A, Permeability] {
@@ -38,11 +37,6 @@ object Permeability extends Dimension[Permeability]("Permeability") {
   lazy val henriesPerMeter: Permeability[Int] = HenriesPerMeter(1)
   lazy val newtonsPerAmperesSquared: Permeability[Int] = NewtonsPerAmperesSquared(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, Permeability] = PermeabilityNumeric[A]()
-  private case class PermeabilityNumeric[A: Numeric]() extends QuantityNumeric[A, Permeability](this) {
-    override def times(x: Quantity[A, Permeability], y: Quantity[A, Permeability]): Quantity[A, Permeability] =
-      HenriesPerMeter(x.to(HenriesPerMeter) * y.to(HenriesPerMeter))
-  }
 }
 
 abstract class PermeabilityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Permeability] {

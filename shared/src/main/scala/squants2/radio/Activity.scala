@@ -9,7 +9,6 @@
 package squants2.radio
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class Activity[A: Numeric] private[squants2] (value: A, unit: ActivityUnit)
   extends Quantity[A, Activity] {
@@ -41,11 +40,6 @@ object Activity extends Dimension[Activity]("Activity") {
   lazy val rutherfords: Activity[Int] = Rutherfords(1)
   lazy val curies: Activity[Int] = Curies(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, Activity] = ActivityNumeric[A]()
-  private case class ActivityNumeric[A: Numeric]() extends QuantityNumeric[A, Activity](this) {
-    override def times(x: Quantity[A, Activity], y: Quantity[A, Activity]): Quantity[A, Activity] =
-      Becquerels(x.to(Becquerels) * y.to(Becquerels))
-  }
 }
 
 abstract class ActivityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Activity] {

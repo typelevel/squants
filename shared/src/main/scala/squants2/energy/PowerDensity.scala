@@ -9,7 +9,6 @@
 package squants2.energy
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class PowerDensity[A: Numeric] private[squants2] (value: A, unit: PowerDensityUnit)
   extends Quantity[A, PowerDensity] {
@@ -35,11 +34,6 @@ object PowerDensity extends Dimension[PowerDensity]("Power Density") {
 
   lazy val wattsPerCubicMeter: PowerDensity[Int] = WattsPerCubicMeter(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, PowerDensity] = PowerDensityNumeric[A]()
-  private case class PowerDensityNumeric[A: Numeric]() extends QuantityNumeric[A, PowerDensity](this) {
-    override def times(x: Quantity[A, PowerDensity], y: Quantity[A, PowerDensity]): Quantity[A, PowerDensity] =
-      WattsPerCubicMeter(x.to(WattsPerCubicMeter) * y.to(WattsPerCubicMeter))
-  }
 }
 
 abstract class PowerDensityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[PowerDensity] {

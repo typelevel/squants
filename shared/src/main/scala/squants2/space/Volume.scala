@@ -9,7 +9,6 @@
 package squants2.space
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class Volume[A: Numeric] private[squants2] (value: A, unit: VolumeUnit)
   extends Quantity[A, Volume] {
@@ -98,11 +97,6 @@ object Volume extends Dimension[Volume]("Volume") {
   lazy val acreFeet: Volume[Int] = AcreFeet(1)
   lazy val cubicUsMiles: Volume[Int] = CubicUsMiles(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, Volume] = VolumeNumeric[A]()
-  private case class VolumeNumeric[A: Numeric]() extends QuantityNumeric[A, Volume](this) {
-    override def times(x: Quantity[A, Volume], y: Quantity[A, Volume]): Quantity[A, Volume] =
-      CubicMeters(x.to(CubicMeters) * y.to(CubicMeters))
-  }
 }
 
 abstract class VolumeUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Volume] {

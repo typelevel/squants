@@ -9,7 +9,6 @@
 package squants2.electro
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class LinearElectricChargeDensity[A: Numeric] private[squants2] (value: A, unit: LinearElectricChargeDensityUnit)
   extends Quantity[A, LinearElectricChargeDensity] {
@@ -36,11 +35,6 @@ object LinearElectricChargeDensity extends Dimension[LinearElectricChargeDensity
 
   lazy val coulombsPerMeter: LinearElectricChargeDensity[Int] = CoulombsPerMeter(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, LinearElectricChargeDensity] = LinearElectricChargeDensityNumeric[A]()
-  private case class LinearElectricChargeDensityNumeric[A: Numeric]() extends QuantityNumeric[A, LinearElectricChargeDensity](this) {
-    override def times(x: Quantity[A, LinearElectricChargeDensity], y: Quantity[A, LinearElectricChargeDensity]): Quantity[A, LinearElectricChargeDensity] =
-      CoulombsPerMeter(x.to(CoulombsPerMeter) * y.to(CoulombsPerMeter))
-  }
 }
 
 abstract class LinearElectricChargeDensityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[LinearElectricChargeDensity] {

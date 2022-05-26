@@ -9,7 +9,6 @@
 package squants2.information
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class Information[A: Numeric] private[squants2] (value: A, unit: InformationUnit)
   extends Quantity[A, Information] {
@@ -133,11 +132,6 @@ object Information extends BaseDimension[Information]("Information", "B") {
   lazy val yottabytes: Information[Int] = Yottabytes(1)
   lazy val yobibytes: Information[Int] = Yobibytes(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, Information] = InformationNumeric[A]()
-  private case class InformationNumeric[A: Numeric]() extends QuantityNumeric[A, Information](this) {
-    override def times(x: Quantity[A, Information], y: Quantity[A, Information]): Quantity[A, Information] =
-      Bytes(x.to(Bytes) * y.to(Bytes))
-  }
 }
 
 abstract class InformationUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Information] {

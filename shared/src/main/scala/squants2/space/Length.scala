@@ -9,7 +9,6 @@
 package squants2.space
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class Length[A: Numeric] private[squants2] (value: A, unit: LengthUnit)
   extends Quantity[A, Length] {
@@ -139,11 +138,6 @@ object Length extends BaseDimension[Length]("Length", "L") {
   lazy val megaParsecs: Length[Int] = MegaParsecs(1)
   lazy val gigaParsecs: Length[Int] = GigaParsecs(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, Length] = LengthNumeric[A]()
-  private case class LengthNumeric[A: Numeric]() extends QuantityNumeric[A, Length](this) {
-    override def times(x: Quantity[A, Length], y: Quantity[A, Length]): Quantity[A, Length] =
-      Meters(x.to(Meters) * y.to(Meters))
-  }
 }
 
 abstract class LengthUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Length] {

@@ -9,7 +9,6 @@
 package squants2.mass
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class AreaDensity[A: Numeric] private[squants2] (value: A, unit: AreaDensityUnit)
   extends Quantity[A, AreaDensity] {
@@ -44,11 +43,6 @@ object AreaDensity extends Dimension[AreaDensity]("Area Density") {
   lazy val kilogramsPerSquareMeter: AreaDensity[Int] = KilogramsPerSquareMeter(1)
   lazy val gramsPerSquareCentimeter: AreaDensity[Int] = GramsPerSquareCentimeter(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, AreaDensity] = AreaDensityNumeric[A]()
-  private case class AreaDensityNumeric[A: Numeric]() extends QuantityNumeric[A, AreaDensity](this) {
-    override def times(x: Quantity[A, AreaDensity], y: Quantity[A, AreaDensity]): Quantity[A, AreaDensity] =
-      KilogramsPerSquareMeter(x.to(KilogramsPerSquareMeter) * y.to(KilogramsPerSquareMeter))
-  }
 }
 
 abstract class AreaDensityUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[AreaDensity] {

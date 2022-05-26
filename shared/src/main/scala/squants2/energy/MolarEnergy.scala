@@ -9,7 +9,6 @@
 package squants2.energy
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class MolarEnergy[A: Numeric] private[squants2] (value: A, unit: MolarEnergyUnit)
   extends Quantity[A, MolarEnergy] {
@@ -35,11 +34,6 @@ object MolarEnergy extends Dimension[MolarEnergy]("Molar Energy") {
 
   lazy val joulesPerMole: MolarEnergy[Int] = JoulesPerMole(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, MolarEnergy] = MolarEnergyNumeric[A]()
-  private case class MolarEnergyNumeric[A: Numeric]() extends QuantityNumeric[A, MolarEnergy](this) {
-    override def times(x: Quantity[A, MolarEnergy], y: Quantity[A, MolarEnergy]): Quantity[A, MolarEnergy] =
-      JoulesPerMole(x.to(JoulesPerMole) * y.to(JoulesPerMole))
-  }
 }
 
 abstract class MolarEnergyUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[MolarEnergy] {

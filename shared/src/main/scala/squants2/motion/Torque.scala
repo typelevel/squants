@@ -9,7 +9,6 @@
 package squants2.motion
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class Torque[A: Numeric] private[squants2] (value: A, unit: TorqueUnit)
   extends Quantity[A, Torque] {
@@ -38,11 +37,6 @@ object Torque extends Dimension[Torque]("Torque") {
   lazy val newtonMeters: Torque[Int] = NewtonMeters(1)
   lazy val poundFeet: Torque[Int] = PoundFeet(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, Torque] = TorqueNumeric[A]()
-  private case class TorqueNumeric[A: Numeric]() extends QuantityNumeric[A, Torque](this) {
-    override def times(x: Quantity[A, Torque], y: Quantity[A, Torque]): Quantity[A, Torque] =
-      NewtonMeters(x.to(NewtonMeters) * y.to(NewtonMeters))
-  }
 }
 
 abstract class TorqueUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Torque] {

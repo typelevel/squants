@@ -9,7 +9,6 @@
 package squants2.motion
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class Force[A: Numeric] private[squants2] (value: A, unit: ForceUnit)
   extends Quantity[A, Force] {
@@ -53,11 +52,6 @@ object Force extends Dimension[Force]("Force") {
   lazy val poundForce: Force[Int] = PoundForce(1)
   lazy val kilogramForce: Force[Int] = KilogramForce(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, Force] = ForceNumeric[A]()
-  private case class ForceNumeric[A: Numeric]() extends QuantityNumeric[A, Force](this) {
-    override def times(x: Quantity[A, Force], y: Quantity[A, Force]): Quantity[A, Force] =
-      Newtons(x.to(Newtons) * y.to(Newtons))
-  }
 }
 
 abstract class ForceUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[Force] {

@@ -9,7 +9,6 @@
 package squants2.electro
 
 import squants2._
-import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class ElectricFieldStrength[A: Numeric] private[squants2] (value: A, unit: ElectricFieldStrengthUnit)
   extends Quantity[A, ElectricFieldStrength] {
@@ -35,11 +34,6 @@ object ElectricFieldStrength extends Dimension[ElectricFieldStrength]("Electric 
 
   lazy val voltsPerMeter: ElectricFieldStrength[Int] = VoltsPerMeter(1)
 
-  override def numeric[A: Numeric]: QuantityNumeric[A, ElectricFieldStrength] = ElectricFieldStrengthNumeric[A]()
-  private case class ElectricFieldStrengthNumeric[A: Numeric]() extends QuantityNumeric[A, ElectricFieldStrength](this) {
-    override def times(x: Quantity[A, ElectricFieldStrength], y: Quantity[A, ElectricFieldStrength]): Quantity[A, ElectricFieldStrength] =
-      VoltsPerMeter(x.to(VoltsPerMeter) * y.to(VoltsPerMeter))
-  }
 }
 
 abstract class ElectricFieldStrengthUnit(val symbol: String, val conversionFactor: ConversionFactor) extends UnitOfMeasure[ElectricFieldStrength] {
