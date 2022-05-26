@@ -24,7 +24,7 @@ package squants2
  * @tparam Q Dimension type
  */
 
-class QuantityNumeric[A, Q[_] <: Quantity[_, Q]](dimension: Dimension[Q])(implicit num: Numeric[A]) extends Numeric[Quantity[A, Q]] {
+class QuantityNumeric[A, Q[N] <: Quantity[N, Q]](dimension: Dimension[Q])(implicit num: Numeric[A]) extends Numeric[Quantity[A, Q]] {
   private val unit: UnitOfMeasure[Q]  = dimension.primaryUnit.asInstanceOf[UnitOfMeasure[Q]]
 
   override def plus(x: Quantity[A, Q], y: Quantity[A, Q]): Quantity[A, Q] = x + y

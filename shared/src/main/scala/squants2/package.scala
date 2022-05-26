@@ -9,7 +9,7 @@ package object squants2 {
 
   case class QuantityParseException(message: String, expression: String) extends Exception(s"$message:$expression")
 
-  type QuantitySeries[A, Q[_] <: Quantity[_, Q]] = IndexedSeq[QuantityRange[A, Q]]
+  type QuantitySeries[A, Q[N] <: Quantity[N, Q]] = IndexedSeq[QuantityRange[A, Q]]
 
   type ConversionFactor = BigDecimal // Could be replaced with something more robust and precise
 

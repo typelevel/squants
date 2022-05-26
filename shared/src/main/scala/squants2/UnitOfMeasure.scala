@@ -10,7 +10,7 @@ package squants2
  * @since   0.1
  * @tparam Q The Dimension being measured
  */
-trait UnitOfMeasure[Q[_] <: Quantity[_, Q]] extends Serializable {
+trait UnitOfMeasure[Q[N] <: Quantity[N, Q]] extends Serializable {
 
   def dimension: Dimension[Q]
 
@@ -20,7 +20,7 @@ trait UnitOfMeasure[Q[_] <: Quantity[_, Q]] extends Serializable {
    * @tparam A the QNumeric type for `a`
    * @return
    */
-  def apply[A: Numeric](a: A): Quantity[A, Q]
+  def apply[A: Numeric](a: A): Q[A]
 
   /**
    * Extractor method for getting the QNumeric value of a Quantity in this UnitOfMeasure
@@ -54,8 +54,7 @@ trait UnitOfMeasure[Q[_] <: Quantity[_, Q]] extends Serializable {
    * @tparam A QNumeric type
    * @return
    */
-  def convertTo[A](quantity: Quantity[A, Q], uom: UnitOfMeasure[Q])(implicit num: Numeric[A]): Quantity[A, Q] = {
-
+  def convertTo[A](quantity: Q[A], uom: UnitOfMeasure[Q])(implicit num: Numeric[A]): Q[A] = {
     if (uom eq this) quantity else {
       val thisFactor = num.parseString(conversionFactor.toString).get
       val thatFactor = num.parseString(uom.conversionFactor.toString).get
@@ -72,6 +71,6 @@ trait UnitOfMeasure[Q[_] <: Quantity[_, Q]] extends Serializable {
   }
 }
 
-trait PrimaryUnit[Q[_] <: Quantity[_, Q]] { self: UnitOfMeasure[Q] => }
-trait SiUnit[Q[_] <: Quantity[_, Q]] { self: UnitOfMeasure[Q] => }
-trait SiBaseUnit[Q[_] <: Quantity[_, Q]] extends SiUnit[Q] { self: UnitOfMeasure[Q] => }
+trait PrimaryUnit[Q[N] <: Quantity[N, Q]] { self: UnitOfMeasure[Q] => }
+trait SiUnit[Q[N] <: Quantity[N, Q]] { self: UnitOfMeasure[Q] => }
+trait SiBaseUnit[Q[N] <: Quantity[N, Q]] extends SiUnit[Q] { self: UnitOfMeasure[Q] => }

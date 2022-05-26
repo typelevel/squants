@@ -55,7 +55,7 @@ abstract class TemperatureUnit(val symbol: String, val conversionFactor: Convers
   override def dimension: Dimension[Temperature] = Temperature
   override def apply[A: Numeric](value: A): Temperature[A] = Temperature(value, this)
 
-  override def convertTo[A](quantity: Quantity[A, Temperature], uom: UnitOfMeasure[Temperature])(implicit num: Numeric[A]): Quantity[A, Temperature] = {
+  override def convertTo[A](quantity: Temperature[A], uom: UnitOfMeasure[Temperature])(implicit num: Numeric[A]): Temperature[A] = {
     (quantity.unit, uom) match {
       case (Kelvin, Kelvin)         => quantity
       case (Rankine, Rankine)       => quantity

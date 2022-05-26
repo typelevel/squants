@@ -9,7 +9,7 @@ import scala.util.{ Failure, Success, Try }
  *
  * @param name The name of the Dimension
  */
-abstract class Dimension[Q[_] <: Quantity[_, Q]](val name: String) {
+abstract class Dimension[Q[A] <: Quantity[A, Q]](val name: String) {
 
   /**
    * Set of available units
@@ -44,7 +44,7 @@ abstract class Dimension[Q[_] <: Quantity[_, Q]](val name: String) {
    * @tparam A the value type
    * @return
    */
-  def apply[A: Numeric](a: A, uom: UnitOfMeasure[Q]): Quantity[A, Q] = uom(a)
+  def apply[A: Numeric](a: A, uom: UnitOfMeasure[Q]): Q[A] = uom(a)
 
   /**
    * Tries to map a string or tuple value to Quantity of this Dimension
@@ -62,7 +62,7 @@ abstract class Dimension[Q[_] <: Quantity[_, Q]](val name: String) {
     case _                      => Failure(QuantityParseException(s"Unable to parse $name", value.toString))
   }
 
-  def parseString[A](s: String)(implicit num: Numeric[A]): Try[Quantity[A, Q]] = {
+  def parseString[A](s: String)(implicit num: Numeric[A]): Try[Q[A]] = {
     s match {
       case QuantityString(valStr, symbol) => Success(symbolToUnit(symbol).get(num.parseString(valStr).get))
       case _                              => Failure(QuantityParseException(s"Unable to parse $name", s))
@@ -71,7 +71,7 @@ abstract class Dimension[Q[_] <: Quantity[_, Q]](val name: String) {
 
   private lazy val QuantityString = ("^([-+]?[0-9]*\\.?[0-9]+(?:[eE][-+]?[0-9]+)?) *(" + units.map { (u: UnitOfMeasure[Q]) => u.symbol }.reduceLeft(_ + "|" + _) + ")$").r
 
-  def parseTuple[A](t: (A, String))(implicit num: Numeric[A]): Try[Quantity[A, Q]] = {
+  def parseTuple[A](t: (A, String))(implicit num: Numeric[A]): Try[Q[A]] = {
     val value = t._1
     val symbol = t._2
     symbolToUnit(symbol) match {
@@ -108,6 +108,6 @@ abstract class Dimension[Q[_] <: Quantity[_, Q]](val name: String) {
  * @param name The name of the Dimension
  * @param dimensionSymbol The SI dimension symbol
  */
-abstract class BaseDimension[Q[_] <: Quantity[_, Q]](name: String, val dimensionSymbol: String) extends Dimension[Q](name) {
+abstract class BaseDimension[Q[A] <: Quantity[A, Q]](name: String, val dimensionSymbol: String) extends Dimension[Q](name) {
   override def siUnit: UnitOfMeasure[Q] with SiBaseUnit[Q]
 }

@@ -13,7 +13,7 @@ import scala.math.Ordering.Implicits.infixOrderingOps
  * @param upper Quantity representing the upper bound of the range
  * @tparam A the Quantity Type
  */
-case class QuantityRange[A, Q[_] <: Quantity[_, Q]](lower: Quantity[A, Q], upper: Quantity[A, Q])(implicit num: Numeric[A]) {
+case class QuantityRange[A, Q[N] <: Quantity[N, Q]](lower: Q[A], upper: Q[A])(implicit num: Numeric[A]) {
   if (lower >= upper) {
     throw new IllegalArgumentException("QuantityRange upper bound must be strictly greater than to the lower bound")
   }
@@ -54,7 +54,7 @@ case class QuantityRange[A, Q[_] <: Quantity[_, Q]](lower: Quantity[A, Q], upper
    * @tparam B the numeric type of the parameter
    * @return
    */
-  def divide[B](that: Quantity[B, Q])(implicit f: B => A): QuantitySeries[A, Q] = {
+  def divide[B](that: Q[B])(implicit f: B => A): QuantitySeries[A, Q] = {
     val thatA = that.asNum[A]
     @tailrec
     def accumulate(acc: QuantitySeries[A, Q], start: Quantity[A, Q]): QuantitySeries[A, Q] = {
@@ -64,7 +64,7 @@ case class QuantityRange[A, Q[_] <: Quantity[_, Q]](lower: Quantity[A, Q], upper
     accumulate(IndexedSeq.empty.asInstanceOf[QuantitySeries[A, Q]], lower)
   }
   /** divide */
-  def /[B](that: Quantity[B, Q])(implicit f: B => A): QuantitySeries[A, Q] = divide(that)
+  def /[B](that: Q[B])(implicit f: B => A): QuantitySeries[A, Q] = divide(that)
 
   /**
    * Divides the range into a Seq of `divisor` ranges
@@ -94,7 +94,7 @@ case class QuantityRange[A, Q[_] <: Quantity[_, Q]](lower: Quantity[A, Q], upper
    * @tparam B the numeric type of the parameter
    * @return
    */
-  def foreach[B, U](size: Quantity[B, Q])(op: QuantityRange[A, Q] => U)(implicit f: B => A): Unit = /(size).foreach(op)
+  def foreach[B, U](size: Q[B])(op: QuantityRange[A, Q] => U)(implicit f: B => A): Unit = /(size).foreach(op)
 
   /**
    * Divides the range into a Seq of `divisor` ranges and applies a f to each element
@@ -117,7 +117,7 @@ case class QuantityRange[A, Q[_] <: Quantity[_, Q]](lower: Quantity[A, Q], upper
    * @tparam C the result type of the map operation
    * @return
    */
-  def map[B, C](size: Quantity[B, Q])(op: QuantityRange[A, Q] => C)(implicit f: B => A): Seq[C] = /(size).map(op)
+  def map[B, C](size: Q[B])(op: QuantityRange[A, Q] => C)(implicit f: B => A): Seq[C] = /(size).map(op)
 
   /**
    * Divides the range into a Seq of `divisor` ranges and applies a map operation to each
@@ -142,9 +142,9 @@ case class QuantityRange[A, Q[_] <: Quantity[_, Q]](lower: Quantity[A, Q], upper
    * @tparam C the result type of the binary operator
    * @return
    */
-  def foldLeft[B, C](size: Quantity[B, Q], z: C)(op: (C, QuantityRange[A, Q]) => C)(implicit f: B => A): C = /(size).foldLeft[C](z)(op)
+  def foldLeft[B, C](size: Q[B], z: C)(op: (C, QuantityRange[A, Q]) => C)(implicit f: B => A): C = /(size).foldLeft[C](z)(op)
   /** foldLeft */
-  def /:[B](size: Quantity[B, Q], z: B)(op: (B, QuantityRange[A, Q]) => B)(implicit f: B => A): B = foldLeft(size, z)(op)
+  def /:[B](size: Q[B], z: B)(op: (B, QuantityRange[A, Q]) => B)(implicit f: B => A): B = foldLeft(size, z)(op)
 
   /**
    * Divides the range into a Seq of ranges of `size` each and applies a foldLeft operation
@@ -172,9 +172,9 @@ case class QuantityRange[A, Q[_] <: Quantity[_, Q]](lower: Quantity[A, Q], upper
    * @tparam C the result type of the binary operator
    * @return
    */
-  def foldRight[B, C](size: Quantity[B, Q], z: C)(op: (QuantityRange[A, Q], C) => C)(implicit f: B => A): C = /(size).foldRight[C](z)(op)
+  def foldRight[B, C](size: Q[B], z: C)(op: (QuantityRange[A, Q], C) => C)(implicit f: B => A): C = /(size).foldRight[C](z)(op)
   /** foldRight */
-  def :\[B, C](size: Quantity[B, Q], z: C)(op: (QuantityRange[A, Q], C) => C)(implicit f: B => A): C = foldRight(size, z)(op)
+  def :\[B, C](size: Q[B], z: C)(op: (QuantityRange[A, Q], C) => C)(implicit f: B => A): C = foldRight(size, z)(op)
 
   /**
    * Divides the range into a Seq of ranges of `size` each and applies a foldRight operation
@@ -206,10 +206,10 @@ case class QuantityRange[A, Q[_] <: Quantity[_, Q]](lower: Quantity[A, Q], upper
    * @tparam B the numeric type of the parameter
    * @return
    */
-  def inc[B](that: Quantity[B, Q])(implicit f: B => A): QuantityRange[A, Q] =
+  def inc[B](that: Q[B])(implicit f: B => A): QuantityRange[A, Q] =
     QuantityRange(this.lower + that, this.upper + that)
   /** int */
-  def ++[B](that: Quantity[B, Q])(implicit f: B => A): QuantityRange[A, Q] = inc(that)
+  def ++[B](that: Q[B])(implicit f: B => A): QuantityRange[A, Q] = inc(that)
 
   /**
    * Decrements the range's from and to value by an amount equal to the Quantity value of the range
@@ -226,10 +226,10 @@ case class QuantityRange[A, Q[_] <: Quantity[_, Q]](lower: Quantity[A, Q], upper
    * @tparam B the numeric type of the parameter
    * @return
    */
-  def dec[B](that: Quantity[B, Q])(implicit f: B => A): QuantityRange[A, Q] =
+  def dec[B](that: Q[B])(implicit f: B => A): QuantityRange[A, Q] =
     QuantityRange(this.lower - that, this.upper - that)
   /** dec */
-  def --[B](that: Quantity[B, Q])(implicit f: B => A): QuantityRange[A, Q] = dec(that)
+  def --[B](that: Q[B])(implicit f: B => A): QuantityRange[A, Q] = dec(that)
 
   /**
    * Increments the `to` value by an amount equal to the value of `that`
@@ -238,15 +238,15 @@ case class QuantityRange[A, Q[_] <: Quantity[_, Q]](lower: Quantity[A, Q], upper
    * @tparam B the numeric type of the parameter
    * @return
    */
-  def incTo[B](that: Quantity[B, Q])(implicit f: B => A): QuantityRange[A, Q] =
+  def incTo[B](that: Q[B])(implicit f: B => A): QuantityRange[A, Q] =
     QuantityRange(this.lower, this.upper + that)
   /** incTo */
-  def =+[B](that: Quantity[B, Q])(implicit f: B => A): QuantityRange[A, Q] = incTo(that)
+  def =+[B](that: Q[B])(implicit f: B => A): QuantityRange[A, Q] = incTo(that)
 
-  def decTo[B](that: Quantity[B, Q])(implicit f: B => A): QuantityRange[A, Q] =
+  def decTo[B](that: Q[B])(implicit f: B => A): QuantityRange[A, Q] =
     QuantityRange(this.lower, this.upper - that)
   /** decTo */
-  def =-[B](that: Quantity[B, Q])(implicit f: B => A): QuantityRange[A, Q] = decTo(that)
+  def =-[B](that: Q[B])(implicit f: B => A): QuantityRange[A, Q] = decTo(that)
 
   /**
    * Increments the `from` value by an amount equal to the value of `that`
@@ -255,10 +255,10 @@ case class QuantityRange[A, Q[_] <: Quantity[_, Q]](lower: Quantity[A, Q], upper
    * @tparam B the numeric type of the parameter
    * @return
    */
-  def incFrom[B](that: Quantity[B, Q])(implicit f: B => A): QuantityRange[A, Q] =
+  def incFrom[B](that: Q[B])(implicit f: B => A): QuantityRange[A, Q] =
     QuantityRange(this.lower + that, this.upper)
   /** incFrom */
-  def +=[B](that: Quantity[B, Q])(implicit f: B => A): QuantityRange[A, Q] = incFrom(that)
+  def +=[B](that: Q[B])(implicit f: B => A): QuantityRange[A, Q] = incFrom(that)
 
   /**
    * Decrements the `from` value by an amount equal to the value of `that`
@@ -267,10 +267,10 @@ case class QuantityRange[A, Q[_] <: Quantity[_, Q]](lower: Quantity[A, Q], upper
    * @tparam B the numeric type of the parameter
    * @return
    */
-  def decFrom[B](that: Quantity[B, Q])(implicit f: B => A): QuantityRange[A, Q] =
+  def decFrom[B](that: Q[B])(implicit f: B => A): QuantityRange[A, Q] =
     QuantityRange(this.lower - that, this.upper)
   /** decFrom */
-  def -=[B](that: Quantity[B, Q])(implicit f: B => A): QuantityRange[A, Q] = decFrom(that)
+  def -=[B](that: Q[B])(implicit f: B => A): QuantityRange[A, Q] = decFrom(that)
 
   /**
    * Decrements the `from` value and increments the `to` by an amount equal to the value of `that`
@@ -279,10 +279,10 @@ case class QuantityRange[A, Q[_] <: Quantity[_, Q]](lower: Quantity[A, Q], upper
    * @tparam B the numeric type of the parameter
    * @return
    */
-  def decFromIncTo[B](that: Quantity[B, Q])(implicit f: B => A): QuantityRange[A, Q] =
+  def decFromIncTo[B](that: Q[B])(implicit f: B => A): QuantityRange[A, Q] =
     QuantityRange(this.lower - that, this.upper + that)
   /** decFromIncTo */
-  def -+[B](that: Quantity[B, Q])(implicit f: B => A): QuantityRange[A, Q] = decFromIncTo(that)
+  def -+[B](that: Q[B])(implicit f: B => A): QuantityRange[A, Q] = decFromIncTo(that)
 
   /**
    * Increments the `from` value and decrements the `to` by an amount equal to the value of `that`
@@ -291,10 +291,10 @@ case class QuantityRange[A, Q[_] <: Quantity[_, Q]](lower: Quantity[A, Q], upper
    * @tparam B the numeric type of the parameter
    * @return
    */
-  def incFromDecTo[B](that: Quantity[B, Q])(implicit f: B => A): QuantityRange[A, Q] =
+  def incFromDecTo[B](that: Q[B])(implicit f: B => A): QuantityRange[A, Q] =
     QuantityRange(this.lower + that, this.upper - that)
   /** incFromDecTo */
-  def +-[B](that: Quantity[B, Q])(implicit f: B => A): QuantityRange[A, Q] = incFromDecTo(that)
+  def +-[B](that: Q[B])(implicit f: B => A): QuantityRange[A, Q] = incFromDecTo(that)
 
   /**
    * Returns true if the quantity is contained within this range, otherwise false.
@@ -304,7 +304,7 @@ case class QuantityRange[A, Q[_] <: Quantity[_, Q]](lower: Quantity[A, Q], upper
    * @tparam B the numeric type of the parameter
    * @return
    */
-  def contains[B](q: Quantity[B, Q])(implicit f: B => A): Boolean =
+  def contains[B](q: Q[B])(implicit f: B => A): Boolean =
     (q.asNum[A] >= lower) && (q.asNum[A] < upper)
 
   /**
@@ -340,7 +340,7 @@ case class QuantityRange[A, Q[_] <: Quantity[_, Q]](lower: Quantity[A, Q], upper
    * @tparam B the numeric type of the parameter
    * @return
    */
-  def includes[B](q: Quantity[B, Q])(implicit f: B => A): Boolean = {
+  def includes[B](q: Q[B])(implicit f: B => A): Boolean = {
     val qA = q.asNum[A]
     qA >= lower && qA <= upper
   }
@@ -382,7 +382,7 @@ case class QuantityRange[A, Q[_] <: Quantity[_, Q]](lower: Quantity[A, Q], upper
    * Returns a quantity that is equal to the difference between the `from` and `to`
    * @return
    */
-  lazy val toQuantity: Quantity[A, Q] = upper - lower
+  lazy val toQuantity: Q[A] = upper - lower
 
   /**
    * Returns this Range's boundary values as a Seq[A] of the two
