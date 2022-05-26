@@ -59,17 +59,20 @@ An abbreviated view ...
 ```scala
 import squants2._
 
-abstract class Quantity[A: Numeric, Q[_] <: Quantity[_, Q]] {
+abstract class Quantity[A: Numeric, Q[N] <: Quantity[N, Q]] {
   def value: A
   def unit: UnitOfMeasure[Q]
   
+  // new cross numeric operations, required implicit conversion from type on right to type on left
+  def plus[B](that: Q[B])(implicit f: B => A): Q[A]
+  
   // new generic number methods
-  def asNum[B: Numeric](implicit f: A => B): Quantity[B, Q]
+  def asNum[B: Numeric](implicit f: A => B): Q[B]
   def toNum[B: Numeric](uom: UnitOfMeasure[Q])(implicit f: A => B): B
   /* ... */
 }
 
-abstract class Dimension[Q[_] <: Quantity[_, Q]](val name: String) {
+abstract class Dimension[Q[N] <: Quantity[N, Q]](val name: String) {
   def primaryUnit: UnitOfMeasure[Q] with PrimaryUnit[Q]
   def siUnit: UnitOfMeasure[Q] with SiUnit[Q]
   def units: Set[UnitOfMeasure[Q]]
@@ -77,7 +80,7 @@ abstract class Dimension[Q[_] <: Quantity[_, Q]](val name: String) {
   /* ... */
 }
 
-trait UnitOfMeasure[Q[_] <: Quantity[_, Q]] {
+trait UnitOfMeasure[Q[N] <: Quantity[N, Q]] {
   def dimension: Dimension[Q]
   def symbol: String
   def conversionFactor: BigDecimal  
@@ -99,14 +102,19 @@ However, each quantity type must be refactored to use `Numeric`, and provide num
 (*A refactoring that is possible in the current 1.x model, as well*)
 
 ```scala
-import squants2._
+package squants2
+
+import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class Dimensionless[A: Numeric] private[squants2] (value: A, unit: DimensionlessUnit)
   extends Quantity[A, Dimensionless] {
 
+  // BEGIN CUSTOM OPS
+
   def *[B](that: Dimensionless[B])(implicit f: B => A): Dimensionless[A] = Each(to(Each) * that.asNum[A].to(Each))
-  def *[B, Q[_] <: Quantity[B, Q]](that: Q[B])(implicit f: B => A): Quantity[A, Q] = that.asNum[A] * to(Each)
-  def +[B](that: B)(implicit f: B => A): Dimensionless[A] = Each(to(Each) + that)
+  def *[B, Q[N] <: Quantity[N, Q]](that: Q[B])(implicit f: B => A): Q[A] = that.asNum[A] * to(Each)
+  def +[B](that: B)(implicit f: B => A): Dimensionless[A] = Each(to(Each) + f(that))
+  // END CUSTOM OPS
 
   def toPercent[B: Numeric](implicit f: A => B): B = toNum[B](Percent)
   def toEach[B: Numeric](implicit f: A => B): B = toNum[B](Each)
