@@ -15,7 +15,7 @@ final case class Dimensionless[A: Numeric] private[squants2] (value: A, unit: Di
 
   // BEGIN CUSTOM OPS
 
-  def *[B](that: Dimensionless[B])(implicit f: B => A): Dimensionless[A] = Each(to(Each) * that.asNum[A].to(Each))
+  def *[B](that: Dimensionless[B])(implicit f: B => A): Dimensionless[A] = Each(to(Each) * that.toNum[A](Each))
   def *[B, Q[N] <: Quantity[N, Q]](that: Q[B])(implicit f: B => A): Q[A] = that.asNum[A] * to(Each)
   def +[B](that: B)(implicit f: B => A): Dimensionless[A] = Each(to(Each) + f(that))
   // END CUSTOM OPS
