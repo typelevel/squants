@@ -19,7 +19,7 @@ final case class Time[A: Numeric] private[squants2] (value: A, unit: TimeUnit)
   //  def *[B](that: Area[B])(implicit f: B => A): AreaTime[A] = ???
   // END CUSTOM OPS
 
-  def *[Q[N] <: Quantity[N, Q] with TimeIntegral[N, _]](that: TimeDerivative[A, Q]): Q[A] = that * this
+//  def *[Q[N] <: Quantity[N, Q] with TimeIntegral[N, _]](that: TimeDerivative[A, Q]): Q[A] = that * this
 
   def *[B](that: Time[B])(implicit f: B => A): TimeSquared[A] = TimeSquared[A](this, that.asNum[A])
 
