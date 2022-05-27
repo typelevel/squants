@@ -8,10 +8,12 @@
 
 package squants2
 
+import squants2.time.{ Frequency, Hertz, Seconds, Time, TimeIntegral }
+
 import scala.math.Numeric.Implicits.infixNumericOps
 
 final case class Dimensionless[A: Numeric] private[squants2] (value: A, unit: DimensionlessUnit)
-  extends Quantity[A, Dimensionless] {
+  extends Quantity[A, Dimensionless] with TimeIntegral[A, Frequency] {
 
   // BEGIN CUSTOM OPS
 
@@ -19,6 +21,10 @@ final case class Dimensionless[A: Numeric] private[squants2] (value: A, unit: Di
   def *[B, Q[N] <: Quantity[N, Q]](that: Q[B])(implicit f: B => A): Q[A] = that.asNum[A] * to(Each)
   def +[B](that: B)(implicit f: B => A): Dimensionless[A] = Each(to(Each) + f(that))
   // END CUSTOM OPS
+
+
+  override protected[squants2] def timeDerived: Frequency[A] with Quantity[A, Frequency] = Hertz(num.one)
+  override protected[squants2] def time: Time[A] = Seconds(num.one)
 
   def toPercent[B: Numeric](implicit f: A => B): B = toNum[B](Percent)
   def toEach[B: Numeric](implicit f: A => B): B = toNum[B](Each)

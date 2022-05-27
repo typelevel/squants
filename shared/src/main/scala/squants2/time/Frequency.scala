@@ -11,7 +11,7 @@ package squants2.time
 import squants2._
 
 final case class Frequency[A: Numeric] private[squants2] (value: A, unit: FrequencyUnit)
-  extends Quantity[A, Frequency] {
+  extends Quantity[A, Frequency] with TimeDerivative[A, Dimensionless] {
 
   // BEGIN CUSTOM OPS
 
@@ -34,6 +34,9 @@ final case class Frequency[A: Numeric] private[squants2] (value: A, unit: Freque
   //  def *[B](that: Velocity[B])(implicit f: B => A): Acceleration[A] = ???
   //  def *[B](that: Volume[B])(implicit f: B => A): VolumeFlow[A] = ???
   // END CUSTOM OPS
+
+  override protected[squants2] def timeIntegrated: Dimensionless[A] with Quantity[A, Dimensionless] = Each(num.one)
+  override protected[squants2] def time: Time[A] = Seconds(num.one)
 
   def toRevolutionsPerMinute[B: Numeric](implicit f: A => B): B = toNum[B](RevolutionsPerMinute)
   def toHertz[B: Numeric](implicit f: A => B): B = toNum[B](Hertz)

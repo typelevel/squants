@@ -18,6 +18,8 @@ final case class Time[A: Numeric] private[squants2] (value: A, unit: TimeUnit)
   //  def millis[B]()(implicit f: B => A): Long = ???
   //  def *[B](that: Area[B])(implicit f: B => A): AreaTime[A] = ???
   // END CUSTOM OPS
+  def *[D[N] <: Quantity[N, D] with TimeDerivative[A, I], I[N] <: Quantity[N, I] with TimeIntegral[A, D]](that: D[A]): I[A] =
+    that.asInstanceOf[TimeDerivative[A, I]] * this
 
   def toNanoseconds[B: Numeric](implicit f: A => B): B = toNum[B](Nanoseconds)
   def toMicroseconds[B: Numeric](implicit f: A => B): B = toNum[B](Microseconds)

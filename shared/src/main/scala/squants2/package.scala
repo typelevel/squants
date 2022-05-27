@@ -1,3 +1,5 @@
+import squants2.time.{ Frequency, Time }
+
 import scala.annotation.tailrec
 import scala.math.BigDecimal.RoundingMode
 import scala.math.BigDecimal.RoundingMode.RoundingMode
@@ -72,6 +74,8 @@ package object squants2 {
       case _: Integral[A] => a
       case _ => throw new UnsupportedOperationException("Unknown Numeric type")
     }
+
+    def /(that: Time[A]): Frequency[A] = Each(a) / that
 
   }
 
