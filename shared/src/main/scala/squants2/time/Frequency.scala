@@ -36,7 +36,7 @@ final case class Frequency[A: Numeric] private[squants2] (value: A, unit: Freque
   // END CUSTOM OPS
 
   override protected[squants2] def timeIntegrated: Dimensionless[A] with Quantity[A, Dimensionless] = Each(num.one)
-  override protected[squants2] def time: Time[A] = Seconds(num.one)
+  override protected[squants2] def derivativeTime: Time[A] = Seconds(num.one)
 
   def toRevolutionsPerMinute[B: Numeric](implicit f: A => B): B = toNum[B](RevolutionsPerMinute)
   def toHertz[B: Numeric](implicit f: A => B): B = toNum[B](Hertz)
