@@ -8,7 +8,7 @@
 
 package squants2
 
-//import squants2.space._
+import squants2.space._
 
 import scala.math.Numeric.Implicits.infixNumericOps
 
@@ -43,7 +43,7 @@ abstract class SVector[A, Q[N] <: Quantity[N, Q]] {
    * @param unit unit for the angle (theta) component (defaults to Radians)
    * @return Angle
    */
-//  def angle(coordinateX: Int = 0, coordinateY: Int = 1, unit: AngleUnit = Radians): Angle[A]
+  def angle(coordinateX: Int = 0, coordinateY: Int = 1, unit: AngleUnit = Radians): Angle[A]
 
   /**
    * The polar coordinates (r, theta) of the two Cartesian coordinates at the supplied indices
@@ -52,7 +52,7 @@ abstract class SVector[A, Q[N] <: Quantity[N, Q]] {
    * @param unit unit for the angle (theta) component (defaults to Radians)
    * @return (A, Angle)
    */
-//  def polar(coordinateX: Int = 0, coordinateY: Int = 1, unit: AngleUnit = Radians): (Q, Angle[A]) = (magnitude, angle(coordinateX, coordinateY, unit))
+  def polar(coordinateX: Int = 0, coordinateY: Int = 1, unit: AngleUnit = Radians): (Q[A], Angle[A]) = (magnitude, angle(coordinateX, coordinateY, unit))
 
   /**
    * Creates the Unit Vector which corresponds to this vector
@@ -149,7 +149,7 @@ case class SVectorImpl[A, Q[N] <: Quantity[N, Q]](coordinates: Seq[Q[A]])(implic
    * @return
    */
   override def magnitude: Q[A] = ???
-  // TODO:   valueUnit(qNum.sqrt(coordinates.map(v ⇒ v.to(valueUnit) * v.to(valueUnit)).foldLeft(qNum.zero)(_ + _)))
+//    valueUnit(num.sqrt(coordinates.map(v ⇒ v.to(valueUnit) * v.to(valueUnit)).foldLeft(num.zero)(_ + _)))
 
   /**
    * The angle between the two Cartesian coordinates at the supplied indices
@@ -159,8 +159,8 @@ case class SVectorImpl[A, Q[N] <: Quantity[N, Q]](coordinates: Seq[Q[A]])(implic
    * @param unit        unit for the angle (theta) component (defaults to Radians)
    * @return Angle
    */
-//  override def angle(coordinateX: Int, coordinateY: Int, unit: AngleUnit): Angle[A] = ???
-  // TODO:   Radians(qNum.atan(coordinates(coordinateY) / coordinates(coordinateX))) in unit
+  override def angle(coordinateX: Int, coordinateY: Int, unit: AngleUnit): Angle[A] = ???
+//    Radians(num.atan(coordinates(coordinateY) / coordinates(coordinateX))) in unit
 
   /**
    * Creates the Unit Vector which corresponds to this vector
