@@ -92,11 +92,11 @@ object Squants2Converter extends App {
     writer.println(s"  extends Quantity[A, ${d.name}]$mixins {")
     writer.println()
     if(isTI) {
-      writer.println(s"  override protected[squants2] def timeDerived: ${timeDerived}[A] = ${primaryUnits(timeDerived)}(num.one)")
+      writer.println(s"  override protected[squants2] def timeDerived: $timeDerived[A] = ${primaryUnits(timeDerived)}(num.one)")
       writer.println("  override protected[squants2] def integralTime: Time[A] = Seconds(num.one)")
     }
     if(isTD) {
-      writer.println(s"  override protected[squants2] def timeIntegrated: ${timeIntegrated}[A] = ${primaryUnits(timeIntegrated)}(num.one)")
+      writer.println(s"  override protected[squants2] def timeIntegrated: $timeIntegrated[A] = ${primaryUnits(timeIntegrated)}(num.one)")
       writer.println("  override protected[squants2] def derivativeTime: Time[A] = Seconds(num.one)")
     }
     if(isTD || isTI)
