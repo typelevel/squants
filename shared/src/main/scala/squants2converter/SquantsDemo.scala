@@ -1,10 +1,11 @@
-package squants2
+package squants2converter
 
-import squants2.space._
-import squants2.mass._
-import squants2.Dimensionless._
-import squants2.market._
-import squants2.time._
+import squants2.market.{ Money, USD }
+import squants2.mass.{ Kilograms, Mass, Pounds }
+import squants2.space.{ UsGallons, UsMiles }
+import squants2.time.{ Hours, Seconds }
+import squants2.{ Dimensionless, Each }
+import Dimensionless._
 
 import scala.math.Numeric.DoubleIsFractional
 
@@ -38,7 +39,7 @@ object SquantsDemo extends App {
   //  val massSum3 = massN + massD // No implicit prevents this code from compiling - GOOD!
 
   // But you can be explicit
-  val massSumN = massN + massD.map(_.toInt)  // Mass[Int]
+  val massSumN = massN + massD.map(_.toInt) // Mass[Int]
   val massSumD = massN.asNum[Double] + massD // Mass[Double]
 
   val ms = Seq(12.28.each, Each(12.28), Each(-10.22), 1.1.each).map(_.asNum[BigDecimal])
@@ -54,7 +55,7 @@ object SquantsDemo extends App {
   val bdd: BigDecimal = dim.toGross
 
   val speed = UsMiles(55d) / Hours(1d)
-  val accel = speed / Seconds(10d )
+  val accel = speed / Seconds(10d)
 
   val gasPrice = USD(5.49).asNum[BigDecimal] / UsGallons(1d).asNum[BigDecimal]
   val gasCost: Money[BigDecimal] = gasPrice * UsGallons(10d).asNum[BigDecimal]

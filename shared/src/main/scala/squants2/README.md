@@ -186,10 +186,12 @@ where it can live during refactoring.
 
 ### Approach to Complete Refactoring
 
-1. Refactor `TimeDerivative` and `TimeIntegral` traits
-2. Refactor `market` package
-4. Refactor and Migrate Tests
-5. Update Docs
+1. Refactor `market` package (in progress)
+2. Implement custom dimensional operations stubs
+3. Refactor `SecondTimeDerivative` and `SecondTimeIntegral` traits
+4. Migrate constants and other things unique to each Dimension
+5. Refactor and Migrate Tests
+6. Update Docs
 
 The refactored code can continue being added to the `squants2` package within this development branch.
 Once things are fully migrated, `squants` can be removed and `squants2` renamed to `squants`.
