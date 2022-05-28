@@ -122,7 +122,7 @@ object Mass extends BaseDimension[Mass]("Mass", "M") {
   lazy val megapound: Mass[Int] = Megapounds(1)
   lazy val kilopound: Mass[Int] = Kilopounds(1)
   lazy val tonne: Mass[Int] = Tonnes(1)
-  lazy val solarMasses: Mass[Int] = SolarMasses(1)
+  lazy val solarMass: Mass[Int] = SolarMasses(1)
 
 }
 

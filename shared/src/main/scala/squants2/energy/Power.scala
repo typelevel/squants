@@ -68,7 +68,7 @@ object Power extends Dimension[Power]("Power") {
   lazy val kilowatt: Power[Int] = Kilowatts(1)
   lazy val megawatt: Power[Int] = Megawatts(1)
   lazy val gigawatt: Power[Int] = Gigawatts(1)
-  lazy val solarLuminositie: Power[Int] = SolarLuminosities(1)
+  lazy val solarLuminosity: Power[Int] = SolarLuminosities(1)
 
 }
 

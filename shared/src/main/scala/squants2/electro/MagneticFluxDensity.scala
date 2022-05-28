@@ -34,7 +34,7 @@ object MagneticFluxDensity extends Dimension[MagneticFluxDensity]("Magnetic Flux
     def teslas: MagneticFluxDensity[A] = Teslas(a)
   }
 
-  lazy val gaus: MagneticFluxDensity[Int] = Gauss(1)
+  lazy val gauss: MagneticFluxDensity[Int] = Gauss(1)
   lazy val tesla: MagneticFluxDensity[Int] = Teslas(1)
 
 }

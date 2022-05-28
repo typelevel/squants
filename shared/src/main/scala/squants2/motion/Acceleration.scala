@@ -56,7 +56,7 @@ object Acceleration extends Dimension[Acceleration]("Acceleration") {
   lazy val millimeterPerSecondSquared: Acceleration[Int] = MillimetersPerSecondSquared(1)
   lazy val feetPerSecondSquared: Acceleration[Int] = FeetPerSecondSquared(1)
   lazy val meterPerSecondSquared: Acceleration[Int] = MetersPerSecondSquared(1)
-  lazy val earthGravitie: Acceleration[Int] = EarthGravities(1)
+  lazy val earthGravity: Acceleration[Int] = EarthGravities(1)
 
 }
 
