@@ -9,9 +9,13 @@
 package squants2.energy
 
 import squants2._
+import squants2.time._
 
 final case class PowerRamp[A: Numeric] private[squants2] (value: A, unit: PowerRampUnit)
-  extends Quantity[A, PowerRamp] {
+  extends Quantity[A, PowerRamp] with TimeDerivative[A, Power] {
+
+  override protected[squants2] def timeIntegrated: Power[A] = Watts(num.one)
+  override protected[squants2] def derivativeTime: Time[A] = Seconds(num.one)
 
   // BEGIN CUSTOM OPS
 

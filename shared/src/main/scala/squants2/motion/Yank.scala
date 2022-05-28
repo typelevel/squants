@@ -9,9 +9,13 @@
 package squants2.motion
 
 import squants2._
+import squants2.time._
 
 final case class Yank[A: Numeric] private[squants2] (value: A, unit: YankUnit)
-  extends Quantity[A, Yank] {
+  extends Quantity[A, Yank] with TimeDerivative[A, Force] {
+
+  override protected[squants2] def timeIntegrated: Force[A] = Newtons(num.one)
+  override protected[squants2] def derivativeTime: Time[A] = Seconds(num.one)
 
   // BEGIN CUSTOM OPS
 

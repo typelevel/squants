@@ -9,9 +9,13 @@
 package squants2.motion
 
 import squants2._
+import squants2.time._
 
 final case class Pressure[A: Numeric] private[squants2] (value: A, unit: PressureUnit)
-  extends Quantity[A, Pressure] {
+  extends Quantity[A, Pressure] with TimeIntegral[A, PressureChange] {
+
+  override protected[squants2] def timeDerived: PressureChange[A] = PascalsPerSecond(num.one)
+  override protected[squants2] def integralTime: Time[A] = Seconds(num.one)
 
   // BEGIN CUSTOM OPS
 

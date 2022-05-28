@@ -9,9 +9,15 @@
 package squants2.motion
 
 import squants2._
+import squants2.time._
 
 final case class Acceleration[A: Numeric] private[squants2] (value: A, unit: AccelerationUnit)
-  extends Quantity[A, Acceleration] {
+  extends Quantity[A, Acceleration] with TimeDerivative[A, Velocity] with TimeIntegral[A, Jerk] {
+
+  override protected[squants2] def timeDerived: Jerk[A] = MetersPerSecondCubed(num.one)
+  override protected[squants2] def integralTime: Time[A] = Seconds(num.one)
+  override protected[squants2] def timeIntegrated: Velocity[A] = MetersPerSecond(num.one)
+  override protected[squants2] def derivativeTime: Time[A] = Seconds(num.one)
 
   // BEGIN CUSTOM OPS
 

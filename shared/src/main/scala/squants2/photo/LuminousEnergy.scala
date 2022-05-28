@@ -9,9 +9,13 @@
 package squants2.photo
 
 import squants2._
+import squants2.time._
 
 final case class LuminousEnergy[A: Numeric] private[squants2] (value: A, unit: LuminousEnergyUnit)
-  extends Quantity[A, LuminousEnergy] {
+  extends Quantity[A, LuminousEnergy] with TimeIntegral[A, LuminousFlux] {
+
+  override protected[squants2] def timeDerived: LuminousFlux[A] = Lumens(num.one)
+  override protected[squants2] def integralTime: Time[A] = Seconds(num.one)
 
   // BEGIN CUSTOM OPS
 

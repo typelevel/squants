@@ -9,9 +9,13 @@
 package squants2.motion
 
 import squants2._
+import squants2.time._
 
 final case class Momentum[A: Numeric] private[squants2] (value: A, unit: MomentumUnit)
-  extends Quantity[A, Momentum] {
+  extends Quantity[A, Momentum] with TimeIntegral[A, Force] {
+
+  override protected[squants2] def timeDerived: Force[A] = Newtons(num.one)
+  override protected[squants2] def integralTime: Time[A] = Seconds(num.one)
 
   // BEGIN CUSTOM OPS
 

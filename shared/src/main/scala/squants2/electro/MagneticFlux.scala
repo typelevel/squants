@@ -9,9 +9,13 @@
 package squants2.electro
 
 import squants2._
+import squants2.time._
 
 final case class MagneticFlux[A: Numeric] private[squants2] (value: A, unit: MagneticFluxUnit)
-  extends Quantity[A, MagneticFlux] {
+  extends Quantity[A, MagneticFlux] with TimeIntegral[A, ElectricPotential] {
+
+  override protected[squants2] def timeDerived: ElectricPotential[A] = Volts(num.one)
+  override protected[squants2] def integralTime: Time[A] = Seconds(num.one)
 
   // BEGIN CUSTOM OPS
 

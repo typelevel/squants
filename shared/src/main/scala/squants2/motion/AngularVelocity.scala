@@ -9,9 +9,16 @@
 package squants2.motion
 
 import squants2._
+import squants2.space._
+import squants2.time._
 
 final case class AngularVelocity[A: Numeric] private[squants2] (value: A, unit: AngularVelocityUnit)
-  extends Quantity[A, AngularVelocity] {
+  extends Quantity[A, AngularVelocity] with TimeDerivative[A, Angle] with TimeIntegral[A, AngularAcceleration] {
+
+  override protected[squants2] def timeDerived: AngularAcceleration[A] = RadiansPerSecondSquared(num.one)
+  override protected[squants2] def integralTime: Time[A] = Seconds(num.one)
+  override protected[squants2] def timeIntegrated: Angle[A] = Radians(num.one)
+  override protected[squants2] def derivativeTime: Time[A] = Seconds(num.one)
 
   // BEGIN CUSTOM OPS
 

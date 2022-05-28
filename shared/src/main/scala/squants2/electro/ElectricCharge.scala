@@ -9,9 +9,13 @@
 package squants2.electro
 
 import squants2._
+import squants2.time._
 
 final case class ElectricCharge[A: Numeric] private[squants2] (value: A, unit: ElectricChargeUnit)
-  extends Quantity[A, ElectricCharge] {
+  extends Quantity[A, ElectricCharge] with TimeIntegral[A, ElectricCurrent] {
+
+  override protected[squants2] def timeDerived: ElectricCurrent[A] = Amperes(num.one)
+  override protected[squants2] def integralTime: Time[A] = Seconds(num.one)
 
   // BEGIN CUSTOM OPS
 

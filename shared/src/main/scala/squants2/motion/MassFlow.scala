@@ -9,9 +9,14 @@
 package squants2.motion
 
 import squants2._
+import squants2.mass._
+import squants2.time._
 
 final case class MassFlow[A: Numeric] private[squants2] (value: A, unit: MassFlowUnit)
-  extends Quantity[A, MassFlow] {
+  extends Quantity[A, MassFlow] with TimeDerivative[A, Mass] {
+
+  override protected[squants2] def timeIntegrated: Mass[A] = Grams(num.one)
+  override protected[squants2] def derivativeTime: Time[A] = Seconds(num.one)
 
   // BEGIN CUSTOM OPS
 

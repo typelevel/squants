@@ -9,9 +9,14 @@
 package squants2.space
 
 import squants2._
+import squants2.motion._
+import squants2.time._
 
 final case class Volume[A: Numeric] private[squants2] (value: A, unit: VolumeUnit)
-  extends Quantity[A, Volume] {
+  extends Quantity[A, Volume] with TimeIntegral[A, VolumeFlow] {
+
+  override protected[squants2] def timeDerived: VolumeFlow[A] = CubicMetersPerSecond(num.one)
+  override protected[squants2] def integralTime: Time[A] = Seconds(num.one)
 
   // BEGIN CUSTOM OPS
 

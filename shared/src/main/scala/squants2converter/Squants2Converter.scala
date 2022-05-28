@@ -13,10 +13,14 @@ import scala.language.existentials
 
 object Squants2Converter extends App {
 
-  writeDimensionFile(Frequency)
-  writeDimensionFile(Dimensionless)
+  val primaryUnits: Map[String, String] = Squants1UnitDocGenerator.allDimensions.map { d =>
+    d.name -> d.primaryUnit.getClass.getSimpleName.replace("$", "")
+  }.toMap
+
+//  writeDimensionFile(Frequency)
+//  writeDimensionFile(Dimensionless)
   val dontProcess = Set(Temperature, Time, Dimensionless, Frequency)
-//  Squants1UnitDocGenerator.allDimensions.--(dontProcess).foreach(writeDimensionFile)
+  Squants1UnitDocGenerator.allDimensions.--(dontProcess).foreach(writeDimensionFile)
 
   def writeDimensionFile(d: Dimension[_]): Unit = {
 
@@ -88,14 +92,15 @@ object Squants2Converter extends App {
     writer.println(s"  extends Quantity[A, ${d.name}]$mixins {")
     writer.println()
     if(isTI) {
-      writer.println(s"  override protected[squants2] def timeDerived: ${timeDerived}[A] = ???")
+      writer.println(s"  override protected[squants2] def timeDerived: ${timeDerived}[A] = ${primaryUnits(timeDerived)}(num.one)")
       writer.println("  override protected[squants2] def integralTime: Time[A] = Seconds(num.one)")
     }
     if(isTD) {
-      writer.println(s"  override protected[squants2] def timeIntegrated: ${timeIntegrated}[A] = ???")
+      writer.println(s"  override protected[squants2] def timeIntegrated: ${timeIntegrated}[A] = ${primaryUnits(timeIntegrated)}(num.one)")
       writer.println("  override protected[squants2] def derivativeTime: Time[A] = Seconds(num.one)")
     }
-    writer.println()
+    if(isTD || isTI)
+      writer.println()
     writer.println("  // BEGIN CUSTOM OPS")
     writer.println()
     d.primaryUnit(1d).getClass.getDeclaredMethods

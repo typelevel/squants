@@ -9,9 +9,14 @@
 package squants2.space
 
 import squants2._
+import squants2.motion._
+import squants2.time._
 
 final case class Length[A: Numeric] private[squants2] (value: A, unit: LengthUnit)
-  extends Quantity[A, Length] {
+  extends Quantity[A, Length] with TimeIntegral[A, Velocity] {
+
+  override protected[squants2] def timeDerived: Velocity[A] = MetersPerSecond(num.one)
+  override protected[squants2] def integralTime: Time[A] = Seconds(num.one)
 
   // BEGIN CUSTOM OPS
 

@@ -9,9 +9,13 @@
 package squants2.information
 
 import squants2._
+import squants2.time._
 
 final case class DataRate[A: Numeric] private[squants2] (value: A, unit: DataRateUnit)
-  extends Quantity[A, DataRate] {
+  extends Quantity[A, DataRate] with TimeDerivative[A, Information] {
+
+  override protected[squants2] def timeIntegrated: Information[A] = Bytes(num.one)
+  override protected[squants2] def derivativeTime: Time[A] = Seconds(num.one)
 
   // BEGIN CUSTOM OPS
 
