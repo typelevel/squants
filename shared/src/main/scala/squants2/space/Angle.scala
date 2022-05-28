@@ -52,12 +52,12 @@ object Angle extends Dimension[Angle]("Angle") {
     def turns: Angle[A] = Turns(a)
   }
 
-  lazy val arcseconds: Angle[Int] = Arcseconds(1)
-  lazy val arcminutes: Angle[Int] = Arcminutes(1)
-  lazy val gradians: Angle[Int] = Gradians(1)
-  lazy val degrees: Angle[Int] = Degrees(1)
-  lazy val radians: Angle[Int] = Radians(1)
-  lazy val turns: Angle[Int] = Turns(1)
+  lazy val arcsecond: Angle[Int] = Arcseconds(1)
+  lazy val arcminute: Angle[Int] = Arcminutes(1)
+  lazy val gradian: Angle[Int] = Gradians(1)
+  lazy val degree: Angle[Int] = Degrees(1)
+  lazy val radian: Angle[Int] = Radians(1)
+  lazy val turn: Angle[Int] = Turns(1)
 
 }
 

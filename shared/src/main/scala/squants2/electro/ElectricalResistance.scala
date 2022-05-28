@@ -46,13 +46,13 @@ object ElectricalResistance extends Dimension[ElectricalResistance]("Electrical 
     def gigohms: ElectricalResistance[A] = Gigohms(a)
   }
 
-  lazy val nanohms: ElectricalResistance[Int] = Nanohms(1)
-  lazy val microohms: ElectricalResistance[Int] = Microohms(1)
-  lazy val milliohms: ElectricalResistance[Int] = Milliohms(1)
-  lazy val ohms: ElectricalResistance[Int] = Ohms(1)
-  lazy val kilohms: ElectricalResistance[Int] = Kilohms(1)
-  lazy val megohms: ElectricalResistance[Int] = Megohms(1)
-  lazy val gigohms: ElectricalResistance[Int] = Gigohms(1)
+  lazy val nanohm: ElectricalResistance[Int] = Nanohms(1)
+  lazy val microohm: ElectricalResistance[Int] = Microohms(1)
+  lazy val milliohm: ElectricalResistance[Int] = Milliohms(1)
+  lazy val ohm: ElectricalResistance[Int] = Ohms(1)
+  lazy val kilohm: ElectricalResistance[Int] = Kilohms(1)
+  lazy val megohm: ElectricalResistance[Int] = Megohms(1)
+  lazy val gigohm: ElectricalResistance[Int] = Gigohms(1)
 
 }
 

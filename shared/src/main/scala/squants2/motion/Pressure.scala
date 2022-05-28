@@ -49,12 +49,12 @@ object Pressure extends Dimension[Pressure]("Pressure") {
     def standardAtmospheres: Pressure[A] = StandardAtmospheres(a)
   }
 
-  lazy val pascals: Pressure[Int] = Pascals(1)
-  lazy val torrs: Pressure[Int] = Torrs(1)
+  lazy val pascal: Pressure[Int] = Pascals(1)
+  lazy val torr: Pressure[Int] = Torrs(1)
   lazy val millimetersOfMercury: Pressure[Int] = MillimetersOfMercury(1)
   lazy val inchesOfMercury: Pressure[Int] = InchesOfMercury(1)
   lazy val poundsPerSquareInch: Pressure[Int] = PoundsPerSquareInch(1)
-  lazy val bars: Pressure[Int] = Bars(1)
+  lazy val bar: Pressure[Int] = Bars(1)
   lazy val standardAtmospheres: Pressure[Int] = StandardAtmospheres(1)
 
 }

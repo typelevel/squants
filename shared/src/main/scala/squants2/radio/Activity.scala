@@ -36,9 +36,9 @@ object Activity extends Dimension[Activity]("Activity") {
     def curies: Activity[A] = Curies(a)
   }
 
-  lazy val becquerels: Activity[Int] = Becquerels(1)
-  lazy val rutherfords: Activity[Int] = Rutherfords(1)
-  lazy val curies: Activity[Int] = Curies(1)
+  lazy val becquerel: Activity[Int] = Becquerels(1)
+  lazy val rutherford: Activity[Int] = Rutherfords(1)
+  lazy val curie: Activity[Int] = Curies(1)
 
 }
 

@@ -39,7 +39,7 @@ object MagneticFlux extends Dimension[MagneticFlux]("Magnetic Flux") {
     def webers: MagneticFlux[A] = Webers(a)
   }
 
-  lazy val webers: MagneticFlux[Int] = Webers(1)
+  lazy val weber: MagneticFlux[Int] = Webers(1)
 
 }
 

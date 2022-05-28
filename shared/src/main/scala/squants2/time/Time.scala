@@ -49,13 +49,13 @@ object Time extends BaseDimension[Time]("Time", "T") {
     def days: Time[A] = Days(a)
   }
 
-  lazy val nanoseconds: Time[Int] = Nanoseconds(1)
-  lazy val microseconds: Time[Int] = Microseconds(1)
-  lazy val milliseconds: Time[Int] = Milliseconds(1)
-  lazy val seconds: Time[Int] = Seconds(1)
-  lazy val minutes: Time[Int] = Minutes(1)
-  lazy val hours: Time[Int] = Hours(1)
-  lazy val days: Time[Int] = Days(1)
+  lazy val nanosecond: Time[Int] = Nanoseconds(1)
+  lazy val microsecond: Time[Int] = Microseconds(1)
+  lazy val millisecond: Time[Int] = Milliseconds(1)
+  lazy val second: Time[Int] = Seconds(1)
+  lazy val minute: Time[Int] = Minutes(1)
+  lazy val hour: Time[Int] = Hours(1)
+  lazy val day: Time[Int] = Days(1)
 
 }
 

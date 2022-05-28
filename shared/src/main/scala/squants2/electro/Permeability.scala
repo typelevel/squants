@@ -35,7 +35,7 @@ object Permeability extends Dimension[Permeability]("Permeability") {
   }
 
   lazy val henriesPerMeter: Permeability[Int] = HenriesPerMeter(1)
-  lazy val newtonsPerAmperesSquared: Permeability[Int] = NewtonsPerAmperesSquared(1)
+  lazy val newtonsPerAmpereSquared: Permeability[Int] = NewtonsPerAmperesSquared(1)
 
 }
 

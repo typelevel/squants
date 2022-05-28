@@ -18,9 +18,9 @@ object Squants2Converter extends App {
   }.toMap
 
 //  writeDimensionFile(Frequency)
-  writeDimensionFile(Dimensionless)
+//  writeDimensionFile(Time)
   val dontProcess = Set(Temperature, Time, Dimensionless, Frequency)
-//  Squants1UnitDocGenerator.allDimensions.--(dontProcess).foreach(writeDimensionFile)
+  Squants1UnitDocGenerator.allDimensions.--(dontProcess).foreach(writeDimensionFile)
 
   def writeDimensionFile(d: Dimension[_]): Unit = {
 
@@ -153,14 +153,14 @@ object Squants2Converter extends App {
     writer.println(s"  implicit class ${d.name}Cons[A](a: A)(implicit num: Numeric[A]) {")
     units.foreach { (u: UnitOfMeasure[_]) =>
       val unitName = u.getClass.getSimpleName.replace("$", "")
-      writer.println(s"    def ${removePlural(unitName.head.toLower+unitName.tail)}: ${d.name}[A] = $unitName(a)")
+      writer.println(s"    def ${unitName.head.toLower+unitName.tail}: ${d.name}[A] = $unitName(a)")
     }
     writer.println(s"  }")
     writer.println()
 
     units.foreach { (u: UnitOfMeasure[_]) =>
       val unitName = u.getClass.getSimpleName.replace("$", "")
-      writer.println(s"  lazy val ${unitName.head.toLower}${unitName.tail}: ${d.name}[Int] = $unitName(1)")
+      writer.println(s"  lazy val ${removePlural(unitName.head.toLower + unitName.tail)}: ${d.name}[Int] = $unitName(1)")
     }
     writer.println()
     writer.println(s"}")
@@ -239,10 +239,10 @@ object Squants2Converter extends App {
 
   private def removePlural(s: String): String = {
     val x = s.lastIndexWhere(_.isUpper)
-    val index = if(x >= 0) x else s.length - 1
+    val index = if(x >= 0) x else s.length
     if(s.charAt(index) == 's') {
       val (f, l) =      s.splitAt(index)
-      f.substring(0, index - 1) + l
+      f.substring(0, index) + l
     } else s
   }
 

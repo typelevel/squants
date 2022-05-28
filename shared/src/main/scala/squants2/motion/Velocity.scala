@@ -62,7 +62,7 @@ object Velocity extends Dimension[Velocity]("Velocity") {
   lazy val feetPerSecond: Velocity[Int] = FeetPerSecond(1)
   lazy val internationalMilesPerHour: Velocity[Int] = InternationalMilesPerHour(1)
   lazy val usMilesPerHour: Velocity[Int] = UsMilesPerHour(1)
-  lazy val knots: Velocity[Int] = Knots(1)
+  lazy val knot: Velocity[Int] = Knots(1)
   lazy val metersPerSecond: Velocity[Int] = MetersPerSecond(1)
   lazy val kilometersPerSecond: Velocity[Int] = KilometersPerSecond(1)
 

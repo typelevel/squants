@@ -35,8 +35,8 @@ object Dose extends Dimension[Dose]("Dose") {
     def sieverts: Dose[A] = Sieverts(a)
   }
 
-  lazy val rems: Dose[Int] = Rems(1)
-  lazy val sieverts: Dose[Int] = Sieverts(1)
+  lazy val rem: Dose[Int] = Rems(1)
+  lazy val sievert: Dose[Int] = Sieverts(1)
 
 }
 

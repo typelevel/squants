@@ -40,7 +40,7 @@ object LuminousFlux extends Dimension[LuminousFlux]("Luminous Flux") {
     def lumens: LuminousFlux[A] = Lumens(a)
   }
 
-  lazy val lumens: LuminousFlux[Int] = Lumens(1)
+  lazy val lumen: LuminousFlux[Int] = Lumens(1)
 
 }
 

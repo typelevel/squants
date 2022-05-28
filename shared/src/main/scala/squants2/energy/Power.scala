@@ -62,12 +62,12 @@ object Power extends Dimension[Power]("Power") {
   }
 
   lazy val ergsPerSecond: Power[Int] = ErgsPerSecond(1)
-  lazy val milliwatts: Power[Int] = Milliwatts(1)
+  lazy val milliwatt: Power[Int] = Milliwatts(1)
   lazy val btusPerHour: Power[Int] = BtusPerHour(1)
-  lazy val watts: Power[Int] = Watts(1)
-  lazy val kilowatts: Power[Int] = Kilowatts(1)
-  lazy val megawatts: Power[Int] = Megawatts(1)
-  lazy val gigawatts: Power[Int] = Gigawatts(1)
+  lazy val watt: Power[Int] = Watts(1)
+  lazy val kilowatt: Power[Int] = Kilowatts(1)
+  lazy val megawatt: Power[Int] = Megawatts(1)
+  lazy val gigawatt: Power[Int] = Gigawatts(1)
   lazy val solarLuminosities: Power[Int] = SolarLuminosities(1)
 
 }

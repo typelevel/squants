@@ -50,11 +50,11 @@ object ElectricPotential extends Dimension[ElectricPotential]("Electric Potentia
     def megavolts: ElectricPotential[A] = Megavolts(a)
   }
 
-  lazy val microvolts: ElectricPotential[Int] = Microvolts(1)
-  lazy val millivolts: ElectricPotential[Int] = Millivolts(1)
-  lazy val volts: ElectricPotential[Int] = Volts(1)
-  lazy val kilovolts: ElectricPotential[Int] = Kilovolts(1)
-  lazy val megavolts: ElectricPotential[Int] = Megavolts(1)
+  lazy val microvolt: ElectricPotential[Int] = Microvolts(1)
+  lazy val millivolt: ElectricPotential[Int] = Millivolts(1)
+  lazy val volt: ElectricPotential[Int] = Volts(1)
+  lazy val kilovolt: ElectricPotential[Int] = Kilovolts(1)
+  lazy val megavolt: ElectricPotential[Int] = Megavolts(1)
 
 }
 

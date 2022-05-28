@@ -34,7 +34,7 @@ object ElectricalConductance extends Dimension[ElectricalConductance]("Electrica
     def siemens: ElectricalConductance[A] = Siemens(a)
   }
 
-  lazy val siemens: ElectricalConductance[Int] = Siemens(1)
+  lazy val siemen: ElectricalConductance[Int] = Siemens(1)
 
 }
 

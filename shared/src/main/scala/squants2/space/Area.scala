@@ -60,16 +60,16 @@ object Area extends Dimension[Area]("Area") {
     def squareUsMiles: Area[A] = SquareUsMiles(a)
   }
 
-  lazy val barnes: Area[Int] = Barnes(1)
+  lazy val barne: Area[Int] = Barnes(1)
   lazy val squareCentimeters: Area[Int] = SquareCentimeters(1)
   lazy val squareInches: Area[Int] = SquareInches(1)
   lazy val squareFeet: Area[Int] = SquareFeet(1)
   lazy val squareYards: Area[Int] = SquareYards(1)
   lazy val squareMeters: Area[Int] = SquareMeters(1)
-  lazy val acres: Area[Int] = Acres(1)
-  lazy val hectares: Area[Int] = Hectares(1)
+  lazy val acre: Area[Int] = Acres(1)
+  lazy val hectare: Area[Int] = Hectares(1)
   lazy val squareKilometers: Area[Int] = SquareKilometers(1)
-  lazy val squareUsMiles: Area[Int] = SquareUsMiles(1)
+  lazy val squareUMiles: Area[Int] = SquareUsMiles(1)
 
 }
 

@@ -38,8 +38,8 @@ object SpecificEnergy extends Dimension[SpecificEnergy]("Specific Energy") {
   }
 
   lazy val ergsPerGram: SpecificEnergy[Int] = ErgsPerGram(1)
-  lazy val rads: SpecificEnergy[Int] = Rads(1)
-  lazy val grays: SpecificEnergy[Int] = Grays(1)
+  lazy val rad: SpecificEnergy[Int] = Rads(1)
+  lazy val gray: SpecificEnergy[Int] = Grays(1)
 
 }
 

@@ -54,7 +54,7 @@ object Force extends Dimension[Force]("Force") {
 
   lazy val megaElectronVoltsPerCentimeter: Force[Int] = MegaElectronVoltsPerCentimeter(1)
   lazy val kiloElectronVoltsPerMicrometer: Force[Int] = KiloElectronVoltsPerMicrometer(1)
-  lazy val newtons: Force[Int] = Newtons(1)
+  lazy val newton: Force[Int] = Newtons(1)
   lazy val poundForce: Force[Int] = PoundForce(1)
   lazy val kilogramForce: Force[Int] = KilogramForce(1)
 

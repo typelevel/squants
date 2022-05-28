@@ -34,7 +34,7 @@ object ChemicalAmount extends BaseDimension[ChemicalAmount]("Chemical Amount", "
     def poundMoles: ChemicalAmount[A] = PoundMoles(a)
   }
 
-  lazy val moles: ChemicalAmount[Int] = Moles(1)
+  lazy val mole: ChemicalAmount[Int] = Moles(1)
   lazy val poundMoles: ChemicalAmount[Int] = PoundMoles(1)
 
 }

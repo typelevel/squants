@@ -44,8 +44,8 @@ object ElectricCurrent extends BaseDimension[ElectricCurrent]("Electric Current"
     def amperes: ElectricCurrent[A] = Amperes(a)
   }
 
-  lazy val milliamperes: ElectricCurrent[Int] = Milliamperes(1)
-  lazy val amperes: ElectricCurrent[Int] = Amperes(1)
+  lazy val milliampere: ElectricCurrent[Int] = Milliamperes(1)
+  lazy val ampere: ElectricCurrent[Int] = Amperes(1)
 
 }
 

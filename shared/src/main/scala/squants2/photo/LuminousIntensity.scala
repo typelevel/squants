@@ -34,7 +34,7 @@ object LuminousIntensity extends BaseDimension[LuminousIntensity]("Luminous Inte
     def candelas: LuminousIntensity[A] = Candelas(a)
   }
 
-  lazy val candelas: LuminousIntensity[Int] = Candelas(1)
+  lazy val candela: LuminousIntensity[Int] = Candelas(1)
 
 }
 

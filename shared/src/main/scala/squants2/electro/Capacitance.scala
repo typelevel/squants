@@ -43,12 +43,12 @@ object Capacitance extends Dimension[Capacitance]("Capacitance") {
     def kilofarads: Capacitance[A] = Kilofarads(a)
   }
 
-  lazy val picofarads: Capacitance[Int] = Picofarads(1)
-  lazy val nanofarads: Capacitance[Int] = Nanofarads(1)
-  lazy val microfarads: Capacitance[Int] = Microfarads(1)
-  lazy val millifarads: Capacitance[Int] = Millifarads(1)
-  lazy val farads: Capacitance[Int] = Farads(1)
-  lazy val kilofarads: Capacitance[Int] = Kilofarads(1)
+  lazy val picofarad: Capacitance[Int] = Picofarads(1)
+  lazy val nanofarad: Capacitance[Int] = Nanofarads(1)
+  lazy val microfarad: Capacitance[Int] = Microfarads(1)
+  lazy val millifarad: Capacitance[Int] = Millifarads(1)
+  lazy val farad: Capacitance[Int] = Farads(1)
+  lazy val kilofarad: Capacitance[Int] = Kilofarads(1)
 
 }
 
