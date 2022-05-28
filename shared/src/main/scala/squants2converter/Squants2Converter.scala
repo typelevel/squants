@@ -1,8 +1,8 @@
 package squants2converter
 
 import squants._
-import squants.motion.Velocity
-import squants.space.Length
+//import squants.motion.Velocity
+//import squants.space.Length
 import squants.thermal.Temperature
 import squants.time._
 
@@ -13,8 +13,8 @@ import scala.language.existentials
 
 object Squants2Converter extends App {
 
-  writeDimensionFile(Length)
-  writeDimensionFile(Velocity)
+  writeDimensionFile(Frequency)
+  writeDimensionFile(Dimensionless)
   val dontProcess = Set(Temperature, Time, Dimensionless, Frequency)
 //  Squants1UnitDocGenerator.allDimensions.--(dontProcess).foreach(writeDimensionFile)
 
@@ -43,32 +43,64 @@ object Squants2Converter extends App {
     writer.println(s"package ${d.getClass.getPackage.getName.replace("squants", "squants2")}")
     writer.println()
     if (!packageName.equals("squants2")) writer.println("import squants2._")
-//    writer.println("import scala.math.Numeric.Implicits.infixNumericOps")
-    writer.println()
-
-    writer.println(s"final case class ${d.name}[A: Numeric] private[squants2] (value: A, unit: ${d.name}Unit)")
+    writer.println("import squants2.electro._")
+    writer.println("import squants2.energy._")
+    writer.println("import squants2.information._")
+    writer.println("import squants2.mass._")
+    writer.println("import squants2.motion._")
+    writer.println("import squants2.photo._")
+    writer.println("import squants2.radio._")
+    writer.println("import squants2.space._")
+    writer.println("import squants2.thermal._")
+    writer.println("import squants2.time._")
+    writer.println("import scala.math.Numeric.Implicits.infixNumericOps")
 
     var isTD = false
     var isTI = false
-    val mixins = d.primaryUnit(1d).getClass.getGenericInterfaces
+    var timeDerived: String = ""
+    var timeIntegrated: String = ""
+    d.primaryUnit(1d).getClass.getGenericInterfaces
       .withFilter(i => i.getTypeName.contains(".TimeIntegral") || i.getTypeName.contains(".TimeDerivative"))
       .map { i =>
-        if(i.getTypeName.contains(".TimeIntegral")) isTI = true
-        if(i.getTypeName.contains(".TimeDerivative")) isTD = true
-        s" with ${i.getTypeName.replace("squants.", "squants2.").replace("<", "[A, ").replace(">", "]")}"
-      }.mkString
+        if(i.getTypeName.contains(".TimeIntegral")) {
+          isTI = true
+          timeDerived = i.getTypeName.replace("squants.time.TimeIntegral<", "").replace(">", "")
+          timeDerived = timeDerived.substring(timeDerived.lastIndexOf(".")+1)
+        }
+        if(i.getTypeName.contains(".TimeDerivative")) {
+          isTD = true
+          timeIntegrated = i.getTypeName.replace("squants.time.TimeDerivative<", "").replace(">", "")
+          timeIntegrated = timeIntegrated.substring(timeIntegrated.lastIndexOf(".")+1)
+        }
+        s" with ${i.getTypeName.replace("squants.time.", "").replace("<", "[A, ").replace(">", "]")}"
+      }
+    val mixins = {
+      if(isTD && isTI) s" with TimeDerivative[A, $timeIntegrated] with TimeIntegral[A, $timeDerived]"
+      else if(isTD) s" with TimeDerivative[A, $timeIntegrated]"
+      else if(isTI) s" with TimeIntegral[A, $timeDerived]"
+      else ""
+    }
 
+
+    writer.println()
     // TODO: Add TimeIntegral and TimeDerivative mixins
-
+    writer.println(s"final case class ${d.name}[A: Numeric] private[squants2] (value: A, unit: ${d.name}Unit)")
     writer.println(s"  extends Quantity[A, ${d.name}]$mixins {")
-//    writer.println(s"  override type Q[B] = ${d.name}[B]")
+    writer.println()
+    if(isTI) {
+      writer.println(s"  override protected[squants2] def timeDerived: ${timeDerived}[A] = ???")
+      writer.println("  override protected[squants2] def integralTime: Time[A] = Seconds(num.one)")
+    }
+    if(isTD) {
+      writer.println(s"  override protected[squants2] def timeIntegrated: ${timeIntegrated}[A] = ???")
+      writer.println("  override protected[squants2] def derivativeTime: Time[A] = Seconds(num.one)")
+    }
     writer.println()
     writer.println("  // BEGIN CUSTOM OPS")
     writer.println()
     d.primaryUnit(1d).getClass.getDeclaredMethods
       .withFilter(m => !Modifier.isStatic(m.getModifiers))
       .withFilter(m => !Set("Quantity", "Time", "TimeSquared").contains(m.getReturnType.getSimpleName))
-      //      .withFilter(m => !m.getParameters.map(_.getType.getSimpleName).contains("Quantity"))
       .withFilter(m => !Set("value", "unit", "dimension", "time", "timeDerived", "timeIntegrated").contains(m.getName))
       .withFilter(m => !m.getName.startsWith("to"))
       .foreach { m =>

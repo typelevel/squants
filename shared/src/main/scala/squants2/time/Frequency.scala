@@ -13,6 +13,9 @@ import squants2._
 final case class Frequency[A: Numeric] private[squants2] (value: A, unit: FrequencyUnit)
   extends Quantity[A, Frequency] with TimeDerivative[A, Dimensionless] {
 
+  override protected[squants2] def timeIntegrated: Dimensionless[A] = Each(num.one)
+  override protected[squants2] def derivativeTime: Time[A] = Seconds(num.one)
+
   // BEGIN CUSTOM OPS
 
   //  def /[B](that: Quantity[B])(implicit f: B => A): Frequency[A] = ???
@@ -34,9 +37,6 @@ final case class Frequency[A: Numeric] private[squants2] (value: A, unit: Freque
   //  def *[B](that: Velocity[B])(implicit f: B => A): Acceleration[A] = ???
   //  def *[B](that: Volume[B])(implicit f: B => A): VolumeFlow[A] = ???
   // END CUSTOM OPS
-
-  override protected[squants2] def timeIntegrated: Dimensionless[A] = Each(num.one)
-  override protected[squants2] def derivativeTime: Time[A] = Seconds(num.one)
 
   def toRevolutionsPerMinute[B: Numeric](implicit f: A => B): B = toNum[B](RevolutionsPerMinute)
   def toHertz[B: Numeric](implicit f: A => B): B = toNum[B](Hertz)
@@ -76,7 +76,7 @@ abstract class FrequencyUnit(val symbol: String, val conversionFactor: Conversio
   override def apply[A: Numeric](value: A): Frequency[A] = Frequency(value, this)
 }
 
-case object RevolutionsPerMinute extends FrequencyUnit("rpm", 0.016666666666666666)
+case object RevolutionsPerMinute extends FrequencyUnit("rpm", BigDecimal(1) / BigDecimal(60))
 case object Hertz extends FrequencyUnit("Hz", 1) with PrimaryUnit[Frequency] with SiUnit[Frequency]
 case object Kilohertz extends FrequencyUnit("kHz", MetricSystem.Kilo) with SiUnit[Frequency]
 case object Megahertz extends FrequencyUnit("MHz", MetricSystem.Mega) with SiUnit[Frequency]
