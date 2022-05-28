@@ -194,7 +194,7 @@ case class SVectorImpl[A, Q[N] <: Quantity[N, Q]](coordinates: Seq[Q[A]])(implic
    * @return
    */
   override def plus(that: SVectorType): SVectorType =
-    SVectorImpl(coordinates.zipAll(that.coordinates, valueUnit(num.zero), valueUnit(num.zero)).map(v ⇒ (v._1 + v._2))).asInstanceOf[SVectorType]
+    SVectorImpl(coordinates.zipAll(that.coordinates, valueUnit(num.zero), valueUnit(num.zero)).map(v ⇒ v._1 + v._2)).asInstanceOf[SVectorType]
 
   /**
    * Subtract two Vectors
@@ -203,7 +203,7 @@ case class SVectorImpl[A, Q[N] <: Quantity[N, Q]](coordinates: Seq[Q[A]])(implic
    * @return
    */
   override def minus(that: SVectorType): SVectorType =
-    SVectorImpl(coordinates.zipAll(that.coordinates, valueUnit(num.zero), valueUnit(num.zero)).map(v ⇒ (v._1 - v._2))).asInstanceOf[SVectorType]
+    SVectorImpl(coordinates.zipAll(that.coordinates, valueUnit(num.zero), valueUnit(num.zero)).map(v ⇒ v._1 - v._2)).asInstanceOf[SVectorType]
 
 
   /**
@@ -212,7 +212,7 @@ case class SVectorImpl[A, Q[N] <: Quantity[N, Q]](coordinates: Seq[Q[A]])(implic
    * @param that Double
    * @return
    */
-  override def times[B](that: B)(implicit f: B => A): SVectorType = map(_ * that).asInstanceOf[SVectorType]
+  override def times[B](that: B)(implicit f: B => A): SVectorType = map(_ * that)
 
   /**
    * Reduce a Vector
@@ -220,7 +220,7 @@ case class SVectorImpl[A, Q[N] <: Quantity[N, Q]](coordinates: Seq[Q[A]])(implic
    * @param that Double
    * @return
    */
-  override def divide[B](that: B)(implicit f: B => A): SVectorType = map(_ * that).asInstanceOf[SVectorType]
+  override def divide[B](that: B)(implicit f: B => A): SVectorType = map(_ * that)
 
   /**
    * Create the Dot Product of two Vectors
@@ -257,7 +257,7 @@ case class SVectorImpl[A, Q[N] <: Quantity[N, Q]](coordinates: Seq[Q[A]])(implic
    * @param uom UnitOfMeasure[A]
    * @return
    */
-  def to(uom: UnitOfMeasure[Q]): SVector[A, Dimensionless] = map(q => Each(q.to(uom)))
+  def to(uom: UnitOfMeasure[Q]): SVector[A, Dimensionless] = ??? // TODO:   map(q => Each(q.to(uom)))
 
   /**
    * Returns a QuantityVector with all coordinates set to the supplied unit

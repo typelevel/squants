@@ -1,18 +1,22 @@
 package squants2converter
 
 import squants._
+import squants.motion.Velocity
+import squants.space.Length
 import squants.thermal.Temperature
+import squants.time._
 
-import java.io.{File, PrintWriter}
+import java.io.{ File, PrintWriter }
 import java.lang.reflect.Modifier
-import java.nio.file.{Files, Path}
+import java.nio.file.{ Files, Path }
 import scala.language.existentials
 
 object Squants2Converter extends App {
 
-  //  writeDimensionFile(Frequency)
-  val dontProcess = Set(Temperature)
-  Squants1UnitDocGenerator.allDimensions.--(dontProcess).foreach(writeDimensionFile)
+  writeDimensionFile(Length)
+  writeDimensionFile(Velocity)
+  val dontProcess = Set(Temperature, Time, Dimensionless, Frequency)
+//  Squants1UnitDocGenerator.allDimensions.--(dontProcess).foreach(writeDimensionFile)
 
   def writeDimensionFile(d: Dimension[_]): Unit = {
 
@@ -43,7 +47,20 @@ object Squants2Converter extends App {
     writer.println()
 
     writer.println(s"final case class ${d.name}[A: Numeric] private[squants2] (value: A, unit: ${d.name}Unit)")
-    writer.println(s"  extends Quantity[A, ${d.name}] {")
+
+    var isTD = false
+    var isTI = false
+    val mixins = d.primaryUnit(1d).getClass.getGenericInterfaces
+      .withFilter(i => i.getTypeName.contains(".TimeIntegral") || i.getTypeName.contains(".TimeDerivative"))
+      .map { i =>
+        if(i.getTypeName.contains(".TimeIntegral")) isTI = true
+        if(i.getTypeName.contains(".TimeDerivative")) isTD = true
+        s" with ${i.getTypeName.replace("squants.", "squants2.").replace("<", "[A, ").replace(">", "]")}"
+      }.mkString
+
+    // TODO: Add TimeIntegral and TimeDerivative mixins
+
+    writer.println(s"  extends Quantity[A, ${d.name}]$mixins {")
 //    writer.println(s"  override type Q[B] = ${d.name}[B]")
     writer.println()
     writer.println("  // BEGIN CUSTOM OPS")
@@ -55,7 +72,6 @@ object Squants2Converter extends App {
       .withFilter(m => !Set("value", "unit", "dimension", "time", "timeDerived", "timeIntegrated").contains(m.getName))
       .withFilter(m => !m.getName.startsWith("to"))
       .foreach { m =>
-        println(s"${m.toString} ${m.getParameters.map(_.getType.getSimpleName).mkString(", ")}")
         val op = if (m.getName == "$div") "/" else if (m.getName == "$times") "*" else if (m.getName == "$plus") "+" else if (m.getName == "$minus") "-" else m.getName
         val params = m.getParameters.map { p =>
           val paramType = if (p.getType.getSimpleName == "double") "B" else s"${p.getType.getSimpleName}[B]"
@@ -76,6 +92,14 @@ object Squants2Converter extends App {
       val unitName = u.getClass.getSimpleName.replace("$", "")
       writer.println(s"  def to$unitName[B: Numeric](implicit f: A => B): B = toNum[B]($unitName)")
     }
+    if(isTI) {
+      println(s"override protected[squants2] def timeDerived: Frequency[A] with Quantity[A, Frequency] = ${d.primaryUnit.getClass.getSimpleName.replace("$", "")}(num.one)")
+      println("override protected[squants2] def integralTime: Time[A] = Seconds(num.one)")
+    }
+    if(isTD) {
+
+    }
+
     writer.println(s"}")
     writer.println()
 

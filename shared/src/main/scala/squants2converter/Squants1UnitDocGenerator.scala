@@ -32,7 +32,7 @@ object Squants1UnitDocGenerator extends App {
     AreaDensity, Density, MomentOfInertia,
 
     Acceleration, AngularAcceleration, AngularVelocity, Force, Jerk,
-    MassFlow, Momentum, Pressure, PressureChange, Torque, VolumeFlow, Yank,
+    MassFlow, Momentum, Pressure, PressureChange, Torque, Velocity, VolumeFlow, Yank,
 
     Illuminance, Luminance, LuminousEnergy, LuminousExposure, LuminousFlux,
 

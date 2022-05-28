@@ -23,7 +23,7 @@ final case class Dimensionless[A: Numeric] private[squants2] (value: A, unit: Di
   // END CUSTOM OPS
 
 
-  override protected[squants2] def timeDerived: Frequency[A] with Quantity[A, Frequency] = Hertz(num.one)
+  override protected[squants2] def timeDerived: Frequency[A] = Hertz(num.one)
   override protected[squants2] def integralTime: Time[A] = Seconds(num.one)
 
   def toPercent[B: Numeric](implicit f: A => B): B = toNum[B](Percent)
