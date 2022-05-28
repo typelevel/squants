@@ -15,7 +15,7 @@ import scala.math.Numeric.Implicits.infixNumericOps
 final case class Dimensionless[A: Numeric] private[squants2] (value: A, unit: DimensionlessUnit)
   extends Quantity[A, Dimensionless] with TimeIntegral[A, Frequency] {
 
-  override protected[squants2] def timeDerived: Frequency[A] = ???
+  override protected[squants2] def timeDerived: Frequency[A] = Hertz(num.one)
   override protected[squants2] def integralTime: Time[A] = Seconds(num.one)
 
   // BEGIN CUSTOM OPS
