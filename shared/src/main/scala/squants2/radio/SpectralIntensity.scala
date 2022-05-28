@@ -33,7 +33,7 @@ object SpectralIntensity extends Dimension[SpectralIntensity]("Spectral Intensit
     def wattsPerSteradianPerMeter: SpectralIntensity[A] = WattsPerSteradianPerMeter(a)
   }
 
-  lazy val wattsPerSteradianPerMeter: SpectralIntensity[Int] = WattsPerSteradianPerMeter(1)
+  lazy val wattPerSteradianPerMeter: SpectralIntensity[Int] = WattsPerSteradianPerMeter(1)
 
 }
 

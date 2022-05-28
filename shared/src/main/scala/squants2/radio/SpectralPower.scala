@@ -33,7 +33,7 @@ object SpectralPower extends Dimension[SpectralPower]("Spectral Power") {
     def wattsPerMeter: SpectralPower[A] = WattsPerMeter(a)
   }
 
-  lazy val wattsPerMeter: SpectralPower[Int] = WattsPerMeter(1)
+  lazy val wattPerMeter: SpectralPower[Int] = WattsPerMeter(1)
 
 }
 

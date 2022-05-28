@@ -38,7 +38,7 @@ object Yank extends Dimension[Yank]("Yank") {
     def newtonsPerSecond: Yank[A] = NewtonsPerSecond(a)
   }
 
-  lazy val newtonsPerSecond: Yank[Int] = NewtonsPerSecond(1)
+  lazy val newtonPerSecond: Yank[Int] = NewtonsPerSecond(1)
 
 }
 

@@ -48,12 +48,12 @@ object PowerRamp extends Dimension[PowerRamp]("Power Ramp") {
     def gigawattsPerHour: PowerRamp[A] = GigawattsPerHour(a)
   }
 
-  lazy val wattsPerMinute: PowerRamp[Int] = WattsPerMinute(1)
-  lazy val wattsPerHour: PowerRamp[Int] = WattsPerHour(1)
-  lazy val kilowattsPerMinute: PowerRamp[Int] = KilowattsPerMinute(1)
-  lazy val kilowattsPerHour: PowerRamp[Int] = KilowattsPerHour(1)
-  lazy val megawattsPerHour: PowerRamp[Int] = MegawattsPerHour(1)
-  lazy val gigawattsPerHour: PowerRamp[Int] = GigawattsPerHour(1)
+  lazy val wattPerMinute: PowerRamp[Int] = WattsPerMinute(1)
+  lazy val wattPerHour: PowerRamp[Int] = WattsPerHour(1)
+  lazy val kilowattPerMinute: PowerRamp[Int] = KilowattsPerMinute(1)
+  lazy val kilowattPerHour: PowerRamp[Int] = KilowattsPerHour(1)
+  lazy val megawattPerHour: PowerRamp[Int] = MegawattsPerHour(1)
+  lazy val gigawattPerHour: PowerRamp[Int] = GigawattsPerHour(1)
 
 }
 

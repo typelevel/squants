@@ -37,7 +37,7 @@ object RadiantIntensity extends Dimension[RadiantIntensity]("Radiant Intensity")
     def wattsPerSteradian: RadiantIntensity[A] = WattsPerSteradian(a)
   }
 
-  lazy val wattsPerSteradian: RadiantIntensity[Int] = WattsPerSteradian(1)
+  lazy val wattPerSteradian: RadiantIntensity[Int] = WattsPerSteradian(1)
 
 }
 

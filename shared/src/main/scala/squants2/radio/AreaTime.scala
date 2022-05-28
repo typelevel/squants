@@ -34,8 +34,8 @@ object AreaTime extends Dimension[AreaTime]("Area Time") {
     def squareMeterSeconds: AreaTime[A] = SquareMeterSeconds(a)
   }
 
-  lazy val squareCentimeterSeconds: AreaTime[Int] = SquareCentimeterSeconds(1)
-  lazy val squareMeterSeconds: AreaTime[Int] = SquareMeterSeconds(1)
+  lazy val squareCentimeterSecond: AreaTime[Int] = SquareCentimeterSeconds(1)
+  lazy val squareMeterSecond: AreaTime[Int] = SquareMeterSeconds(1)
 
 }
 

@@ -32,7 +32,7 @@ object PowerDensity extends Dimension[PowerDensity]("Power Density") {
     def wattsPerCubicMeter: PowerDensity[A] = WattsPerCubicMeter(a)
   }
 
-  lazy val wattsPerCubicMeter: PowerDensity[Int] = WattsPerCubicMeter(1)
+  lazy val wattPerCubicMeter: PowerDensity[Int] = WattsPerCubicMeter(1)
 
 }
 

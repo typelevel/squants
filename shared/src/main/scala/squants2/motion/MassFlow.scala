@@ -45,11 +45,11 @@ object MassFlow extends Dimension[MassFlow]("Mass Flow") {
     def megapoundsPerHour: MassFlow[A] = MegapoundsPerHour(a)
   }
 
-  lazy val poundsPerHour: MassFlow[Int] = PoundsPerHour(1)
-  lazy val kilopoundsPerHour: MassFlow[Int] = KilopoundsPerHour(1)
-  lazy val poundsPerSecond: MassFlow[Int] = PoundsPerSecond(1)
-  lazy val kilogramsPerSecond: MassFlow[Int] = KilogramsPerSecond(1)
-  lazy val megapoundsPerHour: MassFlow[Int] = MegapoundsPerHour(1)
+  lazy val poundPerHour: MassFlow[Int] = PoundsPerHour(1)
+  lazy val kilopoundPerHour: MassFlow[Int] = KilopoundsPerHour(1)
+  lazy val poundPerSecond: MassFlow[Int] = PoundsPerSecond(1)
+  lazy val kilogramPerSecond: MassFlow[Int] = KilogramsPerSecond(1)
+  lazy val megapoundPerHour: MassFlow[Int] = MegapoundsPerHour(1)
 
 }
 

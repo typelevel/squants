@@ -32,7 +32,7 @@ object ElectricChargeMassRatio extends Dimension[ElectricChargeMassRatio]("Elect
     def coulombsPerKilogram: ElectricChargeMassRatio[A] = CoulombsPerKilogram(a)
   }
 
-  lazy val coulombsPerKilogram: ElectricChargeMassRatio[Int] = CoulombsPerKilogram(1)
+  lazy val coulombPerKilogram: ElectricChargeMassRatio[Int] = CoulombsPerKilogram(1)
 
 }
 

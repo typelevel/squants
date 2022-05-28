@@ -57,14 +57,14 @@ object Velocity extends Dimension[Velocity]("Velocity") {
     def kilometersPerSecond: Velocity[A] = KilometersPerSecond(a)
   }
 
-  lazy val millimetersPerSecond: Velocity[Int] = MillimetersPerSecond(1)
-  lazy val kilometersPerHour: Velocity[Int] = KilometersPerHour(1)
+  lazy val millimeterPerSecond: Velocity[Int] = MillimetersPerSecond(1)
+  lazy val kilometerPerHour: Velocity[Int] = KilometersPerHour(1)
   lazy val feetPerSecond: Velocity[Int] = FeetPerSecond(1)
-  lazy val internationalMilesPerHour: Velocity[Int] = InternationalMilesPerHour(1)
-  lazy val usMilesPerHour: Velocity[Int] = UsMilesPerHour(1)
+  lazy val internationalMilePerHour: Velocity[Int] = InternationalMilesPerHour(1)
+  lazy val usMilePerHour: Velocity[Int] = UsMilesPerHour(1)
   lazy val knot: Velocity[Int] = Knots(1)
-  lazy val metersPerSecond: Velocity[Int] = MetersPerSecond(1)
-  lazy val kilometersPerSecond: Velocity[Int] = KilometersPerSecond(1)
+  lazy val meterPerSecond: Velocity[Int] = MetersPerSecond(1)
+  lazy val kilometerPerSecond: Velocity[Int] = KilometersPerSecond(1)
 
 }
 

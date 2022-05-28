@@ -35,8 +35,8 @@ object ParticleFlux extends Dimension[ParticleFlux]("Particle Flux") {
     def becquerelsPerSquareCentimeterSecond: ParticleFlux[A] = BecquerelsPerSquareCentimeterSecond(a)
   }
 
-  lazy val becquerelsPerSquareMeterSecond: ParticleFlux[Int] = BecquerelsPerSquareMeterSecond(1)
-  lazy val becquerelsPerSquareCentimeterSecond: ParticleFlux[Int] = BecquerelsPerSquareCentimeterSecond(1)
+  lazy val becquerelPerSquareMeterSecond: ParticleFlux[Int] = BecquerelsPerSquareMeterSecond(1)
+  lazy val becquerelPerSquareCentimeterSecond: ParticleFlux[Int] = BecquerelsPerSquareCentimeterSecond(1)
 
 }
 

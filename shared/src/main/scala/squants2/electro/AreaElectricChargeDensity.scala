@@ -33,7 +33,7 @@ object AreaElectricChargeDensity extends Dimension[AreaElectricChargeDensity]("A
     def coulombsPerSquareMeter: AreaElectricChargeDensity[A] = CoulombsPerSquareMeter(a)
   }
 
-  lazy val coulombsPerSquareMeter: AreaElectricChargeDensity[Int] = CoulombsPerSquareMeter(1)
+  lazy val coulombPerSquareMeter: AreaElectricChargeDensity[Int] = CoulombsPerSquareMeter(1)
 
 }
 

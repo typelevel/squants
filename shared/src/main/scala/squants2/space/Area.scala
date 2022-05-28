@@ -61,15 +61,15 @@ object Area extends Dimension[Area]("Area") {
   }
 
   lazy val barne: Area[Int] = Barnes(1)
-  lazy val squareCentimeters: Area[Int] = SquareCentimeters(1)
-  lazy val squareInches: Area[Int] = SquareInches(1)
+  lazy val squareCentimeter: Area[Int] = SquareCentimeters(1)
+  lazy val squareInche: Area[Int] = SquareInches(1)
   lazy val squareFeet: Area[Int] = SquareFeet(1)
-  lazy val squareYards: Area[Int] = SquareYards(1)
-  lazy val squareMeters: Area[Int] = SquareMeters(1)
+  lazy val squareYard: Area[Int] = SquareYards(1)
+  lazy val squareMeter: Area[Int] = SquareMeters(1)
   lazy val acre: Area[Int] = Acres(1)
   lazy val hectare: Area[Int] = Hectares(1)
-  lazy val squareKilometers: Area[Int] = SquareKilometers(1)
-  lazy val squareUMiles: Area[Int] = SquareUsMiles(1)
+  lazy val squareKilometer: Area[Int] = SquareKilometers(1)
+  lazy val squareUsMile: Area[Int] = SquareUsMiles(1)
 
 }
 

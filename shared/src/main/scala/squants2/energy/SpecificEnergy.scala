@@ -37,7 +37,7 @@ object SpecificEnergy extends Dimension[SpecificEnergy]("Specific Energy") {
     def grays: SpecificEnergy[A] = Grays(a)
   }
 
-  lazy val ergsPerGram: SpecificEnergy[Int] = ErgsPerGram(1)
+  lazy val ergPerGram: SpecificEnergy[Int] = ErgsPerGram(1)
   lazy val rad: SpecificEnergy[Int] = Rads(1)
   lazy val gray: SpecificEnergy[Int] = Grays(1)
 

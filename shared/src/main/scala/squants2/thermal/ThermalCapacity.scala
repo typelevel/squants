@@ -32,7 +32,7 @@ object ThermalCapacity extends Dimension[ThermalCapacity]("Thermal Capacity") {
     def joulesPerKelvin: ThermalCapacity[A] = JoulesPerKelvin(a)
   }
 
-  lazy val joulesPerKelvin: ThermalCapacity[Int] = JoulesPerKelvin(1)
+  lazy val joulePerKelvin: ThermalCapacity[Int] = JoulesPerKelvin(1)
 
 }
 

@@ -32,7 +32,7 @@ object MolarEnergy extends Dimension[MolarEnergy]("Molar Energy") {
     def joulesPerMole: MolarEnergy[A] = JoulesPerMole(a)
   }
 
-  lazy val joulesPerMole: MolarEnergy[Int] = JoulesPerMole(1)
+  lazy val joulePerMole: MolarEnergy[Int] = JoulesPerMole(1)
 
 }
 

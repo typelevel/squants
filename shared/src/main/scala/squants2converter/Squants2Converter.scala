@@ -238,12 +238,7 @@ object Squants2Converter extends App {
   }
 
   private def removePlural(s: String): String = {
-    val x = s.lastIndexWhere(_.isUpper)
-    val index = if(x >= 0) x else s.length
-    if(s.charAt(index) == 's') {
-      val (f, l) =      s.splitAt(index)
-      f.substring(0, index) + l
-    } else s
+    val sRemoved: String = if(s.lastIndexOf('s') == s.length - 1) s.substring(0, s.length - 1) else s
+    sRemoved.replace("sPer", "Per")
   }
-
 }

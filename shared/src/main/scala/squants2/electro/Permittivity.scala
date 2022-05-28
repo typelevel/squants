@@ -32,7 +32,7 @@ object Permittivity extends Dimension[Permittivity]("Permittivity") {
     def faradsPerMeter: Permittivity[A] = FaradsPerMeter(a)
   }
 
-  lazy val faradsPerMeter: Permittivity[Int] = FaradsPerMeter(1)
+  lazy val faradPerMeter: Permittivity[Int] = FaradsPerMeter(1)
 
 }
 

@@ -40,7 +40,7 @@ object Momentum extends Dimension[Momentum]("Momentum") {
     def newtonSeconds: Momentum[A] = NewtonSeconds(a)
   }
 
-  lazy val newtonSeconds: Momentum[Int] = NewtonSeconds(1)
+  lazy val newtonSecond: Momentum[Int] = NewtonSeconds(1)
 
 }
 

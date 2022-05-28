@@ -34,7 +34,7 @@ object Torque extends Dimension[Torque]("Torque") {
     def poundFeet: Torque[A] = PoundFeet(a)
   }
 
-  lazy val newtonMeters: Torque[Int] = NewtonMeters(1)
+  lazy val newtonMeter: Torque[Int] = NewtonMeters(1)
   lazy val poundFeet: Torque[Int] = PoundFeet(1)
 
 }

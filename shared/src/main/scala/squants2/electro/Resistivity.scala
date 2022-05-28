@@ -34,7 +34,7 @@ object Resistivity extends Dimension[Resistivity]("Resistivity") {
     def ohmMeters: Resistivity[A] = OhmMeters(a)
   }
 
-  lazy val ohmMeters: Resistivity[Int] = OhmMeters(1)
+  lazy val ohmMeter: Resistivity[Int] = OhmMeters(1)
 
 }
 

@@ -34,7 +34,7 @@ object ElectricChargeDensity extends Dimension[ElectricChargeDensity]("Electric 
     def coulombsPerCubicMeter: ElectricChargeDensity[A] = CoulombsPerCubicMeter(a)
   }
 
-  lazy val coulombsPerCubicMeter: ElectricChargeDensity[Int] = CoulombsPerCubicMeter(1)
+  lazy val coulombPerCubicMeter: ElectricChargeDensity[Int] = CoulombsPerCubicMeter(1)
 
 }
 

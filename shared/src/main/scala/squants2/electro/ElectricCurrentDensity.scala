@@ -33,7 +33,7 @@ object ElectricCurrentDensity extends Dimension[ElectricCurrentDensity]("Electri
     def amperesPerSquareMeter: ElectricCurrentDensity[A] = AmperesPerSquareMeter(a)
   }
 
-  lazy val amperesPerSquareMeter: ElectricCurrentDensity[Int] = AmperesPerSquareMeter(1)
+  lazy val amperePerSquareMeter: ElectricCurrentDensity[Int] = AmperesPerSquareMeter(1)
 
 }
 

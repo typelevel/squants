@@ -32,7 +32,7 @@ object EnergyDensity extends Dimension[EnergyDensity]("Energy Density") {
     def joulesPerCubicMeter: EnergyDensity[A] = JoulesPerCubicMeter(a)
   }
 
-  lazy val joulesPerCubicMeter: EnergyDensity[Int] = JoulesPerCubicMeter(1)
+  lazy val joulePerCubicMeter: EnergyDensity[Int] = JoulesPerCubicMeter(1)
 
 }
 

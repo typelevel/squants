@@ -61,12 +61,12 @@ object ElectricCharge extends Dimension[ElectricCharge]("Electric Charge") {
   lazy val picocoulomb: ElectricCharge[Int] = Picocoulombs(1)
   lazy val nanocoulomb: ElectricCharge[Int] = Nanocoulombs(1)
   lazy val microcoulomb: ElectricCharge[Int] = Microcoulombs(1)
-  lazy val milliampereSeconds: ElectricCharge[Int] = MilliampereSeconds(1)
+  lazy val milliampereSecond: ElectricCharge[Int] = MilliampereSeconds(1)
   lazy val millicoulomb: ElectricCharge[Int] = Millicoulombs(1)
   lazy val coulomb: ElectricCharge[Int] = Coulombs(1)
-  lazy val milliampereHours: ElectricCharge[Int] = MilliampereHours(1)
+  lazy val milliampereHour: ElectricCharge[Int] = MilliampereHours(1)
   lazy val abcoulomb: ElectricCharge[Int] = Abcoulombs(1)
-  lazy val ampereHours: ElectricCharge[Int] = AmpereHours(1)
+  lazy val ampereHour: ElectricCharge[Int] = AmpereHours(1)
 
 }
 

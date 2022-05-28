@@ -32,7 +32,7 @@ object Luminance extends Dimension[Luminance]("Luminance") {
     def candelasPerSquareMeter: Luminance[A] = CandelasPerSquareMeter(a)
   }
 
-  lazy val candelasPerSquareMeter: Luminance[Int] = CandelasPerSquareMeter(1)
+  lazy val candelaPerSquareMeter: Luminance[Int] = CandelasPerSquareMeter(1)
 
 }
 

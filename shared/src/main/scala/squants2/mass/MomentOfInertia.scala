@@ -35,8 +35,8 @@ object MomentOfInertia extends Dimension[MomentOfInertia]("Moment Of Inertia") {
     def poundsSquareFeet: MomentOfInertia[A] = PoundsSquareFeet(a)
   }
 
-  lazy val kilogramsMeterSquared: MomentOfInertia[Int] = KilogramsMetersSquared(1)
-  lazy val poundsSquareFeet: MomentOfInertia[Int] = PoundsSquareFeet(1)
+  lazy val kilogramMeterSquared: MomentOfInertia[Int] = KilogramsMetersSquared(1)
+  lazy val poundSquareFoot: MomentOfInertia[Int] = PoundsSquareFeet(1)
 
 }
 

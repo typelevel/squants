@@ -37,10 +37,10 @@ object SpectralIrradiance extends Dimension[SpectralIrradiance]("Spectral Irradi
     def wattsPerSquareMeterPerNanometer: SpectralIrradiance[A] = WattsPerSquareMeterPerNanometer(a)
   }
 
-  lazy val wattsPerCubicMeter: SpectralIrradiance[Int] = WattsPerCubicMeter(1)
-  lazy val wattsPerSquareMeterPerMicron: SpectralIrradiance[Int] = WattsPerSquareMeterPerMicron(1)
-  lazy val ergsPerSecondPerSquareCentimeterPerAngstrom: SpectralIrradiance[Int] = ErgsPerSecondPerSquareCentimeterPerAngstrom(1)
-  lazy val wattsPerSquareMeterPerNanometer: SpectralIrradiance[Int] = WattsPerSquareMeterPerNanometer(1)
+  lazy val wattPerCubicMeter: SpectralIrradiance[Int] = WattsPerCubicMeter(1)
+  lazy val wattPerSquareMeterPerMicron: SpectralIrradiance[Int] = WattsPerSquareMeterPerMicron(1)
+  lazy val ergPerSecondPerSquareCentimeterPerAngstrom: SpectralIrradiance[Int] = ErgsPerSecondPerSquareCentimeterPerAngstrom(1)
+  lazy val wattPerSquareMeterPerNanometer: SpectralIrradiance[Int] = WattsPerSquareMeterPerNanometer(1)
 
 }
 

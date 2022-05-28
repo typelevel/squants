@@ -46,10 +46,10 @@ object AngularVelocity extends Dimension[AngularVelocity]("Angular Velocity") {
     def turnsPerSecond: AngularVelocity[A] = TurnsPerSecond(a)
   }
 
-  lazy val gradiansPerSecond: AngularVelocity[Int] = GradiansPerSecond(1)
-  lazy val degreesPerSecond: AngularVelocity[Int] = DegreesPerSecond(1)
-  lazy val radiansPerSecond: AngularVelocity[Int] = RadiansPerSecond(1)
-  lazy val turnsPerSecond: AngularVelocity[Int] = TurnsPerSecond(1)
+  lazy val gradianPerSecond: AngularVelocity[Int] = GradiansPerSecond(1)
+  lazy val degreePerSecond: AngularVelocity[Int] = DegreesPerSecond(1)
+  lazy val radianPerSecond: AngularVelocity[Int] = RadiansPerSecond(1)
+  lazy val turnPerSecond: AngularVelocity[Int] = TurnsPerSecond(1)
 
 }
 

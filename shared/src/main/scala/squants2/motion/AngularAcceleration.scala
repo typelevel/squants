@@ -48,12 +48,12 @@ object AngularAcceleration extends Dimension[AngularAcceleration]("Angular Accel
     def turnsPerSecondSquared: AngularAcceleration[A] = TurnsPerSecondSquared(a)
   }
 
-  lazy val arcsecondsPerSecondSquared: AngularAcceleration[Int] = ArcsecondsPerSecondSquared(1)
-  lazy val arcminutesPerSecondSquared: AngularAcceleration[Int] = ArcminutesPerSecondSquared(1)
-  lazy val gradiansPerSecondSquared: AngularAcceleration[Int] = GradiansPerSecondSquared(1)
-  lazy val degreesPerSecondSquared: AngularAcceleration[Int] = DegreesPerSecondSquared(1)
-  lazy val radiansPerSecondSquared: AngularAcceleration[Int] = RadiansPerSecondSquared(1)
-  lazy val turnsPerSecondSquared: AngularAcceleration[Int] = TurnsPerSecondSquared(1)
+  lazy val arcsecondPerSecondSquared: AngularAcceleration[Int] = ArcsecondsPerSecondSquared(1)
+  lazy val arcminutePerSecondSquared: AngularAcceleration[Int] = ArcminutesPerSecondSquared(1)
+  lazy val gradianPerSecondSquared: AngularAcceleration[Int] = GradiansPerSecondSquared(1)
+  lazy val degreePerSecondSquared: AngularAcceleration[Int] = DegreesPerSecondSquared(1)
+  lazy val radianPerSecondSquared: AngularAcceleration[Int] = RadiansPerSecondSquared(1)
+  lazy val turnPerSecondSquared: AngularAcceleration[Int] = TurnsPerSecondSquared(1)
 
 }
 

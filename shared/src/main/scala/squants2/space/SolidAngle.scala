@@ -33,7 +33,7 @@ object SolidAngle extends Dimension[SolidAngle]("Solid Angle") {
     def squaredRadians: SolidAngle[A] = SquaredRadians(a)
   }
 
-  lazy val squaredRadians: SolidAngle[Int] = SquaredRadians(1)
+  lazy val squaredRadian: SolidAngle[Int] = SquaredRadians(1)
 
 }
 

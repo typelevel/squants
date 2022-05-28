@@ -41,7 +41,7 @@ object Jerk extends Dimension[Jerk]("Jerk") {
   }
 
   lazy val feetPerSecondCubed: Jerk[Int] = FeetPerSecondCubed(1)
-  lazy val metersPerSecondCubed: Jerk[Int] = MetersPerSecondCubed(1)
+  lazy val meterPerSecondCubed: Jerk[Int] = MetersPerSecondCubed(1)
 
 }
 

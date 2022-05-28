@@ -37,8 +37,8 @@ object Irradiance extends Dimension[Irradiance]("Irradiance") {
     def wattsPerSquareMeter: Irradiance[A] = WattsPerSquareMeter(a)
   }
 
-  lazy val ergsPerSecondPerSquareCentimeter: Irradiance[Int] = ErgsPerSecondPerSquareCentimeter(1)
-  lazy val wattsPerSquareMeter: Irradiance[Int] = WattsPerSquareMeter(1)
+  lazy val ergPerSecondPerSquareCentimeter: Irradiance[Int] = ErgsPerSecondPerSquareCentimeter(1)
+  lazy val wattPerSquareMeter: Irradiance[Int] = WattsPerSquareMeter(1)
 
 }
 

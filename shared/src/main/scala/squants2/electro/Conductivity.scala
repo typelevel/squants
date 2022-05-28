@@ -33,7 +33,7 @@ object Conductivity extends Dimension[Conductivity]("Conductivity") {
     def siemensPerMeter: Conductivity[A] = SiemensPerMeter(a)
   }
 
-  lazy val siemensPerMeter: Conductivity[Int] = SiemensPerMeter(1)
+  lazy val siemenPerMeter: Conductivity[Int] = SiemensPerMeter(1)
 
 }
 

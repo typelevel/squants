@@ -42,10 +42,10 @@ object PressureChange extends Dimension[PressureChange]("Pressure Change") {
     def standardAtmospheresPerSecond: PressureChange[A] = StandardAtmospheresPerSecond(a)
   }
 
-  lazy val pascalsPerSecond: PressureChange[Int] = PascalsPerSecond(1)
-  lazy val poundsPerSquareInchPerSecond: PressureChange[Int] = PoundsPerSquareInchPerSecond(1)
-  lazy val barsPerSecond: PressureChange[Int] = BarsPerSecond(1)
-  lazy val standardAtmospheresPerSecond: PressureChange[Int] = StandardAtmospheresPerSecond(1)
+  lazy val pascalPerSecond: PressureChange[Int] = PascalsPerSecond(1)
+  lazy val poundPerSquareInchPerSecond: PressureChange[Int] = PoundsPerSquareInchPerSecond(1)
+  lazy val barPerSecond: PressureChange[Int] = BarsPerSecond(1)
+  lazy val standardAtmospherePerSecond: PressureChange[Int] = StandardAtmospheresPerSecond(1)
 
 }
 

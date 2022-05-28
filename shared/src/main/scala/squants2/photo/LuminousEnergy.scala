@@ -35,7 +35,7 @@ object LuminousEnergy extends Dimension[LuminousEnergy]("Luminous Energy") {
     def lumenSeconds: LuminousEnergy[A] = LumenSeconds(a)
   }
 
-  lazy val lumenSeconds: LuminousEnergy[Int] = LumenSeconds(1)
+  lazy val lumenSecond: LuminousEnergy[Int] = LumenSeconds(1)
 
 }
 

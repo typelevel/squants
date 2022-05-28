@@ -32,7 +32,7 @@ object ElectricFieldStrength extends Dimension[ElectricFieldStrength]("Electric 
     def voltsPerMeter: ElectricFieldStrength[A] = VoltsPerMeter(a)
   }
 
-  lazy val voltsPerMeter: ElectricFieldStrength[Int] = VoltsPerMeter(1)
+  lazy val voltPerMeter: ElectricFieldStrength[Int] = VoltsPerMeter(1)
 
 }
 

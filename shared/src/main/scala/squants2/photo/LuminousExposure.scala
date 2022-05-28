@@ -35,7 +35,7 @@ object LuminousExposure extends Dimension[LuminousExposure]("Luminous Exposure")
     def luxSeconds: LuminousExposure[A] = LuxSeconds(a)
   }
 
-  lazy val luxSeconds: LuminousExposure[Int] = LuxSeconds(1)
+  lazy val luxSecond: LuminousExposure[Int] = LuxSeconds(1)
 
 }
 

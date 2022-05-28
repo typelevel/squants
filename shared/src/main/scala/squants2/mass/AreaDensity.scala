@@ -38,10 +38,10 @@ object AreaDensity extends Dimension[AreaDensity]("Area Density") {
     def gramsPerSquareCentimeter: AreaDensity[A] = GramsPerSquareCentimeter(a)
   }
 
-  lazy val kilogramsPerHectare: AreaDensity[Int] = KilogramsPerHectare(1)
-  lazy val poundsPerAcre: AreaDensity[Int] = PoundsPerAcre(1)
-  lazy val kilogramsPerSquareMeter: AreaDensity[Int] = KilogramsPerSquareMeter(1)
-  lazy val gramsPerSquareCentimeter: AreaDensity[Int] = GramsPerSquareCentimeter(1)
+  lazy val kilogramPerHectare: AreaDensity[Int] = KilogramsPerHectare(1)
+  lazy val poundPerAcre: AreaDensity[Int] = PoundsPerAcre(1)
+  lazy val kilogramPerSquareMeter: AreaDensity[Int] = KilogramsPerSquareMeter(1)
+  lazy val gramPerSquareCentimeter: AreaDensity[Int] = GramsPerSquareCentimeter(1)
 
 }
 

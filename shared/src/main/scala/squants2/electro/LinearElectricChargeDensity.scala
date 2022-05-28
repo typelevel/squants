@@ -33,7 +33,7 @@ object LinearElectricChargeDensity extends Dimension[LinearElectricChargeDensity
     def coulombsPerMeter: LinearElectricChargeDensity[A] = CoulombsPerMeter(a)
   }
 
-  lazy val coulombsPerMeter: LinearElectricChargeDensity[Int] = CoulombsPerMeter(1)
+  lazy val coulombPerMeter: LinearElectricChargeDensity[Int] = CoulombsPerMeter(1)
 
 }
 
