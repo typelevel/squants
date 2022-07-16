@@ -9,4 +9,4 @@ addSbtPlugin("com.typesafe.sbt" % "sbt-osgi" % "0.9.6")
 
 addSbtPlugin("org.scalameta" % "sbt-mdoc" % "2.3.2")
 
-addSbtPlugin("org.typelevel" % "sbt-typelevel-ci-release" % "0.4.9")
+addSbtPlugin("org.typelevel" % "sbt-typelevel-ci-release" % "0.4.13")
