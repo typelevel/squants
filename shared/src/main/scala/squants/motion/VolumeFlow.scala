@@ -45,7 +45,10 @@ final class VolumeFlow private (val value: Double, val unit: VolumeFlowRateUnit)
   def toMillilitresPerMinute = to(MillilitresPerMinute)
   def toMillilitresPerSecond = to(MillilitresPerSecond)
 
+  def toCubicFeetPerDay = to(CubicFeetPerDay)
   def toCubicFeetPerHour = to(CubicFeetPerHour)
+  def toCubicFeetPerMinute = to(CubicFeetPerMinute)
+  def toCubicFeetPerSecond = to(CubicFeetPerSecond)
   def toGallonsPerDay = to(GallonsPerDay)
   def toGallonsPerHour = to(GallonsPerHour)
   def toGallonsPerMinute = to(GallonsPerMinute)
@@ -62,7 +65,8 @@ object VolumeFlow extends Dimension[VolumeFlow] {
     NanolitresPerSecond, NanolitresPerMinute, NanolitresPerHour, NanolitresPerDay,
     MicrolitresPerSecond, MicrolitresPerMinute, MicrolitresPerHour, MicrolitresPerDay,
     MillilitresPerSecond, MillilitresPerMinute, MillilitresPerHour, MillilitresPerDay,
-    CubicFeetPerHour, GallonsPerDay, GallonsPerHour, GallonsPerMinute, GallonsPerSecond)
+    CubicFeetPerDay, CubicFeetPerHour, CubicFeetPerMinute, CubicFeetPerSecond,
+    GallonsPerDay, GallonsPerHour, GallonsPerMinute, GallonsPerSecond)
 }
 
 trait VolumeFlowRateUnit extends UnitOfMeasure[VolumeFlow] with UnitConverter {
@@ -153,9 +157,24 @@ object MillilitresPerDay extends VolumeFlowRateUnit with SiUnit {
   val conversionFactor = Millilitres.conversionFactor / CubicMeters.conversionFactor / Time.SecondsPerDay
 }
 
+object CubicFeetPerDay extends VolumeFlowRateUnit {
+  val symbol = "ft³/d"
+  val conversionFactor = (CubicFeet.conversionFactor / CubicMeters.conversionFactor) / Time.SecondsPerDay
+}
+
 object CubicFeetPerHour extends VolumeFlowRateUnit {
   val symbol = "ft³/hr"
   val conversionFactor = (CubicFeet.conversionFactor / CubicMeters.conversionFactor) / Time.SecondsPerHour
+}
+
+object CubicFeetPerMinute extends VolumeFlowRateUnit {
+  val symbol = "ft³/m"
+  val conversionFactor = (CubicFeet.conversionFactor / CubicMeters.conversionFactor) / Time.SecondsPerMinute
+}
+
+object CubicFeetPerSecond extends VolumeFlowRateUnit {
+  val symbol = "cfs"
+  val conversionFactor = CubicFeet.conversionFactor / CubicMeters.conversionFactor
 }
 
 object GallonsPerDay extends VolumeFlowRateUnit {
@@ -212,7 +231,10 @@ object VolumeFlowConversions {
   lazy val millilitresPerHour = MillilitresPerHour(1)
   lazy val millilitersPerDay = MillilitresPerDay(1)
   lazy val millilitresPerDay = MillilitresPerDay(1)
+  lazy val cubicFeetPerDay = CubicFeetPerDay(1)
   lazy val cubicFeetPerHour = CubicFeetPerHour(1)
+  lazy val cubicFeetPerMinute = CubicFeetPerMinute(1)
+  lazy val cubicFeetPerSecond = CubicFeetPerSecond(1)
   lazy val gallonPerDay = GallonsPerDay(1)
   lazy val gallonPerHour = GallonsPerHour(1)
   lazy val gallonPerMinute = GallonsPerMinute(1)
@@ -252,7 +274,10 @@ object VolumeFlowConversions {
     def millilitresPerHour = MillilitresPerHour(n)
     def millilitersPerDay = MillilitresPerDay(n)
     def millilitresPerDay = MillilitresPerDay(n)
+    def cubicFeetPerDay = CubicFeetPerDay(n)
     def cubicFeetPerHour = CubicFeetPerHour(n)
+    def cubicFeetPerMinute = CubicFeetPerMinute(n)
+    def cubicFeetPerSecond = CubicFeetPerSecond(n)
     def gallonsPerDay = GallonsPerDay(n)
     def gallonsPerHour = GallonsPerHour(n)
     def gallonsPerMinute = GallonsPerMinute(n)
