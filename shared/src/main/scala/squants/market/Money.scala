@@ -407,7 +407,7 @@ object Money extends Dimension[Money] {
   def apply(s: String)(implicit fxContext: MoneyContext): Try[Money] = {
     val regex = ("([-+]?[0-9]*\\.?[0-9]+) *(" + fxContext.currencies.map(_.code).reduceLeft(_ + "|" + _) + ")").r
     s match {
-      case regex(value, currency) ⇒ Currency(currency).map(Money(value.toDouble, _))
+      case regex(value, currency) ⇒ Currency(currency).map(Money(BigDecimal(value), _))
       case _                      ⇒ Failure(QuantityParseException("Unable to parse Money", s))
     }
   }
@@ -491,6 +491,8 @@ object ZAR extends Currency("ZAR", "South African Rand", "R", 2)
 object NAD extends Currency("NAD", "Namibian Dollar", "N$", 2)
 object TRY extends Currency("TRY", "Turkish lira", "₺", 2)
 
+object UAH extends Currency("UAH", "Ukrainian Hryvnia", "₴", 2)
+
 /**
  * Support for Money DSL
  */
@@ -532,6 +534,8 @@ object MoneyConversions {
     def ZAR = Money(n, squants.market.ZAR)
     def NAD = Money(n, squants.market.NAD)
     def TRY = Money(n, squants.market.TRY)
+
+    def UAH = Money(n, squants.market.UAH)
   }
 
   class MoneyNumeric()(implicit mc: MoneyContext) extends Numeric[Money] {
