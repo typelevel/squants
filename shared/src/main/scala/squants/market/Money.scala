@@ -491,6 +491,8 @@ object ZAR extends Currency("ZAR", "South African Rand", "R", 2)
 object NAD extends Currency("NAD", "Namibian Dollar", "N$", 2)
 object TRY extends Currency("TRY", "Turkish lira", "₺", 2)
 
+object UAH extends Currency("UAH", "Ukrainian Hryvnia", "₴", 2)
+
 /**
  * Support for Money DSL
  */
@@ -532,6 +534,8 @@ object MoneyConversions {
     def ZAR = Money(n, squants.market.ZAR)
     def NAD = Money(n, squants.market.NAD)
     def TRY = Money(n, squants.market.TRY)
+
+    def UAH = Money(n, squants.market.UAH)
   }
 
   class MoneyNumeric()(implicit mc: MoneyContext) extends Numeric[Money] {
