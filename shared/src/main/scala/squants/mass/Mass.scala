@@ -145,7 +145,7 @@ object Kilopounds extends MassUnit {
 }
 
 object Megapounds extends MassUnit {
-  val conversionFactor = Pounds.conversionFactor * MetricSystem.Kilo
+  val conversionFactor = Pounds.conversionFactor * MetricSystem.Mega
   val symbol = "Mlb"
 }
 

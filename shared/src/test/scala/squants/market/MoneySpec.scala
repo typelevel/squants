@@ -8,11 +8,13 @@
 
 package squants.market
 
+import org.scalatest.TryValues
 import squants.QuantityParseException
 import squants.mass.Kilograms
 import squants.space.Meters
 import squants.time.Hours
 import squants._
+
 import scala.math.BigDecimal.RoundingMode
 import scala.util.{Failure, Success}
 import org.scalatest.flatspec.AnyFlatSpec
@@ -23,7 +25,7 @@ import org.scalatest.matchers.should.Matchers
  * @since   0.1
  *
  */
-class MoneySpec extends AnyFlatSpec with Matchers {
+class MoneySpec extends AnyFlatSpec with Matchers with TryValues {
 
   behavior of "Money and its Units of Measure"
 
@@ -424,6 +426,14 @@ class MoneySpec extends AnyFlatSpec with Matchers {
     x.mapAmount(_ * 2) should be(USD(BigDecimal("44444444444444444444.44")))
   }
 
+  it should "parse and return a Money with no loss of precision" in {
+    implicit val moneyContext: MoneyContext = MoneyContext(USD, defaultCurrencySet, Seq.empty)
+    val x = USD(BigDecimal("22222222222222222222.22"))
+    val y = Money("22222222222222222222.22 USD")
+
+    x shouldBe y.success.value
+  }
+
   it should "return properly formatted strings for all supported Currencies" in {
     USD(10.2).toString should be("10.2 USD")
     USD(10.2).toFormattedString should be("$10.20")
@@ -486,6 +496,7 @@ class MoneySpec extends AnyFlatSpec with Matchers {
     d.ZAR should be(ZAR(d))
     d.NAD should be(NAD(d))
     d.TRY should be(TRY(d))
+    d.UAH should be(UAH(d))
   }
 
   it should "provide Numeric support within a MoneyContext with no Exchange Rates" in {
