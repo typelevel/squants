@@ -20,10 +20,12 @@ import squants.time._
  */
 final class VolumeFlow private (val value: Double, val unit: VolumeFlowRateUnit)
     extends Quantity[VolumeFlow]
+    with TimeIntegral[VolumeAcceleration]
     with TimeDerivative[Volume] {
 
   def dimension = VolumeFlow
 
+  protected[squants] def timeDerived = CubicMetersPerSecondSquared(toCubicMetersPerSecond)
   protected[squants] def timeIntegrated = CubicMeters(toCubicMetersPerSecond)
   protected[squants] def time = Seconds(1)
 
