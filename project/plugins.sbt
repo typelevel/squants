@@ -5,7 +5,7 @@ addSbtPlugin("org.scala-native"   % "sbt-scala-native"              % "0.4.9")
 
 addSbtPlugin("org.scalariform" % "sbt-scalariform" % "1.8.3")
 
-addSbtPlugin("com.typesafe.sbt" % "sbt-osgi" % "0.9.6")
+addSbtPlugin("com.github.sbt" % "sbt-osgi" % "0.9.9")
 
 addSbtPlugin("org.scalameta" % "sbt-mdoc" % "2.3.6")
 
