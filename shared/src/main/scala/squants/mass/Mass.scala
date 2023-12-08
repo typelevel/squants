@@ -65,6 +65,7 @@ final class Mass private (val value: Double, val unit: MassUnit)
   def toTolas = to(Tolas)
   def toCarats = to(Carats)
   def toSolarMasses = to(SolarMasses)
+  def toEarthMasses = to(EarthMasses)
   def toDalton = to(Dalton)
 
   def toeV = to(ElectronVoltMass)
@@ -87,7 +88,7 @@ object Mass extends Dimension[Mass] with BaseDimension {
   def primaryUnit = Grams
   def siUnit = Kilograms
   def units = Set(Nanograms, Micrograms, Milligrams, Grams, Kilograms, Tonnes, Ounces, Pounds, Kilopounds, Megapounds,
-    Stone, TroyGrains, Pennyweights, TroyOunces, TroyPounds, Tolas, Carats, SolarMasses, Dalton,
+    Stone, TroyGrains, Pennyweights, TroyOunces, TroyPounds, Tolas, Carats, SolarMasses, EarthMasses, Dalton,
     ElectronVoltMass, MilliElectronVoltMass, KiloElectronVoltMass, MegaElectronVoltMass,
     GigaElectronVoltMass, TeraElectronVoltMass, PetaElectronVoltMass, ExaElectronVoltMass)
   def dimensionSymbol = "M"
@@ -189,6 +190,11 @@ object SolarMasses extends MassUnit {
   val symbol = "M☉"
 }
 
+object EarthMasses extends MassUnit {
+  val conversionFactor = 5.9760000000002e+27
+  val symbol = "M⊕"
+}
+
 object Dalton extends MassUnit  {
   // Value with reference to NIST (https://physics.nist.gov/cgi-bin/cuu/Value?u)
   val conversionFactor = 1.66053906660e-27 * MetricSystem.Kilo
@@ -258,6 +264,7 @@ object MassConversions {
   lazy val tola = Tolas(1)
   lazy val carat = Carats(1)
   lazy val solarMass = SolarMasses(1)
+  lazy val earthMass = EarthMasses(1)
   lazy val dalton = Dalton(1)
 
   lazy val eV = ElectronVoltMass(1)
@@ -295,6 +302,7 @@ object MassConversions {
     def ct = Carats(n)
     def carats = Carats(n)
     def solarMasses = SolarMasses(n)
+    def earthMasses = EarthMasses(n)
     def dalton = Dalton(n)
 
     def eV = ElectronVoltMass(n)
