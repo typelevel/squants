@@ -490,8 +490,8 @@ object LTC extends Currency("LTC", "Litecoin", "\u0141", 8)
 object ZAR extends Currency("ZAR", "South African Rand", "R", 2)
 object NAD extends Currency("NAD", "Namibian Dollar", "N$", 2)
 object TRY extends Currency("TRY", "Turkish lira", "₺", 2)
-
 object UAH extends Currency("UAH", "Ukrainian Hryvnia", "₴", 2)
+object THB extends Currency("THB", "Thai Baht", "฿", 2)
 
 /**
  * Support for Money DSL
@@ -534,8 +534,9 @@ object MoneyConversions {
     def ZAR = Money(n, squants.market.ZAR)
     def NAD = Money(n, squants.market.NAD)
     def TRY = Money(n, squants.market.TRY)
-
     def UAH = Money(n, squants.market.UAH)
+    def THB = Money(n, squants.market.THB)
+    def satang = Money(num.toDouble(n) / 100d, squants.market.THB)
   }
 
   class MoneyNumeric()(implicit mc: MoneyContext) extends Numeric[Money] {

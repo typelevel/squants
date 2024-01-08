@@ -497,6 +497,8 @@ class MoneySpec extends AnyFlatSpec with Matchers with TryValues {
     d.NAD should be(NAD(d))
     d.TRY should be(TRY(d))
     d.UAH should be(UAH(d))
+    d.THB should be(THB(d))
+    d.satang should be(Money(d / 100d, squants.market.THB))
   }
 
   it should "provide Numeric support within a MoneyContext with no Exchange Rates" in {
