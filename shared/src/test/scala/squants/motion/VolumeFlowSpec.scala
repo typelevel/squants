@@ -142,6 +142,14 @@ class VolumeFlowSpec extends AnyFlatSpec with Matchers with CustomMatchers {
     CubicMetersPerSecond(1) * Seconds(1) should be(CubicMeters(1))
   }
 
+  it should "return VolumeAcceleration when divided by Time" in {
+    CubicMetersPerSecond(8) / Seconds(2) should be(CubicMetersPerSecondSquared(4))
+  }
+
+  it should "return Time when divided by VolumeAcceleration" in {
+    CubicMetersPerSecond(8) / CubicMetersPerSecondSquared(2) should be(Seconds(4))
+  }
+
   behavior of "VolumeFlowConversions"
 
   it should "provide aliases for single unit values" in {
