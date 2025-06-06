@@ -10,7 +10,7 @@ object Versions {
   val Scala3 = "3.1.1"
   val Scala = Scala3
   val ScalaCross =
-    Seq("2.12.15", "2.13.6", Scala)
+    Seq("2.12.15", "2.13.16", Scala)
 
   val ScalaTest = "3.2.14"
   val ScalaCheck = "1.16.0"
