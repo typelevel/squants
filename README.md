@@ -734,7 +734,7 @@ val rs3 = range / Kilowatts(400)
 ### QuantityRange operations
 
 `QuantityRange` supports foreach, map, and foldLeft/foldRight. These vary slightly from the versions
-in the Scala standard library in that they take a divisior as the first parameter. The examples below
+in the Scala standard library in that they take a divisor as the first parameter. The examples below
 illustrate their use.
 
 Subdivide range into 1-Megawatt "slices", and foreach over each of slices:
@@ -1031,7 +1031,7 @@ usCookingUnitGroup.sortedUnits.foreach(println)
 ```
 
 The `UnitGroup` values provided with Squants are only samples and aren't intended to be exhaustive.
-We encourage users to make their own `UnitGroup` defintitions and submit them as PRs if they're generally
+We encourage users to make their own `UnitGroup` definitions and submit them as PRs if they're generally
 applicable.
 
 ## Formatters
