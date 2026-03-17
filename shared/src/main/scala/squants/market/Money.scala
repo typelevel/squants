@@ -492,6 +492,8 @@ object NAD extends Currency("NAD", "Namibian Dollar", "N$", 2)
 object TRY extends Currency("TRY", "Turkish lira", "₺", 2)
 object UAH extends Currency("UAH", "Ukrainian Hryvnia", "₴", 2)
 object THB extends Currency("THB", "Thai Baht", "฿", 2)
+object MAD extends Currency("MAD", "Moroccan Dirham", ".د.م", 2)
+object EGP extends Currency("EGP", "Egyptian Pounds", "E£", 2)
 
 /**
  * Support for Money DSL
@@ -537,6 +539,8 @@ object MoneyConversions {
     def UAH = Money(n, squants.market.UAH)
     def THB = Money(n, squants.market.THB)
     def satang = Money(num.toDouble(n) / 100d, squants.market.THB)
+    def MAD = Money(n, squants.market.MAD)
+    def EGP = Money(n, squants.market.EGP)
   }
 
   class MoneyNumeric()(implicit mc: MoneyContext) extends Numeric[Money] {
