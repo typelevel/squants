@@ -63,13 +63,13 @@ object Time extends Dimension[Time] with BaseDimension {
   private[time] def apply[A](n: A, unit: TimeUnit)(implicit num: Numeric[A]) = new Time(num.toDouble(n), unit)
   def apply(value: Any) = parse(value)
   def apply(duration: Duration): Time = duration.unit match {
-    case NANOSECONDS  ⇒ Nanoseconds(duration.length)
-    case MICROSECONDS ⇒ Microseconds(duration.length)
-    case MILLISECONDS ⇒ Milliseconds(duration.length)
-    case SECONDS      ⇒ Seconds(duration.length)
-    case MINUTES      ⇒ Minutes(duration.length)
-    case HOURS        ⇒ Hours(duration.length)
-    case DAYS         ⇒ Days(duration.length)
+    case NANOSECONDS  => Nanoseconds(duration.length)
+    case MICROSECONDS => Microseconds(duration.length)
+    case MILLISECONDS => Milliseconds(duration.length)
+    case SECONDS      => Seconds(duration.length)
+    case MINUTES      => Minutes(duration.length)
+    case HOURS        => Hours(duration.length)
+    case DAYS         => Days(duration.length)
   }
 
   def name = "Time"
@@ -152,13 +152,13 @@ object TimeConversions {
    * @return
    */
   implicit def timeToScalaDuration(time: Time): Duration = time.unit match {
-    case Nanoseconds  ⇒ Duration(time.value.toLong, NANOSECONDS)
-    case Microseconds ⇒ Duration(time.value.toLong, MICROSECONDS)
-    case Milliseconds ⇒ Duration(time.value.toLong, MILLISECONDS)
-    case Seconds      ⇒ Duration(time.value.toLong, SECONDS)
-    case Minutes      ⇒ Duration(time.value.toLong, MINUTES)
-    case Hours        ⇒ Duration(time.value.toLong, HOURS)
-    case Days         ⇒ Duration(time.value.toLong, DAYS)
+    case Nanoseconds  => Duration(time.value.toLong, NANOSECONDS)
+    case Microseconds => Duration(time.value.toLong, MICROSECONDS)
+    case Milliseconds => Duration(time.value.toLong, MILLISECONDS)
+    case Seconds      => Duration(time.value.toLong, SECONDS)
+    case Minutes      => Duration(time.value.toLong, MINUTES)
+    case Hours        => Duration(time.value.toLong, HOURS)
+    case Days         => Duration(time.value.toLong, DAYS)
   }
 
   implicit def scalaDurationToTime(duration: Duration): Time = Time(duration)

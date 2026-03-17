@@ -7,13 +7,13 @@ import com.typesafe.sbt.osgi.SbtOsgi
 import com.typesafe.sbt.osgi.SbtOsgi.autoImport._
 
 object Versions {
-  val Scala3 = "3.1.1"
+  val Scala3 = "3.3.7"
   val Scala = Scala3
   val ScalaCross =
-    Seq("2.12.15", "2.13.6", Scala)
+    Seq("2.12.21", "2.13.18", Scala)
 
-  val ScalaTest = "3.2.14"
-  val ScalaCheck = "1.16.0"
+  val ScalaTest = "3.2.19"
+  val ScalaCheck = "1.19.0"
 }
 
 object Dependencies {
@@ -21,23 +21,11 @@ object Dependencies {
   val scalaCheck = Def.setting(Seq("org.scalacheck" %%% "scalacheck" % Versions.ScalaCheck % Test))
 }
 
-object Resolvers {
-  val sonatypeNexusSnapshots = "Sonatype Nexus Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
-  val sonatypeNexusReleases = "Sonatype Nexus Releases" at "https://oss.sonatype.org/content/repositories/releases"
-  val sonatypeNexusStaging = "Sonatype Nexus Staging" at "https://oss.sonatype.org/service/local/staging/deploy/maven2"
-}
-
 object Project {
   val defaultSettings = Seq(
     name := "Squants",
 
     autoAPIMappings := true,
-
-    resolvers ++= Seq(
-        Resolvers.sonatypeNexusSnapshots,
-        Resolvers.sonatypeNexusReleases,
-        Resolvers.sonatypeNexusStaging
-    ),
 
     OsgiKeys.exportPackage := Seq("squants.*"),
 

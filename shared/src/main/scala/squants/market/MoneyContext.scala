@@ -32,7 +32,7 @@ case class MoneyContext(
     rates: Seq[CurrencyExchangeRate],
     allowIndirectConversions: Boolean = true) {
 
-  lazy val currencyMap = currencies.map { (c: Currency) ⇒ c.code -> c }.toMap
+  lazy val currencyMap = currencies.map { (c: Currency) => c.code -> c }.toMap
 
   /**
     * Custom implementation using SortedSets to ensure consistent output
@@ -53,7 +53,7 @@ case class MoneyContext(
    * @return
    */
   def directRateFor(curA: Currency, curB: Currency): Option[CurrencyExchangeRate] = {
-    rates.find(r ⇒
+    rates.find(r =>
       r.base.currency == curA && r.counter.currency == curB ||
         r.base.currency == curB && r.counter.currency == curA)
   }
@@ -72,20 +72,20 @@ case class MoneyContext(
     // TODO Improve this to attempt to use defaultCurrency first
 
     directRateFor(curA, curB) match {
-      case Some(rate) ⇒ Some(rate)
-      case _ ⇒
-        val ratesWithCurA = rates.filter(r ⇒ r.base.currency == curA || r.counter.currency == curA)
-        val ratesWithCurB = rates.filter(r ⇒ r.base.currency == curB || r.counter.currency == curB)
+      case Some(rate) => Some(rate)
+      case _ =>
+        val ratesWithCurA = rates.filter(r => r.base.currency == curA || r.counter.currency == curA)
+        val ratesWithCurB = rates.filter(r => r.base.currency == curB || r.counter.currency == curB)
 
         val curs = for {
-          cur ← currencies
+          cur <- currencies
           if ratesWithCurA.map(_.base.currency).contains(cur) || ratesWithCurA.map(_.counter.currency).contains(cur)
           if ratesWithCurB.map(_.base.currency).contains(cur) || ratesWithCurB.map(_.counter.currency).contains(cur)
         } yield cur
 
         curs.headOption match {
-          case Some(cur) ⇒ Some(CurrencyExchangeRate(convert(cur(1), curA), convert(cur(1), curB)))
-          case None      ⇒ None
+          case Some(cur) => Some(CurrencyExchangeRate(convert(cur(1), curA), convert(cur(1), curB)))
+          case None      => None
         }
     }
   }
@@ -106,12 +106,12 @@ case class MoneyContext(
 
     if (money.currency == currency) money
     else directRateFor(money.currency, currency) match {
-      case Some(rate) ⇒ rate.convert(money)
-      case _ if allowIndirectConversions ⇒ indirectRateFor(money.currency, currency) match {
-        case Some(crossRate) ⇒ crossRate.convert(money)
-        case None            ⇒ throw new NoSuchExchangeRateException(s"Rate for currency pair (${money.currency} / $currency)")
+      case Some(rate) => rate.convert(money)
+      case _ if allowIndirectConversions => indirectRateFor(money.currency, currency) match {
+        case Some(crossRate) => crossRate.convert(money)
+        case None            => throw new NoSuchExchangeRateException(s"Rate for currency pair (${money.currency} / $currency)")
       }
-      case _ ⇒ throw new NoSuchExchangeRateException(s"Rate for currency pair (${money.currency} / $currency)")
+      case _ => throw new NoSuchExchangeRateException(s"Rate for currency pair (${money.currency} / $currency)")
     }
   }
 

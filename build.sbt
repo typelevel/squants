@@ -27,7 +27,7 @@ inThisBuild(List(
   ),
   crossScalaVersions := Versions.ScalaCross,
   githubWorkflowBuildMatrixExclusions +=
-    MatrixExclude(Map("project" -> "rootNative", "scala" -> Versions.Scala3)),
+    MatrixExclude(Map("project" -> "rootNative", "scala" -> "3")),
 ))
 
 lazy val squants =

@@ -37,7 +37,7 @@ val weeklyMilkBudget = milkPrice * usageInOneWeek
 // Display Results
 println("Brady Bunch Milk Budget")
 val format = "%.2f"
-theBradyBunch.map(b ⇒ s"${b.name} - ${b.milkConsumption.toString(GallonsPerDay, format)}").foreach(println)
+theBradyBunch.map(b => s"${b.name} - ${b.milkConsumption.toString(GallonsPerDay, format)}").foreach(println)
 println(s"      Milk Price: ${milkPrice.toString(UsGallons)}")
 println(s" Total Milk Flow: ${totalMilkConsumption.toString(GallonsPerDay, format)}")
 println(s" Usage in 1 week: ${usageInOneWeek.toString(UsGallons, format)}")

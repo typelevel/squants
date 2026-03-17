@@ -29,11 +29,11 @@ final class Area private (val value: Double, val unit: AreaUnit)
   def dimension = Area
 
   def *(that: Length): Volume = unit match {
-    case SquareUsMiles ⇒ CubicUsMiles(this.value * that.toUsMiles)
-    case SquareYards   ⇒ CubicYards(this.value * that.toYards)
-    case SquareFeet    ⇒ CubicFeet(this.value * that.toFeet)
-    case SquareInches  ⇒ CubicInches(this.value * that.toInches)
-    case _             ⇒ CubicMeters(this.toSquareMeters * that.toMeters)
+    case SquareUsMiles => CubicUsMiles(this.value * that.toUsMiles)
+    case SquareYards   => CubicYards(this.value * that.toYards)
+    case SquareFeet    => CubicFeet(this.value * that.toFeet)
+    case SquareInches  => CubicInches(this.value * that.toInches)
+    case _             => CubicMeters(this.toSquareMeters * that.toMeters)
   }
 
   def *(that: AreaDensity): Mass = Kilograms(this.toSquareMeters * that.toKilogramsPerSquareMeter)
@@ -46,11 +46,11 @@ final class Area private (val value: Double, val unit: AreaUnit)
   def *(that: Time): AreaTime = SquareMeterSeconds(this.toSquareMeters * that.toSeconds)
 
   def /(that: Length): Length = unit match {
-    case SquareUsMiles ⇒ UsMiles(this.value / that.toUsMiles)
-    case SquareYards   ⇒ Yards(this.value / that.toYards)
-    case SquareFeet    ⇒ Feet(this.value / that.toFeet)
-    case SquareInches  ⇒ Inches(this.value / that.toInches)
-    case _             ⇒ Meters(this.toSquareMeters / that.toMeters)
+    case SquareUsMiles => UsMiles(this.value / that.toUsMiles)
+    case SquareYards   => Yards(this.value / that.toYards)
+    case SquareFeet    => Feet(this.value / that.toFeet)
+    case SquareInches  => Inches(this.value / that.toInches)
+    case _             => Meters(this.toSquareMeters / that.toMeters)
   }
 
   def squareRoot = Meters(math.sqrt(toSquareMeters))
