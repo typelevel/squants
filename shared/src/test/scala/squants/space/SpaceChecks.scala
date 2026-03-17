@@ -24,26 +24,26 @@ object SpaceChecks extends Properties("Space") with QuantityChecks {
   implicit val tolVfr: VolumeFlow = CubicMetersPerSecond(tol)
   implicit val tolAngularVelocity: AngularVelocity = RadiansPerSecond(tol)
 
-  property("Area = Length * Length") = forAll(posNum, posNum) { (length1: TestData, length2: TestData) ⇒
+  property("Area = Length * Length") = forAll(posNum, posNum) { (length1: TestData, length2: TestData) =>
     SquareMeters(length1 * length2) == Meters(length1) * Meters(length2) &&
       Meters(length1) == SquareMeters(length1 * length2) / Meters(length2)
   }
 
-  property("Volume = Length * Area") = forAll(posNum, posNum) { (length: TestData, area: TestData) ⇒
+  property("Volume = Length * Area") = forAll(posNum, posNum) { (length: TestData, area: TestData) =>
     CubicMeters(length * area) == Meters(length) * SquareMeters(area) &&
       CubicMeters(length * area) == SquareMeters(area) * Meters(length) &&
       Meters(length) == CubicMeters(length * area) / SquareMeters(area) &&
       SquareMeters(area) == CubicMeters(length * area) / Meters(length)
   }
 
-  property("Volume = VolumeFlowRate * Time") = forAll(posNum, posNum) { (vfr: TestData, time: TestData) ⇒
+  property("Volume = VolumeFlowRate * Time") = forAll(posNum, posNum) { (vfr: TestData, time: TestData) =>
     CubicMeters(vfr * time) == CubicMetersPerSecond(vfr) * Seconds(time) &&
       CubicMeters(vfr * time) == Seconds(time) * CubicMetersPerSecond(vfr) &&
       Seconds(time) =~ CubicMeters(vfr * time) / CubicMetersPerSecond(vfr) &&
       CubicMetersPerSecond(vfr) =~ CubicMeters(vfr * time) / Seconds(time)
   }
 
-  property("Angle = AngularVelocity * Time") = forAll(posNum, posNum) { (angularVel: TestData, time: TestData) ⇒
+  property("Angle = AngularVelocity * Time") = forAll(posNum, posNum) { (angularVel: TestData, time: TestData) =>
     Radians(angularVel * time) == RadiansPerSecond(angularVel) * Seconds(time) &&
       Radians(angularVel * time) == Seconds(time) * RadiansPerSecond(angularVel) &&
       Seconds(time) =~ Radians(angularVel * time) / RadiansPerSecond(angularVel) &&

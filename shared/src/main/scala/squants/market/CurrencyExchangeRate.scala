@@ -35,9 +35,9 @@ case class CurrencyExchangeRate(base: Money, counter: Money) extends Ratio[Money
    * @return
    */
   def convert(money: Money) = money.currency match {
-    case base.currency    ⇒ convertToCounter(money)
-    case counter.currency ⇒ convertToBase(money)
-    case _                ⇒ throw new IllegalArgumentException("The currency of money must match the currency of base or counter")
+    case base.currency    => convertToCounter(money)
+    case counter.currency => convertToBase(money)
+    case _                => throw new IllegalArgumentException("The currency of money must match the currency of base or counter")
   }
 
   /** convert  */

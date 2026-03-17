@@ -19,28 +19,28 @@ import org.scalacheck.Prop._
  */
 object MarketChecks extends Properties("Market") with QuantityChecks {
 
-  property("Money + Money = Money") = forAll(posNum, posNum) { (a: TestData, b: TestData) ⇒
+  property("Money + Money = Money") = forAll(posNum, posNum) { (a: TestData, b: TestData) =>
     USD(a + b) == USD(a) + USD(b)
   }
 
-  property("Money - Money = Money") = forAll(posNum, posNum) { (a: TestData, b: TestData) ⇒
+  property("Money - Money = Money") = forAll(posNum, posNum) { (a: TestData, b: TestData) =>
     USD(a - b) == USD(a) - USD(b)
   }
 
-  property("Money * Double = Money") = forAll(posNum, posNum) { (a: TestData, b: TestData) ⇒
+  property("Money * Double = Money") = forAll(posNum, posNum) { (a: TestData, b: TestData) =>
     USD(a * b) == USD(a) * b.toDouble
   }
 
-  property("Money / Double = Money") = forAll(posNum, posNum) { (a: TestData, b: TestData) ⇒
+  property("Money / Double = Money") = forAll(posNum, posNum) { (a: TestData, b: TestData) =>
     USD(BigDecimal(a) / b) == USD(a) / b.toDouble
   }
 
-  property("Money = ExchangeRate * Money") = forAll(posNum, posNum) { (a: TestData, b: TestData) ⇒
+  property("Money = ExchangeRate * Money") = forAll(posNum, posNum) { (a: TestData, b: TestData) =>
     USD(BigDecimal(b) / a) == CurrencyExchangeRate(USD(1), JPY(a)) * JPY(b) &&
       USD(BigDecimal(b) / a) == JPY(b) * CurrencyExchangeRate(USD(1), JPY(a))
   }
 
-  property("(variations of) Money * Double + Money * Double = (Money * Double) * 2") = forAll(posNum, posNum) { (a: TestData, b: TestData) ⇒
+  property("(variations of) Money * Double + Money * Double = (Money * Double) * 2") = forAll(posNum, posNum) { (a: TestData, b: TestData) =>
     val m = USD(a.toDouble)
     val x = b.toDouble
 
@@ -54,7 +54,7 @@ object MarketChecks extends Properties("Market") with QuantityChecks {
       x * m + m * x == ((x * m) * 2)
   }
 
-  property("Money / Double + Money / Double = (Money / Double) * 2") = forAll(posNum, posNum) { (a: TestData, b: TestData) ⇒
+  property("Money / Double + Money / Double = (Money / Double) * 2") = forAll(posNum, posNum) { (a: TestData, b: TestData) =>
     implicit val tolUSD: Money = USD(1e-30)
     val m = if (a > 0) USD(a.toDouble) else USD(1)
     val x = if (b > 0) b.toDouble else 1d

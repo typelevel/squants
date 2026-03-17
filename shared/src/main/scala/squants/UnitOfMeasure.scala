@@ -44,13 +44,13 @@ trait UnitOfMeasure[A <: Quantity[A]] extends Serializable {
    * Defines a signature for converting a quantity from this UOM to the Value UOM
    * @return
    */
-  protected def converterFrom: Double ⇒ Double
+  protected def converterFrom: Double => Double
 
   /**
    * Defines a signature for converting a quantity to this UOM from the Value UOM
    * @return
    */
-  protected def converterTo: Double ⇒ Double
+  protected def converterTo: Double => Double
 
   /**
    * Applies the converterTo method to a value
@@ -75,7 +75,7 @@ trait UnitOfMeasure[A <: Quantity[A]] extends Serializable {
 /**
  * A Unit of Measure that require a simple multiplier for converting to and from the underlying value's unit
  */
-trait UnitConverter { uom: UnitOfMeasure[_] ⇒
+trait UnitConverter { uom: UnitOfMeasure[_] =>
 
   /**
    * Defines a multiplier value relative to the Quantity's [[squants.PrimaryUnit]]
@@ -88,13 +88,13 @@ trait UnitConverter { uom: UnitOfMeasure[_] ⇒
    * Implements the converterTo method as a simple quotient of the value and the multiplier
    * @return
    */
-  protected def converterTo: Double ⇒ Double = value ⇒ value / conversionFactor
+  protected def converterTo: Double => Double = value => value / conversionFactor
 
   /**
    * Implements the converterFrom method as a simple product of the value and the multiplier
    * @return
    */
-  protected def converterFrom: Double ⇒ Double = value ⇒ value * conversionFactor
+  protected def converterFrom: Double => Double = value => value * conversionFactor
 }
 
 /**
@@ -104,19 +104,19 @@ trait UnitConverter { uom: UnitOfMeasure[_] ⇒
  *
  * Each Quantity should have one and only one ValueUnit
  */
-trait PrimaryUnit extends UnitConverter { uom: UnitOfMeasure[_] ⇒
+trait PrimaryUnit extends UnitConverter { uom: UnitOfMeasure[_] =>
 
   /**
    * Implements the converterTo method to just return the underlying value
    * @return
    */
-  override final def converterTo: Double ⇒ Double = value ⇒ value
+  override final def converterTo: Double => Double = value => value
 
   /**
    * Implements the converterFrom method to just return the underlying value
    * @return
    */
-  override final def converterFrom: Double ⇒ Double = value ⇒ value
+  override final def converterFrom: Double => Double = value => value
 
   /**
    * Value unit multiplier is always equal to 1

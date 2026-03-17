@@ -71,52 +71,52 @@ class QuantityRangeSpec extends AnyFlatSpec with Matchers {
   it should "foreach a like value and execute an operation on each sub range" in {
     val r = QuantityRange(Meters(0), Meters(5))
     var accum = 0d
-    r.foreach(Meters(1))(sub ⇒ accum = accum + sub.upper.toMeters)
+    r.foreach(Meters(1))(sub => accum = accum + sub.upper.toMeters)
     accum should be(15)
   }
 
   it should "foreach a Double and execute an operation on each sub range" in {
     val r = QuantityRange(Meters(0), Meters(5))
     var accum = 0d
-    r.foreach(5)(sub ⇒ accum = accum + sub.upper.toMeters)
+    r.foreach(5)(sub => accum = accum + sub.upper.toMeters)
     accum should be(15)
   }
 
   it should "map a like value and applies a map operation on each sub range" in {
     val r = QuantityRange(Meters(0), Meters(5))
     val rs = r / Meters(1)
-    val rsMapped = r.map(Meters(1))(x ⇒ x)
+    val rsMapped = r.map(Meters(1))(x => x)
     rsMapped should be(rs)
   }
 
   it should "map a Double and applies a map operation on each sub range" in {
     val r = QuantityRange(Meters(0), Meters(35))
     val rs = r / 5
-    val rsMapped = r.map(5)(x ⇒ x)
+    val rsMapped = r.map(5)(x => x)
     rsMapped should be(rs)
   }
 
   it should "foldLeft a like value and applies an operation on each sub range" in {
     val r = QuantityRange(Meters(0), Meters(5))
-    val total = r.foldLeft(Meters(1), Meters(0))((z, x) ⇒ z + x.upper)
+    val total = r.foldLeft(Meters(1), Meters(0))((z, x) => z + x.upper)
     total should be(Meters(15))
   }
 
   it should "foldLeft a Double and applies an operation on each sub range" in {
     val r = QuantityRange(Meters(0), Meters(5))
-    val total = r.foldLeft(5, Meters(0))((z, x) ⇒ z + x.upper)
+    val total = r.foldLeft(5, Meters(0))((z, x) => z + x.upper)
     total should be(Meters(15))
   }
 
   it should "foldRight a like value and applies an operation on each sub range" in {
     val r = QuantityRange(Meters(0), Meters(5))
-    val total = r.foldRight(Meters(1), Meters(0))((x, z) ⇒ z + x.upper)
+    val total = r.foldRight(Meters(1), Meters(0))((x, z) => z + x.upper)
     total should be(Meters(15))
   }
 
   it should "foldRight a Double and applies an operation on each sub range" in {
     val r = QuantityRange(Meters(0), Meters(5))
-    val total = r.foldRight(5, Meters(0))((x, z) ⇒ z + x.upper)
+    val total = r.foldRight(5, Meters(0))((x, z) => z + x.upper)
     total should be(Meters(15))
   }
 

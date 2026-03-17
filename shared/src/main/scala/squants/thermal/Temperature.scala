@@ -88,37 +88,37 @@ final class Temperature private (val value: Double, val unit: TemperatureScale)
   def toString(unit: TemperatureScale): String = in(unit).toString
 
   private def convert(toScale: TemperatureScale, withOffset: Boolean = true): Temperature = (unit, toScale, withOffset) match {
-    case (Fahrenheit, Fahrenheit, _)  ⇒ this
-    case (Celsius, Celsius, _)        ⇒ this
-    case (Kelvin, Kelvin, _)          ⇒ this
-    case (Rankine, Rankine, _)        ⇒ this
+    case (Fahrenheit, Fahrenheit, _)  => this
+    case (Celsius, Celsius, _)        => this
+    case (Kelvin, Kelvin, _)          => this
+    case (Rankine, Rankine, _)        => this
 
-    case (Fahrenheit, Celsius, true)  ⇒ Celsius(TemperatureConversions.fahrenheitToCelsiusScale(value))
-    case (Celsius, Fahrenheit, true)  ⇒ Fahrenheit(TemperatureConversions.celsiusToFahrenheitScale(value))
-    case (Celsius, Kelvin, true)      ⇒ Kelvin(TemperatureConversions.celsiusToKelvinScale(value))
-    case (Kelvin, Celsius, true)      ⇒ Celsius(TemperatureConversions.kelvinToCelsiusScale(value))
-    case (Fahrenheit, Kelvin, true)   ⇒ Kelvin(TemperatureConversions.fahrenheitToKelvinScale(value))
-    case (Kelvin, Fahrenheit, true)   ⇒ Fahrenheit(TemperatureConversions.kelvinToFahrenheitScale(value))
-    case (Fahrenheit, Rankine, true)  ⇒ Rankine(TemperatureConversions.fahrenheitToRankineScale(value))
-    case (Rankine, Fahrenheit, true)  ⇒ Fahrenheit(TemperatureConversions.rankineToFahrenheitScale(value))
-    case (Celsius, Rankine, true)     ⇒ Rankine(TemperatureConversions.celsiusToRankineScale(value))
-    case (Rankine, Celsius, true)     ⇒ Celsius(TemperatureConversions.rankineToCelsiusScale(value))
-    case (Kelvin, Rankine, true)      ⇒ Rankine(TemperatureConversions.kelvinToRankineScale(value))
-    case (Rankine, Kelvin, true)      ⇒ Kelvin(TemperatureConversions.rankineToKelvinScale(value))
+    case (Fahrenheit, Celsius, true)  => Celsius(TemperatureConversions.fahrenheitToCelsiusScale(value))
+    case (Celsius, Fahrenheit, true)  => Fahrenheit(TemperatureConversions.celsiusToFahrenheitScale(value))
+    case (Celsius, Kelvin, true)      => Kelvin(TemperatureConversions.celsiusToKelvinScale(value))
+    case (Kelvin, Celsius, true)      => Celsius(TemperatureConversions.kelvinToCelsiusScale(value))
+    case (Fahrenheit, Kelvin, true)   => Kelvin(TemperatureConversions.fahrenheitToKelvinScale(value))
+    case (Kelvin, Fahrenheit, true)   => Fahrenheit(TemperatureConversions.kelvinToFahrenheitScale(value))
+    case (Fahrenheit, Rankine, true)  => Rankine(TemperatureConversions.fahrenheitToRankineScale(value))
+    case (Rankine, Fahrenheit, true)  => Fahrenheit(TemperatureConversions.rankineToFahrenheitScale(value))
+    case (Celsius, Rankine, true)     => Rankine(TemperatureConversions.celsiusToRankineScale(value))
+    case (Rankine, Celsius, true)     => Celsius(TemperatureConversions.rankineToCelsiusScale(value))
+    case (Kelvin, Rankine, true)      => Rankine(TemperatureConversions.kelvinToRankineScale(value))
+    case (Rankine, Kelvin, true)      => Kelvin(TemperatureConversions.rankineToKelvinScale(value))
 
 
-    case (Fahrenheit, Celsius, false) ⇒ Celsius(TemperatureConversions.fahrenheitToCelsiusDegrees(value))
-    case (Celsius, Fahrenheit, false) ⇒ Fahrenheit(TemperatureConversions.celsiusToFahrenheitDegrees(value))
-    case (Celsius, Kelvin, false)     ⇒ Kelvin(TemperatureConversions.celsiusToKelvinDegrees(value))
-    case (Kelvin, Celsius, false)     ⇒ Celsius(TemperatureConversions.kelvinToCelsiusDegrees(value))
-    case (Fahrenheit, Kelvin, false)  ⇒ Kelvin(TemperatureConversions.fahrenheitToKelvinDegrees(value))
-    case (Kelvin, Fahrenheit, false)  ⇒ Fahrenheit(TemperatureConversions.kelvinToFahrenheitDegrees(value))
-    case (Fahrenheit, Rankine, false) ⇒ Rankine(TemperatureConversions.fahrenheitToRankineDegrees(value))
-    case (Rankine, Fahrenheit, false) ⇒ Fahrenheit(TemperatureConversions.rankineToFahrenheitDegrees(value))
-    case (Celsius, Rankine, false)    ⇒ Rankine(TemperatureConversions.celsiusToRankineDegrees(value))
-    case (Rankine, Celsius, false)    ⇒ Celsius(TemperatureConversions.rankineToCelsiusDegrees(value))
-    case (Kelvin, Rankine, false)     ⇒ Rankine(TemperatureConversions.kelvinToRankineDegrees(value))
-    case (Rankine, Kelvin, false)     ⇒ Kelvin(TemperatureConversions.rankineToKelvinDegrees(value))
+    case (Fahrenheit, Celsius, false) => Celsius(TemperatureConversions.fahrenheitToCelsiusDegrees(value))
+    case (Celsius, Fahrenheit, false) => Fahrenheit(TemperatureConversions.celsiusToFahrenheitDegrees(value))
+    case (Celsius, Kelvin, false)     => Kelvin(TemperatureConversions.celsiusToKelvinDegrees(value))
+    case (Kelvin, Celsius, false)     => Celsius(TemperatureConversions.kelvinToCelsiusDegrees(value))
+    case (Fahrenheit, Kelvin, false)  => Kelvin(TemperatureConversions.fahrenheitToKelvinDegrees(value))
+    case (Kelvin, Fahrenheit, false)  => Fahrenheit(TemperatureConversions.kelvinToFahrenheitDegrees(value))
+    case (Fahrenheit, Rankine, false) => Rankine(TemperatureConversions.fahrenheitToRankineDegrees(value))
+    case (Rankine, Fahrenheit, false) => Fahrenheit(TemperatureConversions.rankineToFahrenheitDegrees(value))
+    case (Celsius, Rankine, false)    => Rankine(TemperatureConversions.celsiusToRankineDegrees(value))
+    case (Rankine, Celsius, false)    => Celsius(TemperatureConversions.rankineToCelsiusDegrees(value))
+    case (Kelvin, Rankine, false)     => Rankine(TemperatureConversions.kelvinToRankineDegrees(value))
+    case (Rankine, Kelvin, false)     => Kelvin(TemperatureConversions.rankineToKelvinDegrees(value))
   }
 
   def in(unit: TemperatureScale) = convert(unit, withOffset = true)
@@ -265,4 +265,3 @@ object TemperatureConversions {
     def toTemperature = Temperature(s)
   }
 }
-

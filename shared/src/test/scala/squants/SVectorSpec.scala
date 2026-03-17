@@ -260,7 +260,7 @@ class SVectorSpec extends AnyFlatSpec with Matchers {
     val y = Kilometers(2)
     val z = Kilometers(3)
     val quantityVector = SVector(x, y, z)
-    quantityVector.map[Area](l ⇒ l * l).equals(SVector(SquareKilometers(1), SquareKilometers(4), SquareKilometers(9))) should be(right = true)
+    quantityVector.map[Area](l => l * l).equals(SVector(SquareKilometers(1), SquareKilometers(4), SquareKilometers(9))) should be(right = true)
     quantityVector.map[Length](_ * 2).equals(SVector(Kilometers(2), Kilometers(4), Kilometers(6))) should be(right = true)
   }
 

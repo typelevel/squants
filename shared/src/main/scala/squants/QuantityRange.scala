@@ -36,7 +36,7 @@ case class QuantityRange[A <: Quantity[A]](lower: A, upper: A) {
   def times(multiple: Double): QuantitySeries[A] = {
     val remainder = multiple % 1
     val count = ((multiple - remainder) / 1).toInt
-    val ranges = (0 until count).map(n ⇒ QuantityRange(lower + (toQuantity * n.toDouble), upper + (toQuantity * n.toDouble)))
+    val ranges = (0 until count).map(n => QuantityRange(lower + (toQuantity * n.toDouble), upper + (toQuantity * n.toDouble)))
     if (remainder > 0) ranges :+ QuantityRange(lower + (toQuantity * count.toDouble), lower + (toQuantity * (count + remainder)))
     else ranges
   }
@@ -89,7 +89,7 @@ case class QuantityRange[A <: Quantity[A]](lower: A, upper: A) {
    * @param op the side affecting operation
    * @return
    */
-  def foreach[U](size: A)(op: QuantityRange[A] ⇒ U) = /(size).foreach(op)
+  def foreach[U](size: A)(op: QuantityRange[A] => U) = /(size).foreach(op)
 
   /**
    * Divides the range into a Seq of `divisor` ranges and applies a f to each element
@@ -98,7 +98,7 @@ case class QuantityRange[A <: Quantity[A]](lower: A, upper: A) {
    * @param op the side affecting operation
    * @return
    */
-  def foreach[U](divisor: Double)(op: QuantityRange[A] ⇒ U) = /(divisor).foreach(op)
+  def foreach[U](divisor: Double)(op: QuantityRange[A] => U) = /(divisor).foreach(op)
 
   /**
    * Divides the range into a Seq of ranges of `size` each and applies a map operation to each
@@ -108,7 +108,7 @@ case class QuantityRange[A <: Quantity[A]](lower: A, upper: A) {
    * @tparam B the result type of the map operation
    * @return
    */
-  def map[B](size: A)(op: QuantityRange[A] ⇒ B): Seq[B] = /(size).map(op)
+  def map[B](size: A)(op: QuantityRange[A] => B): Seq[B] = /(size).map(op)
 
   /**
    * Divides the range into a Seq of `divisor` ranges and applies a map operation to each
@@ -118,7 +118,7 @@ case class QuantityRange[A <: Quantity[A]](lower: A, upper: A) {
    * @tparam B the result type of the map operation
    * @return
    */
-  def map[B](divisor: Double)(op: QuantityRange[A] ⇒ B): Seq[B] = map(toQuantity / divisor)(op)
+  def map[B](divisor: Double)(op: QuantityRange[A] => B): Seq[B] = map(toQuantity / divisor)(op)
 
   /**
    * Divides the range into a Seq of ranges of `size` each and applies a foldLeft operation
@@ -129,9 +129,9 @@ case class QuantityRange[A <: Quantity[A]](lower: A, upper: A) {
    * @tparam B the result type of the binary operator
    * @return
    */
-  def foldLeft[B](size: A, z: B)(op: (B, QuantityRange[A]) ⇒ B): B = /(size).foldLeft[B](z)(op)
+  def foldLeft[B](size: A, z: B)(op: (B, QuantityRange[A]) => B): B = /(size).foldLeft[B](z)(op)
   /** foldLeft */
-  def /:[B](size: A, z: B)(op: (B, QuantityRange[A]) ⇒ B) = foldLeft(size, z)(op)
+  def /:[B](size: A, z: B)(op: (B, QuantityRange[A]) => B) = foldLeft(size, z)(op)
 
   /**
    * Divides the range into a Seq of ranges of `size` each and applies a foldLeft operation
@@ -142,9 +142,9 @@ case class QuantityRange[A <: Quantity[A]](lower: A, upper: A) {
    * @tparam B the result type of the binary operator
    * @return
    */
-  def foldLeft[B](divisor: Double, z: B)(op: (B, QuantityRange[A]) ⇒ B): B = /(divisor).foldLeft[B](z)(op)
+  def foldLeft[B](divisor: Double, z: B)(op: (B, QuantityRange[A]) => B): B = /(divisor).foldLeft[B](z)(op)
   /** foldLeft */
-  def /:[B](divisor: Double, z: B)(op: (B, QuantityRange[A]) ⇒ B) = foldLeft(divisor, z)(op)
+  def /:[B](divisor: Double, z: B)(op: (B, QuantityRange[A]) => B) = foldLeft(divisor, z)(op)
 
   /**
    * Divides the range into a Seq of ranges of `size` each and applies a foldRight operation
@@ -155,9 +155,9 @@ case class QuantityRange[A <: Quantity[A]](lower: A, upper: A) {
    * @tparam B the result type of the binary operator
    * @return
    */
-  def foldRight[B](size: A, z: B)(op: (QuantityRange[A], B) ⇒ B): B = /(size).foldRight[B](z)(op)
+  def foldRight[B](size: A, z: B)(op: (QuantityRange[A], B) => B): B = /(size).foldRight[B](z)(op)
   /** foldRight */
-  def :\[B](size: A, z: B)(op: (QuantityRange[A], B) ⇒ B) = foldRight(size, z)(op)
+  def :\[B](size: A, z: B)(op: (QuantityRange[A], B) => B) = foldRight(size, z)(op)
 
   /**
    * Divides the range into a Seq of ranges of `size` each and applies a foldRight operation
@@ -168,9 +168,9 @@ case class QuantityRange[A <: Quantity[A]](lower: A, upper: A) {
    * @tparam B the result type of the binary operator
    * @return
    */
-  def foldRight[B](divisor: Double, z: B)(op: (QuantityRange[A], B) ⇒ B): B = /(divisor).foldRight[B](z)(op)
+  def foldRight[B](divisor: Double, z: B)(op: (QuantityRange[A], B) => B): B = /(divisor).foldRight[B](z)(op)
   /** foldRight */
-  def :\[B](divisor: Double, z: B)(op: (QuantityRange[A], B) ⇒ B) = foldRight(divisor, z)(op)
+  def :\[B](divisor: Double, z: B)(op: (QuantityRange[A], B) => B) = foldRight(divisor, z)(op)
 
   /**
    * Increments the range's from and to values by an amount equal to the Quantity value of the range
