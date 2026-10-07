@@ -9,6 +9,7 @@
 package squants.energy
 
 import squants._
+import squants.energy.AbsorbedEnergyRate
 
 /**
  * @author  garyKeorkunian
@@ -21,7 +22,7 @@ final class SpecificEnergy private (val value: Double, val unit: SpecificEnergyU
   def dimension = SpecificEnergy
 
   def *(that: Mass): Energy = Joules(this.toGrays * that.toKilograms)
-  def /(that: Time) = ??? // returns AbsorbedEnergyRate
+  def /(that: Time): AbsorbedEnergyRate = GraysPerSecond(this.toGrays / that.toSeconds)
 
   def toGrays = to(Grays)
   def toRads = to(Rads)

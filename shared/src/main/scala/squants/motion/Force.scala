@@ -13,6 +13,7 @@ import squants.energy.Joules
 import squants.mass.{ Kilograms, Pounds }
 import squants.space.SquareMeters
 import squants.time.{ Seconds, TimeDerivative, TimeIntegral }
+import squants.motion.SurfaceTension
 
 /**
  * @author  garyKeorkunian
@@ -32,7 +33,7 @@ final class Force private (val value: Double, val unit: ForceUnit)
 
   /* This could also be Torque, as Energy(Work) and Torque are dimensionally equivalent */
   def *(that: Length): Energy = Joules(this.toNewtons * that.toMeters)
-  def /(that: Length) = ??? // return SurfaceTension
+  def /(that: Length): SurfaceTension = NewtonsPerMeter(this.toNewtons / that.toMeters)
   def /(that: Mass): Acceleration = MetersPerSecondSquared(this.toNewtons / that.toKilograms)
   def /(that: Acceleration): Mass = Kilograms(this.toNewtons / that.toMetersPerSecondSquared)
   def /(that: Area): Pressure = Pascals(this.toNewtons / that.toSquareMeters)

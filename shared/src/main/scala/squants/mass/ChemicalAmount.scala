@@ -9,6 +9,7 @@
 package squants.mass
 
 import squants._
+import squants.mass.SubstanceConcentration
 
 /**
  * @author  garyKeorkunian
@@ -21,7 +22,7 @@ final class ChemicalAmount private (val value: Double, val unit: ChemicalAmountU
 
   def dimension = ChemicalAmount
 
-  def /(that: Volume) = ??? // returns SubstanceConcentration
+  def /(that: Volume): SubstanceConcentration = MolesPerCubicMeter(this.toMoles / that.toCubicMeters)
 
   def toMoles = to(Moles)
   def toPoundMoles = to(PoundMoles)

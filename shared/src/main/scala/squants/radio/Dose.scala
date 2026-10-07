@@ -10,7 +10,7 @@ package squants.radio
 
 import squants._
 import squants.mass.Mass
-import squants.energy.{ Energy, Joules }
+import squants.energy.{ AbsorbedEnergyRate, Energy, GraysPerSecond, Joules }
 import squants.time.Time
 
 /**
@@ -31,7 +31,7 @@ final class Dose private (val value: Double, val unit: DoseUnit) extends Quantit
   def dimension = Dose
 
   def *(that: Mass): Energy = Joules(this.toSieverts * that.toKilograms)
-  def /(that: Time) = ??? // returns AbsorbedEnergyRate
+  def /(that: Time): AbsorbedEnergyRate = GraysPerSecond(this.toSieverts / that.toSeconds)
 
   def toSieverts = to(Sieverts)
   def toRems = to(Rems)
