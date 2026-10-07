@@ -13,6 +13,8 @@ import squants.energy.{ EnergyDensity, Joules }
 import squants.mass.{ ChemicalAmount, Kilograms }
 import squants.motion.{ CubicMetersPerSecond, VolumeFlow }
 import squants.time.TimeIntegral
+import squants.space.SpecificVolume
+import squants.space.MolarVolume
 
 /**
  * Represents a quantity of Volume (three-dimensional space)
@@ -50,8 +52,8 @@ final class Volume private (val value: Double, val unit: VolumeUnit)
     case _            => SquareMeters(this.toCubicMeters / that.toMeters)
   }
 
-  def /(that: Mass) = ??? // returns SpecificVolume (inverse of Density)
-  def /(that: ChemicalAmount) = ??? // return MolarVolume
+  def /(that: Mass): SpecificVolume = CubicMetersPerKilogram(this.toCubicMeters / that.toKilograms)
+  def /(that: ChemicalAmount): MolarVolume = CubicMetersPerMole(this.toCubicMeters / that.toMoles)
 
   def cubeRoot = Meters(math.cbrt(toCubicMeters))
 
