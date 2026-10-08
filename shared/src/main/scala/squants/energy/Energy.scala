@@ -51,7 +51,7 @@ final class Energy private (val value: Double, val unit: EnergyUnit)
 
   def /(that: ChemicalAmount): MolarEnergy = JoulesPerMole(this.toJoules / that.toMoles)
   def /(that: Angle): Torque = NewtonMeters(toJoules / that.toRadians)
-  def /(that: Area) = ??? // Insolation, Energy Area Density
+  def /(that: Area): Insolation = JoulesPerSquareMeter(this.toJoules / that.toSquareMeters)
 
   def /(that: TimeSquared): PowerRamp = this / that.time1 / that.time2
   def /(that: PowerRamp): TimeSquared = (this / that.timeIntegrated) * time
