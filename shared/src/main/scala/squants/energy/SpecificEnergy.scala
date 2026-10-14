@@ -21,7 +21,7 @@ final class SpecificEnergy private (val value: Double, val unit: SpecificEnergyU
   def dimension = SpecificEnergy
 
   def *(that: Mass): Energy = Joules(this.toGrays * that.toKilograms)
-  def /(that: Time) = ??? // returns AbsorbedEnergyRate
+  def /(that: Time): AbsorbedEnergyRate = JoulesPerSecond(this.toGrays * that.toKilograms / that.toSeconds)
 
   def toGrays = to(Grays)
   def toRads = to(Rads)

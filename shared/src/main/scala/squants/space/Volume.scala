@@ -50,8 +50,8 @@ final class Volume private (val value: Double, val unit: VolumeUnit)
     case _            => SquareMeters(this.toCubicMeters / that.toMeters)
   }
 
-  def /(that: Mass) = ??? // returns SpecificVolume (inverse of Density)
-  def /(that: ChemicalAmount) = ??? // return MolarVolume
+  def /(that: Mass): SpecificVolume = CubicMetersPerKilogram(this.toCubicMeters / that.toKilograms)
+  def /(that: ChemicalAmount): MolarVolume = CubicMetersPerMole(this.toCubicMeters / that.toMoles)
 
   def cubeRoot = Meters(math.cbrt(toCubicMeters))
 
